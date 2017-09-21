@@ -21,7 +21,7 @@
 			</row>
 			<row>
 				<memobox name="memobox" placeholder="memobox" keycapture="^A F1 ~0 @J $C ^$F3" />
-				memobox: placeholder="memobox" keycapture="^A F1 ~0 @J !C ^!F3"
+				memobox: placeholder="memobox" keycapture="^A F1 ~0 @J $C ^$F3"
 			</row>
 			<row>
 				<datebox placeholder="datebox" />
