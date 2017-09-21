@@ -99,7 +99,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
      */
     @PropertySetter("target")
     public void setTarget(String target) {
-        if (!areEqual(href = nullify(target), this.target)) {
+        if (!areEqual(target = nullify(target), this.target)) {
             sync("target", this.target = target);
         }
     }
