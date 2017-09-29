@@ -62,7 +62,7 @@ public class MockWebSocketSession implements WebSocketSession {
             
             @Override
             public String getName() {
-                return "mock-principle";
+                return "mock-principal";
             }
             
         };
