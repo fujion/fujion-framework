@@ -68,6 +68,7 @@
 		<module>fujion-angular-parent</module>
 		<module>fujion-react-parent</module>
 		<module>fujion-testharness</module>
+		<module>fujion-archetype-parent</module>
 	</modules>
 	
 	<distributionManagement>

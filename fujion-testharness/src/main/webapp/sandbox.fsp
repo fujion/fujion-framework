@@ -1,0 +1,4 @@
+ 
+<page title="Fujion Sandbox"> 
+	<import src="web/org/fujion/sandbox/main.fsp" />
+</page>

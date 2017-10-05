@@ -3,7 +3,7 @@
 define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scrollTo', 'balloon-css', 'jquery-ui-css', 'bootstrap-css', 'fujion-widget-css'], function(fujion) { 
 	/* Widget support.  In the documentation, when we refer to 'widget' we mean an instance of the Widget
 	 * class.  When we refer to 'widget$' (following the convention that a variable name ending in '$'
-	 * is always a jquery object), we mean the jquery object contained by the widget.
+	 * is always a jquery object), we mean the jquery object managed by the widget.
 	 */
 	
 	fujion.widget._fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
@@ -767,6 +767,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			
 			if (this.real$) {
 				this.real$
+					.data('fujion_widget', this)
 					.appendTo(this.realAnchor$)
 					.attr('id', this.subId('real'));
 				this._ancillaries.real$ = this.real$;
@@ -3374,11 +3375,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				
 				if (pos) {
 					pos = pos.toLowerCase().replace('_', ' ');
+					var page = fujion.widget._page;
 					
 					this.widget$.position({
 						my: pos,
 						at: pos,
-						of: fujion.widget._page.widget$});
+						of: page ? page.widget$ : $('body')
+					});
 				}
 			}
 		},

@@ -419,6 +419,7 @@ caption:empty {
 .fujion_toolbar {
 	border: 1px solid lightgray;
     display: inline-flex;
+    overflow: visible;
     flex-flow: wrap;
     padding-left: 2px;
     padding-right: 2px;
