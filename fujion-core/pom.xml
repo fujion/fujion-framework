@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.fujion</groupId>
 		<artifactId>fujion-parent</artifactId>
-		<version>1.0.10-SNAPSHOT</version>
+		<version>1.0.10</version>
 	</parent>
 
 	<name>Fujion Core Libraries</name>
