@@ -3,6 +3,7 @@
 .fujion_grid {
     background-color: white;
     margin-bottom: 0;
+    min-height: 0;
 }
 
 /* Row */
