@@ -78,7 +78,7 @@
 .fujion_pane > .ui-resizable-s {
     cursor: row-resize;
     opacity: .5;  
-    bottom: -14px;
+    bottom: -9px;
     z-index: auto!important;
 }
 
