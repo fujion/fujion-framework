@@ -170,11 +170,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/**
 		 * Invokes a callback on each child widget.
 		 * 
-		 * @param {callback} callback A callback function following the forEach convention.
+		 * @param {callback} callback A callback function following the _.forEach convention.
 		 */
 		forEachChild: function(callback) {
 			if (this._children) {
-				this._children.forEach(callback, this);
+				_.forEach(this._children, callback.bind(this));
 			}
 		},
 				
