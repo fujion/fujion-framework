@@ -1,0 +1,43 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+#set( $PROJECTNAME = $projectName.toUpperCase() )
+#set( $projectname = $projectName.toLowerCase() )
+#set( $ProjectName = $projectName.substring(0,1).toUpperCase() + $projectName.substring(1) )
+#set( $projectName = $projectName.substring(0,1).toLowerCase() + $projectName.substring(1) )
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.fujion</groupId>
+		<artifactId>fujion-parent</artifactId>
+		<version>${fujionVersion}</version>
+	</parent>
+	
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<version>${version}</version>
+	<name>${displayName}</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-core</artifactId>
+			<version>${fujionVersion}</version>
+		</dependency>
+		<!-- Testing -->
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-test</artifactId>
+			<version>${fujionVersion}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

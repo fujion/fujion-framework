@@ -8,7 +8,7 @@ define('${artifactId}', [
 	
 	function(fujion, Widget) { 
 	
-	var wclass = Widget.UIWidget.extend({
+	var ${ClassName} = Widget.UIWidget.extend({
 	
 		/*------------------------------ Containment ------------------------------*/
 
@@ -26,11 +26,11 @@ define('${artifactId}', [
 		
 		render$: function() {
 			return $('<label>${displayName}</label>');
-		},
+		}
 		
 		/*------------------------------ State ------------------------------*/
 		
 	});
 
-	return Widget.addon('${package}', '${ClassName}', wclass);
+	return Widget.addon('${package}', '${ClassName}', ${ClassName});
 });

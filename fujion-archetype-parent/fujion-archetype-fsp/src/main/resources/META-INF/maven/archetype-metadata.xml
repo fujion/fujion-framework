@@ -11,7 +11,7 @@
 		<requiredProperty key="displayName"  >
 			<!-- Descriptive Name -->
 		</requiredProperty>
-		<requiredProperty key="className">
+		<requiredProperty key="projectName">
 			<!-- Use Camel Case Name : No Spaces -->
 			<validationRegex>^[a-zA-Z][a-zA-Z0-9_]*$</validationRegex>
 		</requiredProperty>
@@ -31,8 +31,8 @@
 		<fileSet filtered="true" packaged="false" encoding="UTF-8">
 			<directory>src/main/resources</directory>
 		</fileSet>
-		<fileSet filtered="true" packaged="false" encoding="UTF-8">
-			<directory>src/main/webjar</directory>
+		<fileSet filtered="true" packaged="true" encoding="UTF-8">
+			<directory>src/main/web</directory>
 		</fileSet>
 		<fileSet filtered="true" packaged="true" encoding="UTF-8">
 			<directory>src/test/java</directory>

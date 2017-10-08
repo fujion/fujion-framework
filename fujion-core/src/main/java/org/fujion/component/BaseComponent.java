@@ -1115,7 +1115,7 @@ public abstract class BaseComponent implements IElementIdentifier {
      * @param state The state name.
      * @param value The state value.
      */
-    public void sync(String state, Object value) {
+    protected void sync(String state, Object value) {
         if (!dead) {
             if (getPage() == null) {
                 if (inits == null) {
@@ -1313,6 +1313,17 @@ public abstract class BaseComponent implements IElementIdentifier {
 
     /**
      * Adds an event forward. An event forward forwards an event of the specified type received by
+     * this component to another component.
+     *
+     * @param eventType The event type to forward.
+     * @param target The target for the forwarded event.
+     */
+    public void addEventForward(String eventType, BaseComponent target) {
+        addEventForward(eventType, target, null);
+    }
+
+    /**
+     * Adds an event forward. An event forward forwards an event of the specified type received by
      * this component to another component, optionally with a different event type.
      *
      * @param eventType The event type to forward.
@@ -1325,6 +1336,17 @@ public abstract class BaseComponent implements IElementIdentifier {
 
     /**
      * Adds an event forward. An event forward forwards an event of the specified type received by
+     * this component to another component.
+     *
+     * @param eventClass The event type to forward.
+     * @param target The target for the forwarded event.
+     */
+    public void addEventForward(Class<? extends Event> eventClass, BaseComponent target) {
+        addEventForward(eventClass, target, null);
+    }
+
+    /**
+     * Adds an event forward. An event forward forwards an event of the specified type received by
      * this component to another component, optionally with a different event type.
      *
      * @param eventClass The event type to forward.
@@ -1332,8 +1354,17 @@ public abstract class BaseComponent implements IElementIdentifier {
      * @param forwardType The type of the forwarded event. If null, the original event type is used.
      */
     public void addEventForward(Class<? extends Event> eventClass, BaseComponent target, String forwardType) {
-        String eventType = getEventType(eventClass);
-        addEventListener(eventType, createForwardListener(eventType, target, forwardType));
+        addEventForward(getEventType(eventClass), target, forwardType);
+    }
+
+    /**
+     * Removes an event forward, if one exists.
+     *
+     * @param eventType The source event type.
+     * @param target The forwarded event target.
+     */
+    public void removeEventForward(String eventType, BaseComponent target) {
+        removeEventForward(eventType, target, null);
     }
 
     /**
@@ -1352,11 +1383,20 @@ public abstract class BaseComponent implements IElementIdentifier {
      *
      * @param eventClass The source event type.
      * @param target The forwarded event target.
+     */
+    public void removeEventForward(Class<? extends Event> eventClass, BaseComponent target) {
+        removeEventForward(eventClass, target, null);
+    }
+
+    /**
+     * Removes an event forward, if one exists.
+     *
+     * @param eventClass The source event type.
+     * @param target The forwarded event target.
      * @param forwardType The forwarded event type. If null, the source event type is used.
      */
     public void removeEventForward(Class<? extends Event> eventClass, BaseComponent target, String forwardType) {
-        String eventType = getEventType(eventClass);
-        removeEventListener(eventType, createForwardListener(eventType, target, forwardType));
+        removeEventForward(getEventType(eventClass), target, forwardType);
     }
 
     private ForwardListener createForwardListener(String eventType, BaseComponent target, String forwardType) {
@@ -1484,6 +1524,7 @@ public abstract class BaseComponent implements IElementIdentifier {
     private void updateEventListener(String eventTypes, IEventListener eventListener, boolean register,
                                      boolean syncToClient) {
         for (String eventType : eventTypes.split("\\ ")) {
+            eventType = EventUtil.stripOn(eventType);
             boolean before = eventListeners.hasListeners(eventType);
 
             if (register) {
@@ -1572,12 +1613,18 @@ public abstract class BaseComponent implements IElementIdentifier {
     }
 
     /**
-     * Wires a controller's annotated components and event handlers, using this component to resolve
-     * name references.
+     * Wires a controller's annotated components and event handlers, in that order, using this
+     * component to resolve name references.
      *
-     * @param controller The controller to wire. If a string, is assumed to be the name of the
-     *            controller's implementation class in which case an instance of that class is
-     *            created.
+     * @param controller The controller to wire. The following values are recognized:
+     *            <ul>
+     *            <li>self - Controller is the component itself.</li>
+     *            <li>&lt;String&gt; - Name of the class from which a controller instance will be
+     *            created.</li>
+     *            <li>&lt;Class&gt; - The class from which a controller instance will be
+     *            created.</li>
+     *            <li>All other - The controller instance to be wired.</li>
+     *            </ul>
      */
     @PropertySetter(value = "controller", defer = true)
     public void wireController(Object controller) {
@@ -1587,7 +1634,15 @@ public abstract class BaseComponent implements IElementIdentifier {
 
         if (controller instanceof String) {
             try {
-                controller = "self".equals(controller) ? this : Class.forName((String) controller).newInstance();
+                controller = "self".equals(controller) ? this : Class.forName((String) controller);
+            } catch (Exception e) {
+                throw MiscUtil.toUnchecked(e);
+            }
+        }
+        
+        if (controller instanceof Class) {
+            try {
+                controller = ((Class<?>) controller).newInstance();
             } catch (Exception e) {
                 throw MiscUtil.toUnchecked(e);
             }
@@ -1595,6 +1650,7 @@ public abstract class BaseComponent implements IElementIdentifier {
 
         WiredComponentScanner.wire(controller, this);
         EventHandlerScanner.wire(controller, this);
+        setAttribute("@controller", controller);
 
         if (controller instanceof IAutoWired) {
             ((IAutoWired) controller).afterInitialized(this);

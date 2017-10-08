@@ -11,6 +11,7 @@
 	<name>Fujion Maven Archetypes</name>
 	
 	<modules>
+		<module>fujion-archetype-fsp</module>
 		<module>fujion-archetype-component</module>
 		<module>fujion-archetype-webapp</module>
 	</modules>

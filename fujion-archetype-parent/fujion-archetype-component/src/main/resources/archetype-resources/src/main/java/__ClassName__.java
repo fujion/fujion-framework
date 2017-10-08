@@ -19,9 +19,9 @@ public class ${ClassName} extends BaseUIComponent {
 	}
 	
     @Override
-    protected void _initProps(Map<String, Object> props) {
+    protected void initProps(Map<String, Object> props) {
         props.put("wclazz", "${classname}");
-        super._initProps(props);
+        super.initProps(props);
     }
 
 }
