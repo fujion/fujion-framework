@@ -39,8 +39,8 @@ public class Import extends BaseUIComponent {
     
     @Override
     protected void _initProps(Map<String, Object> props) {
-        props.put("wclazz", "fujion_import");
         super._initProps(props);
+        props.put("wclazz", "fujion_import");
     }
 
     @Override

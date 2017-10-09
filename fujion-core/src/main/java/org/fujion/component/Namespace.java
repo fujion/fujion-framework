@@ -35,8 +35,8 @@ public class Namespace extends Span implements INamespace {
 
     @Override
     protected void _initProps(Map<String, Object> props) {
-        props.put("wclazz", "fujion_namespace");
         super._initProps(props);
+        props.put("wclazz", "fujion_namespace");
     }
     
 }

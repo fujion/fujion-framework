@@ -20,8 +20,8 @@ public class ${ClassName} extends BaseUIComponent {
 	
     @Override
     protected void initProps(Map<String, Object> props) {
-        props.put("wclazz", "${classname}");
         super.initProps(props);
+        props.put("wclazz", "${classname}");
     }
 
 }
