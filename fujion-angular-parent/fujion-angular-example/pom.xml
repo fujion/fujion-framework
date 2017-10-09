@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.fujion</groupId>
 		<artifactId>fujion-angular-parent</artifactId>
-		<version>1.0.11</version>
+		<version>1.0.12-SNAPSHOT</version>
 	</parent>
 
 	<name>Fujion Angular 2 Example</name>
