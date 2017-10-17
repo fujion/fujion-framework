@@ -1,0 +1,19 @@
+{
+  "name": "${artifactId}",
+  "version": "${version}",
+  "description": "${displayName}",
+  "main": "",
+  "keywords": ["fujion", "react"],
+  "author": "Fujion Framework",
+  "scripts": {
+    "postinstall": "babel --presets es2015 --out-file src/main/webjar/${className}.js src/main/webjar/${className}.es6.js"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}

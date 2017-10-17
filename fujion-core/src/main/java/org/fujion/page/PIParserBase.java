@@ -72,7 +72,7 @@ public abstract class PIParserBase {
         data = data.substring(i + name.length() + 1);
         String dlm = data.startsWith("\"") || data.startsWith("'") ? data.substring(0, 1) : null;
         i = data.indexOf(dlm == null ? " " : dlm, 1);
-        data = data.substring(dlm == null ? 0 : 1, i < 0 ? data.length() : i);
+        data = i == -1 ? "" : data.substring(dlm == null ? 0 : 1, i < 0 ? data.length() : i);
         data = data.isEmpty() ? null : data;
         
         if (data == null && required) {
