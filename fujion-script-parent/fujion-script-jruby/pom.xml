@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.fujion</groupId>
 		<artifactId>fujion-script-parent</artifactId>
-		<version>1.0.13</version>
+		<version>1.0.14-SNAPSHOT</version>
 	</parent>
 	
 	<name>Fujion JRuby Script Extension</name>
