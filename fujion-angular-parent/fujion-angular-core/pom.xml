@@ -7,7 +7,7 @@
 		<version>1.0.13-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Angular 4 Integration</name>
+	<name>Fujion AngularJS Integration</name>
 	<artifactId>fujion-angular-core</artifactId>
 
 	<properties>
