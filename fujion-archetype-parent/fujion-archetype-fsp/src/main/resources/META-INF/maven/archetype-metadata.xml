@@ -32,9 +32,6 @@
 			<directory>src/main/resources</directory>
 		</fileSet>
 		<fileSet filtered="true" packaged="true" encoding="UTF-8">
-			<directory>src/main/web</directory>
-		</fileSet>
-		<fileSet filtered="true" packaged="true" encoding="UTF-8">
 			<directory>src/test/java</directory>
 		</fileSet>
 		<fileSet filtered="true" packaged="false" encoding="UTF-8">
