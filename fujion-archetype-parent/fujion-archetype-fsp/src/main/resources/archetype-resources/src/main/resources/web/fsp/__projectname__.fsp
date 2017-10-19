@@ -1,4 +1,4 @@
 <page title="${displayName}">
-	<div controller="${symbol_dollar}{@${projectName}MainController}>
+	<div controller="${symbol_dollar}{@${projectName}MainController}">
 	</div>
 </page>
