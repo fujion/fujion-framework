@@ -1619,7 +1619,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		_content: function(html) {
-			this.widget$.children().remove();
+			this.widget$.empty();
 			html ? this.widget$.html(html) : null;
 		},
 		
@@ -1638,7 +1638,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		src: function(v) {
 			var self = this;
-			this.widget$.children().remove();
+			this.widget$.empty();
 			this.setState('content', null);
 			v ? this.widget$.load(v) : null;
 		}
