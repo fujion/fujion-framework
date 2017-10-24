@@ -2654,6 +2654,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ Events ------------------------------*/
 		
+		handleClick: function(event) {
+			this.toggle();
+			return false;
+		},
+		
 		handleOpenClose: function(event) {
 			this.setState('_open', event.type === 'open');
 		},
@@ -2704,6 +2709,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		afterRender: function() {
 			this._super();
 			this.widget$.on('open close', this.handleOpenClose.bind(this));
+			this.sub$('btn').on('click', this.handleClick.bind(this));
 		},
 		
 		render$: function() {
@@ -2719,30 +2725,15 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ State ------------------------------*/
 		
 		popup: function(v) {
-			var btn$ = this.sub$('btn'),
-				self = this;
-			
-			btn$.off('click.fujion');
-			v ? btn$.on('click.fujion', _showPopup) : null;
-			
-			function _showPopup(event) {
-				self.toggle();
-				return false;
-			}
+			//NOP
 		},
 		
 		readonly: function(v) {
 			this._super.apply(this, arguments);
-			var self = this,
-				inp$ = this.input$();
-			
+			var inp$ = this.input$();
 			inp$.off('click.fujion');
-			v ? inp$.on('click.fujion', _click) : null;
+			v ? inp$.on('click.fujion', this.handleClick.bind(this)) : null;
 			
-			function _click() {
-				self.sub$('btn').triggerHandler('click');
-				return false;
-			}
 		}
 		
 	});
