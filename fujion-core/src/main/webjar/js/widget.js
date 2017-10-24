@@ -1616,10 +1616,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.widget.Html = fujion.widget.UIWidget.extend( {
 		
+		/*------------------------------ Other ------------------------------*/
+		
+		_content: function(html) {
+			this.widget$.children().remove();
+			html ? this.widget$.html(html) : null;
+		},
+		
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $('<html>');
+			return $('<span>');
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -1633,15 +1640,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var self = this;
 			this.widget$.children().remove();
 			this.setState('content', null);
-			
-			if (v) {
-				this.widget$.load(v);
-			}
-		},
-		
-		_content: function(html) {
-			this.widget$.children().remove();
-			html ? this.widget$.append(html) : null;
+			v ? this.widget$.load(v) : null;
 		}
 		
 	});
