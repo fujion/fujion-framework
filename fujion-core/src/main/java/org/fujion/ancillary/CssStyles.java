@@ -31,9 +31,9 @@ import org.springframework.util.StringUtils;
  * Manages CSS styles for a component.
  */
 public class CssStyles {
-    
+
     private final Map<String, String> styles = new LinkedHashMap<>();
-    
+
     /**
      * Parse style settings.
      *
@@ -45,16 +45,16 @@ public class CssStyles {
         if (clear) {
             styles.clear();
         }
-        
+
         if (StringUtils.isEmpty(value)) {
             return;
         }
-        
+
         for (String style : value.split("\\;")) {
             String[] pcs = style.split("\\:", 2);
             String name = pcs[0].trim();
             value = pcs.length == 1 ? "" : pcs[1].trim();
-            
+
             if (value.isEmpty()) {
                 styles.remove(name);
             } else {
@@ -62,7 +62,7 @@ public class CssStyles {
             }
         }
     }
-    
+
     /**
      * Returns an immutable map of existing styles.
      *
@@ -71,7 +71,7 @@ public class CssStyles {
     public Map<String, String> get() {
         return Collections.unmodifiableMap(styles);
     }
-    
+
     /**
      * Returns the value associated with a style.
      *
@@ -81,7 +81,7 @@ public class CssStyles {
     public String get(String style) {
         return styles.get(style);
     }
-    
+
     /**
      * Adds a style and associated value. If the value is null, any existing style is removed.
      *
@@ -92,7 +92,7 @@ public class CssStyles {
     public String put(String style, String value) {
         return value == null ? remove(style) : styles.put(style, value);
     }
-    
+
     /**
      * Removes the specified style.
      *
@@ -102,7 +102,7 @@ public class CssStyles {
     public String remove(String style) {
         return styles.remove(style);
     }
-    
+
     /**
      * Returns true if no styles are present.
      *
@@ -111,26 +111,26 @@ public class CssStyles {
     public boolean isEmpty() {
         return styles.isEmpty();
     }
-    
+
     /**
      * Returns the registered styles in the same format as the style attribute in HTML.
-     * 
+     *
      * @return The concatenated list of registered styles.
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        
+
         for (Entry<String, String> entry : styles.entrySet()) {
             if (entry.getValue() != null) {
                 if (sb.length() > 0) {
-                    sb.append("; ");
+                    sb.append(";");
                 }
-                
+
                 sb.append(entry.getKey()).append(':').append(entry.getValue());
             }
         }
-        
+
         return sb.toString();
     }
 }
