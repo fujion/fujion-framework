@@ -21,48 +21,63 @@
 package org.fujion.ancillary;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.fujion.common.MiscUtil;
+import org.springframework.util.Assert;
 
 /**
- * Stores a method invocation to be executed at a later time.
+ * Stores a method invocation to be executed at a later time. Supports currying of arguments.
  *
  * @param <T> Return type of the method invocation.
  */
 public class DeferredInvocation<T> {
-
-    private final Object instance;
-
-    private final Method method;
-
-    private final Object[] defaultArgs;
     
+    private final Object instance;
+    
+    private final Method method;
+    
+    private final List<Object> curriedArgs = new ArrayList<>();
+
     /**
      * Create a deferred execution.
      *
      * @param instance Instance that is the target of the execution.
      * @param method The method to be executed.
-     * @param defaultArgs Optional default argument list.
+     * @param curriedArgs Initial argument list.
      */
-    public DeferredInvocation(Object instance, Method method, Object... defaultArgs) {
+    public DeferredInvocation(Object instance, Method method, Object... curriedArgs) {
         this.instance = instance;
         this.method = method;
-        this.defaultArgs = defaultArgs;
+        addArgs(curriedArgs);
+        method.setAccessible(true);
+    }
+    
+    /**
+     * Add additional curried arguments
+     *
+     * @param args Argument to append to the curried argument list.
+     * @exception IllegalArgumentException If maximum argument count was exceeded.
+     */
+    public void addArgs(Object... args) {
+        Assert.isTrue(curriedArgs.size() + args.length <= method.getParameterCount(), "Method parameter count was exceeded");
+        curriedArgs.addAll(Arrays.asList(args));
     }
 
     /**
      * Invoke the deferred method.
      *
-     * @param args Arguments to pass to the method (if not specified, the default arguments will be
-     *            used).
+     * @param args Arguments to pass to the method. These will be appended to any curried arguments.
      * @return Value returned by the method.
      */
     @SuppressWarnings("unchecked")
     public T invoke(Object... args) {
         try {
-            Object[] arguments = ArrayUtils.addAll(defaultArgs, args);
-            return (T) ConvertUtil.invokeMethod(instance, method, arguments);
+            List<Object> arguments = new ArrayList<>(curriedArgs);
+            arguments.addAll(Arrays.asList(args));
+            return (T) ConvertUtil.invokeMethod(instance, method, arguments.toArray());
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
