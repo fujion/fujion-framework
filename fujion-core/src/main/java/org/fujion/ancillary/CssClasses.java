@@ -165,7 +165,7 @@ public class CssClasses {
             sb.append(sb.length() == 0 ? "" : " ").append(cls);
         }
 
-        changed = clearChanged || changed;
+        changed &= !clearChanged;
         return sb.toString();
     }
 
