@@ -948,7 +948,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			if (v) {
 				if (!inline$) {
 					this._ancillaries.inline$ = inline$ = 
-						$('<style>').appendTo('head').attr('id', this.subId('inline'));
+						$('<style>').appendTo(fujion.head$).attr('id', this.subId('inline'));
 				}
 				inline$.text(this.resolveEL(v, '#'));
 			} else if (inline$) {
@@ -1367,8 +1367,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			fujion._canClose = v;
 		},
 		
+		image: function(v) {
+			this.sub$('img').remove();
+			
+			if (v) {
+				var img$ = $(this.resolveEL('<link id="${id}-img" rel="shortcut icon"/>')).appendTo(fujion.head$);
+				img$.attr('href', v);
+			}
+		},
+		
 		title: function(v) {
-			$('head>title').text(v);
+			fujion.head$.find('>title').text(v);
 		}
 		
 	});
@@ -1381,7 +1390,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
-		realAnchor$: $('head'),
+		realAnchor$: fujion.head$,
 		
 		renderReal$: function() {
 			return $(this.getState('src') ? '<link type="text/css" rel="stylesheet">' : '<style>');
@@ -3471,7 +3480,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 					this.widget$.position({
 						my: pos,
 						at: pos,
-						of: page ? page.widget$ : $('body')
+						of: page ? page.widget$ : fujion.body$
 					});
 				}
 			}
@@ -3611,7 +3620,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			
 			if (v === 'MODAL') {
 				this.widget$.attr('data-fujion-popup', true);
-				mask$ = mask$ || $('body').fujion$mask(++fujion.widget._zmodal);
+				mask$ = mask$ || fujion.body$.fujion$mask(++fujion.widget._zmodal);
 				mask$.fujion$show(this.getState('visible'));
 				this.widget$.css('z-index', mask$.css('z-index'));
 				this._ancillaries.mask$ = mask$;
@@ -3768,7 +3777,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 
 		render$: function() {
-			return this._super().appendTo('body');
+			return this._super().appendTo(fujion.body$);
 		},
 		
 		/*------------------------------ State ------------------------------*/

@@ -20,6 +20,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		this.debug = options.debug;
 		this.pid = options.pid;
 		this._canClose = true;
+		this.body$ = $('body');
+		this.head$ = $('head');
 		this.log._init(options);
 		this.action._init();
 		this.jquery._init();
@@ -371,11 +373,11 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		postProcessors: {},
 		
 		_init: function() {
-		    $('body').on('contextmenu', function(event) {
-		    	fujion.debug ? null : event.preventDefault();
+		    fujion.body$.on('contextmenu', function(event) {
+		    		fujion.debug ? null : event.preventDefault();
 		    });
 		    
-		    $('body').on('keydown', function(event) {
+		    fujion.body$.on('keydown', function(event) {
 		    	if (event.keyCode === 8) {
 		    		var tp = event.srcElement || event.target;
 		    		tp = tp.tagName.toLowerCase();
@@ -492,7 +494,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		_init: function() {
 		    $.widget.bridge('uitooltip', $.ui.tooltip);
 		    $.widget.bridge('uibutton', $.ui.button);
-			$('body').on('click', function() {
+			fujion.body$.on('click', function() {
 				fujion.widget.Popup.closePopups();
 			});
 		},
