@@ -2,7 +2,9 @@
  	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  	xmlns:attr="http://www.fujion.org/schema/fsp/attr"
  	xmlns:on="http://www.fujion.org/schema/fsp/on"
- 	xsi:schemaLocation="http://www.fujion.org/schema/fsp fsp.xsd">
+ 	xsi:schemaLocation="
+ 		http://www.fujion.org/schema/fsp 
+ 		http://www.fujion.org/schema/fsp.xsd">
  	
 	<grid controller="org.fujion.testharness.BindingController"
 		attr:binder="${new org.fujion.testharness.BindingController.MyBinder()}">
