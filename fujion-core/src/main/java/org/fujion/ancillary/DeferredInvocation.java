@@ -58,12 +58,15 @@ public class DeferredInvocation<T> {
     /**
      * Add additional curried arguments
      *
-     * @param args Argument to append to the curried argument list.
+     * @param args Arguments to append to the curried argument list.
      * @exception IllegalArgumentException If maximum argument count was exceeded.
      */
     public void addArgs(Object... args) {
-        Assert.isTrue(curriedArgs.size() + args.length <= method.getParameterCount(), "Method parameter count was exceeded");
-        curriedArgs.addAll(Arrays.asList(args));
+        if (args != null) {
+            Assert.isTrue(curriedArgs.size() + args.length <= method.getParameterCount(),
+                "Method parameter count was exceeded");
+            curriedArgs.addAll(Arrays.asList(args));
+        }
     }
 
     /**
