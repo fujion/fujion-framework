@@ -32,19 +32,19 @@ import org.fujion.event.EventUtil;
  */
 @Component(tag = "listitem", widgetClass = "Listitem", parentTag = "listbox")
 public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
-
+    
     private boolean selected;
-
+    
     private String value;
-
+    
     public Listitem() {
         super();
     }
-
+    
     public Listitem(String label) {
         super(label);
     }
-
+    
     /**
      * Sets the selection state.
      *
@@ -59,7 +59,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
             }
         }
     }
-
+    
     /**
      * Returns the list box that is the parent of this list item.
      *
@@ -68,7 +68,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public Listbox getListbox() {
         return (Listbox) getParent();
     }
-
+    
     /**
      * Returns the selection state.
      *
@@ -78,7 +78,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public boolean isSelected() {
         return selected;
     }
-
+    
     /**
      * Sets the selection state.
      *
@@ -88,7 +88,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public void setSelected(boolean selected) {
         _setSelected(selected, true, true);
     }
-
+    
     /**
      * Returns the value associated with the list item.
      *
@@ -98,7 +98,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public String getValue() {
         return value;
     }
-
+    
     /**
      * Sets the value associated with the list item.
      *
@@ -108,7 +108,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public void setValue(String value) {
         propertyChange("value", this.value, this.value = value, true);
     }
-
+    
     /**
      * Handles change events from the client.
      *
@@ -117,8 +117,8 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     @EventHandler(value = "change", syncToClient = false)
     private void _onChange(ChangeEvent event) {
         _setSelected(defaultify(event.getValue(Boolean.class), true), false, true);
-        event = new ChangeEvent(this.getParent(), event.getData(), this);
+        event = new ChangeEvent(this.getParent(), this, event.getData(), this);
         EventUtil.send(event);
     }
-
+    
 }
