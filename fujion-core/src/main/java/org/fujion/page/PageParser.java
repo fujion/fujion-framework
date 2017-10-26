@@ -212,13 +212,13 @@ public class PageParser implements BeanPostProcessor {
                 if (piParser != null) {
                     piParser.parse(pi, parentElement);
                 } else {
-                    throw new ParserException("Unrecognized processing instruction '%s'", pi.getTarget());
+                    throw new ParserException("Unrecognized processing instruction \"%s\"", pi.getTarget());
                 }
                 
                 break;
             
             default:
-                throw new ParserException("Unrecognized document content type '%s'", node.getNodeName());
+                throw new ParserException("Unrecognized document content type \"%s\"", node.getNodeName());
         }
     }
     

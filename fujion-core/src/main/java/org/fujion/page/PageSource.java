@@ -95,7 +95,7 @@ public class PageSource {
                 stream = null;
                 document = XMLUtil.newDocumentBuilder(true).parse(is);
             } catch (Exception e) {
-                throw new ParserException(e, "Exception parsing resource '%s'", source);
+                throw new ParserException(e, "Exception parsing resource \"%s\"", source);
             }
         }
 

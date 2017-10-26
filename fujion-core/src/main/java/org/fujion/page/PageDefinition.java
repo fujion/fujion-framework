@@ -107,7 +107,7 @@ public class PageDefinition {
 
             return created;
         } catch (Exception e) {
-            throw new ComponentException(e, "Exception materializing page definition '%s'", source);
+            throw new ComponentException(e, "Exception materializing page definition \"%s\"", source);
         }
     }
     

@@ -193,7 +193,7 @@ public class ConvertUtil {
             
             return method.invoke(instance, args);
         } catch (Exception e) {
-            throw new ComponentException(e, "Exception invoking method '%s' on component '%s'", method.getName(),
+            throw new ComponentException(e, "Exception invoking method \"%s\" on component \"%s\"", method.getName(),
                     instance.getClass().getName());
         }
     }

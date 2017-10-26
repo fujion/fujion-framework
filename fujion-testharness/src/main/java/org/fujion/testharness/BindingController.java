@@ -55,7 +55,7 @@ public class BindingController extends BaseController {
         private void propertyChanged(String propertyName, Object oldValue, Object newValue) {
             propertyChanged(propertyName);
             BindingController.this
-                    .log(String.format("Model property '%s' changed from '%s' to '%s'.", propertyName, oldValue, newValue));
+                    .log(String.format("Model property \"%s\" changed from \"%s\" to \"%s\".", propertyName, oldValue, newValue));
         }
     }
     
