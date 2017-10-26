@@ -25,14 +25,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.UnhandledException;
 
 /**
  * Miscellaneous utility methods.
  */
 public class MiscUtil {
-
+    
     /**
      * Returns true if the specified file exists.
      *
@@ -42,7 +44,7 @@ public class MiscUtil {
     public static boolean fileExists(String fileName) {
         return new File(fileName).exists();
     }
-
+    
     /**
      * Returns true if the list contains the exact instance of the specified object.
      *
@@ -53,7 +55,7 @@ public class MiscUtil {
     public static boolean containsInstance(List<?> list, Object object) {
         return indexOfInstance(list, object) > -1;
     }
-
+    
     /**
      * Performs a lookup for the exact instance of an object in the list and returns its index, or
      * -1 if not found. This is different from the usual implementation of a list search that uses
@@ -69,10 +71,10 @@ public class MiscUtil {
                 return i;
             }
         }
-
+        
         return -1;
     }
-
+    
     /**
      * Casts a list containing elements of class T to a list containing elements of a subclass S.
      *
@@ -86,7 +88,7 @@ public class MiscUtil {
     public static <T, S extends T> List<S> castList(List<T> list, Class<S> clazz) {
         return (List<S>) list;
     }
-
+    
     /**
      * Returns a list iterator that produces only collection elements of the specified type.
      *
@@ -97,54 +99,29 @@ public class MiscUtil {
      * @return An iterator.
      */
     public static <T, S extends T> Iterator<S> iteratorForType(Collection<T> collection, Class<S> type) {
-
-        return new Iterator<S>() {
-
-            Iterator<T> iter = collection.iterator();
-
-            S next;
-
-            boolean needsNext = true;
-
-            @Override
-            public boolean hasNext() {
-                return nxt() != null;
-            }
-
-            @Override
-            public S next() {
-                S result = nxt();
-                needsNext = true;
-                return result;
-            }
-
-            @Override
-            public void remove() {
-                iter.remove();
-            }
-
-            @SuppressWarnings("unchecked")
-            private S nxt() {
-                if (needsNext) {
-                    next = null;
-                    needsNext = false;
-
-                    while (iter.hasNext()) {
-                        T nxt = iter.next();
-
-                        if (type.isInstance(nxt)) {
-                            next = (S) nxt;
-                            break;
-                        }
-                    }
-                }
-
-                return next;
-            }
-
-        };
+        return iteratorForType(collection.iterator(), type);
     }
-
+    
+    /**
+     * Returns an iterator that returns only elements of the specified type.
+     *
+     * @param <T> Class of collection elements.
+     * @param <S> Subclass of T to be used by iterator.
+     * @param iterator Iterator to wrap.
+     * @param type Type of element to return.
+     * @return An iterator.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T, S extends T> Iterator<S> iteratorForType(Iterator<T> iterator, Class<S> type) {
+        return iterator instanceof ListIterator
+                ? IteratorUtils.filteredListIterator((ListIterator<T>) iterator, (element) -> {
+                    return type.isInstance(element);
+                })
+                : IteratorUtils.filteredIterator(iterator, (element) -> {
+                    return type.isInstance(element);
+                });
+    }
+    
     /**
      * Returns an iterable that produces only collection members of the specified type.
      *
@@ -155,16 +132,11 @@ public class MiscUtil {
      * @return An iterable.
      */
     public static <T, S extends T> Iterable<S> iterableForType(Collection<T> collection, Class<S> type) {
-        return new Iterable<S>() {
-
-            @Override
-            public Iterator<S> iterator() {
-                return iteratorForType(collection, type);
-            }
-
+        return () -> {
+            return iteratorForType(collection, type);
         };
     }
-
+    
     /**
      * Converts a checked exception to unchecked. If the original exception is already unchecked, it
      * is simply returned.
@@ -176,14 +148,14 @@ public class MiscUtil {
         if (e instanceof InvocationTargetException) {
             e = ((InvocationTargetException) e).getTargetException();
         }
-
+        
         if (e instanceof RuntimeException) {
             return (RuntimeException) e;
         }
-
+        
         return new UnhandledException(e);
     }
-
+    
     /**
      * Enforce static class.
      */
