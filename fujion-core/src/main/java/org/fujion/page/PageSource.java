@@ -23,7 +23,6 @@ package org.fujion.page;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.XMLUtil;
 import org.fujion.core.WebUtil;
@@ -34,22 +33,22 @@ import org.w3c.dom.Document;
  * Represents a source for a FSP document.
  */
 public class PageSource {
-    
+
     private final String source;
-
-    private InputStream stream;
-
-    private Document document;
     
+    private InputStream stream;
+    
+    private Document document;
+
     /**
      * The source is a web resource.
-     * 
+     *
      * @param src URL of web resource.
      */
     public PageSource(String src) {
         this(WebUtil.getResource(src));
     }
-
+    
     /**
      * The source is a resource.
      *
@@ -64,19 +63,19 @@ public class PageSource {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     /**
      * The source is an input stream.
-     * 
+     *
      * @param stream An input stream.
      */
     public PageSource(InputStream stream) {
         this(stream, "<unknown>");
     }
-
+    
     /**
      * The source is an input stream.
-     * 
+     *
      * @param stream An input stream.
      * @param src Source of input stream.
      */
@@ -84,7 +83,7 @@ public class PageSource {
         this.stream = stream;
         source = src;
     }
-    
+
     /**
      * Returns the FSP as an XML document.
      *
@@ -92,19 +91,17 @@ public class PageSource {
      */
     public Document getDocument() {
         if (document == null) {
-            try {
-                document = XMLUtil.newDocumentBuilder(true).parse(stream);
+            try (InputStream is = stream) {
+                stream = null;
+                document = XMLUtil.newDocumentBuilder(true).parse(is);
             } catch (Exception e) {
                 throw new ParserException(e, "Exception parsing resource '%s'", source);
-            } finally {
-                IOUtils.closeQuietly(stream);
-                stream = null;
             }
         }
-        
+
         return document;
     }
-
+    
     /**
      * Returns the source of the FSP.
      *

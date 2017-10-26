@@ -23,7 +23,6 @@ package org.fujion.taglib;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.XMLUtil;
 import org.fujion.core.WebUtil;
@@ -35,16 +34,16 @@ import org.w3c.dom.NodeList;
  * Parses a tag library definition file.
  */
 public class TagLibraryParser {
-
+    
     private static final TagLibraryParser instance = new TagLibraryParser();
-
+    
     public static TagLibraryParser getInstance() {
         return instance;
     }
-
+    
     private TagLibraryParser() {
     }
-
+    
     /**
      * Parse a tag library.
      *
@@ -54,7 +53,7 @@ public class TagLibraryParser {
     public TagLibrary parse(String src) {
         return parse(WebUtil.getResource(src));
     }
-
+    
     /**
      * Parse a tag library.
      *
@@ -68,7 +67,7 @@ public class TagLibraryParser {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     /**
      * Parse a tag library.
      *
@@ -76,13 +75,13 @@ public class TagLibraryParser {
      * @return The parsed tag library.
      */
     public TagLibrary parse(InputStream stream) {
-        try {
-            Element root = XMLUtil.parseXMLFromStream(stream).getDocumentElement();
+        try (InputStream is = stream) {
+            Element root = XMLUtil.parseXMLFromStream(is).getDocumentElement();
             String uri = getValue(root, "uri");
             NodeList nodes = root.getElementsByTagName("function");
             int nodeCount = nodes.getLength();
             TagLibrary tagLibrary = new TagLibrary(uri);
-
+            
             for (int i = 0; i < nodeCount; i++) {
                 Element ele = (Element) nodes.item(i);
                 String name = getValue(ele, "name");
@@ -90,15 +89,13 @@ public class TagLibraryParser {
                 String signature = getValue(ele, "function-signature");
                 tagLibrary.addFunction(name, clazz, signature);
             }
-
+            
             return tagLibrary;
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
-        } finally {
-            IOUtils.closeQuietly(stream);
         }
     }
-
+    
     /**
      * Returns the text content of the specified tag.
      *
@@ -108,11 +105,11 @@ public class TagLibraryParser {
      */
     private String getValue(Element ele, String tag) {
         NodeList nodes = ele.getElementsByTagName(tag);
-
+        
         if (nodes.getLength() == 0) {
             throw new RuntimeException("Tag library definition missing attribute: " + tag);
         }
-
+        
         return nodes.item(0).getTextContent().trim();
     }
 }
