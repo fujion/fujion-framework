@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.fujion.ancillary.ComponentException;
 import org.fujion.common.MiscUtil;
@@ -149,8 +150,8 @@ public class EventHandlerScanner {
                 OnFailure onFailure = annot.onFailure();
                 
                 if (!validateSignature(method)) {
-                    onFailure.doAction(
-                        "Method " + method.getName() + " signature does not conform to that of an event handler.");
+                    onFailure.doAction("Signature for method \"%s\" does not conform to that required of an event handler",
+                        method.getName());
                     break;
                 }
 
@@ -170,14 +171,21 @@ public class EventHandlerScanner {
                     if ("self".equals(target)) {
                         component = isComponent(clazz) ? (BaseComponent) instance : root;
                     } else if (target.startsWith("@")) {
-                        Field field = findField(clazz, target.substring(1));
+                        String[] fld = target.substring(1).split("\\.", 2);
+                        Field field = findField(clazz, fld[0]);
 
                         if (field != null) {
                             try {
                                 field.setAccessible(true);
-                                component = (BaseComponent) field.get(instance);
+                                Object value = field.get(instance);
+                                
+                                if (value != null && fld.length == 2) {
+                                    value = PropertyUtils.getProperty(value, fld[1]);
+                                }
+                                
+                                component = (BaseComponent) value;
                             } catch (Exception e) {
-                                // what to do here
+                                onFailure.doAction(e);
                             }
                         }
                     } else {
@@ -185,7 +193,7 @@ public class EventHandlerScanner {
                     }
 
                     if (component == null) {
-                        onFailure.doAction("No suitable event handler target found for \"" + target + "\"");
+                        onFailure.doAction("No suitable event handler target found for \"%s\"", target);
                     } else {
                         for (String type : types) {
                             component.addEventListener(type, new EventListener(instance, method), annot.syncToClient());
