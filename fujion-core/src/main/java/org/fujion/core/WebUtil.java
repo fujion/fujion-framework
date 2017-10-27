@@ -54,6 +54,8 @@ import org.springframework.core.io.UrlResource;
  */
 public class WebUtil {
     
+    public static final String FUJION_VERSION = WebUtil.class.getPackage().getImplementationVersion();
+    
     private static Boolean debugEnabled;
     
     /**

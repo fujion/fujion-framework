@@ -24,49 +24,52 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.fujion.client.WebJar;
-import org.fujion.client.WebJarLocator;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.AbstractResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
 
 /**
- * Inserts web jar version into request path. Converts
+ * Strips version from resource.
  * <p>
- * <code>webjars/{webjar-name}/**</code>
- * </p>
- * to
- * <p>
- * <code>webjars/{webjar-name}/{webjar-version}/**</code>
+ * <code>/_v_XXX/** &rarr; /**</code>
  * </p>
  */
-public class WebJarResourceResolver extends AbstractResourceResolver {
+public class VersionResourceResolver extends AbstractResourceResolver {
+
+    public static final String PREFIX = "_v_";
     
-    public static String getResourcePath(String path) {
-        int i = path.indexOf("/");
-        String name = path.substring(0, i);
-        int j = path.indexOf("/", i + 1);
-        String version = j < 0 ? "" : path.substring(i + 1, j);
-        WebJar webjar = WebJarLocator.getInstance().getWebjar(name);
-
-        if (webjar != null && !version.equals(webjar.getVersion())) {
-            path = name + "/" + webjar.getVersion() + path.substring(i);
-        }
-
-        return path;
+    public boolean root;
+    
+    /**
+     * Create version resource resolver.
+     *
+     * @param root If true, we are resolving a root-level URL. When false, we need to strip off an
+     *            additional path level.
+     */
+    public VersionResourceResolver(boolean root) {
+        this.root = root;
     }
-
+    
     @Override
     protected Resource resolveResourceInternal(HttpServletRequest request, String requestPath,
                                                List<? extends Resource> locations, ResourceResolverChain chain) {
-        String newPath = getResourcePath(requestPath);
-        return chain.resolveResource(request, newPath, locations);
+        return chain.resolveResource(request, stripVersion(requestPath), locations);
     }
-    
+
     @Override
     protected String resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
                                             ResourceResolverChain chain) {
-        String newPath = getResourcePath(resourceUrlPath);
-        return chain.resolveUrlPath(newPath, locations);
+        return chain.resolveUrlPath(stripVersion(resourceUrlPath), locations);
     }
+
+    private String stripVersion(String path) {
+        if (path.startsWith(PREFIX)) {
+            int i = path.indexOf("/");
+            i = root || i == -1 ? i : path.indexOf("/", i + 1);
+            path = i == -1 ? path : path.substring(i + 1);
+        }
+        
+        return path;
+    }
+    
 }

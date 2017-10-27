@@ -44,6 +44,7 @@ import org.fujion.common.Version;
 import org.fujion.common.Version.VersionPart;
 import org.fujion.common.XMLUtil;
 import org.fujion.page.PageParser;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -85,8 +86,10 @@ public class SchemaGenerator {
         
         String[] packages = cmd.hasOption("p") ? cmd.getOptionValues("p") : DEFAULT_PACKAGES;
         String fujionVersion = cmd.getOptionValue("f");
+        fujionVersion = StringUtils.isEmpty(fujionVersion) ? SchemaGenerator.class.getPackage().getImplementationVersion()
+                : fujionVersion;
         
-        if (fujionVersion != null) {
+        if (!StringUtils.isEmpty(fujionVersion)) {
             fujionVersion = new Version(fujionVersion).toString(VersionPart.MINOR);
             fujionVersion = StrUtil.piece(fujionVersion, ".", 1, 2);
         }

@@ -53,69 +53,69 @@ import org.springframework.web.servlet.resource.ResourceTransformerSupport;
  * loading and initializing that resource at the client.
  */
 public class FujionResourceTransformer extends ResourceTransformerSupport {
-
+    
     /**
      * Exposes the fully resolved boostrapper template as a resource to be delivered to the client.
      */
     private static class BootstrapperResource extends AbstractFileResolvingResource implements EncodedResource {
-
+        
         private final Resource resource;
-
+        
         private final StringBuffer content = new StringBuffer();
-
+        
         BootstrapperResource(Resource resource) {
             this.resource = resource;
         }
-
+        
         public void addContent(String data) {
             content.append(data).append('\n');
         }
-
+        
         @Override
         public long contentLength() throws IOException {
             return content.length();
         }
-
+        
         @Override
         public String getFilename() {
             return resource.getFilename();
         }
-
+        
         @Override
         public URL getURL() throws IOException {
             return resource.getURL();
         }
-
+        
         @Override
         public String getDescription() {
             return resource.getDescription();
         }
-
+        
         @Override
         public InputStream getInputStream() throws IOException {
             return IOUtils.toInputStream(content.toString(), StandardCharsets.UTF_8);
         }
-
+        
         @Override
         public String getContentEncoding() {
             return "html";
         }
-
+        
     }
-
+    
     private final List<String> bootstrapperTemplate;
-
+    
     private final ThemeResolver themeResolver = new ThemeResolver();
-
+    
     public FujionResourceTransformer() {
         try {
-            bootstrapperTemplate = IOUtils.readLines(getClass().getResourceAsStream("/web/fujion/bootstrapper.htm"),
+            bootstrapperTemplate = IOUtils.readLines(getClass().getResourceAsStream("/org/fujion/bootstrapper.htm"),
                 StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     /**
      * If the resource is a Fujion server page (i.e., has a file extension of ".fsp"), replace it
      * with an html resource derived from the bootstrapping template.
@@ -123,11 +123,11 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
     @Override
     public Resource transform(HttpServletRequest request, Resource resource,
                               ResourceTransformerChain chain) throws IOException {
-
+        
         if (resource == null || !resource.getFilename().endsWith(".fsp")) {
             return chain.transform(request, resource);
         }
-
+        
         request.getSession(true);
         BootstrapperResource bootstrapperResource = new BootstrapperResource(resource);
         Map<String, Object> map = new HashMap<>();
@@ -145,12 +145,12 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
         map.put("logging", LogUtil.getSettingsForClient());
         map.put("keepalive", WebSocketConfiguration.getKeepaliveInterval());
         StrSubstitutor sub = new StrSubstitutor(map);
-
+        
         for (String line : bootstrapperTemplate) {
             bootstrapperResource.addContent(sub.replace(line));
         }
-
+        
         return chain.transform(request, bootstrapperResource);
     }
-
+    
 }
