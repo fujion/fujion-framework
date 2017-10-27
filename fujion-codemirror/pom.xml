@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.fujion</groupId>
 		<artifactId>fujion-parent</artifactId>
-		<version>1.0.16</version>
+		<version>1.0.17-SNAPSHOT</version>
 	</parent>
 
 	<name>Fujion Wrapper for CodeMirror</name>
