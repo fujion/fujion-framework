@@ -23,6 +23,7 @@ package org.fujion.annotation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -40,6 +41,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.fujion.ancillary.ComponentRegistry;
 import org.fujion.annotation.Component.ContentHandling;
+import org.fujion.annotation.Component.FactoryParameter;
+import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.ComponentDefinition.Cardinality;
 import org.fujion.common.StrUtil;
 import org.fujion.common.Version;
@@ -144,8 +147,7 @@ public class SchemaGenerator {
         root.setAttributeNS(NS_VERSIONING, "vc:minVersion", "1.1");
         root.setAttribute("elementFormDefault", "qualified");
         schema.appendChild(root);
-        ele = createElement("annotation", root);
-        createElement("documentation", ele).setTextContent(
+        createAnnotation(root,
             "Fujion Server Page" + formatForTitle(title, ", %s") + formatForTitle(version, ", version %s"));
         
         if (includeRoot) {
@@ -173,6 +175,7 @@ public class SchemaGenerator {
             }
 
             ele = createElement("element", root, "name", def.getTag());
+            createAnnotation(ele, def.getDescription());
             Element ct = createElement("complexType", ele);
 
             if (def.getParentTags().contains("*")) {
@@ -207,8 +210,8 @@ public class SchemaGenerator {
                 }
             }
 
-            processAttributes(def.getSetters(), ct);
-            processAttributes(def.getFactoryParameters(), ct);
+            processAttributes(def.getSetters(), ct, PropertySetter.class);
+            processAttributes(def.getFactoryParameters(), ct, FactoryParameter.class);
             createElement("anyAttribute", ct, "namespace", "##other").setAttribute("processContents", "lax");
         }
     }
@@ -217,7 +220,7 @@ public class SchemaGenerator {
         return StringUtils.isEmpty(value) ? "" : String.format(format, value);
     }
 
-    private void processAttributes(Map<String, Method> setters, Element ct) {
+    private void processAttributes(Map<String, Method> setters, Element ct, Class<? extends Annotation> type) {
         for (Entry<String, Method> setter : setters.entrySet()) {
             String key = setter.getKey();
 
@@ -226,8 +229,13 @@ public class SchemaGenerator {
             }
 
             Element attr = createElement("attribute", ct, "name", setter.getKey());
-            Class<?> javaType = setter.getValue().getParameterTypes()[0];
-
+            Method method = setter.getValue();
+            Class<?> javaType = method.getParameterTypes()[method.getParameterCount() - 1];
+            Annotation annot = method.getAnnotation(type);
+            String description = annot instanceof PropertySetter ? ((PropertySetter) annot).description()
+                    : ((FactoryParameter) annot).description();
+            createAnnotation(attr, description);
+            
             if (javaType.isEnum()) {
                 processEnum(attr, javaType);
             } else {
@@ -352,6 +360,19 @@ public class SchemaGenerator {
 
         parent.insertBefore(element, ref);
         return element;
+    }
+    
+    /**
+     * Creates a documentation annotation for the specified element.
+     *
+     * @param ele Element to annotate.
+     * @param text Documentation text for annotation.
+     */
+    private void createAnnotation(Element ele, String text) {
+        if (!StringUtils.isEmpty(text)) {
+            Element annotation = createElement("annotation", ele);
+            createElement("documentation", annotation).setTextContent(text);
+        }
     }
     
     /**

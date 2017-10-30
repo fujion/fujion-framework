@@ -121,6 +121,8 @@ public class ComponentDefinition {
     
     private final String widgetClass;
     
+    private final String description;
+    
     private final Set<String> parentTags = new HashSet<>();
     
     private final Map<String, Cardinality> childTags = new HashMap<>();
@@ -145,6 +147,7 @@ public class ComponentDefinition {
         this.widgetClass = annot.widgetClass();
         this.tag = annot.tag();
         this.contentHandling = annot.content();
+        this.description = annot.description();
         
         for (String tag : annot.parentTag()) {
             addParentTag(tag);
@@ -265,6 +268,15 @@ public class ComponentDefinition {
         return factoryClass;
     }
     
+    /**
+     * Returns the description of this component.
+     *
+     * @return The component's description.
+     */
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Returns a factory instance for this component.
      *
