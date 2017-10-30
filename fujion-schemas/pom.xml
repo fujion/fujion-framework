@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.fujion</groupId>
+		<artifactId>fujion-parent</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>fujion-schemas</artifactId>
+	<name>Fujion Schema Generation</name>
+
+	<properties>
+		<schemadir>${basedir}/target/classes/</schemadir>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<configuration>
+					<skipSource>true</skipSource>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>org.fujion.annotation.SchemaGenerator</mainClass>
+					<classpathScope>compile</classpathScope>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-root-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-r</argument>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Root Schema</argument>
+								<argument>${schemadir}fsp-root.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-core-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Core Schema</argument>
+								<argument>-p=org.fujion.component</argument>
+								<argument>${schemadir}fsp-core.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-angular-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=AngularJS Extension</argument>
+								<argument>-c=org.fujion.angular.AngularComponent</argument>
+								<argument>${schemadir}fsp-angular.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-codemirror-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=CodeMirror Extension</argument>
+								<argument>-c=org.fujion.codemirror.CodeMirror</argument>
+								<argument>${schemadir}fsp-codemirror.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-highcharts-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Highcharts Extension</argument>
+								<argument>-c=org.fujion.highcharts.Chart</argument>
+								<argument>${schemadir}fsp-highcharts.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-react-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=React Extension</argument>
+								<argument>-c=org.fujion.react.ReactComponent</argument>
+								<argument>${schemadir}fsp-react.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-highcharts</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-codemirror</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-angular-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-react-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
+</project>

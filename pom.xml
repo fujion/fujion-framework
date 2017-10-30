@@ -43,6 +43,7 @@
 		<npm.version>4.2.0</npm.version>
 		<project.name>${project.artifactId}</project.name>
 		<webjar.version>${project.version}</webjar.version>
+		<schemadir>${basedir}/target/classes/META-INF/resources/webjars/${webjar.name}/${project.version}/xsd/</schemadir>
 	</properties>
 
 	<scm>
@@ -64,6 +65,7 @@
 		<module>fujion-react-parent</module>
 		<module>fujion-testharness</module>
 		<module>fujion-archetype-parent</module>
+		<module>fujion-schemas</module>
 	</modules>
 	
 	<distributionManagement>

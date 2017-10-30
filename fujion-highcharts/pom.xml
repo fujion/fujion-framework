@@ -51,7 +51,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=Highcharts Extension</argument>
 								<argument>-c=org.fujion.highcharts.Chart</argument>
-								<argument>${basedir}/target/classes/META-INF/resources/webjars/${webjar.name}/${project.version}/xsd/fsp-highcharts.xsd</argument>
+								<argument>${schemadir}fsp-highcharts.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>

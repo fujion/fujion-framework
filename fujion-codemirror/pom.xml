@@ -41,7 +41,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=CodeMirror Extension</argument>
 								<argument>-c=org.fujion.codemirror.CodeMirror</argument>
-								<argument>${basedir}/target/classes/META-INF/resources/webjars/${webjar.name}/${project.version}/xsd/fsp-codemirror.xsd</argument>
+								<argument>${schemadir}fsp-codemirror.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>

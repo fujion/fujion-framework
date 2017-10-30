@@ -85,6 +85,8 @@ public class SchemaGenerator {
         options.addOption(option);
         option = new Option("t", "title", true, "Title for schema documentation");
         options.addOption(option);
+        option = new Option("r", "root", false, "Include root schema declarations");
+        options.addOption(option);
         option = new Option("h", "help", false, "This help message");
         options.addOption(option);
         CommandLine cmd = new DefaultParser().parse(options, args);
@@ -95,7 +97,7 @@ public class SchemaGenerator {
         }
 
         String xml = new SchemaGenerator(cmd.getOptionValues("p"), cmd.getOptionValues("c"), cmd.getOptionValue("v"),
-                cmd.getOptionValue("t")).toString();
+                cmd.getOptionValue("t"), cmd.hasOption("r")).toString();
         String output = cmd.getArgs().length == 0 ? null : cmd.getArgs()[0];
 
         if (output == null) {
@@ -110,8 +112,8 @@ public class SchemaGenerator {
         }
     }
 
-    public SchemaGenerator(String[] packages, String[] classes, String version, String title) throws Exception {
-        version = StringUtils.isEmpty(version) ? SchemaGenerator.class.getPackage().getImplementationVersion() : version;
+    public SchemaGenerator(String[] packages, String[] classes, String version, String title, boolean includeRoot)
+        throws Exception {
 
         if (!StringUtils.isEmpty(version)) {
             version = new Version(version).toString(VersionPart.MINOR);
@@ -119,7 +121,6 @@ public class SchemaGenerator {
         }
 
         ComponentRegistry registry = ComponentRegistry.getInstance();
-        boolean isRoot = packages == null && classes == null;
         Element ele;
 
         if (packages != null) {
@@ -147,7 +148,7 @@ public class SchemaGenerator {
         createElement("documentation", ele).setTextContent(
             "Fujion Server Page" + formatForTitle(title, ", %s") + formatForTitle(version, ", version %s"));
         
-        if (isRoot) {
+        if (includeRoot) {
             ele = createElement("simpleType", root, "name", "el");
             ele = createElement("restriction", ele, "base", "xs:string");
             createElement("pattern", ele, "value", ".*\\$\\{.+\\}.*");
@@ -161,11 +162,10 @@ public class SchemaGenerator {
             setCardinality(ele, 0, UNBOUNDED);
             ele = createElement("element", root, "name", "anyParent");
             ele.setAttribute("abstract", "true");
-            return;
+        } else {
+            Assert.isTrue(registry.size() > 0, "No component annotations found");
+            createElement("include", root, "schemaLocation", PageParser.NS_FSP + "-root.xsd");
         }
-        
-        Assert.isTrue(registry.size() > 0, "No component annotations found");
-        createElement("include", root, "schemaLocation", PageParser.NS_FSP + "-root.xsd");
 
         for (ComponentDefinition def : registry) {
             if (def.getTag().startsWith("#")) {
@@ -199,7 +199,7 @@ public class SchemaGenerator {
 
                     if ("*".equals(tag)) {
                         ele = createElement("element", childAnchor, "ref", "fsp:anyParent");
-                        setCardinality(ele, 0, UNBOUNDED);
+                        setCardinality(ele, card);
                     } else {
                         addChildElement(childAnchor, registry.get(tag), def, card);
                     }
@@ -248,13 +248,18 @@ public class SchemaGenerator {
         }
 
         Element child = createElement("element", seq, "ref", "fsp:" + childDef.getTag());
-        setCardinality(child, card.getMinimum(), card.hasMaximum() ? card.getMaximum() : UNBOUNDED);
+        setCardinality(child, card);
     }
 
     private Element addExtendedType(String type) {
         Element ele = createElement("simpleType", root, "name", type);
         createElement("union", ele, "memberTypes", "xs:" + type + " fsp:el");
         return ele;
+    }
+
+    private Element setCardinality(Element ele, Cardinality cardinality) {
+        return setCardinality(ele, cardinality.getMinimum(),
+            cardinality.hasMaximum() ? cardinality.getMaximum() : UNBOUNDED);
     }
 
     private Element setCardinality(Element ele, Object minOccurs, Object maxOccurs) {

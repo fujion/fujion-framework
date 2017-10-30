@@ -77,8 +77,9 @@
 						<configuration>
 							<arguments>
 								<argument>-v=${project.version}</argument>
+								<argument>-r</argument>
 								<argument>-t=Root Schema</argument>
-								<argument>${basedir}/target/classes/META-INF/resources/webjars/${webjar.name}/${project.version}/xsd/fsp-root.xsd</argument>
+								<argument>${schemadir}fsp-root.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -93,7 +94,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=Core Schema</argument>
 								<argument>-p=org.fujion.component</argument>
-								<argument>${basedir}/target/classes/META-INF/resources/webjars/${webjar.name}/${project.version}/xsd/fsp-core.xsd</argument>
+								<argument>${schemadir}fsp-core.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>

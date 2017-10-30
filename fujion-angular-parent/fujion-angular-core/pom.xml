@@ -96,7 +96,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=AngularJS Extension</argument>
 								<argument>-c=org.fujion.angular.AngularComponent</argument>
-								<argument>${basedir}/target/classes/META-INF/resources/webjars/${webjar.name}/${project.version}/xsd/fsp-angular.xsd</argument>
+								<argument>${schemadir}fsp-angular.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
