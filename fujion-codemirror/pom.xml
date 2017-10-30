@@ -22,6 +22,34 @@
         </requirejs>
 	</properties>
 	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>org.fujion.annotation.SchemaGenerator</mainClass>
+							<classpathScope>compile</classpathScope>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=CodeMirror Extension</argument>
+								<argument>-c=org.fujion.codemirror.CodeMirror</argument>
+								<argument>${basedir}/target/classes/META-INF/resources/webjars/${webjar.name}/${project.version}/xsd/fsp-codemirror.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.fujion</groupId>

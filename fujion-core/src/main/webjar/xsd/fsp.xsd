@@ -1,1 +1,11 @@
-<!-- Fujion schema placeholder.  Real schema will be generated during build. -->
+<xs:schema xmlns:fsp="http://www.fujion.org/schema/fsp" elementFormDefault="qualified" targetNamespace="http://www.fujion.org/schema/fsp" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:annotation>
+        <xs:documentation>Fujion Server Page Schema, version 1.1</xs:documentation>
+    </xs:annotation>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-root.xsd"/>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-core.xsd"/>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-highcharts.xsd"/>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-codemirror.xsd"/>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-angular.xsd"/>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-react.xsd"/>
+</xs:schema>
