@@ -123,6 +123,7 @@
 					<version>2.10.4</version>
 					<configuration>
 						<failOnError>false</failOnError>
+						<quiet>true</quiet>
 					</configuration>
 					<executions>
 						<execution>
