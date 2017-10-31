@@ -31,9 +31,9 @@ import org.fujion.annotation.Component.ContentHandling;
 /**
  * A container component that be displayed at a selected location.
  */
-@Component(tag = "popup", widgetClass = "Popup", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"))
+@Component(tag = "popup", widgetClass = "Popup", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A container component that be displayed at a selected location.")
 public class Popup extends BaseComponent implements INamespace {
-
+    
     /**
      * Opens the popup over the reference component.
      *
@@ -42,7 +42,7 @@ public class Popup extends BaseComponent implements INamespace {
     public void open(BaseComponent reference) {
         open(reference, null, null);
     }
-
+    
     /**
      * Opens the popup relative to the reference component.
      *
@@ -57,7 +57,7 @@ public class Popup extends BaseComponent implements INamespace {
         map.put("my", my);
         invoke("open", map, true);
     }
-    
+
     /**
      * Closes the popup.
      */

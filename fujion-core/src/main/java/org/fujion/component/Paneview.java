@@ -28,7 +28,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component containing visually separate panes with optional splitter controls.
  */
-@Component(tag = "paneview", widgetModule = "fujion-paneview", widgetClass = "Paneview", parentTag = "*", childTag = @ChildTag("pane"))
+@Component(tag = "paneview", widgetModule = "fujion-paneview", widgetClass = "Paneview", parentTag = "*", childTag = @ChildTag("pane"), description = "A container that visually separate panes with optional splitter controls.")
 public class Paneview extends BaseUIComponent {
 
     /**
@@ -52,7 +52,7 @@ public class Paneview extends BaseUIComponent {
      *
      * @return The {@link Orientation orientation} of child panes.
      */
-    @PropertyGetter("orientation")
+    @PropertyGetter(value = "orientation", description = "The orientation of child panes.")
     public Orientation getOrientation() {
         return orientation;
     }
@@ -62,7 +62,7 @@ public class Paneview extends BaseUIComponent {
      *
      * @param orientation The {@link Orientation orientation} of child panes.
      */
-    @PropertySetter("orientation")
+    @PropertySetter(value = "orientation", defaultValue = "horizontal", description = "The orientation of child panes.")
     public void setOrientation(Orientation orientation) {
         propertyChange("orientation", this.orientation, this.orientation = defaultify(orientation, Orientation.HORIZONTAL),
             true);

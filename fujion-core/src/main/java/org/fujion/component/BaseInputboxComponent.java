@@ -74,12 +74,12 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @return The minimum allowable value. Null indicates no minimum.
      */
-    @PropertyGetter("minvalue")
+    @PropertyGetter(value = "minvalue", description = "The minimum allowable value, if any.")
     public T getMinValue() {
         return minvalue;
     }
 
-    @PropertySetter("minvalue")
+    @PropertySetter(value = "minvalue", description = "The minimum allowable value, if any.")
     private void _setMinValue(String minvalue) {
         setMinValue(_toValue(minvalue));
     }
@@ -100,12 +100,12 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @return The maximum allowable value. Null indicates no maximum.
      */
-    @PropertyGetter("maxvalue")
+    @PropertyGetter(value = "maxvalue", description = "The maximum allowable value, if any.")
     public T getMaxValue() {
         return maxvalue;
     }
 
-    @PropertySetter("maxvalue")
+    @PropertySetter(value = "maxvalue", description = "The maximum allowable value, if any.")
     private void _setMaxValue(String maxvalue) {
         setMaxValue(_toValue(maxvalue));
     }
@@ -126,7 +126,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @return Regular expression that constrains the input format.
      */
-    @PropertyGetter("pattern")
+    @PropertyGetter(value = "pattern", description = "Regular expression that constrains the input format.")
     public String getPattern() {
         return pattern;
     }
@@ -136,7 +136,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @param pattern Regular expression that constrains the input format.
      */
-    @PropertySetter("pattern")
+    @PropertySetter(value = "pattern", description = "Regular expression that constrains the input format.")
     public void setPattern(String pattern) {
         propertyChange("pattern", this.pattern, this.pattern = nullify(pattern), true);
     }
@@ -146,7 +146,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @return The placeholder message.
      */
-    @PropertyGetter("placeholder")
+    @PropertyGetter(value = "placeholder", description = "The placeholder message that is displayed when the input box is empty.")
     public String getPlaceholder() {
         return placeholder;
     }
@@ -156,7 +156,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @param placeholder The placeholder message.
      */
-    @PropertySetter("placeholder")
+    @PropertySetter(value = "placeholder", description = "The placeholder message that is displayed when the input box is empty.")
     public void setPlaceholder(String placeholder) {
         propertyChange("placeholder", this.placeholder, this.placeholder = nullify(placeholder), true);
     }
@@ -166,7 +166,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @return The maximum character length of input.
      */
-    @PropertyGetter("maxlength")
+    @PropertyGetter(value = "maxlength", description = "The maximum character length of input.")
     public int getMaxLength() {
         return maxLength;
     }
@@ -176,7 +176,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @param maxLength The maximum character length of input.
      */
-    @PropertySetter("maxlength")
+    @PropertySetter(value = "maxlength", description = "The maximum character length of input.")
     public void setMaxLength(int maxLength) {
         propertyChange("maxlength", this.maxLength, this.maxLength = NumUtil.enforceRange(maxLength, 0, 524288), true);
     }
@@ -186,7 +186,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @return True if the input box is read-only.
      */
-    @PropertyGetter("readonly")
+    @PropertyGetter(value = "readonly", description = "True if the input box is read-only.")
     public boolean isReadonly() {
         return readonly;
     }
@@ -196,7 +196,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @param readonly If true, the contents of the input box may not be changed by the user.
      */
-    @PropertySetter("readonly")
+    @PropertySetter(value = "readonly", defaultValue = "false", description = "True if the input box is read-only.")
     public void setReadonly(boolean readonly) {
         propertyChange("readonly", this.readonly, this.readonly = readonly, true);
     }
@@ -206,7 +206,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @return True if input is required for this component.
      */
-    @PropertyGetter("required")
+    @PropertyGetter(value = "required", description = "True if input is required for this component.")
     public boolean isRequired() {
         return required;
     }
@@ -216,7 +216,7 @@ public abstract class BaseInputboxComponent<T> extends BaseInputComponent<T> {
      *
      * @param required True if input is required for this component.
      */
-    @PropertySetter("required")
+    @PropertySetter(value = "required", defaultValue = "false", description = "True if input is required for this component.")
     public void setRequired(boolean required) {
         propertyChange("required", this.required, this.required = required, true);
     }

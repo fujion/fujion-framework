@@ -35,7 +35,7 @@ import org.fujion.model.ModelAndView;
 /**
  * A component representing a simple list box control.
  */
-@Component(tag = "listbox", widgetClass = "Listbox", parentTag = "*", childTag = @ChildTag("listitem"))
+@Component(tag = "listbox", widgetClass = "Listbox", parentTag = "*", childTag = @ChildTag("listitem"), description = "A simple list box control.")
 public class Listbox extends BaseUIComponent implements ISupportsModel<Listitem> {
     
     private boolean multiple;
@@ -51,7 +51,7 @@ public class Listbox extends BaseUIComponent implements ISupportsModel<Listitem>
      *
      * @return The multiple selection flag.
      */
-    @PropertyGetter("multiple")
+    @PropertyGetter(value = "multiple", description = "If true, multiple list items may be selected at once.")
     public boolean isMultiple() {
         return multiple;
     }
@@ -61,7 +61,7 @@ public class Listbox extends BaseUIComponent implements ISupportsModel<Listitem>
      *
      * @param multiple The multiple selection flag.
      */
-    @PropertySetter("multiple")
+    @PropertySetter(value = "multiple", defaultValue = "false", description = "If true, multiple list items may be selected at once.")
     public void setMultiple(boolean multiple) {
         if (propertyChange("multiple", this.multiple, this.multiple = multiple, true)) {
             if (!multiple && selected.size() > 1) {
@@ -73,9 +73,9 @@ public class Listbox extends BaseUIComponent implements ISupportsModel<Listitem>
     /**
      * Returns the number of visible list items.
      *
-     * @return The number of visible list items
+     * @return The number of visible list items.
      */
-    @PropertyGetter("size")
+    @PropertyGetter(value = "size", description = "The number of visible list items.")
     public int getSize() {
         return size;
     }
@@ -85,7 +85,7 @@ public class Listbox extends BaseUIComponent implements ISupportsModel<Listitem>
      *
      * @param size The number of visible list items
      */
-    @PropertySetter("size")
+    @PropertySetter(value = "size", description = "The number of visible list items.")
     public void setSize(int size) {
         propertyChange("size", this.size, this.size = size, true);
     }

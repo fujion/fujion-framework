@@ -36,7 +36,7 @@ import org.fujion.model.ModelAndView;
 /**
  * A component serving as a container for a grid's rows.
  */
-@Component(tag = "rows", widgetModule = "fujion-grid", widgetClass = "Rows", parentTag = "grid", childTag = @ChildTag("row"))
+@Component(tag = "rows", widgetModule = "fujion-grid", widgetClass = "Rows", parentTag = "grid", childTag = @ChildTag("row"), description = "A container for a grid's rows.")
 public class Rows extends BaseUIComponent implements ISupportsModel<Row> {
     
     /**
@@ -79,7 +79,7 @@ public class Rows extends BaseUIComponent implements ISupportsModel<Row> {
      *
      * @return The {@link Selectable selectable} setting.
      */
-    @PropertyGetter("selectable")
+    @PropertyGetter(value = "selectable", description = "The selectability setting.")
     public Selectable getSelectable() {
         return selectable;
     }
@@ -89,7 +89,7 @@ public class Rows extends BaseUIComponent implements ISupportsModel<Row> {
      *
      * @param selectable The {@link Selectable selectable} setting.
      */
-    @PropertySetter("selectable")
+    @PropertySetter(value = "selectable", defaultValue = "no", description = "The selectability setting.")
     public void setSelectable(Selectable selectable) {
         if (propertyChange("selectable", this.selectable, this.selectable = defaultify(selectable, Selectable.NO), true)) {
             if (selectable != Selectable.MULTIPLE && !selected.isEmpty()) {

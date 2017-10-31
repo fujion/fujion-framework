@@ -37,7 +37,7 @@ import org.fujion.event.IEventListener;
  * A window component with a title bar and maximize/minimize/close buttons. May be used in modal,
  * popup, or inline modes.
  */
-@Component(tag = "window", widgetClass = "Window", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"))
+@Component(tag = "window", widgetClass = "Window", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A window component with a title bar and maximize/minimize/close buttons.")
 public class Window extends BaseUIComponent implements INamespace {
 
     /**
@@ -138,7 +138,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return The title text.
      */
-    @PropertyGetter("title")
+    @PropertyGetter(value = "title", description = "The title text.")
     public String getTitle() {
         return title;
     }
@@ -148,7 +148,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @param title The title text.
      */
-    @PropertySetter("title")
+    @PropertySetter(value = "title", description = "The title text.")
     public void setTitle(String title) {
         propertyChange("title", this.title, this.title = nullify(title), true);
     }
@@ -158,7 +158,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return The URL of the image to be displayed on the left side of the title bar.
      */
-    @PropertyGetter("image")
+    @PropertyGetter(value = "image", description = "The URL of the image to be displayed on the left side of the title bar.")
     public String getImage() {
         return image;
     }
@@ -168,7 +168,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @param image The URL of the image to be displayed on the left side of the title bar.
      */
-    @PropertySetter("image")
+    @PropertySetter(value = "image", description = "The URL of the image to be displayed on the left side of the title bar.")
     public void setImage(String image) {
         propertyChange("image", this.image, this.image = nullify(image), true);
     }
@@ -179,7 +179,8 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return True if the window is closable.
      */
-    @PropertyGetter("closable")
+    @PropertyGetter(value = "closable", description = "True if the window is closable. A window that is closable has an icon that, when "
+            + "clicked, triggers a close event.")
     public boolean isClosable() {
         return closable;
     }
@@ -191,7 +192,8 @@ public class Window extends BaseUIComponent implements INamespace {
      * @param closable If true, the window is closable.
      * @see #onCanClose
      */
-    @PropertySetter("closable")
+    @PropertySetter(value = "closable", defaultValue = "false", description = "True if the window is closable. A window that is closable has an icon that, when "
+            + "clicked, triggers a close event.")
     public void setClosable(boolean closable) {
         propertyChange("closable", this.closable, this.closable = closable, true);
     }
@@ -203,7 +205,8 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return The window's sizable property.
      */
-    @PropertyGetter("sizable")
+    @PropertyGetter(value = "sizable", description = "The window's sizable property. A window that is sizable has borders that may be "
+            + "dragged to change its dimensions.")
     public boolean isSizable() {
         return sizable;
     }
@@ -215,7 +218,8 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @param sizable The window's sizable property.
      */
-    @PropertySetter("sizable")
+    @PropertySetter(value = "sizable", defaultValue = "false", description = "The window's sizable property. A window that is sizable has borders that may be "
+            + "dragged to change its dimensions.")
     public void setSizable(boolean sizable) {
         propertyChange("sizable", this.sizable, this.sizable = sizable, true);
     }
@@ -227,7 +231,7 @@ public class Window extends BaseUIComponent implements INamespace {
      * @return The {@link Position placement} of a newly opened {@link Mode#MODAL modal} or
      *         {@link Mode#POPUP popup} window.
      */
-    @PropertyGetter("position")
+    @PropertyGetter(value = "position", description = "The placement of a newly opened modal or popup window.")
     public Position getPosition() {
         return position;
     }
@@ -239,7 +243,7 @@ public class Window extends BaseUIComponent implements INamespace {
      * @param position The {@link Position placement} of a newly opened {@link Mode#MODAL modal} or
      *            {@link Mode#POPUP popup} window.
      */
-    @PropertySetter("position")
+    @PropertySetter(value = "position", defaultValue = "center", description = "The placement of a newly opened modal or popup window.")
     public void setPosition(Position position) {
         propertyChange("position", this.position, this.position = position, true);
     }
@@ -250,7 +254,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return If true, the window may be moved to a new position by dragging its title bar.
      */
-    @PropertyGetter("movable")
+    @PropertyGetter(value = "movable", description = "If true, the window may be moved to a new position by dragging its title bar.")
     public boolean isMovable() {
         return movable;
     }
@@ -261,7 +265,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @param movable If true, the window may be moved to a new position by dragging its title bar.
      */
-    @PropertySetter("movable")
+    @PropertySetter(value = "movable", defaultValue = "true", description = "If true, the window may be moved to a new position by dragging its title bar.")
     public void setMovable(boolean movable) {
         propertyChange("movable", this.movable, this.movable = movable, true);
     }
@@ -274,7 +278,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return True if the window is maximizable.
      */
-    @PropertyGetter("maximizable")
+    @PropertyGetter(value = "maximizable", description = "True if the window may be maximized.")
     public boolean isMaximizable() {
         return maximizable;
     }
@@ -287,7 +291,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @param maximizable True if the window is maximizable.
      */
-    @PropertySetter("maximizable")
+    @PropertySetter(value = "maximizable", defaultValue = "false", description = "True if the window may be maximized.")
     public void setMaximizable(boolean maximizable) {
         propertyChange("maximizable", this.maximizable, this.maximizable = maximizable, true);
     }
@@ -301,7 +305,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return True if the window is minimizable.
      */
-    @PropertyGetter("minimizable")
+    @PropertyGetter(value = "minimizable", description = "True if the window may be minimized.")
     public boolean isMinimizable() {
         return minimizable;
     }
@@ -315,7 +319,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @param minimizable True if the window is minimizable.
      */
-    @PropertySetter("minimizable")
+    @PropertySetter(value = "minimizable", defaultValue = "false", description = "True if the window may be minimized.")
     public void setMinimizable(boolean minimizable) {
         propertyChange("minimizable", this.minimizable, this.minimizable = minimizable, true);
     }
@@ -325,7 +329,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return The display {@link Mode mode} of the window.
      */
-    @PropertyGetter("mode")
+    @PropertyGetter(value = "mode", description = "The display mode of the window.")
     public Mode getMode() {
         return mode;
     }
@@ -335,7 +339,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @param mode The display {@link Mode mode} of the window.
      */
-    @PropertySetter("mode")
+    @PropertySetter(value = "mode", defaultValue = "inline", description = "The display mode of the window.")
     public void setMode(Mode mode) {
         propertyChange("mode", this.mode, this.mode = defaultify(mode, Mode.INLINE), true);
     }
@@ -345,7 +349,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return The {@link Size sizing} mode of the window.
      */
-    @PropertyGetter("size")
+    @PropertyGetter(value = "size", description = "The sizing mode of the window.")
     public Size getSize() {
         return size;
     }
@@ -355,7 +359,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @param size The {@link Size sizing} mode of the window.
      */
-    @PropertySetter("size")
+    @PropertySetter(value = "size", defaultValue = "normal", description = "The sizing mode of the window.")
     public void setSize(Size size) {
         propertyChange("size", this.size, this.size = defaultify(size, Size.NORMAL), true);
     }
@@ -365,7 +369,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @return The {@link CloseAction action} to be taken when the window is closed.
      */
-    @PropertyGetter("closeAction")
+    @PropertyGetter(value = "closeAction", description = "The action to be taken when the window is closed.")
     public CloseAction getCloseAction() {
         return closeAction;
     }
@@ -375,7 +379,7 @@ public class Window extends BaseUIComponent implements INamespace {
      *
      * @param closeAction The {@link CloseAction action} to be taken when the window is closed.
      */
-    @PropertySetter("closeAction")
+    @PropertySetter(value = "closeAction", defaultValue = "destroy", description = "The action to be taken when the window is closed.")
     public void setCloseAction(CloseAction closeAction) {
         this.closeAction = closeAction == null ? CloseAction.DESTROY : closeAction;
     }

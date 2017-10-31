@@ -28,7 +28,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component representing an embedded image.
  */
-@Component(tag = "image", widgetClass = "Image", parentTag = "*")
+@Component(tag = "image", widgetClass = "Image", parentTag = "*", description = "A component representing an embedded image.")
 public class Image extends BaseUIComponent {
 
     private String src;
@@ -56,7 +56,7 @@ public class Image extends BaseUIComponent {
      *
      * @return URL of the image resource.
      */
-    @PropertyGetter("src")
+    @PropertyGetter(value = "src", description = "The URL of the image resource.")
     public String getSrc() {
         return src;
     }
@@ -66,7 +66,7 @@ public class Image extends BaseUIComponent {
      *
      * @param src URL of the image resource.
      */
-    @PropertySetter("src")
+    @PropertySetter(value = "src", description = "The URL of the image resource.")
     public void setSrc(String src) {
         propertyChange("src", this.src, this.src = nullify(src), true);
     }
@@ -85,7 +85,7 @@ public class Image extends BaseUIComponent {
      *
      * @return The alternate text for the image.
      */
-    @PropertyGetter("alt")
+    @PropertyGetter(value = "alt", description = "The alternate text for the image.")
     public String getAlt() {
         return alt;
     }
@@ -95,7 +95,7 @@ public class Image extends BaseUIComponent {
      *
      * @param alt The alternate text for the image.
      */
-    @PropertySetter("alt")
+    @PropertySetter(value = "alt", description = "The alternate text for the image.")
     public void setAlt(String alt) {
         propertyChange("alt", this.alt, this.alt = nullify(alt), true);
     }

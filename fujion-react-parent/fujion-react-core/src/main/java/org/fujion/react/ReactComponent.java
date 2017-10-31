@@ -28,31 +28,31 @@ import org.fujion.component.BaseUIComponent;
 /**
  * Container for a React component.
  */
-@Component(tag = "react", widgetModule = "fujion-react-widget", widgetClass = "ReactWidget", parentTag = "*")
+@Component(tag = "react", widgetModule = "fujion-react-widget", widgetClass = "ReactWidget", parentTag = "*", description = "Container for a React component.")
 public class ReactComponent extends BaseUIComponent {
-
-    private String src;
     
+    private String src;
+
     /**
      * Returns the name of the module containing the React component.
      *
      * @return Name of module containing React component.
      */
-    @PropertyGetter("src")
+    @PropertyGetter(value = "src", description = "Name of module containing React component.")
     public String getSrc() {
         return src;
     }
-    
+
     /**
      * Sets the module containing the React component.
      *
      * @param src Name of module containing React component.
      */
-    @PropertySetter("src")
+    @PropertySetter(value = "src", description = "Name of module containing React component.")
     public void setSrc(String src) {
         propertyChange("src", this.src, this.src = trimify(src), true);
     }
-    
+
     /**
      * Invokes a published method on the module containing the React component.
      *
@@ -62,5 +62,5 @@ public class ReactComponent extends BaseUIComponent {
     public void rxInvoke(String functionName, Object... args) {
         invoke("rxInvoke", functionName, args);
     }
-    
+
 }

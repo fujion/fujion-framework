@@ -27,7 +27,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A simple hyperlink (anchor) component.
  */
-@Component(tag = "link", widgetClass = "Hyperlink", parentTag = "*")
+@Component(tag = "link", widgetClass = "Hyperlink", parentTag = "*", description = "A simple hyperlink (anchor) component.")
 public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionHorz> {
 
     private String href;
@@ -44,7 +44,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
      * @return May be one of: left, right.
      */
     @Override
-    @PropertyGetter("position")
+    @PropertyGetter(value = "position", description = "The position of the label relative to the contained elements.")
     public LabelPositionHorz getPosition() {
         return super.getPosition();
     }
@@ -55,7 +55,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
      * @param position May be one of: left, right.
      */
     @Override
-    @PropertySetter("position")
+    @PropertySetter(value = "position", defaultValue = "left", description = "The position of the label relative to the contained elements.")
     public void setPosition(LabelPositionHorz position) {
         super.setPosition(position);
     }
@@ -65,7 +65,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
      *
      * @return URL of the link destination.
      */
-    @PropertyGetter("href")
+    @PropertyGetter(value = "href", description = "The URL of the link destination.")
     public String getHref() {
         return href;
     }
@@ -75,7 +75,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
      *
      * @param href URL of the link destination.
      */
-    @PropertySetter("href")
+    @PropertySetter(value = "href", description = "The URL of the link destination.")
     public void setHref(String href) {
         propertyChange("href", this.href, this.href = nullify(href), true);
     }
@@ -85,7 +85,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
      *
      * @return The target where the linked document will be opened.
      */
-    @PropertyGetter("target")
+    @PropertyGetter(value = "target", description = "The target where the linked document will be opened.")
     public String getTarget() {
         return target;
     }
@@ -95,7 +95,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
      *
      * @param target The target where the linked document will be opened.
      */
-    @PropertySetter("target")
+    @PropertySetter(value = "target", description = "The target where the linked document will be opened.")
     public void setTarget(String target) {
         propertyChange("target", this.target, this.target = nullify(target), true);
     }

@@ -28,31 +28,31 @@ import org.fujion.component.BaseUIComponent;
 /**
  * Container for an Angular component.
  */
-@Component(tag = "angular", widgetModule = "fujion-angular-widget", widgetClass = "AngularWidget", parentTag = "*")
+@Component(tag = "angular", widgetModule = "fujion-angular-widget", widgetClass = "AngularWidget", parentTag = "*", description = "Container for an Angular component.")
 public class AngularComponent extends BaseUIComponent {
-    
-    private String src;
 
+    private String src;
+    
     /**
      * Returns the name of the module containing the Angular component.
      *
      * @return Name of module containing Angular component.
      */
-    @PropertyGetter("src")
+    @PropertyGetter(value = "src", description = "Name of module containing Angular component.")
     public String getSrc() {
         return src;
     }
-
+    
     /**
      * Sets the module containing the Angular component.
      *
      * @param src Name of module containing Angular component.
      */
-    @PropertySetter("src")
+    @PropertySetter(value = "src", description = "Name of module containing Angular component.")
     public void setSrc(String src) {
         propertyChange("src", this.src, this.src = trimify(src), true);
     }
-
+    
     /**
      * Invokes a published method on the module containing the Angular component.
      *
@@ -62,5 +62,5 @@ public class AngularComponent extends BaseUIComponent {
     public void ngInvoke(String functionName, Object... args) {
         invoke("ngInvoke", functionName, args);
     }
-
+    
 }

@@ -43,7 +43,7 @@ import org.springframework.util.Assert;
 /**
  * A component wrapping script source code for server-side invocation.
  */
-@Component(tag = "sscript", widgetClass = "MetaWidget", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*")
+@Component(tag = "sscript", widgetClass = "MetaWidget", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", description = "Script source code for server-side invocation.")
 public class ServerScript extends BaseScriptComponent {
 
     private static final String EVENT_DEFERRED = "deferredExecution";
@@ -141,7 +141,7 @@ public class ServerScript extends BaseScriptComponent {
      *
      * @return The script type.
      */
-    @PropertyGetter("type")
+    @PropertyGetter(value = "type", description = "The script type.")
     public String getType() {
         return type;
     }
@@ -151,7 +151,7 @@ public class ServerScript extends BaseScriptComponent {
      *
      * @param type The script type.
      */
-    @PropertySetter("type")
+    @PropertySetter(value = "type", description = "The script type.")
     public void setType(String type) {
         type = nullify(type);
         scriptLanguage = type == null ? null : ScriptRegistry.getInstance().get(type);

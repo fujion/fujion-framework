@@ -23,6 +23,8 @@ package org.fujion.component;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.ContentHandling;
+import org.fujion.annotation.Component.PropertyGetter;
+import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
 
 /**
@@ -30,7 +32,7 @@ import org.fujion.annotation.EventHandler;
  *
  * @see org.fujion.component.MessageWindow
  */
-@Component(tag = "messagepane", widgetClass = "Messagepane", content = ContentHandling.AS_CHILD, parentTag = "messagewindow", childTag = @ChildTag("*"))
+@Component(tag = "messagepane", widgetClass = "Messagepane", content = ContentHandling.AS_CHILD, parentTag = "messagewindow", childTag = @ChildTag("*"), description = "A pane holding a single message in a message window.")
 public class MessagePane extends BaseUIComponent {
 
     private String title;
@@ -65,6 +67,7 @@ public class MessagePane extends BaseUIComponent {
      *
      * @return The title bar text.
      */
+    @PropertyGetter(value = "title", description = "The title bar text.")
     public String getTitle() {
         return title;
     }
@@ -74,6 +77,7 @@ public class MessagePane extends BaseUIComponent {
      *
      * @param title The title bar text.
      */
+    @PropertySetter(value = "title", description = "The title bar text.")
     public void setTitle(String title) {
         propertyChange("title", this.title, this.title = nullify(title), true);
     }
@@ -84,6 +88,7 @@ public class MessagePane extends BaseUIComponent {
      *
      * @return The duration, in milliseconds, that the message will be displayed.
      */
+    @PropertyGetter(value = "duration", description = "The duration, in milliseconds, that the message will be displayed.")
     public int getDuration() {
         return duration;
     }
@@ -94,6 +99,7 @@ public class MessagePane extends BaseUIComponent {
      *
      * @param duration The duration, in milliseconds, that the message will be displayed.
      */
+    @PropertySetter(value = "duration", defaultValue = "8000", description = "The duration, in milliseconds, that the message will be displayed.")
     public void setDuration(int duration) {
         propertyChange("duration", this.duration, this.duration = duration, true);
     }
@@ -104,6 +110,7 @@ public class MessagePane extends BaseUIComponent {
      *
      * @return The category of the message.
      */
+    @PropertyGetter(value = "category", description = "The category of the message.")
     public String getCategory() {
         return category;
     }
@@ -113,6 +120,7 @@ public class MessagePane extends BaseUIComponent {
      *
      * @param category The category of the message.
      */
+    @PropertySetter(value = "category", description = "The category of the message.")
     public void setCategory(String category) {
         this.category = nullify(category);
     }
@@ -123,6 +131,8 @@ public class MessagePane extends BaseUIComponent {
      *
      * @return True if the message is actionable.
      */
+    @PropertyGetter(value = "actionable", description = "True if the message is actionable.  An actionable message has an action icon that, "
+            + "when clicked, triggers an action event.")
     public boolean isActionable() {
         return actionable;
     }
@@ -133,6 +143,8 @@ public class MessagePane extends BaseUIComponent {
      *
      * @param actionable Set to true to make the message actionable.
      */
+    @PropertySetter(value = "actionable", defaultValue = "false", description = "True if the message is actionable.  An actionable message has an action icon that, "
+            + "when clicked, triggers an action event.")
     public void setActionable(boolean actionable) {
         propertyChange("actionable", this.actionable, this.actionable = actionable, true);
     }

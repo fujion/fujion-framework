@@ -31,7 +31,7 @@ import org.fujion.common.DateUtil;
 /**
  * An input box for entering dates.
  */
-@Component(tag = "datebox", widgetClass = "Datebox", parentTag = "*")
+@Component(tag = "datebox", widgetClass = "Datebox", parentTag = "*", description = "An input box for entering dates.")
 public class Datebox extends BaseInputboxComponent<Date> {
 
     private static final FastDateFormat serializer = FastDateFormat.getInstance("yyyy-MM-dd");
@@ -61,7 +61,7 @@ public class Datebox extends BaseInputboxComponent<Date> {
      * @return Format for displaying the date.
      * @see java.text.SimpleDateFormat
      */
-    @PropertyGetter("format")
+    @PropertyGetter(value = "format", description = "The format for displaying the date.")
     public String getFormat() {
         return format;
     }
@@ -72,7 +72,7 @@ public class Datebox extends BaseInputboxComponent<Date> {
      * @param format Format for displaying the date.
      * @see java.text.SimpleDateFormat
      */
-    @PropertySetter("format")
+    @PropertySetter(value = "format", defaultValue = "yyyy-MM-dd", description = "The format for displaying the date.")
     public void setFormat(String format) {
         if (!areEqual(format = trimify(format), this.format)) {
             this.format = format;

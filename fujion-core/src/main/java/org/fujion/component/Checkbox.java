@@ -27,64 +27,64 @@ import org.fujion.annotation.EventHandler;
 import org.fujion.event.ChangeEvent;
 
 /**
- * A component representing a simple check box with associated label.
+ * A component representing a simple check box with an associated label.
  */
-@Component(tag = "checkbox", widgetClass = "Checkbox", parentTag = "*")
+@Component(tag = "checkbox", widgetClass = "Checkbox", parentTag = "*", description = "A simple check box with an associated label.")
 public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionHorz> {
-
+    
     private boolean checked;
-
+    
     public Checkbox() {
         this(null);
     }
-
+    
     public Checkbox(String label) {
         super(label);
         setPosition(LabelPositionHorz.RIGHT);
     }
-
+    
     /**
      * Returns the checked state of the check box.
      *
      * @return True if the check box is checked, false if not.
      */
-    @PropertyGetter("checked")
+    @PropertyGetter(value = "checked", description = "The checked state of the check box.")
     public boolean isChecked() {
         return checked;
     }
-
+    
     /**
      * Sets the checked state of the check box.
      *
      * @param checked if the check box is checked, false if not.
      */
-    @PropertySetter("checked")
+    @PropertySetter(value = "checked", defaultValue = "false", description = "The checked state of the check box.")
     public void setChecked(boolean checked) {
         propertyChange("checked", this.checked, this.checked = checked, true);
     }
-
+    
     /**
-     * Returns the position of the label relative to the contained elements. Defaults to 'left'.
+     * Returns the position of the label relative to the contained elements. Defaults to 'right'.
      *
      * @return May be one of: left, right.
      */
     @Override
-    @PropertyGetter("position")
+    @PropertyGetter(value = "position", description = "The position of the label relative to the contained elements.")
     public LabelPositionHorz getPosition() {
         return super.getPosition();
     }
-
+    
     /**
      * Sets the position of the label relative to the contained elements.
      *
      * @param position May be one of: left, right.
      */
     @Override
-    @PropertySetter("position")
+    @PropertySetter(value = "position", defaultValue = "right", description = "The position of the label relative to the contained elements.")
     public void setPosition(LabelPositionHorz position) {
         super.setPosition(position);
     }
-
+    
     /**
      * Handler for change events sent from the client.
      *
@@ -94,5 +94,5 @@ public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     protected void _onChange(ChangeEvent event) {
         checked = defaultify(event.getValue(Boolean.class), true);
     }
-
+    
 }

@@ -31,7 +31,7 @@ import org.fujion.common.DateUtil;
 /**
  * An input box for entering a time value.
  */
-@Component(tag = "timebox", widgetClass = "Timebox", parentTag = "*")
+@Component(tag = "timebox", widgetClass = "Timebox", parentTag = "*", description = "An input box for entering a time value.")
 public class Timebox extends BaseInputboxComponent<Date> {
 
     private static final FastDateFormat serializer = FastDateFormat.getInstance("HH:mm:ss");
@@ -61,7 +61,7 @@ public class Timebox extends BaseInputboxComponent<Date> {
      * @return Format for displaying the time.
      * @see java.text.SimpleDateFormat
      */
-    @PropertyGetter("format")
+    @PropertyGetter(value = "format", description = "Format for displaying the time.")
     public String getFormat() {
         return format;
     }
@@ -72,7 +72,7 @@ public class Timebox extends BaseInputboxComponent<Date> {
      * @param format Format for displaying the time.
      * @see java.text.SimpleDateFormat
      */
-    @PropertySetter("format")
+    @PropertySetter(value = "format", defaultValue = "HH:mm:ss", description = "Format for displaying the time.")
     public void setFormat(String format) {
         if (!areEqual(format = trimify(format), this.format)) {
             this.format = format;

@@ -236,11 +236,34 @@ public class SchemaGenerator {
                     : ((FactoryParameter) annot).description();
             createAnnotation(attr, description);
             
+            if (annot instanceof PropertySetter) {
+                String defaultValue = ((PropertySetter) annot).defaultValue();
+                
+                if (!StringUtils.isEmpty(defaultValue)) {
+                    attr.setAttribute("default", defaultValue);
+                }
+            }
+            
             if (javaType.isEnum()) {
                 processEnum(attr, javaType);
             } else {
                 attr.setAttribute("type", getType(javaType));
             }
+        }
+    }
+
+    private void processEnum(Element attr, Class<?> javaType) {
+        String name = findElement("element", attr).getAttribute("name") + "_" + attr.getAttribute("name");
+        Element root = attr.getOwnerDocument().getDocumentElement();
+        attr.setAttribute("type", "fsp:" + name);
+        Element st = createElement("simpleType", root, "name", name);
+        Element union = createElement("union", st, "memberTypes", "fsp:el");
+        st = createElement("simpleType", union);
+        Element res = createElement("restriction", st);
+        res.setAttribute("base", "xs:string");
+
+        for (Object val : javaType.getEnumConstants()) {
+            createElement("enumeration", res, "value", val.toString().toLowerCase());
         }
     }
 
@@ -276,21 +299,6 @@ public class SchemaGenerator {
         return ele;
     }
     
-    private void processEnum(Element attr, Class<?> javaType) {
-        String name = findElement("element", attr).getAttribute("name") + "_" + attr.getAttribute("name");
-        Element root = attr.getOwnerDocument().getDocumentElement();
-        attr.setAttribute("type", "fsp:" + name);
-        Element st = createElement("simpleType", root, "name", name);
-        Element union = createElement("union", st, "memberTypes", "fsp:el");
-        st = createElement("simpleType", union);
-        Element res = createElement("restriction", st);
-        res.setAttribute("base", "xs:string");
-
-        for (Object val : javaType.getEnumConstants()) {
-            createElement("enumeration", res, "value", val.toString().toLowerCase());
-        }
-    }
-
     private String getType(Class<?> javaType) {
         String type = null;
         type = type != null ? type : getType(javaType, "fsp:boolean", boolean.class, Boolean.class);

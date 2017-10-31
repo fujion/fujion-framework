@@ -29,39 +29,39 @@ import org.fujion.annotation.Component.PropertySetter;
  * @param <P> The type of label positioning that is supported.
  */
 public abstract class BaseLabeledImageComponent<P extends BaseLabeledComponent.ILabelPosition> extends BaseLabeledComponent<P> {
-    
+
     private String image;
-    
+
     protected BaseLabeledImageComponent() {
     }
-    
+
     protected BaseLabeledImageComponent(String label) {
         setLabel(label);
     }
-    
+
     protected BaseLabeledImageComponent(String label, String image) {
         setLabel(label);
         setImage(image);
     }
-    
+
     /**
      * Returns the URL of the image associated with this component.
      *
      * @return URL of the associated image (or null if none).
      */
-    @PropertyGetter("image")
+    @PropertyGetter(value = "image", description = "The URL of the image associated with this component.")
     public String getImage() {
         return image;
     }
-    
+
     /**
      * Sets the URL of the image associated with this component.
      *
      * @param image URL of the associated image, or null to indicate no image.
      */
-    @PropertySetter("image")
+    @PropertySetter(value = "image", description = "The URL of the image associated with this component.")
     public void setImage(String image) {
         propertyChange("image", this.image, this.image = nullify(image), true);
     }
-    
+
 }

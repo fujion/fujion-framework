@@ -30,7 +30,7 @@ import org.fujion.annotation.Component.PropertySetter;
  * Base for components that implement scripting support.
  */
 public abstract class BaseScriptComponent extends BaseSourcedComponent {
-    
+
     /**
      * Controls timing of script execution.
      */
@@ -48,37 +48,37 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
          */
         MANUAL
     }
-    
+
     private ExecutionMode mode = ExecutionMode.IMMEDIATE;
-    
+
     protected BaseScriptComponent(boolean contentSynced) {
         super(contentSynced);
     }
-
+    
     protected BaseScriptComponent(String content, boolean contentSynced) {
         super(content, contentSynced);
     }
-
+    
     /**
      * Returns the {@link ExecutionMode execution mode}.
      *
      * @return The execution mode.
      */
-    @PropertyGetter("mode")
+    @PropertyGetter(value = "mode", description = "The script's execution mode.")
     public ExecutionMode getMode() {
         return mode;
     }
-    
+
     /**
      * Sets the {@link ExecutionMode execution mode}.
      *
      * @param mode The execution mode.
      */
-    @PropertySetter("mode")
+    @PropertySetter(value = "mode", description = "The script's execution mode.")
     public void setMode(ExecutionMode mode) {
         propertyChange("mode", this.mode, this.mode = defaultify(mode, ExecutionMode.IMMEDIATE), isContentSynced());
     }
-    
+
     /**
      * Returns the variable name for "this".
      *
@@ -87,7 +87,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public String getSelf() {
         return "self";
     }
-
+    
     /**
      * Execute the script with the specified variable values.
      *
@@ -97,14 +97,14 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public Object execute(Map<String, Object> variables) {
         Map<String, Object> vars = new HashMap<>();
         vars.put(getSelf(), this);
-        
+
         if (variables != null) {
             vars.putAll(variables);
         }
-
+        
         return _execute(vars);
     }
-    
+
     /**
      * Execute the script with the default variable values.
      *
@@ -113,6 +113,6 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public Object execute() {
         return execute(null);
     }
-    
+
     protected abstract Object _execute(Map<String, Object> variables);
 }

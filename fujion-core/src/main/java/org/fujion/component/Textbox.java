@@ -27,19 +27,23 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component for entering a single line of text.
  */
-@Component(tag = "textbox", widgetClass = "Textbox", parentTag = "*")
+@Component(tag = "textbox", widgetClass = "Textbox", parentTag = "*", description = "A component for entering a single line of text.")
 public class Textbox extends BaseInputboxComponent<String> {
 
     private boolean masked;
 
     @Override
-    @PropertyGetter("synchronized")
+    @PropertyGetter(value = "synchronized", description = "A true value means that the client will notify the server "
+            + "as the value of the input box changes. A false value means that the client will notify "
+            + "server of the new value only when the input element loses focus.")
     public boolean getSynchronized() {
         return super.getSynchronized();
     }
 
     @Override
-    @PropertySetter("synchronized")
+    @PropertySetter(value = "synchronized", defaultValue = "false", description = "A true value means that the client will notify the server "
+            + "as the value of the input box changes. A false value means that the client will notify "
+            + "server of the new value only when the input element loses focus.")
     public void setSynchronized(boolean synchronize) {
         super.setSynchronized(synchronize);
     }
@@ -49,7 +53,7 @@ public class Textbox extends BaseInputboxComponent<String> {
      *
      * @return True if input is to be obscured by a mask.
      */
-    @PropertyGetter("masked")
+    @PropertyGetter(value = "masked", description = "True if input is to be obscured by a mask.")
     public boolean isMasked() {
         return masked;
     }
@@ -59,7 +63,7 @@ public class Textbox extends BaseInputboxComponent<String> {
      *
      * @param masked True if input is to be obscured by a mask.
      */
-    @PropertySetter("masked")
+    @PropertySetter(value = "masked", defaultValue = "false", description = "True if input is to be obscured by a mask.")
     public void setMasked(boolean masked) {
         propertyChange("masked", this.masked, this.masked = masked, true);
     }

@@ -27,9 +27,9 @@ import org.fujion.event.EventUtil;
 /**
  * A component representing a single radio button.
  */
-@Component(tag = "radiobutton", widgetClass = "Radiobutton", parentTag = "*")
+@Component(tag = "radiobutton", widgetClass = "Radiobutton", parentTag = "*", description = "A single radio button.")
 public class Radiobutton extends Checkbox {
-
+    
     /**
      * Returns the nearest enclosing radio group.
      *
@@ -38,7 +38,7 @@ public class Radiobutton extends Checkbox {
     public Radiogroup getGroup() {
         return getAncestor(Radiogroup.class);
     }
-
+    
     /**
      * Augments change event handling by notifying the containing radio group, if any.
      *
@@ -47,10 +47,10 @@ public class Radiobutton extends Checkbox {
     @Override
     protected void _onChange(ChangeEvent event) {
         super._onChange(event);
-
+        
         if (this.isChecked()) {
             Radiogroup group = getGroup();
-
+            
             if (group != null) {
                 event = new ChangeEvent(group, event.getData(), this);
                 EventUtil.send(event);

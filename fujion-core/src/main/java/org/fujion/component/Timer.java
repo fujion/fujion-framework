@@ -28,7 +28,7 @@ import org.fujion.annotation.Component.PropertySetter;
  * A timer component. Once started, fires a timer event at the specified interval and repeating for
  * the specified number of repetitions.
  */
-@Component(tag = "timer", widgetClass = "Timer", parentTag = "*")
+@Component(tag = "timer", widgetClass = "Timer", parentTag = "*", description = "A timer component.")
 public class Timer extends BaseComponent {
 
     private long interval;
@@ -42,7 +42,7 @@ public class Timer extends BaseComponent {
      *
      * @return The timer interval in milliseconds.
      */
-    @PropertyGetter("interval")
+    @PropertyGetter(value = "interval", description = "The timer interval in milliseconds.")
     public long getInterval() {
         return interval;
     }
@@ -53,7 +53,7 @@ public class Timer extends BaseComponent {
      * @param interval The timer interval in milliseconds. Any value less than or equal to zero will
      *            disable the timer.
      */
-    @PropertySetter("interval")
+    @PropertySetter(value = "interval", defaultValue = "0", description = "The timer interval in milliseconds.")
     public void setInterval(long interval) {
         propertyChange("interval", this.interval, this.interval = interval, true);
     }
@@ -65,7 +65,7 @@ public class Timer extends BaseComponent {
      *
      * @return The repetition count.
      */
-    @PropertyGetter("repeat")
+    @PropertyGetter(value = "repeat", description = "The number of times the timer will fire additional events after the initial event.")
     public int getRepeat() {
         return repeat;
     }
@@ -77,7 +77,7 @@ public class Timer extends BaseComponent {
      *
      * @param repeat The repetition count.
      */
-    @PropertySetter("repeat")
+    @PropertySetter(value = "repeat", defaultValue = "-1", description = "The number of times the timer will fire additional events after the initial event.")
     public void setRepeat(int repeat) {
         propertyChange("repeat", this.repeat, this.repeat = repeat, true);
     }
@@ -87,7 +87,7 @@ public class Timer extends BaseComponent {
      *
      * @return True if the timer is running.
      */
-    @PropertyGetter("running")
+    @PropertyGetter(value = "running", description = "True if the timer is running.")
     public boolean isRunning() {
         return running;
     }
@@ -97,7 +97,7 @@ public class Timer extends BaseComponent {
      *
      * @param running The run state of the timer. Set to true to start the timer, false to stop it.
      */
-    @PropertySetter("running")
+    @PropertySetter(value = "running", defaultValue = "false", description = "True if the timer is running.")
     public void setRunning(boolean running) {
         if (interval > 0) {
             propertyChange("running", this.running, this.running = running, true);

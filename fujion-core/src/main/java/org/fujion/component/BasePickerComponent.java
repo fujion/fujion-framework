@@ -50,7 +50,7 @@ public abstract class BasePickerComponent<T> extends BaseInputboxComponent<T> {
      *
      * @return If true, the text representation of the selection is displayed.
      */
-    @PropertyGetter("showText")
+    @PropertyGetter(value = "showText", description = "If true, the text representation of the selection is displayed.")
     public boolean getShowText() {
         return showText;
     }
@@ -60,7 +60,7 @@ public abstract class BasePickerComponent<T> extends BaseInputboxComponent<T> {
      *
      * @param showText If true, the text representation of the selection is displayed.
      */
-    @PropertySetter("showText")
+    @PropertySetter(value = "showText", defaultValue = "false", description = "If true, the text representation of the selection is displayed.")
     public void setShowText(boolean showText) {
         propertyChange("showText", this.showText, this.showText = showText, true);
     }
@@ -68,10 +68,10 @@ public abstract class BasePickerComponent<T> extends BaseInputboxComponent<T> {
     /**
      * Returns the showHints property.
      *
-     * @return If true, the text representation of pick list items are displayed when hovering over
+     * @return If true, the text representation of pick list items is displayed when hovering over
      *         them.
      */
-    @PropertyGetter("showHints")
+    @PropertyGetter(value = "showHints", description = "If true, the text representation of pick list items is displayed when hovering over them.")
     public boolean getShowHints() {
         return showHints;
     }
@@ -79,10 +79,10 @@ public abstract class BasePickerComponent<T> extends BaseInputboxComponent<T> {
     /**
      * Sets the showHints property.
      *
-     * @param showHints If true, the text representation of pick list items are displayed when
+     * @param showHints If true, the text representation of pick list items is displayed when
      *            hovering over them.
      */
-    @PropertySetter("showHints")
+    @PropertySetter(value = "showHints", defaultValue = "false", description = "If true, the text representation of pick list items is displayed when hovering over them.")
     public void setShowHints(boolean showHints) {
         propertyChange("showHints", this.showHints, this.showHints = showHints, true);
     }

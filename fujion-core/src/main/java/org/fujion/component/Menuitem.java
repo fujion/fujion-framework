@@ -29,7 +29,7 @@ import org.fujion.annotation.Component.PropertySetter;
  * A component representing a single menu item.
  */
 @Component(tag = "menuitem", widgetClass = "Menuitem", parentTag = { "menu", "menupopup", "menuitem" }, childTag = {
-        @ChildTag("menuitem"), @ChildTag("menuheader"), @ChildTag("menuseparator") })
+        @ChildTag("menuitem"), @ChildTag("menuheader"), @ChildTag("menuseparator") }, description = "A single menu item.")
 public class Menuitem extends BaseMenuComponent {
 
     private boolean checkable;
@@ -41,7 +41,7 @@ public class Menuitem extends BaseMenuComponent {
      *
      * @return True if the menu item has an associated check box.
      */
-    @PropertyGetter("checkable")
+    @PropertyGetter(value = "checkable", description = "True if the menu item has an associated check box.")
     public boolean isCheckable() {
         return checkable;
     }
@@ -51,7 +51,7 @@ public class Menuitem extends BaseMenuComponent {
      *
      * @param checkable True to associate a check box with the menu item.
      */
-    @PropertySetter("checkable")
+    @PropertySetter(value = "checkable", defaultValue = "false", description = "True if the menu item has an associated check box.")
     public void setCheckable(boolean checkable) {
         propertyChange("checkable", this.checkable, this.checkable = checkable, true);
     }
@@ -62,7 +62,7 @@ public class Menuitem extends BaseMenuComponent {
      *
      * @return The checked state of the menu item.
      */
-    @PropertyGetter("checked")
+    @PropertyGetter(value = "checked", description = "The checked state of the menu item.")
     public boolean isChecked() {
         return checked;
     }
@@ -73,7 +73,7 @@ public class Menuitem extends BaseMenuComponent {
      *
      * @param checked The checked state of the menu item.
      */
-    @PropertySetter("checked")
+    @PropertySetter(value = "checked", defaultValue = "false", description = "The checked state of the menu item.")
     public void setChecked(boolean checked) {
         propertyChange("checked", this.checked, this.checked = checked, true);
     }

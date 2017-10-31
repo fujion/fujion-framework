@@ -32,7 +32,7 @@ import org.fujion.page.PageParser;
  * prohibits child tags, it does allow the addition of child components either programmatically or
  * via the specified source page.
  */
-@Component(tag = "import", widgetClass = "Span", parentTag = "*")
+@Component(tag = "import", widgetClass = "Span", parentTag = "*", description = "A component that permits importing another page into the referencing page.")
 public class Import extends BaseUIComponent {
 
     private String src;
@@ -58,7 +58,7 @@ public class Import extends BaseUIComponent {
      *
      * @return URL of the imported FSP.
      */
-    @PropertyGetter("src")
+    @PropertyGetter(value = "src", description = "The URL of the imported FSP.")
     public String getSrc() {
         return src;
     }
@@ -68,7 +68,7 @@ public class Import extends BaseUIComponent {
      *
      * @param src URL of the FSP to import.
      */
-    @PropertySetter(value = "src", defer = true)
+    @PropertySetter(value = "src", defer = true, description = "The URL of the imported FSP.")
     public void setSrc(String src) {
         if (!areEqual(src = nullify(src), this.src)) {
             this.src = src;

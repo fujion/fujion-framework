@@ -31,7 +31,7 @@ import org.fujion.model.ModelAndView;
 /**
  * A component representing a combo box control.
  */
-@Component(tag = "combobox", widgetClass = "Combobox", parentTag = "*", childTag = @ChildTag("comboitem"))
+@Component(tag = "combobox", widgetClass = "Combobox", parentTag = "*", childTag = @ChildTag("comboitem"), description = "A combo box control.")
 public class Combobox extends BaseInputboxComponent<String> implements ISupportsModel<Comboitem> {
 
     private Comboitem selected;
@@ -123,12 +123,22 @@ public class Combobox extends BaseInputboxComponent<String> implements ISupports
         }
     }
 
-    @PropertyGetter("autoFilter")
+    /**
+     * If true, any choices not matching the current input will be hidden.
+     *
+     * @return True if any choices not matching the current input should be hidden.
+     */
+    @PropertyGetter(value = "autoFilter", description = "True if any choices not matching the current input should be hidden.")
     public boolean getAutoFilter() {
         return autoFilter;
     }
 
-    @PropertySetter("autoFilter")
+    /**
+     * Set to true if any choices not matching the current input should be hidden.
+     *
+     * @param autoFilter True if any choices not matching the current input should be hidden.
+     */
+    @PropertySetter(value = "autoFilter", defaultValue = "false", description = "True if any choices not matching the current input should be hidden.")
     public void setAutoFilter(boolean autoFilter) {
         propertyChange("autoFilter", this.autoFilter, this.autoFilter = autoFilter, true);
     }

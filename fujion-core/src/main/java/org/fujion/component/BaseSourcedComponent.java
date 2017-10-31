@@ -28,54 +28,54 @@ import org.fujion.annotation.Component.PropertySetter;
  * external source.
  */
 public abstract class BaseSourcedComponent extends BaseComponent {
-    
+
     private String src;
-    
+
     protected BaseSourcedComponent(boolean contentSynced) {
         this(null, contentSynced);
     }
-    
+
     protected BaseSourcedComponent(String content, boolean contentSynced) {
         setContentSynced(contentSynced);
         setContent(content);
     }
-    
-    @PropertySetter("content")
+
+    @PropertySetter(value = "content", description = "The text content associated with this component.")
     @Override
     public void setContent(String content) {
         content = nullify(content);
-        
+
         if (content != null) {
             setSrc(null);
         }
-        
+
         super.setContent(content);
     }
-
+    
     /**
      * Returns the URL of the external content source.
      *
      * @return URL of the external content source.
      */
-    @PropertyGetter("src")
+    @PropertyGetter(value = "src", description = "The URL of the external content source.")
     public String getSrc() {
         return src;
     }
-    
+
     /**
      * Sets the URL of the external content source.
      *
      * @param src URL of the external content source.
      */
-    @PropertySetter(value = "src")
+    @PropertySetter(value = "src", description = "The URL of the external content source.")
     public void setSrc(String src) {
         src = nullify(src);
-        
+
         if (src != null) {
             super.setContent(null);
         }
-        
+
         propertyChange("src", this.src, this.src = src, isContentSynced());
     }
-
+    
 }

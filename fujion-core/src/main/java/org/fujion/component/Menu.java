@@ -32,7 +32,7 @@ import org.fujion.event.OpenEvent;
  * A component representing a drop down menu.
  */
 @Component(tag = "menu", widgetClass = "Menu", parentTag = "*", childTag = { @ChildTag("menuitem"), @ChildTag("menuheader"),
-        @ChildTag("menuseparator") })
+        @ChildTag("menuseparator") }, description = "A drop down menu.")
 public class Menu extends BaseMenuComponent {
     
     private boolean open;
@@ -56,7 +56,7 @@ public class Menu extends BaseMenuComponent {
      *
      * @return The open state.
      */
-    @PropertyGetter("open")
+    @PropertyGetter(value = "open", description = "The open state.")
     public boolean isOpen() {
         return open;
     }
@@ -66,7 +66,7 @@ public class Menu extends BaseMenuComponent {
      *
      * @param open The open state.
      */
-    @PropertySetter("open")
+    @PropertySetter(value = "open", defaultValue = "false", description = "The open state.")
     public void setOpen(boolean open) {
         if (open != this.open) {
             invoke((this.open = open) ? "open" : "close");

@@ -30,65 +30,65 @@ import org.fujion.event.EventUtil;
 /**
  * A single item within a combo box.
  */
-@Component(tag = "comboitem", widgetClass = "Comboitem", parentTag = "combobox")
+@Component(tag = "comboitem", widgetClass = "Comboitem", parentTag = "combobox", description = "A single item within a combo box.")
 public class Comboitem extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> {
-    
+
     private boolean selected;
-    
+
     private String value;
-    
+
     public Comboitem() {
         super();
     }
-    
+
     public Comboitem(String label) {
         super(label);
     }
-    
+
     public Comboitem(String label, String image) {
         super(label, image);
     }
-    
+
     /**
      * Returns the selection state.
      *
      * @return The selection state.
      */
-    @PropertyGetter("selected")
+    @PropertyGetter(value = "selected", description = "The selection state.")
     public boolean isSelected() {
         return selected;
     }
-    
+
     /**
      * Sets the selection state.
      *
      * @param selected The selection state.
      */
-    @PropertySetter("selected")
+    @PropertySetter(value = "selected", defaultValue = "false", description = "The selection state.")
     public void setSelected(boolean selected) {
         _setSelected(selected, true, true);
     }
-    
+
     /**
      * Returns the value associated with the combo item.
      *
      * @return The value associated with the combo item.
      */
-    @PropertyGetter("value")
+    @PropertyGetter(value = "value", description = "The value associated with the combo item.")
     public String getValue() {
         return value;
     }
-    
+
     /**
      * Sets the value associated with the combo item.
      *
      * @param value The value associated with the combo item.
      */
-    @PropertySetter("value")
+    @PropertySetter(value = "value", description = "The value associated with the combo item.")
     public void setValue(String value) {
         propertyChange("value", this.value, this.value = value, true);
     }
-    
+
     /**
      * Sets the selection state.
      *
@@ -103,7 +103,7 @@ public class Comboitem extends BaseLabeledImageComponent<BaseLabeledComponent.La
             }
         }
     }
-    
+
     /**
      * Returns the combo box that is the parent of this combo item.
      *
@@ -112,7 +112,7 @@ public class Comboitem extends BaseLabeledImageComponent<BaseLabeledComponent.La
     public Combobox getCombobox() {
         return (Combobox) getParent();
     }
-    
+
     /**
      * Handles change events from the client.
      *
@@ -124,5 +124,5 @@ public class Comboitem extends BaseLabeledImageComponent<BaseLabeledComponent.La
         event = new ChangeEvent(this.getParent(), this, event.getData(), getLabel());
         EventUtil.send(event);
     }
-
+    
 }

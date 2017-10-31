@@ -27,7 +27,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A simple button component.
  */
-@Component(tag = "button", widgetClass = "Button", parentTag = "*")
+@Component(tag = "button", widgetClass = "Button", parentTag = "*", description = "A simple button component.")
 public class Button extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionHorz> {
 
     public Button() {
@@ -45,7 +45,7 @@ public class Button extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      * @return May be one of: left, right.
      */
     @Override
-    @PropertyGetter("position")
+    @PropertyGetter(value = "position", description = "The position of the label relative to the image.")
     public LabelPositionHorz getPosition() {
         return super.getPosition();
     }
@@ -56,7 +56,7 @@ public class Button extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      * @param position May be one of: left, right.
      */
     @Override
-    @PropertySetter("position")
+    @PropertySetter(value = "position", defaultValue = "left", description = "The position of the label relative to the image.")
     public void setPosition(LabelPositionHorz position) {
         super.setPosition(position);
     }

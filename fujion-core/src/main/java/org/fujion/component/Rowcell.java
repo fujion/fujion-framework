@@ -29,7 +29,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component representing a single cell within a grid row.
  */
-@Component(tag = "rowcell", widgetModule = "fujion-grid", widgetClass = "Rowcell", content = ContentHandling.AS_CHILD, parentTag = "row", childTag = @ChildTag("*"))
+@Component(tag = "rowcell", widgetModule = "fujion-grid", widgetClass = "Rowcell", content = ContentHandling.AS_CHILD, parentTag = "row", childTag = @ChildTag("*"), description = "A single cell within a grid row.")
 public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
 
     private int colspan = 1;
@@ -41,7 +41,7 @@ public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
      *
      * @return How many columns this cell will span. Default is 1.
      */
-    @PropertyGetter("colspan")
+    @PropertyGetter(value = "colspan", description = "How many columns this cell will span.")
     public int getColspan() {
         return colspan;
     }
@@ -51,7 +51,7 @@ public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
      *
      * @param colspan How many columns this cell will span.
      */
-    @PropertySetter("colspan")
+    @PropertySetter(value = "colspan", defaultValue = "1", description = "How many columns this cell will span.")
     public void setColspan(int colspan) {
         propertyChange("colspan", this.colspan, this.colspan = colspan, true);
     }
@@ -61,7 +61,7 @@ public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
      *
      * @return How many rows this cell will span. Default is 1.
      */
-    @PropertyGetter("rowspan")
+    @PropertyGetter(value = "rowspan", description = "How many rows this cell will span.")
     public int getRowspan() {
         return rowspan;
     }
@@ -71,7 +71,7 @@ public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
      *
      * @param rowspan How many rows this cell will span.
      */
-    @PropertySetter("rowspan")
+    @PropertySetter(value = "rowspan", defaultValue = "1", description = "How many rows this cell will span.")
     public void setRowspan(int rowspan) {
         propertyChange("rowspan", this.rowspan, this.rowspan = rowspan, true);
     }

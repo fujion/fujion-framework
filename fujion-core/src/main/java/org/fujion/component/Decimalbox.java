@@ -27,11 +27,11 @@ import org.fujion.annotation.Component;
 /**
  * An input box for entering big decimal values.
  */
-@Component(tag = "decimalbox", widgetClass = "Doublebox", parentTag = "*")
+@Component(tag = "decimalbox", widgetClass = "Doublebox", parentTag = "*", description = "An input box for entering big decimal values.")
 public class Decimalbox extends BaseNumberboxComponent<BigDecimal> {
-    
+
     public Decimalbox() {
         super(BigDecimal.class);
     }
-    
+
 }

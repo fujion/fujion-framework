@@ -28,7 +28,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component supporting a tab-based view.
  */
-@Component(tag = "tabview", widgetModule = "fujion-tabview", widgetClass = "Tabview", parentTag = "*", childTag = @ChildTag("tab"))
+@Component(tag = "tabview", widgetModule = "fujion-tabview", widgetClass = "Tabview", parentTag = "*", childTag = @ChildTag("tab"), description = "A component supporting a tab-based view.")
 public class Tabview extends BaseUIComponent {
     
     /**
@@ -114,7 +114,7 @@ public class Tabview extends BaseUIComponent {
      *
      * @return The tab {@link TabPosition position}.
      */
-    @PropertyGetter("tabPosition")
+    @PropertyGetter(value = "tabPosition", description = "The position of the tabs.")
     public TabPosition getTabPosition() {
         return tabPosition;
     }
@@ -124,7 +124,7 @@ public class Tabview extends BaseUIComponent {
      *
      * @param tabPosition The tab {@link TabPosition position}.
      */
-    @PropertySetter("tabPosition")
+    @PropertySetter(value = "tabPosition", defaultValue = "top", description = "The position of the tabs.")
     public void setTabPosition(TabPosition tabPosition) {
         propertyChange("tabPosition", this.tabPosition, this.tabPosition = defaultify(tabPosition, TabPosition.TOP), true);
     }

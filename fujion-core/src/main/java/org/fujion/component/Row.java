@@ -32,7 +32,7 @@ import org.fujion.event.EventUtil;
 /**
  * A component representing a single row within a grid.
  */
-@Component(tag = "row", widgetModule = "fujion-grid", widgetClass = "Row", content = ContentHandling.AS_CHILD, parentTag = "rows", childTag = @ChildTag("*"))
+@Component(tag = "row", widgetModule = "fujion-grid", widgetClass = "Row", content = ContentHandling.AS_CHILD, parentTag = "rows", childTag = @ChildTag("*"), description = "A single row within a grid.")
 public class Row extends BaseUIComponent {
     
     private boolean selected;
@@ -42,7 +42,7 @@ public class Row extends BaseUIComponent {
      *
      * @return The selected state of this row.
      */
-    @PropertyGetter("selected")
+    @PropertyGetter(value = "selected", description = "The selected state of this row.")
     public boolean isSelected() {
         return selected;
     }
@@ -52,7 +52,7 @@ public class Row extends BaseUIComponent {
      *
      * @param selected The selected state of this row.
      */
-    @PropertySetter("selected")
+    @PropertySetter(value = "selected", defaultValue = "false", description = "The selected state of this row.")
     public void setSelected(boolean selected) {
         _setSelected(selected, true, true);
     }

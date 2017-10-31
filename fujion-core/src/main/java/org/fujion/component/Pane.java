@@ -29,7 +29,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A single pane within a pane view.
  */
-@Component(tag = "pane", widgetModule = "fujion-paneview", widgetClass = "Pane", content = ContentHandling.AS_CHILD, parentTag = "paneview", childTag = @ChildTag("*"))
+@Component(tag = "pane", widgetModule = "fujion-paneview", widgetClass = "Pane", content = ContentHandling.AS_CHILD, parentTag = "paneview", childTag = @ChildTag("*"), description = "A single pane within a pane view.")
 public class Pane extends BaseUIComponent {
     
     private boolean splittable;
@@ -41,7 +41,7 @@ public class Pane extends BaseUIComponent {
      *
      * @return If true, the pane has an associated splitter and can be manually resized.
      */
-    @PropertyGetter("splittable")
+    @PropertyGetter(value = "splittable", description = "If true, the pane has an associated splitter and can be manually resized.")
     public boolean isSplittable() {
         return splittable;
     }
@@ -51,7 +51,7 @@ public class Pane extends BaseUIComponent {
      *
      * @param splittable If true, the pane has an associated splitter and can be manually resized.
      */
-    @PropertySetter("splittable")
+    @PropertySetter(value = "splittable", description = "If true, the pane has an associated splitter and can be manually resized.")
     public void setSplittable(boolean splittable) {
         propertyChange("splittable", this.splittable, this.splittable = splittable, true);
     }
@@ -61,7 +61,7 @@ public class Pane extends BaseUIComponent {
      *
      * @return The title text.
      */
-    @PropertyGetter("title")
+    @PropertyGetter(value = "title", description = "The title text.")
     public String getTitle() {
         return title;
     }
@@ -71,7 +71,7 @@ public class Pane extends BaseUIComponent {
      *
      * @param title The title text.
      */
-    @PropertySetter("title")
+    @PropertySetter(value = "title", description = "The title text.")
     public void setTitle(String title) {
         propertyChange("title", this.title, this.title = nullify(title), true);
     }

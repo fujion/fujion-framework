@@ -28,10 +28,10 @@ import org.fujion.page.PageParser;
 
 /**
  * A component that merges a source page with zero or more snippets.
- * 
+ *
  * @see Snippet
  */
-@Component(tag = "template", widgetClass = "Span", parentTag = "*", childTag = @ChildTag("snippet"))
+@Component(tag = "template", widgetClass = "Span", parentTag = "*", childTag = @ChildTag("snippet"), description = "A component that merges a source page with zero or more snippets.")
 public class Template extends BaseComponent implements INamespace {
 
     public Template() {
@@ -64,7 +64,12 @@ public class Template extends BaseComponent implements INamespace {
         // NOP
     }
 
-    @PropertySetter(value = "src")
+    /**
+     * Sets the URL of the FSP for this template.
+     *
+     * @param src The URL of the FSP for this template.
+     */
+    @PropertySetter(value = "src", description = "The URL of the FSP for this template.")
     private void setSrc(String src) {
         src = nullify(src);
 

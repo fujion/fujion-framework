@@ -30,10 +30,10 @@ import org.springframework.util.Assert;
 
 /**
  * A component representing a Fujion resource that can be inserted into a template.
- * 
+ *
  * @see Template
  */
-@Component(tag = "snippet", widgetClass = "MetaWidget", parentTag = "template")
+@Component(tag = "snippet", widgetClass = "MetaWidget", parentTag = "template", description = "A Fujion resource that can be inserted into a template.")
 public class Snippet extends BaseComponent {
 
     private enum AnchorPosition {
@@ -99,17 +99,32 @@ public class Snippet extends BaseComponent {
         return children;
     }
 
-    @PropertySetter(value = "src")
+    /**
+     * Sets the URL of the source FSP for this snippet.
+     *
+     * @param src The URL of the source FSP for this snippet.
+     */
+    @PropertySetter(value = "src", description = "The URL of the source FSP for this snippet.")
     private void setSrc(String src) {
         this.src = trimify(src);
     }
 
-    @PropertySetter(value = "anchor")
+    /**
+     * Sets the name of the anchor component within the template.
+     *
+     * @param anchor The name of the anchor component within the template.
+     */
+    @PropertySetter(value = "anchor", description = "The name of the anchor component within the template.")
     private void setAnchor(String anchor) {
         this.anchor = trimify(anchor);
     }
 
-    @PropertySetter(value = "position")
+    /**
+     * Sets the insertion point of the snippet relative to its anchor.
+     *
+     * @param position The insertion point of the snippet relative to its anchor.
+     */
+    @PropertySetter(value = "position", defaultValue = "child", description = "The insertion point of the snippet relative to its anchor.")
     private void setPosition(AnchorPosition position) {
         this.position = position == null ? AnchorPosition.CHILD : position;
     }

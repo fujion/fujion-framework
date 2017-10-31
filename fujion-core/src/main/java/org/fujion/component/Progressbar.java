@@ -27,7 +27,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A progress bar component.
  */
-@Component(tag = "progressbar", widgetClass = "Progressbar", parentTag = "*")
+@Component(tag = "progressbar", widgetClass = "Progressbar", parentTag = "*", description = "A progress bar.")
 public class Progressbar extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
 
     private int value;
@@ -39,7 +39,7 @@ public class Progressbar extends BaseLabeledComponent<BaseLabeledComponent.Label
      *
      * @return The current value of the slider.
      */
-    @PropertyGetter("value")
+    @PropertyGetter(value = "value", description = "The current value of the slider.")
     public int getValue() {
         return value;
     }
@@ -49,7 +49,7 @@ public class Progressbar extends BaseLabeledComponent<BaseLabeledComponent.Label
      *
      * @param value The current value of the slider.
      */
-    @PropertySetter("value")
+    @PropertySetter(value = "value", defaultValue = "0", description = "The current value of the slider.")
     public void setValue(int value) {
         propertyChange("value", this.value, this.value = value, true);
     }
@@ -59,7 +59,7 @@ public class Progressbar extends BaseLabeledComponent<BaseLabeledComponent.Label
      *
      * @return The maximum value for the slider.
      */
-    @PropertyGetter("maxvalue")
+    @PropertyGetter(value = "maxvalue", description = "The maximum value for the slider.")
     public int getMaxValue() {
         return maxvalue;
     }
@@ -69,7 +69,7 @@ public class Progressbar extends BaseLabeledComponent<BaseLabeledComponent.Label
      *
      * @param maxvalue The maximum value for the slider.
      */
-    @PropertySetter("maxvalue")
+    @PropertySetter(value = "maxvalue", defaultValue = "100", description = "The maximum value for the slider.")
     public void setMaxValue(int maxvalue) {
         propertyChange("maxvalue", this.maxvalue, this.maxvalue = maxvalue, true);
     }

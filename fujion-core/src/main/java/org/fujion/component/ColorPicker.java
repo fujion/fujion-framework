@@ -29,37 +29,37 @@ import org.fujion.common.ColorUtil;
 /**
  * A component for selecting a color from a palette of colors.
  */
-@Component(tag = "colorpicker", widgetModule = "fujion-picker", widgetClass = "Colorpicker", parentTag = "*", childTag = @ChildTag("colorpickeritem"))
+@Component(tag = "colorpicker", widgetModule = "fujion-picker", widgetClass = "Colorpicker", parentTag = "*", childTag = @ChildTag("colorpickeritem"), description = "A component for selecting a color from a palette of colors.")
 public class ColorPicker extends BasePickerComponent<Color> {
-
+    
     /**
      * A color selection for color picker.
      */
-    @Component(tag = "colorpickeritem", widgetModule = "fujion-picker", widgetClass = "Colorpickeritem", parentTag = "colorpicker")
+    @Component(tag = "colorpickeritem", widgetModule = "fujion-picker", widgetClass = "Colorpickeritem", parentTag = "colorpicker", description = "A color choice.")
     public static class ColorPickeritem extends BasePickerItem<Color> {
-
+        
         public ColorPickeritem() {
             super();
         }
-
+        
         public ColorPickeritem(Color color) {
             super(color);
         }
-
+        
         @Override
         protected String _toString(Color value) {
             return ColorUtil.toString(value);
         }
-
+        
         @Override
         protected Color _toValue(String text) {
             return ColorUtil.toColor(text);
         }
-
+        
     }
-
+    
     public ColorPicker() {
         super(ColorPickeritem.class);
     }
-
+    
 }

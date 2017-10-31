@@ -30,7 +30,7 @@ import org.fujion.event.EventUtil;
 /**
  * A single item within a list box.
  */
-@Component(tag = "listitem", widgetClass = "Listitem", parentTag = "listbox")
+@Component(tag = "listitem", widgetClass = "Listitem", parentTag = "listbox", description = "A single item within a list box.")
 public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
     
     private boolean selected;
@@ -74,7 +74,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
      *
      * @return The selection state.
      */
-    @PropertyGetter("selected")
+    @PropertyGetter(value = "selected", description = "The selection state.")
     public boolean isSelected() {
         return selected;
     }
@@ -84,7 +84,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
      *
      * @param selected The selection state.
      */
-    @PropertySetter("selected")
+    @PropertySetter(value = "selected", description = "The selection state.")
     public void setSelected(boolean selected) {
         _setSelected(selected, true, true);
     }
@@ -94,7 +94,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
      *
      * @return The value associated with the list item.
      */
-    @PropertyGetter("value")
+    @PropertyGetter(value = "value", description = "The value associated with the list item.")
     public String getValue() {
         return value;
     }
@@ -104,7 +104,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
      *
      * @param value The value associated with the list item.
      */
-    @PropertySetter("value")
+    @PropertySetter(value = "value", description = "The value associated with the list item.")
     public void setValue(String value) {
         propertyChange("value", this.value, this.value = value, true);
     }

@@ -28,9 +28,9 @@ import org.springframework.util.Assert;
 /**
  * Component for entering multiple lines of text.
  */
-@Component(tag = "memobox", widgetClass = "Memobox", parentTag = "*")
+@Component(tag = "memobox", widgetClass = "Memobox", parentTag = "*", description = "Component for entering multiple lines of text.")
 public class Memobox extends BaseInputboxComponent<String> {
-
+    
     /**
      * Wrap mode for memo box.
      */
@@ -45,128 +45,134 @@ public class Memobox extends BaseInputboxComponent<String> {
          */
         SOFT
     }
-
-    private boolean autoScroll;
-
-    private WrapMode wrap = WrapMode.SOFT;
-
-    private int rows = 2;
     
-    private int cols = 20;
+    private boolean autoScroll;
+    
+    private WrapMode wrap = WrapMode.SOFT;
+    
+    private int rows = 2;
 
+    private int cols = 20;
+    
     public Memobox() {
         super();
         addStyle("resize", "none");
     }
-
+    
     @Override
-    @PropertyGetter("synchronized")
+    @PropertyGetter(value = "synchronized", description = "A true value means that the client will notify the server "
+            + "as the value of the input box changes. A false value means that the client will notify "
+            + "server of the new value only when the input element loses focus.")
     public boolean getSynchronized() {
         return super.getSynchronized();
     }
-
+    
     @Override
-    @PropertySetter("synchronized")
+    @PropertySetter(value = "synchronized", defaultValue = "false", description = "A true value means that the client will notify the server "
+            + "as the value of the input box changes. A false value means that the client will notify "
+            + "server of the new value only when the input element loses focus.")
     public void setSynchronized(boolean synchronize) {
         super.setSynchronized(synchronize);
     }
-
+    
     /**
      * Returns the auto-scroll setting. If true, the control will ensure that the last line of input
      * is always visible, scrolling if necessary.
      *
      * @return The auto-scroll setting.
      */
-    @PropertyGetter("autoScroll")
+    @PropertyGetter(value = "autoScroll", description = "If true, the control will ensure that the last line of input "
+            + "is always visible, scrolling if necessary.")
     public boolean isAutoScroll() {
         return autoScroll;
     }
-
+    
     /**
      * Sets the auto-scroll setting. If true, the control will ensure that the last line of input is
      * always visible, scrolling if necessary.
      *
      * @param autoScroll The auto-scroll setting.
      */
-    @PropertySetter("autoScroll")
+    @PropertySetter(value = "autoScroll", defaultValue = "false", description = "If true, the control will ensure that the last line of input "
+            + "is always visible, scrolling if necessary.")
     public void setAutoScroll(boolean autoScroll) {
         propertyChange("autoScroll", this.autoScroll, this.autoScroll = autoScroll, true);
     }
-
+    
     /**
      * Returns the wrap mode.
      *
      * @return The wrap mode.
      * @see WrapMode
      */
-    @PropertyGetter("wrap")
+    @PropertyGetter(value = "wrap", description = "Text wrapping behavior when submitting a form.")
     public WrapMode getWrap() {
         return wrap;
     }
-    
+
     /**
      * Sets the wrap mode.
      *
      * @param wrap The wrap mode.
      * @see WrapMode
      */
-    @PropertySetter("wrap")
+    @PropertySetter(value = "wrap", defaultValue = "soft", description = "Text wrapping behavior when submitting a form.")
     public void setWrap(WrapMode wrap) {
         propertyChange("wrap", this.wrap, this.wrap = defaultify(wrap, WrapMode.SOFT), true);
     }
-
+    
     /**
      * Returns the visible width of the input area in characters. The default is 20 characters. Also
      * affects the line break position when the wrap mode is set to HARD.
      *
      * @return The visible width of the input area in characters.
      */
-    @PropertyGetter("cols")
+    @PropertyGetter(value = "cols", description = "The visible width of the input area in characters.")
     public int getCols() {
         return cols;
     }
-    
+
     /**
      * Sets the visible width of the input area in characters. The default is 20 characters. Also
      * affects the line break position when the wrap mode is set to HARD.
      *
      * @param cols The visible width of the input area in characters.
      */
-    @PropertySetter("cols")
+    @PropertySetter(value = "cols", defaultValue = "20", description = "The visible width of the input area in characters.")
     public void setCols(int cols) {
         Assert.isTrue(cols > 0, "Cols must be greater than zero");
         propertyChange("cols", this.cols, this.cols = cols, true);
     }
-
+    
     /**
      * Returns the visible number of rows in the input area. The default is 2 rows.
      *
      * @return The visible number of rows in the input area.
      */
-    @PropertyGetter("rows")
+    @PropertyGetter(value = "rows", description = "The visible number of rows in the input area.")
     public int getRows() {
         return rows;
     }
-    
+
     /**
      * Sets the visible number of rows in the input area. The default is 2 rows.
      *
      * @param rows The visible number of rows in the input area.
      */
-    @PropertySetter("rows")
+    @PropertySetter(value = "rows", defaultValue = "2", description = "The visible number of rows in the input area.")
     public void setRows(int rows) {
         Assert.isTrue(rows > 0, "Rows must be greater than zero");
         propertyChange("rows", this.rows, this.rows = rows, true);
     }
-
+    
     @Override
     protected String _toValue(String value) {
         return value;
     }
-
+    
     @Override
     protected String _toString(String value) {
         return value;
     }
-    
+
 }

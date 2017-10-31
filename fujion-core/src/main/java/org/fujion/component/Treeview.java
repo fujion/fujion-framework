@@ -34,7 +34,7 @@ import org.fujion.model.ModelAndView;
 /**
  * A component acting as a root for a hierarchical collection of nodes.
  */
-@Component(tag = "treeview", widgetModule = "fujion-treeview", widgetClass = "Treeview", parentTag = "*", childTag = @ChildTag("treenode"))
+@Component(tag = "treeview", widgetModule = "fujion-treeview", widgetClass = "Treeview", parentTag = "*", childTag = @ChildTag("treenode"), description = "A component acting as a root for a hierarchical collection of nodes.")
 public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISupportsModel<Treenode> {
 
     private boolean showRoot;
@@ -53,7 +53,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
      *
      * @return True if the tree root should be visible.
      */
-    @PropertyGetter("showRoot")
+    @PropertyGetter(value = "showRoot", description = "True if the tree root should be visible.")
     public boolean getShowRoot() {
         return showRoot;
     }
@@ -64,7 +64,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
      *
      * @param showRoot True if the tree root should be visible.
      */
-    @PropertySetter("showRoot")
+    @PropertySetter(value = "showRoot", defaultValue = "false", description = "True if the tree root should be visible.")
     public void setShowRoot(boolean showRoot) {
         propertyChange("showRoot", this.showRoot, this.showRoot = showRoot, true);
     }
@@ -74,7 +74,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
      *
      * @return True if lines connecting parent nodes to their children should be displayed.
      */
-    @PropertyGetter("showLines")
+    @PropertyGetter(value = "showLines", description = "True if lines connecting parent nodes to their children should be displayed.")
     public boolean getShowLines() {
         return showLines;
     }
@@ -84,7 +84,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
      *
      * @param showLines If true, lines connecting parent nodes to their children will be displayed.
      */
-    @PropertySetter("showLines")
+    @PropertySetter(value = "showLines", defaultValue = "true", description = "True if lines connecting parent nodes to their children should be displayed.")
     public void setShowLines(boolean showLines) {
         propertyChange("showLines", this.showLines, this.showLines = showLines, true);
     }
@@ -96,7 +96,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
      *
      * @return True if expander icons should be displayed.
      */
-    @PropertyGetter("showToggles")
+    @PropertyGetter(value = "showToggles", description = "True if expander icons should be displayed.")
     public boolean getShowToggles() {
         return showToggles;
     }
@@ -108,7 +108,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
      *
      * @param showToggles True if expander icons should be displayed.
      */
-    @PropertySetter("showToggles")
+    @PropertySetter(value = "showToggles", defaultValue = "true", description = "True if expander icons should be displayed.")
     public void setShowToggles(boolean showToggles) {
         propertyChange("showToggles", this.showToggles, this.showToggles = showToggles, true);
     }

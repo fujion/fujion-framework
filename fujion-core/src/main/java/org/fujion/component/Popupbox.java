@@ -34,7 +34,7 @@ import org.fujion.event.OpenEvent;
  * A popup box component is a text box with a drop down button that triggers the appearance of a
  * popup component. A popup component may be specified as a property or inline as a child.
  */
-@Component(tag = "popupbox", widgetClass = "Popupbox", parentTag = "*", childTag = @ChildTag(value = "popup", maximum = 1))
+@Component(tag = "popupbox", widgetClass = "Popupbox", parentTag = "*", childTag = @ChildTag(value = "popup", maximum = 1), description = "A text box with a drop down button that triggers the appearance of a popup component.")
 public class Popupbox extends Textbox {
 
     private boolean open;
@@ -104,7 +104,7 @@ public class Popupbox extends Textbox {
      *
      * @return True if the popup box is open.
      */
-    @PropertyGetter("open")
+    @PropertyGetter(value = "open", description = "True if the popup box is open.")
     public boolean isOpen() {
         return open;
     }
@@ -114,7 +114,7 @@ public class Popupbox extends Textbox {
      *
      * @param open The open state of the popup box.
      */
-    @PropertySetter("open")
+    @PropertySetter(value = "open", defaultValue = "false", description = "True if the popup box is open.")
     public void setOpen(boolean open) {
         if (open != this.open) {
             invoke((this.open = open) ? "open" : "close");

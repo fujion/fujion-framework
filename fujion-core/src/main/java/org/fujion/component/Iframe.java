@@ -30,7 +30,7 @@ import org.fujion.event.LoadEvent;
 /**
  * An iframe component.
  */
-@Component(tag = "iframe", widgetClass = "Iframe", parentTag = "*")
+@Component(tag = "iframe", widgetClass = "Iframe", parentTag = "*", description = "An iframe component.")
 public class Iframe extends BaseUIComponent {
 
     private String src;
@@ -42,7 +42,7 @@ public class Iframe extends BaseUIComponent {
      *
      * @return URL of the loaded document.
      */
-    @PropertyGetter("src")
+    @PropertyGetter(value = "src", description = "The URL of the loaded document.")
     public String getSrc() {
         return src;
     }
@@ -52,7 +52,7 @@ public class Iframe extends BaseUIComponent {
      *
      * @param src URL of the document to be loaded.
      */
-    @PropertySetter("src")
+    @PropertySetter(value = "src", description = "The URL of the loaded document.")
     public void setSrc(String src) {
         propertyChange("src", this.src, this.src = nullify(src), true);
     }
@@ -83,7 +83,7 @@ public class Iframe extends BaseUIComponent {
      * @see <a href="https://www.w3schools.com/tags/att_iframe_sandbox.asp">HTML iframe sandbox
      *      Attribute</a>
      */
-    @PropertyGetter("sandbox")
+    @PropertyGetter(value = "sandbox", description = "The sandbox setting for the iframe.")
     public String getSandbox() {
         return sandbox;
     }
@@ -95,7 +95,7 @@ public class Iframe extends BaseUIComponent {
      * @see <a href="https://www.w3schools.com/tags/att_iframe_sandbox.asp">HTML iframe sandbox
      *      Attribute</a>
      */
-    @PropertySetter("sandbox")
+    @PropertySetter(value = "sandbox", description = "The sandbox setting for the iframe.")
     public void setSandbox(String sandbox) {
         propertyChange("sandbox", this.sandbox, this.sandbox = sandbox, true);
     }

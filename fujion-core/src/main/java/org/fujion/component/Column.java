@@ -35,7 +35,7 @@ import org.fujion.model.Sorting.SortToggle;
 /**
  * A component representing a single column within a grid.
  */
-@Component(tag = "column", widgetClass = "Column", widgetModule = "fujion-grid", parentTag = "columns", childTag = @ChildTag("*"))
+@Component(tag = "column", widgetClass = "Column", widgetModule = "fujion-grid", parentTag = "columns", childTag = @ChildTag("*"), description = "A single column within a grid.")
 public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> {
 
     private Comparator<?> sortComparator;
@@ -81,7 +81,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      *
      * @param propertyName The name of the model property to be used for sorting.
      */
-    @PropertySetter("sortBy")
+    @PropertySetter(value = "sortBy", description = "The name of the model property to be used for sorting.")
     public void setSortComparator(String propertyName) {
         setSortComparator(new SmartComparator(propertyName));
     }
@@ -92,7 +92,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      *
      * @return The sort order.
      */
-    @PropertyGetter("sortOrder")
+    @PropertyGetter(value = "sortOrder", description = "The ordering to be used when the sort method is invoked.")
     public SortOrder getSortOrder() {
         return sortOrder;
     }
@@ -103,7 +103,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      *
      * @param sortOrder The sort order.
      */
-    @PropertySetter("sortOrder")
+    @PropertySetter(value = "sortOrder", defaultValue = "unsorted", description = "The ordering to be used when the sort method is invoked.")
     public void setSortOrder(SortOrder sortOrder) {
         this.sortOrder = sortOrder == null ? SortOrder.UNSORTED : sortOrder;
     }
@@ -113,7 +113,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      *
      * @return The type of sort toggle.
      */
-    @PropertyGetter("sortToggle")
+    @PropertyGetter(value = "sortToggle", description = "The type of sort toggle.")
     public SortToggle getSortToggle() {
         return sortToggle;
     }
@@ -123,7 +123,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      *
      * @param sortToggle The type of sort toggle.
      */
-    @PropertySetter("sortToggle")
+    @PropertySetter(value = "sortToggle", description = "The type of sort toggle.")
     public void setSortToggle(SortToggle sortToggle) {
         this.sortToggle = sortToggle;
     }
@@ -183,7 +183,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      *
      * @return True if this is the currently sorted column.
      */
-    @PropertyGetter("sortColumn")
+    @PropertyGetter(value = "sortColumn", description = "True if this is the currently sorted column.")
     public boolean isSortColumn() {
         return sortColumn;
     }
@@ -195,7 +195,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      * @param sortColumn Set to true to sort this column and designate it as the current sort
      *            column. Doing so will set this property to false on all other columns.
      */
-    @PropertySetter("sortColumn")
+    @PropertySetter(value = "sortColumn", defaultValue = "false", description = "True if this is the currently sorted column.")
     public void setSortColumn(boolean sortColumn) {
         _setSortColumn(sortColumn, true);
     }

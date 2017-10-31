@@ -103,7 +103,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The styles set for this component.
      */
-    @PropertyGetter("style")
+    @PropertyGetter(value = "style", description = "The active CSS styles for this component.")
     public String getStyles() {
         return styles.toString();
     }
@@ -114,7 +114,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      * @param styles Styles to set, represented as a string in the same format as the HTML style
      *            attribute.
      */
-    @PropertySetter("style")
+    @PropertySetter(value = "style", description = "The active CSS styles for this component.")
     public void setStyles(String styles) {
         String oldStyles = this.styles.toString();
         this.styles.parse(styles, true);
@@ -195,7 +195,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return Space-delimited list of CSS classes.
      */
-    @PropertyGetter("class")
+    @PropertyGetter(value = "class", description = "Space-delimited list of CSS classes.")
     public String getClasses() {
         return classes.toString();
     }
@@ -227,7 +227,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      * @param value Space-delimited list of CSS classes. Extended syntax is supported (see
      *            {@link org.fujion.ancillary.CssClasses});
      */
-    @PropertySetter("class")
+    @PropertySetter(value = "class", description = "Space-delimited list of CSS classes.")
     public void addClass(String value) {
         String oldClasses = classes.toString();
         
@@ -285,7 +285,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The height.
      */
-    @PropertyGetter("height")
+    @PropertyGetter(value = "height", description = "The component's height.")
     public String getHeight() {
         return height;
     }
@@ -295,7 +295,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param height The height.
      */
-    @PropertySetter("height")
+    @PropertySetter(value = "height", description = "The component's height.")
     public void setHeight(String height) {
         height = trimify(height);
         
@@ -310,7 +310,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The width.
      */
-    @PropertyGetter("width")
+    @PropertyGetter(value = "width", description = "The component's width.")
     public String getWidth() {
         return width;
     }
@@ -320,7 +320,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param width The width.
      */
-    @PropertySetter("width")
+    @PropertySetter(value = "width", description = "The component's width.")
     public void setWidth(String width) {
         width = trimify(width);
         
@@ -335,7 +335,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The flex setting.
      */
-    @PropertyGetter("flex")
+    @PropertyGetter(value = "flex", description = "The component's flex style setting.")
     public String getFlex() {
         return flex;
     }
@@ -345,7 +345,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param flex The flex setting.
      */
-    @PropertySetter("flex")
+    @PropertySetter(value = "flex", description = "The component's flex style setting.")
     public void setFlex(String flex) {
         flex = trimify(flex);
         
@@ -362,7 +362,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      * @param focus If true, the component receives the input focus if possible. If false and the
      *            component currently has the input focus, the focus is relinquished.
      */
-    @PropertySetter(value = "focus", defer = true)
+    @PropertySetter(value = "focus", defaultValue = "false", defer = true, description = "Sets or removes focus for this component.")
     public void setFocus(boolean focus) {
         invoke("focus", focus);
     }
@@ -387,7 +387,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The CSS specifier.
      */
-    @PropertyGetter("css")
+    @PropertyGetter(value = "css", description = "The CSS specifier for this component.")
     public String getCss() {
         return css;
     }
@@ -404,7 +404,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param css The CSS specifier.
      */
-    @PropertySetter("css")
+    @PropertySetter(value = "css", description = "The CSS specifier for this component.")
     public void setCss(String css) {
         propertyChange("css", this.css, this.css = nullify(css), true);
     }
@@ -414,7 +414,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The hint text.
      */
-    @PropertyGetter("hint")
+    @PropertyGetter(value = "hint", description = "The popup text to be displayed when hovering over this component.")
     public String getHint() {
         return hint;
     }
@@ -424,7 +424,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param hint The hint text.
      */
-    @PropertySetter("hint")
+    @PropertySetter(value = "hint", description = "The popup text to be displayed when hovering over this component.")
     public void setHint(String hint) {
         propertyChange("hint", this.hint, this.hint = nullify(hint), true);
     }
@@ -434,7 +434,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The balloon text.
      */
-    @PropertyGetter("balloon")
+    @PropertyGetter(value = "balloon", description = "The balloon text to be displayed adjacent to the component.")
     public String getBalloon() {
         return balloon;
     }
@@ -444,19 +444,19 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param balloon The balloon text.
      */
-    @PropertySetter("balloon")
+    @PropertySetter(value = "balloon", description = "The balloon text to be displayed adjacent to the component.")
     public void setBalloon(String balloon) {
         propertyChange("balloon", this.balloon, this.balloon = nullify(balloon), true);
     }
     
     @Override
-    @PropertyGetter("disabled")
+    @PropertyGetter(value = "disabled", description = "True if the component is disabled.")
     public boolean isDisabled() {
         return disabled;
     }
     
     @Override
-    @PropertySetter("disabled")
+    @PropertySetter(value = "disabled", defaultValue = "false", description = "True if the component is disabled.")
     public void setDisabled(boolean disabled) {
         propertyChange("disabled", this.disabled, this.disabled = disabled, true);
     }
@@ -466,7 +466,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The visibility state of the component.
      */
-    @PropertyGetter("visible")
+    @PropertyGetter(value = "visible", description = "The visibility state of the component.")
     public boolean isVisible() {
         return visible;
     }
@@ -476,7 +476,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param visible The visibility state of the component.
      */
-    @PropertySetter("visible")
+    @PropertySetter(value = "visible", defaultValue = "true", description = "The visibility state of the component.")
     public void setVisible(boolean visible) {
         propertyChange("visible", this.visible, this.visible = visible, true);
     }
@@ -486,7 +486,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The tab index.
      */
-    @PropertyGetter("tabindex")
+    @PropertyGetter(value = "tabindex", description = "The tab index for the component.")
     public int getTabindex() {
         return tabindex;
     }
@@ -496,7 +496,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param tabindex The tab index.
      */
-    @PropertySetter("tabindex")
+    @PropertySetter(value = "tabindex", defaultValue="0", description = "The tab index for the component.")
     public void setTabindex(int tabindex) {
         propertyChange("tabindex", this.tabindex, this.tabindex = tabindex < 0 ? 0 : tabindex, true);
     }
@@ -509,7 +509,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The drag id(s).
      */
-    @PropertyGetter("dragid")
+    @PropertyGetter(value = "dragid", description = "A space-delimited list of drag id's associated with this component.")
     public String getDragid() {
         return dragid;
     }
@@ -522,7 +522,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *            dropped upon a target component whose drop id(s) matches at least one of the drag
      *            id's. A drag id value of "*" will match any drop id.
      */
-    @PropertySetter("dragid")
+    @PropertySetter(value = "dragid", description = "A space-delimited list of drag id's associated with this component.")
     public void setDragid(String dragid) {
         propertyChange("dragid", this.dragid, this.dragid = trimify(dragid), true);
     }
@@ -535,7 +535,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The drag id(s).
      */
-    @PropertyGetter("dropid")
+    @PropertyGetter(value = "dropid", description = "A space-delimited list of drop id's associated with this component.")
     public String getDropid() {
         return dropid;
     }
@@ -549,7 +549,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *            one of the dragged component's drag id's. A drop id value of "*" will match any
      *            drag id.
      */
-    @PropertySetter("dropid")
+    @PropertySetter(value = "dropid", description = "A space-delimited list of drop id's associated with this component.")
     public void setDropid(String dropid) {
         propertyChange("dropid", this.dropid, this.dropid = trimify(dropid), true);
     }
@@ -559,7 +559,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The popup component that will appear when right-clicking on this component.
      */
-    @PropertyGetter("context")
+    @PropertyGetter(value = "context", description = "The popup component that will appear when right-clicking on this component.")
     public Popup getContext() {
         if (context != null && context.isDead()) {
             _setContext(null);
@@ -574,7 +574,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      * @param context The id of the popup component that will appear when right-clicking on this
      *            component.
      */
-    @PropertySetter(value = "context", defer = true)
+    @PropertySetter(value = "context", defer = true, description = "The popup component that will appear when right-clicking on this component.")
     private void setContext(String context) {
         setContext(ConvertUtil.convert(context, Popup.class, this));
     }
@@ -600,7 +600,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @return The popup component that will appear when hovering over this component.
      */
-    @PropertyGetter("popup")
+    @PropertyGetter(value = "popup", description = "The popup component that will appear when hovering over this component.")
     public Popup getPopup() {
         if (popup != null && popup.isDead()) {
             _setPopup(null);
@@ -614,7 +614,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param popup The popup component that will appear when hovering over this component.
      */
-    @PropertySetter(value = "popup", defer = true)
+    @PropertySetter(value = "popup", defer = true, description = "The popup component that will appear when hovering over this component.")
     public void setPopup(Popup popup) {
         if (popup != getPopup()) {
             _setPopup(popup);
@@ -647,7 +647,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      * @return List of key codes to be captured (see
      *         {@link org.fujion.event.KeyCode#normalizeKeyCapture} for formatting details).
      */
-    @PropertyGetter("keycapture")
+    @PropertyGetter(value = "keycapture", description = "The list of key codes to be captured.")
     public String getKeycapture() {
         return keycapture;
     }
@@ -659,7 +659,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      * @param keycapture List of key codes to be captured (see
      *            {@link org.fujion.event.KeyCode#normalizeKeyCapture} for formatting details).
      */
-    @PropertySetter("keycapture")
+    @PropertySetter(value = "keycapture", description = "The list of key codes to be captured.")
     public void setKeycapture(String keycapture) {
         if (propertyChange("keycapture", this.keycapture, this.keycapture = nullify(keycapture), false)) {
             sync("keycapture", KeyCode.normalizeKeyCapture(this.keycapture));

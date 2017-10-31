@@ -28,7 +28,7 @@ import org.springframework.util.Assert;
 /**
  * A component for uploading files to the server.
  */
-@Component(tag = "upload", widgetModule = "fujion-upload", widgetClass = "Upload", parentTag = "*")
+@Component(tag = "upload", widgetModule = "fujion-upload", widgetClass = "Upload", parentTag = "*", description = "A component for uploading files to the server.")
 public class Upload extends BaseUIComponent {
 
     private boolean multiple;
@@ -48,7 +48,7 @@ public class Upload extends BaseUIComponent {
      *
      * @return True if multiple file uploads are allowed.
      */
-    @PropertyGetter("multiple")
+    @PropertyGetter(value = "multiple", description = "True if multiple file uploads are allowed.")
     public boolean isMultiple() {
         return multiple;
     }
@@ -58,7 +58,7 @@ public class Upload extends BaseUIComponent {
      *
      * @param multiple True if multiple file uploads are to be allowed.
      */
-    @PropertySetter("multiple")
+    @PropertySetter(value = "multiple", defaultValue = "false", description = "True if multiple file uploads are allowed.")
     public void setMultiple(boolean multiple) {
         propertyChange("multiple", this.multiple, this.multiple = multiple, true);
     }
@@ -68,7 +68,7 @@ public class Upload extends BaseUIComponent {
      *
      * @return Specifier for acceptable file types.
      */
-    @PropertyGetter("accept")
+    @PropertyGetter(value = "accept", description = "Specifier for acceptable file types.")
     public String getAccept() {
         return accept;
     }
@@ -85,7 +85,7 @@ public class Upload extends BaseUIComponent {
      *            <li>Any valid IANA media type.</li>
      *            </ul>
      */
-    @PropertySetter("accept")
+    @PropertySetter(value = "accept", description = "Specifier for acceptable file types.")
     public void setAccept(String accept) {
         propertyChange("accept", this.accept, this.accept = nullify(accept), true);
     }
@@ -96,7 +96,7 @@ public class Upload extends BaseUIComponent {
      *
      * @return The maximum allowable file size, in bytes.
      */
-    @PropertyGetter("maxsize")
+    @PropertyGetter(value = "maxsize", description = "The maximum allowable file size, in bytes.")
     public int getMaxsize() {
         return maxsize;
     }
@@ -107,7 +107,7 @@ public class Upload extends BaseUIComponent {
      * @param maxsize The maximum allowable file size, in bytes. Any attempt to upload a file larger
      *            than this size will produce an exception.
      */
-    @PropertySetter("maxsize")
+    @PropertySetter(value = "maxsize", defaultValue = "104857600", description = "The maximum allowable file size, in bytes.")
     public void setMaxsize(int maxsize) {
         Assert.isTrue(maxsize >= 0, "maxsize must be >= 0");
         propertyChange("_maxsize", this.maxsize, this.maxsize = maxsize, true);
@@ -119,7 +119,7 @@ public class Upload extends BaseUIComponent {
      * @see org.fujion.event.UploadEvent
      * @return Returns true if UploadEvent events will be fired.
      */
-    @PropertyGetter("progress")
+    @PropertyGetter(value = "progress", description = "If true, the uploader will fire UploadEvent events to report progress.")
     public boolean getProgress() {
         return progress;
     }
@@ -130,7 +130,7 @@ public class Upload extends BaseUIComponent {
      * @see org.fujion.event.UploadEvent
      * @param progress True if UploadEvent events are to be fired.
      */
-    @PropertySetter("progress")
+    @PropertySetter(value = "progress", defaultValue = "false", description = "If true, the uploader will fire UploadEvent events to report progress.")
     public void setProgress(boolean progress) {
         propertyChange("_progress", this.progress, this.progress = progress, true);
     }

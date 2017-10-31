@@ -33,7 +33,7 @@ import org.fujion.model.ISupportsModel;
 /**
  * A page navigation component.
  */
-@Component(tag = "paging", widgetClass = "Paging", parentTag = "*")
+@Component(tag = "paging", widgetClass = "Paging", parentTag = "*", description = "A page navigation component.")
 public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
     
     private IPaginator paginator;
@@ -107,7 +107,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      *
      * @return The number of the currently selected page.
      */
-    @PropertyGetter("currentPage")
+    @PropertyGetter(value = "currentPage", description = "The number of the currently selected page.")
     public int getCurrentPage() {
         return currentPage;
     }
@@ -117,7 +117,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      *
      * @param currentPage The number of the currently selected page.
      */
-    @PropertySetter("currentPage")
+    @PropertySetter(value = "currentPage", defaultValue = "0", description = "The number of the currently selected page.")
     public void setCurrentPage(int currentPage) {
         if (propertyChange("currentPage", this.currentPage, this.currentPage = currentPage, true)) {
             syncToPaginator();
@@ -129,7 +129,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      *
      * @return The maximum number of items on a single page.
      */
-    @PropertyGetter("pageSize")
+    @PropertyGetter(value = "pageSize", description = "The maximum number of items on a single page.")
     public int getPageSize() {
         return pageSize;
     }
@@ -139,7 +139,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      *
      * @param pageSize The maximum number of items on a single page.
      */
-    @PropertySetter("pageSize")
+    @PropertySetter(value = "pageSize", description = "The maximum number of items on a single page.")
     public void setPageSize(int pageSize) {
         if (propertyChange("pageSize", this.pageSize, this.pageSize = pageSize, true)) {
             syncToPaginator();
@@ -153,7 +153,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      * @exception ComponentException Thrown if the specified component does not support the
      *                {@link ISupportsModel} interface.
      */
-    @PropertySetter(value = "target", defer = true)
+    @PropertySetter(value = "target", defer = true, description = "The component whose associated model will be manipulated by paging operations.")
     private void setPagingTarget(BaseComponent comp) {
         if (comp == null) {
             setPaginator(null);

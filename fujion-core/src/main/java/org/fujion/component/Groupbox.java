@@ -29,7 +29,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A container component with a frame and title for visual grouping of related elements.
  */
-@Component(tag = "groupbox", widgetClass = "Groupbox", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"))
+@Component(tag = "groupbox", widgetClass = "Groupbox", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A container component with a frame and title for visual grouping of related elements.")
 public class Groupbox extends BaseUIComponent {
 
     private String title;
@@ -39,7 +39,7 @@ public class Groupbox extends BaseUIComponent {
      *
      * @return The title text.
      */
-    @PropertyGetter("title")
+    @PropertyGetter(value = "title", description = "The title text.")
     public String getTitle() {
         return title;
     }
@@ -49,7 +49,7 @@ public class Groupbox extends BaseUIComponent {
      *
      * @param title The title text.
      */
-    @PropertySetter("title")
+    @PropertySetter(value = "title", description = "The title text.")
     public void setTitle(String title) {
         propertyChange("title", this.title, this.title = nullify(title), true);
     }

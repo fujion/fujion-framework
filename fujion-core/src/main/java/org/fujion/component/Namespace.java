@@ -30,13 +30,13 @@ import org.fujion.annotation.Component.ContentHandling;
 /**
  * This is an extension of a Span component that implements its own namespace.
  */
-@Component(tag = "namespace", widgetClass = "Span", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"))
+@Component(tag = "namespace", widgetClass = "Span", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "An extension of a Span component that implements its own namespace.")
 public class Namespace extends Span implements INamespace {
-    
+
     @Override
     protected void _initProps(Map<String, Object> props) {
         super._initProps(props);
         props.put("wclazz", "fujion_namespace");
     }
-
+    
 }

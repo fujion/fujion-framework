@@ -44,7 +44,7 @@ import org.fujion.websocket.Session;
 /**
  * This is the root component of a Fujion Server Page.
  */
-@Component(tag = "page", widgetClass = "Page", content = ContentHandling.AS_CHILD, childTag = @ChildTag("*"))
+@Component(tag = "page", widgetClass = "Page", content = ContentHandling.AS_CHILD, childTag = @ChildTag("*"), description = "The root component of a Fujion Server Page.")
 public final class Page extends BaseComponent implements INamespace {
     
     public static final String ID_PREFIX = "_fujion_";
@@ -284,7 +284,7 @@ public final class Page extends BaseComponent implements INamespace {
      *
      * @return True if the page is closable.
      */
-    @PropertyGetter("closable")
+    @PropertyGetter(value = "closable", description = "True if the browser window may be closed without challenge.")
     public boolean isClosable() {
         return closable;
     }
@@ -296,7 +296,7 @@ public final class Page extends BaseComponent implements INamespace {
      *
      * @param closable If true, the page is closable.
      */
-    @PropertySetter("closable")
+    @PropertySetter(value = "closable", defaultValue = "true", description = "True if the browser window may be closed without challenge.")
     public void setClosable(boolean closable) {
         propertyChange("closable", this.closable, this.closable = closable, true);
     }
@@ -306,7 +306,7 @@ public final class Page extends BaseComponent implements INamespace {
      *
      * @return The page title.
      */
-    @PropertyGetter("title")
+    @PropertyGetter(value = "title", description = "The page title.")
     public String getTitle() {
         return title;
     }
@@ -316,17 +316,17 @@ public final class Page extends BaseComponent implements INamespace {
      *
      * @param title The page title.
      */
-    @PropertySetter("title")
+    @PropertySetter(value = "title", description = "The page title.")
     public void setTitle(String title) {
         propertyChange("title", this.title, this.title = nullify(title), true);
     }
     
     /**
-     * Returns the image used for the page icon.
+     * Returns the URL of the image used for the page icon.
      *
-     * @return The image used for the page icon.
+     * @return The URL of the image used for the page icon.
      */
-    @PropertyGetter("image")
+    @PropertyGetter(value = "image", description = "The URL of the image used for the page icon.")
     public String getImage() {
         return image;
     }
@@ -336,7 +336,7 @@ public final class Page extends BaseComponent implements INamespace {
      *
      * @param image The image used for the page icon.
      */
-    @PropertySetter("image")
+    @PropertySetter(value = "image", description = "The URL of the image used for the page icon.")
     public void setImage(String image) {
         propertyChange("image", this.image, this.image = nullify(image), true);
     }

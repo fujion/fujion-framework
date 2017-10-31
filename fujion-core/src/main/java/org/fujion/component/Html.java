@@ -28,7 +28,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component that allows embedding native HTML within a page.
  */
-@Component(tag = "html", widgetClass = "Html", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*")
+@Component(tag = "html", widgetClass = "Html", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", description = "A component that allows embedding native HTML within a page.")
 public class Html extends BaseUIComponent {
     
     private String src;
@@ -47,7 +47,7 @@ public class Html extends BaseUIComponent {
      *
      * @see org.fujion.component.BaseComponent#setContent(java.lang.String)
      */
-    @PropertySetter("content")
+    @PropertySetter(value = "content", description = "The text content associated with this component.")
     @Override
     public void setContent(String content) {
         content = nullify(content);
@@ -64,7 +64,7 @@ public class Html extends BaseUIComponent {
      *
      * @return URL of external HTML content.
      */
-    @PropertyGetter("src")
+    @PropertyGetter(value = "src", description = "The URL of external HTML content.")
     public String getSrc() {
         return src;
     }
@@ -74,7 +74,7 @@ public class Html extends BaseUIComponent {
      *
      * @param src URL of external HTML content.
      */
-    @PropertySetter(value = "src")
+    @PropertySetter(value = "src", description = "The URL of external HTML content.")
     public void setSrc(String src) {
         src = nullify(src);
 

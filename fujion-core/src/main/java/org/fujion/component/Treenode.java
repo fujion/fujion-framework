@@ -35,7 +35,7 @@ import org.fujion.event.EventUtil;
  * A single node in a tree view.
  */
 @Component(tag = "treenode", widgetModule = "fujion-treeview", widgetClass = "Treenode", parentTag = { "treeview",
-        "treenode" }, childTag = @ChildTag("treenode"))
+        "treenode" }, childTag = @ChildTag("treenode"), description = "A single node in a tree view.")
 public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> implements Iterable<Treenode> {
 
     /**
@@ -143,7 +143,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      *
      * @return The selected state.
      */
-    @PropertyGetter("selected")
+    @PropertyGetter(value = "selected", description = "The selected state.")
     public boolean isSelected() {
         return selected;
     }
@@ -153,7 +153,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      *
      * @param selected The selected state.
      */
-    @PropertySetter("selected")
+    @PropertySetter(value = "selected", defaultValue = "false", description = "The selected state.")
     public void setSelected(boolean selected) {
         _setSelected(selected, true, true);
     }
@@ -225,7 +225,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      *
      * @return True if the node is collapsed.
      */
-    @PropertyGetter("collapsed")
+    @PropertyGetter(value = "collapsed", description = "True if the node is collapsed.")
     public boolean isCollapsed() {
         return collapsed;
     }
@@ -235,7 +235,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      *
      * @param collapsed True to collapse the node, false to expand it
      */
-    @PropertySetter("collapsed")
+    @PropertySetter(value = "collapsed", defaultValue = "false", description = "True if the node is collapsed.")
     public void setCollapsed(boolean collapsed) {
         propertyChange("collapsed", this.collapsed, this.collapsed = collapsed, true);
     }

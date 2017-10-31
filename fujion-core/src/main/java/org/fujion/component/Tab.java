@@ -35,7 +35,7 @@ import org.fujion.event.EventUtil;
 /**
  * A single tab in a tab view.
  */
-@Component(tag = "tab", widgetModule = "fujion-tabview", widgetClass = "Tab", content = ContentHandling.AS_CHILD, parentTag = "tabview", childTag = @ChildTag("*"))
+@Component(tag = "tab", widgetModule = "fujion-tabview", widgetClass = "Tab", content = ContentHandling.AS_CHILD, parentTag = "tabview", childTag = @ChildTag("*"), description = "A single tab in a tab view.")
 public class Tab extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> {
 
     private boolean closable;
@@ -59,7 +59,8 @@ public class Tab extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPos
      *
      * @return True if the tab is closable.
      */
-    @PropertyGetter("closable")
+    @PropertyGetter(value = "closable", description = "True if the tab is closable. A closable tab has an icon that, when clicked, removes "
+            + "and destroys the tab.")
     public boolean isClosable() {
         return closable;
     }
@@ -71,27 +72,28 @@ public class Tab extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPos
      * @param closable If true, the tab is closable.
      * @see #onCanClose
      */
-    @PropertySetter("closable")
+    @PropertySetter(value = "closable", defaultValue = "false", description = "True if the tab is closable. A closable tab has an icon that, when clicked, removes "
+            + "and destroys the tab.")
     public void setClosable(boolean closable) {
         propertyChange("closable", this.closable, this.closable = closable, true);
     }
 
     /**
-     * Returns the selection status of the tab.
+     * Returns the selection state of the tab.
      *
-     * @return The selection status of the tab.
+     * @return The selection state of the tab.
      */
-    @PropertyGetter("selected")
+    @PropertyGetter(value = "selected", description = "The selection state of the tab.")
     public boolean isSelected() {
         return selected;
     }
 
     /**
-     * Sets the selection status of the tab.
+     * Sets the selection state of the tab.
      *
-     * @param selected The selection status of the tab.
+     * @param selected The selection state of the tab.
      */
-    @PropertySetter("selected")
+    @PropertySetter(value = "selected", defaultValue = "false", description = "The selection state of the tab.")
     public void setSelected(boolean selected) {
         _setSelected(selected, true);
     }

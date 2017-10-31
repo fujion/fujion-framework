@@ -30,7 +30,7 @@ import org.springframework.util.Assert;
 /**
  * A slider component.
  */
-@Component(tag = "slider", widgetClass = "Slider", parentTag = "*")
+@Component(tag = "slider", widgetClass = "Slider", parentTag = "*", description = "A slider component.")
 public class Slider extends BaseUIComponent {
 
     /**
@@ -64,7 +64,7 @@ public class Slider extends BaseUIComponent {
      *
      * @return The current value of the slider.
      */
-    @PropertyGetter("value")
+    @PropertyGetter(value = "value", description = "The current value of the slider.")
     public int getValue() {
         return value;
     }
@@ -74,7 +74,7 @@ public class Slider extends BaseUIComponent {
      *
      * @param value The current value of the slider.
      */
-    @PropertySetter("value")
+    @PropertySetter(value = "value", defaultValue = "0", description = "The current value of the slider.")
     public void setValue(int value) {
         propertyChange("value", this.value, this.value = value, true);
     }
@@ -84,7 +84,7 @@ public class Slider extends BaseUIComponent {
      *
      * @return The maximum allowable value. Defaults to 100.
      */
-    @PropertyGetter("maxvalue")
+    @PropertyGetter(value = "maxvalue", description = "The maximum allowable value.")
     public int getMaxValue() {
         return maxvalue;
     }
@@ -94,7 +94,7 @@ public class Slider extends BaseUIComponent {
      *
      * @param maxvalue The maximum allowable value.
      */
-    @PropertySetter("maxvalue")
+    @PropertySetter(value = "maxvalue", defaultValue = "100", description = "The maximum allowable value.")
     public void setMaxValue(int maxvalue) {
         propertyChange("maxvalue", this.maxvalue, this.maxvalue = maxvalue, true);
     }
@@ -104,7 +104,7 @@ public class Slider extends BaseUIComponent {
      *
      * @return The minimum allowable value. Defaults to 0.
      */
-    @PropertyGetter("minvalue")
+    @PropertyGetter(value = "minvalue", description = "The minimum allowable value.")
     public int getMinValue() {
         return minvalue;
     }
@@ -114,7 +114,7 @@ public class Slider extends BaseUIComponent {
      *
      * @param minvalue The minimum allowable value.
      */
-    @PropertySetter("minvalue")
+    @PropertySetter(value = "minvalue", defaultValue = "0", description = "The minimum allowable value.")
     public void setMinValue(int minvalue) {
         propertyChange("minvalue", this.minvalue, this.minvalue = minvalue, true);
     }
@@ -124,7 +124,7 @@ public class Slider extends BaseUIComponent {
      *
      * @return The {@link Orientation orientation} of the component.
      */
-    @PropertyGetter("orientation")
+    @PropertyGetter(value = "orientation", description = "The orientation of the component.")
     public Orientation getOrientation() {
         return orientation;
     }
@@ -134,7 +134,7 @@ public class Slider extends BaseUIComponent {
      *
      * @param orientation The {@link Orientation orientation} of the component.
      */
-    @PropertySetter("orientation")
+    @PropertySetter(value = "orientation", defaultValue = "horizontal", description = "The orientation of the component.")
     public void setOrientation(Orientation orientation) {
         propertyChange("orientation", this.orientation, this.orientation = defaultify(orientation, Orientation.HORIZONTAL),
             true);
@@ -147,7 +147,7 @@ public class Slider extends BaseUIComponent {
      * @return The amount of change in the current value when an arrow button is clicked. Default is
      *         1.
      */
-    @PropertyGetter("step")
+    @PropertyGetter(value = "step", description = "The amount of change in the current value when an arrow button is clicked.")
     public int getStep() {
         return step;
     }
@@ -157,7 +157,7 @@ public class Slider extends BaseUIComponent {
      *
      * @param step The amount of change in the current value when an arrow button is clicked.
      */
-    @PropertySetter("step")
+    @PropertySetter(value = "step", defaultValue = "1", description = "The amount of change in the current value when an arrow button is clicked.")
     public void setStep(int step) {
         Assert.isTrue(step > 0, "Step value must be greater than zero.");
         propertyChange("step", this.step, this.step = step, true);
@@ -169,7 +169,8 @@ public class Slider extends BaseUIComponent {
      *
      * @return The synchronized setting.
      */
-    @PropertyGetter("synchronized")
+    @PropertyGetter(value = "synchronized", description = "If set to true, every change to the slider's value will be "
+            + "sent to the server. If false, only the final value will be sent.")
     public boolean getSynchronized() {
         return synced;
     }
@@ -180,7 +181,8 @@ public class Slider extends BaseUIComponent {
      *
      * @param synced The synchronized setting.
      */
-    @PropertySetter("synchronized")
+    @PropertySetter(value = "synchronized", defaultValue = "false", description = "If set to true, every change to the slider's value will be "
+            + "sent to the server. If false, only the final value will be sent.")
     protected void setSynchronized(boolean synced) {
         propertyChange("synced", this.synced, this.synced = synced, true);
     }
