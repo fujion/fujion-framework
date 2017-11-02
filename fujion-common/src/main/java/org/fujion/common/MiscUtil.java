@@ -157,6 +157,24 @@ public class MiscUtil {
     }
     
     /**
+     * Returns an array of parameter types given an array of parameters. Unlike other libraries,
+     * this allows null parameter values.
+     *
+     * @param parameters Array of parameters.
+     * @return Array of parameter types.
+     */
+    public static Class<?>[] getParameterTypes(Object... parameters) {
+        int len = parameters == null ? 0 : parameters.length;
+        Class<?>[] parameterTypes = new Class[len];
+        
+        for (int i = 0; i < len; i++) {
+            parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
+        }
+
+        return parameterTypes;
+    }
+    
+    /**
      * Enforce static class.
      */
     private MiscUtil() {
