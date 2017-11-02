@@ -31,7 +31,6 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujion.client.ClientInvocation;
@@ -179,10 +178,10 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
      * @param exception The exception.
      */
     public static void sendError(WebSocketSession socket, Throwable exception) {
-        Throwable cause = ExceptionUtils.getCause(exception);
+        log.error("Uncaught exception", exception);
         
         try (StringWriter writer = new StringWriter(); PrintWriter print = new PrintWriter(writer);) {
-            (cause == null ? exception : cause).printStackTrace(print);
+            exception.printStackTrace(print);
             ClientInvocation invocation = new ClientInvocation((String) null, "fujion.alert", writer.toString(), "Error",
                     "danger");
             send(socket, invocation);
