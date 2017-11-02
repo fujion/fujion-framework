@@ -44,7 +44,6 @@ import org.fujion.theme.ThemeResolver;
 import org.fujion.websocket.WebSocketConfiguration;
 import org.springframework.core.io.AbstractFileResolvingResource;
 import org.springframework.core.io.Resource;
-import org.springframework.web.servlet.resource.EncodedResource;
 import org.springframework.web.servlet.resource.ResourceTransformerChain;
 import org.springframework.web.servlet.resource.ResourceTransformerSupport;
 
@@ -57,7 +56,7 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
     /**
      * Exposes the fully resolved boostrapper template as a resource to be delivered to the client.
      */
-    private static class BootstrapperResource extends AbstractFileResolvingResource implements EncodedResource {
+    private static class BootstrapperResource extends AbstractFileResolvingResource {
         
         private final Resource resource;
         
@@ -94,11 +93,6 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
         @Override
         public InputStream getInputStream() throws IOException {
             return IOUtils.toInputStream(content.toString(), StandardCharsets.UTF_8);
-        }
-        
-        @Override
-        public String getContentEncoding() {
-            return "html";
         }
         
     }
