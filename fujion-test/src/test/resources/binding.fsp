@@ -1,0 +1,22 @@
+<fsp xmlns="http://www.fujion.org/schema/fsp"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:attr="http://www.fujion.org/schema/fsp/attr"
+	xmlns:on="http://www.fujion.org/schema/fsp/on"
+	xsi:schemaLocation="
+	http://www.fujion.org/schema/fsp 
+	http://www.fujion.org/schema/fsp.xsd">
+	
+	<div>
+		<textbox name="textbox" value="${binder.dual('color')}" synchronized="true" />
+		<label name="label" label="${binder.read('color')}" style="${binder.read('color', 'background-color: %s')}" />
+		<radiogroup name="radiogroup">
+			<radiobutton name="rbGreen" label="green" checked="${binder.dual('color', binder.lambda('green','equals'), binder.choice('green', binder.NOVALUE))}"/>
+			<radiobutton name="rbRed" label="red" checked="${binder.dual('color', binder.lambda('red','equals'), binder.choice('red', binder.NOVALUE))}"/>
+		</radiogroup>
+		<combobox name="combobox">
+			<comboitem name="cbiGreen" label="green" selected="${binder.dual('color', binder.lambda('green','equals'), binder.choice('green', binder.NOVALUE))}"/>
+			<comboitem name="cbiRed" label="red" selected="${binder.dual('color', binder.lambda('red','equals'), binder.choice('red', binder.NOVALUE))}"/>
+		</combobox>
+	</div>
+</fsp>
+
