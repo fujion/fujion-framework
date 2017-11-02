@@ -22,12 +22,16 @@ package org.fujion.model;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.function.Function;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.reflect.MethodUtils;
+import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.DeferredInvocation;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
@@ -55,15 +59,15 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
         
         private final String modelProperty;
 
-        private final IConverter readConverter;
+        private final Function<?, ?> readConverter;
 
-        private final IConverter writeConverter;
+        private final Function<?, ?> writeConverter;
 
         private DeferredInvocation<?> getter;
 
         private DeferredInvocation<?> setter;
 
-        GenericBinding(String modelProperty, IConverter readConverter, IConverter writeConverter) {
+        GenericBinding(String modelProperty, Function<?, ?> readConverter, Function<?, ?> writeConverter) {
             this.modelProperty = modelProperty;
             this.readConverter = readConverter;
             this.writeConverter = writeConverter;
@@ -111,7 +115,11 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
             try {
                 if (model != null) {
                     Object value = PropertyUtils.getProperty(model, modelProperty);
-                    setter.invoke(readConverter == null ? value : readConverter.convert(value));
+                    value = convert(readConverter, value);
+
+                    if (value != IBinder.NOVALUE) {
+                        setter.invoke(value);
+                    }
                 }
             } catch (Exception e) {
                 throw MiscUtil.toUnchecked(e);
@@ -121,20 +129,27 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
         private void write() {
             try {
                 if (model != null) {
-                    Object value = getter.invoke();
-                    BeanUtils.copyProperty(model, modelProperty,
-                        writeConverter == null ? value : writeConverter.convert(value));
+                    Object value = convert(writeConverter, getter.invoke());
+
+                    if (value != IBinder.NOVALUE) {
+                        BeanUtils.copyProperty(model, modelProperty, value);
+                    }
                 }
             } catch (Exception e) {
                 throw MiscUtil.toUnchecked(e);
             }
 
         }
+        
+        @SuppressWarnings("unchecked")
+        private Object convert(Function<?, ?> converter, Object value) {
+            return converter == null ? value : ((Function<Object, Object>) converter).apply(value);
+        }
     }
 
     private class ReadBinding extends GenericBinding implements IReadBinding {
         
-        ReadBinding(String modelProperty, IConverter readConverter) {
+        ReadBinding(String modelProperty, Function<?, ?> readConverter) {
             super(modelProperty, readConverter, null);
         }
         
@@ -147,7 +162,7 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
 
     private class WriteBinding extends GenericBinding implements IWriteBinding {
         
-        WriteBinding(String modelProperty, IConverter writeConverter) {
+        WriteBinding(String modelProperty, Function<?, ?> writeConverter) {
             super(modelProperty, null, writeConverter);
         }
         
@@ -160,7 +175,7 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
 
     private class DualBinding extends GenericBinding implements IReadBinding, IWriteBinding {
         
-        DualBinding(String modelProperty, IConverter readConverter, IConverter writeConverter) {
+        DualBinding(String modelProperty, Function<?, ?> readConverter, Function<?, ?> writeConverter) {
             super(modelProperty, readConverter, writeConverter);
         }
         
@@ -206,17 +221,17 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
     }
     
     @Override
-    public IBinding read(String modelProperty, IConverter converter) {
+    public IBinding read(String modelProperty, Function<?, ?> converter) {
         return new ReadBinding(modelProperty, converter);
     }
     
     @Override
-    public IBinding write(String modelProperty, IConverter converter) {
+    public IBinding write(String modelProperty, Function<?, ?> converter) {
         return new WriteBinding(modelProperty, converter);
     }
     
     @Override
-    public IBinding dual(String modelProperty, IConverter readConverter, IConverter writeConverter) {
+    public IBinding dual(String modelProperty, Function<?, ?> readConverter, Function<?, ?> writeConverter) {
         return new DualBinding(modelProperty, readConverter, writeConverter);
     }
 
@@ -245,6 +260,68 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
      */
     public void modelChanged(String propertyName) {
         processChanged(propertyName, true);
+    }
+
+    /**
+     * Returns a lambda function (for use in spEL).
+     *
+     * @param instance Object instance that is target of method invocation.
+     * @param methodName Name of the method to invoke.
+     * @param args Optional additional arguments.
+     * @return The lambda function.
+     */
+    public Function<?, ?> lambda(Object instance, String methodName, Object... args) {
+        int last = args == null ? 0 : args.length;
+        Object[] realArgs = args == null ? new Object[] { null } : Arrays.copyOf(args, last + 1);
+        
+        return arg -> {
+            try {
+                realArgs[last] = arg;
+                return MethodUtils.invokeMethod(instance, methodName, realArgs);
+            } catch (Exception e) {
+                throw MiscUtil.toUnchecked(e);
+            }
+        };
+    }
+    
+    /**
+     * Returns a lambda function that returns one of a choice of values depending on the input
+     * value.
+     *
+     * @param choices Possible choices to return.
+     * @return A lambda function for selecting among multiple choices.
+     */
+    public Function<?, ?> choice(Object... choices) {
+        return arg -> {
+            int i = valueToInt(arg);
+            return i < 0 || i >= choices.length ? null : choices[i];
+        };
+    }
+    
+    private int valueToInt(Object value) {
+        if (value == null) {
+            return -1;
+        }
+
+        if (value instanceof Enum) {
+            return ((Enum<?>) value).ordinal();
+        }
+
+        for (int i = 0; i < 2; i++) {
+            try {
+                switch (i) {
+                    case 0: // Boolean
+                        return ConvertUtil.convert(value, Boolean.class) ? 0 : 1;
+                    
+                    case 1: // Integer
+                        return ConvertUtil.convert(value, Integer.class);
+                }
+            } catch (Exception e) {
+                // NOP
+            }
+        }
+        
+        return -1;
     }
 
     private void processChanged(String propertyName, boolean read) {

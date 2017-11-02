@@ -29,46 +29,36 @@ import org.fujion.model.ObservableModel;
  * Model binding demonstration
  */
 public class BindingController extends BaseController {
-    
+
     public class MyModel extends ObservableModel {
-
-        private String value = "Initial value";
-
-        private String color = "red";
         
-        public String getValue() {
-            return value;
-        }
-        
-        public void setValue(String value) {
-            propertyChanged("value", this.value, this.value = value);
-        }
+        private String color = "green";
         
         public String getColor() {
             return color;
         }
-        
+
         public void setColor(String color) {
             propertyChanged("color", this.color, this.color = color);
         }
-        
+
         private void propertyChanged(String propertyName, Object oldValue, Object newValue) {
             propertyChanged(propertyName);
-            BindingController.this
-                    .log(String.format("Model property \"%s\" changed from \"%s\" to \"%s\".", propertyName, oldValue, newValue));
+            BindingController.this.log(
+                String.format("Model property \"%s\" changed from \"%s\" to \"%s\".", propertyName, oldValue, newValue));
         }
     }
-    
-    public static class MyBinder extends GenericBinder<MyModel> {
 
+    public static class MyBinder extends GenericBinder<MyModel> {
+        
         public MyBinder() {
             super();
         }
-        
-    }
 
-    private MyBinder binder;
+    }
     
+    private MyBinder binder;
+
     private MyModel model;
     
     @Override
@@ -78,16 +68,15 @@ public class BindingController extends BaseController {
         model = new MyModel();
         binder.setModel(model);
     }
-    
+
     @EventHandler(value = "click", target = "btnToggle")
     private void btnToggleHandler() {
-        String color = model.getColor();
-        model.setColor("red".equals(color) ? "green" : "red");
-    }
-
-    @EventHandler(value = "click", target = "btnReset")
-    private void btnResetHandler() {
-        model.setValue("Initial value");
+        model.setColor("green".equals(model.getColor()) ? "red" : "green");
     }
     
+    @EventHandler(value = "click", target = "btnReset")
+    private void btnResetHandler() {
+        model.setColor("green");
+    }
+
 }

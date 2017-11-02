@@ -20,6 +20,8 @@
  */
 package org.fujion.model;
 
+import java.util.function.Function;
+
 /**
  * Interface for implementing model bindings. The following binding types are supported:
  * <ul>
@@ -32,12 +34,7 @@ package org.fujion.model;
  */
 public interface IBinder<T> {
     
-    public interface IConverter {
-
-        Object convert(Object value);
-    }
-    
-    class TemplateConverter implements IConverter {
+    class TemplateConverter implements Function<Object, Object> {
         
         private final String template;
 
@@ -46,11 +43,23 @@ public interface IBinder<T> {
         }
 
         @Override
-        public String convert(Object value) {
+        public String apply(Object value) {
             return template == null || value == null ? null : String.format(template, value);
         }
-
+        
     }
+
+    /**
+     * A converter may return this value to ignore a binding change.
+     */
+    enum Value {
+        NONE
+    }
+    
+    /**
+     * Shorthand for Value.NONE.
+     */
+    static final Value NOVALUE = Value.NONE;
 
     /**
      * Returns the bound model.
@@ -73,7 +82,7 @@ public interface IBinder<T> {
      * @return The new binding.
      */
     default IBinding read(String modelProperty) {
-        return read(modelProperty, (IConverter) null);
+        return read(modelProperty, (Function<?, ?>) null);
     }
 
     /**
@@ -94,7 +103,7 @@ public interface IBinder<T> {
      * @param converter Property converter.
      * @return The new binding.
      */
-    IBinding read(String modelProperty, IConverter converter);
+    IBinding read(String modelProperty, Function<?, ?> converter);
 
     /**
      * Establishes a write binding for the given model property.
@@ -103,7 +112,7 @@ public interface IBinder<T> {
      * @return The new binding.
      */
     default IBinding write(String modelProperty) {
-        return read(modelProperty, (IConverter) null);
+        return write(modelProperty, (Function<?, ?>) null);
     }
 
     /**
@@ -114,7 +123,7 @@ public interface IBinder<T> {
      * @return The new binding.
      */
     default IBinding write(String modelProperty, String template) {
-        return read(modelProperty, new TemplateConverter(template));
+        return write(modelProperty, new TemplateConverter(template));
     }
 
     /**
@@ -124,7 +133,7 @@ public interface IBinder<T> {
      * @param converter Property converter.
      * @return The new binding.
      */
-    IBinding write(String modelProperty, IConverter converter);
+    IBinding write(String modelProperty, Function<?, ?> converter);
 
     /**
      * Establishes a read and write binding for the given model property.
@@ -133,7 +142,7 @@ public interface IBinder<T> {
      * @return The new binding.
      */
     default IBinding dual(String modelProperty) {
-        return dual(modelProperty, (IConverter) null, (IConverter) null);
+        return dual(modelProperty, (Function<?, ?>) null, (Function<?, ?>) null);
     }
 
     /**
@@ -156,5 +165,5 @@ public interface IBinder<T> {
      * @param writeConverter Property converter.
      * @return The new binding.
      */
-    IBinding dual(String modelProperty, IConverter readConverter, IConverter writeConverter);
+    IBinding dual(String modelProperty, Function<?, ?> readConverter, Function<?, ?> writeConverter);
 }
