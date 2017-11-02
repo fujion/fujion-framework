@@ -423,7 +423,6 @@ caption:empty {
     flex-flow: wrap;
     padding-left: 2px;
     padding-right: 2px;
-    align-items: center;
 }
 
 .fujion_toolbar:empty {
@@ -432,6 +431,7 @@ caption:empty {
 
 .fujion_toolbar-horizontal {
 	flex-direction: row;	
+    align-items: center;
 }
 
 .fujion_toolbar-vertical {

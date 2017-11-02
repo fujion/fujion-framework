@@ -35,30 +35,30 @@ import org.fujion.model.ISupportsModel;
  */
 @Component(tag = "paging", widgetClass = "Paging", parentTag = "*", description = "A page navigation component.")
 public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
-    
+
     private IPaginator paginator;
-    
+
     private int currentPage;
-
+    
     private int pageSize;
-    
-    private int maxPage;
-    
-    private boolean fromPaginator;
 
+    private int maxPage;
+
+    private boolean fromPaginator;
+    
     private final IPagingListener pagingListener = (type, oldValue, newValue) -> {
         try {
             fromPaginator = true;
-            
+
             switch (type) {
                 case CURRENT_PAGE:
                     setCurrentPage(newValue);
                     break;
-
+                
                 case PAGE_SIZE:
                     setPageSize(newValue);
                     break;
-
+                
                 case MAX_PAGE:
                     setMaxPage(newValue);
                     break;
@@ -67,15 +67,15 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
             fromPaginator = false;
         }
     };
-
+    
     public Paging() {
         this(null);
     }
-    
+
     public Paging(String label) {
         super(label);
     }
-
+    
     /**
      * Returns the paginator used by this component.
      *
@@ -84,7 +84,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
     public IPaginator getPaginator() {
         return paginator;
     }
-
+    
     /**
      * Sets the paginator used by this component.
      *
@@ -95,13 +95,13 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
             if (this.paginator != null) {
                 this.paginator.removeEventListener(pagingListener);
             }
-
+            
             this.paginator = paginator;
             setMaxPage(paginator == null ? 0 : paginator.getMaxPage());
             syncToPaginator();
         }
     }
-    
+
     /**
      * Returns the number of the currently selected page.
      *
@@ -111,7 +111,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
     public int getCurrentPage() {
         return currentPage;
     }
-    
+
     /**
      * Sets the number of the currently selected page.
      *
@@ -119,11 +119,21 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      */
     @PropertySetter(value = "currentPage", defaultValue = "0", description = "The number of the currently selected page.")
     public void setCurrentPage(int currentPage) {
-        if (propertyChange("currentPage", this.currentPage, this.currentPage = currentPage, true)) {
+        _setCurrentPage(currentPage, true);
+    }
+
+    /**
+     * Sets the current page, optionally notifying the client.
+     *
+     * @param currentPage The new current page.
+     * @param notifyClient If true, notify the client.
+     */
+    private void _setCurrentPage(int currentPage, boolean notifyClient) {
+        if (propertyChange("currentPage", this.currentPage, this.currentPage = currentPage, notifyClient)) {
             syncToPaginator();
         }
     }
-    
+
     /**
      * Returns the maximum number of items on a single page.
      *
@@ -133,7 +143,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
     public int getPageSize() {
         return pageSize;
     }
-    
+
     /**
      * Sets the maximum number of items on a single page.
      *
@@ -145,7 +155,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
             syncToPaginator();
         }
     }
-
+    
     /**
      * Sets the component whose associated model will be manipulated by paging operations.
      *
@@ -163,11 +173,11 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
             throw new ComponentException(comp, "Paging target does not support model");
         }
     }
-    
+
     private void setMaxPage(int maxPage) {
         propertyChange("maxPage", this.maxPage, this.maxPage = maxPage, true);
     }
-    
+
     /**
      * Sync settings from this component with those of the paginator.
      */
@@ -179,7 +189,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
             paginator.addEventListener(pagingListener);
         }
     }
-
+    
     /**
      * Handles change event from the client.
      *
@@ -187,7 +197,6 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      */
     @EventHandler(value = "change", syncToClient = false)
     private void _onChange(ChangeEvent event) {
-        currentPage = defaultify(event.getValue(Integer.class), currentPage);
-        syncToPaginator();
+        _setCurrentPage(defaultify(event.getValue(Integer.class), currentPage), false);
     }
 }

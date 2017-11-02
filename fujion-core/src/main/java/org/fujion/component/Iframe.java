@@ -32,11 +32,11 @@ import org.fujion.event.LoadEvent;
  */
 @Component(tag = "iframe", widgetClass = "Iframe", parentTag = "*", description = "An iframe component.")
 public class Iframe extends BaseUIComponent {
-
+    
     private String src;
-
+    
     private String sandbox;
-
+    
     /**
      * Returns the URL of the loaded document.
      *
@@ -46,7 +46,7 @@ public class Iframe extends BaseUIComponent {
     public String getSrc() {
         return src;
     }
-
+    
     /**
      * Sets the URL of the document to be loaded.
      *
@@ -54,7 +54,17 @@ public class Iframe extends BaseUIComponent {
      */
     @PropertySetter(value = "src", description = "The URL of the loaded document.")
     public void setSrc(String src) {
-        propertyChange("src", this.src, this.src = nullify(src), true);
+        _setSrc(src, true);
+    }
+    
+    /**
+     * Sets the URL of the document to be loaded, optionally notifying the client.
+     *
+     * @param src URL of the document to be loaded.
+     * @param notifyClient If true, notify the client.
+     */
+    private void _setSrc(String src, boolean notifyClient) {
+        propertyChange("src", this.src, this.src = nullify(src), notifyClient);
     }
 
     /**
@@ -65,7 +75,7 @@ public class Iframe extends BaseUIComponent {
     public void setContent(MimeContent content) {
         setSrc(content == null ? null : content.getSrc());
     }
-
+    
     /**
      * Directly sets the iframe content.
      *
@@ -75,7 +85,7 @@ public class Iframe extends BaseUIComponent {
     public void setContent(String content) {
         setContent(content == null ? null : new MimeContent("text/html", content.getBytes()));
     }
-
+    
     /**
      * Returns the sandbox setting for the iframe.
      *
@@ -87,7 +97,7 @@ public class Iframe extends BaseUIComponent {
     public String getSandbox() {
         return sandbox;
     }
-
+    
     /**
      * Sets the sandbox setting for the iframe.
      *
@@ -99,7 +109,7 @@ public class Iframe extends BaseUIComponent {
     public void setSandbox(String sandbox) {
         propertyChange("sandbox", this.sandbox, this.sandbox = sandbox, true);
     }
-
+    
     /**
      * Handles a load event from the client.
      *
@@ -108,9 +118,9 @@ public class Iframe extends BaseUIComponent {
     @EventHandler(value = "load", syncToClient = false)
     private void _onLoad(LoadEvent event) {
         String src = nullify(event.getSrc());
-
+        
         if (src != null) {
-            this.src = src;
+            _setSrc(src, false);
         }
     }
 }

@@ -31,18 +31,18 @@ import org.fujion.event.ChangeEvent;
  */
 @Component(tag = "checkbox", widgetClass = "Checkbox", parentTag = "*", description = "A simple check box with an associated label.")
 public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionHorz> {
-    
+
     private boolean checked;
-    
+
     public Checkbox() {
         this(null);
     }
-    
+
     public Checkbox(String label) {
         super(label);
         setPosition(LabelPositionHorz.RIGHT);
     }
-    
+
     /**
      * Returns the checked state of the check box.
      *
@@ -52,7 +52,7 @@ public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public boolean isChecked() {
         return checked;
     }
-    
+
     /**
      * Sets the checked state of the check box.
      *
@@ -60,9 +60,19 @@ public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
      */
     @PropertySetter(value = "checked", defaultValue = "false", description = "The checked state of the check box.")
     public void setChecked(boolean checked) {
-        propertyChange("checked", this.checked, this.checked = checked, true);
+        _setChecked(checked, true);
     }
-    
+
+    /**
+     * Update the checked state and optionally notify the client.
+     *
+     * @param checked The new checked state.
+     * @param notifyClient If true, notify the client.
+     */
+    public void _setChecked(boolean checked, boolean notifyClient) {
+        propertyChange("checked", this.checked, this.checked = checked, notifyClient);
+    }
+
     /**
      * Returns the position of the label relative to the contained elements. Defaults to 'right'.
      *
@@ -73,7 +83,7 @@ public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public LabelPositionHorz getPosition() {
         return super.getPosition();
     }
-    
+
     /**
      * Sets the position of the label relative to the contained elements.
      *
@@ -84,7 +94,7 @@ public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public void setPosition(LabelPositionHorz position) {
         super.setPosition(position);
     }
-    
+
     /**
      * Handler for change events sent from the client.
      *
@@ -92,7 +102,7 @@ public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
      */
     @EventHandler(value = "change", syncToClient = false)
     protected void _onChange(ChangeEvent event) {
-        checked = defaultify(event.getValue(Boolean.class), true);
+        _setChecked(defaultify(event.getValue(Boolean.class), true), false);
     }
-    
+
 }

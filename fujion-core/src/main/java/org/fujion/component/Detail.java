@@ -34,17 +34,17 @@ import org.fujion.event.OpenEvent;
  */
 @Component(tag = "detail", widgetModule = "fujion-detail", widgetClass = "Detail", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A collapsible detail component.")
 public class Detail extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
-
+    
     private boolean open;
-
+    
     public Detail() {
         this(null);
     }
-
+    
     public Detail(String label) {
         super(label);
     }
-    
+
     /**
      * Returns true if the detail view is open.
      *
@@ -54,7 +54,7 @@ public class Detail extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
     public boolean isOpen() {
         return open;
     }
-    
+
     /**
      * Set the detail view open state.
      *
@@ -62,7 +62,17 @@ public class Detail extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      */
     @PropertySetter(value = "open", defaultValue = "false", description = "True if the detail view is open.")
     public void setOpen(boolean open) {
-        propertyChange("open", this.open, this.open = open, true);
+        _setOpen(open, true);
+    }
+    
+    /**
+     * Set the detail view open state, optionally notifying the client
+     *
+     * @param open The new open state.
+     * @param notifyClient If true, notify the client.
+     */
+    private void _setOpen(boolean open, boolean notifyClient) {
+        propertyChange("open", this.open, this.open = open, notifyClient);
     }
 
     /**
@@ -72,9 +82,9 @@ public class Detail extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      */
     @EventHandler(value = "open", syncToClient = false)
     private void _onOpen(OpenEvent event) {
-        open = true;
+        _setOpen(true, false);
     }
-    
+
     /**
      * Handles an close event from the client.
      *
@@ -82,6 +92,6 @@ public class Detail extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      */
     @EventHandler(value = "close", syncToClient = false)
     private void _onClose(CloseEvent event) {
-        open = false;
+        _setOpen(false, false);
     }
 }
