@@ -2996,7 +2996,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		renderMenu: function(ul, items) {
 			this._ul = ul;
-			ul.css('z-index', this.widget$.fujion$zindex() + 1);
+			ul.css('z-index', fujion.widget._zmodal);
 			var ac = this.input$().autocomplete('instance');
 			
 			_.forEach(items, function(item) {
