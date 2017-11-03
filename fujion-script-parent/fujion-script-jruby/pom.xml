@@ -16,6 +16,10 @@
 			<artifactId>jruby</artifactId>
 			<version>9.1.12.0</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
 	</dependencies>
 	
 </project>

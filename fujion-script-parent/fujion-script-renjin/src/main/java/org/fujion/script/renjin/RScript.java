@@ -34,30 +34,30 @@ import org.renjin.script.RenjinScriptEngineFactory;
  * Support for embedding Renjin (R language) scripts.
  */
 public class RScript implements IScriptLanguage {
-
-    private static volatile RenjinScriptEngineFactory factory;
     
+    private static volatile RenjinScriptEngineFactory factory;
+
     /**
      * Wrapper for a Renjin script. Note that Renjin does not support pre-compiling scripts.
      */
     public static class ParsedScript implements IParsedScript {
-
+        
         private final String source;
-
+        
         public ParsedScript(String source) {
             this.source = source.trim();
         }
-
+        
         @Override
         public Object run(Map<String, Object> variables) {
             RenjinScriptEngine engine = getFactory().getScriptEngine();
-
+            
             if (variables != null) {
                 for (Entry<String, Object> entry : variables.entrySet()) {
                     engine.put(entry.getKey(), entry.getValue());
                 }
             }
-
+            
             try {
                 return engine.eval(source);
             } catch (ScriptException e) {
@@ -65,15 +65,29 @@ public class RScript implements IScriptLanguage {
             }
         }
     }
-
-    public static synchronized RenjinScriptEngineFactory getFactory() {
+    
+    /**
+     * Return the Renjin script engine factory.
+     *
+     * @return The Rengin script engine factory.
+     */
+    public static RenjinScriptEngineFactory getFactory() {
+        return factory == null ? _getFactory() : factory;
+    }
+    
+    /**
+     * Initialize the Renjin script engine factory.
+     *
+     * @return The initialized Renjin script engine factory.
+     */
+    private static synchronized RenjinScriptEngineFactory _getFactory() {
         if (factory == null) {
             factory = new RenjinScriptEngineFactory();
         }
-        
+
         return factory;
     }
-
+    
     /**
      * @see org.fujion.script.IScriptLanguage#getType()
      */
@@ -81,7 +95,7 @@ public class RScript implements IScriptLanguage {
     public String getType() {
         return "renjin";
     }
-
+    
     /**
      * @see org.fujion.script.IScriptLanguage#parse(java.lang.String)
      */
@@ -89,5 +103,5 @@ public class RScript implements IScriptLanguage {
     public IParsedScript parse(String source) {
         return new ParsedScript(source);
     }
-
+    
 }
