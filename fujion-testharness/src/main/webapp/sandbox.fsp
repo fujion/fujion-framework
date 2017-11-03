@@ -1,4 +1,4 @@
  
-<page title="Fujion Sandbox"> 
+<page title="Fujion Sandbox" image="webjars/fujion/img/fujion.png"> 
 	<import src="web/org/fujion/sandbox/main.fsp" />
 </page>
