@@ -164,6 +164,10 @@ public class PageParser {
             
             case Node.TEXT_NODE:
             case Node.CDATA_SECTION_NODE:
+                if (isTextNode(node.getPreviousSibling())) {
+                    break;
+                }
+                
                 Text text = (Text) node;
                 String value = text.getWholeText();
                 
@@ -215,6 +219,16 @@ public class PageParser {
         }
     }
     
+    /**
+     * Returns true if the node is a text or CDATA node.
+     *
+     * @param node Node to test.
+     * @return True if the node is a text or CDATA node.
+     */
+    private boolean isTextNode(Node node) {
+        return node != null && (node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.CDATA_SECTION_NODE);
+    }
+
     private void parseChildren(Node node, PageElement parentElement) {
         NodeList children = node.getChildNodes();
         int childCount = children.getLength();
