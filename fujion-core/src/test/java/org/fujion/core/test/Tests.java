@@ -135,15 +135,15 @@ public class Tests {
         assertNotNull(ref);
         BaseComponent cmp = ref.findByName("mycomp");
         assertTrue(cmp instanceof Button);
-        cmp = ref.findByName("^.mycomp");
+        cmp = ref.findByName("^/mycomp");
         assertTrue(cmp instanceof Label);
         cmp = ref.findByName("mycomp2");
         assertTrue(cmp instanceof Toolbar);
-        cmp = ref.findByName("^.mycomp2");
+        cmp = ref.findByName("^/mycomp2");
         assertNull(cmp);
-        cmp = ref.findByName("^.myinner.mycomp2");
+        cmp = ref.findByName("^/myinner/mycomp2");
         assertTrue(cmp instanceof Toolbar);
-        cmp = ref.findByName("^.mycomp.myinner.mycomp");
+        cmp = ref.findByName("^/mycomp/myinner/mycomp");
         assertTrue(cmp instanceof Button);
     }
 

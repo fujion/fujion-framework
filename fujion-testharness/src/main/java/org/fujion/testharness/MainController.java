@@ -73,7 +73,7 @@ public class MainController implements IAutoWired {
      *
      * @param event The log event.
      */
-    @EventHandler(value = "log", target = "^.page")
+    @EventHandler(value = "log", target = "^/page")
     private void onInfo(Event event) {
         log((String) event.getData());
     }

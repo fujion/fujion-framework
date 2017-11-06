@@ -38,19 +38,19 @@ import org.fujion.event.ResizeEvent;
  */
 public class WindowsController extends BaseController {
     
-    @WiredComponent("^.messagewindow")
+    @WiredComponent("^/messagewindow")
     private MessageWindow messagewindow;
     
-    @WiredComponent("window1.window_div")
+    @WiredComponent("window1/window_div")
     private Div windowdiv1;
     
-    @WiredComponent("window2.window_div")
+    @WiredComponent("window2/window_div")
     private Div windowdiv2;
     
     @WiredComponent("window3")
     private Window window3;
     
-    @WiredComponent("window3.rgMode")
+    @WiredComponent("window3/rgMode")
     private Radiogroup rgMode;
     
     private int messageClass = -1;
@@ -58,14 +58,14 @@ public class WindowsController extends BaseController {
     @Override
     public void afterInitialized(BaseComponent root) {
         super.afterInitialized(root);
-        log(windowdiv1 == null, "Component window1.window_div was NOT autowired.",
-            "Component window1.window_div was autowired.");
-        log(windowdiv2 == null, "Component window2.window_div was NOT autowired.",
-            "Component window2.window_div was autowired.");
-        log(windowdiv1 == windowdiv2, "window1.window_div and window2.window_div should not be the same.", null);
+        log(windowdiv1 == null, "Component window1/window_div was NOT autowired.",
+            "Component window1/window_div was autowired.");
+        log(windowdiv2 == null, "Component window2/window_div was NOT autowired.",
+            "Component window2/window_div was autowired.");
+        log(windowdiv1 == windowdiv2, "window1/window_div and window2/window_div should not be the same.", null);
     }
     
-    @EventHandler(value = "change", target = "window3.rgMode")
+    @EventHandler(value = "change", target = "window3/rgMode")
     private void rgModeHandler() {
         Mode newMode = Mode.valueOf(rgMode.getSelected().getLabel().toUpperCase());
         window3.setMode(newMode);
