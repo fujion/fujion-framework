@@ -18,7 +18,7 @@
  *
  * #L%
  */
-package org.fujion.test;
+package org.fujion.core.test;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.fujion.model.GenericBinder;

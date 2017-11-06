@@ -28,8 +28,11 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.fujion.client.ExecutionContext;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
+import org.fujion.page.PageDefinition;
+import org.fujion.page.PageUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.springframework.core.io.Resource;
@@ -39,35 +42,35 @@ import org.springframework.core.io.Resource;
  * for unit tests.
  */
 public class MockTest {
-    
+
     public static Class<? extends MockEnvironment> mockEnvironmentClass = MockEnvironment.class;
-    
+
     public static MockConfig rootConfig = new MockConfig(
             new String[] { "classpath:/META-INF/fujion-dispatcher-servlet.xml" }, null);
-    
-    public static MockConfig childConfig;
-    
-    private static MockEnvironment mockEnvironment;
 
-    private static int initCount;
+    public static MockConfig childConfig;
+
+    private static MockEnvironment mockEnvironment;
     
+    private static int initCount;
+
     @BeforeClass
     public static void beforeClass() throws Exception {
         initCount++;
         getMockEnvironment();
     }
-    
+
     @AfterClass
     public static void afterClass() {
         initCount = initCount <= 0 ? 0 : initCount - 1;
-
+        
         if (initCount == 0 && mockEnvironment != null) {
             System.out.println("Destroying mock environment...");
             mockEnvironment.close();
             mockEnvironment = null;
         }
     }
-    
+
     /**
      * Returns the mock environment, instantiating it if necessary.
      *
@@ -83,8 +86,29 @@ public class MockTest {
                 throw MiscUtil.toUnchecked(e);
             }
         }
-        
+
         return mockEnvironment;
+    }
+
+    /**
+     * Returns the real path of a web resource.
+     *
+     * @param path The relative path of the web resource.
+     * @return The real path of the web resource on the local file system.
+     */
+    public String getRealPath(String path) {
+        return ExecutionContext.getSession().getServletContext().getRealPath(path);
+    }
+    
+    /**
+     * Get a page definition from a source reference.
+     *
+     * @param src A source reference. This is resolved via the servlet context.
+     * @return The page definition.
+     */
+    public PageDefinition getPageDefinition(String src) {
+        String path = "file://" + getRealPath(src);
+        return PageUtil.getPageDefinition(path);
     }
     
     /**
@@ -99,7 +123,7 @@ public class MockTest {
         InputStream is = resource.getInputStream();
         Writer writer = new StringWriter();
         char[] buffer = new char[1024];
-        
+
         try {
             Reader reader = new BufferedReader(new InputStreamReader(is, StrUtil.UTF8));
             int n;

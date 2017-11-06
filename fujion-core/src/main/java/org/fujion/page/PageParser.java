@@ -47,35 +47,35 @@ import org.w3c.dom.Text;
  * Parses a Fujion server page into a page definition.
  */
 public class PageParser implements BeanPostProcessor {
-
+    
     private static final Log log = LogFactory.getLog(PageParser.class);
-
+    
     private static final PageParser instance = new PageParser();
-
+    
     public static final String CONTENT_ATTR = "#text";
-
+    
     public static final String NS_FSP = "http://www.fujion.org/schema/fsp";
-
+    
     public static final String NS_ON = NS_FSP + "/on";
-
+    
     public static final String NS_ATTR = NS_FSP + "/attr";
-
+    
     private final Map<String, String> attrNSMap = new HashMap<>();
-
+    
     private final Map<String, String> tagNSMap = new HashMap<>();
-
+    
     private final RegistryMap<String, PIParserBase> piParsers = new RegistryMap<>(DuplicateAction.ERROR);
-
+    
     public static PageParser getInstance() {
         return instance;
     }
-
+    
     private PageParser() {
         attrNSMap.put(NS_ON, "on");
         attrNSMap.put(NS_ATTR, "attr");
         tagNSMap.put(NS_FSP, "");
     }
-
+    
     /**
      * Parses a Fujion Server Page into a page definition.
      *
@@ -85,7 +85,7 @@ public class PageParser implements BeanPostProcessor {
     public PageDefinition parse(String src) {
         return parse(WebUtil.getResource(src));
     }
-
+    
     /**
      * Parses a Fujion Server Page into a page definition.
      *
@@ -95,7 +95,7 @@ public class PageParser implements BeanPostProcessor {
     public PageDefinition parse(Resource resource) {
         return parse(new PageSource(resource));
     }
-
+    
     /**
      * Parses a Fujion Server Page into a page definition.
      *
@@ -105,20 +105,20 @@ public class PageParser implements BeanPostProcessor {
     public PageDefinition parse(InputStream stream) {
         return parse(new PageSource(stream));
     }
-
+    
     /**
      * Parses a Fujion Server Page into a page definition.
      *
      * @param source Source of the FSP.
      * @return The resulting page definition.
      */
-    protected PageDefinition parse(PageSource source) {
+    public PageDefinition parse(PageSource source) {
         PageDefinition pageDefinition = new PageDefinition();
         pageDefinition.setSource(source.getSource());
         parse(source, pageDefinition.getRootElement());
         return pageDefinition;
     }
-
+    
     /**
      * Parse the FSP document referenced by an input stream.
      *
@@ -128,104 +128,104 @@ public class PageParser implements BeanPostProcessor {
     protected void parse(PageSource source, PageElement parentElement) {
         parseNode(source.getDocument(), parentElement);
     }
-    
+
     private void parseNode(Node node, PageElement parentElement) {
         ComponentDefinition def;
         PageElement childElement;
-
+        
         switch (node.getNodeType()) {
             case Node.ELEMENT_NODE:
                 String tag = normalizeNodeName(node, tagNSMap);
-                
+
                 if (tag == null) {
                     break;
                 }
-
+                
                 if (tag.equals("fsp") && node.getParentNode() instanceof Document) {
                     parseChildren(node, parentElement);
                     return;
                 }
-                
-                def = ComponentRegistry.getInstance().get(tag);
 
+                def = ComponentRegistry.getInstance().get(tag);
+                
                 if (def == null) {
                     throw new ParserException("Unrecognized tag  '<%s>'", tag);
                 }
-
+                
                 childElement = new PageElement(def, parentElement);
                 NamedNodeMap attributes = node.getAttributes();
-
+                
                 for (int i = 0; i < attributes.getLength(); i++) {
                     Node attr = attributes.item(i);
                     String name = normalizeNodeName(attr, attrNSMap);
-
+                    
                     if (name != null) {
                         childElement.setAttribute(name, attr.getNodeValue());
                     }
                 }
-
+                
                 parseChildren(node, childElement);
                 childElement.validate();
                 break;
-
+            
             case Node.TEXT_NODE:
             case Node.CDATA_SECTION_NODE:
                 if (isTextNode(node.getPreviousSibling())) {
                     break;
                 }
-                
-                String value = ((Text) node).getWholeText();
 
+                String value = ((Text) node).getWholeText();
+                
                 if (value.trim().isEmpty()) {
                     break;
                 }
-
+                
                 ComponentDefinition parentDef = parentElement.getDefinition();
-
+                
                 switch (parentDef == null ? ContentHandling.AS_CHILD : parentDef.contentHandling()) {
                     case ERROR:
                         throw new ParserException("Text content is not allowed for tag '<%s>'", parentDef.getTag());
-
+                        
                     case IGNORE:
                         break;
-
+                    
                     case AS_ATTRIBUTE:
                         parentElement.setAttribute(CONTENT_ATTR, normalizeText(value));
                         break;
-
+                    
                     case AS_CHILD:
                         def = ComponentRegistry.getInstance().get(Content.class);
                         childElement = new PageElement(def, parentElement);
                         childElement.setAttribute(CONTENT_ATTR, normalizeText(value));
                         break;
                 }
-
+                
                 break;
-
+            
             case Node.DOCUMENT_NODE:
                 parseChildren(node, parentElement);
                 break;
-
+            
             case Node.COMMENT_NODE:
                 break;
-
+            
             case Node.PROCESSING_INSTRUCTION_NODE:
                 ProcessingInstruction pi = (ProcessingInstruction) node;
                 PIParserBase piParser = piParsers.get(pi.getTarget());
-
+                
                 if (piParser != null) {
                     piParser.parse(pi, parentElement);
                 } else {
                     throw new ParserException("Unrecognized processing instruction \"%s\"", pi.getTarget());
                 }
-
+                
                 break;
-
+            
             default:
                 throw new ParserException("Unrecognized document content type \"%s\"", node.getNodeName());
         }
     }
-    
+
     /**
      * Returns true if the node is a text or CDATA node.
      *
@@ -235,7 +235,7 @@ public class PageParser implements BeanPostProcessor {
     private boolean isTextNode(Node node) {
         return node != null && (node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.CDATA_SECTION_NODE);
     }
-
+    
     /**
      * Normalizes a namespace-prefixed node name by mapping the namespace's URL to a standard
      * prefix. If the namespace URL is not known, null is returned. If the node name has no prefix,
@@ -248,7 +248,7 @@ public class PageParser implements BeanPostProcessor {
     private String normalizeNodeName(Node node, Map<String, String> nsMap) {
         String name = node.getNodeName();
         int i = name.indexOf(":");
-
+        
         if (i > 0) {
             String pfx = name.substring(0, i);
             name = name.substring(i + 1);
@@ -256,40 +256,40 @@ public class PageParser implements BeanPostProcessor {
             pfx = nsMap.get(uri);
             name = pfx == null ? null : pfx.isEmpty() ? name : pfx + ":" + name;
         }
-
+        
         return name;
     }
-    
+
     private void parseChildren(Node node, PageElement parentElement) {
         NodeList children = node.getChildNodes();
         int childCount = children.getLength();
-
+        
         for (int i = 0; i < childCount; i++) {
             Node childNode = children.item(i);
             parseNode(childNode, parentElement);
         }
     }
-
+    
     private String normalizeText(String text) {
         int i = text.indexOf('\n');
-
+        
         if (i == -1) {
             return text;
         }
-
+        
         if (text.substring(0, i).trim().isEmpty()) {
             text = text.substring(i + 1);
         }
-
+        
         i = text.lastIndexOf('\n');
-
+        
         if (i >= 0 && text.substring(i).trim().isEmpty()) {
             text = text.substring(0, i);
         }
-
+        
         return text;
     }
-    
+
     /**
      * Registers a processing instruction parser.
      *
@@ -299,19 +299,19 @@ public class PageParser implements BeanPostProcessor {
         piParsers.put(piParser.getTarget(), piParser);
         log.info("Registered processing instruction parser for target '" + piParser.getTarget() + "'.");
     }
-
+    
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
-    
+
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof PIParserBase) {
             registerPIParser((PIParserBase) bean);
         }
-
+        
         return bean;
     }
-
+    
 }
