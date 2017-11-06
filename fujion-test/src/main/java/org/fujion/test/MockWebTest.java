@@ -28,11 +28,11 @@ import org.junit.BeforeClass;
  * running for unit tests.
  */
 public class MockWebTest {
-
+    
     private static int initCount;
-    
+
     protected static MockWebServer server;
-    
+
     @BeforeClass
     public static void beforeClass() throws Exception {
         if (initCount++ == 0) {
@@ -40,13 +40,13 @@ public class MockWebTest {
             server.start();
         }
     }
-
+    
     @AfterClass
     public static void afterClass() throws Exception {
-        if (initCount-- == 0) {
+        if (--initCount == 0) {
             server.stop();
             server = null;
         }
     }
-    
+
 }

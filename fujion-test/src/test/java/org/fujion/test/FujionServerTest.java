@@ -28,10 +28,10 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-public class FujionTestServer extends MockWebTest {
-
+public class FujionServerTest extends MockWebTest {
+    
     @Test
-    public void test() throws Exception {
+    public void testServer() throws Exception {
         InputStream result = server.request("web/fujion/test/test.fsp");
         List<String> data = IOUtils.readLines(result, "UTF-8");
         assertTrue(data.get(0).equals("<head>"));

@@ -13,6 +13,20 @@
 		Testing framework that includes mock classes for core components.
 	</description>
 	
+	<build>
+		<plugins>
+	        <plugin>
+	          <artifactId>maven-surefire-plugin</artifactId>
+	          <configuration>
+	          	<parallel>classes</parallel>
+	          	<forkCount>2</forkCount>
+	          	<reuseForks>false</reuseForks>
+	          	<threadCount>1</threadCount>
+	          </configuration>
+	        </plugin>
+		</plugins>
+	</build>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.fujion</groupId>

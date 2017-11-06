@@ -35,17 +35,17 @@ import org.fujion.page.PageUtil;
 import org.junit.Test;
 
 public class FujionTest extends MockTest {
-
+    
     @Test
     public void parserTests() {
-        PageDefinition pagedef = getPageDefinition("test.fsp");
+        PageDefinition pagedef = getPageDefinition("web/fujion/test/test.fsp");
         PageElement pgele = pagedef.getRootElement().getChildren().iterator().next();
         Page page = ExecutionContext.getPage();
         ComponentDefinition cmpdef = pgele.getDefinition();
         assertEquals("page", cmpdef.getTag());
         assertEquals(Page.class, cmpdef.getComponentClass());
         assertEquals("page", pgele.getAttributes().get("name"));
-
+        
         List<BaseComponent> roots = PageUtil.createPage(pagedef, page, null);
         assertEquals(1, roots.size());
         BaseComponent root = roots.get(0);
@@ -53,5 +53,5 @@ public class FujionTest extends MockTest {
         assertEquals("page", page.getName());
         assertEquals("The Page Title", page.getTitle());
     }
-    
+
 }
