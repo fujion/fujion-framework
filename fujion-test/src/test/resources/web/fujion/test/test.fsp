@@ -43,5 +43,9 @@
 			<div data="${@msg.test3}"/>
 			<div data="${@msg.test.dotted.name}"/>
 		</div>
+		<div name="tag_libraries">
+			<?taglib uri="http://www.fujion.org/tld/test" prefix="test_tlb"?>
+			<div data="${test_tlb.getLabel('test')}"/>
+		</div>
 	</page>
 </fsp>

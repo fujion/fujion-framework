@@ -38,7 +38,7 @@ import org.fujion.page.PageUtil;
 import org.junit.Test;
 
 public class FujionTest extends MockTest {
-    
+
     @Test
     public void parserTests() {
         PageDefinition pagedef = getPageDefinition("web/fujion/test/test.fsp");
@@ -48,7 +48,7 @@ public class FujionTest extends MockTest {
         assertEquals("page", cmpdef.getTag());
         assertEquals(Page.class, cmpdef.getComponentClass());
         assertEquals("page", pgele.getAttributes().get("name"));
-
+        
         List<BaseComponent> roots = PageUtil.createPage(pagedef, page, null);
         assertEquals(1, roots.size());
         BaseComponent root = roots.get(0);
@@ -91,18 +91,22 @@ public class FujionTest extends MockTest {
         checkLabel(labels, 2, "This contains a recursive reference: This contains a label reference: This is a test.");
         checkLabel(labels, 3, "This introduces an infinite recursion: Infinite recursion: test3");
         checkLabel(labels, 4, "Demonstration of a dotted name.");
+        // Tag libraries
+        BaseComponent tag_libraries = page.findByName("tag_libraries");
+        assertNotNull(tag_libraries);
+        assertEquals("This is a test.", tag_libraries.getFirstChild().getData());
     }
-    
+
     private void checkEL(BaseComponent parent, int childIndex, Object expectedValue) {
         BaseComponent comp = parent.getChildAt(childIndex);
         assertEquals(expectedValue, comp.getAttribute("el"));
     }
-
+    
     private void checkNS(BaseComponent ref, String path, boolean notNull) {
         BaseComponent comp = ref.findByName(path);
         assertTrue(notNull ? comp != null : comp == null);
     }
-    
+
     private void checkLabel(BaseComponent parent, int childIndex, String expectedValue) {
         BaseComponent comp = parent.getChildAt(childIndex);
         assertEquals(expectedValue, comp.getData());
