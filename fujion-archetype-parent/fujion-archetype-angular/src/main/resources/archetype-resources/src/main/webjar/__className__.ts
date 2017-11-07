@@ -2,9 +2,9 @@ import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
-// Pomodoro timer component
-// Note: bootstrapping is handled automatically.
-// Note: that we do not specify a selector as it will be assigned during bootstrapping.
+// ${ClassName} component
+// Note: Bootstrapping is handled automatically.
+// Note: Selector is optional as one will be assigned during bootstrapping.
 @Component({
     moduleId: module.id,
     selector: '${classname}',
