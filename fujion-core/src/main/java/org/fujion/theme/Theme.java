@@ -75,7 +75,7 @@ public class Theme {
                             i++;
                             token = "(.*)";
                         } else {
-                            token = "(.?\\/)";
+                            token = "([^\\/]*)";
                         }
                         
                         break;

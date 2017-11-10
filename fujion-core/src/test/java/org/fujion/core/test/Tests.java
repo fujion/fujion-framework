@@ -62,6 +62,7 @@ import org.fujion.page.PageElement;
 import org.fujion.page.PageParser;
 import org.fujion.page.PageSource;
 import org.fujion.page.PageUtil;
+import org.fujion.theme.Theme;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -323,6 +324,20 @@ public class Tests {
         }
 
         assertEquals(nodes.length, index);
+    }
+    
+    @Test
+    public void testThemes() {
+        Theme theme = new Theme("test-theme");
+        theme.addMapping("org/acme/*/test/*/**", "org/fujion/$0/test/$2/$1/$3");
+        theme.addMapping("*/test/**/*.css", "$1:$2:$3");
+        theme.addMapping("/webjars/bootstrap/**", "/webjars/bootswatch-$0/$1");
+        assertEquals("org/fujion/test-theme/test/test2/test1/file.xyz",
+            theme.translatePath("org/acme/test1/test/test2/file.xyz"));
+        assertEquals("test1:test2.1/test2.2:test3", theme.translatePath("test1/test/test2.1/test2.2/test3.css"));
+        assertEquals("/webjars/bootswatch-test-theme/css/bootstrap.css",
+            theme.translatePath("/webjars/bootstrap/css/bootstrap.css"));
+        assertNull(theme.translatePath("this/should/not/match"));
     }
     
     private PageDefinition getPageDefinition(String file) {
