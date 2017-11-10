@@ -18,7 +18,7 @@
  *
  * #L%
  */
-package org.fujion.client;
+package org.fujion.webjar;
 
 import java.io.IOException;
 import java.util.Iterator;

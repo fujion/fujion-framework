@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.http.NameValuePair;
@@ -44,7 +43,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.fujion.client.ExecutionContext;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
-import org.fujion.servlet.WebJarResourceResolver;
+import org.fujion.servlet.WebAppConfiguration;
+import org.fujion.webjar.WebJarResourceResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -56,39 +56,14 @@ public class WebUtil {
     
     public static final String FUJION_VERSION = WebUtil.class.getPackage().getImplementationVersion();
     
-    private static Boolean debugEnabled;
-    
     /**
-     * Initialize the debug state. This is determined by the <code>fujion.debug</code> property
-     * value taken from the system properties or, absent that, from the the context parameter
-     * settings in the web.xml file. This method is called during server startup and cannot be
-     * called more than one.
-     *
-     * @param servletContext The servlet context.
-     */
-    public static void initDebug(ServletContext servletContext) {
-        if (debugEnabled != null) {
-            throw new IllegalStateException("Debug status has already been initialized.");
-        }
-        
-        String debug = System.getProperty("fujion.debug");
-        debug = debug != null ? debug : servletContext.getInitParameter("fujion.debug");
-        debugEnabled = debug != null && (debug.isEmpty() || BooleanUtils.toBoolean(debug));
-    }
-    
-    /**
-     * Returns the debug state of the servlet. When enabled (see {@link #initDebug}), the debug
-     * state can affect various application behaviors such as disabling javascript minification.
+     * Returns the debug state of the servlet. When enabled, the debug state can affect various
+     * application behaviors such as disabling javascript minification.
      *
      * @return The debug state.
-     * @exception IllegalStateException Thrown if debug status has not been initialized.
      */
     public static boolean isDebugEnabled() {
-        if (debugEnabled == null) {
-            throw new IllegalStateException("Debug status has not been initialized.");
-        }
-        
-        return debugEnabled;
+        return WebAppConfiguration.isDebugEnabled();
     }
     
     /**

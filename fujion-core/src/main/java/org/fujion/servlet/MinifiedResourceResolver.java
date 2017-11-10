@@ -32,14 +32,14 @@ import org.springframework.web.servlet.resource.ResourceResolverChain;
 
 /**
  * Checks for the presence of a minified version of a resource, returning it instead if found.
- * Enabling debug mode will disable this resolver..
+ * Enabling debug mode will disable this resolver.
  */
 public class MinifiedResourceResolver extends AbstractResourceResolver {
-
+    
     private final boolean debugEnabled;
-
+    
     private final String[] extensions;
-
+    
     /**
      * @param extensions The file extensions to be considered.
      */
@@ -47,30 +47,30 @@ public class MinifiedResourceResolver extends AbstractResourceResolver {
         this.extensions = extensions;
         debugEnabled = WebUtil.isDebugEnabled();
     }
-
+    
     @Override
     protected Resource resolveResourceInternal(HttpServletRequest request, String requestPath,
                                                List<? extends Resource> locations, ResourceResolverChain chain) {
         boolean ignore = !FilenameUtils.isExtension(requestPath, extensions);
-
+        
         if (!ignore) {
             int i = requestPath.lastIndexOf(".");
             String ext = debugEnabled ? ".src" : ".min";
             String path = requestPath.substring(0, i) + ext + requestPath.substring(i);
             Resource resource = chain.resolveResource(request, path, locations);
-
+            
             if (resource != null) {
                 return resource;
             }
         }
-
+        
         return chain.resolveResource(request, requestPath, locations);
     }
-
+    
     @Override
     protected String resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
                                             ResourceResolverChain chain) {
         return chain.resolveUrlPath(resourceUrlPath, locations);
     }
-
+    
 }

@@ -59,7 +59,7 @@
 	
 	<bean id="fujion_WebJarLocator" 
 		factory-method="getInstance"
-		class="org.fujion.client.WebJarLocator" />
+		class="org.fujion.webjar.WebJarLocator" />
 	
 	<bean class="org.fujion.event.EventRequestHandler" />
 
@@ -98,6 +98,15 @@
 	
 	<bean factory-method="getInstance" depends-on="fujion_WebJarLocator"
 		class="org.fujion.theme.ThemeRegistry" />
+	
+	<bean class="org.fujion.theme.Theme">
+		<constructor-arg value="default"/>
+		<property name="mappings" >
+			<map>
+				<entry key="/webjars/bootstrap/**" value=""/>
+			</map>
+		</property>
+	</bean>
 	
 	<bean factory-method="getInstance" 
 		class="org.fujion.page.PageParser" />

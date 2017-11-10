@@ -66,6 +66,7 @@
 		<module>fujion-testharness</module>
 		<module>fujion-archetype-parent</module>
 		<module>fujion-schemas</module>
+		<module>fujion-themes</module>
 	</modules>
 	
 	<distributionManagement>

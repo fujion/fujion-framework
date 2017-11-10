@@ -21,6 +21,7 @@
 package org.fujion.theme;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 
@@ -29,18 +30,23 @@ import org.springframework.web.servlet.theme.CookieThemeResolver;
  */
 public class ThemeResolver extends CookieThemeResolver {
 
-    public static final String COOKIE_NAME = "fujion-theme";
-
     public ThemeResolver() {
-        super();
-        this.setDefaultThemeName("default");
-        setCookieName(COOKIE_NAME);
+        setDefaultThemeName("default");
     }
 
     @Override
     public String resolveThemeName(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
         String themeName = request.getParameter("theme");
-        return themeName == null ? super.resolveThemeName(request) : themeName;
+        String cookieName = getCookieName();
+        themeName = themeName != null ? themeName : session == null ? null : (String) session.getAttribute(cookieName);
+        themeName = themeName != null ? themeName : super.resolveThemeName(request);
+
+        if (session != null) {
+            session.setAttribute(cookieName, themeName);
+        }
+        
+        return themeName;
     }
     
 }

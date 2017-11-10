@@ -30,34 +30,9 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-cerulean</artifactId>
-			<version>3.3.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-cosmo</artifactId>
-			<version>3.3.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-cyborg</artifactId>
-			<version>3.3.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-darkly</artifactId>
-			<version>3.3.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-sandstone</artifactId>
-			<version>3.3.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-slate</artifactId>
-			<version>3.3.7</version>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-themes</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>

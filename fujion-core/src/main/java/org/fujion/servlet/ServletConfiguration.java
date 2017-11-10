@@ -26,6 +26,7 @@ import org.fujion.annotation.ComponentScanner;
 import org.fujion.annotation.EventTypeScanner;
 import org.fujion.component.BaseComponent;
 import org.fujion.event.Event;
+import org.fujion.webjar.WebJarResourceResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

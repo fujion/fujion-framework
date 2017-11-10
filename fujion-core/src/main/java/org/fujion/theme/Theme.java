@@ -20,30 +20,120 @@
  */
 package org.fujion.theme;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
- * Theme implementation that can pull from multiple sources.
+ * Theme implementation that specifies URL rewrites for theme resources.
  */
 public class Theme {
+
+    private static final Log log = LogFactory.getLog(Theme.class);
+
+    /**
+     * Represents a single URL mapping.
+     */
+    private class Mapping {
+        
+        final Pattern fromPattern;
+        
+        final String toPattern;
+        
+        Mapping(String fromPattern, String toPattern) {
+            this.fromPattern = toRegEx(fromPattern);
+            this.toPattern = StringUtils.trimToNull(toPattern);
+        }
+        
+        /**
+         * Convert text pattern to a regular expression.
+         *
+         * @param pattern Text pattern (regex or glob format)
+         * @return A regular expression pattern.
+         */
+        Pattern toRegEx(String pattern) {
+            if (pattern.startsWith("^")) {
+                return Pattern.compile(pattern);
+            }
+
+            StringBuilder regex = new StringBuilder("^");
+            int last = pattern.length() - 1;
+            String literal = "";
+            
+            for (int i = 0; i <= last; i++) {
+                char c = pattern.charAt(i);
+                String token = "";
+                
+                switch (c) {
+                    case '*':
+                        if (i < last && pattern.charAt(i + 1) == '*') {
+                            i++;
+                            token = "(.*)";
+                        } else {
+                            token = "(.?\\/)";
+                        }
+                        
+                        break;
+                    
+                    case '?':
+                        token = "(.)";
+                        break;
+                    
+                    default:
+                        literal += c;
+                        
+                        if (i < last) {
+                            continue;
+                        }
+                }
+                
+                if (!literal.isEmpty()) {
+                    regex.append("\\Q").append(literal).append("\\E");
+                    literal = "";
+                }
+                
+                regex.append(token);
+            }
+            
+            return Pattern.compile(regex.append('$').toString());
+        }
+        
+        /**
+         * If path matches the fromPattern, convert to the toPattern.
+         *
+         * @param path Path to check.
+         * @return Returns null if not a match, empty string if a match but no toPattern, otherwise
+         *         the translated path.
+         */
+        String translate(String path) {
+            Matcher from = fromPattern.matcher(path);
+
+            if (from.matches()) {
+                return toPattern == null ? "" : from.replaceAll(toPattern.replace("$0", name));
+            }
+
+            return null;
+        }
+    }
     
     private final String name;
     
-    private final ObjectNode config;
-    
-    private volatile String init;
+    private final Map<String, Mapping> urlMap = new LinkedHashMap<>();
     
     /**
      * Create a theme.
      *
      * @param name The unique theme name.
-     * @param config The SystemJS configuration that will override the default theme.
      */
-    public Theme(String name, ObjectNode config) {
+    public Theme(String name) {
         this.name = name;
-        this.config = config;
     }
-
+    
     /**
      * Returns the unique theme name.
      *
@@ -54,25 +144,69 @@ public class Theme {
     }
     
     /**
-     * Returns the SystemJS configuration that will override the default theme.
+     * Merges URL pattern mappings from another like-named theme.
      *
-     * @return The SystemJS configuration that will override the default theme.
+     * @param theme Theme providing additional URL pattern mappings.
      */
-    protected ObjectNode getConfig() {
-        return config;
+    protected void merge(Theme theme) {
+        Map<String, Mapping> srcMap = theme.urlMap;
+        
+        for (String pattern : srcMap.keySet()) {
+            dupCheck(pattern);
+            urlMap.put(pattern, srcMap.get(pattern));
+        }
+    }
+    
+    /**
+     * Merge a set of mappings into existing mappings.
+     *
+     * @param mappings Mappings to merge.
+     */
+    public void setMappings(Map<String, String> mappings) {
+        for (String fromPattern : mappings.keySet()) {
+            addMapping(fromPattern, mappings.get(fromPattern));
+        }
     }
 
     /**
-     * Returns the web jar initialization string as overridden by this theme.
+     * Add a single mapping to existing mappings.
      *
-     * @return The web jar initialization string as overridden by this theme.
+     * @param fromPattern The source pattern against which URL will be matched.
+     * @param toPattern The target pattern to which the URL will be converted.
      */
-    public String getWebJarInit() {
-        return init == null ? _getWebJarInit() : init;
+    public void addMapping(String fromPattern, String toPattern) {
+        dupCheck(fromPattern);
+        urlMap.put(fromPattern, new Mapping(fromPattern, toPattern));
     }
     
-    private synchronized String _getWebJarInit() {
-        return init == null ? init = config.toString() : init;
+    /**
+     * Displays a warning if a mapping is being overwritten.
+     *
+     * @param pattern Pattern to check.
+     */
+    private void dupCheck(String pattern) {
+        if (log.isWarnEnabled() && urlMap.containsKey(pattern)) {
+            log.warn(String.format("Overwriting URL pattern \"%s\" in theme \"%s\"", pattern, name));
+        }
+    }
+    
+    /**
+     * If the input path matches one of the theme's mapped patterns, return the translated path.
+     * Otherwise, return null.
+     *
+     * @param path The path to translate.
+     * @return The translated path, or null.
+     */
+    public String translatePath(String path) {
+        for (Mapping mapping : urlMap.values()) {
+            String newPath = mapping.translate(path);
+            
+            if (newPath != null) {
+                return newPath;
+            }
+        }
+        
+        return null;
     }
     
 }

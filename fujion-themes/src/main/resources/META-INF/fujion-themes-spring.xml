@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="fujion-bootswatch" abstract="true" class="org.fujion.theme.Theme">
+		<property name="mappings">
+			<map>
+				<entry key="/webjars/bootstrap/**" value="/webjars/bootswatch-$0/$1" />
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="cerulean" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="cosmo" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="cyborg" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="darkly" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="flatly" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="journal" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="lumen" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="paper" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="readable" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="sandstone" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="simplex" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="slate" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="spacelab" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="superhero" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="united" />
+	</bean>
+
+	<bean parent="fujion-bootswatch">
+		<constructor-arg value="yeti" />
+	</bean>
+
+</beans>

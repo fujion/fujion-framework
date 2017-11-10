@@ -18,7 +18,7 @@
  *
  * #L%
  */
-package org.fujion.client;
+package org.fujion.webjar;
 
 import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_SINGLE_QUOTES;
 import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES;

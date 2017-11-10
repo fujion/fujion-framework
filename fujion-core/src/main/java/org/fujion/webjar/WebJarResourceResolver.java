@@ -18,14 +18,12 @@
  *
  * #L%
  */
-package org.fujion.servlet;
+package org.fujion.webjar;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.fujion.client.WebJar;
-import org.fujion.client.WebJarLocator;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.AbstractResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
