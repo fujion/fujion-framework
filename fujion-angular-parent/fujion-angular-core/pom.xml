@@ -112,12 +112,6 @@
 			<artifactId>fujion-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<!-- Angular -->
-		<dependency>
-			<groupId>org.webjars.npm</groupId>
-			<artifactId>reflect-metadata</artifactId>
-			<version>0.1.10</version>
-		</dependency>
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
