@@ -13,7 +13,7 @@
 	<properties>
 		<webjar.name>fujion-angular-example</webjar.name>
         <systemjs>
-			'map': {'fujion-angular-pomodoro': 'pomodoro.js'}
+			'map': {'fujion-angular-pomodoro': 'pomodoro.module.js'}
         </systemjs>
         <maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>

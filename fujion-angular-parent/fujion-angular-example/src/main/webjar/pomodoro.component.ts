@@ -17,7 +17,7 @@ import { Component } from '@angular/core';
     </div>
 `
 })
-class PomodoroComponent {
+export class PomodoroComponent {
   minutes: number;
   seconds: number;
   isPaused: boolean;
@@ -56,15 +56,4 @@ class PomodoroComponent {
   }
 }
 
-// Must export component to be bootstrapped as AngularComponent
-
-export { PomodoroComponent as AngularComponent };
-  
-/* Any additional metadata to be passed to the application module during bootstrapping
- * may be exported as in the following example:
- * 
- *      let ngModule : NgModule = { providers: [ AService ] };
- *      export { ngModule };
- * 
- * This will be merged with the default metadata prior to bootstrapping.
-*/
+export {PomodoroComponent as AngularComponent};

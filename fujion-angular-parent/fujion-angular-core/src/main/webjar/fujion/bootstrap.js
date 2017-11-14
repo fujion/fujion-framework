@@ -8,19 +8,50 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
 var core_2 = require("@angular/core");
-function AppContext(componentModule, selector) {
-    var App = componentModule.AngularComponent;
+function AppContext(aModule, selector) {
     var appContext = this;
-    var ngModule = {
-        imports: [platform_browser_1.BrowserModule],
-        declarations: [App],
-        entryComponents: [App]
-    };
-    componentModule.ngModule ? Object.assign(ngModule, componentModule.ngModule) : null;
+    var ngModule;
+    var App = aModule.AngularComponent;
+    if (App) {
+        ngModule = {
+            imports: [platform_browser_1.BrowserModule],
+            declarations: [App],
+            entryComponents: [App]
+        };
+        aModule.ngModule ? Object.assign(ngModule, aModule.ngModule) : null;
+    }
+    else if (aModule.ngModule) {
+        ngModule = aModule.ngModule;
+    }
+    else {
+        aModule = aModule.AngularModule || aModule;
+        ngModule = findDecorator(aModule);
+        if (!ngModule) {
+            throw 'No NgModule decorator for Angular module';
+        }
+    }
+    App = App || (ngModule.bootstrap ? ngModule.bootstrap[0] : null);
+    if (!App) {
+        throw 'No Angular bootstrap target specified';
+    }
+    delete ngModule.bootstrap;
+    function findDecorator(obj) {
+        var metadata = Reflect.getMetadata('annotations', obj);
+        if (metadata) {
+            for (var _i = 0, metadata_1 = metadata; _i < metadata_1.length; _i++) {
+                var md = metadata_1[_i];
+                if (md.toString() === '@NgModule') {
+                    return md;
+                }
+            }
+        }
+        return null;
+    }
     var AppModule = (function () {
         function AppModule(resolver, ngZone) {
             this.resolver = resolver;

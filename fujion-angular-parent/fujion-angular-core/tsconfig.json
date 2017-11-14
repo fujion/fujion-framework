@@ -8,7 +8,7 @@
         "outDir": "src/main/webjar/fujion"
     },
     
-    "compileOnSave": false,
+    "compileOnSave": true,
     
     "include": [
         "src/main/webjar/fujion/*.ts"

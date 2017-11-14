@@ -50,13 +50,6 @@ PomodoroComponent = __decorate([
     }),
     __metadata("design:paramtypes", [])
 ], PomodoroComponent);
+exports.PomodoroComponent = PomodoroComponent;
 exports.AngularComponent = PomodoroComponent;
-/* Any additional metadata to be passed to the application module during bootstrapping
- * may be exported as in the following example:
- *
- *      let ngModule : NgModule = { providers: [ AService ] };
- *      export { ngModule };
- *
- * This will be merged with the default metadata prior to bootstrapping.
-*/ 
-//# sourceMappingURL=pomodoro.js.map
+//# sourceMappingURL=pomodoro.component.js.map
