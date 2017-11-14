@@ -6,7 +6,8 @@ import {ApplicationRef, ComponentFactory, ComponentFactoryResolver, NgModuleRef,
 export function AppContext(aModule: any, selector?: string) {
 
     var appContext = this;
-    var ngModule: NgModule;
+    var ngModule: NgModule = {};
+    var extra: NgModule = aModule.ngModule;
     var App = aModule.AngularComponent;
 
     if (App) {
@@ -15,19 +16,16 @@ export function AppContext(aModule: any, selector?: string) {
             declarations: [App],
             entryComponents: [App]
         }
-
-        aModule.ngModule ? Object.assign(ngModule, aModule.ngModule) : null;
-    } else if (aModule.ngModule) {
-        ngModule = aModule.ngModule;
-    } else {
+    } else if (!extra) {
         aModule = aModule.AngularModule || aModule;
-        ngModule = findDecorator(aModule);
+        extra = findDecorator(aModule);
 
-        if (!ngModule) {
+        if (!extra) {
             throw 'No NgModule decorator for Angular module';
         }
     }
     
+    extra ? Object.assign(ngModule, extra) : null;
     App = App || (ngModule.bootstrap ? ngModule.bootstrap[0] : null);
 
     if (!App) {

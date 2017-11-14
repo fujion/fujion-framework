@@ -15,7 +15,8 @@ var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
 var core_2 = require("@angular/core");
 function AppContext(aModule, selector) {
     var appContext = this;
-    var ngModule;
+    var ngModule = {};
+    var extra = aModule.ngModule;
     var App = aModule.AngularComponent;
     if (App) {
         ngModule = {
@@ -23,18 +24,15 @@ function AppContext(aModule, selector) {
             declarations: [App],
             entryComponents: [App]
         };
-        aModule.ngModule ? Object.assign(ngModule, aModule.ngModule) : null;
     }
-    else if (aModule.ngModule) {
-        ngModule = aModule.ngModule;
-    }
-    else {
+    else if (!extra) {
         aModule = aModule.AngularModule || aModule;
-        ngModule = findDecorator(aModule);
-        if (!ngModule) {
+        extra = findDecorator(aModule);
+        if (!extra) {
             throw 'No NgModule decorator for Angular module';
         }
     }
+    extra ? Object.assign(ngModule, extra) : null;
     App = App || (ngModule.bootstrap ? ngModule.bootstrap[0] : null);
     if (!App) {
         throw 'No Angular bootstrap target specified';
