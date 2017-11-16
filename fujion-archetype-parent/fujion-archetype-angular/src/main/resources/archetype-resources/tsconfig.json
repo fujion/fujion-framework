@@ -7,13 +7,13 @@
         "module": "CommonJS",
         "moduleResolution": "node",
         "lib": ["es2015", "es2017", "dom"],
-        "outDir": "src/main/webjar"
+        "outDir": "src/main/webjar/app"
     },
     
     "compileOnSave": true,
-    
+     
     "include": [
-        "src/main/webjar/**/*.ts"
+        "src/main/webjar/app/**/*.ts"
     ],
     
     "exclude": []

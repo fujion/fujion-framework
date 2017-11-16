@@ -6,6 +6,10 @@
   "keywords": ["fujion", "angular"],
   "author": "Fujion Framework",
   "scripts": {
+  	"tsc": "tsc -p tsconfig.json",
+    "tsc:w": "tsc -p tsconfig.json -w",
+    "lite": "lite-server",
+    "start": "npm run tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
   	"postinstall" : "tsc"
   },
   "dependencies": {
@@ -21,11 +25,16 @@
     "rxjs": "5.4.2",
     "zone.js": "0.8.14",
     "bootstrap": "3.3.6",
+    "font-awesome": "4.7.0",
+    "systemjs": "0.20.14",
     "jquery": "3.1.1",
     "lodash": "4.17.3"
   },
   "devDependencies": {
   	 "typescript": "2.3.2",
-    "@types/node": "8.0.41"
+    "@types/node": "8.0.41",
+    "lite-server": "2.2.2",
+    "concurrently": "3.5.0",
+    "angular-in-memory-web-api": "0.5.1"
   }
 }

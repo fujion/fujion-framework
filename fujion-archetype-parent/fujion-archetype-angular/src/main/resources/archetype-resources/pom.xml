@@ -26,8 +26,7 @@
 		<systemjs>
 		{
 			'map': {
-				'${artifactId}': '${className}',
-				'${artifactId}-css': '${className}'
+				'${artifactId}': 'app/app.module'
 			}
 		}
 		</systemjs>
