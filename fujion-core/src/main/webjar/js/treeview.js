@@ -70,10 +70,20 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		/*------------------------------ Events ------------------------------*/
 		
 		handleClick: function(event) {
-			var collapsed = !this.getState('collapsed');
-			this.updateState('collapsed', collapsed);
-			this.trigger('toggle', {collapsed: collapsed});
+			_toggle(this, !this.getState('collapsed'), event.altKey);
 			return false;
+			
+			function _toggle(node, collapsed, cascade) {
+				if (node.updateState('collapsed', collapsed)) {
+					node.trigger('toggle', {collapsed: collapsed});
+				}
+				
+				if (cascade) {
+					node.forEachChild(function(child) {
+						_toggle(child, collapsed, cascade);
+					});
+				}
+			}
 		},
 		
 		handleSelect: function(event) {
@@ -129,7 +139,7 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		selected: function(v) {
 			this.toggleClass('fujion_treenode-selected', v);
 		}
-		
+
 	});
 		
 	return fujion.widget;
