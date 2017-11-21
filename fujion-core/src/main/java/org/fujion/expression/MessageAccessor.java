@@ -44,32 +44,32 @@ import org.springframework.expression.TypedValue;
  * source using the accumulated property names.
  */
 public class MessageAccessor implements PropertyAccessor {
-    
+
     private static final Log log = LogFactory.getLog(MessageAccessor.class);
-    
+
     private static final Class<?>[] TARGET_CLASSES = { MessageSource.class, MessageContext.class };
-    
+
     /**
      * Custom converter that converts a MessageContext to a String.
      */
     public static class MessageContextConverter implements Converter<MessageContext, String> {
-        
+
         @Override
         public String convert(MessageContext source) {
             return source.toString();
         }
-        
+
     }
-    
+
     /**
      * Accumulates property names.
      */
     static class MessageContext {
-        
+
         private String name;
-        
+
         private final MessageSource messageSource;
-        
+
         /**
          * New message context with the first part of the label name.
          *
@@ -80,7 +80,7 @@ public class MessageAccessor implements PropertyAccessor {
             this.messageSource = messageSource;
             this.name = name;
         }
-        
+
         /**
          * Adds the next part of the label name.
          *
@@ -91,7 +91,7 @@ public class MessageAccessor implements PropertyAccessor {
             this.name += "." + name;
             return this;
         }
-        
+
         /**
          * Returns the message associated with the label, with any embedded label references
          * resolved.
@@ -102,7 +102,7 @@ public class MessageAccessor implements PropertyAccessor {
         public String toString() {
             return getMessage(name, new HashSet<String>());
         }
-        
+
         /**
          * Resolve the label reference and any embedded label references.
          *
@@ -113,7 +113,7 @@ public class MessageAccessor implements PropertyAccessor {
         private String getMessage(String name, Set<String> resolved) {
             try {
                 String message;
-                
+
                 if (resolved.contains(name)) {
                     message = name;
                     log.warn("Circular reference to label \"" + name + "\" will not be resolved.");
@@ -121,54 +121,54 @@ public class MessageAccessor implements PropertyAccessor {
                     resolved.add(name);
                     message = messageSource.getMessage(name, null, LocaleContextHolder.getLocale());
                     int i = 0;
-
+                    
                     while ((i = message.indexOf("${")) > -1) {
                         int j = message.indexOf("}", i);
                         String repl = getMessage(message.substring(i + 2, j), resolved);
                         message = message.substring(0, i) + repl + message.substring(j + 1);
                     }
                 }
-                
+
                 return message;
             } catch (NoSuchMessageException e) {
                 log.warn("Reference to unknown label \"" + name + "\" will be ignored.");
                 return "";
             }
         }
-        
+
     }
-    
+
     @Override
     public Class<?>[] getSpecificTargetClasses() {
         return TARGET_CLASSES;
     }
-    
+
     @Override
     public boolean canRead(EvaluationContext context, Object target, String name) throws AccessException {
         return true;
     }
-    
+
     @Override
     public TypedValue read(EvaluationContext context, Object target, String name) throws AccessException {
         MessageContext result = null;
-        
+
         if (target instanceof MessageSource) {
             result = new MessageContext((MessageSource) target, name);
         } else if (target instanceof MessageContext) {
             result = ((MessageContext) target).addName(name);
         }
-        
+
         return result == null ? null : new TypedValue(result);
     }
-    
+
     @Override
     public boolean canWrite(EvaluationContext context, Object target, String name) throws AccessException {
         return false;
     }
-    
+
     @Override
     public void write(EvaluationContext context, Object target, String name, Object newValue) throws AccessException {
-        throw new AccessException("Message source is read-only.");
+        throw new AccessException("Message source is read-only");
     }
-    
+
 }

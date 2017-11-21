@@ -36,23 +36,23 @@ import org.fujion.event.OpenEvent;
  */
 @Component(tag = "popupbox", widgetClass = "Popupbox", parentTag = "*", childTag = @ChildTag(value = "popup", maximum = 1), description = "A text box with a drop down button that triggers the appearance of a popup component.")
 public class Popupbox extends Textbox {
-    
+
     private boolean open;
-    
+
     /**
      * Opens the popup box. Shortcut for <code>setOpen(true)</code>
      */
     public void open() {
         setOpen(true);
     }
-    
+
     /**
      * Closes the popup box. Shortcut for <code>setOpen(false)</code>
      */
     public void close() {
         setOpen(false);
     }
-    
+
     /**
      * If popup specified as a child, set it as the associated popup component.
      *
@@ -61,12 +61,12 @@ public class Popupbox extends Textbox {
     @Override
     protected void afterAddChild(BaseComponent child) {
         super.afterAddChild(child);
-        
+
         if (getPage() != null) {
             setPopup((Popup) child);
         }
     }
-    
+
     /**
      * If popup specified as a child, set it as the associated popup component.
      *
@@ -75,30 +75,30 @@ public class Popupbox extends Textbox {
     @Override
     protected void onAttach(Page page) {
         super.onAttach(page);
-        
+
         if (getChildCount() > 0) {
             setPopup((Popup) getFirstChild());
         }
     }
-    
+
     /**
      * Sets the popup associated with the popup box.
      */
     @Override
     public void setPopup(Popup popup) {
         BaseComponent child = this.getFirstChild();
-        
+
         if (child != null && child != popup) {
-            throw new IllegalArgumentException("You may not set a popup reference when a child popup is present.");
+            throw new IllegalArgumentException("You may not set a popup reference when a child popup is present");
         }
-        
+
         if (popup != getPopup()) {
             open = false;
         }
-        
+
         super.setPopup(popup);
     }
-    
+
     /**
      * Returns true if the popup box is open.
      *
@@ -108,7 +108,7 @@ public class Popupbox extends Textbox {
     public boolean isOpen() {
         return open;
     }
-    
+
     /**
      * Sets the open state of the popup box.
      *
@@ -118,7 +118,7 @@ public class Popupbox extends Textbox {
     public void setOpen(boolean open) {
         _setOpen(open, true);
     }
-
+    
     /**
      * Sets the open state of the popup box, optionally notifying the client.
      *
@@ -130,7 +130,7 @@ public class Popupbox extends Textbox {
             invoke(open ? "open" : "close");
         }
     }
-    
+
     /**
      * Handles popup open and close events from the client.
      *
@@ -139,12 +139,12 @@ public class Popupbox extends Textbox {
     @EventHandler(value = { "popupopen", "popupclose" })
     private void _onOpen(Event event) {
         boolean open = "popupopen".equals(event.getType());
-
+        
         if (open != this.open) {
             _setOpen(open, false);
             event = open ? new OpenEvent(this, event.getData()) : new CloseEvent(this, event.getData());
             EventUtil.send(event);
         }
     }
-    
+
 }

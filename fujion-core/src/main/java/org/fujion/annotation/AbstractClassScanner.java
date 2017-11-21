@@ -33,16 +33,16 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  * @param <A> Type of annotation class.
  */
 public abstract class AbstractClassScanner<T, A extends Annotation> {
-    
+
     private final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-    
+
     private final Class<T> targetClass;
-    
+
     private final Class<? extends Annotation> annotationClass;
-    
+
     /**
      * Create class scanner.
-     * 
+     *
      * @param targetClass The class that is the target of the annotation.
      * @param annotationClass The annotation class.
      */
@@ -50,7 +50,7 @@ public abstract class AbstractClassScanner<T, A extends Annotation> {
         this.targetClass = targetClass;
         this.annotationClass = annotationClass;
     }
-    
+
     /**
      * Scan all classes belonging to the specified package.
      *
@@ -59,7 +59,7 @@ public abstract class AbstractClassScanner<T, A extends Annotation> {
     public void scanPackage(Package pkg) {
         scanPackage(pkg.getName());
     }
-    
+
     /**
      * Scan all classes belonging to the specified package.
      *
@@ -80,7 +80,7 @@ public abstract class AbstractClassScanner<T, A extends Annotation> {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * Creates and registers a component definition for a class by scanning the named class and its
      * superclasses for method annotations.
@@ -94,7 +94,7 @@ public abstract class AbstractClassScanner<T, A extends Annotation> {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * Creates and registers a component definition for a class by scanning the class and its
      * superclasses for method annotations.
@@ -106,24 +106,24 @@ public abstract class AbstractClassScanner<T, A extends Annotation> {
         for (Class<?> innerClass : clazz.getDeclaredClasses()) {
             scanClass(innerClass);
         }
-        
+
         if (!clazz.isAnnotationPresent(annotationClass)) {
             return;
         }
-        
+
         if (!targetClass.isAssignableFrom(clazz)) {
             throw new RuntimeException(
-                    annotationClass.getName() + " annotation only valid on " + targetClass.getName() + " subclass.");
+                    annotationClass.getName() + " annotation only valid on " + targetClass.getName() + " subclass");
         }
-        
+
         doScanClass((Class<T>) clazz);
     }
-    
+
     /**
      * Scan for and process annotations in the specified class.
      *
      * @param clazz Class to be scanned.
      */
     protected abstract void doScanClass(Class<T> clazz);
-    
+
 }
