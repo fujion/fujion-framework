@@ -37,19 +37,19 @@ import org.fujion.event.EventUtil;
 @Component(tag = "treenode", widgetModule = "fujion-treeview", widgetClass = "Treenode", parentTag = { "treeview",
         "treenode" }, childTag = @ChildTag("treenode"), description = "A single node in a tree view.")
 public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> implements Iterable<Treenode> {
-
+    
     /**
      * Iterates over nodes in a tree in a depth first search. Is not susceptible to concurrent
      * modification errors if tree composition changes during iteration.
      */
     protected static class TreenodeIterator implements Iterator<Treenode> {
-
+        
         private Treenode current;
-
+        
         private Treenode next;
-
+        
         private int level;
-
+        
         /**
          * Iterates all descendants of root node.
          *
@@ -58,7 +58,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
         public TreenodeIterator(BaseComponent root) {
             next = root == null ? null : root.getChild(Treenode.class);
         }
-
+        
         /**
          * Advances to next tree node following specified node.
          *
@@ -68,30 +68,30 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
             if (current == null || level < 0) {
                 return null;
             }
-
+            
             next = (Treenode) current.getFirstChild();
-
+            
             if (next != null) {
                 level++;
                 return next;
             }
-
+            
             next = (Treenode) current.getNextSibling();
-
+            
             if (next != null) {
                 return next;
             }
-
+            
             next = current;
-
+            
             while (--level >= 0) {
                 BaseComponent parent = next.getParent();
-
+                
                 if (!(parent instanceof Treenode)) {
                     level = -1;
                 } else {
                     next = (Treenode) parent.getNextSibling();
-
+                    
                     if (next == null) {
                         next = (Treenode) parent;
                     } else {
@@ -99,10 +99,10 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
                     }
                 }
             }
-
+            
             return level < 0 ? null : next;
         }
-
+        
         /**
          * Returns next tree node.
          *
@@ -111,7 +111,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
         private Treenode nextNode() {
             return next == null ? advance() : next;
         }
-
+        
         /**
          * Returns true if iterator not at end.
          */
@@ -119,7 +119,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
         public boolean hasNext() {
             return nextNode() != null;
         }
-
+        
         /**
          * Returns next tree item, preparing internal state to retrieve next node.
          */
@@ -129,15 +129,15 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
             next = null;
             return current;
         }
-
+        
     }
-
+    
     private boolean collapsed;
-
+    
     private boolean selected;
-
+    
     private int badgeCounter;
-
+    
     /**
      * Returns the selected state.
      *
@@ -147,7 +147,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
     public boolean isSelected() {
         return selected;
     }
-
+    
     /**
      * Sets the selected state.
      *
@@ -157,7 +157,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
     public void setSelected(boolean selected) {
         _setSelected(selected, true, true);
     }
-
+    
     /**
      * Set the selected state of this node.
      *
@@ -168,7 +168,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
     /*package*/ void _setSelected(boolean selected, boolean notifyClient, boolean notifyParent) {
         if (propertyChange("selected", this.selected, this.selected = selected, notifyClient) && notifyParent) {
             Treeview treeview = getTreeview();
-
+            
             if (treeview != null) {
                 if (selected) {
                     treeview.setSelectedNode(this);
@@ -178,15 +178,15 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
             }
         }
     }
-
+    
     private void _setTreeSelected(Treenode selectedNode) {
         Treeview treeview = getTreeview();
-
+        
         if (treeview != null) {
             treeview.setSelectedNode(selectedNode);
         }
     }
-
+    
     /**
      * Returns the parent tree view, if any.
      *
@@ -195,7 +195,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
     public Treeview getTreeview() {
         return getAncestor(Treeview.class);
     }
-
+    
     /**
      * If the added node is selected, update the parent tree view's selection state.
      *
@@ -207,7 +207,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
             _setTreeSelected((Treenode) child);
         }
     }
-
+    
     /**
      * If the removed node is selected, update the parent tree view's selection state.
      *
@@ -219,7 +219,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
             _setTreeSelected(null);
         }
     }
-
+    
     /**
      * Return true if the node is collapsed (i.e., its children are hidden).
      *
@@ -229,7 +229,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
     public boolean isCollapsed() {
         return collapsed;
     }
-
+    
     /**
      * Set to true to collapse the node, false to expand it.
      *
@@ -237,7 +237,11 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      */
     @PropertySetter(value = "collapsed", defaultValue = "false", description = "True if the node is collapsed.")
     public void setCollapsed(boolean collapsed) {
-        propertyChange("collapsed", this.collapsed, this.collapsed = collapsed, true);
+        _setCollapsed(collapsed, true);
+    }
+    
+    private void _setCollapsed(boolean collapsed, boolean notifyClient) {
+        propertyChange("collapsed", this.collapsed, this.collapsed = collapsed, notifyClient);
     }
 
     /**
@@ -245,23 +249,23 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      */
     public void makeVisible() {
         BaseComponent node = getParent();
-
+        
         while (node instanceof Treenode) {
             ((Treenode) node).setCollapsed(false);
             node = node.getParent();
         }
-
+        
         scrollIntoView();
     }
-
+    
     /**
      * Handles toggle events from the client.
      */
     @EventHandler(value = "toggle", syncToClient = false)
     private void _onToggle() {
-        collapsed = !collapsed;
+        _setCollapsed(!collapsed, false);
     }
-
+    
     /**
      * Handles change events from the client.
      *
@@ -271,13 +275,13 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
     private void _onChange(ChangeEvent event) {
         _setSelected(defaultify(event.getValue(Boolean.class), false), false, true);
         Treeview tree = getTreeview();
-
+        
         if (tree != null) {
             event = new ChangeEvent(tree, event.getData(), this);
             EventUtil.send(event);
         }
     }
-
+    
     /**
      * Handles badge update events.
      *
@@ -286,13 +290,13 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
     @EventHandler("badge")
     private void _onBadge(Event event) {
         int delta = (Integer) event.getData();
-
+        
         if (delta != 0) {
             badgeCounter += delta;
             sync("badge", badgeCounter);
         }
     }
-
+    
     /**
      * Returns an iterator of all children of this node.
      *
