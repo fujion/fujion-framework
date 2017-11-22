@@ -21,32 +21,67 @@
 package org.fujion.theme;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.core.Ordered;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 
 /**
- * Subclasses the cookie-based theme resolver by allowing override by query parameter.
+ * Subclasses the cookie-based theme resolver by allowing override by query parameter. Theme name is
+ * cached in the session object so that it is available to subsequent requests.
  */
-public class ThemeResolver extends CookieThemeResolver {
-
+public class ThemeResolver extends CookieThemeResolver implements Ordered {
+    
+    private static final String SESSION_ATTR = ThemeResolver.class.getName();
+    
     public ThemeResolver() {
-        setDefaultThemeName("default");
+        setDefaultThemeName(ThemeResolvers.DEFAULT_THEME);
     }
-
+    
     @Override
     public String resolveThemeName(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         String themeName = request.getParameter("theme");
-        String cookieName = getCookieName();
-        themeName = themeName != null ? themeName : session == null ? null : (String) session.getAttribute(cookieName);
-        themeName = themeName != null ? themeName : super.resolveThemeName(request);
-
-        if (session != null) {
-            session.setAttribute(cookieName, themeName);
-        }
-        
+        themeName = StringUtils.hasText(themeName) ? themeName
+                : session == null ? null : (String) session.getAttribute(SESSION_ATTR);
+        themeName = StringUtils.hasText(themeName) ? themeName : super.resolveThemeName(request);
+        setThemeName(request, themeName);
         return themeName;
     }
+
+    @Override
+    public void setThemeName(HttpServletRequest request, HttpServletResponse response, String themeName) {
+        setThemeName(request, themeName);
+        super.setThemeName(request, response, themeName);
+    }
+
+    /**
+     * Caches the theme name in the session object.
+     *
+     * @param request The servlet request.
+     * @param themeName The theme name to cache.
+     */
+    private void setThemeName(HttpServletRequest request, String themeName) {
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            if (StringUtils.hasText(themeName)) {
+                session.setAttribute(SESSION_ATTR, themeName);
+            } else {
+                session.removeAttribute(SESSION_ATTR);
+            }
+        }
+    }
     
+    /**
+     * Forces this to be the default theme resolver if no others are registered.
+     * 
+     * @see org.springframework.core.Ordered#getOrder()
+     */
+    @Override
+    public int getOrder() {
+        return Ordered.LOWEST_PRECEDENCE;
+    }
 }

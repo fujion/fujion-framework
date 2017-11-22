@@ -31,49 +31,51 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.servlet.ThemeResolver;
+
 /**
  * Performs URL rewrites for theme-based resources.
  */
 public class ThemeServletFilter implements Filter {
-    
-    private final ThemeResolver themeResolver = new ThemeResolver();
 
+    private final ThemeResolver themeResolver = ThemeResolvers.getInstance();
+    
     public ThemeServletFilter() {
     }
-    
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
                                                                                               ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-
+        
         String themeName = themeResolver.resolveThemeName(httpRequest);
         Theme theme = ThemeRegistry.getInstance().get(themeName);
-        
+
         if (theme != null) {
             String requestPath = theme.translatePath(httpRequest.getPathInfo());
-
+            
             if (requestPath != null) {
                 httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                 httpResponse.setHeader("Pragma", "no-cache");
                 httpResponse.setDateHeader("Expires", 0);
-                
+
                 if (!requestPath.isEmpty()) {
                     httpRequest.getRequestDispatcher(requestPath).forward(httpRequest, httpResponse);
                     return;
                 }
             }
         }
-        
+
         chain.doFilter(request, response);
     }
-    
+
     @Override
     public void destroy() {
     }
-    
+
 }

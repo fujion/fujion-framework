@@ -99,6 +99,12 @@
 	<bean factory-method="getInstance" depends-on="fujion_WebJarLocator"
 		class="org.fujion.theme.ThemeRegistry" />
 	
+	<bean id="themeResolver" 
+		factory-method="getInstance"
+		class="org.fujion.theme.ThemeResolvers" />
+	
+	<bean class="org.fujion.theme.ThemeResolver" />
+	
 	<bean class="org.fujion.theme.Theme">
 		<constructor-arg value="default"/>
 		<property name="mappings" >
