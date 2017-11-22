@@ -38,41 +38,41 @@ import org.springframework.web.servlet.ThemeResolver;
  * Delegates theme resolution to one or more registered theme resolvers.
  */
 public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
-    
+
     public static final String DEFAULT_THEME = "default";
-    
+
     private static final String THEME_ATTR = ThemeResolvers.class.getName();
-
+    
     private static final ThemeResolvers instance = new ThemeResolvers();
-
+    
     private final Set<ThemeResolver> themeResolvers = new TreeSet<>((tr1, tr2) -> {
         return getOrder(tr1) - getOrder(tr2);
     });
-
+    
     public static ThemeResolvers getInstance() {
         return instance;
     }
-
+    
     private ThemeResolvers() {
     }
-
+    
     private int getOrder(ThemeResolver themeResolver) {
         return themeResolver instanceof Ordered ? ((Ordered) themeResolver).getOrder() : Ordered.LOWEST_PRECEDENCE;
     }
-
+    
     @Override
     public String resolveThemeName(HttpServletRequest request) {
         String themeName = getThemeName(request);
         Iterator<ThemeResolver> iter = themeResolvers.iterator();
-
+        
         while (iter.hasNext() && !StringUtils.hasText(themeName)) {
             themeName = iter.next().resolveThemeName(request);
         }
-        
+
         cacheThemeName(request, themeName);
         return StringUtils.hasText(themeName) ? themeName : DEFAULT_THEME;
     }
-    
+
     /**
      * Attempts to retrieve the name of the current theme. Tries the following, in order:
      * <ol>
@@ -87,15 +87,15 @@ public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
     private String getThemeName(HttpServletRequest request) {
         String themeName = (String) request.getAttribute(THEME_ATTR);
         themeName = StringUtils.hasText(themeName) ? themeName : request.getParameter("theme");
-
+        
         if (!StringUtils.hasText(themeName)) {
             HttpSession session = request.getSession(false);
             themeName = session == null ? null : (String) session.getAttribute(THEME_ATTR);
         }
-
+        
         return themeName;
     }
-
+    
     /**
      * Caches the theme name for efficiency.
      *
@@ -103,36 +103,35 @@ public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
      * @param themeName The theme name to cache.
      */
     private void cacheThemeName(HttpServletRequest request, String themeName) {
-        themeName = DEFAULT_THEME.equals(themeName) ? null : themeName;
         request.setAttribute(THEME_ATTR, themeName);
         HttpSession session = request.getSession(false);
-
+        
         if (session != null) {
             session.setAttribute(THEME_ATTR, themeName);
         }
     }
-
+    
     @Override
     public void setThemeName(HttpServletRequest request, HttpServletResponse response, String themeName) {
         themeName = StringUtils.hasText(themeName) ? themeName : DEFAULT_THEME;
-
+        
         for (ThemeResolver themeResolver : themeResolvers) {
             themeResolver.setThemeName(request, response, themeName);
         }
     }
-    
+
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
-    
+
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof ThemeResolver) {
             themeResolvers.add((ThemeResolver) bean);
         }
-
+        
         return bean;
     }
-    
+
 }
