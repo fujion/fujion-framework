@@ -103,7 +103,11 @@
 		factory-method="getInstance"
 		class="org.fujion.theme.ThemeResolvers" />
 	
-	<bean class="org.fujion.theme.ThemeResolver" />
+	<bean class="org.springframework.web.servlet.theme.CookieThemeResolver">
+		<property name="defaultThemeName">
+			<null />
+		</property>
+	</bean>
 	
 	<bean class="org.fujion.theme.Theme">
 		<constructor-arg value="default"/>
