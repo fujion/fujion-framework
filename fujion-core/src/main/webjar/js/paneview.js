@@ -79,8 +79,8 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 					spl$.resizable({
 						containment: 'parent',
 						handles: this._isHorizontal() ? 'e' : 's',
-					    start: _start,
-					    stop: _stop
+					    start: _start.bind(this),
+					    stop: _stop.bind(this)
 					});
 				}
 			}
@@ -91,6 +91,11 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 			
 			function _stop(event, ui) {
 				$('iframe').removeClass('fujion-disabled');
+				this.trigger('resize', {
+					left: ui.position.left,
+					top: ui.position.top,
+					width: ui.size.width,
+					height: ui.size.height});
 			}
 		},
 		

@@ -793,6 +793,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.widget.UIWidget = fujion.widget.BaseWidget.extend({
 		
+		/*------------------------------ Events ------------------------------*/
+		
+		reportSize: function() {
+			var p = this.widget$.position();
+			
+			this.trigger('resize', {
+				left: p.left,
+				top: p.top,
+				width: this.widget$.width(),
+				height: this.widget$.height()
+			});
+		},
+		
 		/*------------------------------ Lifecycle ------------------------------*/
 		
 		init: function() {
