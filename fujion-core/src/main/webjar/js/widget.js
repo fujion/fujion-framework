@@ -792,18 +792,23 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	 ******************************************************************************************************************/ 
 	
 	fujion.widget.UIWidget = fujion.widget.BaseWidget.extend({
-		
+
 		/*------------------------------ Events ------------------------------*/
-		
-		reportSize: function() {
-			var p = this.widget$.position();
+
+		reportSize : function() {
+			var self = this;
+			requestAnimationFrame ? requestAnimationFrame(_reportSize) : setTimeout(_reportSize, 100);
 			
-			this.trigger('resize', {
-				left: p.left,
-				top: p.top,
-				width: this.widget$.width(),
-				height: this.widget$.height()
-			});
+			function _reportSize() {
+				var p = self.widget$.position();
+	
+				self.trigger('resize', {
+					left : p.left,
+					top : p.top,
+					width : self.widget$.outerWidth(),
+					height : self.widget$.outerHeight()
+				});
+			}
 		},
 		
 		/*------------------------------ Lifecycle ------------------------------*/

@@ -45,6 +45,12 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 	
 	fujion.widget.Pane = fujion.widget.UIWidget.extend({
 		
+		/*------------------------------ Events ------------------------------*/
+		
+		handleResize: function(event) {
+			this._resizing ? fujion.event.stop(event, true) : fujion.event.stopPropagation(event);
+		},
+		
 		/*------------------------------ Lifecycle ------------------------------*/
 		
 		init: function() {
@@ -59,6 +65,11 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
+		
+		beforeRender: function() {
+			this.widget$.on('resize', this.handleResize.bind(this));
+			this._super();
+		},
 		
 		render$: function() {
 			var dom = '<div>'
@@ -86,11 +97,13 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 			}
 			
 			function _start(event, ui) {
+				this._resizing = true;
 				$('iframe').addClass('fujion-disabled');
 			}
 			
 			function _stop(event, ui) {
 				$('iframe').removeClass('fujion-disabled');
+				this._resizing = false;
 				this.trigger('resize', {
 					left: ui.position.left,
 					top: ui.position.top,

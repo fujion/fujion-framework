@@ -389,19 +389,11 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			
 			this.registerPostProcessor('change', _ppChangeInput);
 			this.registerPostProcessor('input', _ppChangeInput);
-			this.registerPostProcessor('resize', _ppResize);
 			
 			function _ppChangeInput(event, data) {
 				data.value = _.defaultTo(data.value, event.target.value);
 			}
 			
-			function _ppResize(event, data) {
-				var rect = event.target.getBoundingClientRect();
-				data.width = rect.width;
-				data.height = rect.height;
-				data.top = rect.top;
-				data.bottom = rect.bottom;
-			}
 		},
 		
 		_postprocess: function(event, data) {
@@ -419,9 +411,13 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			event.preventDefault ? event.preventDefault(): null;
 		},
 		
-		stop: function(event) {
-			fujion.event.stopPropagation(event)
+		stop: function(event, immediate) {
+			immediate ? fujion.event.stopImmediatePropagation(event) : fujion.event.stopPropagation(event)
 			fujion.event.preventDefault(event);
+		},
+		
+		stopImmediatePropagation: function(event) {
+			event.stopImmediatePropagation ? event.stopImmediatePropagation() : fujion.event.stopPropagation(event);
 		},
 		
 		stopPropagation: function(event) {
