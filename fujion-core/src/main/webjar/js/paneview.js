@@ -104,11 +104,7 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 			function _stop(event, ui) {
 				$('iframe').removeClass('fujion-disabled');
 				this._resizing = false;
-				this.trigger('resize', {
-					left: ui.position.left,
-					top: ui.position.top,
-					width: ui.size.width,
-					height: ui.size.height});
+				this.reportSize();
 			}
 		},
 		

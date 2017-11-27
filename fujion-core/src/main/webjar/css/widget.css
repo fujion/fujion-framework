@@ -43,7 +43,7 @@ caption:empty {
 }
 
 .ui-resizable-resizing {
-    flex: none;
+    flex: none!important;
 }
 
 /* bootstrap mods */
