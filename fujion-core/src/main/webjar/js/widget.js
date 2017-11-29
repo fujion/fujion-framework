@@ -47,7 +47,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		    		
 		    		if (_.isFunction(subvalue) && _.isFunction(supervalue)) {
 		    			if (!fujion.widget._fnTest.test(subvalue)) {
-		    				fujion.debug ? fujion.log.warn('_super method not called for ', name) : null;
+		    				fujion.debug ? fujion.log.warn('_super method not called for', name) : null;
 		    				prototype[name] = subvalue;
 		    			} else {
 		    				prototype[name] = 

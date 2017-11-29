@@ -565,46 +565,45 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		},
 
 		debug: function() {
-			fujion.log._log.call(this, 'debug', arguments);
+			fujion.log._log.call(this, 'debug', 'log', arguments);
 		},
 		
 		error: function() {
-			fujion.log._log.call(this, 'error', arguments);
+			fujion.log._log.call(this, 'error', 'error', arguments);
 		},
 		
 		fatal: function() {
-			fujion.log._log.call(this, 'fatal', arguments);
+			fujion.log._log.call(this, 'fatal', 'error', arguments);
 		},
 		
 		info: function() {
-			fujion.log._log.call(this, 'info', arguments);
+			fujion.log._log.call(this, 'info', 'info', arguments);
 		},
 		
 		trace: function() {
-			fujion.log._log.call(this, 'trace', arguments);
+			fujion.log._log.call(this, 'trace', 'log', arguments);
 		},
 		
 		warn: function() {
-			fujion.log._log.call(this, 'warn', arguments);
+			fujion.log._log.call(this, 'warn', 'warn', arguments);
 		},
 		
 		/**
 		 * Send log message to console and/or to server.
 		 */
-		_log: function(level, message) {
+		_log: function(level, con, args) {
 			var setting = fujion.log.level[level];
 			
 			if (setting & 2) {
 				if (fujion.ws.isConnected()) {
-					fujion.ws.sendData('log', {level: level, message: message}, true);
+					fujion.ws.sendData('log', {level: level, message: args}, true);
 				} else {
 					setting = 1;
 				}
 			}
 			
 			if (setting & 1) {
-				var lvl = level === 'fatal' ? 'error' : level === 'trace' ? 'log' : level;
-				console[lvl](level, ': ', message);
+				console[con].apply(this, _.concat([level + ':'], args));
 			}
 		}
 	},
