@@ -217,7 +217,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 				this.rerender();
 			}
 			
-			this._super(v, old);
+			this._super();
 		},
 		
 		rowspan: function(v) {

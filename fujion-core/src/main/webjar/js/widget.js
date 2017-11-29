@@ -38,43 +38,45 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	fujion.widget.Widget.extend = function(subclass) {
 	    var _super = this.prototype,
 	    	prototype = new this();
-	   
 	    subclass = subclass || {};
 	    
 	    for (var name in subclass) {
-	    	if (!name.endsWith('_')) {
-	    		var subvalue = subclass[name],
-	    			supervalue = _super[name];
-	    		
-	    		if (_.isFunction(subvalue) && _.isFunction(supervalue)) {
-	    			if (!fujion.widget._fnTest.test(subvalue)) {
-	    				fujion.debug ? fujion.log.warn('_super method not called for ', name) : null;
-	    				prototype[name] = subvalue;
-	    			} else {
-	    				prototype[name] = 
-	    			    		(function(name, fn) {
-	    			    			return function() {
-	    			    				var tmp = this._super, ret;
-	    			    				this._super = _super[name];
-	    			    				try {
-	    			    					ret = fn.apply(this, arguments);       
-	    			    				} finally {
-	    			    					this._super = tmp;
-	    			    				}
-	    			    				return ret;
-	    			    			};
-	    			    		})(name, subvalue);
-	    			}
-	    		} else {
-	    			prototype[name] = subvalue;
-	    		}
-	    	}
+		    	if (!name.endsWith('_')) {
+		    		var subvalue = subclass[name],
+		    			supervalue = _super[name];
+		    		
+		    		if (_.isFunction(subvalue) && _.isFunction(supervalue)) {
+		    			if (!fujion.widget._fnTest.test(subvalue)) {
+		    				fujion.debug ? fujion.log.warn('_super method not called for ', name) : null;
+		    				prototype[name] = subvalue;
+		    			} else {
+		    				prototype[name] = 
+		    			    		(function(name, fn) {
+		    			    			return function() {
+		    			    				var tmp = this._super, 
+		    			    					args = arguments,
+		    			    					self = this,
+		    			    					ret;
+		    			    				this._super = function() {return _super[name].apply(self, arguments.length ? arguments : args)};
+		    			    				try {
+		    			    					ret = fn.apply(this, arguments);       
+		    			    				} finally {
+		    			    					this._super = tmp;
+		    			    				}
+		    			    				return ret;
+		    			    			};
+		    			    		})(name, subvalue);
+		    			}
+		    		} else {
+		    			prototype[name] = subvalue;
+		    		}
+		    	}
 	    }
 
 	    function Widget() {
-	    	if (arguments.length && this._init) {
-	    		this._init.apply(this, arguments);
-	    	}
+		    	if (arguments.length && this._init) {
+		    		this._init.apply(this, arguments);
+		    	}
 	    }
 	   
 	    Widget.prototype = prototype;
@@ -2131,7 +2133,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				this.rerender();
 			}
 			
-			this._super(v, old);
+			this._super();
 		}
 		
 	});
@@ -2385,7 +2387,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ State ------------------------------*/
 		
 		clazz: function(v) {
-			this._super.apply(this, arguments);
+			this._super();
 			this.attr('class', v, this.sub$('btn'));
 		}
 		
@@ -2650,7 +2652,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		value: function(v) {
-			this._super(v);
+			this._super();
 			
 			if (this.getState('autoScroll')) {
 				this.scrollToBottom();
@@ -2733,7 +2735,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		readonly: function(v) {
-			this._super.apply(this, arguments);
+			this._super();
 			var inp$ = this.input$();
 			inp$.off('click.fujion');
 			v ? inp$.on('click.fujion', this.handleClick.bind(this)) : null;
@@ -2865,7 +2867,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ State ------------------------------*/
 		
 		dragid: function(v) {
-			this._super.apply(this, arguments);
+			this._super();
 			this.widget$.off('mouseup.fujion');
 			
 			if (v) {
@@ -3029,7 +3031,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		readonly: function(v) {
-			this._super.apply(this, arguments);
+			this._super();
 			var mdn = 'mousedown.fujion';
 			this.widget$.off(mdn);
 			v ? this.widget$.on(mdn, this.handleClick.bind(this)) : null;
@@ -3585,7 +3587,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		dragid: function(v) {
 			if (this.getState('mode') === 'INLINE') {
-				this._super(v);
+				this._super();
 			}
 		},		
 		
@@ -3735,7 +3737,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		visible: function(v) {
-			this._super(v);
+			this._super();
 			v ? this._updatePosition() : null;
 			var mask$ = this._ancillaries.mask$;
 			

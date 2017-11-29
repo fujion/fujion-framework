@@ -111,12 +111,12 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 		},
 		
 		context: function(v) {
-			this._super.apply(this, arguments);
+			this._super();
 			this.contextMenu(this._ancillaries.pane$, v);
 		},
 		
 		popup: function(v) {
-			this._super.apply(this, arguments);
+			this._super();
 			this.hoverPopup(this._ancillaries.pane$, v);
 		},
 		

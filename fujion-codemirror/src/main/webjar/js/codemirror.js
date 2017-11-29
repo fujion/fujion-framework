@@ -28,7 +28,7 @@ define('fujion-codemirror', [
 				this._cm = null;
 			}
 			
-			this._super(destroy);
+			this._super();
 		},
 		
 		/*------------------------------ Lifecycle ------------------------------*/

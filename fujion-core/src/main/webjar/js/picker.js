@@ -17,7 +17,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		/*------------------------------ Events ------------------------------*/
 
 		handleInput: function(event) {
-			this._super(event);
+			this._super();
 			this._updateSelection();
 		},
 		
@@ -71,7 +71,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		},
 		
 		value: function(v) {
-			this._super.apply(this, arguments);
+			this._super();
 			this._updateSelection();
 		}
 		
@@ -107,7 +107,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		
 		hint: function(v) {
 			v = this._parent.getState('showHints') ? v : null;
-			this._super(v);
+			this._super();
 		}
 	});
 	
@@ -128,7 +128,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 				}
 			}
 			
-			this._super.apply(this, arguments);
+			this._super();
 		},
 		
 		useDefaults: function() {
