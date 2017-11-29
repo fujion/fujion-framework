@@ -66,6 +66,7 @@ public class ComponentRegistry extends AbstractRegistry<String, ComponentDefinit
         return item.getTag();
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Override
     public ComponentDefinition unregisterByKey(String key) {
         return classToDefinition.remove(super.unregisterByKey(key));

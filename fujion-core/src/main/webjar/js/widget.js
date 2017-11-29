@@ -33,7 +33,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	 * Simulates inheritance by copying methods and properties to
 	 * the designated subclass prototype.
 	 * 
-	 * @param {object} The subclass.
+	 * @param {object} subclass The subclass.
 	 */
 	fujion.widget.Widget.extend = function(subclass) {
 	    var _super = this.prototype,
@@ -124,15 +124,32 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this._detachAncillaries();
 		},
 		
-		getAncestor: function(wclass, wmodule) {
-			var parent = this._parent;
-			wmodule = wmodule || this.wmodule;
+		/**
+		 * Returns the ancestor of the desired widget class, or null if not found.
+		 * 
+		 * @param {ctor | string} wclass The class name or class constructor for the ancestor.
+		 * 		If the class name is specified, it may be prefixed with a module name, separated by
+		 * 		a period.  If no module name is included, the module name will default to the
+		 * 		widget's module name.
+		 * @param {boolean} [includeSelf] If true, include this widget in the search.
+		 * @return {Widget} The ancestor of the desired type, or null if none found.
+		 */
+		getAncestor: function(wclass, includeSelf) {
+			var wgt = includeSelf ? this : this._parent,
+				byctor = _.isFunction(wclass), 
+				wmodule;
 			
-			while (parent && (parent.wclass !== wclass || parent.wmodule !== wmodule)) {
-				parent = parent._parent;
+			if (!byctor) {
+				var pcs = wclass ? wclass.split('.', 2) : [],
+				wmodule = pcs.length === 2 ? pcs[0] : this.wmodule;
+				wclass = pcs.length === 2 ? pcs[1] : wclass;
 			}
 			
-			return parent;
+			while (wgt && (byctor ? wgt.constructor !== wclass : wgt.wclass !== wclass || wgt.wmodule !== wmodule)) {
+				wgt = wgt._parent;
+			}
+			
+			return wgt || null;
 		},
 		
 		/**
