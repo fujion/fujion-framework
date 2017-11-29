@@ -37,27 +37,33 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	 */
 	fujion.widget.Widget.extend = function(subclass) {
 	    var _super = this.prototype,
-	    	prototype = new this();
+	    		prototype = new this(),
+	    		log = fujion.log.debug.bind(console);
+	    
 	    subclass = subclass || {};
 	    
 	    for (var name in subclass) {
 		    	if (!name.endsWith('_')) {
 		    		var subvalue = subclass[name],
-		    			supervalue = _super[name];
+		    			supervalue = _super[name],
+		    			subfn = _.isFunction(subvalue),
+		    			superfn = _.isFunction(supervalue),
+		    			hasSuper = subfn && fujion.widget._fnTest.test(subvalue);
 		    		
-		    		if (_.isFunction(subvalue) && _.isFunction(supervalue)) {
-		    			if (!fujion.widget._fnTest.test(subvalue)) {
-		    				fujion.debug ? fujion.log.warn('_super method not called for', name) : null;
+		    		if (subfn) {
+		    			if (!hasSuper) {
+		    				superfn ? log('_super method not called for', name) : null;
 		    				prototype[name] = subvalue;
 		    			} else {
+		    				!superfn ? log('_super method call without ancestor method for', name) : null;
 		    				prototype[name] = 
-		    			    		(function(name, fn) {
+		    			    		(function(sp, fn) {
 		    			    			return function() {
 		    			    				var tmp = this._super, 
 		    			    					args = arguments,
 		    			    					self = this,
 		    			    					ret;
-		    			    				this._super = function() {return _super[name].apply(self, arguments.length ? arguments : args)};
+		    			    				this._super = function() {return sp ? sp.apply(self, arguments.length ? arguments : args) : undefined};
 		    			    				try {
 		    			    					ret = fn.apply(this, arguments);       
 		    			    				} finally {
@@ -65,9 +71,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		    			    				}
 		    			    				return ret;
 		    			    			};
-		    			    		})(name, subvalue);
+		    			    		})(superfn ? supervalue : null, subvalue);
 		    			}
 		    		} else {
+		    			superfn ? log('Member declaration hides ancestor method', name) : null;
 		    			prototype[name] = subvalue;
 		    		}
 		    	}
