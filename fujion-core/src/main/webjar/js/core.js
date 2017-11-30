@@ -50,7 +50,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 				while (action = this.queue.shift()) {
 					var result = this._processAction(action);
 					
-					if (result instanceof Promise) {
+					if (result && _.isFunction(result.then)) {
 						return result.then(function() {
 							self.processing = false;
 							self.processQueue();
