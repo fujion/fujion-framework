@@ -52,7 +52,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 				while (action = this.queue.shift()) {
 					var result = this._processAction(action);
 					
-					if (result instanceof Promise) {
+					if (result && _.isFunction(result.then)) {
 						return result.then(function() {
 							self.processing = false;
 							self.processQueue();
@@ -675,7 +675,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		}
 		
 		var err = error.toString(),
-			message = error.stack ? error.stack : err;
+			message = error.stack || err;
 		
 			
 		alert('Fatal error:\n\n' + (message.startsWith(err) ? message : err + '\n' + message));
