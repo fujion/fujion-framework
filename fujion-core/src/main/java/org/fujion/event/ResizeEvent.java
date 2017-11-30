@@ -29,32 +29,32 @@ import org.fujion.component.BaseComponent;
  */
 @EventType(ResizeEvent.TYPE)
 public class ResizeEvent extends Event {
-    
+
     /**
      * The event type.
      */
     public static final String TYPE = "resize";
-    
+
     @EventParameter
     private double height;
-    
+
     @EventParameter
     private double width;
-    
+
     @EventParameter
     private double top;
-    
+
     @EventParameter
     private double left;
-    
+
     public ResizeEvent() {
         super(TYPE);
     }
-    
+
     public ResizeEvent(BaseComponent target, Object data) {
         super(TYPE, target, data);
     }
-    
+
     /**
      * Returns the new height in pixels.
      *
@@ -63,7 +63,7 @@ public class ResizeEvent extends Event {
     public double getHeight() {
         return height;
     }
-    
+
     /**
      * Returns the new width in pixels.
      *
@@ -72,23 +72,41 @@ public class ResizeEvent extends Event {
     public double getWidth() {
         return width;
     }
-    
+
     /**
-     * Returns the new top position in pixels.
+     * Returns the new top relative position in pixels.
      *
-     * @return The new top position in pixels.
+     * @return The new top relative position in pixels.
      */
     public double getTop() {
         return top;
     }
-    
+
     /**
-     * Returns the new left position in pixels.
+     * Returns the new left relative position in pixels.
      *
-     * @return The new left position in pixels.
+     * @return The new left relative position in pixels.
      */
     public double getLeft() {
         return left;
     }
-    
+
+    /**
+     * Returns the new bottom relative position in pixels.
+     *
+     * @return The new bottom relative position in pixels.
+     */
+    public double getBottom() {
+        return top + height;
+    }
+
+    /**
+     * Returns the new right relative position in pixels.
+     *
+     * @return The new right relative position in pixels.
+     */
+    public double getRight() {
+        return left + width;
+    }
+
 }

@@ -267,14 +267,14 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     }
     
     /**
-     * Hides the component - a shortcut for <code>setVisible(false)</code>.
+     * Hides the component - a shortcut for {@link #setVisible setVisible(false)}.
      */
     public void hide() {
         setVisible(false);
     }
     
     /**
-     * Shows the component - a shortcut for <code>setVisible(true)</code>.
+     * Shows the component - a shortcut for {@link #setVisible setVisible(true)}.
      */
     public void show() {
         setVisible(true);
@@ -410,6 +410,14 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     }
     
     /**
+     * Causes the component to report its current dimensions and relative position via a
+     * {@link org.fujion.event.ResizeEvent resize event}.
+     */
+    public void reportSize() {
+        invoke("reportSize");
+    }
+    
+    /**
      * Returns the popup text to be displayed when hovering over this component.
      *
      * @return The hint text.
@@ -496,7 +504,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *
      * @param tabindex The tab index.
      */
-    @PropertySetter(value = "tabindex", defaultValue="0", description = "The tab index for the component.")
+    @PropertySetter(value = "tabindex", defaultValue = "0", description = "The tab index for the component.")
     public void setTabindex(int tabindex) {
         propertyChange("tabindex", this.tabindex, this.tabindex = tabindex < 0 ? 0 : tabindex, true);
     }
