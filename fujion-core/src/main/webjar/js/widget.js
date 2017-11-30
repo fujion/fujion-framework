@@ -38,7 +38,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	fujion.widget.Widget.extend = function(subclass) {
 	    var _super = this.prototype,
 	    		prototype = new this(),
-	    		log = fujion.log.debug.bind(console);
+	    		log = fujion.log.warn;
 	    
 	    subclass = subclass || {};
 	    

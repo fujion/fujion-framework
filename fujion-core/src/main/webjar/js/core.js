@@ -565,27 +565,27 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		},
 
 		debug: function() {
-			fujion.log._log.call(this, 'debug', 'log', arguments);
+			fujion.log._log('debug', 'log', arguments);
 		},
 		
 		error: function() {
-			fujion.log._log.call(this, 'error', 'error', arguments);
+			fujion.log._log('error', 'error', arguments);
 		},
 		
 		fatal: function() {
-			fujion.log._log.call(this, 'fatal', 'error', arguments);
+			fujion.log._log('fatal', 'error', arguments);
 		},
 		
 		info: function() {
-			fujion.log._log.call(this, 'info', 'info', arguments);
+			fujion.log._log('info', 'info', arguments);
 		},
 		
 		trace: function() {
-			fujion.log._log.call(this, 'trace', 'log', arguments);
+			fujion.log._log('trace', 'log', arguments);
 		},
 		
 		warn: function() {
-			fujion.log._log.call(this, 'warn', 'warn', arguments);
+			fujion.log._log('warn', 'warn', arguments);
 		},
 		
 		/**
