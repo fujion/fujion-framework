@@ -674,9 +674,11 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			error = new Error(error);
 		}
 		
-		var message = 'Fatal error:\n\n' + (error.stack ? error.stack : error);
+		var err = error.toString(),
+			message = error.stack ? error.stack : err;
 		
-		alert(message);
+			
+		alert('Fatal error:\n\n' + (message.startsWith(err) ? message : err + '\n' + message));
 	},
 	
 	/**

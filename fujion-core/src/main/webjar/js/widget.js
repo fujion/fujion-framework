@@ -1402,7 +1402,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $('<div>').appendTo('#fujion_root');
+			return $('<div class="fujion_page">').appendTo('#fujion_root');
 		},
 		
 		/*------------------------------ State ------------------------------*/
