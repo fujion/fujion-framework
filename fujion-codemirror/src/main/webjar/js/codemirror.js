@@ -21,22 +21,17 @@ define('fujion-codemirror', [
 	 */
 	Widget.CodeMirror = Widget.UIWidget.extend({
 	
-		/*------------------------------ Containment ------------------------------*/
-
-		_detach: function(destroy) {
-			if (destroy) {
-				this._cm = null;
-			}
-			
-			this._super();
-		},
-		
 		/*------------------------------ Lifecycle ------------------------------*/
 
 		init: function() {
 			this._super();
 			this.forwardToServer('change');
 			this._cm = null;
+		},
+		
+		destroy: function() {
+			this._cm = null;
+			this._super();
 		},
 		
 		/*------------------------------ Other ------------------------------*/
