@@ -425,6 +425,11 @@ caption:empty {
     padding-right: 2px;
 }
 
+.fujion_toolbar > .fujion_toolbar {
+	border: none;
+	padding: 0;
+}
+	
 .fujion_toolbar:empty {
     display: none;
 }
