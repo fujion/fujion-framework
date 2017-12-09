@@ -3269,17 +3269,18 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		_slider: function(opt, value) {
-			if (!this.widget$.slider('instance')) {
-				this.widget$.slider({});
-			}
-			
-			this.widget$.slider('option', opt, value);
+			this.sub$('slider').slider('option', opt, value);
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
+		beforeRender: function() {
+			this._super();
+			this.sub$('slider').slider({});
+		},
+		
 		render$: function() {
-			return $('<div/>');
+			return $(this.resolveEL('<span><div id="${id}-slider"/></span>'));
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -3293,7 +3294,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		orientation: function(v) {
-			this._slider('orientation', v.toUpperCase());
+			this._slider('orientation', v.toLowerCase());
 		},
 		
 		step: function(v) {
