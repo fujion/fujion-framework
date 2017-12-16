@@ -1092,7 +1092,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		focus: function(v) {
-			this.input$()[v ? 'focus' : 'blur']();
+			var sel = ':input:enabled:visible:not([readonly]):first',
+				tgt$ = this.widget$.is(sel) ? this.widget$ : this.widget$.find(sel);
+			
+			v ? tgt$.focus().select() : tgt$.blur();
 		},
 		
 		hint: function(v) {
