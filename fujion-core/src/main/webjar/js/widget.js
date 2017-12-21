@@ -2665,7 +2665,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			v ? btn$.on('click.fujion', _showPopup) : null;
 			
 			function _showPopup(event) {
-				self.toggle();
+				self.getState('disabled') ? null : self.toggle();
 				return false;
 			}
 		},
