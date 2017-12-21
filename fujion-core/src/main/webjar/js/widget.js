@@ -2701,7 +2701,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Events ------------------------------*/
 		
 		handleClick: function(event) {
-			this.toggle();
+			this.getState('disabled') ? null : this.toggle();
 			return false;
 		},
 		
@@ -2740,11 +2740,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
-		afterRender: function() {
-			this._super();
-			this.sub$('btn').on('click', this.handleClick.bind(this));
-		},
-		
 		render$: function() {
 			var dom =
 				'<span>'
@@ -2756,6 +2751,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		/*------------------------------ State ------------------------------*/
+		
+		disabled: function(v) {
+			this._super();
+			this.attr('disabled', v, this.sub$('btn'));
+		},
 		
 		popup: function(v) {
 			this.close();
