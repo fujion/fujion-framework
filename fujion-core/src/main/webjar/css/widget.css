@@ -600,6 +600,11 @@ caption:empty {
 	width: 90%; /* Necessary or flex doesn't work properly */
 }
 
+.fujion_inputbox > input[readonly],
+.fujion_inputbox > textarea[readonly] {
+	cursor: default;
+}
+
 .fujion_inputbox > input:disabled + .glyphicon {
 	opacity: .5;
 }
