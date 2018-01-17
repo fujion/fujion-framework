@@ -583,14 +583,20 @@ caption:empty {
     position: relative;
 }
 
-.fujion_inputbox > .glyphicon {
+.fujion_inputbox .glyphicon {
 	background-color: inherit;
     margin-top: auto;
     margin-bottom: auto;
 }
 
-.fujion_inputbox > .glyphicon:hover {
-	text-decoration: underline;
+.fujion_inputbox .glyphicon-chevron-up,
+.fujion_inputbox .glyphicon-chevron-down {
+	display: block;
+	font-size: .5em;
+}
+
+.fujion_inputbox .glyphicon:hover {
+	outline: 1px groove lightgray;
 }
 
 .fujion_inputbox > input,

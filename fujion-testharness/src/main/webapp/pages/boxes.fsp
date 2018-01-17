@@ -48,9 +48,9 @@
 			</row>
 			<row>
 				<doublebox placeholder="double value" minvalue="-100000"
-					maxvalue="100000" />
+					maxvalue="100000" step=".5"/>
 				doublebox placeholder="double value" minvalue="-100000"
-				maxvalue="100000"
+				maxvalue="100000" step=".5"
 			</row>
 			<row>
 				<popupbox name="popupbox" placeholder="popupbox">

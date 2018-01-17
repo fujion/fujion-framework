@@ -1264,7 +1264,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			fujion.wgt(event.target).updateState('balloon', msg ? msg : null);
 			
 			if (this._changed && !msg) {
-		    	this.fireChanged();
+				this.fireChanged();
 			}
 		},
 		
@@ -1284,9 +1284,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this.setState('value', value);
 			
 		    if (this._synchronized) {
-		    	this.fireChanged();
+		    		this.fireChanged();
 		    } else {
-		    	this._changed = true;
+		    		this._changed = true;
 		    }
 		},
 		
@@ -1333,7 +1333,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			return $(this.resolveEL('<span><input id="${id}-inp" type="${_type}"></span'));
+			return $(this.resolveEL('<span><input id="${id}-inp" type="${_type}"></span>'));
 		}
 		
 	});
@@ -1344,6 +1344,20 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.widget.NumberboxWidget = fujion.widget.InputboxWidget.extend({
 		
+		/*------------------------------ Events ------------------------------*/
+		
+		handleSpin(up, event) {
+			if (!this.getState('disabled')) {
+				var step = +this.getState('step'),
+					val = +this._value() + (up ? step : -step);
+				
+				this.input$().val(val);
+				this.handleInput(event);
+			} else {
+				fujion.events.stop(event);
+			}
+		},
+		
 		/*------------------------------ Lifecycle ------------------------------*/
 		
 		init: function() {
@@ -1351,6 +1365,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this._constraint = /[\d+-]/;
 			this._partial = /^[+-]?$/;
 			this._super();
+			this.initState({step: 0});
 		},
 		
 		/*------------------------------ Other ------------------------------*/
@@ -1369,6 +1384,25 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			return value >= min && value <= max;
 		},
 		
+		/*------------------------------ Rendering ------------------------------*/
+		
+		afterRender: function() {
+			this._super();
+			this.widget$.find('.glyphicon-chevron-up').on('click', this.handleSpin.bind(this, true));
+			this.widget$.find('.glyphicon-chevron-down').on('click', this.handleSpin.bind(this, false));
+		},
+		
+		render$: function() {
+			var dom =  '<span>'
+					 +   '<input id="${id}-inp" type="${_type}">'
+					 +   '<span id="${id}-spn">'
+					 +     '<span class="glyphicon glyphicon-chevron-up"/>'
+					 +     '<span class="glyphicon glyphicon-chevron-down"/>'
+					 +   '</span>'
+					 + '</span>';
+			return $(this.resolveEL(dom));
+		},
+		
 		/*------------------------------ State ------------------------------*/
 		
 		minvalue: function(v) {
@@ -1377,6 +1411,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		maxvalue: function(v) {
 			this.attr('max', v, this.input$());
+		},
+		
+		step: function(v) {
+			var spn$ = this.sub$('spn');
+			v ? spn$.show() : spn$.hide();
 		}
 	});
 	

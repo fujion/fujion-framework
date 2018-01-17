@@ -31,13 +31,15 @@ import org.springframework.util.StringUtils;
  * @param <T> The type of numeric value supported.
  */
 public abstract class BaseNumberboxComponent<T extends Number> extends BaseInputboxComponent<T> {
-    
+
     private final Class<T> clazz;
-    
+
+    private T step;
+
     protected BaseNumberboxComponent(Class<T> clazz) {
         this.clazz = clazz;
     }
-    
+
     @Override
     @PropertyGetter(value = "synchronized", description = "A true value means that the client will notify the server "
             + "as the value of the input box changes. A false value means that the client will notify "
@@ -45,7 +47,7 @@ public abstract class BaseNumberboxComponent<T extends Number> extends BaseInput
     public boolean getSynchronized() {
         return super.getSynchronized();
     }
-    
+
     @Override
     @PropertySetter(value = "synchronized", defaultValue = "false", description = "A true value means that the client will notify the server "
             + "as the value of the input box changes. A false value means that the client will notify "
@@ -53,12 +55,38 @@ public abstract class BaseNumberboxComponent<T extends Number> extends BaseInput
     public void setSynchronized(boolean synchronize) {
         super.setSynchronized(synchronize);
     }
+
+    /**
+     * Gets the step value. If non-zero, a spinner will appear within the input element.
+     *
+     * @return The step value. Null or zero disables the step function.
+     */
+    @PropertyGetter(value = "step", description = "The increment or decrement when the spinner element is clicked.")
+    public T getStep() {
+        return step;
+    }
+    
+    @PropertySetter(value = "step", description = "The increment or decrement when the spinner element is clicked.")
+    private void _setStep(String step) {
+        setStep(_toValue(step));
+    }
+    
+    /**
+     * Sets the step value. If non-zero, a spinner will appear within the input element.
+     *
+     * @param step The step value. Null or zero disables the step function.
+     */
+    public void setStep(T step) {
+        if (propertyChange("step", this.step, this.step = step, false)) {
+            sync("step", _toString(step));
+        }
+    }
     
     @Override
     protected String _toString(T value) {
         return value == null ? null : value.toString();
     }
-    
+
     @Override
     protected T _toValue(String value) {
         value = value == null ? "" : StringUtils.trimAllWhitespace(value);
