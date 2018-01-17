@@ -2740,6 +2740,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
+		afterRender: function() {
+			this._super();
+			this.sub$('btn').on('click', this.handleClick.bind(this));
+		},
+		
 		render$: function() {
 			var dom =
 				'<span>'
