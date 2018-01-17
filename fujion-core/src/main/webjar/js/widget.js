@@ -1273,7 +1273,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				value = ele.value;
 			
 			if (value.length && this.validate && !this.validate(value)) {
-				fujion.event.stop(event);
+				event ? fujion.event.stop(event) : null;
 				var cpos = ele.selectionStart - 1;
 				ele.value = this.getState('value');
 				ele.selectionStart = cpos;
@@ -1346,16 +1346,20 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ Events ------------------------------*/
 		
-		handleSpin: function(up, event) {
+		handleSpinStart: function(up, event) {
 			if (!this.getState('disabled')) {
-				var step = +this.getState('step'),
-					val = +this._value() + (up ? step : -step);
-				
-				this.input$().val(val);
-				this.handleInput(event);
-			} else {
-				fujion.events.stop(event);
+				this._spinning = true;
+				this._spin(up, 1000);
+				this.input$().focus();
 			}
+			
+			return false;
+		},
+		
+		handleSpinStop: function(event) {
+			clearTimeout(this._spinning);
+			delete this._spinning;
+			return false;
 		},
 		
 		/*------------------------------ Lifecycle ------------------------------*/
@@ -1384,12 +1388,26 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			return value >= min && value <= max;
 		},
 		
+		_spin: function(up, intrvl) {
+			if (this._spinning) {
+				var step = +this.getState('step'),
+					val = +this._value() + (up ? step : -step);
+				this.input$().val(val);
+				this.handleInput();
+				this._spinning = setTimeout(this._spin.bind(this, up, 100), intrvl);
+			}
+		},
+		
 		/*------------------------------ Rendering ------------------------------*/
 		
 		afterRender: function() {
 			this._super();
-			this.widget$.find('.glyphicon-chevron-up').on('click', this.handleSpin.bind(this, true));
-			this.widget$.find('.glyphicon-chevron-down').on('click', this.handleSpin.bind(this, false));
+			this.widget$.find('.glyphicon-chevron-up')
+				.on('mousedown', this.handleSpinStart.bind(this, true))
+				.on('mouseup', this.handleSpinStop.bind(this));
+			this.widget$.find('.glyphicon-chevron-down')
+				.on('mousedown', this.handleSpinStart.bind(this, false))
+				.on('mouseup', this.handleSpinStop.bind(this));
 		},
 		
 		render$: function() {
