@@ -1346,7 +1346,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ Events ------------------------------*/
 		
-		handleSpin(up, event) {
+		handleSpin: function(up, event) {
 			if (!this.getState('disabled')) {
 				var step = +this.getState('step'),
 					val = +this._value() + (up ? step : -step);
