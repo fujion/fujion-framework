@@ -105,7 +105,8 @@ public class DateUtil {
         HL7_WITHOUT_TIME(HL7_DATE_ONLY_PATTERN),
         JS_WITH_TZ("yyyy-MM-dd HH:mm zzz"),
         JS_WITHOUT_TZ("yyyy-MM-dd HH:mm"),
-        JS_WITHOUT_TIME("yyyy-MM-dd");
+        JS_WITHOUT_TIME("yyyy-MM-dd"),
+        TO_STRING("EEE MMM dd HH:mm:ss zzz yyyy");
         //@formatter:on
         
         private String pattern;

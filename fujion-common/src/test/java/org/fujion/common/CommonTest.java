@@ -102,6 +102,8 @@ public class CommonTest {
         testDate("N-50s", new Date(now().getTime() - 50000), 100);
         testDate("T-50h", new Date(today().getTime() - 50 * 60 * 60 * 1000), 0);
         testDate("T-50n", new Date(today().getTime() - 50 * 60 * 1000), 0);
+        Date date = DateUtil.parseDate("19880302");
+        testDate(date.toString(), date, 0);
     }
 
     private Date now() {
