@@ -33,20 +33,23 @@ import java.util.function.Function;
  * @param <T> The type of model object.
  */
 public interface IBinder<T> {
-    
-    class TemplateConverter implements Function<Object, Object> {
-        
-        private final String template;
 
+    /**
+     * Supports use of format strings as type converters.
+     */
+    class TemplateConverter implements Function<Object, Object> {
+
+        private final String template;
+        
         TemplateConverter(String template) {
             this.template = template;
         }
-
+        
         @Override
         public String apply(Object value) {
             return template == null || value == null ? null : String.format(template, value);
         }
-        
+
     }
 
     /**
@@ -55,26 +58,26 @@ public interface IBinder<T> {
     enum Value {
         NONE
     }
-    
+
     /**
      * Shorthand for Value.NONE.
      */
     static final Value NOVALUE = Value.NONE;
-
+    
     /**
      * Returns the bound model.
      *
      * @return The bound model.
      */
     T getModel();
-
+    
     /**
      * Sets the model to bind.
      *
      * @param model The model to bind.
      */
     void setModel(T model);
-
+    
     /**
      * Establishes a read binding for the given model property.
      *
@@ -84,7 +87,7 @@ public interface IBinder<T> {
     default IBinding read(String modelProperty) {
         return read(modelProperty, (Function<?, ?>) null);
     }
-
+    
     /**
      * Establishes a read binding for the given model property.
      *
@@ -95,7 +98,7 @@ public interface IBinder<T> {
     default IBinding read(String modelProperty, String template) {
         return read(modelProperty, new TemplateConverter(template));
     }
-
+    
     /**
      * Establishes a read binding for the given model property.
      *
@@ -104,7 +107,7 @@ public interface IBinder<T> {
      * @return The new binding.
      */
     IBinding read(String modelProperty, Function<?, ?> converter);
-
+    
     /**
      * Establishes a write binding for the given model property.
      *
@@ -114,7 +117,7 @@ public interface IBinder<T> {
     default IBinding write(String modelProperty) {
         return write(modelProperty, (Function<?, ?>) null);
     }
-
+    
     /**
      * Establishes a write binding for the given model property.
      *
@@ -125,7 +128,7 @@ public interface IBinder<T> {
     default IBinding write(String modelProperty, String template) {
         return write(modelProperty, new TemplateConverter(template));
     }
-
+    
     /**
      * Establishes a write binding for the given model property.
      *
@@ -134,7 +137,7 @@ public interface IBinder<T> {
      * @return The new binding.
      */
     IBinding write(String modelProperty, Function<?, ?> converter);
-
+    
     /**
      * Establishes a read and write binding for the given model property.
      *
@@ -144,7 +147,7 @@ public interface IBinder<T> {
     default IBinding dual(String modelProperty) {
         return dual(modelProperty, (Function<?, ?>) null, (Function<?, ?>) null);
     }
-
+    
     /**
      * Establishes a read and write binding for the given model property.
      *
@@ -156,7 +159,7 @@ public interface IBinder<T> {
     default IBinding dual(String modelProperty, String readTemplate, String writeTemplate) {
         return dual(modelProperty, new TemplateConverter(readTemplate), new TemplateConverter(writeTemplate));
     }
-
+    
     /**
      * Establishes a read and write binding for the given model property.
      *
