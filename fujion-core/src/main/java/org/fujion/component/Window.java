@@ -39,7 +39,7 @@ import org.fujion.event.IEventListener;
  */
 @Component(tag = "window", widgetClass = "Window", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A window component with a title bar and maximize/minimize/close buttons.")
 public class Window extends BaseUIComponent implements INamespace {
-    
+
     /**
      * Possible display modes for a window.
      */
@@ -57,7 +57,7 @@ public class Window extends BaseUIComponent implements INamespace {
          */
         POPUP;
     }
-    
+
     /**
      * Size state for a window. Default is NORMAL.
      */
@@ -75,7 +75,7 @@ public class Window extends BaseUIComponent implements INamespace {
          */
         MINIMIZED;
     }
-    
+
     /**
      * Action upon window closure. Default is DESTROY.
      */
@@ -93,46 +93,48 @@ public class Window extends BaseUIComponent implements INamespace {
          */
         HIDE
     }
-    
+
     /**
      * Placement of window in view port when first displayed. Default is CENTER.
      */
     public enum Position {
         CENTER, LEFT_CENTER, LEFT_TOP, LEFT_BOTTOM, RIGHT_CENTER, RIGHT_TOP, RIGHT_BOTTOM, CENTER_TOP, CENTER_BOTTOM
     }
-    
+
+    private static final IEventListener dummyListener = (event) -> {};
+
     private String title;
-    
+
     private String image;
-    
+
     private Position position = Position.CENTER;
-    
+
     private boolean closable;
-    
+
     private boolean movable = true;
-    
+
     private boolean sizable;
-    
+
     private boolean maximizable;
-    
+
     private boolean minimizable;
-    
+
     private Size size = Size.NORMAL;
-    
+
     private BooleanSupplier onCanClose;
-    
+
     private CloseAction closeAction = CloseAction.DESTROY;
-    
+
     private Mode mode;
-    
+
     private IEventListener closeListener;
-    
+
     public Window() {
         super();
         setMode(Mode.INLINE);
         addClass("flavor:panel-default");
     }
-    
+
     /**
      * Returns the title text.
      *
@@ -142,7 +144,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public String getTitle() {
         return title;
     }
-    
+
     /**
      * Sets the title text.
      *
@@ -152,7 +154,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setTitle(String title) {
         propertyChange("title", this.title, this.title = nullify(title), true);
     }
-    
+
     /**
      * Returns the URL of the image to be displayed on the left side of the title bar.
      *
@@ -162,7 +164,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public String getImage() {
         return image;
     }
-    
+
     /**
      * Sets the URL of the image to be displayed on the left side of the title bar.
      *
@@ -172,7 +174,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setImage(String image) {
         propertyChange("image", this.image, this.image = nullify(image), true);
     }
-    
+
     /**
      * Returns true if the window is closable. A window that is closable has an icon that, when
      * clicked, triggers a close event.
@@ -184,7 +186,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public boolean isClosable() {
         return closable;
     }
-    
+
     /**
      * Set to true to make the window closable. A window that is closable has an icon that, when
      * clicked, triggers a close event.
@@ -197,7 +199,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setClosable(boolean closable) {
         propertyChange("closable", this.closable, this.closable = closable, true);
     }
-    
+
     /**
      * Returns the window's sizable property. A window that is sizable has borders that may be
      * dragged to change its dimensions. If the {@link #setMode(Mode) mode} is {@link Mode#INLINE
@@ -210,7 +212,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public boolean isSizable() {
         return sizable;
     }
-    
+
     /**
      * Sets the window's sizable property. A window that is sizable has borders that may be dragged
      * to change its dimensions. If the {@link #setMode(Mode) mode} is {@link Mode#INLINE INLINE},
@@ -223,7 +225,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setSizable(boolean sizable) {
         propertyChange("sizable", this.sizable, this.sizable = sizable, true);
     }
-    
+
     /**
      * Returns the {@link Position placement} of a newly opened {@link Mode#MODAL modal} or
      * {@link Mode#POPUP popup} window.
@@ -235,7 +237,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public Position getPosition() {
         return position;
     }
-
+    
     /**
      * Sets the {@link Position placement} of a newly opened {@link Mode#MODAL modal} or
      * {@link Mode#POPUP popup} window.
@@ -247,7 +249,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setPosition(Position position) {
         propertyChange("position", this.position, this.position = position, true);
     }
-
+    
     /**
      * Returns whether the window may be moved to a new position by dragging its title bar. If the
      * {@link #setMode(Mode) mode} is {@link Mode#INLINE INLINE}, this property has no effect.
@@ -258,7 +260,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public boolean isMovable() {
         return movable;
     }
-    
+
     /**
      * Sets whether the window may be moved to a new position by dragging its title bar. If the
      * {@link #setMode(Mode) mode} is {@link Mode#INLINE INLINE}, this property has no effect.
@@ -269,7 +271,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setMovable(boolean movable) {
         propertyChange("movable", this.movable, this.movable = movable, true);
     }
-    
+
     /**
      * Returns true if the window may be maximized. A window that is maximizable has an icon that,
      * when clicked, causes a {@link Mode#MODAL modal} or {@link Mode#POPUP popup} window to be
@@ -282,7 +284,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public boolean isMaximizable() {
         return maximizable;
     }
-    
+
     /**
      * Sets whether the window may be maximized. A window that is maximizable has an icon that, when
      * clicked, causes a {@link Mode#MODAL modal} or {@link Mode#POPUP popup} window to be resized
@@ -295,7 +297,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setMaximizable(boolean maximizable) {
         propertyChange("maximizable", this.maximizable, this.maximizable = maximizable, true);
     }
-    
+
     /**
      * Returns true if the window may be minimized. A window that is minimizable has an icon that,
      * when clicked, causes a window's body to be hidden. If the window's mode is {@link Mode#MODAL
@@ -309,7 +311,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public boolean isMinimizable() {
         return minimizable;
     }
-    
+
     /**
      * Sets whether the window may be minimized. A window that is minimizable has an icon that, when
      * clicked, causes a window's body to be hidden. If the window's mode is {@link Mode#MODAL
@@ -323,7 +325,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setMinimizable(boolean minimizable) {
         propertyChange("minimizable", this.minimizable, this.minimizable = minimizable, true);
     }
-    
+
     /**
      * Returns the display {@link Mode mode} of the window.
      *
@@ -333,7 +335,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public Mode getMode() {
         return mode;
     }
-    
+
     /**
      * Sets the display {@link Mode mode} of the window.
      *
@@ -343,7 +345,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setMode(Mode mode) {
         propertyChange("mode", this.mode, this.mode = defaultify(mode, Mode.INLINE), true);
     }
-    
+
     /**
      * Returns the {@link Size sizing} mode of the window.
      *
@@ -353,7 +355,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public Size getSize() {
         return size;
     }
-    
+
     /**
      * Sets the {@link Size sizing} mode of the window.
      *
@@ -363,7 +365,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setSize(Size size) {
         propertyChange("size", this.size, this.size = defaultify(size, Size.NORMAL), true);
     }
-    
+
     /**
      * Returns the {@link CloseAction action} to be taken when the window is closed.
      *
@@ -373,7 +375,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public CloseAction getCloseAction() {
         return closeAction;
     }
-    
+
     /**
      * Sets the {@link CloseAction action} to be taken when the window is closed.
      *
@@ -383,7 +385,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setCloseAction(CloseAction closeAction) {
         this.closeAction = closeAction == null ? CloseAction.DESTROY : closeAction;
     }
-    
+
     /**
      * Request the window to be closed. Window closure may be prevented if the onCanClose logic
      * returns false.
@@ -396,16 +398,16 @@ public class Window extends BaseUIComponent implements INamespace {
                 case DESTROY:
                     destroy();
                     break;
-                
+
                 case DETACH:
                     detach();
                     break;
-                
+
                 case HIDE:
                     setVisible(false);
                     break;
             }
-            
+
             if (closeListener != null) {
                 try {
                     closeListener.onEvent(new Event("close", this));
@@ -413,13 +415,13 @@ public class Window extends BaseUIComponent implements INamespace {
                     closeListener = null;
                 }
             }
-
+            
             return true;
         }
-
+        
         return false;
     }
-    
+
     /**
      * Returns the functional interface that determines whether window closure is permitted.
      *
@@ -428,7 +430,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public BooleanSupplier getOnCanClose() {
         return onCanClose;
     }
-    
+
     /**
      * Sets whether window closure is permitted using a simple Boolean value. This is a shortcut for
      * calling {@link #setOnCanClose} with a functional interface that returns a fixed Boolean
@@ -439,7 +441,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setOnCanClose(boolean canClose) {
         setOnCanClose(() -> canClose);
     }
-
+    
     /**
      * Sets the functional interface that will determine if window closure is permitted.
      *
@@ -449,7 +451,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public void setOnCanClose(BooleanSupplier onCanClose) {
         this.onCanClose = onCanClose;
     }
-    
+
     /**
      * Invokes the {@link #getOnCanClose canClose} logic and returns the result.
      *
@@ -458,7 +460,14 @@ public class Window extends BaseUIComponent implements INamespace {
     public boolean canClose() {
         return onCanClose == null || onCanClose.getAsBoolean();
     }
-    
+
+    /**
+     * Opens the window modally.
+     */
+    public void modal() {
+        modal(null);
+    }
+
     /**
      * Opens the window modally.
      *
@@ -467,7 +476,14 @@ public class Window extends BaseUIComponent implements INamespace {
     public void modal(IEventListener closeListener) {
         doShow(Mode.MODAL, closeListener);
     }
-    
+
+    /**
+     * Opens the window as a popup.
+     */
+    public void popup() {
+        popup(null);
+    }
+
     /**
      * Opens the window as a popup.
      *
@@ -476,22 +492,22 @@ public class Window extends BaseUIComponent implements INamespace {
     public void popup(IEventListener closeListener) {
         doShow(Mode.POPUP, closeListener);
     }
-    
+
     private void doShow(Mode mode, IEventListener closeListener) {
         if (this.closeListener != null) {
             throw new IllegalStateException("Window is already open");
         }
-        
+
         if (getParent() == null) {
             setParent(ExecutionContext.getPage());
         }
-        
-        this.closeListener = closeListener;
+
+        this.closeListener = closeListener == null ? dummyListener : closeListener;
         setMode(mode);
         setVisible(true);
         fireEvent("open");
     }
-    
+
     /**
      * Handles close events from the client.
      */
@@ -499,5 +515,5 @@ public class Window extends BaseUIComponent implements INamespace {
     private void _close() {
         close();
     }
-    
+
 }
