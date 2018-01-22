@@ -33,28 +33,28 @@ import org.fujion.common.DateUtil;
  */
 @Component(tag = "datebox", widgetClass = "Datebox", parentTag = "*", description = "An input box for entering dates.")
 public class Datebox extends BaseInputboxComponent<Date> {
-
+    
     private static final FastDateFormat serializer = FastDateFormat.getInstance("yyyy-MM-dd");
-
-    private FastDateFormat formatter = FastDateFormat.getDateInstance(FastDateFormat.SHORT);
-
+    
+    private FastDateFormat formatter = serializer;
+    
     private String format;
-
+    
     @Override
     protected Date _toValue(String value) {
         return DateUtil.parseDate(value);
     }
-
+    
     @Override
     protected String _toString(Date value) {
         return formatter.format(value);
     }
-
+    
     @Override
     protected String _toClient(Date value) {
         return serializer.format(value);
     }
-
+    
     /**
      * Returns the format for displaying the date.
      *
@@ -65,7 +65,7 @@ public class Datebox extends BaseInputboxComponent<Date> {
     public String getFormat() {
         return format;
     }
-
+    
     /**
      * Sets the format for displaying the date.
      *
@@ -75,10 +75,9 @@ public class Datebox extends BaseInputboxComponent<Date> {
     @PropertySetter(value = "format", defaultValue = "yyyy-MM-dd", description = "The format for displaying the date.")
     public void setFormat(String format) {
         if (!areEqual(format = trimify(format), this.format)) {
-            this.format = format;
-            formatter = format == null ? FastDateFormat.getDateInstance(FastDateFormat.SHORT)
-                    : FastDateFormat.getInstance(format);
+            formatter = format == null ? serializer : FastDateFormat.getInstance(format);
+            propertyChange("format", this.format, this.format = format, false);
         }
     }
-
+    
 }
