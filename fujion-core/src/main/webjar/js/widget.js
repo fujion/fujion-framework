@@ -1003,6 +1003,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		disabled: function(v) {
 			this.attr('disabled', v, this.input$());
+			this.attr('disabled', v, this.sub$('btn'));
 		},
 		
 		dragid: function(v) {
@@ -2529,7 +2530,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var submenu = this.getState('_submenu'),
 				dom = '<li>'
-					+   '<a>'
+					+   '<a id="${id}-btn">'
 					+ this.getDOMTemplate(':image', ':checkable', 'label')
 					+   '</a>'
 					+ (submenu ? '<ul id="${id}-inner" class="dropdown-menu">' : '')
@@ -2549,6 +2550,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		checked: function(v) {
 			this.sub$('chk').fujion$swapClasses('glyphicon-check', 'glyphicon-unchecked', v);
 		}
+		
 	});
 	
 	/******************************************************************************************************************
@@ -2813,11 +2815,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		/*------------------------------ State ------------------------------*/
-		
-		disabled: function(v) {
-			this._super();
-			this.attr('disabled', v, this.sub$('btn'));
-		},
 		
 		popup: function(v) {
 			this.close();
