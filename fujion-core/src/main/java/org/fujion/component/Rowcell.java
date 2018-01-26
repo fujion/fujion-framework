@@ -31,10 +31,18 @@ import org.fujion.annotation.Component.PropertySetter;
  */
 @Component(tag = "rowcell", widgetModule = "fujion-grid", widgetClass = "Rowcell", content = ContentHandling.AS_CHILD, parentTag = "row", childTag = @ChildTag("*"), description = "A single cell within a grid row.")
 public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
-
+    
     private int colspan = 1;
-
+    
     private int rowspan = 1;
+    
+    public Rowcell() {
+        super();
+    }
+
+    public Rowcell(String label) {
+        super(label);
+    }
 
     /**
      * Returns how many columns this cell will span. Default is 1.
@@ -45,7 +53,7 @@ public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     public int getColspan() {
         return colspan;
     }
-
+    
     /**
      * Sets how many columns this cell will span.
      *
@@ -55,7 +63,7 @@ public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     public void setColspan(int colspan) {
         propertyChange("colspan", this.colspan, this.colspan = colspan, true);
     }
-
+    
     /**
      * Returns how many rows this cell will span. Default is 1.
      *
@@ -65,7 +73,7 @@ public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     public int getRowspan() {
         return rowspan;
     }
-
+    
     /**
      * Sets how many rows this cell will span.
      *
@@ -75,5 +83,5 @@ public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     public void setRowspan(int rowspan) {
         propertyChange("rowspan", this.rowspan, this.rowspan = rowspan, true);
     }
-
+    
 }
