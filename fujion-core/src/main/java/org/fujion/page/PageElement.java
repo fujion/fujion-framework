@@ -157,9 +157,9 @@ public class PageElement {
     }
     
     /**
-     * Returns the attribute map.
+     * Returns a copy of the attribute map.
      *
-     * @return The attribute map, never null.
+     * @return A copy of the attribute map, possibly null.
      */
     public Map<String, String> getAttributes() {
         return attributes == null ? null : new HashMap<>(attributes);
