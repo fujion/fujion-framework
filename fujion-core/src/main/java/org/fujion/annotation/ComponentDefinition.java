@@ -186,11 +186,23 @@ public class ComponentDefinition {
     }
     
     /**
+     * Returns true if attribute name is validate for this component definition.
+     *
+     * @param name The attribute name.
+     * @return True if valid.
+     */
+    public boolean validateAttribute(String name) {
+        String[] pname = parsePropertyName(name);
+        String key = pname[0];
+        name = pname[1];
+        return setters.get(key) != null || getters.get(key) != null || parameters.containsKey(name);
+    }
+    
+    /**
      * Sets a property value or defers that operation if the property is marked as such.
      *
-     * @param instance Instance containing the property or attribute map.
-     * @param name Name of property or attribute. If prefixed with "@", is interpreted as an
-     *            attribute name; otherwise as a property name.
+     * @param instance Instance containing the property.
+     * @param name Name of property.
      * @param value The value to set.
      * @return Null if the operation occurred, or a DeferredExecution object if deferred.
      */

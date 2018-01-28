@@ -1,6 +1,6 @@
 <fsp>
-	Selectable:
 	<radiogroup name="rgGrids">
+		Selectable:
 		<radiobutton label="NO" checked="true" />
 		<radiobutton label="SINGLE" />
 		<radiobutton label="MULTIPLE" />
