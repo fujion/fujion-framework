@@ -7,6 +7,13 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 	
 	fujion.widget.Grid = fujion.widget.UIWidget.extend({
 		
+		/*------------------------------ Lifecycle ------------------------------*/
+		
+		init: function() {
+			this._super();
+			this.initState({autoSize: true})
+		},
+		
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
@@ -14,6 +21,10 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		},
 		
 		/*------------------------------ State ------------------------------*/
+		
+		autoSize: function(v) {
+			this.toggleClass('fujion_grid-fixed', !v);
+		},
 		
 		title: function(v) {
 			this.widget$.children('caption').text(v);
@@ -73,6 +84,15 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		label: function(v) {
 			this.sub$('lbl').text(v);
 		},
+		
+		sizable: function(v) {
+			var active = !!this.widget$.resizable('instance'),
+				newactive = !_.isNil(v);
+			
+			if (active != newactive) {
+				newactive ? this.widget$.resizable({handles: 'e'}) : this.widget$.resizable('destroy');
+			}
+		}, 
 		
 		sortOrder: function(v, old) {
 			var self = this;
