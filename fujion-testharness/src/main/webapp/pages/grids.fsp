@@ -1,10 +1,17 @@
 <fsp>
-	<radiogroup name="rgGrids">
-		Selectable:
+	<radiogroup name="rgSelectable">
+		<label label="Selectable:" />
 		<radiobutton label="NO" checked="true" />
 		<radiobutton label="SINGLE" />
 		<radiobutton label="MULTIPLE" />
 	</radiogroup>
+	<div height="5px" />
+	<radiogroup name="rgSizable">
+		<label label="Sizable:" />
+		<radiobutton label="NO" checked="true" />
+		<radiobutton label="YES" />
+	</radiogroup>
+	<div style="border-bottom: 1px solid blue;margin-top: 10px;margin-bottom: 10px;" />
 	<paging target="rows" pageSize="10" />
 	<grid name="grid" controller="org.fujion.testharness.GridsController">
 		<columns>
