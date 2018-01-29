@@ -35,11 +35,11 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>4.3.12.RELEASE</org.springframework.version>
-		<jackson.version>2.9.2</jackson.version>
+		<org.springframework.version>4.3.14.RELEASE</org.springframework.version>
+		<jackson.version>2.9.4</jackson.version>
 		<servlet.api.version>3.1.0</servlet.api.version>
 		<java.version>1.8</java.version>
-		<node.version>v7.9.0</node.version>
+		<node.version>v7.10.1</node.version>
 		<npm.version>4.2.0</npm.version>
 		<project.name>${project.artifactId}</project.name>
 		<webjar.version>${project.version}</webjar.version>
@@ -96,7 +96,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.0.0</version>
+					<version>3.0.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -116,12 +116,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
-					<version>3.6</version>
+					<version>3.7</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.10.4</version>
+					<version>3.0.0</version>
 					<configuration>
 						<failOnError>false</failOnError>
 						<quiet>true</quiet>
@@ -144,7 +144,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-plugin-plugin</artifactId>
-					<version>3.5</version>
+					<version>3.5.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -169,7 +169,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.6.1</version>
+					<version>3.7.0</version>
 					<configuration>
 						<source>${java.version}</source>
 						<target>${java.version}</target>
@@ -178,7 +178,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.20</version>
+					<version>2.20.1</version>
 					<configuration>
 						<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					</configuration>
@@ -186,7 +186,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>2.20</version>
+					<version>2.20.1</version>
 					<executions>
 						<execution>
 							<goals>
@@ -223,7 +223,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>3.1.0</version>
+					<version>3.2.0</version>
 					<configuration>
 						<archive>
 							<manifestEntries>
@@ -266,7 +266,7 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
-					<version>3.0.0</version>
+					<version>3.1.0</version>
 					<configuration>
 						<archive>
 							<!-- At this point, only the jar and war assembly formats support 
@@ -296,7 +296,7 @@
 				<plugin>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>9.4.7.v20170914</version>
+					<version>9.4.8.v20171121</version>
 					<configuration>
 						<webApp>
 							<contextPath>/${project.artifactId}</contextPath>
@@ -311,7 +311,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
-					<version>2.3</version>
+					<version>2.5</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-resources-plugin</artifactId>
@@ -392,34 +392,6 @@
 					</configuration>
 				</plugin>
 				<!-- End common build plugins -->
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>buildnumber-maven-plugin</artifactId>
-										<versionRange>[${maven.plugin.buildnumber.version},)</versionRange>
-										<goals>
-											<goal>create</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute>
-											<runOnIncremental>true</runOnIncremental>
-										</execute>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
 				<!-- LESS stylesheet compiler -->
 				<plugin>
 					<groupId>org.lesscss</groupId>
@@ -437,7 +409,7 @@
 				<plugin>
 					<groupId>nl.geodienstencentrum.maven</groupId>
 					<artifactId>sass-maven-plugin</artifactId>
-					<version>2.23</version>
+					<version>3.5.1</version>
 					<executions>
 						<execution>
 							<goals>
