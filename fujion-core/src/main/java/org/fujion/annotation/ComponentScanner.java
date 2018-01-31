@@ -77,26 +77,33 @@ public class ComponentScanner extends AbstractClassScanner<BaseComponent, Compon
      * @param factoryMethods If true, scan for factory methods. Otherwise, component methods.
      */
     private void scanMethods(ComponentDefinition def, Class<?> clazz, boolean factoryMethods) {
-        if (clazz == Object.class) {
+        if (clazz == null || clazz == Object.class) {
             return;
         }
         
         for (Method method : clazz.getDeclaredMethods()) {
-            method.setAccessible(true);
-            
-            if (method.isSynthetic() || method.isBridge()) {
-                continue;
-            }
-            
-            if (factoryMethods) {
-                def._addFactoryParameter(method);
-            } else {
-                def._addSetter(method);
-                def._addGetter(method);
-            }
+            processMethod(def, method, factoryMethods);
+        }
+        
+        for (Class<?> intf : clazz.getInterfaces()) {
+            scanMethods(def, intf, factoryMethods);
         }
         
         scanMethods(def, clazz.getSuperclass(), factoryMethods);
     }
     
+    private void processMethod(ComponentDefinition def, Method method, boolean factoryMethods) {
+        method.setAccessible(true);
+        
+        if (method.isSynthetic() || method.isBridge()) {
+            return;
+        }
+        
+        if (factoryMethods) {
+            def._addFactoryParameter(method);
+        } else {
+            def._addSetter(method);
+            def._addGetter(method);
+        }
+    }
 }

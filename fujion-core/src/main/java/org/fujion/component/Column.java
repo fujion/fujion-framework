@@ -173,7 +173,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
             return;
         }
         
-        IListModel<Object> model = sortComparator == null || sortOrder == SortOrder.UNSORTED ? null : getModel();
+        IListModel<Object> model = sortComparator == null || sortOrder == SortOrder.UNSORTED ? null : getRowsModel();
         updateClient();
         
         if (model != null) {
@@ -188,7 +188,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      *
      * @return The model backing the associated grid rows. May be null.
      */
-    private IListModel<Object> getModel() {
+    private IListModel<Object> getRowsModel() {
         Grid grid = getAncestor(Grid.class);
         Rows rows = grid == null ? null : grid.getRows();
         return rows == null ? null : rows.getModel(Object.class);
