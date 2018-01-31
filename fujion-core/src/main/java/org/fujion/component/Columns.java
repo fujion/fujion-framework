@@ -22,15 +22,20 @@ package org.fujion.component;
 
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
+import org.fujion.model.IModelAndView;
+import org.fujion.model.ISupportsModel;
+import org.fujion.model.ModelAndView;
 
 /**
  * Component serving as a container for a grid's columns.
  */
 @Component(tag = "columns", widgetModule = "fujion-grid", widgetClass = "Columns", parentTag = "grid", childTag = @ChildTag("column"), description = "A container for a grid's columns.")
-public class Columns extends BaseUIComponent {
-    
+public class Columns extends BaseUIComponent implements ISupportsModel<Column> {
+
     private Column sortColumn;
-    
+
+    private final ModelAndView<Column, Object> modelAndView = new ModelAndView<>(this);
+
     /**
      * Returns the currently sorted column.
      *
@@ -39,7 +44,7 @@ public class Columns extends BaseUIComponent {
     public Column getSortColumn() {
         return sortColumn;
     }
-    
+
     /**
      * Sets the currently sorted column.
      *
@@ -48,17 +53,22 @@ public class Columns extends BaseUIComponent {
     public void setSortColumn(Column sortColumn) {
         if (sortColumn != this.sortColumn) {
             validateIsChild(sortColumn);
-            
+
             if (this.sortColumn != null) {
                 this.sortColumn._setSortColumn(false, false);
             }
-            
+
             this.sortColumn = sortColumn;
-            
+
             if (sortColumn != null) {
                 sortColumn._setSortColumn(true, false);
             }
         }
+    }
+    
+    @Override
+    public IModelAndView<Column, ?> getModelAndView() {
+        return modelAndView;
     }
 
     /**
@@ -69,12 +79,12 @@ public class Columns extends BaseUIComponent {
     @Override
     protected void afterAddChild(BaseComponent child) {
         super.afterAddChild(child);
-        
+
         if (((Column) child).isSortColumn()) {
             setSortColumn((Column) child);
         }
     }
-    
+
     /**
      * If the removed column is the sort column, set the sort column to null.
      *
@@ -83,7 +93,7 @@ public class Columns extends BaseUIComponent {
     @Override
     protected void afterRemoveChild(BaseComponent child) {
         super.afterRemoveChild(child);
-        
+
         if (child == sortColumn) {
             sortColumn = null;
         }

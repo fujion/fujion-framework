@@ -27,36 +27,36 @@ import org.fujion.annotation.Component.ChildTag;
  * A component for selecting an image from a collection of images.
  */
 @Component(tag = "imagepicker", widgetModule = "fujion-picker", widgetClass = "Imagepicker", parentTag = "*", childTag = @ChildTag("imagepickeritem"), description = "A component for selecting an image from a collection of images.")
-public class ImagePicker extends BasePickerComponent<String> {
-
+public class ImagePicker extends BasePickerComponent<String, ImagePicker.ImagePickeritem> {
+    
     /**
      * An image selection for image picker.
      */
     @Component(tag = "imagepickeritem", widgetModule = "fujion-picker", widgetClass = "Imagepickeritem", parentTag = "imagepicker", description = "An image selection for image picker.")
     public static class ImagePickeritem extends BasePickerItem<String> {
-
+        
         public ImagePickeritem() {
-
+            
         }
-
+        
         public ImagePickeritem(String item) {
             super(item);
         }
-
+        
         @Override
         protected String _toString(String value) {
             return value;
         }
-
+        
         @Override
         protected String _toValue(String text) {
             return text;
         }
-
+        
     }
-
+    
     public ImagePicker() {
         super(ImagePickeritem.class);
     }
-
+    
 }

@@ -23,28 +23,34 @@ package org.fujion.component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.common.MiscUtil;
+import org.fujion.model.IModelAndView;
+import org.fujion.model.ISupportsModel;
+import org.fujion.model.ModelAndView;
 
 /**
  * A base class for components that allow the selection of an item from a collection of items.
  *
  * @param <T> The type of item within the collection of choices.
+ * @param <P> The type of child picker item component.
  */
-public abstract class BasePickerComponent<T> extends BaseInputboxComponent<T> {
-
+public abstract class BasePickerComponent<T, P extends BasePickerItem<T>> extends BaseInputboxComponent<T> implements ISupportsModel<P> {
+    
+    private final ModelAndView<P, Object> modelAndView = new ModelAndView<>(this);
+    
     private boolean showText;
-
+    
     private boolean showHints;
-
-    private BasePickerItem<T> converter;
-
-    protected BasePickerComponent(Class<? extends BasePickerItem<T>> itemClass) {
+    
+    private P converter;
+    
+    protected BasePickerComponent(Class<P> itemClass) {
         try {
             converter = itemClass.newInstance();
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     /**
      * Returns showText property.
      *
@@ -54,7 +60,7 @@ public abstract class BasePickerComponent<T> extends BaseInputboxComponent<T> {
     public boolean getShowText() {
         return showText;
     }
-
+    
     /**
      * Sets showText property.
      *
@@ -64,7 +70,7 @@ public abstract class BasePickerComponent<T> extends BaseInputboxComponent<T> {
     public void setShowText(boolean showText) {
         propertyChange("showText", this.showText, this.showText = showText, true);
     }
-
+    
     /**
      * Returns the showHints property.
      *
@@ -75,7 +81,7 @@ public abstract class BasePickerComponent<T> extends BaseInputboxComponent<T> {
     public boolean getShowHints() {
         return showHints;
     }
-
+    
     /**
      * Sets the showHints property.
      *
@@ -86,15 +92,20 @@ public abstract class BasePickerComponent<T> extends BaseInputboxComponent<T> {
     public void setShowHints(boolean showHints) {
         propertyChange("showHints", this.showHints, this.showHints = showHints, true);
     }
-
+    
     @Override
     protected T _toValue(String text) {
         return converter._toValue(text);
     }
-
+    
     @Override
     protected String _toString(T value) {
         return converter._toString(value);
     }
-
+    
+    @Override
+    public IModelAndView<P, ?> getModelAndView() {
+        return modelAndView;
+    }
+    
 }

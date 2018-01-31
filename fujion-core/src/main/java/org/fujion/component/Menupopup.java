@@ -22,6 +22,9 @@ package org.fujion.component;
 
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
+import org.fujion.model.IModelAndView;
+import org.fujion.model.ISupportsModel;
+import org.fujion.model.ModelAndView;
 
 /**
  * An extension of the Popup component designed for use with popup context menus.
@@ -29,6 +32,13 @@ import org.fujion.annotation.Component.ChildTag;
 @Component(tag = "menupopup", widgetClass = "Menupopup", parentTag = "*", childTag = { @ChildTag("menuitem"),
         @ChildTag("menuheader"),
         @ChildTag("menuseparator") }, description = "An extension of the Popup component designed for use with popup context menus.")
-public class Menupopup extends Popup {
+public class Menupopup extends Popup implements ISupportsModel<BaseMenuComponent> {
+
+    private final ModelAndView<BaseMenuComponent, Object> modelAndView = new ModelAndView<>(this);
+
+    @Override
+    public IModelAndView<BaseMenuComponent, ?> getModelAndView() {
+        return modelAndView;
+    }
 
 }

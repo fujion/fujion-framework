@@ -27,30 +27,35 @@ import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
 import org.fujion.event.Event;
 import org.fujion.event.OpenEvent;
+import org.fujion.model.IModelAndView;
+import org.fujion.model.ISupportsModel;
+import org.fujion.model.ModelAndView;
 
 /**
  * A component representing a drop down menu.
  */
 @Component(tag = "menu", widgetClass = "Menu", parentTag = "*", childTag = { @ChildTag("menuitem"), @ChildTag("menuheader"),
         @ChildTag("menuseparator") }, description = "A drop down menu.")
-public class Menu extends BaseMenuComponent {
+public class Menu extends BaseMenuComponent implements ISupportsModel<BaseMenuComponent> {
+
+    private final ModelAndView<BaseMenuComponent, Object> modelAndView = new ModelAndView<>(this);
     
     private boolean open;
-    
+
     /**
      * Opens the drop down menu. Shortcut for <code>setOpen(true)</code>
      */
     public void open() {
         setOpen(true);
     }
-    
+
     /**
      * Closes the drop down menu. Shortcut for <code>setOpen(false)</code>
      */
     public void close() {
         setOpen(false);
     }
-    
+
     /**
      * Returns the open state.
      *
@@ -60,7 +65,7 @@ public class Menu extends BaseMenuComponent {
     public boolean isOpen() {
         return open;
     }
-    
+
     /**
      * Sets the open state.
      *
@@ -72,7 +77,7 @@ public class Menu extends BaseMenuComponent {
             invoke((this.open = open) ? "open" : "close");
         }
     }
-    
+
     /**
      * Handles open and close events from the client.
      *
@@ -81,6 +86,11 @@ public class Menu extends BaseMenuComponent {
     @EventHandler(value = { "open", "close" }, syncToClient = false)
     private void onOpenOrClose(Event event) {
         open = event instanceof OpenEvent;
+    }
+
+    @Override
+    public IModelAndView<BaseMenuComponent, ?> getModelAndView() {
+        return modelAndView;
     }
     
 }
