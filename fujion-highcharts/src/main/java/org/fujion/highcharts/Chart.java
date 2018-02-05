@@ -20,15 +20,11 @@
  */
 package org.fujion.highcharts;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.OptionMap.IOptionMapConverter;
-import org.fujion.ancillary.Options;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -43,43 +39,6 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
 
     private static final String GLOBAL_SETTINGS = Chart.class.getName() + ".global";
 
-    /**
-     * Top level chart settings.
-     */
-    public static class ChartSettings extends Options {
-
-        public final ChartOptions chart = new ChartOptions();
-
-        public final List<String> colors = new ArrayList<>();
-
-        public final CreditsOptions credits = new CreditsOptions();
-
-        public final ExportingOptions exporting = new ExportingOptions();
-
-        public final LegendOptions legend = new LegendOptions();
-
-        public final LoadingOptions loading = new LoadingOptions();
-
-        public final NavigationOptions navigation = new NavigationOptions();
-
-        public final PaneOptions pane = new PaneOptions();
-
-        public final PlotOptions plotOptions = null;
-
-        public final List<Series> series = new ArrayList<>();
-
-        public final TitleOptions subtitle = new TitleOptions();
-
-        public final TitleOptions title = new TitleOptions();
-
-        public final TooltipOptions tooltip = new TooltipOptions();
-
-        public final List<Axis> xAxis = new ArrayList<>();
-
-        public final List<Axis> yAxis = new ArrayList<>();
-
-    }
-
     public final ChartSettings options = new ChartSettings();
 
     private boolean running;
@@ -91,7 +50,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
         super();
         addXAxis();
         addYAxis();
-        setType("line");
+        setType(PlotType.LINE);
     }
 
     /**
@@ -101,10 +60,10 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @param colors List of default colors. If null or empty, the Highcharts defaults are used.
      */
     public void setDefaultColors(String... colors) {
-        options.colors.clear();
+        options.getColors().clear();
 
         if (colors != null) {
-            options.colors.addAll(Arrays.asList(colors));
+            options.getColors().addAll(Arrays.asList(colors));
         }
     }
 
@@ -114,8 +73,8 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @return The chart type.
      */
     @PropertyGetter(value = "type", description = "The chart type.")
-    public String getType() {
-        return options.chart.type;
+    public PlotType getType() {
+        return options.getChart().type;
     }
 
     /**
@@ -124,20 +83,11 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @param type One of the supported chart types.
      */
     @PropertySetter(value = "type", defaultValue = "line", description = "The chart type.")
-    public void setType(String type) {
-        try {
-            Field field = ChartSettings.class.getField("plotOptions");
-            field.setAccessible(true);
-            PlotOptions plotOptions = Util.getPlotType(type);
-            plotOptions.type = type;
-            field.set(options, plotOptions);
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        options.chart.type = type;
-        options.series.clear();
+    public void setType(PlotType type) {
+        type = type == null ? PlotType.LINE : type;
+        options.setPlotOptions(type.newInstance());
+        options.getChart().type = type;
+        options.getSeries().clear();
     }
 
     /**
@@ -147,7 +97,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @return The x-axis.
      */
     public Axis getXAxis() {
-        return options.xAxis.isEmpty() ? null : options.xAxis.get(0);
+        return options.getxAxis().isEmpty() ? null : options.getxAxis().get(0);
     }
 
     /**
@@ -157,7 +107,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @return The y-axis.
      */
     public Axis getYAxis() {
-        return options.yAxis.isEmpty() ? null : options.yAxis.get(0);
+        return options.getyAxis().isEmpty() ? null : options.getyAxis().get(0);
     }
 
     /**
@@ -166,7 +116,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @return The newly created series.
      */
     public Series addSeries() {
-        return addSeries(options.chart.type);
+        return addSeries(options.getChart().type);
     }
 
     /**
@@ -175,9 +125,9 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @param type The plot type.
      * @return The newly created series.
      */
-    public Series addSeries(String type) {
+    public Series addSeries(PlotType type) {
         Series series = new Series(type);
-        options.series.add(series);
+        options.getSeries().add(series);
         return series;
     }
 
@@ -187,7 +137,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @return The newly added axis.
      */
     public Axis addXAxis() {
-        return new Axis(options.xAxis);
+        return new Axis(options.getxAxis());
     }
 
     /**
@@ -196,7 +146,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @return The newly added axis.
      */
     public Axis addYAxis() {
-        return new Axis(options.yAxis);
+        return new Axis(options.getyAxis());
     }
 
     /**
@@ -222,7 +172,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     public void clear() {
         running = false;
-        options.series.clear();
+        options.getSeries().clear();
         invoke("_reset");
     }
 
@@ -267,7 +217,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @Override
     public OptionMap toMap() {
-        options.chart.renderTo = getId();
+        options.getChart().renderTo = getId();
         return options.toMap();
     }
 
@@ -278,7 +228,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @PropertyGetter(value = "title", description = "The title text.")
     public String getTitle() {
-        return options.title.text;
+        return options.getTitle().text;
     }
 
     /**
@@ -288,7 +238,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @PropertySetter(value = "title", description = "The title text.")
     public void setTitle(String text) {
-        options.title.text = text;
+        options.getTitle().text = text;
         updateTitle();
     }
 
@@ -299,7 +249,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @PropertyGetter(value = "subtitle", description = "The subtitle text.")
     public String getSubtitle() {
-        return options.subtitle.text;
+        return options.getSubtitle().text;
     }
 
     /**
@@ -309,7 +259,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @PropertySetter(value = "subtitle", description = "The subtitle text.")
     public void setSubtitle(String text) {
-        options.subtitle.text = text;
+        options.getSubtitle().text = text;
         updateTitle();
     }
 
@@ -318,7 +268,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     public void export() {
         ensureRunning("Exporting");
-        invokeJS("_export", options.exporting.buttons_exportButton.onclick);
+        invokeJS("_export", options.getExporting().buttons_exportButton.onclick);
     }
 
     /**
@@ -326,7 +276,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     public void print() {
         ensureRunning("Printing");
-        invokeJS("_print", options.exporting.buttons_printButton.onclick);
+        invokeJS("_print", options.getExporting().buttons_printButton.onclick);
     }
 
     /**
@@ -345,8 +295,8 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
     private void updateTitle() {
         if (running) {
             OptionMap map = new OptionMap();
-            map.put("title", options.title);
-            map.put("subtitle", options.subtitle);
+            map.put("title", options.getTitle());
+            map.put("subtitle", options.getSubtitle());
             invoke("_title", map);
         }
     }
@@ -358,7 +308,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     private void ensureRunning(String operation) {
         if (!running) {
-            throw new RuntimeException(operation + " requires an active chart.");
+            throw new IllegalStateException(operation + " requires an active chart.");
         }
     }
 
