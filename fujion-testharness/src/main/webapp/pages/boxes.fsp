@@ -53,12 +53,16 @@
 				maxvalue="100000" step=".5"
 			</row>
 			<row>
-				<popupbox name="popupbox" placeholder="popupbox">
-					<popup name="popupboxpopup">
-						<label class="flavor:label-success" label="Simple popup" />
+				<popupbox name="popupbox1" placeholder="popupbox">
+					<popup name="popupboxpopup1">
+						<label class="flavor:label-success" label="Simple popup #1" />
 					</popup>
 				</popupbox>
-				popupbox name="popupbox" placeholder="popupbox"
+				popupbox with popup as a child
+			</row>
+			<row>
+				<popupbox name="popupbox2" placeholder="popupbox" popup="popupboxpopup2" context="popupboxpopup2"/>
+				popupbox with popup and context as attributes
 			</row>
 			<row>
 				<listbox>
@@ -131,5 +135,8 @@
 			</row>
 		</rows>
 	</grid>
+	<popup name="popupboxpopup2">
+		<label class="flavor:label-success" label="Simple popup #2" />
+	</popup>
 	
 </fsp>

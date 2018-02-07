@@ -52,7 +52,10 @@ public class BoxesController extends BaseController {
     private Combobox cboxRender;
     
     @WiredComponent
-    private Popupbox popupbox;
+    private Popupbox popupbox1;
+    
+    @WiredComponent
+    private Popupbox popupbox2;
     
     @Override
     public void afterInitialized(BaseComponent root) {
@@ -82,14 +85,24 @@ public class BoxesController extends BaseController {
         txtSelect.focus();
     }
     
-    @EventHandler(value = "close", target = "popupboxpopup")
-    private void popupboxCloseHandler(Event event) {
-        popupbox.setValue("Drop down closed!");
+    @EventHandler(value = "close", target = "popupboxpopup1")
+    private void popupbox1CloseHandler(Event event) {
+        popupbox1.setValue("Drop down closed!");
     }
     
-    @EventHandler(value = "open", target = "popupboxpopup")
-    private void popupboxOpenHandler(Event event) {
-        popupbox.setValue("Drop down opened!");
+    @EventHandler(value = "open", target = "popupboxpopup1")
+    private void popupbox1OpenHandler(Event event) {
+        popupbox1.setValue("Drop down opened!");
+    }
+    
+    @EventHandler(value = "close", target = "popupboxpopup2")
+    private void popupbox2CloseHandler(Event event) {
+        popupbox2.setValue("Drop down closed!");
+    }
+    
+    @EventHandler(value = "open", target = "popupboxpopup2")
+    private void popupbox2OpenHandler(Event event) {
+        popupbox2.setValue("Drop down opened!");
     }
     
     @EventHandler(value = "keycapture", target = "memobox")
