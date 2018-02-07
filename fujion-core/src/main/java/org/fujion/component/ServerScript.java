@@ -45,26 +45,26 @@ import org.springframework.util.Assert;
  */
 @Component(tag = "sscript", widgetClass = "MetaWidget", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", description = "Script source code for server-side invocation.")
 public class ServerScript extends BaseScriptComponent {
-
+    
     private static final String EVENT_DEFERRED = "deferredExecution";
-
+    
     public static final String EVENT_EXECUTED = "scriptExecution";
-
+    
     private IScriptLanguage scriptLanguage;
-
+    
     private IParsedScript script;
-
+    
     private String type;
-
+    
     public ServerScript() {
         super(false);
     }
-    
+
     public ServerScript(String type, String script) {
         super(script, false);
         setType(type);
     }
-
+    
     /**
      * Triggers script execution. If not deferred, execution is immediate. Otherwise, a
      * {@value #EVENT_DEFERRED} event is posted, deferring script execution until the end of the
@@ -75,21 +75,21 @@ public class ServerScript extends BaseScriptComponent {
     @Override
     protected void onAttach(Page page) {
         super.onAttach(page);
-
+        
         switch (getMode()) {
             case DEFER:
                 EventUtil.post(EVENT_DEFERRED, this, null);
                 break;
-
+            
             case IMMEDIATE:
                 execute();
                 break;
-
+            
             case MANUAL:
                 break;
         }
     }
-
+    
     /**
      * Executes the compiled script.
      *
@@ -101,12 +101,12 @@ public class ServerScript extends BaseScriptComponent {
         EventUtil.post(new Event(EVENT_EXECUTED, this, result));
         return result;
     }
-
+    
     @Override
-    public String getSelf() {
+    public String getSelfName() {
         return scriptLanguage == null ? null : scriptLanguage.getSelf();
     }
-    
+
     /**
      * Returns the script text, either from an external source or as embedded content.
      *
@@ -118,10 +118,10 @@ public class ServerScript extends BaseScriptComponent {
             String code = getSrc() == null ? getContent() : getExternalScript();
             script = scriptLanguage.parse(code);
         }
-
+        
         return script;
     }
-
+    
     /**
      * Return the text of an external script.
      *
@@ -135,7 +135,7 @@ public class ServerScript extends BaseScriptComponent {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     /**
      * Returns the type of script.
      *
@@ -145,7 +145,7 @@ public class ServerScript extends BaseScriptComponent {
     public String getType() {
         return type;
     }
-
+    
     /**
      * Sets the type of script.
      *
@@ -155,14 +155,14 @@ public class ServerScript extends BaseScriptComponent {
     public void setType(String type) {
         type = nullify(type);
         scriptLanguage = type == null ? null : ScriptRegistry.getInstance().get(type);
-
+        
         if (scriptLanguage == null && type != null) {
             throw new IllegalArgumentException("Unknown script type: " + type);
         }
-        
+
         propertyChange("type", this.type, this.type = type, false);
     }
-
+    
     /**
      * Performs deferred execution of the script.
      */
@@ -170,7 +170,7 @@ public class ServerScript extends BaseScriptComponent {
     private void onDeferredExecution() {
         execute();
     }
-
+    
     /**
      * Force script re-compilation if any property changes.
      */
