@@ -21,34 +21,18 @@
 package org.fujion.highcharts;
 
 /**
- * Options for column series.
+ * Options for X-range series.
  * <p>
- * Column series display one column per value along an X axis.
+ * The X-range series displays ranges on the X axis, typically time intervals with a start and end
+ * date.
  */
-public class PlotColumn extends PlotOptions {
+public class PlotXRange extends PlotOptions {
     
     /**
-     * Depth of the columns in a 3D column chart. Requires highcharts-3d.js. Defaults to 25.
+     * Defaults to 3.
      */
-    public Integer depth;
+    public Integer borderRadius;
 
-    /**
-     * 3D columns only. The color of the edges. Similar to borderColor, except it defaults to the
-     * same color as the column. Defaults to undefined.
-     */
-    public String edgeColor;
-    
-    /**
-     * 3D columns only. The width of the colored edges. Defaults to 1.
-     */
-    public Integer edgeWidth;
-    
-    /**
-     * Whether to group non-stacked columns or to let them render independent of each other.
-     * Non-grouped columns will be laid out individually and overlap each other. Defaults to true.
-     */
-    public Boolean grouping;
-    
     /**
      * The spacing between columns on the Z Axis in a 3D chart. Requires highcharts-3d.js. Defaults
      * to 1.
@@ -63,8 +47,8 @@ public class PlotColumn extends PlotOptions {
     public Integer maxPointWidth;
 
     /**
-     * A pixel value specifying a fixed width for each column or bar. When null, the width is
-     * calculated from the pointPadding and groupPadding. Defaults to null.
+     * The fill color to be used for partial fills. Defaults to a darker shade of the point color.
+     * Defaults to undefined.
      */
-    public Integer pointWidth;
+    public String partialFill_fill;
 }

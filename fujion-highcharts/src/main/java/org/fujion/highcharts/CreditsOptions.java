@@ -41,9 +41,9 @@ public class CreditsOptions extends Options {
     /**
      * Position configuration for the credits label.
      * 
-     * @see CreditsPositionOptions
+     * @see PositionOptions
      */
-    public final CreditsPositionOptions position = new CreditsPositionOptions();
+    public final PositionOptions position = new PositionOptions();
     
     /**
      * CSS styles for the credits label. Defaults to:

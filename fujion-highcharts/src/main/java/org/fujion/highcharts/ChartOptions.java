@@ -28,6 +28,32 @@ import org.fujion.ancillary.Options;
 public class ChartOptions extends Options {
     
     /**
+     * Options for the zoom reset button.
+     */
+    public static class ResetZoomButtonOptions extends Options {
+        
+        public enum RelativeTo {
+            plot, chart
+        }
+
+        /**
+         * The position of the button.
+         */
+        public final PositionOptions position = new PositionOptions();
+
+        /**
+         * What frame the button should be placed related to. Defaults to plot.
+         */
+        public RelativeTo relativeTo;
+        
+        /**
+         * The Z index for the reset zoom button. The default value places it below the tooltip that
+         * has Z index 7. Defaults to 6.
+         */
+        public Integer theme_zIndex;
+    }
+
+    /**
      * When using multiple axis, the ticks of two or more opposite axes will automatically be
      * aligned by adding ticks to the axis or axes with the least ticks. This can be prevented by
      * setting alignTicks to false. If the grid lines look messy, it's a good idea to hide them for
@@ -40,7 +66,7 @@ public class ChartOptions extends Options {
      * chart by setting it to false here. It can be overridden for each individual API method as a
      * function parameter. The only animation not affected by this option is the initial series
      * animation, see plotOptions.series =&gt; animation. The animation can either be set as a
-     * boolean or a configuration object. If true, it will use the 'swing' jQuery easing and a
+     * boolean or an AnimationOptions object. If true, it will use the 'swing' jQuery easing and a
      * duration of 500 ms. If used as a configuration object, the following properties are
      * supported:
      * <ul>
@@ -83,10 +109,25 @@ public class ChartOptions extends Options {
     public String className;
 
     /**
+     * In styled mode, this sets how many colors the class names should rotate between. With ten
+     * colors, series (or points) are given class names like highcharts-color-0, highcharts-color-0
+     * [...] highcharts-color-9. The equivalent in non-styled mode is to set colors using the colors
+     * setting. Defaults to 10.
+     */
+    public Integer colorCount;
+    
+    /**
+     * A text description of the chart. If the Accessibility module is loaded, this is included by
+     * default as a long description of the chart and its contents in the hidden screen reader
+     * information region. Defaults to undefined.
+     */
+    public String description;
+
+    /**
      * An explicit height for the chart. By default the height is calculated from the offset height
      * of the containing element. Defaults to null.
      */
-    public Integer height;
+    public String height;
 
     /**
      * If true, the axes will scale to the remaining visible series once one series is hidden. If
@@ -137,6 +178,30 @@ public class ChartOptions extends Options {
     public final ThreeDOptions options3d = new ThreeDOptions();
 
     /**
+     * Allows setting a key to switch between zooming and panning. Can be one of alt, ctrl, meta
+     * (the command key on Mac and Windows key on Windows) or shift. The keys are mapped directly to
+     * the key properties of the click event argument (event.altKey, event.ctrlKey, event.metaKey
+     * and event.shiftKey). Defaults to undefined.
+     */
+    public String panKey;
+    
+    /**
+     * Allow panning in a chart. Best used with panKey to combine zooming and panning. On touch
+     * devices, when the tooltip.followTouchMove option is true (default), panning requires two
+     * fingers. To allow panning with one finger, set followTouchMove to false. Defaults to false.
+     */
+    public Boolean panning;
+
+    /**
+     * Equivalent to {@link #zoomType}, but for multi-touch gestures only. By default, the pinchType
+     * is the same as the zoomType setting. However, pinching can be enabled separately in some
+     * cases, for example in stock charts where a mouse drag pans the chart, while pinching is
+     * enabled. When tooltip.followTouchMove is true, pinchType only applies to two-finger touches.
+     * Defaults to null.
+     */
+    public String pinchType;
+
+    /**
      * The background color or gradient for the plot area. Defaults to null.
      */
     public String plotBackgroundColor;
@@ -159,11 +224,11 @@ public class ChartOptions extends Options {
 
     /**
      * Whether to apply a drop shadow to the plot area. Requires that plotBackgroundColor be set.
-     * The shadow can be a ShadowOptions object. Defaults to false.
+     * Defaults to no shadow.
      *
      * @see ShadowOptions
      */
-    public Object plotShadow;
+    public ShadowOptions plotShadow;
 
     /**
      * When true, Cartesian charts like line, spline, area and column are transformed into the polar
@@ -185,21 +250,21 @@ public class ChartOptions extends Options {
     /**
      * The button that appears after a selection zoom, allowing the user to reset zoom.
      */
-    public Object resetZoomButton;
+    public final ResetZoomButtonOptions resetZoomButton = new ResetZoomButtonOptions();
 
     /**
      * The background color of the marker square when selecting (zooming in on) an area of the
-     * chart. Defaults to rgba(69,114,167,0.25). Defaults to rgba(69114,167,0.25).
+     * chart. Defaults to rgba(51,92,173,0.25).
      */
     public String selectionMarkerFill;
 
     /**
      * Whether to apply a drop shadow to the outer chart area. Requires that backgroundColor be set.
-     * The shadow can be a ShadowOptions object. Defaults to false.
+     * Defaults to no shadow
      *
      * @see ShadowOptions
      */
-    public Boolean shadow;
+    public ShadowOptions shadow;
 
     /**
      * Whether to show the axes initially. This only applies to empty charts where series are added
@@ -247,6 +312,14 @@ public class ChartOptions extends Options {
      * The series type. Defaults to LINE.
      */
     protected PlotType type = PlotType.LINE;
+
+    /**
+     * A text description of the chart type. If the Accessibility module is loaded, this will be
+     * included in the description of the chart in the screen reader information region. Highcharts
+     * will by default attempt to guess the chart type, but for more complex charts it is
+     * recommended to specify this property for clarity. Defaults to undefined.
+     */
+    public String typeDescription;
 
     /**
      * An explicit width for the chart. By default the width is calculated from the offset width of

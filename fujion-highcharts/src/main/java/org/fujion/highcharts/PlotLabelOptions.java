@@ -20,56 +20,64 @@
  */
 package org.fujion.highcharts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.fujion.ancillary.Options;
 
 /**
- * Options for text labels for plot bands or plot lines.
+ * Series labels are placed as close to the series as possible in a natural way, seeking to avoid
+ * other series. The goal of this feature is to make the chart more easily readable, like if a human
+ * designer placed the labels in the optimal position. The series labels currently work with series
+ * types having a graph or an area. Requires the series-label.js module.
  */
 public class PlotLabelOptions extends Options {
-    
+
     /**
-     * Horizontal alignment of the label. Can be one of "left", "center" or "right". Defaults to
-     * "center".
+     * An array of boxes to avoid when laying out the labels. Defaults to undefined.
      */
-    public AlignHorizontal align;
-    
+    public final List<Box> boxesToAvoid = new ArrayList<>();
+
     /**
-     * Rotation of the text label in degrees . Defaults to 0.
+     * Allow labels to be placed distant to the graph if necessary, and draw a connector line to the
+     * graph. Defaults to true.
      */
-    public Integer rotation;
+    public Boolean connectorAllowed;
     
     /**
-     * CSS styles for the text label.
+     * If the label is closer than this to a neighbour graph, draw a connector. Defaults to 24.
+     */
+    public Integer connectorNeighbourDistance;
+
+    /**
+     * Enable the series label per series. Defaults to true.
+     */
+    public Boolean enabled;
+    
+    /**
+     * For area-like series, allow the font size to vary so that small areas get a smaller font
+     * size. The default applies this effect to area-like series but not line-like series. Defaults
+     * to null.
+     */
+    public Integer maxFontSize;
+
+    /**
+     * For area-like series, allow the font size to vary so that small areas get a smaller font
+     * size. The default applies this effect to area-like series but not line-like series. Defaults
+     * to null.
+     */
+    public Integer minFontSize;
+    
+    /**
+     * Draw the label on the area of an area series. By default it is drawn on the area. Set it to
+     * false to draw it next to the graph instead. Defaults to null.
+     */
+    public Boolean onArea;
+
+    /**
+     * Styles for the series label. The color defaults to the series color, or a contrast color if
+     * onArea.
      */
     public final StyleOptions style = new StyleOptions();
-    
-    /**
-     * The string text itself. A subset of HTML is supported.
-     */
-    public String text;
-    
-    /**
-     * The text alignment for the label. While align determines where the texts anchor point is
-     * placed within the plot band, textAlign determines how the text is aligned against its anchor
-     * point. Possible values are "left", "center" and "right". Defaults to the same as the align
-     * option.
-     */
-    public AlignHorizontal textAlign;
-    
-    /**
-     * Vertical alignment of the label relative to the plot band. Can be one of "top", "middle" or
-     * "bottom". Defaults to "top".
-     */
-    public AlignVertical verticalAlign;
-    
-    /**
-     * Horizontal position relative the alignment. Default varies by orientation.
-     */
-    public Integer x;
-    
-    /**
-     * Vertical position of the text baseline relative to the alignment. Default varies by
-     * orientation.
-     */
-    public Integer y;
+
 }

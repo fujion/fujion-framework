@@ -27,12 +27,17 @@ import org.fujion.annotation.JavaScript;
  * Actions that may be associated with a menu item, for example.
  */
 public class ActionOptions extends Options {
-    
+
     /**
      * Label for action (e.g., menu item label).
      */
     public String text;
-    
+
+    /**
+     * If internationalization is required, the key to a language string.
+     */
+    public String textKey;
+
     /**
      * Callback function to handle click event.
      */

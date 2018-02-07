@@ -26,14 +26,21 @@ import org.fujion.ancillary.Options;
  * Options for a 3D frame.
  */
 public class ThreeDFrameOptions extends Options {
-
+    
     /**
      * The color of the panel. Defaults to transparent.
      */
     public String color;
-    
+
     /**
      * The thickness of the panel. Defaults to 1.
      */
     public Integer size;
+
+    /**
+     * Whether to display the frame. Possible values are true, false, "auto" to display only the
+     * frames behind the data, and "default" to display faces behind the data based on the axis
+     * layout, ignoring the point of view. Defaults to default.
+     */
+    public Boolean visible;
 }

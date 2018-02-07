@@ -21,17 +21,19 @@
 package org.fujion.highcharts;
 
 /**
- * Options for bar series.
+ * Options for bullet graph.
  * <p>
- * A bar series is a special type of column series where the columns are horizontal.
+ * A bullet graph is a variation of a bar graph. The bullet graph features a single measure,
+ * compares it to a target, and displays it in the context of qualitative ranges of performance that
+ * could be set using plotBands on yAxis.
  */
-public class PlotBar extends PlotOptions {
+public class PlotBullet extends PlotOptions {
     
     /**
      * Depth of the columns in a 3D column chart. Requires highcharts-3d.js. Defaults to 25.
      */
     public Integer depth;
-    
+
     /**
      * 3D columns only. The color of the edges. Similar to borderColor, except it defaults to the
      * same color as the column. Defaults to undefined.
@@ -42,18 +44,18 @@ public class PlotBar extends PlotOptions {
      * 3D columns only. The width of the colored edges. Defaults to 1.
      */
     public Integer edgeWidth;
-
+    
     /**
      * Whether to group non-stacked columns or to let them render independent of each other.
      * Non-grouped columns will be laid out individually and overlap each other. Defaults to true.
      */
     public Boolean grouping;
-    
+
     /**
      * The spacing between columns on the Z Axis in a 3D chart. Requires highcharts-3d.js. Defaults
      * to 1.
      */
-    public Integer groupZPadding;
+    public Integer groupingZPadding;
     
     /**
      * The maximum allowed pixel width for a column, translated to the height of a bar in a bar
@@ -63,16 +65,25 @@ public class PlotBar extends PlotOptions {
     public Integer maxPointWidth;
 
     /**
-     * The X axis range that each point is valid for. This determines the width of the column. On a
-     * categorized axis, the range will be 1 by default (one category unit). On linear and datetime
-     * axes, the range will be computed as the distance between the two closest data points.
-     */
-    public Double pointRange;
-    
-    /**
      * A pixel value specifying a fixed width for each column or bar. When null, the width is
      * calculated from the pointPadding and groupPadding. Defaults to null.
      */
     public Integer pointWidth;
     
+    /**
+     * The border width of the rectangle representing the target. In styled mode, use class
+     * highcharts-bullet-target instead. Defaults to 0.
+     */
+    public Integer targetOptions_borderWidth;
+
+    /**
+     * The height of the rectangle representing the target. Defaults to 3.
+     */
+    public Integer targetOptions_height;
+    
+    /**
+     * The width of the rectangle representing the target. Could be set as a pixel value or as a
+     * percentage of a column width. Defaults to 140%.
+     */
+    public String targetOptions_width;
 }

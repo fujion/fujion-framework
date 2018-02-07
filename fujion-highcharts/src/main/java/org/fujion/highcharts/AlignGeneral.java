@@ -1,4 +1,5 @@
-/*
+/**
+ /*
  * #%L
  * fujion
  * %%
@@ -21,11 +22,8 @@
 package org.fujion.highcharts;
 
 /**
- * Options for spline series.
- * <p>
- * A spline series is a special type of line series, where the segments between the data points are
- * smoothed.
+ * Options for orientation-independent alignment.
  */
-public class PlotSpline extends PlotOptions {
-    
+public enum AlignGeneral {
+    start, center, end
 }

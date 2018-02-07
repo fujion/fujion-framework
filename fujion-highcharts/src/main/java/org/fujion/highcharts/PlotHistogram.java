@@ -21,12 +21,13 @@
 package org.fujion.highcharts;
 
 /**
- * Options for bar series.
+ * Options for histogram.
  * <p>
- * A bar series is a special type of column series where the columns are horizontal.
+ * A histogram is a column series which represents the distribution of the data set in the base
+ * series. Histogram splits data into bins and shows their frequencies.
  */
-public class PlotBar extends PlotOptions {
-    
+public class PlotHistogram extends PlotOptions {
+
     /**
      * Depth of the columns in a 3D column chart. Requires highcharts-3d.js. Defaults to 25.
      */
@@ -48,31 +49,17 @@ public class PlotBar extends PlotOptions {
      * Non-grouped columns will be laid out individually and overlap each other. Defaults to true.
      */
     public Boolean grouping;
-    
+
     /**
      * The spacing between columns on the Z Axis in a 3D chart. Requires highcharts-3d.js. Defaults
      * to 1.
      */
-    public Integer groupZPadding;
-    
+    public Integer groupingZPadding;
+
     /**
      * The maximum allowed pixel width for a column, translated to the height of a bar in a bar
      * chart. This prevents the columns from becoming too wide when there is a small number of
      * points in the chart. Defaults to null.
      */
     public Integer maxPointWidth;
-
-    /**
-     * The X axis range that each point is valid for. This determines the width of the column. On a
-     * categorized axis, the range will be 1 by default (one category unit). On linear and datetime
-     * axes, the range will be computed as the distance between the two closest data points.
-     */
-    public Double pointRange;
-    
-    /**
-     * A pixel value specifying a fixed width for each column or bar. When null, the width is
-     * calculated from the pointPadding and groupPadding. Defaults to null.
-     */
-    public Integer pointWidth;
-    
 }

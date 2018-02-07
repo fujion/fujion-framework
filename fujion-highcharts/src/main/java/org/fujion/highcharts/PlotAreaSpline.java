@@ -21,7 +21,10 @@
 package org.fujion.highcharts;
 
 /**
- * Plot options for area spline series.
+ * Options for area spline series.
+ * <p>
+ * The area spline series is an area series where the graph between the points is smoothed into a
+ * spline.
  */
 
 public class PlotAreaSpline extends PlotArea {

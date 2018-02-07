@@ -54,7 +54,7 @@ public class ChartSettings extends Options {
 
     protected final TitleOptions title = new TitleOptions();
 
-    protected final TooltipOptions tooltip = new TooltipOptions();
+    protected final GlobalTooltipOptions tooltip = new GlobalTooltipOptions();
 
     protected final List<Axis> xAxis = new ArrayList<>();
 
@@ -112,7 +112,7 @@ public class ChartSettings extends Options {
         return title;
     }
 
-    public TooltipOptions getTooltip() {
+    public GlobalTooltipOptions getTooltip() {
         return tooltip;
     }
 

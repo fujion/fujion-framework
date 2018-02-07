@@ -21,8 +21,11 @@
 package org.fujion.highcharts;
 
 /**
- * Plot options for column range series.
+ * Options for column range plot.
+ * <p>
+ * The column range is a Cartesian series type with higher and lower Y values along an X axis.
+ * Requires highcharts-more.js. To display horizontal bars, set chart.inverted to true.
  */
 public class PlotColumnRange extends PlotColumn {
-    
+
 }

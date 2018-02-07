@@ -46,13 +46,19 @@ public class PaneOptions extends Options {
     
     /**
      * The end angle of the polar X axis or gauge value axis, given in degrees where 0 is north.
-     * Defaults to startAngle + 360.
+     * Defaults to startAngle + 360. Defaults to undefined.
      */
     public Integer endAngle;
     
     /**
+     * The size of the pane, either as a number defining pixels, or a percentage defining a
+     * percentage of the plot are. Defaults to 85%.
+     */
+    public String size;
+    
+    /**
      * The start angle of the polar X axis or gauge axis, given in degrees where 0 is north.
-     * Defaults to 0.
+     * Defaults to 0. Defaults to 0.
      */
     public Integer startAngle;
 }

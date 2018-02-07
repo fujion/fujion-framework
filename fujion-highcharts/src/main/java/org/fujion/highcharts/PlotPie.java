@@ -21,25 +21,23 @@
 package org.fujion.highcharts;
 
 /**
- * Plot options for pie series.
+ * Options for pie chart.
+ * <p>
+ * A pie chart is a circular graphic which is divided into slices to illustrate numerical
+ * proportion.
  */
 public class PlotPie extends PlotOptions {
     
     /**
-     * The color of the border surronding each slice. Defaults to "#FFFFFF".
+     * The thickness of a 3D pie. Requires highcharts-3d.js Defaults to 0.
      */
-    public String borderColor;
-    
+    public Integer depth;
+
     /**
-     * The width of the border surronding each slice. Defaults to 1.
+     * The end angle of the pie in degrees where 0 is top and 90 is right. Defaults to startAngle
+     * plus 360. Defaults to null.
      */
-    public Integer borderWidth;
-    
-    /**
-     * The center of the pie chart relative to the plot area. Can be percentages or pixel values.
-     * Defaults to ['50%', '50%'].
-     */
-    public String[] center;
+    public Integer endAngle;
     
     /**
      * The size of the inner diameter for the pie. A size greater than 0 renders a doughnut chart.
@@ -55,14 +53,8 @@ public class PlotPie extends PlotOptions {
     public Integer minSize;
     
     /**
-     * The diameter of the pie relative to the plot area. Can be a percentage or pixel value. Pixel
-     * values are given as integers. Defaults to "75%".
+     * The start angle of the pie slices in degrees where 0 is top and 90 right. Defaults to 0.
      */
-    public String size;
-    
-    /**
-     * If a point is sliced, moved out from the center, how many pixels should it be moved?.
-     * Defaults to 10.
-     */
-    public Integer slicedOffset;
+    public Integer startAngle;
+
 }

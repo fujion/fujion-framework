@@ -21,11 +21,12 @@
 package org.fujion.highcharts;
 
 /**
- * Options for spline series.
+ * Options for pareto diagram.
  * <p>
- * A spline series is a special type of line series, where the segments between the data points are
- * smoothed.
+ * A pareto diagram is a type of chart that contains both bars and a line graph, where individual
+ * values are represented in descending order by bars, and the cumulative total is represented by
+ * the line.
  */
-public class PlotSpline extends PlotOptions {
-    
+public class PlotPareto extends PlotOptions {
+
 }

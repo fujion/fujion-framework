@@ -21,11 +21,12 @@
 package org.fujion.highcharts;
 
 /**
- * Options for spline series.
+ * Options for bell curve series.
  * <p>
- * A spline series is a special type of line series, where the segments between the data points are
- * smoothed.
+ * A bell curve is an area spline series which represents the probability density function of the
+ * normal distribution. It calculates mean and standard deviation of the base series data and plots
+ * the curve according to the calculated parameters.
  */
-public class PlotSpline extends PlotOptions {
-    
+public class PlotBellCurve extends PlotArea {
+
 }

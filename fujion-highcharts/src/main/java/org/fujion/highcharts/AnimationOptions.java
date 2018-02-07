@@ -23,27 +23,22 @@ package org.fujion.highcharts;
 import org.fujion.ancillary.Options;
 
 /**
- * Position configuration for the credits label.
+ * Options for animations.
+ * <p>
+ * Enable or disable the initial animation when a series is displayed. The animation can also be set
+ * as a configuration object. Please note that this option only applies to the initial animation of
+ * the series itself. For other animations, see chart.animation and the animation parameter under
+ * the API methods.
  */
-public class CreditsPositionOptions extends Options {
-    
+public class AnimationOptions extends Options {
+
     /**
-     * The horizontal alignment. Defaults to "right".
+     * The duration of the animation in milliseconds.
      */
-    public AlignHorizontal align;
-    
+    public Integer duration;
+
     /**
-     * The vertical alignment. Defaults to "bottom".
+     * A string reference to an easing function set on the Math object.
      */
-    public AlignVertical verticalAlign;
-    
-    /**
-     * The x offset. Defaults to -10.
-     */
-    public Integer x;
-    
-    /**
-     * The y offset. Defaults to -5.
-     */
-    public Integer y;
+    public String easing;
 }

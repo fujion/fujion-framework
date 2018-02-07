@@ -39,17 +39,17 @@ public class LegendOptions extends Options {
     public String backgroundColor;
     
     /**
-     * The color of the drawn border around the legend. Defaults to #909090.
+     * The color of the drawn border around the legend. Defaults to #999999.
      */
     public String borderColor;
     
     /**
-     * The border corner radius of the legend. Defaults to 5.
+     * The border corner radius of the legend. Defaults to 0.
      */
     public Integer borderRadius;
     
     /**
-     * The width of the drawn border around the legend. Defaults to 1.
+     * The width of the drawn border around the legend. Defaults to 0.
      */
     public Integer borderWidth;
     
@@ -66,27 +66,17 @@ public class LegendOptions extends Options {
     
     /**
      * In a legend with horizontal layout, the itemDistance defines the pixel distance between each
-     * item. Defaults to 8.
+     * item. Defaults to 20.
      */
     public Integer itemDistance;
     
     /**
-     * CSS styles for each legend item when the corresponding series or point is hidden. Properties
-     * are inherited from style unless overridden here. Defaults to:
-     * 
-     * <pre>
-     *     color: '#CCC'
-     * </pre>
+     * CSS styles for each legend item when the corresponding series or point is hidden.
      */
     public final StyleOptions itemHiddenStyle = new StyleOptions();
     
     /**
-     * CSS styles for each legend item in hover mode. Properties are inherited from style unless
-     * overridden here. Defaults to:
-     * 
-     * <pre>
-     *     color: '#000'
-     * </pre>
+     * CSS styles for each legend item in hover mode.
      */
     public final StyleOptions itemHoverStyle = new StyleOptions();
     
@@ -101,12 +91,7 @@ public class LegendOptions extends Options {
     public Integer itemMarginTop;
     
     /**
-     * CSS styles for each legend item. Defaults to:
-     * 
-     * <pre>
-     *     cursor: 'pointer'
-     *     color: '#3E576F'
-     * </pre>
+     * CSS styles for each legend item.
      */
     public final StyleOptions itemStyle = new StyleOptions();
     
@@ -117,7 +102,21 @@ public class LegendOptions extends Options {
     public Integer itemWidth;
     
     /**
-     * Callback function to format each of the series' labels.
+     * Enable/disable keyboard navigation for the legend. Requires the Accessibility module.
+     * Defaults to true.
+     */
+    public Boolean keyboardNavigation_enabled;
+
+    /**
+     * A format string for each legend label. Available variables relates to properties on the
+     * series, or the point in case of pies. Defaults to {name}.
+     */
+    public String labelFormat;
+    
+    /**
+     * Callback function to format each of the series' labels. The this keyword refers to the series
+     * object, or the point object in case of pie charts. By default the series or point name is
+     * printed. Defaults to undefined.
      */
     @JavaScript
     public String labelFormatter;
@@ -130,7 +129,7 @@ public class LegendOptions extends Options {
     
     /**
      * If the plot area sized is calculated automatically and the legend is not floating, the legend
-     * margin is the space between the legend and the axis labels or plot area. Defaults to 15.
+     * margin is the space between the legend and the axis labels or plot area. Defaults to 12.
      */
     public Integer margin;
     
@@ -164,10 +163,28 @@ public class LegendOptions extends Options {
     
     /**
      * Whether to apply a drop shadow to the legend. A backgroundColor also needs to be applied for
-     * this to take effect. Since 2.3 the shadow can be an object configuration containing color,
-     * offsetX, offsetY, opacity and width. Defaults to false.
+     * this to take effect. Defaults to no shadow.
      */
-    public Object shadow;
+    public ShadowOptions shadow;
+    
+    /**
+     * When this is true, the legend symbol width will be the same as the symbol height, which in
+     * turn defaults to the font size of the legend items. Defaults to true.
+     */
+    public Boolean squareSymbol;
+
+    /**
+     * CSS styles for the legend area. The position is determined by properties like align,
+     * verticalAlign, x and y, but the styles are still parsed for backwards compatibility. Defaults
+     * to undefined.
+     */
+    public final StyleOptions style = new StyleOptions();
+
+    /**
+     * The pixel height of the symbol for series types that use a rectangle in the legend. Defaults
+     * to the font size of legend items. Defaults to undefined.
+     */
+    public Integer symbolHeight;
     
     /**
      * The pixel padding between the legend item symbol and the legend item text. Defaults to 5.
@@ -175,14 +192,21 @@ public class LegendOptions extends Options {
     public Integer symbolPadding;
     
     /**
-     * The pixel width of the legend item symbol. Defaults to 30.
+     * The border radius of the symbol for series types that use a rectangle in the legend. Defaults
+     * to half the symbolHeight. Defaults to undefined.
+     */
+    public Integer symbolRadius;
+
+    /**
+     * The pixel width of the legend item symbol. When the squareSymbol option is set, this defaults
+     * to the symbolHeight, otherwise 16. Defaults to undefined.
      */
     public Integer symbolWidth;
     
     /**
      * A title to be added on top of the legend.
      */
-    public LegendTitleOptions title = new LegendTitleOptions();
+    public final LegendTitleOptions title = new LegendTitleOptions();
     
     /**
      * Whether to use HTML to render the legend item texts. When using HTML, legend.navigation is
@@ -202,10 +226,9 @@ public class LegendOptions extends Options {
     public Integer width;
     
     /**
-     * The x offset of the legend relative to it's horizontal alignment align within
+     * The x offset of the legend relative to its horizontal alignment align within
      * chart.spacingLeft and chart.spacingRight. Negative x moves it to the left, positive x moves
-     * it to the right. The default value of 15 together with align: "center" puts it in the center
-     * of the plot area. Defaults to 0.
+     * it to the right. Defaults to 0.
      */
     public Integer x;
     

@@ -21,30 +21,40 @@
 package org.fujion.highcharts;
 
 /**
- * Options for area series.
+ * Options for stream graph.
+ * <p>
+ * A stream graph is a type of stacked area graph which is displaced around a central axis,
+ * resulting in a flowing, organic shape.
  */
-public class PlotArea extends PlotOptions {
-
+public class PlotStreamGraph extends PlotOptions {
+    
     /**
      * Fill color or gradient for the area. When null, the series' color is used with the series'
-     * fillOpacity. Defaults to null.
+     * fillOpacity. In styled mode, the fill color can be set with the .highcharts-area class name.
+     * Defaults to null.
      */
     public String fillColor;
-
+    
     /**
-     * Fill opacity for the area. Defaults to .75.
+     * Fill opacity for the area. When you set an explicit fillColor, the fillOpacity is not
+     * applied. Instead, you should define the opacity in the fillColor with an rgba color
+     * definition. The fillOpacity setting, also the default setting, overrides the alpha component
+     * of the color setting. In styled mode, the fill opacity can be set with the .highcharts-area
+     * class name. Defaults to 1.
      */
     public Double fillOpacity;
 
     /**
      * A separate color for the graph line. By default the line takes the color of the series, but
      * the lineColor setting allows setting a separate color for the line without altering the
-     * fillColor. Defaults to null.
+     * fillColor. In styled mode, the line stroke can be set with the .highcharts-graph class name.
+     * Defaults to null.
      */
     public String lineColor;
-
+    
     /**
-     * A separate color for the negative part of the area.
+     * A separate color for the negative part of the area. In styled mode, a negative color is set
+     * with the .highcharts-negative class name. Defaults to undefined.
      */
     public String negativeFillColor;
 
@@ -53,5 +63,4 @@ public class PlotArea extends PlotOptions {
      * or touch events. Defaults to false.
      */
     public Boolean trackByArea;
-
 }

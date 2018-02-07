@@ -21,11 +21,16 @@
 package org.fujion.highcharts;
 
 /**
- * Options for spline series.
+ * Options for polygon series.
  * <p>
- * A spline series is a special type of line series, where the segments between the data points are
- * smoothed.
+ * A polygon series can be used to draw any free-form shape in the Cartesian coordinate system. A
+ * fill is applied with the color option, and stroke is applied through lineWidth and lineColor
+ * options. Requires the highcharts-more.js file.
  */
-public class PlotSpline extends PlotOptions {
-    
+public class PlotPolygon extends PlotOptions {
+
+    /**
+     * Defaults to true.
+     */
+    public Boolean trackByArea;
 }

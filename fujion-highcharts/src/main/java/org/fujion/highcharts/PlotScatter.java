@@ -21,8 +21,10 @@
 package org.fujion.highcharts;
 
 /**
- * Plot options for scatter series.
+ * Options for scatter plot.
+ * <p>
+ * A scatter plot uses Cartesian coordinates to display values for two variables for a set of data.
  */
 public class PlotScatter extends PlotOptions {
-    
+
 }

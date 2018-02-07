@@ -29,23 +29,42 @@ public enum PlotType {
 
     // @formatter:off
     AREA(PlotArea.class),
-    AREA_RANGE(PlotAreaRange.class),
-    AREA_SPLINE(PlotAreaSpline.class),
-    AREA_SPLINE_RANGE(PlotAreaSplineRange.class),
+    AREARANGE(PlotAreaRange.class),
+    AREASPLINE(PlotAreaSpline.class),
+    AREASPLINERANGE(PlotAreaSplineRange.class),
     BAR(PlotBar.class),
-    BOX_PLOT(PlotBox.class),
+    BELLCURVE(PlotBellCurve.class),
+    BOXPLOT(PlotBox.class),
     BUBBLE(PlotBubble.class),
+    BULLET(PlotBullet.class),
     COLUMN(PlotColumn.class),
-    COLUMN_RANGE(PlotColumnRange.class),
-    ERROR_BAR(PlotErrorBar.class),
+    COLUMNRANGE(PlotColumnRange.class),
+    ERRORBAR(PlotErrorBar.class),
     FUNNEL(PlotFunnel.class),
     GAUGE(PlotGauge.class),
+    HEATMAP(PlotHeatMap.class),
+    HISTOGRAM(PlotHistogram.class),
     LINE(PlotLine.class),
+    PARETO(PlotPareto.class),
     PIE(PlotPie.class),
+    POLYGON(PlotPolygon.class),
+    PYRAMID(PlotPyramid.class),
+    SANKEY(PlotSankey.class),
     SCATTER(PlotScatter.class),
-    SOLID_GAUGE(PlotSolidGauge.class),
+    SCATTER3D(PlotScatter3D.class),
+    SOLIDGAUGE(PlotSolidGauge.class),
     SPLINE(PlotSpline.class),
-    WATERFALL(PlotWaterfall.class);
+    STREAMGRAPH(PlotStreamGraph.class),
+    SUNBURST(PlotSunburst.class),
+    TILEMAP(PlotTileMap.class),
+    TREEMAP(PlotTreeMap.class),
+    VARIABLEPIE(PlotVariablePie.class),
+    VARIWIDE(PlotVariwide.class),
+    VECTOR(PlotVector.class),
+    WATERFALL(PlotWaterfall.class),
+    WINDBARB(PlotWindbarb.class),
+    WORDCLOUD(PlotWordCloud.class),
+    XRANGE(PlotXRange.class);
     // @formatter:on
 
     private final Class<? extends PlotOptions> optionClass;
@@ -66,6 +85,6 @@ public enum PlotType {
 
     @Override
     public String toString() {
-        return name().toLowerCase().replace("_", "");
+        return name().toLowerCase();
     }
 }

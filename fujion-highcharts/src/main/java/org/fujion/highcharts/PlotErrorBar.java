@@ -21,9 +21,60 @@
 package org.fujion.highcharts;
 
 /**
- * Plot options for plot error bar.
+ * Options for error bar plot.
+ * <p>
+ * Error bars are a graphical representation of the variability of data and are used on graphs to
+ * indicate the error, or uncertainty in a reported measurement.
  */
-public class PlotErrorBar extends PlotBar {
+public class PlotErrorBar extends PlotOptions {
+    
+    /**
+     * Depth of the columns in a 3D column chart. Requires highcharts-3d.js. Defaults to 25.
+     */
+    public Integer depth;
+    
+    /**
+     * 3D columns only. The color of the edges. Similar to borderColor, except it defaults to the
+     * same color as the column. Defaults to undefined.
+     */
+    public String edgeColor;
+
+    /**
+     * 3D columns only. The width of the colored edges. Defaults to 1.
+     */
+    public Integer edgeWidth;
+
+    /**
+     * Whether to group non-stacked columns or to let them render independent of each other.
+     * Non-grouped columns will be laid out individually and overlap each other. Defaults to true.
+     */
+    public Boolean grouping;
+    
+    /**
+     * The maximum allowed pixel width for a column, translated to the height of a bar in a bar
+     * chart. This prevents the columns from becoming too wide when there is a small number of
+     * points in the chart. Defaults to null.
+     */
+    public Integer maxPointWidth;
+
+    /**
+     * The color of the median line. If null, the general series color applies. In styled mode, the
+     * median stroke width can be set with the .highcharts-boxplot-median class. Defaults to null.
+     */
+    public String medianColor;
+    
+    /**
+     * The X axis range that each point is valid for. This determines the width of the column. On a
+     * categorized axis, the range will be 1 by default (one category unit). On linear and datetime
+     * axes, the range will be computed as the distance between the two closest data points.
+     */
+    public Double pointRange;
+    
+    /**
+     * A pixel value specifying a fixed width for each column or bar. When null, the width is
+     * calculated from the pointPadding and groupPadding. Defaults to null.
+     */
+    public Integer pointWidth;
     
     /**
      * The color of the stem, the vertical line extending from the box to the whiskers. If null, the
@@ -48,13 +99,6 @@ public class PlotErrorBar extends PlotBar {
      * general series color is used. Defaults to null.
      */
     public String whiskerColor;
-    
-    /**
-     * The length of the whiskers, the horizontal lines marking low and high values. It can be a
-     * numerical pixel value, or a percentage value of the box width. Set 0 to disable whiskers.
-     * Defaults to 50%.
-     */
-    public String whiskerLength;
     
     /**
      * The line width of the whiskers, the horizontal lines marking low and high values. When null,

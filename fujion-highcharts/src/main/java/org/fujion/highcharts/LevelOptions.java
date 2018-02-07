@@ -20,12 +20,11 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.ancillary.Options;
+
 /**
- * Options for spline series.
- * <p>
- * A spline series is a special type of line series, where the segments between the data points are
- * smoothed.
+ * Set options on specific levels. Takes precedence over series options, but not point options.
  */
-public class PlotSpline extends PlotOptions {
-    
+public class LevelOptions extends Options {
+    //TODO
 }

@@ -21,28 +21,23 @@
 package org.fujion.highcharts;
 
 /**
- * Options for gauge plot.
+ * Options for vector plot.
  * <p>
- * Gauges are circular plots displaying one or more values with a dial pointing to values along the
- * perimeter.
+ * A vector plot is a type of Cartesian chart where each point has an X and Y position, a length and
+ * a direction. Vectors are drawn as arrows.
  */
-public class PlotGauge extends PlotOptions {
+public class PlotVector extends PlotOptions {
     
     /**
-     * Options for the dial or arrow pointer of the gauge.
+     * What part of the vector it should be rotated around. Can be one of start, center and end.
+     * When start, the vectors will start from the given [x, y] position, and when end the vectors
+     * will end in the [x, y] position. Defaults to center.
      */
-    public final DialOptions dial = new DialOptions();
-    
-    /**
-     * Allow the dial to overshoot the end of the perimeter axis by this many degrees. Say if the
-     * gauge axis goes from 0 to 60, a value of 100, or 1000, will show 5 degrees beyond the end of
-     * the axis. Defaults to 0.
-     */
-    public Integer overshoot;
+    public AlignGeneral rotation;
 
     /**
-     * Options for the pivot or the center point of the gauge.
+     * Maximum length of the arrows in the vector plot. The individual arrow length is computed
+     * between 0 and this value. Defaults to 20.
      */
-    public final PivotOptions pivot = new PivotOptions();
-    
+    public Integer vectorLength;
 }

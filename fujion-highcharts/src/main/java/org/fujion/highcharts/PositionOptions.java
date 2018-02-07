@@ -20,12 +20,30 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.ancillary.Options;
+
 /**
- * Options for spline series.
- * <p>
- * A spline series is a special type of line series, where the segments between the data points are
- * smoothed.
+ * Position configuration for visual elements.
  */
-public class PlotSpline extends PlotOptions {
-    
+public class PositionOptions extends Options {
+
+    /**
+     * The horizontal alignment. Defaults to "right".
+     */
+    public AlignHorizontal align;
+
+    /**
+     * The vertical alignment. Defaults to "bottom".
+     */
+    public AlignVertical verticalAlign;
+
+    /**
+     * The x offset. Defaults to -10.
+     */
+    public Integer x;
+
+    /**
+     * The y offset. Defaults to -5.
+     */
+    public Integer y;
 }

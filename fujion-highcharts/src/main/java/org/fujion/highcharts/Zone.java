@@ -23,37 +23,33 @@ package org.fujion.highcharts;
 import org.fujion.ancillary.Options;
 
 /**
- * A line stretching across the plot area, marking a specific value on one of the axes.
+ * A zone within a series.
  */
-public class PlotLineOptions extends Options {
+public class Zone extends Options {
 
     /**
-     * The color of the plot line. Defaults to null.
+     * Styled mode only. A custom CSS class name for the zone. Defaults to undefined.
+     */
+    public String className;
+    
+    /**
+     * Defines the color of the series. Defaults to undefined.
      */
     public String color;
 
     /**
-     * The dashing or dot style for the plot line. Defaults to Solid.
+     * A name for the dash style to use for the graph. Defaults to undefined.
      */
     public DashStyle dashStyle;
-
+    
     /**
-     * An id used for identifying the plot line in Axis.removePlotBand. Defaults to null.
+     * Defines the fill color for the series (in area type series) Defaults to undefined.
      */
-    public String id;
+    public String fillColor;
 
     /**
-     * The position of the line in axis units. Defaults to null.
+     * The value up to where the zone extends, if undefined the zones stretches to the last value in
+     * the series. Defaults to undefined.
      */
     public Double value;
-
-    /**
-     * The width or thickness of the plot line. Defaults to null.
-     */
-    public Integer width;
-
-    /**
-     * The z index of the plot line within the chart. Defaults to null.
-     */
-    public Integer zIndex;
 }

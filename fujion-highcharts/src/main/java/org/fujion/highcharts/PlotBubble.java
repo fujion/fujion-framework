@@ -21,37 +21,49 @@
 package org.fujion.highcharts;
 
 /**
- * Plot options for bubble plot.
+ * Options for bubble series.
+ * <p>
+ * A bubble series is a three dimensional series type where each point renders an X, Y and Z value.
+ * Each points is drawn as a bubble where the position along the X and Y axes mark the X and Y
+ * values, and the size of the bubble relates to the Z value. Requires highcharts-more.js.
  */
 public class PlotBubble extends PlotOptions {
-    
+
     /**
      * Whether to display negative sized bubbles. The threshold is given by the zThreshold option,
      * and negative bubbles can be visualized by setting negativeColor. Defaults to true.
      */
     public Boolean displayNegative;
-    
+
     /**
      * Maximum bubble size. Bubbles will automatically size between the minSize and maxSize to
      * reflect the z value of each bubble. Can be either pixels (when no unit is given), or a
      * percentage of the smallest one of the plot width and height. Defaults to 20%.
      */
     public String maxSize;
-    
+
     /**
      * Minimum bubble size. Bubbles will automatically size between the minSize and maxSize to
      * reflect the z value of each bubble. Can be either pixels (when no unit is given), or a
      * percentage of the smallest one of the plot width and height. Defaults to 8.
      */
     public String minSize;
-    
+
     /**
      * Whether the bubble's value should be represented by the area or the width of the bubble. The
      * default, area, corresponds best to the human perception of the size of each bubble. Defaults
      * to area.
      */
     public String sizeBy;
-    
+
+    /**
+     * When this is true, the absolute value of z determines the size of the bubble. This means that
+     * with the default zThreshold of 0, a bubble of value -1 will have the same size as a bubble of
+     * value 1, while a bubble of value 0 will have a smaller size according to minSize. Defaults to
+     * false.
+     */
+    public Boolean sizeByAbsoluteValue;
+
     /**
      * When displayNegative is false, bubbles with lower Z values are skipped. When displayNegative
      * is true and a negativeColor is given, points with lower Z is colored. Defaults to 0.

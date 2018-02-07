@@ -20,12 +20,25 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.ancillary.Options;
+
 /**
- * Options for spline series.
- * <p>
- * A spline series is a special type of line series, where the segments between the data points are
- * smoothed.
+ * A rectangle (box).
  */
-public class PlotSpline extends PlotOptions {
+public class Box extends Options {
     
+    public Integer left;
+    
+    public Integer right;
+    
+    public Integer top;
+    
+    public Integer bottom;
+
+    public Box(Integer left, Integer right, Integer top, Integer bottom) {
+        this.left = left;
+        this.right = right;
+        this.top = top;
+        this.bottom = bottom;
+    }
 }

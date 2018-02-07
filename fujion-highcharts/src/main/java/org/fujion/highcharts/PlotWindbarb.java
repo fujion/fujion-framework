@@ -21,17 +21,13 @@
 package org.fujion.highcharts;
 
 /**
- * Options for bar series.
+ * Options for windbarb plot.
  * <p>
- * A bar series is a special type of column series where the columns are horizontal.
+ * Wind barbs are a convenient way to represent wind speed and direction in one graphical form. Wind
+ * direction is given by the stem direction, and wind speed by the number and shape of barbs.
  */
-public class PlotBar extends PlotOptions {
-    
-    /**
-     * Depth of the columns in a 3D column chart. Requires highcharts-3d.js. Defaults to 25.
-     */
-    public Integer depth;
-    
+public class PlotWindbarb extends PlotOptions {
+
     /**
      * 3D columns only. The color of the edges. Similar to borderColor, except it defaults to the
      * same color as the column. Defaults to undefined.
@@ -42,13 +38,13 @@ public class PlotBar extends PlotOptions {
      * 3D columns only. The width of the colored edges. Defaults to 1.
      */
     public Integer edgeWidth;
-
+    
     /**
      * Whether to group non-stacked columns or to let them render independent of each other.
      * Non-grouped columns will be laid out individually and overlap each other. Defaults to true.
      */
     public Boolean grouping;
-    
+
     /**
      * The spacing between columns on the Z Axis in a 3D chart. Requires highcharts-3d.js. Defaults
      * to 1.
@@ -63,16 +59,27 @@ public class PlotBar extends PlotOptions {
     public Integer maxPointWidth;
 
     /**
-     * The X axis range that each point is valid for. This determines the width of the column. On a
-     * categorized axis, the range will be 1 by default (one category unit). On linear and datetime
-     * axes, the range will be computed as the distance between the two closest data points.
+     * The id of another series in the chart that the wind barbs are projected on. When null, the
+     * wind symbols are drawn on the X axis, but offset up or down by the yOffset setting. Defaults
+     * to null.
      */
-    public Double pointRange;
+    public String onSeries;
     
     /**
      * A pixel value specifying a fixed width for each column or bar. When null, the width is
      * calculated from the pointPadding and groupPadding. Defaults to null.
      */
     public Integer pointWidth;
+
+    /**
+     * Pixel length of the stems. Defaults to 20.
+     */
+    public Integer vectorLength;
     
+    /**
+     * Vertical offset from the cartesian position, in pixels. The default value makes sure the
+     * symbols don't overlap the X axis when onSeries is null, and that they don't overlap the
+     * linked series when onSeries is given. Defaults to -20.
+     */
+    public Integer yOffset;
 }

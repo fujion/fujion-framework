@@ -28,16 +28,15 @@ import org.fujion.ancillary.Options;
 public class LegendNavigationOptions extends Options {
     
     /**
-     * The color for the active up or down arrow in the legend page navigation. Defaults to #3E576F.
+     * The color for the active up or down arrow in the legend page navigation. Defaults to #003399.
      */
     public String activeColor;
     
     /**
      * How to animate the pages when navigating up or down. A value of true applies the default
-     * navigation given in the chart.animation option. Additional options can be given as an object
-     * containing values for easing and duration. Defaults to true.
+     * navigation given in the chart.animation option.
      */
-    public Boolean animation;
+    public AnimationOptions animation;
     
     /**
      * The pixel size of the up and down arrows in the legend paging navigation. Defaults to 12.
@@ -45,7 +44,16 @@ public class LegendNavigationOptions extends Options {
     public Integer arrowSize;
     
     /**
-     * The color of the inactive up or down arrow in the legend page navigation. Defaults to #CCC.
+     * Whether to enable the legend navigation. In most cases, disabling the navigation results in
+     * an unwanted overflow. See also the adapt chart to legend plugin for a solution to extend the
+     * chart height to make room for the legend, optionally in exported charts only. Defaults to
+     * true.
+     */
+    public Boolean enabled;
+    
+    /**
+     * The color of the inactive up or down arrow in the legend page navigation. Defaults to
+     * #cccccc.
      */
     public String inactiveColor;
     

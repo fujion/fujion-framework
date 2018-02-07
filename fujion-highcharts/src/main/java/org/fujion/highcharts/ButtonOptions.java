@@ -30,57 +30,37 @@ import org.fujion.annotation.JavaScript;
  * Options for buttons (e.g., print or export buttons).
  */
 public class ButtonOptions extends Options {
-    
+
     /**
      * Alignment for the buttons. Defaults to "right".
      */
     public AlignHorizontal align;
-    
+
     /**
-     * Background color for the buttons.
+     * The pixel spacing between buttons. Defaults to 3.
      */
-    public String backgroundColor;
-    
+    public Integer buttonSpacing;
+
     /**
-     * The border color of the buttons. Defaults to "#B0B0B0".
+     * The CSS class name of the context button. Defaults to highcharts-contextbutton.
      */
-    public String borderColor;
-    
-    /**
-     * The border corner radius of the buttons. Defaults to 3.
-     */
-    public Integer borderRadius;
-    
-    /**
-     * The border width of the buttons. Defaults to 1.
-     */
-    public Integer borderWidth;
+    public String className;
     
     /**
      * Whether to enable buttons. Defaults to true.
      */
     public Boolean enabled;
-    
+
     /**
      * Pixel height of the buttons. Defaults to 20.
      */
     public Integer height;
-    
+
     /**
-     * Color of the button border on hover. Defaults to #909090.
+     * The class name of the menu appearing from the button. Defaults to highcharts-contextmenu.
      */
-    public String hoverBorderColor;
-    
-    /**
-     * Defaults to #768F3E.
-     */
-    public String hoverSymbolFill;
-    
-    /**
-     * Stroke (line) color for the symbol within the button on hover. Defaults to #4572A5.
-     */
-    public String hoverSymbolStroke;
-    
+    public String menuClassName;
+
     /**
      * A collection of config options for the menu items. Each options object consists of a text
      * option which is a string to show in the menu item, as well as an onclick parameter which is a
@@ -89,75 +69,75 @@ public class ButtonOptions extends Options {
      * assigning null to unwanted positions.
      */
     public final List<ActionOptions> menuItems = new ArrayList<>();
-    
+
     /**
      * A click handler callback to use on the button directly instead of the default. The "this"
      * variable will be the Highcharts object.
      */
     @JavaScript
     public String onclick;
-    
+
     /**
      * The symbol for the button. Points to a definition function in the Highcharts.Renderer.symbols
      * collection. The default exportIcon function is part of the exporting module. Defaults to
-     * "exportIcon".
+     * menu.
      */
     public String symbol;
-    
+
     /**
-     * Defaults to #A8BF77.
+     * Defaults to #666666.
      */
     public String symbolFill;
-    
+
     /**
-     * The pixel size of the symbol on the button. Defaults to 12.
+     * The pixel size of the symbol on the button. Defaults to 14.
      */
     public Integer symbolSize;
-    
+
     /**
-     * The color of the symbol's stroke or line. Defaults to "#A0A0A0".
+     * The color of the symbol's stroke or line. Defaults to #666666.
      */
     public String symbolStroke;
-    
+
     /**
      * The pixel stroke width of the symbol on the button. Defaults to 1.
      */
     public Integer symbolStrokeWidth;
-    
+
     /**
-     * The x position of the center of the symbol inside the button. Defaults to 11.5.
+     * The x position of the center of the symbol inside the button. Defaults to 12.5.
      */
     public Double symbolX;
-    
+
     /**
      * The y position of the center of the symbol inside the button. Defaults to 10.5.
      */
     public Double symbolY;
-    
+
     /**
      * A text string to add to the individual button. Defaults to null.
      */
     public String text;
-    
+
     /**
      * The vertical alignment of the buttons. Can be one of "top", "middle" or "bottom". Defaults to
      * "top".
      */
     public AlignVertical verticalAlign;
-    
+
     /**
      * The pixel width of the button. Defaults to 24.
      */
     public Integer width;
-    
+
     /**
-     * The horizontal position of the button relative to the align option. Defaults to 10.
+     * The horizontal position of the button relative to the align option. Defaults to -10.
      */
     public Integer x;
-    
+
     /**
-     * The vertical offset of the button's position relative to its verticalAlign. Defaults to 10.
+     * The vertical offset of the button's position relative to its verticalAlign. Defaults to 0.
      */
     public Integer y;
-    
+
 }

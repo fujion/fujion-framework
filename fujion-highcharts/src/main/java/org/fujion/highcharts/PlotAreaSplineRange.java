@@ -21,8 +21,12 @@
 package org.fujion.highcharts;
 
 /**
- * Plot options for plot area spline range series.
+ * Options for area spline range series.
+ * <p>
+ * The area spline range is a Cartesian series type with higher and lower Y values along an X axis.
+ * The area inside the range is colored, and the graph outlining the area is a smoothed spline.
+ * Requires highcharts-more.js.
  */
 public class PlotAreaSplineRange extends PlotAreaSpline {
-    
+
 }

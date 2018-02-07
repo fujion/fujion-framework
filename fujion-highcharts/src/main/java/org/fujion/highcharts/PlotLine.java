@@ -21,13 +21,11 @@
 package org.fujion.highcharts;
 
 /**
- * Plot options for line series.
+ * Options for line plot.
+ * <p>
+ * A line series displays information as a series of data points connected by straight line
+ * segments.
  */
 public class PlotLine extends PlotOptions {
-    
-    /**
-     * Whether to apply steps to the line. Defaults to false.
-     */
-    public Boolean step;
-    
+
 }

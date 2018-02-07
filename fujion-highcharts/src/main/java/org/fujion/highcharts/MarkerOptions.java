@@ -20,8 +20,8 @@
  */
 package org.fujion.highcharts;
 
-import org.fujion.ancillary.Options;
 import org.fujion.ancillary.OptionMap;
+import org.fujion.ancillary.Options;
 
 /**
  * Options for point markers.
@@ -34,11 +34,25 @@ public class MarkerOptions extends Options {
     public Boolean enabled;
     
     /**
+     * The threshold for how dense the point markers should be before they are hidden, given that
+     * enabled is not defined. The number indicates the horizontal distance between the two closest
+     * points in the series, as multiples of the marker.radius. In other words, the default value of
+     * 2 means points are hidden if overlapping horizontally. Defaults to 2.
+     */
+    public Integer enabledThreshold;
+    
+    /**
      * he fill color of the point marker. When null, the series' or point's color is used. Defaults
      * to null.
      */
     public String fillColor;
     
+    /**
+     * Image markers only. Set the image width explicitly. When using this option, a width must also
+     * be set. Defaults to null.
+     */
+    public Integer height;
+
     /**
      * The color of the point marker's outline. When null, the series' or point's color is used.
      * Defaults to "#FFFFFF".
@@ -77,6 +91,12 @@ public class MarkerOptions extends Options {
      * "url(graphic.png)". Defaults to null.
      */
     public String symbol;
+    
+    /**
+     * Image markers only. Set the image width explicitly. When using this option, a height must
+     * also be set. Defaults to null.
+     */
+    public Integer width;
     
     @Override
     public OptionMap toMap() {

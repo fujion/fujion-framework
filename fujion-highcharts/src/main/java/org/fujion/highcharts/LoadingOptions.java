@@ -30,34 +30,34 @@ import org.fujion.ancillary.Options;
  * configuration object, but part of the lang object.
  */
 public class LoadingOptions extends Options {
-    
+
     /**
      * The duration in milliseconds of the fade out effect. Defaults to 100.
      */
     public Integer hideDuration;
-    
+
     /**
      * CSS styles for the loading label span. Defaults to:
-     * 
+     *
      * <pre>
      *     fontWeight: 'bold'
      *     position: 'relative'
-     *     top: '1em'
+     *     top: '45%'
      * </pre>
      */
     public final StyleOptions labelStyle = new StyleOptions();
-    
+
     /**
      * The duration in milliseconds of the fade in effect. Defaults to 100.
      */
     public Integer showDuration;
-    
+
     /**
      * CSS styles for the loading screen that covers the plot area. Defaults to:
-     * 
+     *
      * <pre>
      *     position: 'absolute',
-     *     backgroundColor: 'white',
+     *     backgroundColor: 'ffffff',
      *     opacity: 0.5,
      *     textAlign: 'center'
      * </pre>

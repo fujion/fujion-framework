@@ -21,28 +21,32 @@
 package org.fujion.highcharts;
 
 /**
- * Options for gauge plot.
+ * Options for heat map plot.
  * <p>
- * Gauges are circular plots displaying one or more values with a dial pointing to values along the
- * perimeter.
+ * A heat map is a graphical representation of data where the individual values contained in a
+ * matrix are represented as colors.
  */
-public class PlotGauge extends PlotOptions {
+public class PlotHeatMap extends PlotOptions {
     
     /**
-     * Options for the dial or arrow pointer of the gauge.
+     * The column size - how many X axis units each column in the heatmap should span. Defaults to
+     * 1.
      */
-    public final DialOptions dial = new DialOptions();
+    public Integer colsize;
     
     /**
-     * Allow the dial to overshoot the end of the perimeter axis by this many degrees. Say if the
-     * gauge axis goes from 0 to 60, a value of 100, or 1000, will show 5 degrees beyond the end of
-     * the axis. Defaults to 0.
+     * The color applied to null points. In styled mode, a general CSS class is applied instead.
+     * Defaults to #f7f7f7.
      */
-    public Integer overshoot;
+    public String nullColor;
 
     /**
-     * Options for the pivot or the center point of the gauge.
+     * Padding between the points in the heatmap. Defaults to 0.
      */
-    public final PivotOptions pivot = new PivotOptions();
+    public Integer pointPadding;
     
+    /**
+     * The row size - how many Y axis units each heatmap row should span. Defaults to 1.
+     */
+    public Integer rowsize;
 }

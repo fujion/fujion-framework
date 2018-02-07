@@ -20,22 +20,29 @@
  */
 package org.fujion.highcharts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Plot options for funnel plot.
+ * Options for funnel chart.
+ * <p>
+ * Funnel charts are a type of chart often used to visualize stages in a sales project, where the
+ * top are the initial stages with the most clients. It requires that the modules/funnel.js file is
+ * loaded.
  */
 public class PlotFunnel extends PlotPie {
     
+    /**
+     * The center of the series. By default, it is centered in the middle of the plot area, so it
+     * fills the plot area height. Defaults to ["50%", "50%"].
+     */
+    public final List<String> center = new ArrayList<>();
+
     /**
      * The height of the neck, the lower part of a funnel. If it is a number it defines the pixel
      * height, if it is a percentage string it is the percentage of the plot area height.
      */
     public String height;
-    
-    /**
-     * Equivalent to chart.ignoreHiddenSeries, this option tells whether the series shall be redrawn
-     * as if the hidden point were null. The default value is true.
-     */
-    public Boolean ignoreHiddenPoint;
     
     /**
      * The height of the neck, the lower part of the funnel. A number defines pixel width, a
@@ -49,4 +56,15 @@ public class PlotFunnel extends PlotPie {
      */
     public String neckWidth;
     
+    /**
+     * A reversed funnel has the widest area down. A reversed funnel with no neck width and neck
+     * height is a pyramid. Defaults to false.
+     */
+    public Boolean reversed;
+
+    /**
+     * The width of the funnel compared to the width of the plot area, or the pixel width if it is a
+     * number. Defaults to 90%.
+     */
+    public String width;
 }

@@ -35,6 +35,12 @@ public class DataLabelOptions extends Options {
     public AlignHorizontal align;
     
     /**
+     * Whether to allow data labels to overlap. To make the labels less sensitive for overlapping,
+     * the dataLabels.padding can be set to 0. Defaults to false.
+     */
+    public Boolean allowOverlap;
+    
+    /**
      * The background color or gradient for the data label. Defaults to undefined.
      */
     public String backgroundColor;
@@ -55,20 +61,53 @@ public class DataLabelOptions extends Options {
     public Integer borderWidth;
     
     /**
+     * A class name for the data label. Particularly in styled mode, this can be used to give each
+     * series' or point's data label unique styling. In addition to this option, a default color
+     * class name is added so that we can give the labels a contrast text shadow. Defaults to
+     * undefined.
+     */
+    public String className;
+
+    /**
      * The text color for the data labels. Defaults to null.
      */
     public String color;
     
+    /**
+     * Whether to hide data labels that are outside the plot area. By default, the data label is
+     * moved inside the plot area according to the overflow option. Defaults to true.
+     */
+    public Boolean crop;
+    
+    /**
+     * Whether to defer displaying the data labels until the initial series animation has finished.
+     * Defaults to true.
+     */
+    public Boolean defer;
+
     /**
      * Enable or disable the data labels. Defaults to false.
      */
     public Boolean enabled;
     
     /**
+     * A format string for the data label. Available variables are the same as for formatter.
+     * Defaults to {y}.
+     */
+    public String format;
+    
+    /**
      * Callback JavaScript function to format the data label.
      */
     @JavaScript
     public String formatter;
+    
+    /**
+     * For points with an extent, like columns or map areas, whether to align the data label inside
+     * the box or to the actual value point. Defaults to false in most cases, true in stacked
+     * columns. Defaults to undefined.
+     */
+    public Boolean inside;
     
     /**
      * How to handle overflowing labels on horizontal axis. Can be undefined or "justify". If
@@ -96,9 +135,27 @@ public class DataLabelOptions extends Options {
     public Object shadow;
     
     /**
+     * The name of a symbol to use for the border around the label. Symbols are predefined functions
+     * on the Renderer object. Defaults to square.
+     */
+    public String shape;
+
+    /**
      * CSS styles for the label.
      */
     public final StyleOptions style = new StyleOptions();
+    
+    /**
+     * Whether to use HTML to render the labels. Defaults to false.
+     */
+    public Boolean useHTML;
+    
+    /**
+     * The vertical alignment of a data label. Can be one of top, middle or bottom. The default
+     * value depends on the data, for instance in a column chart, the label is above positive values
+     * and below negative values. Defaults to bottom.
+     */
+    public AlignVertical verticalAlign;
     
     /**
      * The x position offset of the label relative to the point. Defaults to 0.
@@ -109,4 +166,10 @@ public class DataLabelOptions extends Options {
      * The y position offset of the label relative to the point. Defaults to -6.
      */
     public Integer y;
+
+    /**
+     * The Z index of the data labels. The default Z index puts it above the series. Use a Z index
+     * of 2 to display it behind the series. Defaults to 6.
+     */
+    public Integer zIndex;
 }

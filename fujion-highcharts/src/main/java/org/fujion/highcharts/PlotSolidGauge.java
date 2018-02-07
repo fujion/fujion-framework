@@ -21,9 +21,17 @@
 package org.fujion.highcharts;
 
 /**
- * Plot options for gauge plot.
+ * Options for solid gauge plot.
+ * <p>
+ * A solid gauge is a circular gauge where the value is indicated by a filled arc, and the color of
+ * the arc may vary with the value.
  */
 public class PlotSolidGauge extends PlotOptions {
+
+    /**
+     * Whether to draw rounded edges on the gauge. Defaults to false.
+     */
+    public Boolean rounded;
     
     /**
      * Allow the dial to overshoot the end of the perimeter axis by this many degrees. Say if the
@@ -31,12 +39,5 @@ public class PlotSolidGauge extends PlotOptions {
      * the axis. Defaults to 0.
      */
     public Double overshoot;
-
-    /**
-     * When this option is true, the dial will wrap around the axes. For instance, in a full-range
-     * gauge going from 0 to 360, a value of 400 will point to 40. When wrap is false, the dial
-     * stops at 360. Defaults to true.
-     */
-    public Boolean wrap;
     
 }

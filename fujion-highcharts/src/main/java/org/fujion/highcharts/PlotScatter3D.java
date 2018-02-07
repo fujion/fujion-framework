@@ -21,11 +21,11 @@
 package org.fujion.highcharts;
 
 /**
- * Options for spline series.
+ * Options for 3D scatter plot.
  * <p>
- * A spline series is a special type of line series, where the segments between the data points are
- * smoothed.
+ * A 3D scatter plot uses x, y and z coordinates to display values for three variables for a set of
+ * data.
  */
-public class PlotSpline extends PlotOptions {
-    
+public class PlotScatter3D extends PlotOptions {
+
 }
