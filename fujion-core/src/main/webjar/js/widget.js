@@ -1803,6 +1803,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			relatedTarget ? relatedTarget.trigger($.Event('popup' + which, {relatedTarget: this})) : null;
 		},
 		
+		/*------------------------------ Lifecycle ------------------------------*/
+		
+		destroy: function() {
+			fujion.widget.Popup.registerPopup(this, false);
+			this._super();
+		},
+		
 		/*------------------------------ Other ------------------------------*/
 		
 		close: function(notself, notothers) {
