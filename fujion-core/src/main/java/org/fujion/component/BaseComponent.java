@@ -198,6 +198,16 @@ public abstract class BaseComponent implements IElementIdentifier {
     
     private static final Pattern nameValidator = Pattern.compile("^[a-zA-Z$][a-zA-Z_$0-9]*$");
     
+    // Listener for tracked components.
+    private final IEventListener trackedComponentListener = (event) -> {
+        BaseComponent comp = event.getTarget();
+        
+        if (comp != null && comp.isDead()) {
+            untrackComponent(comp);
+            onDestroyTracked(comp);
+        }
+    };
+    
     private String name;
     
     private String id;
@@ -1576,7 +1586,7 @@ public abstract class BaseComponent implements IElementIdentifier {
      * @param eventType Type of event to send.
      */
     public void fireEvent(String eventType) {
-        fireEvent(EventUtil.toEvent(eventType));
+        fireEvent(EventUtil.toEvent(eventType, this, null));
     }
     
     /**
@@ -1620,7 +1630,7 @@ public abstract class BaseComponent implements IElementIdentifier {
             }
             
             Map<String, Object> variables = new HashMap<>();
-            variables.put(script.getSelf(), this);
+            variables.put(script.getSelfName(), this);
             variables.put("controller", findAttribute(ATTR_CONTROLLER));
             variables.put("event", event);
             script.execute(variables);
@@ -1909,6 +1919,49 @@ public abstract class BaseComponent implements IElementIdentifier {
         getDefinition().setProperty(this, propertyName, binding);
     }
 
+    /**
+     * Monitors a component for destroy events, invoking #onTrackedDestroy when detected.
+     *
+     * @param comp Component to track.
+     */
+    protected void trackComponent(BaseComponent comp) {
+        if (comp != null) {
+            comp.validate();
+            comp.addEventListener("destroy", trackedComponentListener);
+        }
+    }
+    
+    /**
+     * Removes tracking for a component.
+     *
+     * @param comp Component to untrack.
+     */
+    protected void untrackComponent(BaseComponent comp) {
+        if (comp != null) {
+            comp.removeEventListener("destroy", trackedComponentListener);
+        }
+    }
+
+    /**
+     * Swap tracking from one component to another. This is a convenience method for calling
+     * {@link #trackComponent} and {@link #untrackComponent} in succession.
+     *
+     * @param track Component to track.
+     * @param untrack Component to untrack.
+     */
+    protected void swapTrackedComponents(BaseComponent track, BaseComponent untrack) {
+        trackComponent(track);
+        untrackComponent(untrack);
+    }
+    
+    /**
+     * Invoked when a tracked component is destroyed. Override to provide special handling.
+     *
+     * @param comp The tracked component.
+     */
+    protected void onDestroyTracked(BaseComponent comp) {
+    }
+    
     /**
      * Returns basic information about this component for display purposes.
      */

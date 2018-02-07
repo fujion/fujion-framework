@@ -20,7 +20,6 @@
  */
 package org.fujion.component;
 
-import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.CssClasses;
 import org.fujion.ancillary.CssStyles;
 import org.fujion.ancillary.IDisable;
@@ -32,46 +31,46 @@ import org.fujion.event.KeyCode;
  * The base class from which all UI components derive.
  */
 public abstract class BaseUIComponent extends BaseComponent implements IDisable {
-    
+
     private final CssStyles styles = new CssStyles();
-    
+
     private final CssClasses classes = new CssClasses();
-    
+
     private String height;
-    
+
     private String width;
-    
+
     private String flex;
-    
+
     private String hint;
-    
+
     private String balloon;
-    
+
     private boolean disabled;
-    
+
     private boolean visible = true;
-    
+
     private int tabindex;
-    
+
     private String css;
-    
+
     private String dragid;
-    
+
     private String dropid;
-    
+
     private Popup context;
-    
+
     private Popup popup;
-    
+
     private String keycapture;
-    
+
     /**
      * Creates a shaded mask over the component, effectively preventing direct user interaction.
      */
     public void addMask() {
         addMask(null);
     }
-    
+
     /**
      * Creates a shaded mask over the component, effectively preventing direct user interaction.
      *
@@ -80,7 +79,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void addMask(String label) {
         invoke("addMask", label);
     }
-    
+
     /**
      * Creates a shaded mask over the component, effectively preventing direct user interaction.
      *
@@ -90,14 +89,14 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void addMask(String label, Popup popup) {
         invoke("addMask", label, popup);
     }
-    
+
     /**
      * Removes the mask, if present.
      */
     public void removeMask() {
         invoke("removeMask");
     }
-    
+
     /**
      * Returns the styles set for this component.
      *
@@ -107,7 +106,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getStyles() {
         return styles.toString();
     }
-    
+
     /**
      * Sets the styles for this component, replacing any existing styles.
      *
@@ -120,18 +119,18 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
         this.styles.parse(styles, true);
         _syncStyles(oldStyles);
     }
-    
+
     private String _syncStyle(String name, String dflt) {
         String current = styles.get(name);
-        
+
         if (current != null) {
             return current;
         }
-        
+
         styles.put(name, dflt);
         return dflt;
     }
-    
+
     /**
      * Synchronizes style properties with stored styles and with the client.
      *
@@ -143,7 +142,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
         flex = _syncStyle("flex", flex);
         propertyChange("style", oldStyles, styles.toString(), true);
     }
-    
+
     /**
      * Returns the value of the named style.
      *
@@ -153,7 +152,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getStyle(String name) {
         return styles.get(name);
     }
-    
+
     /**
      * Adds a style to existing styles. If that style already exists, it will be overwritten.
      *
@@ -167,7 +166,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
         _syncStyles(oldStyles);
         return oldValue;
     }
-    
+
     /**
      * Adds styles specified as a string.
      *
@@ -179,7 +178,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
         this.styles.parse(styles, false);
         _syncStyles(oldStyles);
     }
-    
+
     /**
      * Removes a style.
      *
@@ -189,7 +188,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String removeStyle(String name) {
         return addStyle(name, null);
     }
-    
+
     /**
      * Returns the CSS classes set for this component.
      *
@@ -199,7 +198,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getClasses() {
         return classes.toString();
     }
-    
+
     /**
      * Sets the CSS classes for this component, replacing any existing classes.
      *
@@ -211,7 +210,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
         this.classes.parse(classes);
         _syncClasses(oldClasses);
     }
-    
+
     /**
      * Synchronize class settings with the client.
      *
@@ -220,7 +219,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     protected void _syncClasses(String oldClasses) {
         propertyChange("clazz", oldClasses, classes.toString(true), true);
     }
-    
+
     /**
      * Adds one or more classes to existing classes.
      *
@@ -230,12 +229,12 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     @PropertySetter(value = "class", description = "Space-delimited list of CSS classes.")
     public void addClass(String value) {
         String oldClasses = classes.toString();
-        
+
         if (classes.add(value)) {
             _syncClasses(oldClasses);
         }
     }
-    
+
     /**
      * Removes one or more classes from existing classes.
      *
@@ -244,12 +243,12 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      */
     public void removeClass(String value) {
         String oldClasses = classes.toString();
-        
+
         if (classes.remove(value)) {
             _syncClasses(oldClasses);
         }
     }
-    
+
     /**
      * Toggles the presence of two mutually exclusive classes based on a condition. Extended syntax
      * is supported for each of the class specifiers (see {@link org.fujion.ancillary.CssClasses})
@@ -260,26 +259,26 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      */
     public void toggleClass(String yesValue, String noValue, boolean condition) {
         String oldClasses = classes.toString();
-
+        
         if (classes.toggle(yesValue, noValue, condition)) {
             _syncClasses(oldClasses);
         }
     }
-    
+
     /**
      * Hides the component - a shortcut for {@link #setVisible setVisible(false)}.
      */
     public void hide() {
         setVisible(false);
     }
-    
+
     /**
      * Shows the component - a shortcut for {@link #setVisible setVisible(true)}.
      */
     public void show() {
         setVisible(true);
     }
-    
+
     /**
      * Returns the height. This is synchronized with the height style setting.
      *
@@ -289,7 +288,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getHeight() {
         return height;
     }
-    
+
     /**
      * Sets the height. This is synchronized with the height style setting.
      *
@@ -298,13 +297,13 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     @PropertySetter(value = "height", description = "The component's height.")
     public void setHeight(String height) {
         height = trimify(height);
-        
+
         if (!areEqual(height, this.height)) {
             this.height = height;
             addStyle("height", height);
         }
     }
-    
+
     /**
      * Returns the width. This is synchronized with the width style setting.
      *
@@ -314,7 +313,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getWidth() {
         return width;
     }
-    
+
     /**
      * Sets the width. This is synchronized with the width style setting.
      *
@@ -323,13 +322,13 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     @PropertySetter(value = "width", description = "The component's width.")
     public void setWidth(String width) {
         width = trimify(width);
-        
+
         if (!areEqual(width, this.width)) {
             this.width = width;
             addStyle("width", width);
         }
     }
-    
+
     /**
      * Returns the flex setting. This is synchronized with the flex style setting.
      *
@@ -339,7 +338,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getFlex() {
         return flex;
     }
-    
+
     /**
      * Sets the flex setting. This is synchronized with the flex style setting.
      *
@@ -348,13 +347,13 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     @PropertySetter(value = "flex", description = "The component's flex style setting.")
     public void setFlex(String flex) {
         flex = trimify(flex);
-        
+
         if (!areEqual(flex, this.flex)) {
             this.flex = flex;
             addStyle("flex", flex);
         }
     }
-    
+
     /**
      * Sets/removes the input focus to/from this component. If the component cannot receive the
      * input focus, the request is ignored.
@@ -366,7 +365,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void setFocus(boolean focus) {
         invoke("focus", focus);
     }
-    
+
     /**
      * Sets the input focus to this component. If the component cannot receive the input focus, the
      * request is ignored. This is a shortcut for <code>setFocus(true)</code>.
@@ -374,7 +373,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void focus() {
         setFocus(true);
     }
-    
+
     /**
      * Returns the CSS specifier for this component. This is similar to an embedded style sheet, but
      * is associated with this component and is added to or removed from the client as this
@@ -391,7 +390,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getCss() {
         return css;
     }
-    
+
     /**
      * Sets the CSS specifier for this component. This is similar to an embedded style sheet, but is
      * associated with this component and is added to or removed from the client as this component
@@ -408,7 +407,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void setCss(String css) {
         propertyChange("css", this.css, this.css = nullify(css), true);
     }
-    
+
     /**
      * Causes the component to report its current dimensions and relative position via a
      * {@link org.fujion.event.ResizeEvent resize event}.
@@ -416,7 +415,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void reportSize() {
         invoke("reportSize");
     }
-    
+
     /**
      * Returns the popup text to be displayed when hovering over this component.
      *
@@ -426,7 +425,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getHint() {
         return hint;
     }
-    
+
     /**
      * Sets the popup text to be displayed when hovering over this component.
      *
@@ -436,7 +435,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void setHint(String hint) {
         propertyChange("hint", this.hint, this.hint = nullify(hint), true);
     }
-    
+
     /**
      * Returns the balloon text to be displayed adjacent to the component.
      *
@@ -446,7 +445,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getBalloon() {
         return balloon;
     }
-    
+
     /**
      * Sets the balloon text to be displayed adjacent to the component.
      *
@@ -456,19 +455,19 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void setBalloon(String balloon) {
         propertyChange("balloon", this.balloon, this.balloon = nullify(balloon), true);
     }
-    
+
     @Override
     @PropertyGetter(value = "disabled", description = "True if the component is disabled.")
     public boolean isDisabled() {
         return disabled;
     }
-    
+
     @Override
     @PropertySetter(value = "disabled", defaultValue = "false", description = "True if the component is disabled.")
     public void setDisabled(boolean disabled) {
         propertyChange("disabled", this.disabled, this.disabled = disabled, true);
     }
-    
+
     /**
      * Returns the visibility state of the component.
      *
@@ -478,7 +477,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public boolean isVisible() {
         return visible;
     }
-    
+
     /**
      * Sets the visibility state of the component.
      *
@@ -488,7 +487,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void setVisible(boolean visible) {
         propertyChange("visible", this.visible, this.visible = visible, true);
     }
-    
+
     /**
      * Returns the tab index for the component.
      *
@@ -498,7 +497,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public int getTabindex() {
         return tabindex;
     }
-    
+
     /**
      * Sets the tab index for the component.
      *
@@ -508,7 +507,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void setTabindex(int tabindex) {
         propertyChange("tabindex", this.tabindex, this.tabindex = tabindex < 0 ? 0 : tabindex, true);
     }
-    
+
     /**
      * Returns a space-delimited list of drag id's associated with this component. A non-empty value
      * enables dragging of the component. A dragged component may be dropped upon a target component
@@ -521,7 +520,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getDragid() {
         return dragid;
     }
-    
+
     /**
      * Sets the drag id(s) to be associated with this component.
      *
@@ -534,7 +533,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void setDragid(String dragid) {
         propertyChange("dragid", this.dragid, this.dragid = trimify(dragid), true);
     }
-    
+
     /**
      * Returns a space-delimited list of drop id's associated with this component. A non-empty value
      * enables this component to act as a drop target. A dragged component may be dropped upon a
@@ -547,7 +546,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getDropid() {
         return dropid;
     }
-    
+
     /**
      * Sets the drag id(s) to be associated with this component.
      *
@@ -561,7 +560,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public void setDropid(String dropid) {
         propertyChange("dropid", this.dropid, this.dropid = trimify(dropid), true);
     }
-    
+
     /**
      * Returns the popup component that will appear when right-clicking on this component.
      *
@@ -569,38 +568,20 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      */
     @PropertyGetter(value = "context", description = "The popup component that will appear when right-clicking on this component.")
     public Popup getContext() {
-        if (context != null && context.isDead()) {
-            _setContext(null);
-        }
-        
         return context;
     }
-    
-    /**
-     * Sets the popup component that will appear when right-clicking on this component.
-     *
-     * @param context The id of the popup component that will appear when right-clicking on this
-     *            component.
-     */
-    @PropertySetter(value = "context", defer = true, description = "The popup component that will appear when right-clicking on this component.")
-    private void setContext(String context) {
-        setContext(ConvertUtil.convert(context, Popup.class, this));
-    }
-    
+
     /**
      * Sets the popup component that will appear when right-clicking on this component.
      *
      * @param context The popup component that will appear when right-clicking on this component.
      */
+    @PropertySetter(value = "context", defer = true, description = "The popup component that will appear when right-clicking on this component.")
     public void setContext(Popup context) {
-        if (context != getContext()) {
-            _setContext(context);
+        if (context != this.context) {
+            swapTrackedComponents(context, this.context);
+            propertyChange("context", this.context, this.context = context, true);
         }
-    }
-    
-    private void _setContext(Popup context) {
-        validate(context);
-        propertyChange("context", this.context, this.context = context, true);
     }
 
     /**
@@ -610,13 +591,9 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      */
     @PropertyGetter(value = "popup", description = "The popup component that will appear when hovering over this component.")
     public Popup getPopup() {
-        if (popup != null && popup.isDead()) {
-            _setPopup(null);
-        }
-        
         return popup;
     }
-    
+
     /**
      * Sets the popup component that will appear when hovering over this component.
      *
@@ -624,16 +601,12 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      */
     @PropertySetter(value = "popup", defer = true, description = "The popup component that will appear when hovering over this component.")
     public void setPopup(Popup popup) {
-        if (popup != getPopup()) {
-            _setPopup(popup);
+        if (popup != this.popup) {
+            swapTrackedComponents(popup, this.popup);
+            propertyChange("popup", this.popup, this.popup = popup, true);
         }
     }
-    
-    private void _setPopup(Popup popup) {
-        validate(popup);
-        propertyChange("popup", this.popup, this.popup = popup, true);
-    }
-    
+
     /**
      * If the child being removed is the popup, set the popup to null.
      *
@@ -642,12 +615,12 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     @Override
     protected void afterRemoveChild(BaseComponent child) {
         super.afterRemoveChild(child);
-        
+
         if (child == popup) {
             setPopup(null);
         }
     }
-    
+
     /**
      * Returns the list of key codes to be captured. When a key in this list is typed, a
      * {@value org.fujion.event.KeycaptureEvent#TYPE} event will be sent to this component.
@@ -659,7 +632,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public String getKeycapture() {
         return keycapture;
     }
-    
+
     /**
      * Sets the list of key codes to be captured. When a key in this list is typed, a
      * {@value org.fujion.event.KeycaptureEvent#TYPE} event will be sent to this component.
@@ -673,14 +646,14 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
             sync("keycapture", KeyCode.normalizeKeyCapture(this.keycapture));
         }
     }
-    
+
     /**
      * Ensures that this component is visible within the view port by scrolling if necessary.
      */
     public void scrollIntoView() {
         invoke("scrollIntoView");
     }
-    
+
     /**
      * Returns the first visible child, if any.
      *
@@ -691,7 +664,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     public BaseUIComponent getFirstVisibleChild(boolean recurse) {
         return getFirstVisibleChild(BaseUIComponent.class, recurse);
     }
-    
+
     /**
      * Returns the first visible child of a given class, if any.
      *
@@ -707,18 +680,35 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
                 return child;
             }
         }
-        
+
         if (recurse) {
             for (T child : getChildren(clazz)) {
                 T comp = child.getFirstVisibleChild(clazz, recurse);
-                
+
                 if (comp != null) {
                     return comp;
                 }
             }
         }
-        
+
         return null;
     }
-    
+
+    /**
+     * Remove popup reference when it is destroyed.
+     *
+     * @see org.fujion.component.BaseComponent#onDestroyTracked(org.fujion.component.BaseComponent)
+     */
+    @Override
+    protected void onDestroyTracked(BaseComponent comp) {
+        if (comp == popup) {
+            setPopup(null);
+        }
+        
+        if (comp == context) {
+            setContext(null);
+        }
+
+        super.onDestroyTracked(comp);
+    }
 }
