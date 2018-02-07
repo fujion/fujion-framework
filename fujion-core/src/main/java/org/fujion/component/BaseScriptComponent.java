@@ -30,7 +30,7 @@ import org.fujion.annotation.Component.PropertySetter;
  * Base for components that implement scripting support.
  */
 public abstract class BaseScriptComponent extends BaseSourcedComponent {
-
+    
     /**
      * Controls timing of script execution.
      */
@@ -48,17 +48,19 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
          */
         MANUAL
     }
-
+    
     private ExecutionMode mode = ExecutionMode.IMMEDIATE;
+    
+    private BaseComponent self = this;
 
     protected BaseScriptComponent(boolean contentSynced) {
         super(contentSynced);
     }
-    
+
     protected BaseScriptComponent(String content, boolean contentSynced) {
         super(content, contentSynced);
     }
-    
+
     /**
      * Returns the {@link ExecutionMode execution mode}.
      *
@@ -68,7 +70,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public ExecutionMode getMode() {
         return mode;
     }
-
+    
     /**
      * Sets the {@link ExecutionMode execution mode}.
      *
@@ -78,14 +80,55 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public void setMode(ExecutionMode mode) {
         propertyChange("mode", this.mode, this.mode = defaultify(mode, ExecutionMode.IMMEDIATE), isContentSynced());
     }
+    
+    /**
+     * Returns the script language's variable name corresponding to "this".
+     *
+     * @return The script language's variable name corresponding to "this".
+     */
+    public String getSelfName() {
+        return "self";
+    }
 
     /**
-     * Returns the variable name for "this".
+     * Returns the component referenced by the script language's "self" variable. By default, it is
+     * the script component itself. If "self" is explicitly included in the variable map passed to
+     * {@link #execute(Map)}, that value will be used instead.
      *
-     * @return The variable name for "this".
+     * @return The component referenced by the script language's "self" variable.
      */
-    public String getSelf() {
-        return "self";
+    @PropertyGetter(value = "self", description = "The component to be referenced by the script language's \"self\" variable.")
+    public BaseComponent getSelf() {
+        return self;
+    }
+    
+    /**
+     * Sets the component to be referenced by the script language's "self" variable. If "self" is
+     * explicitly included in the variable map passed to {@link #execute(Map)}, that value will be
+     * used instead.
+     *
+     * @param self The component to be referenced by the script language's "self" variable.
+     */
+    @PropertySetter(value = "self", description = "The component to be referenced by the script language's \"self\" variable.")
+    public void setSelf(BaseComponent self) {
+        if (self != this.self) {
+            swapTrackedComponents(self, this.self);
+            propertyChange("self", this.self, this.self = self, false);
+        }
+    }
+    
+    /**
+     * Remove reference when "self" is destroyed.
+     *
+     * @see org.fujion.component.BaseComponent#onDestroyTracked(org.fujion.component.BaseComponent)
+     */
+    @Override
+    protected void onDestroyTracked(BaseComponent comp) {
+        if (comp == self) {
+            setSelf(null);
+        }
+
+        super.onDestroyTracked(comp);
     }
     
     /**
@@ -96,15 +139,15 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
      */
     public Object execute(Map<String, Object> variables) {
         Map<String, Object> vars = new HashMap<>();
-        vars.put(getSelf(), this);
-
+        vars.put(getSelfName(), self);
+        
         if (variables != null) {
             vars.putAll(variables);
         }
-        
+
         return _execute(vars);
     }
-
+    
     /**
      * Execute the script with the default variable values.
      *
@@ -113,6 +156,6 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public Object execute() {
         return execute(null);
     }
-
+    
     protected abstract Object _execute(Map<String, Object> variables);
 }
