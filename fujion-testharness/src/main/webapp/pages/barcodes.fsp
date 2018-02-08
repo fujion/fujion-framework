@@ -1,0 +1,86 @@
+<fsp xmlns="http://www.fujion.org/schema/fsp"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:attr="http://www.fujion.org/schema/fsp/attr"
+	xmlns:on="http://www.fujion.org/schema/fsp/on"
+	xsi:schemaLocation="
+		http://www.fujion.org/schema/fsp 
+		http://www.fujion.org/schema/fsp.xsd">
+	
+	<grid>
+		<columns style="visibility:hidden">
+			<column width="40%" />
+			<column width="80%" />
+		</columns>
+		<rows>
+			<row>
+				<barcode format="codabar" displayValue="true" value="A1234567890B" />
+				codabar
+			</row>
+			<row>
+				<barcode format="code128" displayValue="true" value="test12345" />
+				code128
+			</row>
+			<row>
+				<barcode format="code39" displayValue="true" value="test12345" />
+				code39
+			</row>
+			<row>
+				<barcode format="ean13" displayValue="true" value="123456789012" />
+				ean13
+			</row>
+			<row>
+				<barcode format="ean8" displayValue="true" value="1234567" />
+				ean8
+			</row>
+			<row>
+				<barcode format="ean5" displayValue="true" value="12345" />
+				ean5
+			</row>
+			<row>
+				<barcode format="ean2" displayValue="true" value="12" />
+				ean2
+			</row>
+			<row>
+				<barcode format="itf" displayValue="true" value="12345678901234" />
+				itf
+			</row>
+			<row>
+				<barcode format="itf14" displayValue="true" value="1234567890123" />
+				itf14
+			</row>
+			<row>
+				<barcode format="msi" displayValue="true" value="1234567890" />
+				msi
+			</row>
+			<row>
+				<barcode format="msi10" displayValue="true" value="1234567890" />
+				msi10
+			</row>
+			<row>
+				<barcode format="msi11" displayValue="true" value="1234567890" />
+				msi11
+			</row>
+			<row>
+				<barcode format="msi1010" displayValue="true" value="1234567890" />
+				msi1010
+			</row>
+			<row>
+				<barcode format="msi1110" displayValue="true" value="1234567890" />
+				msi1110
+			</row>
+			<row>
+				<barcode format="pharmacode" displayValue="true" value="12345" />
+				pharmacode
+			</row>
+			<row>
+				<barcode format="upc" displayValue="true" value="123456789012" />
+				upc
+			</row>
+			<row>
+				<barcode format="upce" displayValue="true" value="123456" />
+				upce
+			</row>
+		</rows>
+	</grid>
+	
+</fsp>

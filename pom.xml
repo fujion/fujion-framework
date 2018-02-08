@@ -60,6 +60,7 @@
 		<module>fujion-script-parent</module>
 		<module>fujion-highcharts</module>
 		<module>fujion-codemirror</module>
+		<module>fujion-barcode</module>
 		<module>fujion-sandbox</module>
 		<module>fujion-angular-parent</module>
 		<module>fujion-react-parent</module>

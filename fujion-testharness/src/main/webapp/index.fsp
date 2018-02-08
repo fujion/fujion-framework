@@ -14,6 +14,10 @@
 				<import src="web/org/fujion/angular/example/pomodoro.fsp" />
 			</tab>
 			
+			<tab label="Barcodes" hint="${@msg.fujion.testharness.barcodes}">
+				<import src="pages/barcodes.fsp" />
+			</tab>
+			
 			<tab label="Binding" hint="${@msg.fujion.testharness.binding}">
 				<import src="pages/binding.fsp" />
 			</tab>
