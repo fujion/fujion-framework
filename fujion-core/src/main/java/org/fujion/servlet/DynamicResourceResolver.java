@@ -32,22 +32,21 @@ import org.springframework.web.servlet.resource.ResourceResolverChain;
  * Resolves references to dynamic resources.
  */
 public class DynamicResourceResolver extends AbstractResourceResolver {
-    
+
     public DynamicResourceResolver() {
-
+        
     }
-
+    
     @Override
     protected Resource resolveResourceInternal(HttpServletRequest request, String requestPath,
                                                List<? extends Resource> locations, ResourceResolverChain chain) {
-        boolean local = requestPath.startsWith("~/");
-        return DynamicResourceRegistry.getInstance().getResource(local ? requestPath.substring(2) : requestPath, !local);
+        return DynamicResourceRegistry.getInstance().getResource(requestPath);
     }
-    
+
     @Override
     protected String resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
                                             ResourceResolverChain chain) {
         return chain.resolveUrlPath(resourceUrlPath, locations);
     }
-    
+
 }

@@ -43,6 +43,7 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.fujion.client.ExecutionContext;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
+import org.fujion.servlet.DynamicResourceRegistry;
 import org.fujion.servlet.WebAppConfiguration;
 import org.fujion.webjar.WebJarResourceResolver;
 import org.springframework.core.io.ClassPathResource;
@@ -326,7 +327,10 @@ public class WebUtil {
         try {
             Resource resource;
             
-            if (src.startsWith("web/") || src.startsWith("/web/")) {
+            if (src.startsWith("dynamic/") || src.startsWith("/dynamic/")) {
+                String path = StringUtils.substringAfter(src, "dynamic/");
+                resource = DynamicResourceRegistry.getInstance().getResource(path);
+            } else if (src.startsWith("web/") || src.startsWith("/web/")) {
                 resource = new ClassPathResource(src);
             } else if (src.matches("^.*\\:\\/.*")) {
                 resource = new UrlResource(src);

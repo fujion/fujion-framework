@@ -30,9 +30,9 @@ import org.springframework.util.Assert;
  * A registry of all active pages, indexed by their page id.
  */
 public class PageRegistry extends AbstractRegistry<String, Page> {
-
+    
     private static final PageRegistry instance = new PageRegistry();
-
+    
     /**
      * Convenience method for registering a page.
      *
@@ -41,7 +41,7 @@ public class PageRegistry extends AbstractRegistry<String, Page> {
     public static void registerPage(Page page) {
         instance.register(page);
     }
-
+    
     /**
      * Convenience method for unregistering a page.
      *
@@ -50,7 +50,7 @@ public class PageRegistry extends AbstractRegistry<String, Page> {
     public static void unregisterPage(Page page) {
         instance.unregister(page);
     }
-
+    
     /**
      * Convenience method for looking up a registered page.
      *
@@ -63,6 +63,16 @@ public class PageRegistry extends AbstractRegistry<String, Page> {
         Assert.notNull(page, "Page not found: " + pid);
         return page;
     }
+    
+    /**
+     * Returns true if the page specified by its id is registered.
+     *
+     * @param pid The page id.
+     * @return True if the page is registered.
+     */
+    public static boolean hasPage(String pid) {
+        return instance.contains(pid);
+    }
 
     /**
      * Convenience method for returning all registered pages.
@@ -72,13 +82,13 @@ public class PageRegistry extends AbstractRegistry<String, Page> {
     public static Collection<Page> getPages() {
         return instance.getAll();
     }
-
+    
     private PageRegistry() {
     }
-
+    
     @Override
     protected String getKey(Page item) {
         return item.getId();
     }
-
+    
 }
