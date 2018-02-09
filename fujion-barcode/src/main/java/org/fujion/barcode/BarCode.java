@@ -20,6 +20,7 @@
  */
 package org.fujion.barcode;
 
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -30,91 +31,94 @@ import org.fujion.component.BaseUIComponent;
 import org.springframework.util.StringUtils;
 
 /**
- * Fujion wrapper for CodeMirror JavaScript editor.
+ * Fujion wrapper for JsBarcode library.
  */
 @Component(tag = "barcode", widgetModule = "fujion-barcode", widgetClass = "BarCode", parentTag = "*", description = "Barcode component.")
 public class BarCode extends BaseUIComponent {
-
+    
+    private static final Function<String, Boolean> PHARMACODE_VALIDATOR = value -> {
+        int i = NumberUtils.toInt(value);
+        return i >= 3 && i <= 131070;
+    };
+    
+    /**
+     * Supported barcode formats.
+     */
     public enum Format {
-
-        CODABAR, CODE39, CODE128, CODE128A, CODE128B, CODE128C, EAN2, EAN5, EAN8, EAN13, ITF, ITF14, MSI, MSI10, MSI11, MSI1010, MSI1110, PHARMACODE, UPC, UPCE;
-
-        public boolean validate(String value) {
-            if (StringUtils.isEmpty(value)) {
-                return true;
-            }
-
-            switch (this) {
-                case CODABAR:
-                    return Pattern.matches("^[A-D][0-9\\+$:\\-/.]*[A-D]$", value);
-                
-                case CODE39:
-                    return Pattern.matches("^[0-9 a-z A-Z - . $ / + %]*$", value);
-                
-                case CODE128:
-                case CODE128A:
-                case CODE128B:
-                case CODE128C:
-                    return true;
-
-                case EAN2:
-                    return Pattern.matches("^\\d{2}$", value);
-
-                case EAN5:
-                    return Pattern.matches("^\\d{5}$", value);
-
-                case EAN8:
-                    return Pattern.matches("^\\d{7}$", value);
-
-                case EAN13:
-                    return Pattern.matches("^\\d{12}$", value);
-                
-                case ITF:
-                    return Pattern.matches("^\\d{14}$", value);
-                
-                case ITF14:
-                    return Pattern.matches("^\\d{13}$", value);
-                
-                case MSI:
-                case MSI10:
-                case MSI11:
-                case MSI1010:
-                case MSI1110:
-                    return Pattern.matches("^\\d*$", value);
-                
-                case PHARMACODE:
-                    int i = NumberUtils.toInt(value);
-                    return i >= 3 && i <= 131070;
-                
-                case UPC:
-                    return Pattern.matches("^\\d{12}$", value);
-                
-                case UPCE:
-                    return Pattern.matches("^\\d{6}$", value);
-                
-                default:
-                    return false;
-            }
+        
+        // @formatter:off
+        CODABAR("^[A-D][0-9\\+$:\\-/.]*[A-D]$"),
+        CODE39("^[0-9 a-z A-Z - . $ / + %]*$"),
+        CODE128(),
+        CODE128A(),
+        CODE128B(),
+        CODE128C(),
+        EAN2("^\\d{2}$"),
+        EAN5("^\\d{5}$"),
+        EAN8("^\\d{7}$"),
+        EAN13("^\\d{12}$"),
+        ITF("^\\d{14}$"),
+        ITF14("^\\d{13}$"),
+        MSI("^\\d*$"),
+        MSI10("^\\d*$"),
+        MSI11("^\\d*$"),
+        MSI1010("^\\d*$"),
+        MSI1110("^\\d*$"),
+        PHARMACODE(PHARMACODE_VALIDATOR),
+        UPC("^\\d{12}$"),
+        UPCE("^\\d{6}$");
+        // @formatter:on
+        
+        private final Function<String, Boolean> validator;
+        
+        Format() {
+            validator = null;
         }
-
+        
+        Format(String regex) {
+            Pattern pattern = Pattern.compile(regex);
+            validator = value -> {
+                return pattern.matcher(value).matches();
+            };
+        }
+        
+        Format(Function<String, Boolean> validator) {
+            this.validator = validator;
+        }
+        
+        /**
+         * Determine if value is valid for the corresponding barcode format.
+         *
+         * @param value Value to validate.
+         * @return True if valid.
+         */
+        public boolean validate(String value) {
+            return StringUtils.isEmpty(value) || validator == null || validator.apply(value);
+        }
+        
     }
-
+    
     private Format format;
-
+    
     private boolean displayValue;
-
+    
     private String value;
-
+    
     private boolean flat;
     
     public BarCode() {
         this(Format.CODE128);
     }
-
+    
     public BarCode(Format format) {
         this.format = format;
     }
-
+    
+    /**
+     * Validate a value, throwing an exception if validation fails.
+     *
+     * @param value Value to validate.
+     */
     private void validateValue(String value) {
         if (!format.validate(value)) {
             throw new IllegalArgumentException(
@@ -122,47 +126,90 @@ public class BarCode extends BaseUIComponent {
         }
     }
     
+    /**
+     * Returns the barcode format.
+     *
+     * @return The barcode format.
+     */
     @PropertyGetter(value = "format", description = "The barcode format.")
     public Format getFormat() {
         return format;
     }
     
+    /**
+     * Sets the barcode format. Resets the value property to null.
+     *
+     * @param format The barcode format.
+     */
     @PropertySetter(value = "format", defaultValue = "code128", description = "The barcode format.")
     public void setFormat(Format format) {
         format = format == null ? Format.CODE128 : format;
-
+        
         if (propertyChange("format", this.format, this.format = format, true)) {
             setValue(null);
         }
     }
     
+    /**
+     * Returns true if the value is to be displayed next to the barcode.
+     *
+     * @return True if the value is to be displayed next to the barcode.
+     */
     @PropertyGetter(value = "displayValue", description = "If true, display the value in plain text.")
     public boolean getDisplayValue() {
         return displayValue;
     }
     
+    /**
+     * Set to true if the value is to be displayed next to the barcode.
+     *
+     * @param displayValue True if the value is to be displayed next to the barcode.
+     */
     @PropertySetter(value = "displayValue", description = "If true, display the value in plain text.")
     public void setDisplayValue(boolean displayValue) {
         propertyChange("displayValue", this.displayValue, this.displayValue = displayValue, true);
     }
     
+    /**
+     * Returns the value to be encoded.
+     *
+     * @return The value to be encoded.
+     */
     @PropertyGetter(value = "value", description = "The value to encode.")
     public String getValue() {
         return value;
     }
     
+    /**
+     * Sets the value to be encoded. The value is tested for validity for the current barcode
+     * format.
+     *
+     * @param value The value to be encoded.
+     * @throws IllegalArgumentException If value fails validation.
+     */
     @PropertySetter(value = "value", defer = true, description = "The value to encode.")
     public void setValue(String value) {
-        validateValue(value = nullify(value));
+        validateValue(value = trimify(value));
         propertyChange("value", this.value, this.value = value, true);
     }
     
-    @PropertyGetter(value = "flat", description = "Affect EAN-8 and EAN-13 formats only.")
+    /**
+     * Returns whether or not to render guard bars.
+     *
+     * @return True to suppress rendering of guard bars.
+     */
+    @PropertyGetter(value = "flat", description = "If true, suppresses rendering of guard bars.")
     public boolean isFlat() {
         return flat;
     }
     
-    @PropertySetter(value = "flat", description = "Affect EAN-8 and EAN-13 formats only.")
+    /**
+     * Set to true to suppress rendering of guard bars. For formats that do not use guard bars, this
+     * setting has no effect.
+     *
+     * @param flat True to suppress rendering of guard bars.
+     */
+    @PropertySetter(value = "flat", description = "If true, suppresses rendering of guard bars.")
     public void setFlat(boolean flat) {
         propertyChange("flat", this.flat, this.flat = flat, true);
     }

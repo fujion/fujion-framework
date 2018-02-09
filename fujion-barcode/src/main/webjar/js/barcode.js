@@ -30,7 +30,7 @@ define('fujion-barcode', [
 			this._super();
 			var value = this.getState('value');
 			
-			var x = _.isNil(value) ? null :  this.sub$('cnt').JsBarcode(value, {
+			_.isNil(value) ? null :  this.sub$('cnt').JsBarcode(value, {
 				format: this.getState('format'),
 				background: this.widget$.css('background-color'),
 				lineColor: this.widget$.css('color'),
