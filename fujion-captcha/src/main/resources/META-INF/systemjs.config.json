@@ -1,0 +1,13 @@
+{
+    "paths": {
+        "recaptcha": "//www.google.com/recaptcha/api.js?onload=recaptcha_onload&render=explicit"
+    },
+    
+    "meta": {
+         "recaptcha": {
+             "scriptLoad": true,
+             "format": "global",
+             "exports": "recaptcha"
+         }
+    }
+}

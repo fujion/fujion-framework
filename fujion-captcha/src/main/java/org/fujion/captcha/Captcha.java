@@ -58,7 +58,7 @@ public class Captcha extends BaseUIComponent {
 
     @PropertySetter(value = "siteKey", description = "The site key.")
     public void setSiteKey(String siteKey) {
-        propertyChange("siteKey", this.siteKey, this.siteKey = siteKey, true);
+        propertyChange("siteKey", this.siteKey, this.siteKey = trimify(siteKey), true);
     }
 
     @PropertyGetter(value = "theme", description = "The CAPTCHA theme.")

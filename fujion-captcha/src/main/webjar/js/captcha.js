@@ -3,7 +3,7 @@
 define('fujion-captcha', [
 	'fujion-core', 
 	'fujion-widget', 
-	'dynamic/reCAPTCHA.js', 
+	'recaptcha', 
 	'fujion-captcha-css'], 
 	
 	function(fujion, Widget) { 
@@ -17,7 +17,7 @@ define('fujion-captcha', [
 
 		init: function() {
 			this._super();
-			this.initState({theme: 'DARK', size: 'NORMAL', type: 'LIGHT'});
+			this.initState({theme: 'LIGHT', size: 'NORMAL', type: 'IMAGE'});
 		},
 		
 		destroy: function() {
@@ -28,6 +28,12 @@ define('fujion-captcha', [
 
 		afterRender: function() {
 			this._super();
+			
+			if (window.recaptcha_defer) {
+				window.recaptcha_defer[this.id] = this;
+				return;
+			}
+			
 			var key = this.getState('siteKey');
 			
 			_.isNil(key) ? null :  grecaptcha.render(this.widget$[0], {
@@ -39,7 +45,7 @@ define('fujion-captcha', [
 		},
 		
 		render$: function() {
-			return $('<div/>');
+			return $('<span/>');
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -64,3 +70,16 @@ define('fujion-captcha', [
 
 	return fujion.widget;
 });
+
+window.recaptcha_defer = {};
+
+window.recaptcha_onload = function() {
+	var defer = window.recaptcha_defer;
+	window.recaptcha_defer = null;
+	
+	_.forOwn(defer, function(widget) {
+		widget.rerender();
+	});
+	
+}
+

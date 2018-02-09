@@ -11,8 +11,4 @@
 	
 	<ffc:component-scan package="org.fujion.captcha" />
 	
-	<bean class="org.fujion.captcha.CaptchaUtil" factory-method="getInstance">
-		<property name="captchaUrl" value="${google.captcha.api.url:https://www.google.com/recaptcha/api.js}"/>
-	</bean>
-
 </beans>
