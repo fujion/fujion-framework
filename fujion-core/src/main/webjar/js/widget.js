@@ -207,6 +207,15 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 				
 		/**
+		 * Returns the hosting page.
+		 * 
+		 * @return {Page} The hosting page.
+		 */
+		getPage: function() {
+			return fujion.widget._page;
+		},
+		
+		/**
 		 * Returns true if this widget may contain other widgets.
 		 * 
 		 * @return {boolean} True if widget is a container.
