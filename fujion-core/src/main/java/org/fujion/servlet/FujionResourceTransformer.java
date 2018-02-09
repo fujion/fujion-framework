@@ -112,8 +112,9 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
     @Override
     public Resource transform(HttpServletRequest request, Resource resource,
                               ResourceTransformerChain chain) throws IOException {
-
-        if (resource == null || !resource.getFilename().endsWith(".fsp")) {
+        String filename = resource == null ? null : resource.getFilename();
+        
+        if (filename == null || !filename.endsWith(".fsp")) {
             return chain.transform(request, resource);
         }
 

@@ -49,37 +49,40 @@ import org.springframework.web.servlet.resource.ResourceResolver;
 @EnableWebMvc
 @Configuration
 public class ServletConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
-
+    
     private static final Log log = LogFactory.getLog(ServletConfiguration.class);
-    
+
     private final GzipResourceResolver gzipResourceResolver = new GzipResourceResolver();
-    
+
     private final ResourceResolver resourceVersionResolver1 = new VersionResourceResolver(false);
-    
+
     private final ResourceResolver resourceVersionResolver2 = new VersionResourceResolver(true);
-    
+
     private final ResourceResolver webjarResourceResolver = new WebJarResourceResolver();
-    
+
+    private final ResourceResolver dynamicResourceResolver = new DynamicResourceResolver();
+
     private final FujionResourceTransformer fujionResourceTransformer = new FujionResourceTransformer();
-    
+
     private final AppCacheManifestTransformer appCacheManifestTransformer = new AppCacheManifestTransformer();
-    
+
     private final MinifiedResourceResolver minifiedResourceResolver = new MinifiedResourceResolver("js", "css");
-    
+
     private ApplicationContext applicationContext;
-    
+
     public ServletConfiguration() {
         ComponentScanner.getInstance().scanPackage(BaseComponent.class.getPackage());
         EventTypeScanner.getInstance().scanPackage(Event.class.getPackage());
     }
-    
+
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.mediaType("fsp", MediaType.TEXT_HTML);
     }
-    
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        addResourceHandlers(registry, "/dynamic/**", "/", dynamicResourceResolver);
         addResourceHandlers(registry, "/webjars/**", "classpath:/META-INF/resources/webjars/", webjarResourceResolver);
         addResourceHandlers(registry, "/_v_*/webjars/**", "classpath:/META-INF/resources/webjars/", resourceVersionResolver1,
             webjarResourceResolver);
@@ -88,17 +91,17 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter implements App
         addResourceHandlers(registry, "/_v_*/**", "/", resourceVersionResolver2);
         addResourceHandlers(registry, "/**", "/");
     }
-    
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         try {
             Resource[] resources = applicationContext.getResources("/index.*");
-            
+
             if (resources.length > 0) {
                 if (resources.length > 1) {
                     log.warn("Multiple home page candidates detected - only one will be selected.");
                 }
-                
+
                 String file = "/" + resources[0].getFilename();
                 registry.addRedirectViewController("/", file);
                 log.info("Default home page set to: " + file);
@@ -109,7 +112,7 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter implements App
             log.error("Error while attempting to detect default home page.", e);
         }
     }
-    
+
     private void addResourceHandlers(ResourceHandlerRegistry registry, String pattern, String locations,
                                      ResourceResolver... resolvers) {
         //@formatter:off
@@ -129,11 +132,11 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter implements App
             .addTransformer(appCacheManifestTransformer);
         //@formatter:on
     }
-
+    
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
-        
-    }
 
+    }
+    
 }
