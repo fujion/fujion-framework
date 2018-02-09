@@ -70,11 +70,10 @@ public class Import extends BaseUIComponent {
      */
     @PropertySetter(value = "src", defer = true, description = "The URL of the imported FSP.")
     public void setSrc(String src) {
-        if (!areEqual(src = nullify(src), this.src)) {
-            this.src = src;
+        if (propertyChange("src", this.src, this.src = nullify(src), false)) {
             this.destroyChildren();
 
-            if (src != null) {
+            if (this.src != null) {
                 PageParser.getInstance().parse(src).materialize(this);
             }
         }
