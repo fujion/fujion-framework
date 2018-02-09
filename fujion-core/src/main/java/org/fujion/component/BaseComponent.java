@@ -36,6 +36,7 @@ import org.fujion.ancillary.ComponentException;
 import org.fujion.ancillary.ComponentRegistry;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.IAutoWired;
+import org.fujion.ancillary.IAutoWired2;
 import org.fujion.ancillary.IElementIdentifier;
 import org.fujion.ancillary.ILabeled;
 import org.fujion.ancillary.INamespace;
@@ -360,7 +361,7 @@ public abstract class BaseComponent implements IElementIdentifier {
         }
         
         dead = true;
-        fireEvent("destroy");
+        fireEvent(new Event("destroy", this));
         eventListeners.removeAll();
     }
     
@@ -1708,6 +1709,11 @@ public abstract class BaseComponent implements IElementIdentifier {
         }
         
         setAttribute(ATTR_CONTROLLER, controller);
+
+        if (controller instanceof IAutoWired2) {
+            ((IAutoWired2) controller).beforeInitialized(this);
+        }
+        
         WiredComponentScanner.wire(controller, this);
         EventHandlerScanner.wire(controller, this);
         controllers = controllers == null ? new ArrayList<>() : controllers;
