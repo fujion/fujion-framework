@@ -40,6 +40,10 @@
 				This is dynamically-generated content.
 			</row>
 			<row>
+				<import src="dynamic/dynamic_resource.fsp" />
+				This is a dynamically-generated resource.
+			</row>
+			<row>
 				<button label="Has Context Menu" context="contextMenu" />
 				This button has a context menu associated with it.
 			</row>

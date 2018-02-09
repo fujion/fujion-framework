@@ -20,7 +20,7 @@
  */
 package org.fujion.testharness;
 
-import org.fujion.ancillary.IAutoWired;
+import org.fujion.ancillary.IAutoWired2;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
 
@@ -28,12 +28,12 @@ import org.fujion.component.Page;
  * Base controller for all demo controllers. Provides convenience methods for accessing logging
  * capability on the main controller.
  */
-public class BaseController implements IAutoWired {
-    
-    protected Page page;
+public class BaseController implements IAutoWired2 {
 
-    protected BaseComponent root;
+    protected Page page;
     
+    protected BaseComponent root;
+
     /**
      * Generates a log entry as each controller is initialized.
      */
@@ -44,6 +44,10 @@ public class BaseController implements IAutoWired {
         log(getClass().getName() + " initialized.");
     }
     
+    @Override
+    public void beforeInitialized(BaseComponent root) {
+    }
+
     /**
      * Log the message to the UI.
      *
@@ -51,12 +55,12 @@ public class BaseController implements IAutoWired {
      */
     public void log(String message) {
         MainController mainController = (MainController) page.getAttribute("mainController");
-        
+
         if (mainController != null) {
             mainController.log(message);
         }
     }
-    
+
     /**
      * Logs one of two messages, depending on the condition.
      *
@@ -67,5 +71,5 @@ public class BaseController implements IAutoWired {
     public void log(boolean condition, String messageIfTrue, String messageIfFalse) {
         log(condition ? messageIfTrue : messageIfFalse);
     }
-    
+
 }

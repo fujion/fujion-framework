@@ -23,14 +23,17 @@ package org.fujion.servlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.fujion.common.MiscUtil;
 import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.Resource;
 
 /**
- * Wrapper for non-file based resource.
+ * Wrapper for non-file based resource. This allows the server to expose such resources to the
+ * client.
  */
 class DynamicResource extends AbstractResource {
     
@@ -46,9 +49,14 @@ class DynamicResource extends AbstractResource {
         this.file = createDummyFile();
     }
 
+    /**
+     * Create an empty dummy file.
+     *
+     * @return Dummy file.
+     */
     private File createDummyFile() {
         try {
-            return File.createTempFile("fujion", filename);
+            return File.createTempFile("fujion", "." + FilenameUtils.getExtension(filename));
         } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
         }
@@ -64,6 +72,11 @@ class DynamicResource extends AbstractResource {
         return filename;
     }
 
+    @Override
+    public URL getURL() throws IOException {
+        return file.toURI().toURL();
+    }
+    
     @Override
     public String getDescription() {
         return resource.getDescription();
