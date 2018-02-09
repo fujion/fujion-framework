@@ -61,6 +61,7 @@
 		<module>fujion-highcharts</module>
 		<module>fujion-codemirror</module>
 		<module>fujion-barcode</module>
+		<module>fujion-captcha</module>
 		<module>fujion-sandbox</module>
 		<module>fujion-angular-parent</module>
 		<module>fujion-react-parent</module>
