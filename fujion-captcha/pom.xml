@@ -16,8 +16,16 @@
         {
 			'paths': {
 				'fujion-captcha': 'js/captcha',
-				'fujion-captcha-css': 'css/captcha'
-			}
+				'fujion-captcha-css': 'css/captcha',
+        			'recaptcha': '//www.google.com/recaptcha/api.js?onload=recaptcha_onload&amp;render=explicit'
+			},
+		    'meta': {
+		         'recaptcha': {
+		             'scriptLoad': true,
+		             'format': 'global',
+		             'exports': 'recaptcha'
+		         }
+		    }
 		}
         </requirejs>
 	</properties>
