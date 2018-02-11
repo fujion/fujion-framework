@@ -13,6 +13,20 @@ define('fujion-captcha', [
 	 */
 	Widget.Captcha = Widget.UIWidget.extend({
 	
+		/*------------------------------ Events ------------------------------*/
+		
+		handleSuccess: function(token) {
+			this.trigger('captcha-success', {data: token});
+		},
+		
+		handleExpired: function() {
+			this.trigger('captcha-expired');
+		},
+		
+		handleError: function() {
+			this.trigger('captcha-error');
+		},
+		
 		/*------------------------------ Lifecycle ------------------------------*/
 
 		init: function() {
@@ -40,7 +54,10 @@ define('fujion-captcha', [
 				theme: this.getState('theme').toLowerCase(),
 				size: this.getState('size').toLowerCase(),
 				type: this.getState('type').toLowerCase(),
-				sitekey: key
+				sitekey: key,
+				callback: this.handleSuccess.bind(this),
+				'expired-callback': this.handleExpired.bind(this),
+				'error-callback': this.handleError.bind(this)
 			});
 		},
 		
