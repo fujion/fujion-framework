@@ -36,19 +36,19 @@ import com.fasterxml.jackson.databind.node.TextNode;
  * Information describing a single web jar resource.
  */
 public class WebJar {
-
+    
     private static final String[] EXTENSIONS = { "", ".js", ".css" };
-
+    
     private final Resource resource;
-
+    
     private final String name;
-    
+
     private final String version;
-    
+
     private final String absolutePath;
-
+    
     private ObjectNode config;
-
+    
     public WebJar(Resource resource) {
         try {
             this.resource = resource;
@@ -62,7 +62,7 @@ public class WebJar {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * Returns the configuration for this webjar, after normalization.
      *
@@ -73,10 +73,10 @@ public class WebJar {
             normalizePaths();
             normalizePackages();
         }
-        
+
         return config;
     }
-    
+
     /**
      * Sets the configuration for this web jar.
      *
@@ -85,7 +85,7 @@ public class WebJar {
     protected void setConfig(ObjectNode config) {
         this.config = config;
     }
-
+    
     /**
      * Returns the absolute path of this web jar.
      *
@@ -94,7 +94,7 @@ public class WebJar {
     public String getAbsolutePath() {
         return absolutePath;
     }
-
+    
     /**
      * Returns the relative root path of this web jar.
      *
@@ -103,7 +103,7 @@ public class WebJar {
     public String getRootPath() {
         return "webjars/" + name + "/";
     }
-    
+
     /**
      * Returns the unique name for this web jar.
      *
@@ -112,7 +112,7 @@ public class WebJar {
     public String getName() {
         return name;
     }
-    
+
     /**
      * Returns the version of this web jar.
      *
@@ -121,7 +121,7 @@ public class WebJar {
     public String getVersion() {
         return version;
     }
-
+    
     /**
      * Returns a resource given its relative path.
      *
@@ -135,7 +135,7 @@ public class WebJar {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * Finds the first web jar resource that matches one of the specified file extensions.
      *
@@ -146,77 +146,77 @@ public class WebJar {
     public Resource findResource(ResourcePatternResolver resourceLoader, String... extensions) {
         try {
             String path = getRootPath();
-            
+
             for (String extension : extensions) {
                 Resource[] resources = resourceLoader.getResources(path + "**/*." + extension);
-                
+
                 if (resources.length > 0) {
                     return resources[0];
                 }
             }
         } catch (Exception e) {}
-        
+
         return null;
     }
-
+    
     @Override
     public String toString() {
         return "webjar:" + name + ":" + version;
     }
-
+    
     /**
-     * Add root path to the map and path entries of the parsed requirejs config.
+     * Add root path to the map and path entries of the parsed requirejs/systemjs config.
      */
     private void normalizePaths() {
         normalizePaths("paths");
         normalizePaths("map");
     }
-
+    
     /**
-     * Add root path to the map and path entries of the parsed requirejs config.
+     * Add root path to the map and path entries of the parsed requirejs/systemjs config.
      *
      * @param node One of: "paths", "map"
      */
     private void normalizePaths(String node) {
         ObjectNode paths = (ObjectNode) config.get(node);
-
+        
         if (paths != null) {
             Iterator<Entry<String, JsonNode>> iter = paths.fields();
-
+            
             while (iter.hasNext()) {
                 Entry<String, JsonNode> entry = iter.next();
                 JsonNode child = entry.getValue();
-
+                
                 if (child.isTextual()) {
                     String value = child.asText();
-                    
-                    if (!value.contains("webjars/")) {
+
+                    if (!value.startsWith("//") && !value.contains("webjars/")) {
                         entry.setValue(createPathNode(value));
                     }
                 }
             }
         }
     }
-
+    
     /**
      * Fix any package entries found in the config.
      */
     private void normalizePackages() {
         JsonNode packages = config.get("packages");
-
+        
         if (packages != null) {
             if (packages.isArray()) {
                 config.remove("packages");
                 ObjectNode pkgs = config.objectNode();
                 config.set("packages", pkgs);
-                
+
                 for (int i = 0; i < packages.size(); i++) {
                     fixPackage(packages.get(i), pkgs);
                 }
             }
         }
     }
-
+    
     /**
      * Fix a package entry, if necessary.
      *
@@ -227,7 +227,7 @@ public class WebJar {
         String name;
         String main = null;
         ObjectNode pkg = pkgs.objectNode();
-        
+
         if (entry.isTextual()) {
             name = entry.asText();
             main = "main";
@@ -237,7 +237,7 @@ public class WebJar {
             JsonNode nameNode = entry.get("name");
             name = nameNode == null ? null : nameNode.asText();
         }
-
+        
         if (name != null) {
             pkg.set("main", new TextNode(main == null ? "main" : main));
             pkg.set("defaultExtension", new TextNode("js"));
@@ -245,7 +245,7 @@ public class WebJar {
             getOrCreateMapNode().set(name, createPathNode(""));
         }
     }
-
+    
     /**
      * Returns the map node for the configuration, creating one if it does not exist.
      *
@@ -253,14 +253,14 @@ public class WebJar {
      */
     private ObjectNode getOrCreateMapNode() {
         ObjectNode map = (ObjectNode) config.get("map");
-        
+
         if (map == null) {
             config.set("map", map = config.objectNode());
         }
-        
+
         return map;
     }
-    
+
     /**
      * Creates a path node.
      *
@@ -270,14 +270,14 @@ public class WebJar {
     private TextNode createPathNode(String file) {
         for (String ext : EXTENSIONS) {
             Resource resource = createRelative(file + ext);
-
+            
             if (resource.exists() && resource.isReadable()) {
                 file += ext;
                 break;
             }
         }
-
+        
         return new TextNode(getRootPath() + file);
     }
-    
+
 }
