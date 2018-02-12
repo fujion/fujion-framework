@@ -136,7 +136,7 @@
 		<dependency>
 		    <groupId>org.webjars.npm</groupId>
 		    <artifactId>systemjs</artifactId>
-		    <version>0.20.15</version>
+		    <version>0.20.19</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.webjars</groupId>
@@ -146,7 +146,7 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
-			<version>3.2.1</version>
+			<version>3.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -176,7 +176,7 @@
 		<dependency>
 		    <groupId>org.webjars.npm</groupId>
 		    <artifactId>balloon-css</artifactId>
-		    <version>0.4.0</version>
+		    <version>0.5.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.webjars</groupId>

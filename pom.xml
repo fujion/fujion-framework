@@ -35,7 +35,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>4.3.14.RELEASE</org.springframework.version>
+		<org.springframework.version>5.0.3.RELEASE</org.springframework.version>
 		<jackson.version>2.9.4</jackson.version>
 		<servlet.api.version>3.1.0</servlet.api.version>
 		<java.version>1.8</java.version>
@@ -618,12 +618,12 @@
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>4.5.3</version>
+				<version>4.5.5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore</artifactId>
-				<version>4.4.8</version>
+				<version>4.4.9</version>
 			</dependency>
 			<!-- Logging -->
 			<dependency>
