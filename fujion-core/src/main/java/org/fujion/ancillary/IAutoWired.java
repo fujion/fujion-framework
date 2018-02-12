@@ -32,6 +32,15 @@ public interface IAutoWired {
      *
      * @param root The root component to which this controller is bound.
      */
-    void afterInitialized(BaseComponent root);
+    default void afterInitialized(BaseComponent root) {
+    }
 
+    /**
+     * Called before the controller has been fully initialized.
+     *
+     * @param root The root component to which this controller will be bound.
+     */
+    default void beforeInitialized(BaseComponent root) {
+    }
+    
 }
