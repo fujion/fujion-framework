@@ -14,9 +14,8 @@
 		<webjar.name>fujion-react</webjar.name>
 		<systemjs>
 			{ 'map': {
-			'fujion-react-widget':
-			'webjars/fujion-react/fujion/widget.js'
-			}
+				'fujion-react-widget': 'fujion/widget.js'
+				}
 			}
 		</systemjs>
 	</properties>
@@ -80,7 +79,7 @@
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>fbjs</artifactId>
-			<version>0.8.12</version>
+			<version>0.8.16</version>
 		</dependency>
 		<!-- Fujion Framework -->
 		<dependency>
