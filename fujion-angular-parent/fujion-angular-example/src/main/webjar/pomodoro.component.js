@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 // Pomodoro timer component
 // Note: bootstrapping is handled automatically.
 // Note: that we do not specify a selector as it will be assigned during bootstrapping.
-var PomodoroComponent = (function () {
+var PomodoroComponent = /** @class */ (function () {
     function PomodoroComponent() {
         var _this = this;
         this.resetPomodoro();
@@ -42,14 +42,14 @@ var PomodoroComponent = (function () {
             this.buttonLabel = this.isPaused ? 'Resume' : 'Pause';
         }
     };
+    PomodoroComponent = __decorate([
+        core_1.Component({
+            template: "\n    <div class=\"text-center\">\n      <img src=\"webjars/fujion-angular-example/assets/img/pomodoro.png\" alt=\"Pomodoro\">\n      <h1> {{ minutes }}:{{ seconds | number: '2.0' }} </h1>\n      <p>\n        <button (click)=\"togglePause()\"\n          class=\"btn btn-danger\">\n          {{ buttonLabel }}\n        </button>\n      </p>\n    </div>\n"
+        }),
+        __metadata("design:paramtypes", [])
+    ], PomodoroComponent);
     return PomodoroComponent;
 }());
-PomodoroComponent = __decorate([
-    core_1.Component({
-        template: "\n    <div class=\"text-center\">\n      <img src=\"webjars/fujion-angular-example/assets/img/pomodoro.png\" alt=\"Pomodoro\">\n      <h1> {{ minutes }}:{{ seconds | number: '2.0' }} </h1>\n      <p>\n        <button (click)=\"togglePause()\"\n          class=\"btn btn-danger\">\n          {{ buttonLabel }}\n        </button>\n      </p>\n    </div>\n"
-    }),
-    __metadata("design:paramtypes", [])
-], PomodoroComponent);
 exports.PomodoroComponent = PomodoroComponent;
 exports.AngularComponent = PomodoroComponent;
 //# sourceMappingURL=pomodoro.component.js.map

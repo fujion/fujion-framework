@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
@@ -38,18 +39,9 @@ function AppContext(aModule, selector) {
     }
     delete ngModule.bootstrap;
     function findDecorator(obj) {
-        var metadata = Reflect.getMetadata('annotations', obj);
-        if (metadata) {
-            for (var _i = 0, metadata_1 = metadata; _i < metadata_1.length; _i++) {
-                var md = metadata_1[_i];
-                if (md.toString() === '@NgModule') {
-                    return md;
-                }
-            }
-        }
-        return null;
+        return obj['__annotations__'][0];
     }
-    var AppModule = (function () {
+    var AppModule = /** @class */ (function () {
         function AppModule(resolver, ngZone) {
             this.resolver = resolver;
             this.ngZone = ngZone;
@@ -59,13 +51,13 @@ function AppContext(aModule, selector) {
             var factory = this.resolver.resolveComponentFactory(App);
             appContext.componentRef = appRef.bootstrap(factory, selector);
         };
+        AppModule = __decorate([
+            core_1.NgModule(ngModule),
+            __metadata("design:paramtypes", [core_2.ComponentFactoryResolver,
+                core_2.NgZone])
+        ], AppModule);
         return AppModule;
     }());
-    AppModule = __decorate([
-        core_1.NgModule(ngModule),
-        __metadata("design:paramtypes", [core_2.ComponentFactoryResolver,
-            core_2.NgZone])
-    ], AppModule);
     AppContext.prototype.isLoaded = function () {
         return !!this.moduleRef;
     };

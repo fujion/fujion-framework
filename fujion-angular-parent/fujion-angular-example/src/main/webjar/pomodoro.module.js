@@ -1,3 +1,4 @@
+"use strict";
 /*
  *  Copyright 2017 Cognitive Medical Systems, Inc (http://www.cognitivemedicine.com).
  *
@@ -13,7 +14,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -24,18 +24,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var pomodoro_component_1 = require("./pomodoro.component");
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
-var AngularModule = (function () {
+var AngularModule = /** @class */ (function () {
     function AngularModule() {
     }
+    AngularModule = __decorate([
+        core_1.NgModule({
+            imports: [platform_browser_1.BrowserModule],
+            bootstrap: [pomodoro_component_1.PomodoroComponent],
+            declarations: [pomodoro_component_1.PomodoroComponent],
+            entryComponents: [pomodoro_component_1.PomodoroComponent]
+        })
+    ], AngularModule);
     return AngularModule;
 }());
-AngularModule = __decorate([
-    core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule],
-        bootstrap: [pomodoro_component_1.PomodoroComponent],
-        declarations: [pomodoro_component_1.PomodoroComponent],
-        entryComponents: [pomodoro_component_1.PomodoroComponent]
-    })
-], AngularModule);
 exports.AngularModule = AngularModule;
 //# sourceMappingURL=pomodoro.module.js.map

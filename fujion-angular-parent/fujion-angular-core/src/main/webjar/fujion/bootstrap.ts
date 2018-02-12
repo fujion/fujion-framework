@@ -24,7 +24,7 @@ export function AppContext(aModule: any, selector?: string) {
             throw 'No NgModule decorator for Angular module';
         }
     }
-    
+
     extra ? Object.assign(ngModule, extra) : null;
     App = App || (ngModule.bootstrap ? ngModule.bootstrap[0] : null);
 
@@ -35,17 +35,7 @@ export function AppContext(aModule: any, selector?: string) {
     delete ngModule.bootstrap;
 
     function findDecorator(obj: any): any {
-        var metadata = (<any>Reflect).getMetadata('annotations', obj);
-
-        if (metadata) {
-            for (let md of metadata) {
-                if (md.toString() === '@NgModule') {
-                    return md;
-                }
-            }
-        }
-
-        return null;
+        return obj['__annotations__'][0];
     }
 
     @NgModule(ngModule)
