@@ -129,9 +129,17 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 					args = [args];
 				}
 
-				return _.map(args, function(value) {
-					return value === null ? null : value.__fujion__ ? fujion.widget.find(value.__fujion__) : value;
-				});
+				return _.forOwn(args, _transform);
+			}
+			
+			function _transform(value, key, object) {
+				if (_.isNil(value)) {
+					object[key] = null;
+				} else if (value.__fujion__) {
+					object[key] = fujion.widget.find(value.__fujion__);
+				} else if (_.isObject(value)) {
+					_.forOwn(value, _transform);
+				}
 			}
 		}
 	},
