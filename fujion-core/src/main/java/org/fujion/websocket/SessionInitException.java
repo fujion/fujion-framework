@@ -20,14 +20,16 @@
  */
 package org.fujion.websocket;
 
+import org.apache.commons.lang.UnhandledException;
+
 /**
  * Exception occurring during session initialization. It should be considered fatal and the session
  * should be discarded.
  */
-public class SessionInitException extends RuntimeException {
-
-    private static final long serialVersionUID = 1L;
+public class SessionInitException extends UnhandledException {
     
+    private static final long serialVersionUID = 1L;
+
     public SessionInitException(Throwable cause) {
         super(cause);
     }

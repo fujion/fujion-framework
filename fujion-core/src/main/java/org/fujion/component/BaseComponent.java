@@ -425,10 +425,19 @@ public abstract class BaseComponent implements IElementIdentifier {
      * Validates that a component would a valid parent for this component.
      *
      * @param parent Component to validate.
-     * @return True if the component would be a valid parent for this component.
+     * @exception ComponentException Thrown if the new parent is not a valid parent for this
+     *                component.
      */
-    protected boolean validateParent(BaseComponent parent) {
-        return parent == null || componentDefinition.isParentTag(parent.componentDefinition.getTag());
+    protected void validateParent(BaseComponent parent) {
+        if (parent == null) {
+            return;
+        }
+
+        componentDefinition.validateParent(parent.componentDefinition);
+
+        if (isAncestor(parent)) {
+            throw new ComponentException("Not a valid parent because it is the same as or an descendant of this component");
+        }
     }
 
     /**
@@ -442,10 +451,8 @@ public abstract class BaseComponent implements IElementIdentifier {
         if (parent != this.parent) {
             if (parent == null) {
                 this.parent.removeChild(this);
-            } else if (validateParent(parent)) {
-                parent.addChild(this);
             } else {
-                throw new ComponentException(this, "Not a valid parent: " + parent.getClass().getName());
+                parent.addChild(this);
             }
         }
     }
@@ -603,6 +610,7 @@ public abstract class BaseComponent implements IElementIdentifier {
         BaseComponent oldParent = child.getParent();
 
         if (oldParent != this) {
+            child.validateParent(this);
             validateChild(child);
             nameIndex.validate(child);
         }
