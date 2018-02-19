@@ -1530,58 +1530,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.widget.Script = fujion.widget.BaseWidget.extend({
 		
-		/*------------------------------ Lifecycle ------------------------------*/
-		
-		init: function() {
-			this._super();
-			this.initState({mode: 'IMMEDIATE'});
-			this._count = 0;
-		},
-		
 		/*------------------------------ Other ------------------------------*/
 		
-		autoexec: function() {
-			if (this._script && !this._count && this.getState('mode') !== 'MANUAL') {
-				this.execute(this, {});
-			}
-		},
-		
-		compile: function(script, run) {
-			this._count = 0;
+		compile: function(script) {
 			this._script = script ? Function('self', 'fujion', 'vars', this.resolveEL(script, '#')).bind(this) : null;
-			run ? this.autoexec() : null;
 		},
 		
 		execute: function(self, vars) {
 			if (this._script) {
-				this._count++;
 				this.trigger('scriptExecution', {data: this._script(self, fujion, vars)});
 			}
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
-		
-		afterRender: function() {
-			this._super();
-			
-			switch(this.getState('mode')) {
-				case 'DEFER':
-					var self = this;
-					
-					setTimeout(function() {
-						self.autoexec();
-					});
-					
-					break;
-					
-				case 'IMMEDIATE':
-					this.autoexec();
-					break;
-					
-				case 'MANUAL':
-					break;
-			}
-		},
 		
 		render$: function() {
 			return $('<script>');
@@ -1593,22 +1554,18 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this.compile(v);
 		},
 		
-		mode: function(v) {
-		},
-		
 		src: function(v) {
 			this.compile();
 			
 			if (v) {
-				var self = this,
-					async = this.getState('mode') === 'DEFER';
+				var self = this;
 				
 				$.ajax({
 					url: v,
-					async: async,
+					async: true,
 					dataType: 'text'
 				}).done(function (script) {
-					self.compile(script, async);
+					self.compile(script);
 				});
 			}
 		}
