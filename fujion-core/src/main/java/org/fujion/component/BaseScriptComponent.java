@@ -57,6 +57,8 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
 
     private BaseComponent self = this;
     
+    private boolean includeNamedComponents = true;
+    
     protected BaseScriptComponent(boolean contentSynced) {
         super(contentSynced);
     }
@@ -122,6 +124,29 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     }
 
     /**
+     * If true, any named components within the namespace occupied by "self" will be passed as
+     * arguments to the script.
+     *
+     * @return True if named components are to be passed as arguments to the script.
+     */
+    @PropertyGetter(value = "includeNamedComponents", description = "If true, any named components within the namespace occupied by \"self\" will be passed as arguments to the script.")
+    public boolean getIncludeNamedComponents() {
+        return includeNamedComponents;
+    }
+
+    /**
+     * If true, any named components within the namespace occupied by "self" will be passed as
+     * arguments to the script.
+     *
+     * @param includeNamedComponents Set to true if named components are to be passed as arguments
+     *            to the script.
+     */
+    @PropertySetter(value = "includeNamedComponents", defaultValue = "true", description = "If true, any named components within the namespace occupied by \"self\" will be passed as arguments to the script.")
+    public void setIncludeNamedComponents(boolean includeNamedComponents) {
+        this.includeNamedComponents = includeNamedComponents;
+    }
+
+    /**
      * Remove reference when "self" is destroyed.
      *
      * @see org.fujion.component.BaseComponent#onDestroyTracked(org.fujion.component.BaseComponent)
@@ -145,7 +170,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
         Map<String, Object> vars = new HashMap<>();
         vars.put(getSelfName(), self);
         
-        if (self != null) {
+        if (includeNamedComponents && self != null) {
             vars.putAll(self.findAllNamed());
         }
         
