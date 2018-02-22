@@ -30,7 +30,7 @@ import org.fujion.annotation.JavaScript;
  * Base class for options. Supports interconverting class-based properties to a map and vice-versa.
  */
 public abstract class Options implements IOptionMapConverter {
-
+    
     /**
      * @see org.fujion.ancillary.OptionMap.IOptionMapConverter#toMap()
      */
@@ -40,7 +40,7 @@ public abstract class Options implements IOptionMapConverter {
         toMap(getClass(), map);
         return map;
     }
-
+    
     /**
      * Set each of the class' fields into a map. Ignores private and transient fields. Recurses for
      * each superclass until the root Options class is reached.
@@ -52,22 +52,22 @@ public abstract class Options implements IOptionMapConverter {
         if (clazz == Options.class) {
             return;
         }
-
+        
         toMap(clazz.getSuperclass(), map);
-
+        
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
             int modifiers = field.getModifiers();
-
+            
             if (!Modifier.isTransient(modifiers) && !Modifier.isPrivate(modifiers)) {
                 try {
                     String name = field.getName();
                     Object value = field.get(this);
-
+                    
                     if (value != null && field.isAnnotationPresent(JavaScript.class)) {
                         value = ConvertUtil.convertToJS(value.toString());
                     }
-
+                    
                     if (value != null) {
                         setValue(name, value, map);
                     }
@@ -75,11 +75,14 @@ public abstract class Options implements IOptionMapConverter {
             }
         }
     }
-
+    
     /**
      * Sets the name/value pair into the specified map. If the name contains an underscore, the
      * value is stored in a submap using the first part of the name as the top level key and the
-     * second part as the subkey.
+     * second part as the subkey. If an underscore is part of the variable name, use two consecutive
+     * underscores. If a name contains a "$" character, the name is truncated at that character.
+     * This allows representing alternate forms of the same variable. For such variables, only the
+     * last non-null instance will be passed.
      *
      * @param name Key name.
      * @param value Value.
@@ -89,19 +92,31 @@ public abstract class Options implements IOptionMapConverter {
         if (name.contains("_")) {
             String pcs[] = name.split("\\_", 2);
             name = pcs[0];
+            String rest = pcs[1];
+            
+            if (rest.startsWith("_")) {
+                pcs = rest.split("\\_", 3);
+                name += pcs[1];
+                rest = pcs.length == 2 ? "" : pcs[2];
+            }
+            
             OptionMap submap = (OptionMap) map.get(name);
-
+            
             if (submap == null) {
-                submap = new OptionMap();
+                map.put(name, submap = new OptionMap());
+            }
+            
+            if (!rest.isEmpty()) {
+                setValue(rest, value, submap);
             }
 
-            setValue(pcs[1], value, submap);
-            map.put(name, submap);
-        } else {
-            map.put(name, value);
+            return;
         }
+        
+        name = name.contains("$") ? name.split("\\$", 2)[0] : name;
+        map.put(name, value);
     }
-
+    
     /**
      * Copies this instance to a target of the same class.
      *
@@ -111,7 +126,7 @@ public abstract class Options implements IOptionMapConverter {
         if (target.getClass() != getClass()) {
             throw new IllegalArgumentException();
         }
-
+        
         for (Field field : getClass().getFields()) {
             if (field.isAccessible() && !Modifier.isTransient(field.getModifiers())) {
                 try {
@@ -119,6 +134,6 @@ public abstract class Options implements IOptionMapConverter {
                 } catch (Exception e) {}
             }
         }
-
+        
     }
 }

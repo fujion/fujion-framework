@@ -26,7 +26,7 @@ import org.fujion.common.MiscUtil;
  * Supported plot types.
  */
 public enum PlotType {
-
+    
     // @formatter:off
     AREA(PlotArea.class),
     AREARANGE(PlotAreaRange.class),
@@ -66,13 +66,29 @@ public enum PlotType {
     WORDCLOUD(PlotWordCloud.class),
     XRANGE(PlotXRange.class);
     // @formatter:on
-
+    
     private final Class<? extends PlotOptions> optionClass;
 
+    /**
+     * Returns the plot type given the implementation class.
+     *
+     * @param optionClass The implementation class.
+     * @return The corresponding plot type, or null if none.
+     */
+    public static PlotType fromPlotClass(Class<? extends PlotOptions> optionClass) {
+        for (PlotType type : PlotType.values()) {
+            if (type.optionClass == optionClass) {
+                return type;
+            }
+        }
+        
+        return null;
+    }
+    
     PlotType(Class<? extends PlotOptions> optionClass) {
         this.optionClass = optionClass;
     }
-
+    
     public PlotOptions newInstance() {
         try {
             PlotOptions plotOptions = optionClass.newInstance();
@@ -82,7 +98,7 @@ public enum PlotType {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     @Override
     public String toString() {
         return name().toLowerCase();
