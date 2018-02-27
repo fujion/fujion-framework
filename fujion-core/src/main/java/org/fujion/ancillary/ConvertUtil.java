@@ -157,23 +157,25 @@ public class ConvertUtil {
     }
 
     /**
-     * Process a Javascript code snippet. If the snippet does not have a function wrapper, a
-     * no-argument wrapper will be added.
+     * Process a JavaScript code snippet. If the snippet does not have a function wrapper, a
+     * no-argument wrapper will be added. Note: this function does no validation of the JavaScript
+     * code.
      *
      * @param snippet JS code snippet.
      * @return A JavaScriptValue object or null if the input was null.
      */
-    public static String convertToJS(String snippet) {
-        return snippet == null ? null : snippet.startsWith("function") ? snippet : "function() {" + snippet + "}";
+    public static String convertToJS(Object snippet) {
+        String js = snippet == null ? null : snippet.toString();
+        return js == null ? null : js.startsWith("function") ? js : "function() {" + js + "}";
     }
 
     /**
-     * Process an array of Javascript code snippets. See {@link #convertToJS(String)}.
+     * Process an array of JavaScript code snippets. See {@link #convertToJS(Object)}.
      *
      * @param snippets Array of JS code snippet.
      * @return New array of processed snippets.
      */
-    public static String[] convertToJS(String[] snippets) {
+    public static String[] convertToJS(Object[] snippets) {
         String[] results = new String[snippets.length];
         
         for (int i = 0; i < snippets.length; i++) {

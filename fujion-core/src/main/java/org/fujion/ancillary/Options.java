@@ -79,7 +79,11 @@ public abstract class Options implements IOptionMapConverter {
                     }
 
                     if (field.isAnnotationPresent(JavaScript.class)) {
-                        value = ConvertUtil.convertToJS(value.toString());
+                        if (value.getClass().isArray()) {
+                            value = ConvertUtil.convertToJS((Object[]) value);
+                        } else {
+                            value = ConvertUtil.convertToJS(value);
+                        }
                     }
 
                     setValue(name, value, map);
