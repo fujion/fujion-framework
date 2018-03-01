@@ -7,30 +7,19 @@
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Wrapper for HighCharts</name>
-	<artifactId>fujion-highcharts</artifactId>
+	<name>Fujion Wrapper for Plotly</name>
+	<artifactId>fujion-plotly</artifactId>
 
 	<properties>
-		<webjar.name>fujion-hchart</webjar.name>
+		<webjar.name>fujion-plotly</webjar.name>
         <requirejs>
         {
 			'paths': {
-				'fujion-hchart': 'js/hchart'
+				'fujion-plotly': 'js/plotly'
 			}
 		}
         </requirejs>
 	</properties>
-	
-	<licenses>
-		<license>
-			<name>Highcharts License Agreement</name>
-			<url>http://www.highcharts.com/products/highcharts</url>
-			<comments>
-				This artifact contains JavaScript libraries produced by Highsoft Solutions AS and is subject
-				to its license terms for non-commercial and commercial use.
-			</comments>
-		</license>
-	</licenses>
 	
 	<build>
 		<plugins>
@@ -49,9 +38,9 @@
 							<classpathScope>compile</classpathScope>
 							<arguments>
 								<argument>-v=${project.version}</argument>
-								<argument>-t=Highcharts Extension</argument>
-								<argument>-c=org.fujion.highcharts.Chart</argument>
-								<argument>${schemadir}fsp-highcharts.xsd</argument>
+								<argument>-t=Plotly Extension</argument>
+								<argument>-c=org.fujion.plotly.Chart</argument>
+								<argument>${schemadir}fsp-plotly.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -67,9 +56,9 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>highcharts</artifactId>
-			<version>6.0.7</version>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>plotly.js</artifactId>
+			<version>1.34.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

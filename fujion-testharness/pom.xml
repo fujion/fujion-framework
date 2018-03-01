@@ -30,6 +30,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
+			<artifactId>fujion-plotly</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
 			<artifactId>fujion-barcode</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

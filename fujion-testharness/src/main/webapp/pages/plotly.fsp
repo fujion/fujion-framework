@@ -1,0 +1,4 @@
+ 
+<div controller="org.fujion.testharness.PlotlyController"> 
+    <plotly name="plotly" type="scatter"/>
+</div>

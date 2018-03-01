@@ -28,6 +28,7 @@
 			
 			<tab label="Chart" hint="${@msg.fujion.testharness.chart}">
 				<import src="pages/chart.fsp" />
+				<import src="pages/plotly.fsp" />
 			</tab>
 			
 			<tab label="Conditionals" hint="${@msg.fujion.testharness.conditionals}">
