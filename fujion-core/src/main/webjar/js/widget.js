@@ -969,6 +969,35 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
+		/*------------------------------ Rendering ------------------------------*/
+		
+		getDragHelper: function() {
+			return fujion.clone(this.widget$, this.isContainer() ? 0 : -1);
+		},
+		
+		onRender: function(callback) {
+			var w$ = this.widget$;
+			
+			if (_doCallback()) {
+				return;
+			}
+			
+			if (window.IntersectionObserver) {
+				var obs = new IntersectionObserver(function() {
+					_doCallback() ? obs.disconnect() : null;
+				}, {root: fujion.widget._page.widget$[0]});
+				
+				obs.observe(this.widget$[0]);
+			}
+			
+			function _doCallback() {
+				if (w$.is(':visible')) {
+					callback();
+					return true;
+				}
+			}
+		},
+		
 		/*------------------------------ State ------------------------------*/
 		
 		badge: function(v) {
@@ -1148,14 +1177,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		visible: function(v) {
 			this.toggleClass('hidden', !v);
-		},
-				
-		/*------------------------------ Rendering ------------------------------*/
-		
-		getDragHelper: function() {
-			return fujion.clone(this.widget$, this.isContainer() ? 0 : -1);
 		}
-		
+				
 	});
 	
 	/******************************************************************************************************************
