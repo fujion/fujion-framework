@@ -26,12 +26,12 @@ import java.util.Map;
  * Every script language plugin must implement this interface.
  */
 public interface IScriptLanguage {
-    
+
     /**
      * Interface for executing a parsed script.
      */
     public interface IParsedScript {
-        
+
         /**
          * Executes the compiled script with optional variables.
          *
@@ -39,7 +39,7 @@ public interface IScriptLanguage {
          * @return The result of the script evaluation, if any.
          */
         Object run(Map<String, Object> variables);
-        
+
         /**
          * Executes the compiled script.
          *
@@ -48,15 +48,21 @@ public interface IScriptLanguage {
         default Object run() {
             return run(null);
         }
+
+        /**
+         * Destroys the compiled script. Not all script implementations require this.
+         */
+        default void destroy() {
+        }
     }
-    
+
     /**
      * The language type of the script (e.g., "groovy"). Must be unique.
      *
      * @return The language type.
      */
     String getType();
-    
+
     /**
      * Compiles the script source.
      *
@@ -64,7 +70,7 @@ public interface IScriptLanguage {
      * @return The compiled script.
      */
     IParsedScript parse(String source);
-    
+
     /**
      * Returns script variable that will represent the calling context.
      *
@@ -73,5 +79,5 @@ public interface IScriptLanguage {
     default String getSelf() {
         return "self";
     }
-    
+
 }

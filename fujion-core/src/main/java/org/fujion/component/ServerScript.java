@@ -94,6 +94,16 @@ public class ServerScript extends BaseScriptComponent {
 
         return script;
     }
+    
+    /**
+     * Destroys the compiled script, if any.
+     */
+    private void destroyScript() {
+        if (script != null) {
+            script.destroy();
+            script = null;
+        }
+    }
 
     /**
      * Return the text of an external script.
@@ -109,6 +119,12 @@ public class ServerScript extends BaseScriptComponent {
         }
     }
 
+    @Override
+    public void destroy() {
+        destroyScript();
+        super.destroy();
+    }
+    
     /**
      * Returns the type of script.
      *
@@ -141,6 +157,6 @@ public class ServerScript extends BaseScriptComponent {
      */
     @EventHandler("propertychange")
     private void onPropertyChanged() {
-        script = null;
+        destroyScript();
     }
 }

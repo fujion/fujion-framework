@@ -39,21 +39,21 @@ import org.springframework.util.Assert;
  * Utility methods for interconverting data types.
  */
 public class ConvertUtil {
-
+    
     static {
         DateConverter dtc = new DateConverter();
         String[] patterns = new String[Format.values().length];
         int i = 0;
-
+        
         for (Format format : Format.values()) {
             patterns[i++] = format.getPattern();
         }
-
+        
         dtc.setUseLocaleFormat(true);
         dtc.setPatterns(patterns);
         ConvertUtils.register(dtc, Date.class);
     }
-    
+
     /**
      * Converts an input value to a target type.
      *
@@ -65,7 +65,7 @@ public class ConvertUtil {
     public static <T> T convert(Object value, Class<T> targetType) {
         return convert(value, targetType, null);
     }
-
+    
     /**
      * Converts an input value to a target type.
      *
@@ -81,25 +81,25 @@ public class ConvertUtil {
         if (value == null || targetType == null || targetType.isInstance(value)) {
             return (T) value;
         }
-
+        
         if (targetType.isEnum()) {
             return (T) convertToEnum(value, targetType);
         }
-
+        
         if (BaseComponent.class.isAssignableFrom(targetType)) {
             return (T) convertToComponent(value, targetType, instance);
         }
-
+        
         if (targetType == Boolean.class || targetType == boolean.class) {
             String val = value.toString().trim().toLowerCase();
             Boolean result = "true".equals(val) ? Boolean.TRUE : "false".equals(val) ? Boolean.FALSE : null;
             Assert.notNull(result, "Not a valid Boolean value: " + value);
             return (T) result;
         }
-
+        
         return (T) ConvertUtils.convert(value, targetType);
     }
-
+    
     /**
      * Converts the input value to an enumeration member. The input value must resolve to a string
      * which is then matched to an enumeration member by using a case-insensitive lookup.
@@ -110,17 +110,17 @@ public class ConvertUtil {
      */
     private static Object convertToEnum(Object value, Class<?> enumType) {
         String val = convert(value, String.class, null);
-
+        
         for (Object e : enumType.getEnumConstants()) {
             if (((Enum<?>) e).name().equalsIgnoreCase(val)) {
                 return e;
             }
         }
-
+        
         throw new IllegalArgumentException(
                 StrUtil.formatMessage("The value \"%s\" is not a member of the enumeration %s", value, enumType.getName()));
     }
-
+    
     /**
      * Converts the input value to component. The input value must resolve to a string which
      * represents the name or id of the component sought. This name is resolved to a component
@@ -136,26 +136,26 @@ public class ConvertUtil {
             StrUtil.formatMessage("The property owner is not of the expected type (was %s but expected %s)",
                 instance.getClass().getName(), BaseComponent.class.getName());
         }
-
+        
         String name = convert(value, String.class, instance);
         BaseComponent container = (BaseComponent) instance;
         BaseComponent target = name.startsWith(Page.ID_PREFIX) ? container.getPage().findById(name)
                 : container.findByName(name);
-
+        
         if (target == null) {
             throw new IllegalArgumentException(
                     StrUtil.formatMessage("A component with name or id \"%s\" was not found", name));
         }
-
+        
         if (!componentType.isInstance(target)) {
             throw new IllegalArgumentException(StrUtil.formatMessage(
                 "The component with name or id \"%s\" is not of the expected type (was %s but expected %s)", name,
                 target.getClass().getName(), componentType.getName()));
         }
-
+        
         return target;
     }
-
+    
     /**
      * Process a JavaScript code snippet. If the snippet does not have a function wrapper, a
      * no-argument wrapper will be added. Note: this function does no validation of the JavaScript
@@ -168,7 +168,7 @@ public class ConvertUtil {
         String js = snippet == null ? null : snippet.toString();
         return js == null ? null : js.startsWith("function") ? js : "function() {" + js + "}";
     }
-
+    
     /**
      * Process an array of JavaScript code snippets. See {@link #convertToJS(Object)}.
      *
@@ -177,14 +177,14 @@ public class ConvertUtil {
      */
     public static String[] convertToJS(Object[] snippets) {
         String[] results = new String[snippets.length];
-        
+
         for (int i = 0; i < snippets.length; i++) {
             results[i] = convertToJS(snippets[i]);
         }
-
+        
         return results;
     }
-
+    
     /**
      * Converts a collection of IOptionMapConverter items to a list of maps.
      *
@@ -193,14 +193,14 @@ public class ConvertUtil {
      */
     public static List<OptionMap> toOptionMaps(Collection<? extends IOptionMapConverter> items) {
         List<OptionMap> list = new ArrayList<>();
-
+        
         for (IOptionMapConverter mc : items) {
             list.add(mc.toMap());
         }
-
+        
         return list;
     }
-
+    
     /**
      * Invokes a method with the provided value(s), performing type conversion as necessary.
      *
@@ -215,24 +215,24 @@ public class ConvertUtil {
         try {
             Class<?>[] parameterTypes = method.getParameterTypes();
             args = args == null ? new Object[0] : args;
-            
+
             if (args.length != parameterTypes.length) {
                 throw new IllegalArgumentException(StrUtil.formatMessage(
                     "Attempted to invoke method \"%s\" with the incorrect number of arguments (provided %d but expected %d)",
                     method.getName(), args.length, parameterTypes.length));
             }
-
+            
             for (int i = 0; i < parameterTypes.length; i++) {
                 args[i] = convert(args[i], parameterTypes[i], instance);
             }
-
+            
             return method.invoke(instance, args);
         } catch (Exception e) {
             throw new ComponentException(e, "Exception invoking method \"%s\" on component \"%s\"", method.getName(),
                     instance.getClass().getName());
         }
     }
-
+    
     private ConvertUtil() {
     }
 }
