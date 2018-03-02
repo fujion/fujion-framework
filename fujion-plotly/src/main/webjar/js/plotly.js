@@ -58,11 +58,5 @@ define('fujion-plotly', ['fujion-core', 'fujion-widget', 'plotly.js'], function(
 		}
 	});
 
-	/**
-	 * An individual plot type and data.
-	 */
-	fujion.widget.PlotlySeries = fujion.widget.MetaWidget.extend({
-	});
-
 	return fujion.widget;
 });
