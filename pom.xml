@@ -35,7 +35,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>5.0.3.RELEASE</org.springframework.version>
+		<org.springframework.version>5.0.4.RELEASE</org.springframework.version>
 		<jackson.version>2.9.4</jackson.version>
 		<servlet.api.version>3.1.0</servlet.api.version>
 		<java.version>1.8</java.version>
