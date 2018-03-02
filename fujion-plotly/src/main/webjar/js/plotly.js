@@ -48,6 +48,11 @@ define('fujion-plotly', ['fujion-core', 'fujion-widget', 'plotly.js'], function(
 		
 		/*------------------------------ Rendering ------------------------------*/
 
+		afterRender: function() {
+			this._super();
+			this.widget$.on('render', this._onresize);
+		},
+		
 		render$: function() {
 			return $('<div/>')
 		}

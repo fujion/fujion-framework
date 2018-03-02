@@ -20,6 +20,8 @@
  */
 package org.fujion.plotly;
 
+import java.util.Map;
+
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -75,16 +77,16 @@ public class Chart extends BaseUIComponent {
     }
 
     /**
-     * Force a redraw of the chart.
+     * Need to track rendering for proper sizing of graph.
+     *
+     * @see org.fujion.component.BaseComponent#_initProps(java.util.Map)
      */
-    public void redraw() {
-        if (running) {
-            invoke("_redraw");
-        } else {
-            run();
-        }
+    @Override
+    protected void _initProps(Map<String, Object> props) {
+        super._initProps(props);
+        props.put("trackrender", true);
     }
-
+    
     /**
      * Convenience method for getting title.
      *

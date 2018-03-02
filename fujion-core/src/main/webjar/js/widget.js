@@ -375,6 +375,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			if (this._parent) {
 				this._parent.removeChild(this, true);
 			} else {
+				this._untrackRender();
 				this._detachAncillaries(true);
 				this.widget$ ? this.widget$.remove() : null;
 				this.widget$ = null;
@@ -560,7 +561,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			
 			try {
 				this._rendering = true;
-
+				this._untrackRender();
+				
 				if (this.isContainer()) {
 					this.forEachChild(function(child){child.detach();});
 				}
@@ -590,6 +592,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			this.afterRender();
+			this.trackrender ? this._trackRender() : null;
 		},
 
 		/**
@@ -598,6 +601,31 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 */
 		render$: function() {
 			throw new Error('No rendering logic supplied for ' + this.wclass);
+		},
+		
+		_trackRender: function() {
+			var self = this;
+			this._untrackRender();
+			
+			if (!_hasRendered() && window.IntersectionObserver) {
+				this._renderobserver = new IntersectionObserver(_hasRendered, {root: fujion.widget._page.widget$[0]});
+				this._renderobserver.observe(this.widget$[0]);
+			}
+			
+			function _hasRendered() {
+				if (self.widget$.is(':visible')) {
+					self._untrackRender();
+					self.trigger('render');
+					return true;
+				}
+			}
+		},
+		
+		_untrackRender: function() {
+			if (this._renderobserver) {
+				this._renderobserver.disconnect();
+				delete this._renderobserver;
+			}
 		},
 		
 		/**
@@ -707,8 +735,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		/**
-		 * Initializes the widget state to the specified values.  If defaults is
-		 * true, the supplied values will not overwrite existing values in the
+		 * Initializes the widget state to the specified values.  If overwrite is
+		 * false, the supplied values will not overwrite existing values in the
 		 * current state.  Otherwise, any existing values in the current state
 		 * will be replaced by those supplied.
 		 * 
@@ -973,29 +1001,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		getDragHelper: function() {
 			return fujion.clone(this.widget$, this.isContainer() ? 0 : -1);
-		},
-		
-		onRender: function(callback) {
-			var w$ = this.widget$;
-			
-			if (_doCallback()) {
-				return;
-			}
-			
-			if (window.IntersectionObserver) {
-				var obs = new IntersectionObserver(function() {
-					_doCallback() ? obs.disconnect() : null;
-				}, {root: fujion.widget._page.widget$[0]});
-				
-				obs.observe(this.widget$[0]);
-			}
-			
-			function _doCallback() {
-				if (w$.is(':visible')) {
-					callback();
-					return true;
-				}
-			}
 		},
 		
 		/*------------------------------ State ------------------------------*/
