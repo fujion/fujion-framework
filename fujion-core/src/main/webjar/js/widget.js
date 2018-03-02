@@ -607,9 +607,18 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var self = this;
 			this._untrackRender();
 			
-			if (!_hasRendered() && window.IntersectionObserver) {
-				this._renderobserver = new IntersectionObserver(_hasRendered, {root: fujion.widget._page.widget$[0]});
-				this._renderobserver.observe(this.widget$[0]);
+			if (!_hasRendered()) {
+				if (window.IntersectionObserver) {
+					this._renderobserver = new IntersectionObserver(_hasRendered, {root: fujion.widget._page.widget$[0]});
+					this._renderobserver.observe(this.widget$[0]);
+				} else {
+					var intrvl = setInterval(_hasRendered, 1000);
+					this._renderobserver = {
+							disconnect: function() {
+								clearInterval(intrvl);
+							}
+					};
+				}
 			}
 			
 			function _hasRendered() {

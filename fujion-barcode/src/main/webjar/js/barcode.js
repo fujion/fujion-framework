@@ -20,10 +20,6 @@ define('fujion-barcode', [
 			this.initState({format: 'CODE128', flat: false, displayValue: false});
 		},
 		
-		destroy: function() {
-			this._super();
-		},
-		
 		/*------------------------------ Rendering ------------------------------*/
 
 		afterRender: function() {
