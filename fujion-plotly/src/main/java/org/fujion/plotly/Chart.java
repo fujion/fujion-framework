@@ -36,20 +36,20 @@ import org.springframework.util.Assert;
  */
 @Component(tag = "plotly", widgetModule = "fujion-plotly", widgetClass = "Plotly", parentTag = "*", description = "Fujion wrapper for Plotly component.")
 public class Chart extends BaseUIComponent {
-
+    
     private final ChartInstance instance = new ChartInstance();
-
+    
     private boolean running;
-
+    
     private PlotType type = PlotType.SCATTER;
-
+    
     /**
      * Create default chart (line plot, single x- and y-axis).
      */
     public Chart() {
         super();
     }
-
+    
     /**
      * Removes all series and data points and destroys the client graph.
      */
@@ -58,7 +58,7 @@ public class Chart extends BaseUIComponent {
         instance.data.clear();
         invoke("_reset");
     }
-
+    
     /**
      * Build the graph on the client.
      */
@@ -66,7 +66,7 @@ public class Chart extends BaseUIComponent {
         invoke("_run", instance.toMap());
         running = true;
     }
-
+    
     /**
      * Returns true if a chart is currently running on the client.
      *
@@ -75,7 +75,7 @@ public class Chart extends BaseUIComponent {
     public boolean isRunning() {
         return running;
     }
-
+    
     /**
      * Need to track rendering for proper sizing of graph.
      *
@@ -86,7 +86,7 @@ public class Chart extends BaseUIComponent {
         super._initProps(props);
         props.put("trackrender", true);
     }
-    
+
     /**
      * Convenience method for getting title.
      *
@@ -96,7 +96,7 @@ public class Chart extends BaseUIComponent {
     public String getTitle() {
         return instance.layout.title;
     }
-
+    
     /**
      * Convenience method for setting title.
      *
@@ -106,7 +106,7 @@ public class Chart extends BaseUIComponent {
     public void setTitle(String title) {
         instance.layout.title = title;
     }
-
+    
     /**
      * Returns the default plot type. Defaults to scatter.
      *
@@ -116,7 +116,7 @@ public class Chart extends BaseUIComponent {
     public PlotType getType() {
         return type;
     }
-
+    
     /**
      * The default plot type. Defaults to scatter.
      *
@@ -126,7 +126,7 @@ public class Chart extends BaseUIComponent {
     public void setType(PlotType type) {
         propertyChange("type", this.type, this.type = defaultify(type, PlotType.SCATTER), false);
     }
-
+    
     /**
      * Adds a new series of the default type.
      *
@@ -135,7 +135,7 @@ public class Chart extends BaseUIComponent {
     public PlotOptions addSeries() {
         return addSeries(type);
     }
-
+    
     /**
      * Adds a new series of the specified type.
      *
@@ -147,7 +147,7 @@ public class Chart extends BaseUIComponent {
         instance.data.add(plot);
         return plot;
     }
-
+    
     /**
      * Adds a new series of the specified type.
      *
@@ -161,43 +161,11 @@ public class Chart extends BaseUIComponent {
         Assert.notNull(type, "Unrecognized plot class: " + plotClass);
         return (T) addSeries(type);
     }
-
-    /**
-     * Convenience method for getting subtitle.
-     *
-     * @return Subtitle text
-     */
-    /**
-     * Calls the exportChart function on the chart.
-     */
-    public void export() {
-        ensureRunning("Exporting");
-        //invokeJS("_export", layout.getExporting().buttons_exportButton.onclick);
-    }
-
-    /**
-     * Calls the print function on the chart.
-     */
-    public void print() {
-        ensureRunning("Printing");
-        //invokeJS("_print", layout.getExporting().buttons_printButton.onclick);
-    }
-
-    /**
-     * Throws an exception if a chart is not currently running.
-     *
-     * @param operation The operation to be invoked.
-     */
-    private void ensureRunning(String operation) {
-        if (!running) {
-            throw new IllegalStateException(operation + " requires an active chart.");
-        }
-    }
-
+    
     public LayoutOptions getLayout() {
         return instance.layout;
     }
-    
+
     public ChartOptions getSettings() {
         return instance.config;
     }
