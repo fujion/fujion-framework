@@ -21,21 +21,16 @@
 package org.fujion.client;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.fujion.ancillary.IElementIdentifier;
 
 /**
  * Represents a function invocation request to be sent to the client.
  */
 public class ClientInvocation {
-    
-    private static final Log log = LogFactory.getLog(ClientInvocation.class);
     
     private final String function;
     
@@ -152,16 +147,10 @@ public class ClientInvocation {
      */
     @SuppressWarnings("unchecked")
     private Object transform(Object source) {
-        if (source instanceof IElementIdentifier) {
-            String id = ((IElementIdentifier) source).getId();
-            
-            if (id == null) {
-                log.error("Component is not attached to a page: " + source);
-            }
-            
-            return id == null ? null : Collections.singletonMap("__fujion__", id);
+        if (source instanceof IClientTransform) {
+            return ((IClientTransform) source).transformForClient();
         }
-        
+
         if (source instanceof Map) {
             return transformMap((Map<Object, Object>) source);
         }

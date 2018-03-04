@@ -22,33 +22,28 @@ package org.fujion.ancillary;
 
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang.StringUtils;
 import org.fujion.client.IClientTransform;
 
 /**
- * Interface for classes that assign a unique identifier to an HTML element.
+ * Represents a snippet of JavaScript code.
  */
-public interface IElementIdentifier extends IClientTransform {
+public class JavaScriptSnippet implements IClientTransform {
 
-    static final Log log = LogFactory.getLog(IElementIdentifier.class);
-
-    /**
-     * Returns the unique identifier of the corresponding HTML element.
-     *
-     * @return HTML element unique identifier.
-     */
-    String getId();
-
+    private final String snippet;
+    
+    public JavaScriptSnippet(String snippet) {
+        snippet = StringUtils.trimToNull(snippet);
+        this.snippet = snippet == null ? null : snippet.startsWith("function") ? snippet : "function() {" + snippet + "}";
+    }
+    
     @Override
-    default Object transformForClient() {
-        String id = getId();
-
-        if (id == null) {
-            log.error("Component is not attached to a page: " + this);
-        }
-
-        return id == null ? null : Collections.singletonMap("__fujion_id__", id);
+    public String toString() {
+        return snippet;
     }
 
+    @Override
+    public Object transformForClient() {
+        return snippet == null ? null : Collections.singletonMap("__fujion_js__", snippet);
+    }
 }

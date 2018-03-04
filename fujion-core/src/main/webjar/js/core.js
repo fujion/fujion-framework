@@ -135,8 +135,12 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			function _transform(value, key, object) {
 				if (_.isNil(value)) {
 					object[key] = null;
-				} else if (value.__fujion__) {
-					object[key] = fujion.widget.find(value.__fujion__);
+				} else if (value.__fujion_id__) {
+					object[key] = fujion.widget.find(value.__fujion_id__);
+				} else if (value.__fujion_js__) {
+					var fnc;
+					eval('fnc=' + value.__fujion_js__);
+					object[key] = fnc; 
 				} else if (_.isObject(value)) {
 					_.forOwn(value, _transform);
 				}
@@ -624,7 +628,6 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	$: function(object) {
 		return _.isNil(object) ? null 
 			: object.jquery ? object 
-			: object.__fujion__ ? fujion.$(fujion.widget.find(object.__fujion__))
 			: fujion.widget.isWidget(object) ? object.widget$ 
 			: $(object);
 	},
@@ -634,7 +637,6 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 */
 	wgt: function(object) {
 		return _.isNil(object) ? null 
-			: object.__fujion__ ? fujion.widget.find(object.__fujion__)
 			: fujion.widget.isWidget(object) ? object 
 			: this.$(object).fujion$widget();
 	},	
@@ -645,7 +647,6 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	id: function(object) {
 		return _.isNil(object) ? null 
 			: object.jquery ? object.attr('id') 
-			: object.__fujion__ ? object.__fujion__
 			: object.id;
 	},
 	

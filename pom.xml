@@ -59,6 +59,7 @@
 		<module>fujion-test</module>
 		<module>fujion-script-parent</module>
 		<module>fujion-highcharts</module>
+		<module>fujion-chartjs</module>
 		<module>fujion-plotly</module>
 		<module>fujion-codemirror</module>
 		<module>fujion-barcode</module>

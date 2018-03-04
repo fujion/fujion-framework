@@ -1,0 +1,4 @@
+ 
+<div controller="org.fujion.testharness.HighchartsController"> 
+	<hchart name="hchart" />
+</div>

@@ -163,8 +163,8 @@ public class Tests {
         assertEquals(TestEnum.TEST1, ConvertUtil.convert("test1", TestEnum.class));
         assertEquals("TEST2", ConvertUtil.convert(TestEnum.TEST2, String.class));
         
-        assertEquals("function() {var x=1}", ConvertUtil.convertToJS("var x=1"));
-        assertEquals("function() {var x=1}", ConvertUtil.convertToJS("function() {var x=1}"));
+        assertEquals("function() {var x=1}", ConvertUtil.convertToJS("var x=1").toString());
+        assertEquals("function() {var x=1}", ConvertUtil.convertToJS("function() {var x=1}").toString());
     }
 
     @Test

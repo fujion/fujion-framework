@@ -1,4 +1,0 @@
- 
-<div controller="org.fujion.testharness.ChartController"> 
-	<hchart name="hchart" />
-</div>

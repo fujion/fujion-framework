@@ -1,0 +1,4 @@
+ 
+<div controller="org.fujion.testharness.ChartJSController"> 
+    <chartjs name="chartjs" type="line"/>
+</div>
