@@ -26,9 +26,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
 /**
@@ -46,6 +48,8 @@ public class StrUtil {
 
     public static final String UTF8_STR = CharEncoding.UTF_8;
 
+    private static final Pattern REGEX_WHITESPACE = Pattern.compile("");
+    
     /**
      * Splits a string using the specified delimiter.
      *
@@ -483,6 +487,27 @@ public class StrUtil {
         return sb.toString();
     }
 
+    /**
+     * Converts a string to upper camel case using whitespace and underscores as word boundaries.
+     *
+     * @param text Text to convert.
+     * @return Text as upper camel case.
+     */
+    public static String toCamelCaseUpper(String text) {
+        return text == null ? null
+                : WordUtils.capitalizeFully(StringUtils.normalizeSpace(text.replace('_', ' '))).replace(" ", "");
+    }
+
+    /**
+     * Converts a string to lower camel case using whitespace and underscores as word boundaries.
+     *
+     * @param text Text to convert.
+     * @return Text as lower camel case.
+     */
+    public static String toCamelCaseLower(String text) {
+        return StringUtils.uncapitalize(toCamelCaseUpper(text));
+    }
+    
     /**
      * Replaces one set of characters with another. Each character in the <b>from</b> parameter is
      * replaced by the character in the corresponding position in the <b>to</b> parameter. If no
