@@ -108,6 +108,66 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>generate-plotly-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Plotly Extension</argument>
+								<argument>-c=org.fujion.plotly.Chart</argument>
+								<argument>${schemadir}fsp-plotly.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-chartjs-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Chart.js Extension</argument>
+								<argument>-c=org.fujion.chartjs.Chart</argument>
+								<argument>${schemadir}fsp-chartjs.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-barcode-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Barcode Extension</argument>
+								<argument>-c=org.fujion.barcode.BarCode</argument>
+								<argument>${schemadir}fsp-barcode.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-captcha-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Captcha Extension</argument>
+								<argument>-c=org.fujion.captcha.Captcha</argument>
+								<argument>${schemadir}fsp-captcha.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
 						<id>generate-react-schema</id>
 						<phase>prepare-package</phase>
 						<goals>
@@ -136,6 +196,26 @@
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-highcharts</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-chartjs</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-plotly</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-barcode</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-captcha</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

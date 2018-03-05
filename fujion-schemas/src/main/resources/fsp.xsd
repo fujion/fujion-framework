@@ -5,6 +5,10 @@
     <xs:include schemaLocation="http://www.fujion.org/schema/fsp-root.xsd"/>
     <xs:include schemaLocation="http://www.fujion.org/schema/fsp-core.xsd"/>
     <xs:include schemaLocation="http://www.fujion.org/schema/fsp-highcharts.xsd"/>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-plotly.xsd"/>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-chartjs.xsd"/>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-captcha.xsd"/>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-barcode.xsd"/>
     <xs:include schemaLocation="http://www.fujion.org/schema/fsp-codemirror.xsd"/>
     <xs:include schemaLocation="http://www.fujion.org/schema/fsp-angular.xsd"/>
     <xs:include schemaLocation="http://www.fujion.org/schema/fsp-react.xsd"/>
