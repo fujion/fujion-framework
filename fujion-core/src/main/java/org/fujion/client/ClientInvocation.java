@@ -125,20 +125,6 @@ public class ClientInvocation {
     }
     
     /**
-     * Transforms an array of objects.
-     *
-     * @param source Array of objects.
-     * @return Source array after transformation.
-     */
-    private Object[] transform(Object[] source) {
-        for (int i = 0; i < source.length; i++) {
-            source[i] = transform(source[i]);
-        }
-        
-        return source;
-    }
-    
-    /**
      * Transforms a component or subcomponent by replacing it with its selector. This only effects
      * IElementIdentifier implementations. All other source objects are returned unchanged.
      *
@@ -147,10 +133,18 @@ public class ClientInvocation {
      */
     @SuppressWarnings("unchecked")
     private Object transform(Object source) {
+        if (source == null) {
+            return null;
+        }
+
         if (source instanceof IClientTransform) {
             return ((IClientTransform) source).transformForClient();
         }
 
+        if (source.getClass().isArray()) {
+            return transformArray((Object[]) source);
+        }
+        
         if (source instanceof Map) {
             return transformMap((Map<Object, Object>) source);
         }
@@ -163,6 +157,20 @@ public class ClientInvocation {
         
         if (source instanceof Date) {
             return ((Date) source).getTime();
+        }
+        
+        return source;
+    }
+    
+    /**
+     * Transforms an array of objects.
+     *
+     * @param source Array of objects.
+     * @return Source array after transformation.
+     */
+    private Object[] transformArray(Object[] source) {
+        for (int i = 0; i < source.length; i++) {
+            source[i] = transform(source[i]);
         }
         
         return source;

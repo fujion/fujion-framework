@@ -42,6 +42,7 @@
 		<node.version>v7.10.1</node.version>
 		<npm.version>4.2.0</npm.version>
 		<project.name>${project.artifactId}</project.name>
+		<webjar.name>${project.artifactId}</webjar.name>
 		<webjar.version>${project.version}</webjar.version>
 		<schemadir>${basedir}/target/classes/META-INF/resources/webjars/${webjar.name}/${project.version}/xsd/</schemadir>
 	</properties>
