@@ -29,23 +29,23 @@ import java.util.Map;
  * Subclasses HashMap to prevent entry of null values or empty collections/maps.
  */
 public class OptionMap extends HashMap<String, Object> {
-    
+
     /**
      * Interface for classes capable of generating an option map.
      */
     public interface IOptionMapConverter {
-        
+
         /**
          * Return object as an option map.
          *
          * @return Option map derived from object instance.
          */
         OptionMap toMap();
-        
+
     }
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * If the value is null, simply remove any existing value for this key.
      */
@@ -54,7 +54,7 @@ public class OptionMap extends HashMap<String, Object> {
         value = convert(value);
         return isEmpty(value) ? remove(key) : super.put(key, value);
     }
-    
+
     /**
      * Performs conversions on selected values types.
      *
@@ -66,35 +66,33 @@ public class OptionMap extends HashMap<String, Object> {
             if (value instanceof IOptionMapConverter) {
                 value = ((IOptionMapConverter) value).toMap();
             } else if (value instanceof Collection) {
-                value = convert((Collection<?>) value);
-            } else if (value.getClass().isEnum()) {
-                value = value.toString();
+                value = convertCollection((Collection<?>) value);
             }
         }
-        
+
         return value;
     }
-    
+
     /**
      * Converts items in a collection.
      *
      * @param items Collection of items to be examined.
      * @return List of converted items.
      */
-    private Collection<Object> convert(Collection<?> items) {
+    private Collection<Object> convertCollection(Collection<?> items) {
         if (items.isEmpty()) {
             return null;
         }
-        
+
         Collection<Object> list = new ArrayList<>();
-        
+
         for (Object item : items) {
             list.add(convert(item));
         }
-        
+
         return list;
     }
-    
+
     /**
      * Returns true if the object is either null or is an empty map or collection.
      *
@@ -105,15 +103,15 @@ public class OptionMap extends HashMap<String, Object> {
         if (value == null) {
             return true;
         }
-        
+
         if (value instanceof Collection) {
             return ((Collection<?>) value).isEmpty();
         }
-        
+
         if (value instanceof Map) {
             return ((Map<?, ?>) value).isEmpty();
         }
-        
+
         return false;
     }
 }

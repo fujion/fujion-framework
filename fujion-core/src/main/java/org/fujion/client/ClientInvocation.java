@@ -32,15 +32,15 @@ import org.springframework.util.ClassUtils;
  * Represents a function invocation request to be sent to the client.
  */
 public class ClientInvocation {
-
+    
     private final String function;
-
+    
     private final IElementIdentifier target;
-
+    
     private final Object[] arguments;
-
+    
     private final String key;
-
+    
     /**
      * Create a client invocation request.
      *
@@ -72,7 +72,7 @@ public class ClientInvocation {
         this.function = pcs.length == 1 ? pcs[0] : pcs[1];
         this.key = pcs.length == 1 ? null : pcs[0].isEmpty() ? pcs[1] : pcs[0];
     }
-
+    
     /**
      * Create a client invocation request.
      *
@@ -100,7 +100,7 @@ public class ClientInvocation {
     public ClientInvocation(String moduleName, String function, Object... arguments) {
         this(moduleName == null ? null : () -> "@" + moduleName, function, arguments);
     }
-
+    
     /**
      * Returns the key associated with the client invocation request. This key is used when queuing
      * the request. If a client invocation request with a matching key already exists in the queue,
@@ -111,7 +111,7 @@ public class ClientInvocation {
     public String getKey() {
         return key == null ? "" + hashCode() : target == null ? key : key + "^" + target.hashCode();
     }
-
+    
     /**
      * Packages the client invocation request as a map for serialization and transport.
      *
@@ -124,7 +124,7 @@ public class ClientInvocation {
         data.put("arg", transformArray(arguments, false));
         return data;
     }
-
+    
     /**
      * Transforms a component or subcomponent by replacing it with its selector. This only effects
      * IElementIdentifier implementations. All other source objects are returned unchanged.
@@ -137,30 +137,34 @@ public class ClientInvocation {
         if (source == null || ignore(source.getClass())) {
             return source;
         }
+        
+        if (source.getClass().isEnum()) {
+            return source.toString();
+        }
 
         if (source instanceof IClientTransform) {
             return ((IClientTransform) source).transformForClient();
         }
-        
+
         if (source.getClass().isArray()) {
             return transformArray((Object[]) source, true);
         }
-
+        
         if (source instanceof Map) {
             return transformMap((Map<Object, Object>) source);
         }
-
+        
         if (source instanceof Collection) {
             return transformArray(((Collection<Object>) source).toArray(), false);
         }
-
+        
         if (source instanceof Date) {
             return ((Date) source).getTime();
         }
-
+        
         return source;
     }
-
+    
     /**
      * Returns true if the specified class should be ignored.
      *
@@ -171,7 +175,7 @@ public class ClientInvocation {
         Class<?> cclass = clazz.getComponentType();
         return clazz == String.class || ClassUtils.isPrimitiveOrWrapper(clazz) || (cclass != null && ignore(cclass));
     }
-
+    
     /**
      * Transforms an array of objects.
      *
@@ -181,14 +185,14 @@ public class ClientInvocation {
      */
     private Object[] transformArray(Object[] source, boolean copy) {
         Object[] dest = copy ? new Object[source.length] : source;
-
+        
         for (int i = 0; i < source.length; i++) {
             dest[i] = transform(source[i]);
         }
-        
+
         return dest;
     }
-
+    
     /**
      * Transforms a map.
      *
@@ -197,11 +201,11 @@ public class ClientInvocation {
      */
     private Object transformMap(Map<Object, Object> source) {
         Map<Object, Object> dest = new HashMap<>();
-
+        
         source.forEach((key, value) -> {
             dest.put(key, transform(value));
         });
-
+        
         return dest;
     }
 }
