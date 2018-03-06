@@ -41,7 +41,6 @@ define('fujion-plotly', ['fujion-core', 'fujion-widget', 'plotly.js'], function(
 				
 				if (params.layout && params.layout.autosize) {
 					$(window).on('resize', self._onresize);
-					self.onRender(self._onresize);
 				}
 			});
 		},

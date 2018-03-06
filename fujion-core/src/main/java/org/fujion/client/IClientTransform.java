@@ -24,11 +24,11 @@ package org.fujion.client;
  * Implemented by objects that have custom transforms for use in a client invocation.
  */
 public interface IClientTransform {
-
+    
     /**
      * Convert to form suitable for passing in a client invocation.
      *
      * @return Transformed value.
      */
-    public Object transformForClient();
+    Object transformForClient();
 }

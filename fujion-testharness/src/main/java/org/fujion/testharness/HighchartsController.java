@@ -53,11 +53,11 @@ public class HighchartsController extends BaseChartController {
         plo.value = 0.0;
         plo.width = 1;
         plo.color = "#808080";
-        hchart.options.getTooltip().valueSuffix = "°C";
-        hchart.options.getLegend().layout = Orientation.vertical;
-        hchart.options.getLegend().align = AlignHorizontal.right;
-        hchart.options.getLegend().verticalAlign = AlignVertical.middle;
-        hchart.options.getLegend().borderWidth = 0;
+        hchart.instance.getTooltip().valueSuffix = "°C";
+        hchart.instance.getLegend().layout = Orientation.vertical;
+        hchart.instance.getLegend().align = AlignHorizontal.right;
+        hchart.instance.getLegend().verticalAlign = AlignVertical.middle;
+        hchart.instance.getLegend().borderWidth = 0;
         addSeries("Tokyo", TOKYO);
         addSeries("New York", NEW_YORK);
         addSeries("Berlin", BERLIN);

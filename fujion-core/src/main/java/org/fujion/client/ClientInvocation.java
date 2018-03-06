@@ -134,16 +134,16 @@ public class ClientInvocation {
      */
     @SuppressWarnings("unchecked")
     private Object transform(Object source) {
+        while (source instanceof IClientTransform) {
+            source = ((IClientTransform) source).transformForClient();
+        }
+
         if (source == null || ignore(source.getClass())) {
             return source;
         }
         
         if (source.getClass().isEnum()) {
             return source.toString();
-        }
-
-        if (source instanceof IClientTransform) {
-            return ((IClientTransform) source).transformForClient();
         }
 
         if (source.getClass().isArray()) {

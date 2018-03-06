@@ -28,7 +28,7 @@ import org.fujion.ancillary.Options;
 /**
  * Top level chart settings.
  */
-public class ChartSettings extends Options {
+public class ChartInstance extends Options {
 
     protected final ChartOptions chart = new ChartOptions();
 

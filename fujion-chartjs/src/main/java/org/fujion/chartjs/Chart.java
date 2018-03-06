@@ -69,7 +69,7 @@ public class Chart extends BaseUIComponent {
      * Build the graph on the client.
      */
     public void run() {
-        invoke("_run", instance.toMap());
+        invoke("_run", instance);
         running = true;
     }
     
@@ -256,15 +256,4 @@ public class Chart extends BaseUIComponent {
         return instance.options;
     }
 
-    /**
-     * Throws an exception if a chart is not currently running.
-     *
-     * @param operation The operation to be invoked.
-     */
-    private void ensureRunning(String operation) {
-        if (!running) {
-            throw new IllegalStateException(operation + " requires an active chart.");
-        }
-    }
-    
 }

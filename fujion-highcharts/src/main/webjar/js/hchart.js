@@ -55,6 +55,7 @@ define('fujion-hchart', ['fujion-core', 'fujion-widget', 'highcharts'], function
 		},
 		
 		_run : function(options) {
+			options.chart.renderTo = this.id;
 			this._resizing = true;
 			this._reset();
 			this._chart = new Highcharts.Chart(options);

@@ -24,7 +24,6 @@ import java.util.Arrays;
 
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.OptionMap;
-import org.fujion.ancillary.OptionMap.IOptionMapConverter;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -35,14 +34,14 @@ import org.fujion.component.Page;
  * Fujion wrapper for HighCharts component.
  */
 @Component(tag = "hchart", widgetModule = "fujion-hchart", widgetClass = "HChart", parentTag = "*", description = "Fujion wrapper for HighCharts component.")
-public class Chart extends BaseUIComponent implements IOptionMapConverter {
-
+public class Chart extends BaseUIComponent {
+    
     private static final String GLOBAL_SETTINGS = Chart.class.getName() + ".global";
-
-    public final ChartSettings options = new ChartSettings();
-
+    
+    public final ChartInstance instance = new ChartInstance();
+    
     private boolean running;
-
+    
     /**
      * Create default chart (line plot, single x- and y-axis).
      */
@@ -52,7 +51,7 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
         addYAxis();
         setType(PlotType.LINE);
     }
-
+    
     /**
      * Sets the default colors for the chart's series. When all colors are used, new colors are
      * pulled from the start again.
@@ -60,13 +59,13 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @param colors List of default colors. If null or empty, the Highcharts defaults are used.
      */
     public void setDefaultColors(String... colors) {
-        options.getColors().clear();
-
+        instance.getColors().clear();
+        
         if (colors != null) {
-            options.getColors().addAll(Arrays.asList(colors));
+            instance.getColors().addAll(Arrays.asList(colors));
         }
     }
-
+    
     /**
      * Returns the chart type.
      *
@@ -74,9 +73,9 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @PropertyGetter(value = "type", description = "The chart type.")
     public PlotType getType() {
-        return options.getChart().type;
+        return instance.getChart().type;
     }
-
+    
     /**
      * Sets the chart type. This will remove any existing series.
      *
@@ -85,11 +84,11 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
     @PropertySetter(value = "type", defaultValue = "line", description = "The chart type.")
     public void setType(PlotType type) {
         type = type == null ? PlotType.LINE : type;
-        options.setPlotOptions(type.newInstance());
-        options.getChart().type = type;
-        options.getSeries().clear();
+        instance.setPlotOptions(type.newInstance());
+        instance.getChart().type = type;
+        instance.getSeries().clear();
     }
-
+    
     /**
      * Convenience method for returning the x-axis. If there are no x-axes, returns null. If there
      * are multiple x-axes, returns the first only.
@@ -97,9 +96,9 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @return The x-axis.
      */
     public Axis getXAxis() {
-        return options.getxAxis().isEmpty() ? null : options.getxAxis().get(0);
+        return instance.getxAxis().isEmpty() ? null : instance.getxAxis().get(0);
     }
-
+    
     /**
      * Convenience method for returning the y-axis. If there are no y-axes, returns null. If there
      * are multiple y-axes, returns the first only.
@@ -107,18 +106,18 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      * @return The y-axis.
      */
     public Axis getYAxis() {
-        return options.getyAxis().isEmpty() ? null : options.getyAxis().get(0);
+        return instance.getyAxis().isEmpty() ? null : instance.getyAxis().get(0);
     }
-
+    
     /**
      * Adds a new series to the chart using the chart's default type.
      *
      * @return The newly created series.
      */
     public Series addSeries() {
-        return addSeries(options.getChart().type);
+        return addSeries(instance.getChart().type);
     }
-
+    
     /**
      * Adds a new series to the chart using the specified type.
      *
@@ -127,37 +126,37 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     public Series addSeries(PlotType type) {
         Series series = new Series(type);
-        options.getSeries().add(series);
+        instance.getSeries().add(series);
         return series;
     }
-
+    
     /**
      * Adds an additional x axis.
      *
      * @return The newly added axis.
      */
     public Axis addXAxis() {
-        return new Axis(options.getxAxis());
+        return new Axis(instance.getxAxis());
     }
-
+    
     /**
      * Adds an additional y axis.
      *
      * @return The newly added axis.
      */
     public Axis addYAxis() {
-        return new Axis(options.getyAxis());
+        return new Axis(instance.getyAxis());
     }
-
+    
     /**
      * Build the graph on the client.
      */
     public void run() {
         init();
-        invoke("_run", toMap());
+        invoke("_run", instance);
         running = true;
     }
-
+    
     /**
      * Returns true if a chart is currently running on the client.
      *
@@ -166,16 +165,16 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
     public boolean isRunning() {
         return running;
     }
-
+    
     /**
      * Removes all series and data points and destroys the client graph.
      */
     public void clear() {
         running = false;
-        options.getSeries().clear();
+        instance.getSeries().clear();
         invoke("_reset");
     }
-
+    
     /**
      * Force a redraw of the chart.
      */
@@ -186,16 +185,16 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
             run();
         }
     }
-
+    
     /**
      * Send global settings to client if necessary.
      */
     private void init() {
         if (shouldInitialize()) {
-            invoke("_global", new GlobalSettings().toMap());
+            invoke("_global", new GlobalSettings());
         }
     }
-
+    
     /**
      * Returns true if global settings need to be sent to client. This occurs once per page.
      *
@@ -203,24 +202,15 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     private boolean shouldInitialize() {
         Page pg = getPage();
-
+        
         if (pg != null && !pg.hasAttribute(GLOBAL_SETTINGS)) {
             pg.setAttribute(GLOBAL_SETTINGS, true);
             return true;
         }
-
+        
         return false;
     }
-
-    /**
-     * Converts all options to map for sending to client.
-     */
-    @Override
-    public OptionMap toMap() {
-        options.getChart().renderTo = getId();
-        return options.toMap();
-    }
-
+    
     /**
      * Convenience method for getting title.
      *
@@ -228,9 +218,9 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @PropertyGetter(value = "title", description = "The title text.")
     public String getTitle() {
-        return options.getTitle().text;
+        return instance.getTitle().text;
     }
-
+    
     /**
      * Convenience method for setting title.
      *
@@ -238,10 +228,10 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @PropertySetter(value = "title", description = "The title text.")
     public void setTitle(String text) {
-        options.getTitle().text = text;
+        instance.getTitle().text = text;
         updateTitle();
     }
-
+    
     /**
      * Convenience method for getting subtitle.
      *
@@ -249,9 +239,9 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @PropertyGetter(value = "subtitle", description = "The subtitle text.")
     public String getSubtitle() {
-        return options.getSubtitle().text;
+        return instance.getSubtitle().text;
     }
-
+    
     /**
      * Convenience method for setting subtitle.
      *
@@ -259,26 +249,26 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
      */
     @PropertySetter(value = "subtitle", description = "The subtitle text.")
     public void setSubtitle(String text) {
-        options.getSubtitle().text = text;
+        instance.getSubtitle().text = text;
         updateTitle();
     }
-
+    
     /**
      * Calls the exportChart function on the chart.
      */
     public void export() {
         ensureRunning("Exporting");
-        invokeJS("_export", options.getExporting().buttons_exportButton.onclick);
+        invokeJS("_export", instance.getExporting().buttons_exportButton.onclick);
     }
-
+    
     /**
      * Calls the print function on the chart.
      */
     public void print() {
         ensureRunning("Printing");
-        invokeJS("_print", options.getExporting().buttons_printButton.onclick);
+        invokeJS("_print", instance.getExporting().buttons_printButton.onclick);
     }
-
+    
     /**
      * Invokes the specified widget function, passing the JavaScript snippet as its argument.
      *
@@ -288,19 +278,19 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
     private void invokeJS(String func, String js) {
         invoke(func, ConvertUtil.convertToJS(js));
     }
-
+    
     /**
      * If the chart is active, dynamically update the title and subtitle.
      */
     private void updateTitle() {
         if (running) {
             OptionMap map = new OptionMap();
-            map.put("title", options.getTitle());
-            map.put("subtitle", options.getSubtitle());
+            map.put("title", instance.getTitle());
+            map.put("subtitle", instance.getSubtitle());
             invoke("_title", map);
         }
     }
-
+    
     /**
      * Throws an exception if a chart is not currently running.
      *
@@ -311,5 +301,5 @@ public class Chart extends BaseUIComponent implements IOptionMapConverter {
             throw new IllegalStateException(operation + " requires an active chart.");
         }
     }
-
+    
 }
