@@ -67,6 +67,8 @@
 	
 	<bean class="org.fujion.client.PingRequestHandler" />
 
+	<bean class="org.fujion.client.CallbackRequestHandler" />
+
 	<bean class="org.fujion.logging.LogRequestHandler" />
 
 	<bean id="fujion_ComponentScanner" 

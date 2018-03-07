@@ -184,8 +184,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
         
         try (StringWriter writer = new StringWriter(); PrintWriter print = new PrintWriter(writer);) {
             cause.printStackTrace(print);
-            ClientInvocation invocation = new ClientInvocation((String) null, "fujion.alert", writer.toString(), "Error",
-                    "danger");
+            ClientInvocation invocation = new ClientInvocation("fujion.alert", null, writer.toString(), "Error", "danger");
             send(socket, invocation);
         } catch (Exception e) {
             log.error("Could not send exception to client.", exception);

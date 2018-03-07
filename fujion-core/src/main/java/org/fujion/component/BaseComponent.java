@@ -39,6 +39,8 @@ import org.fujion.ancillary.IAutoWired;
 import org.fujion.ancillary.IElementIdentifier;
 import org.fujion.ancillary.ILabeled;
 import org.fujion.ancillary.INamespace;
+import org.fujion.ancillary.IResponseCallback;
+import org.fujion.ancillary.OptionMap;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.ComponentDefinition;
@@ -247,7 +249,7 @@ public abstract class BaseComponent implements IElementIdentifier {
     
     private boolean contentSynced = true;
     
-    private Map<String, Object> inits;
+    private OptionMap inits;
     
     private ClientInvocationQueue invocationQueue;
 
@@ -1084,7 +1086,7 @@ public abstract class BaseComponent implements IElementIdentifier {
         validatePage(page);
         this.page = page;
         page.registerComponent(this, true);
-        Map<String, Object> props = new HashMap<>();
+        OptionMap props = new OptionMap();
         _initProps(props);
         page.getSynchronizer().createWidget(parent, props, inits);
         inits = null;
@@ -1166,7 +1168,7 @@ public abstract class BaseComponent implements IElementIdentifier {
         if (!dead) {
             if (getPage() == null) {
                 if (inits == null) {
-                    inits = new HashMap<>();
+                    inits = new OptionMap();
                 }
                 
                 inits.put(state, value);
@@ -1205,10 +1207,11 @@ public abstract class BaseComponent implements IElementIdentifier {
      *
      * @param id The id of the widget or sub-widget.
      * @param function The name of the function.
+     * @param callback Optional callback for invocation result.
      * @param args Arguments for the function.
      */
-    public void invoke(IElementIdentifier id, String function, Object... args) {
-        ClientInvocation invocation = new ClientInvocation(id, function, args);
+    public void invoke(IElementIdentifier id, String function, IResponseCallback<?> callback, Object... args) {
+        ClientInvocation invocation = new ClientInvocation(id, function, callback, args);
         
         if (page == null) {
             if (invocationQueue == null) {
@@ -1219,6 +1222,17 @@ public abstract class BaseComponent implements IElementIdentifier {
         } else {
             page.getSynchronizer().sendToClient(invocation);
         }
+    }
+    
+    /**
+     * Invoke a widget or sub-widget function on the client.
+     *
+     * @param id The id of the widget or sub-widget.
+     * @param function The name of the function.
+     * @param args Arguments for the function.
+     */
+    public void invoke(IElementIdentifier id, String function, Object... args) {
+        invoke(id, function, null, args);
     }
     
     /**

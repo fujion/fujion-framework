@@ -26,20 +26,51 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.fujion.ancillary.IElementIdentifier;
+import org.fujion.ancillary.IResponseCallback;
+import org.fujion.ancillary.OptionMap;
+import org.fujion.ancillary.OptionMap.IOptionMapConverter;
 import org.springframework.util.ClassUtils;
 
 /**
  * Represents a function invocation request to be sent to the client.
  */
-public class ClientInvocation {
+public class ClientInvocation implements IOptionMapConverter {
     
     private final String function;
     
     private final IElementIdentifier target;
+
+    private final IResponseCallback<?> callback;
     
     private final Object[] arguments;
     
     private final String key;
+    
+    /**
+     * Create a client invocation request.
+     *
+     * @param function A fully qualified path to a free-standing function. This may be one of the
+     *            following formats:
+     *            <table style="padding-left:20px" summary="">
+     *            <tr>
+     *            <td style="text-align:center"><b>[key]^[function name]</b></td>
+     *            <td>- The key and the function name are explicitly declared.</td>
+     *            </tr>
+     *            <tr>
+     *            <td style="text-align:center"><b>^[function name]</b></td>
+     *            <td>- The key is implied to be the same as the function name.</td>
+     *            </tr>
+     *            <tr>
+     *            <td style="text-align:center"><b>[function name]</b></td>
+     *            <td>- The key will default to a unique value.</td>
+     *            </tr>
+     *            </table>
+     * @param callback Optional callback for results.
+     * @param arguments Optional arguments to be passed to the function.
+     */
+    public ClientInvocation(String function, IResponseCallback<?> callback, Object... arguments) {
+        this((IElementIdentifier) null, function, callback, arguments);
+    }
     
     /**
      * Create a client invocation request.
@@ -63,11 +94,13 @@ public class ClientInvocation {
      *            <td>- The key will default to a unique value.</td>
      *            </tr>
      *            </table>
+     * @param callback Optional callback for results.
      * @param arguments Optional arguments to be passed to the function.
      */
-    public ClientInvocation(IElementIdentifier target, String function, Object... arguments) {
+    public ClientInvocation(IElementIdentifier target, String function, IResponseCallback<?> callback, Object... arguments) {
         this.target = target;
         this.arguments = arguments;
+        this.callback = callback;
         String[] pcs = function.split("\\^", 2);
         this.function = pcs.length == 1 ? pcs[0] : pcs[1];
         this.key = pcs.length == 1 ? null : pcs[0].isEmpty() ? pcs[1] : pcs[0];
@@ -95,10 +128,11 @@ public class ClientInvocation {
      *            <td>- The key will default to a unique value.</td>
      *            </tr>
      *            </table>
+     * @param callback Optional callback for results.
      * @param arguments Optional arguments to be passed to the function.
      */
-    public ClientInvocation(String moduleName, String function, Object... arguments) {
-        this(moduleName == null ? null : () -> "@" + moduleName, function, arguments);
+    public ClientInvocation(String moduleName, String function, IResponseCallback<?> callback, Object... arguments) {
+        this(moduleName == null ? null : () -> "@" + moduleName, function, callback, arguments);
     }
     
     /**
@@ -117,11 +151,13 @@ public class ClientInvocation {
      *
      * @return Client invocation request as a map.
      */
-    public Map<String, Object> toMap() {
-        Map<String, Object> data = new HashMap<>();
+    @Override
+    public OptionMap toMap() {
+        OptionMap data = new OptionMap();
         data.put("fcn", function);
         data.put("tgt", target == null ? null : target.getId());
         data.put("arg", transformArray(arguments, false));
+        data.put("cbk", callback == null ? null : CallbackRegistry.registerCallback(callback));
         return data;
     }
     

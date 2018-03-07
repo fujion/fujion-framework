@@ -60,6 +60,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 							self.processing = false;
 							throw error;
 						})
+					} else if (action.cbk) {
+						fujion.ws.sendData('callback', {handle: action.cbk, response: result});
 					}
 				}
 			} catch (e) {
@@ -119,7 +121,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 					throw new Error('Unknown action (' + action.tgt + ').' + action.fcn);
 				}
 			
-				return fcn.ref.apply(fcn.base, _processArgs(action.arg));
+				return _.isFunction(fcn.ref) ? fcn.ref.apply(fcn.base, _processArgs(action.arg)) : fcn.ref;
 			}
 		
 			function _processArgs(args) {

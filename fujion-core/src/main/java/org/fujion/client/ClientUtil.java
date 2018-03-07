@@ -20,6 +20,7 @@
  */
 package org.fujion.client;
 
+import org.fujion.ancillary.IResponseCallback;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.BaseUIComponent;
 import org.fujion.websocket.WebSocketHandler;
@@ -28,7 +29,7 @@ import org.fujion.websocket.WebSocketHandler;
  * Static convenience methods for client-side operations.
  */
 public class ClientUtil {
-
+    
     /**
      * Invoke a function on the client.
      *
@@ -36,10 +37,21 @@ public class ClientUtil {
      * @param args Arguments to pass to the function.
      */
     public static void invoke(String function, Object... args) {
-        ClientInvocation invocation = new ClientInvocation((String) null, function, args);
+        invoke(function, null, args);
+    }
+    
+    /**
+     * Invoke a function on the client.
+     *
+     * @param function Name of the function to invoke.
+     * @param callback Optional callback for invocation result.
+     * @param args Arguments to pass to the function.
+     */
+    public static void invoke(String function, IResponseCallback<?> callback, Object... args) {
+        ClientInvocation invocation = new ClientInvocation(function, callback, args);
         WebSocketHandler.send(invocation);
     }
-
+    
     /**
      * Redirects the client.
      *
@@ -48,7 +60,7 @@ public class ClientUtil {
     public static void redirect(String target) {
         redirect(target, null);
     }
-
+    
     /**
      * Redirects the client.
      *
@@ -59,7 +71,7 @@ public class ClientUtil {
     public static void redirect(String target, String window) {
         invoke("fujion.redirect", target, window);
     }
-
+    
     /**
      * Invokes a JavaScript expression on the client.
      *
@@ -68,7 +80,7 @@ public class ClientUtil {
     public static void eval(String expression) {
         invoke("fujion.eval", expression);
     }
-
+    
     /**
      * Submits a form.
      *
@@ -77,7 +89,7 @@ public class ClientUtil {
     public static void submit(BaseComponent form) {
         invoke("fujion.submit", form);
     }
-
+    
     /**
      * Creates a busy message covering the specified target. A busy message consists of a mask the
      * covers and prevents interaction with the target component and a message centered within the
@@ -93,7 +105,7 @@ public class ClientUtil {
             target.addMask(message);
         }
     }
-
+    
     /**
      * Sets the canClose parameter on the client. When set to true (the default value), the browser
      * window may be closed without challenge. When set to false, the browser will present a
@@ -106,7 +118,7 @@ public class ClientUtil {
     public static void canClose(boolean value) {
         ExecutionContext.getPage().setClosable(value);
     }
-    
+
     /**
      * Saves content as a file on the client machine.
      *
@@ -117,7 +129,7 @@ public class ClientUtil {
     public static void saveToFile(String content, String mimeType, String fileName) {
         invoke("fujion.saveToFile", content, mimeType, fileName);
     }
-
+    
     private ClientUtil() {
     }
 }
