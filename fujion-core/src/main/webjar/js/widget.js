@@ -361,8 +361,15 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * 
 		 * @param {string || Event} event The event to be triggered.
 		 * @param {object} [params] Additional params to be included.
+		 * @param {boolean} [noSend] If true, don't send to server.
 		 */
-		trigger: function(event, params) {
+		trigger: function(event, params, noSend) {
+			event = _.isString(event) ? $.Event(event) : event;
+			
+			if (noSend) {
+				event.fujion_nosend = true;
+			}
+			
 			this.widget$.triggerHandler(event, params);
 		},
 		

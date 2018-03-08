@@ -1664,6 +1664,31 @@ public abstract class BaseComponent implements IElementIdentifier {
     }
 
     /**
+     * Send an event to the client.
+     *
+     * @param eventType The event type.
+     * @param data The event payload.
+     */
+    public void fireEventToClient(String eventType, Object data) {
+        fireEventToClient(eventType, this, data);
+    }
+    
+    /**
+     * Send an event to the client.
+     *
+     * @param eventType The event type.
+     * @param target The event target.
+     * @param data The event payload.
+     */
+    public void fireEventToClient(String eventType, IElementIdentifier target, Object data) {
+        OptionMap event = new OptionMap();
+        event.put("type", eventType);
+        event.put("data", data);
+        event.put("target", target);
+        invoke("trigger", event, null, true);
+    }
+
+    /**
      * Setter for on* event handlers.
      *
      * @param eventName The event name.
