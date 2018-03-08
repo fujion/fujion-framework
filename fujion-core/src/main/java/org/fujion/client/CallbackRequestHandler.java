@@ -26,17 +26,17 @@ import org.fujion.websocket.IRequestHandler;
  * Handler for dispatching client callbacks.
  */
 public class CallbackRequestHandler implements IRequestHandler {
-
+    
     @Override
     public void handleRequest(ClientRequest request) {
         Integer handle = request.getParam("handle", Integer.class);
-        Object response = request.getParam("response", Object.class);
-
+        
         if (handle != null) {
+            Object response = request.getParam("response", Object.class);
             CallbackRegistry.invokeCallback(handle, response);
         }
     }
-
+    
     /**
      * Returns a request type of "callback".
      */
@@ -44,5 +44,5 @@ public class CallbackRequestHandler implements IRequestHandler {
     public String getRequestType() {
         return "callback";
     }
-
+    
 }
