@@ -20,23 +20,36 @@
  */
 package org.fujion.client;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.fujion.ancillary.IResponseCallback;
 
 /**
- * A registry for managing pending callbacks.
+ * A registry for managing pending callbacks. There is timestamp-based eviction logic for removing
+ * orphaned entries.
  */
 public class CallbackRegistry {
-    
+
+    private static final Log log = LogFactory.getLog(CallbackRegistry.class);
+
     private static final CallbackRegistry instance = new CallbackRegistry();
-    
-    private final Map<Integer, IResponseCallback<?>> callbacks = new ConcurrentHashMap<>();
-    
+
+    private final Map<Integer, IResponseCallback<?>> callbacks = Collections.synchronizedMap(new HashMap<>());
+
+    private final Map<Integer, Long> timestamps = Collections.synchronizedSortedMap(new TreeMap<>());
+
     private final AtomicInteger callbackId = new AtomicInteger();
-    
+
+    private final long evictionTime = 1000 * 60 * 30;
+
     /**
      * Register a client callback.
      *
@@ -46,7 +59,7 @@ public class CallbackRegistry {
     public static int registerCallback(IResponseCallback<?> callback) {
         return instance._registerCallback(callback);
     }
-    
+
     /**
      * Unregister a client callback.
      *
@@ -56,33 +69,59 @@ public class CallbackRegistry {
     public static IResponseCallback<?> unregisterCallback(int handle) {
         return instance._unregisterCallback(handle);
     }
-    
+
     public static void invokeCallback(int handle, Object response) {
         instance._invokeCallback(handle, response);
     }
-
+    
     private CallbackRegistry() {
     }
-    
+
     private int _registerCallback(IResponseCallback<?> callback) {
         int handle = callbackId.incrementAndGet();
         callbacks.put(handle, callback);
+        timestamps.put(handle, System.currentTimeMillis());
         return handle;
     }
-    
-    private IResponseCallback<?> _unregisterCallback(int handle) {
-        return callbacks.remove(handle);
-    }
 
+    private IResponseCallback<?> _unregisterCallback(int handle) {
+        timestamps.remove(handle);
+        IResponseCallback<?> callback = callbacks.remove(handle);
+        evict();
+        return callback;
+    }
+    
     private void _invokeCallback(int handle, Object response) {
         @SuppressWarnings("unchecked")
         IResponseCallback<Object> callback = (IResponseCallback<Object>) _unregisterCallback(handle);
-
+        
         if (callback != null) {
             try {
                 callback.onComplete(response);
             } catch (Exception e) {
+                log.error("Exception on client callback", e);
+            }
+        }
+    }
 
+    /**
+     * Evict entries older than the specified eviction time.
+     */
+    private void evict() {
+        long threshold = System.currentTimeMillis() - evictionTime;
+
+        synchronized (timestamps) {
+            Iterator<Entry<Integer, Long>> iter = timestamps.entrySet().iterator();
+
+            while (iter.hasNext()) {
+                Entry<Integer, Long> entry = iter.next();
+
+                if (entry.getValue() < threshold) {
+                    iter.remove();
+                    callbacks.remove(entry.getKey());
+                } else {
+                    break;
+                }
             }
         }
     }
