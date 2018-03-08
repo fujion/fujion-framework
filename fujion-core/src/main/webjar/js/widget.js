@@ -1497,9 +1497,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				throw new Error('Page may not have a parent.')
 			}
 			
+			fujion.widget._page = this;
 			this._super();
 			this.initState({closable: true});
-			fujion.widget._page = this;
 		},
 			
 		afterInitialize: function() {

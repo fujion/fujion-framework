@@ -61,7 +61,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 							throw error;
 						})
 					} else if (action.cbk) {
-						fujion.ws.sendData('callback', {handle: action.cbk, response: result});
+						fujion.widget._page.trigger('callback', {handle: action.cbk, data: result});
 					}
 				}
 			} catch (e) {

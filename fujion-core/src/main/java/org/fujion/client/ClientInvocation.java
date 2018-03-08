@@ -28,24 +28,24 @@ import java.util.Map;
 import org.fujion.ancillary.IElementIdentifier;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.ancillary.OptionMap;
-import org.fujion.ancillary.OptionMap.IOptionMapConverter;
+import org.fujion.component.Page;
 import org.springframework.util.ClassUtils;
 
 /**
  * Represents a function invocation request to be sent to the client.
  */
-public class ClientInvocation implements IOptionMapConverter {
-    
-    private final String function;
-    
-    private final IElementIdentifier target;
+public class ClientInvocation {
 
+    private final String function;
+
+    private final IElementIdentifier target;
+    
     private final IResponseCallback<?> callback;
-    
+
     private final Object[] arguments;
-    
+
     private final String key;
-    
+
     /**
      * Create a client invocation request.
      *
@@ -71,7 +71,7 @@ public class ClientInvocation implements IOptionMapConverter {
     public ClientInvocation(String function, IResponseCallback<?> callback, Object... arguments) {
         this((IElementIdentifier) null, function, callback, arguments);
     }
-    
+
     /**
      * Create a client invocation request.
      *
@@ -105,7 +105,7 @@ public class ClientInvocation implements IOptionMapConverter {
         this.function = pcs.length == 1 ? pcs[0] : pcs[1];
         this.key = pcs.length == 1 ? null : pcs[0].isEmpty() ? pcs[1] : pcs[0];
     }
-    
+
     /**
      * Create a client invocation request.
      *
@@ -134,7 +134,7 @@ public class ClientInvocation implements IOptionMapConverter {
     public ClientInvocation(String moduleName, String function, IResponseCallback<?> callback, Object... arguments) {
         this(moduleName == null ? null : () -> "@" + moduleName, function, callback, arguments);
     }
-    
+
     /**
      * Returns the key associated with the client invocation request. This key is used when queuing
      * the request. If a client invocation request with a matching key already exists in the queue,
@@ -145,22 +145,22 @@ public class ClientInvocation implements IOptionMapConverter {
     public String getKey() {
         return key == null ? "" + hashCode() : target == null ? key : key + "^" + target.hashCode();
     }
-    
+
     /**
      * Packages the client invocation request as a map for serialization and transport.
      *
+     * @param page The page that is the target of the invocation.
      * @return Client invocation request as a map.
      */
-    @Override
-    public OptionMap toMap() {
+    public OptionMap toMap(Page page) {
         OptionMap data = new OptionMap();
         data.put("fcn", function);
         data.put("tgt", target == null ? null : target.getId());
         data.put("arg", transformArray(arguments, false));
-        data.put("cbk", callback == null ? null : CallbackRegistry.registerCallback(callback));
+        data.put("cbk", callback == null ? null : page.registerCallback(callback));
         return data;
     }
-    
+
     /**
      * Transforms a component or subcomponent by replacing it with its selector. This only effects
      * IElementIdentifier implementations. All other source objects are returned unchanged.
@@ -173,34 +173,34 @@ public class ClientInvocation implements IOptionMapConverter {
         while (source instanceof IClientTransform) {
             source = ((IClientTransform) source).transformForClient();
         }
-
+        
         if (source == null || ignore(source.getClass())) {
             return source;
         }
-        
+
         if (source.getClass().isEnum()) {
             return source.toString();
         }
-
+        
         if (source.getClass().isArray()) {
             return transformArray((Object[]) source, true);
         }
-        
+
         if (source instanceof Map) {
             return transformMap((Map<Object, Object>) source);
         }
-        
+
         if (source instanceof Collection) {
             return transformArray(((Collection<Object>) source).toArray(), false);
         }
-        
+
         if (source instanceof Date) {
             return ((Date) source).getTime();
         }
-        
+
         return source;
     }
-    
+
     /**
      * Returns true if the specified class should be ignored.
      *
@@ -211,7 +211,7 @@ public class ClientInvocation implements IOptionMapConverter {
         Class<?> cclass = clazz.getComponentType();
         return clazz == String.class || ClassUtils.isPrimitiveOrWrapper(clazz) || (cclass != null && ignore(cclass));
     }
-    
+
     /**
      * Transforms an array of objects.
      *
@@ -221,14 +221,14 @@ public class ClientInvocation implements IOptionMapConverter {
      */
     private Object[] transformArray(Object[] source, boolean copy) {
         Object[] dest = copy ? new Object[source.length] : source;
-        
+
         for (int i = 0; i < source.length; i++) {
             dest[i] = transform(source[i]);
         }
-
+        
         return dest;
     }
-    
+
     /**
      * Transforms a map.
      *
@@ -237,11 +237,11 @@ public class ClientInvocation implements IOptionMapConverter {
      */
     private Object transformMap(Map<Object, Object> source) {
         Map<Object, Object> dest = new HashMap<>();
-        
+
         source.forEach((key, value) -> {
             dest.put(key, transform(value));
         });
-        
+
         return dest;
     }
 }

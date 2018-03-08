@@ -73,6 +73,8 @@ public class MiscController extends BaseController {
         ClientUtil.invoke("window.location.href", (response) -> {
             log("The document url is: " + response);
         });
+        ClientUtil.saveToFile("This is a test", "text/plain", "test.txt");
+        log("Saved test file: test.txt.");
     }
 
     /**

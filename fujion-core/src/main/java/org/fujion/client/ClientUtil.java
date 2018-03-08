@@ -23,7 +23,6 @@ package org.fujion.client;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.BaseUIComponent;
-import org.fujion.websocket.WebSocketHandler;
 
 /**
  * Static convenience methods for client-side operations.
@@ -34,22 +33,21 @@ public class ClientUtil {
      * Invoke a function on the client.
      *
      * @param function Name of the function to invoke.
+     * @param callback Optional callback for invocation result.
      * @param args Arguments to pass to the function.
      */
-    public static void invoke(String function, Object... args) {
-        invoke(function, null, args);
+    public static void invoke(String function, IResponseCallback<?> callback, Object... args) {
+        ExecutionContext.getPage().invoke(null, function, callback, args);
     }
     
     /**
      * Invoke a function on the client.
      *
      * @param function Name of the function to invoke.
-     * @param callback Optional callback for invocation result.
      * @param args Arguments to pass to the function.
      */
-    public static void invoke(String function, IResponseCallback<?> callback, Object... args) {
-        ClientInvocation invocation = new ClientInvocation(function, callback, args);
-        WebSocketHandler.send(invocation);
+    public static void invoke(String function, Object... args) {
+        invoke(function, null, args);
     }
     
     /**
@@ -82,6 +80,16 @@ public class ClientUtil {
     }
     
     /**
+     * Invokes a JavaScript expression on the client, returning the result asynchronously.
+     *
+     * @param expression A valid JavaScript expression.
+     * @param callback Optional callback for invocation result.
+     */
+    public static void eval(String expression, IResponseCallback<?> callback) {
+        invoke("fujion.eval", callback, expression);
+    }
+    
+    /**
      * Submits a form.
      *
      * @param form Root component of the form.
@@ -106,19 +114,6 @@ public class ClientUtil {
         }
     }
     
-    /**
-     * Sets the canClose parameter on the client. When set to true (the default value), the browser
-     * window may be closed without challenge. When set to false, the browser will present a
-     * confirmation dialog before allowing the window to be closed.
-     *
-     * @param value The value for the canClose parameter.
-     * @deprecated Use {@link org.fujion.component.Page#setClosable Page.closable} property instead.
-     */
-    @Deprecated
-    public static void canClose(boolean value) {
-        ExecutionContext.getPage().setClosable(value);
-    }
-
     /**
      * Saves content as a file on the client machine.
      *

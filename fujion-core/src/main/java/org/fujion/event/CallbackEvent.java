@@ -18,31 +18,41 @@
  *
  * #L%
  */
-package org.fujion.client;
+package org.fujion.event;
 
-import org.fujion.websocket.IRequestHandler;
+import org.fujion.annotation.EventType;
+import org.fujion.annotation.EventType.EventParameter;
+import org.fujion.component.BaseComponent;
 
 /**
- * Handler for dispatching client callbacks.
+ * A callback event.
  */
-public class CallbackRequestHandler implements IRequestHandler {
-    
-    @Override
-    public void handleRequest(ClientRequest request) {
-        Integer handle = request.getParam("handle", Integer.class);
-        
-        if (handle != null) {
-            Object response = request.getParam("response", Object.class);
-            CallbackRegistry.invokeCallback(handle, response);
-        }
-    }
+@EventType(CallbackEvent.TYPE)
+public class CallbackEvent extends Event {
+
+    @EventParameter
+    private int handle;
     
     /**
-     * Returns a request type of "callback".
+     * The event type.
      */
-    @Override
-    public String getRequestType() {
-        return "callback";
+    public static final String TYPE = "callback";
+
+    public CallbackEvent() {
+        super(TYPE);
     }
-    
+
+    public CallbackEvent(BaseComponent target, Object data) {
+        super(TYPE, target, data);
+    }
+
+    /**
+     * Returns the callback handle.
+     *
+     * @return The callback handle.
+     */
+    public int getHandle() {
+        return handle;
+    }
+
 }
