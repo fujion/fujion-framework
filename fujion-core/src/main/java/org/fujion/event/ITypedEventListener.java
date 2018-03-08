@@ -21,14 +21,23 @@
 package org.fujion.event;
 
 /**
- * Callback interface for an event listener.
+ * Typed callback interface for an event listener.
+ *
+ * @param <T> The event type.
  */
-public interface IEventListener {
+public interface ITypedEventListener<T extends Event> extends IEventListener {
 
     /**
      * Callback for an event.
      *
      * @param event The event.
      */
-    void onEvent(Event event);
+    void onTypedEvent(T event);
+
+    @Override
+    @SuppressWarnings("unchecked")
+    default void onEvent(Event event) {
+        event = EventUtil.getOriginalEvent(event);
+        onTypedEvent((T) event);
+    }
 }

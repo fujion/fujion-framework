@@ -33,31 +33,30 @@ import org.apache.commons.logging.LogFactory;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.component.Page;
 import org.fujion.event.CallbackEvent;
-import org.fujion.event.IEventListener;
+import org.fujion.event.ITypedEventListener;
 
 /**
  * A registry for managing pending callbacks. There is timestamp-based eviction logic for removing
  * orphaned entries.
  */
 public class CallbackRegistry {
-    
-    private static final Log log = LogFactory.getLog(CallbackRegistry.class);
-    
-    private static final long HALF_HOUR = 1000 * 60 * 30;
 
+    private static final Log log = LogFactory.getLog(CallbackRegistry.class);
+
+    private static final long HALF_HOUR = 1000 * 60 * 30;
+    
     private final Map<Integer, IResponseCallback<?>> callbacks = Collections.synchronizedMap(new HashMap<>());
-    
+
     private final Map<Integer, Long> timestamps = Collections.synchronizedSortedMap(new TreeMap<>());
-    
+
     private final AtomicInteger callbackId = new AtomicInteger();
-    
+
     private final long evictionInterval;
-    
-    private final IEventListener callbackListener = (event) -> {
-        CallbackEvent evt = (CallbackEvent) event;
-        invokeCallback(evt.getHandle(), evt.getData());
+
+    private final ITypedEventListener<CallbackEvent> callbackListener = (event) -> {
+        invokeCallback(event.getHandle(), event.getData());
     };
-    
+
     /**
      * Creates a callback registry for the specified page using the default eviction interval (30
      * minutes).
@@ -67,7 +66,7 @@ public class CallbackRegistry {
     public CallbackRegistry(Page page) {
         this(page, HALF_HOUR);
     }
-    
+
     /**
      * Creates a callback registry for the specified page using the specified eviction interval.
      *
@@ -78,7 +77,7 @@ public class CallbackRegistry {
         this.evictionInterval = evictionInterval;
         page.addEventListener(CallbackEvent.class, callbackListener);
     }
-    
+
     /**
      * Registers a callback.
      *
@@ -91,7 +90,7 @@ public class CallbackRegistry {
         timestamps.put(handle, System.currentTimeMillis());
         return handle;
     }
-    
+
     /**
      * Unregisters a callback.
      *
@@ -104,7 +103,7 @@ public class CallbackRegistry {
         evict();
         return callback;
     }
-
+    
     /**
      * Unregisters and invokes a callback.
      *
@@ -114,7 +113,7 @@ public class CallbackRegistry {
     private void invokeCallback(int handle, Object response) {
         @SuppressWarnings("unchecked")
         IResponseCallback<Object> callback = (IResponseCallback<Object>) unregisterCallback(handle);
-
+        
         if (callback != null) {
             try {
                 callback.onComplete(response);
@@ -123,7 +122,7 @@ public class CallbackRegistry {
             }
         }
     }
-    
+
     /**
      * Clears all registered callbacks.
      */
@@ -131,19 +130,19 @@ public class CallbackRegistry {
         callbacks.clear();
         timestamps.clear();
     }
-    
+
     /**
      * Evict entries older than the specified eviction time.
      */
     private void evict() {
         long threshold = System.currentTimeMillis() - evictionInterval;
-        
+
         synchronized (timestamps) {
             Iterator<Entry<Integer, Long>> iter = timestamps.entrySet().iterator();
-            
+
             while (iter.hasNext()) {
                 Entry<Integer, Long> entry = iter.next();
-                
+
                 if (entry.getValue() < threshold) {
                     iter.remove();
                     callbacks.remove(entry.getKey());
