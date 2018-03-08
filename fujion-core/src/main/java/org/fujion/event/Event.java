@@ -30,33 +30,36 @@ import org.fujion.component.Page;
  * This is the base class for all events.
  */
 public class Event {
-
+    
     @EventParameter(onFailure = OnFailure.EXCEPTION)
     private String type;
-
+    
+    @EventParameter(onFailure = OnFailure.EXCEPTION)
+    private int id;
+    
     @EventParameter(onFailure = OnFailure.IGNORE)
     private BaseComponent target;
-
+    
     @EventParameter(value = "target", onFailure = OnFailure.IGNORE)
     private String targetId;
-
+    
     @EventParameter(onFailure = OnFailure.IGNORE)
     private BaseComponent currentTarget;
-
+    
     @EventParameter(onFailure = OnFailure.IGNORE)
     private BaseComponent relatedTarget;
-
+    
     @EventParameter(onFailure = OnFailure.IGNORE)
     private Object data;
-
+    
     @EventParameter
     private Page page;
-
+    
     private boolean stopPropagation;
-
+    
     public Event() {
     }
-
+    
     /**
      * Create an event of the specified type with no target and no data.
      *
@@ -65,7 +68,7 @@ public class Event {
     public Event(String type) {
         this(type, null, null);
     }
-
+    
     /**
      * Create an event of the specified type and target with no data.
      *
@@ -75,7 +78,7 @@ public class Event {
     public Event(String type, BaseComponent target) {
         this(type, target, null);
     }
-
+    
     /**
      * Create an event of the specified type, target, and data.
      *
@@ -86,7 +89,7 @@ public class Event {
     public Event(String type, BaseComponent target, Object data) {
         this(type, target, null, data);
     }
-
+    
     /**
      * Create an event of the specified type, target, and related target with no data.
      *
@@ -97,7 +100,7 @@ public class Event {
     public Event(String type, BaseComponent target, BaseComponent relatedTarget) {
         this(type, target, relatedTarget, null);
     }
-
+    
     /**
      * Create an event of the specified type, target, related target, and data.
      *
@@ -116,7 +119,7 @@ public class Event {
         this.page = target != null ? target.getPage() : null;
         this.page = this.page == null ? ExecutionContext.getPage() : this.page;
     }
-
+    
     /**
      * Copy constructor.
      *
@@ -125,7 +128,7 @@ public class Event {
     public Event(Event source) {
         this(source.type, source);
     }
-
+    
     /**
      * Copy constructor, but with explicit type.
      *
@@ -141,7 +144,7 @@ public class Event {
         this.relatedTarget = source.relatedTarget;
         this.page = source.page;
     }
-
+    
     /**
      * Returns the page associated with the event.
      *
@@ -150,7 +153,7 @@ public class Event {
     public Page getPage() {
         return page;
     }
-
+    
     /**
      * Returns the type of event.
      *
@@ -159,7 +162,7 @@ public class Event {
     public String getType() {
         return type;
     }
-
+    
     /**
      * Returns the event's target (the component on which the event occurred).
      *
@@ -168,7 +171,7 @@ public class Event {
     public BaseComponent getTarget() {
         return target != null ? target : currentTarget;
     }
-
+    
     /**
      * Returns the event's current target (the component that handled the event).
      *
@@ -177,7 +180,7 @@ public class Event {
     public BaseComponent getCurrentTarget() {
         return currentTarget != null ? currentTarget : target;
     }
-
+    
     /**
      * Returns the event's related target, if any. A related target is a secondary component that
      * had some role in or relationship to the event. For example, for a <code>mouseenter</code>
@@ -188,7 +191,7 @@ public class Event {
     public BaseComponent getRelatedTarget() {
         return relatedTarget;
     }
-
+    
     /**
      * Returns the id of the DOM element that was the actual target of the event. This may be the
      * same as the target's component id, but could also be a sub-element of the target.
@@ -198,7 +201,7 @@ public class Event {
     public String getTargetId() {
         return targetId;
     }
-
+    
     /**
      * Returns arbitrary data associated with the event, if any.
      *
@@ -207,14 +210,14 @@ public class Event {
     public Object getData() {
         return data;
     }
-
+    
     /**
      * Flags the event to prevent further propagation in the event handler chain.
      */
     public void stopPropagation() {
         stopPropagation = true;
     }
-
+    
     /**
      * Returns true if propagation has been stopped.
      *
@@ -222,5 +225,14 @@ public class Event {
      */
     public boolean isStopped() {
         return stopPropagation;
+    }
+    
+    /**
+     * Returns the client-assigned id for the event.
+     *
+     * @return The client-assigned id. Will be 0 if the event did not originate from the client.
+     */
+    public int getId() {
+        return id;
     }
 }

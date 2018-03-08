@@ -386,6 +386,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	event: {
 		postProcessors: {},
 		
+		eventId: 0,
+		
 		_init: function() {
 		    fujion.body$.on('contextmenu', function(event) {
 		    		fujion.debug ? null : event.preventDefault();
@@ -479,6 +481,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			
 			var pkt = {};
 			params ? _.assign(event, params) : null;
+			event.id = ++fujion.event.eventId;
 			
 			_.forIn(event, function(value, pname) {
 				value = pname === 'data' || pname === 'blob' || !_.isObject(value) ? value : fujion.id(value);
