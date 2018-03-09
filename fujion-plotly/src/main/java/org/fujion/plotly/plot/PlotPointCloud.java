@@ -1,5 +1,5 @@
 /*
-d * #%L
+ * #%L
  * fujion
  * %%
  * Copyright (C) 2008 - 2018 Regenstrief Institute, Inc.
