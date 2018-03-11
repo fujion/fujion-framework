@@ -3576,12 +3576,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				
 				if (pos) {
 					pos = pos.toLowerCase().replace('_', ' ');
-					var page = fujion.widget._page;
 					
 					this.widget$.position({
 						my: pos,
 						at: pos,
-						of: page ? page.widget$ : fujion.body$
+						of: '#fujion_root'
 					});
 				}
 			}
@@ -3877,8 +3876,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this.widget$.find('.glyphicon-remove').on('click', this.destroy.bind(this));
 		},
 
-		render$: function() {
-			return this._super().appendTo(fujion.body$);
+		beforeRender: function() {
+			this._super();
+			this.widget$.appendTo('#fujion_root');			
 		},
 		
 		/*------------------------------ State ------------------------------*/
