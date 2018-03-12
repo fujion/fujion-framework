@@ -18,23 +18,34 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
-import org.fujion.annotation.Component;
-import org.fujion.canvas.BaseCanvasComponent;
+import org.fujion.ancillary.IEnumWithValue;
 
 /**
- * Canvas component for 2D rendering.
+ * Types of attachment parameters.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
+public enum HintBehavior implements IEnumWithValue {
+    /**
+     * Accuracy of the derivative calculation for the GLSL built-in functions: dFdx, dFdy, and
+     * fwidth.
+     */
+    FRAGMENT_SHADER_DERIVATIVE_HINT(35723),
+    /**
+     * Quality of filtering when generating mipmap images with
+     * {@link RenderingContextWebGL#generateMipmap}.
+     */
+    GENERATE_MIPMAP_HINT(33170);
     
-    public Canvas2D() {
-        super(new ContextOptions2D());
+    private int value;
+    
+    HintBehavior(int value) {
+        this.value = value;
     }
     
     @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    public int value() {
+        return value;
     }
+    
 }

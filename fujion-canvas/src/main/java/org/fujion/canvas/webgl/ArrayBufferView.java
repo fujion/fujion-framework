@@ -18,23 +18,17 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
-import org.fujion.annotation.Component;
 import org.fujion.canvas.BaseCanvasComponent;
 
 /**
- * Canvas component for 2D rendering.
+ * Array buffer containing a pre-allocated array of a specified size and element type.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
-    
-    public Canvas2D() {
-        super(new ContextOptions2D());
+public class ArrayBufferView extends ArrayBufferBase {
+
+    protected ArrayBufferView(BaseCanvasComponent<?, ?> canvas, PixelDataType type, int size) {
+        super(canvas, type, size, null);
     }
     
-    @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
-    }
 }

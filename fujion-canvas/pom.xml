@@ -14,7 +14,8 @@
         <requirejs>
         {
 			'paths': {
-				'fujion-canvas': 'js/canvas'
+				'fujion-canvas': 'js/canvas',
+				'fujion-canvas-css': 'css/canvas'
 			}
 		}
         </requirejs>

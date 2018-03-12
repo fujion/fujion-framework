@@ -18,23 +18,26 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
-import org.fujion.annotation.Component;
-import org.fujion.canvas.BaseCanvasComponent;
+import org.fujion.ancillary.IEnumWithValue;
 
 /**
- * Canvas component for 2D rendering.
+ * Types of vertex attribute offsets.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
+public enum VertexAttributeOffsetType implements IEnumWithValue {
     
-    public Canvas2D() {
-        super(new ContextOptions2D());
+    VERTEX_ATTRIB_ARRAY_POINTER(34373);
+
+    private int value;
+
+    VertexAttributeOffsetType(int value) {
+        this.value = value;
     }
-    
+
     @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    public int value() {
+        return value;
     }
+
 }

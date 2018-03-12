@@ -29,7 +29,7 @@ import org.fujion.component.BaseUIComponent;
  * @param <C> Rendering context type.
  * @param <O> Rendering options type.
  */
-public abstract class BaseCanvasComponent<C extends RenderingContext, O extends Options> extends BaseUIComponent {
+public abstract class BaseCanvasComponent<C extends RenderingContextBase, O extends Options> extends BaseUIComponent {
     
     private int resourceId;
     

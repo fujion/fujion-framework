@@ -18,23 +18,35 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
-import org.fujion.annotation.Component;
-import org.fujion.canvas.BaseCanvasComponent;
+import org.fujion.ancillary.IEnumWithValue;
 
 /**
- * Canvas component for 2D rendering.
+ * Specifies format of pixel data.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
-    
-    public Canvas2D() {
-        super(new ContextOptions2D());
+public enum PixelFormat implements IEnumWithValue {
+    /**
+     * Discards the red, green and blue components and reads the alpha component.
+     */
+    ALPHA(6406),
+    /**
+     * Discards the alpha components and reads the red, green and blue components.
+     */
+    RGB(6407),
+    /**
+     * Red, green, blue and alpha components are read from the color buffer.
+     */
+    RGBA(6408);
+
+    public int value;
+
+    PixelFormat(int value) {
+        this.value = value;
     }
-    
+
     @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    public int value() {
+        return value;
     }
 }

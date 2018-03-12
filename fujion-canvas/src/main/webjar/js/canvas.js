@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-canvas', ['fujion-core', 'fujion-widget'], function(fujion, wgt) { 
+define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], function(fujion, wgt) { 
 	
 	/**
 	 * Wrapper for canvas.
@@ -46,24 +46,13 @@ define('fujion-canvas', ['fujion-core', 'fujion-widget'], function(fujion, wgt) 
 			return this.saveResource(handle, ary);
 		},
 		
-		initResource: function(handle, factory, args) {
-			args = _.isArray(args) && arguments.length === 3 ? args : [].slice.call(arguments, 2);
-			args = this._resolveResources(args);
-			return this.saveResource(handle, this._context[factory].apply(this._context, args));
-		},
-		
-		initContext: function(handle, types, options) {
+		initContext: function(handle, type, options) {
 			this._context ? this.rerender() : null;
-			var self = this,
-				canvas = this.getCanvas();
-			
-			_.forEach(types, function(type) {
-				self._type = type;
-				self._context = self.saveResource(handle, canvas.getContext(type, options));
-				return self._context === null;
-			});
-			
-			return this._context ? this._type : this._type = null;
+			var canvas = this.getCanvas();
+			canvas.height = this.widget$.height();
+			canvas.width = this.widget$.width();
+			this._type = type;
+			this._context = this.saveResource(handle, canvas.getContext(type, options));
 		},
 		
 		initPath: function(handle) {
@@ -78,14 +67,21 @@ define('fujion-canvas', ['fujion-core', 'fujion-widget'], function(fujion, wgt) 
 			return this.saveResource(handle, this._context.createPattern(image, repetition));
 		},
 		
-		/*------------------------------ Other ------------------------------*/
-
-		destroyResource: function(handle) {
-			delete this._resources[handle];
+		initResource: function(handle, factory, args) {
+			args = _.isArray(args) && arguments.length === 3 ? args : [].slice.call(arguments, 2);
+			args = this._resolveResources(args);
+			return this.saveResource(handle, this._context[factory].apply(this._context, args));
 		},
 		
-		saveResource: function(handle, obj) {
-			return this._resources[handle] = obj;
+		/*------------------------------ Other ------------------------------*/
+
+		configResource: function(handle, prop, value) {
+			var obj = this.getResource(handle);
+			obj[prop] = this._resolveResource(value);
+		},
+		
+		destroyResource: function(handle) {
+			delete this._resources[handle];
 		},
 		
 		getCanvas: function() {
@@ -102,9 +98,8 @@ define('fujion-canvas', ['fujion-core', 'fujion-widget'], function(fujion, wgt) 
 			return obj[fnc].apply(obj, this._resolveResources(args));
 		}, 
 		
-		configResource: function(handle, prop, value) {
-			var obj = this.getResource(handle);
-			obj[prop] = this._resolveResource(value);
+		saveResource: function(handle, obj) {
+			return this._resources[handle] = obj;
 		},
 		
 		_resolveResource: function(value) {

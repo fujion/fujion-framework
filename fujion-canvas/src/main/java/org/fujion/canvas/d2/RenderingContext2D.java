@@ -21,11 +21,11 @@
 package org.fujion.canvas.d2;
 
 import org.fujion.canvas.BaseCanvasComponent;
-import org.fujion.canvas.RenderingContext;
+import org.fujion.canvas.RenderingContextBase;
 import org.fujion.component.Image;
 import org.springframework.util.Assert;
 
-public class RenderingContext2D extends RenderingContext {
+public class RenderingContext2D extends RenderingContextBase {
     
     private Object fillStyle;
     

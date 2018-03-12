@@ -18,23 +18,31 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
-import org.fujion.annotation.Component;
-import org.fujion.canvas.BaseCanvasComponent;
+import org.fujion.ancillary.IEnumWithValue;
 
 /**
- * Canvas component for 2D rendering.
+ * Available shader types.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
+public enum ShaderType implements IEnumWithValue {
+    /**
+     * A fragment shader.
+     */
+    FRAGMENT_SHADER(35632),
+    /**
+     * A vertex shader.
+     */
+    VERTEX_SHADER(35633);
+
+    private int value;
     
-    public Canvas2D() {
-        super(new ContextOptions2D());
+    ShaderType(int value) {
+        this.value = value;
     }
     
     @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    public int value() {
+        return value;
     }
 }

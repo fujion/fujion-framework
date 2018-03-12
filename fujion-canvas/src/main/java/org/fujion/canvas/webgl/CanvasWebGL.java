@@ -18,23 +18,23 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
 import org.fujion.annotation.Component;
 import org.fujion.canvas.BaseCanvasComponent;
 
 /**
- * Canvas component for 2D rendering.
+ * Canvas component for 3D rendering.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
-    
-    public Canvas2D() {
-        super(new ContextOptions2D());
+@Component(tag = "canvasWebGL", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element using WebGL rendering.")
+public class CanvasWebGL extends BaseCanvasComponent<RenderingContextWebGL, ContextOptionsWebGL> {
+
+    public CanvasWebGL() {
+        super(new ContextOptionsWebGL());
     }
-    
+
     @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    protected RenderingContextWebGL createRenderingContext() {
+        return new RenderingContextWebGL(this);
     }
 }

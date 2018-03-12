@@ -18,29 +18,42 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
 import org.fujion.canvas.BaseCanvasComponent;
 import org.fujion.canvas.CanvasResource;
 
 /**
- * A canvas gradient.
+ * Base class for array buffers.
  */
-public class CanvasGradient extends CanvasResource {
+public abstract class ArrayBufferBase extends CanvasResource {
     
-    protected CanvasGradient(BaseCanvasComponent<?, ?> canvas, String factory, Object... args) {
-        super(canvas, "initResource", factory, args);
+    private final PixelDataType type;
+
+    private final int size;
+    
+    protected ArrayBufferBase(BaseCanvasComponent<?, ?> canvas, PixelDataType type, int size, Object data) {
+        super(canvas, "initArrayBuffer", type, data != null ? data : size);
+        this.type = type;
+        this.size = size;
+    }
+    
+    /**
+     * The type of pixel data stored in the array buffer view.
+     *
+     * @return Pixel data type.
+     */
+    public PixelDataType getType() {
+        return type;
     }
 
     /**
-     * Adds a new stop, defined by an offset and a color, to the gradient. If the offset is not
-     * between 0 and 1 an INDEX_SIZE_ERR is raised, if the color can't be parsed as a CSS <color>, a
-     * SYNTAX_ERR is raised.
+     * Returns the size of the array.
      *
-     * @param offset Offset to begin color.
-     * @param color A color.
+     * @return The size of the array.
      */
-    public void addColorStop(double offset, String color) {
-        invoke("addColorStop", offset, color);
+    public int getSize() {
+        return size;
     }
+
 }

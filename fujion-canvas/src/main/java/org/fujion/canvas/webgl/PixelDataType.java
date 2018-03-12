@@ -18,23 +18,32 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
-import org.fujion.annotation.Component;
-import org.fujion.canvas.BaseCanvasComponent;
+import org.fujion.ancillary.IEnumWithValue;
 
 /**
- * Canvas component for 2D rendering.
+ * Data type of the pixel data
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
+public enum PixelDataType implements IEnumWithValue {
+    // @formatter:off
+
+    FLOAT(5126),
+    UNSIGNED_BYTE(5121),
+    UNSIGNED_SHORT_4_4_4_4(32819),
+    UNSIGNED_SHORT_5_5_5_1(32820),
+    UNSIGNED_SHORT_5_6_5(33635);
+    // @formatter:on
     
-    public Canvas2D() {
-        super(new ContextOptions2D());
+    private int value;
+
+    PixelDataType(int value) {
+        this.value = value;
     }
-    
+
     @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    public int value() {
+        return value;
     }
+
 }

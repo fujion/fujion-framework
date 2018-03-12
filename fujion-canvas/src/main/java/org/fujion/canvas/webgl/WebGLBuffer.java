@@ -18,29 +18,15 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
 import org.fujion.canvas.BaseCanvasComponent;
 import org.fujion.canvas.CanvasResource;
 
-/**
- * A canvas gradient.
- */
-public class CanvasGradient extends CanvasResource {
+public class WebGLBuffer extends CanvasResource {
     
-    protected CanvasGradient(BaseCanvasComponent<?, ?> canvas, String factory, Object... args) {
-        super(canvas, "initResource", factory, args);
+    protected WebGLBuffer(BaseCanvasComponent<?, ?> canvas) {
+        super(canvas, "initResource", "createBuffer");
     }
 
-    /**
-     * Adds a new stop, defined by an offset and a color, to the gradient. If the offset is not
-     * between 0 and 1 an INDEX_SIZE_ERR is raised, if the color can't be parsed as a CSS <color>, a
-     * SYNTAX_ERR is raised.
-     *
-     * @param offset Offset to begin color.
-     * @param color A color.
-     */
-    public void addColorStop(double offset, String color) {
-        invoke("addColorStop", offset, color);
-    }
 }

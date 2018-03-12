@@ -1,0 +1,39 @@
+<fsp xmlns="http://www.fujion.org/schema/fsp" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:attr="http://www.fujion.org/schema/fsp/attr"
+    xmlns:on="http://www.fujion.org/schema/fsp/on"
+    xsi:schemaLocation="
+    http://www.fujion.org/schema/fsp 
+    http://www.fujion.org/schema/fsp.xsd">
+    <paneview controller="org.fujion.testharness.CanvasController" namespace="true"
+        height="100%" width="100%">
+        <pane width="30%" title="2D Context Renderer Demo" splittable="true">
+            <canvas2D name="canvas2D" flex="1" width="100%"/>
+            <button name="btnRender2D" label="Render 2D" class="flavor:btn-success"/>
+        </pane>
+        <pane title="WebGL Context Renderer Demo" flex="1">
+            <canvasWebGL name="canvasWebGL" flex="1" width="100%"/>
+            <groupbox title="Inputs">
+                <caption label="Starting X Center:">
+                    <doublebox name="zoomCenterXInput" value="0.28693186889504513"/>
+                </caption>
+                <caption label="Starting Y Center:">
+                    <doublebox name="zoomCenterYInput" value="0.014286693904085048"/>
+                </caption>
+            </groupbox>
+            <groupbox title="Outputs">
+                <caption label="Zoom:">
+                    <doublebox name="zoomOutput"/>
+                </caption>
+                <caption label="Current X Center:">
+                    <doublebox name="centerOffsetXOutput" value="0.0" readonly="true"/>
+                </caption>
+                <caption label="Current Y Center:">
+                    <doublebox name="centerOffsetYOutput" value="0.0" readonly="true"/>
+                </caption>
+            </groupbox>
+            <button name="btnRenderWebGL" label="Render WebGL" class="flavor:btn-success"/>
+            <timer name="timer"/>
+        </pane>
+    </paneview>
+</fsp>

@@ -26,6 +26,10 @@
 				<import src="pages/buttons.fsp" />
 			</tab>
 			
+			<tab label="Canvas" hint="${@msg.fujion.testharness.canvas}">
+				<import src="pages/canvas.fsp" />
+			</tab>
+			
 			<tab label="Chart" hint="${@msg.fujion.testharness.chart}">
 				<import src="pages/highcharts.fsp" />
 				<import src="pages/plotly.fsp" />

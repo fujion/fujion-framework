@@ -18,23 +18,36 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
-import org.fujion.annotation.Component;
-import org.fujion.canvas.BaseCanvasComponent;
+import org.fujion.ancillary.IEnumWithValue;
 
-/**
- * Canvas component for 2D rendering.
- */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
+public enum TextureType implements IEnumWithValue {
+    /**
+     * A two-dimensional texture.
+     */
+    TEXTURE_2D(3553),
+    /**
+     * A two-dimensional array texture. (WebGL 2 only)
+     */
+    TEXTURE_2D_ARRAY(35866),
+    /**
+     * A three-dimensional texture. (WebGL 2 only)
+     */
+    TEXTURE_3D(32879),
+    /**
+     * A cube-mapped texture.
+     */
+    TEXTURE_CUBE_MAP(34067);
     
-    public Canvas2D() {
-        super(new ContextOptions2D());
+    private int value;
+    
+    TextureType(int value) {
+        this.value = value;
     }
     
     @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    public int value() {
+        return value;
     }
 }

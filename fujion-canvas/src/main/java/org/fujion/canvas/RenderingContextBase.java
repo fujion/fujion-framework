@@ -18,23 +18,32 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
-
-import org.fujion.annotation.Component;
-import org.fujion.canvas.BaseCanvasComponent;
+package org.fujion.canvas;
 
 /**
- * Canvas component for 2D rendering.
+ * Base context for rendering contexts.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
+public abstract class RenderingContextBase extends CanvasResource {
     
-    public Canvas2D() {
-        super(new ContextOptions2D());
+    private final String type;
+
+    /**
+     * Creates a new rendering context for the canvas.
+     *
+     * @param canvas The canvas.
+     * @param type The context type to be created.
+     */
+    protected RenderingContextBase(BaseCanvasComponent<?, ?> canvas, String type) {
+        super(canvas, false, "initContext", type, canvas.getOptions());
+        this.type = type;
     }
     
-    @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    /**
+     * Returns the type of this rendering context.
+     *
+     * @return The type of rendering context.d
+     */
+    public String getType() {
+        return type;
     }
 }

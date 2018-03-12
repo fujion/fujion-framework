@@ -18,23 +18,36 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
-import org.fujion.annotation.Component;
-import org.fujion.canvas.BaseCanvasComponent;
+import org.fujion.ancillary.IEnumWithValue;
 
 /**
- * Canvas component for 2D rendering.
+ * Specifies front- and/or back-facing polygons.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
-    
-    public Canvas2D() {
-        super(new ContextOptions2D());
+public enum FaceMode implements IEnumWithValue {
+    /**
+     * Back-facing polygons.
+     */
+    BACK(1029),
+    /**
+     * Front-facing polygons.
+     */
+    FRONT(1028),
+    /**
+     * Front- and back-facing polygons.
+     */
+    FRONT_AND_BACK(1032);
+
+    private int value;
+
+    FaceMode(int value) {
+        this.value = value;
     }
-    
+
     @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    public int value() {
+        return value;
     }
+
 }

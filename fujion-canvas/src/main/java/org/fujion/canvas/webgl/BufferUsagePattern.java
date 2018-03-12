@@ -18,23 +18,37 @@
  *
  * #L%
  */
-package org.fujion.canvas.d2;
+package org.fujion.canvas.webgl;
 
-import org.fujion.annotation.Component;
-import org.fujion.canvas.BaseCanvasComponent;
+import org.fujion.ancillary.IEnumWithValue;
 
 /**
- * Canvas component for 2D rendering.
+ * Buffer usage patterns.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
-public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
+public enum BufferUsagePattern implements IEnumWithValue {
+    // @formatter:off
+
+    DYNAMIC_COPY(35050),
+    DYNAMIC_DRAW(35048),
+    DYNAMIC_READ(35049),
+    STATIC_COPY(35046),
+    STATIC_DRAW(35044),
+    STATIC_READ(35045),
+    STREAM_COPY(35042),
+    STREAM_DRAW(35040),
+    STREAM_READ(35041);
+
+    // @formatter:on
     
-    public Canvas2D() {
-        super(new ContextOptions2D());
+    private int value;
+
+    BufferUsagePattern(int value) {
+        this.value = value;
     }
-    
+
     @Override
-    protected RenderingContext2D createRenderingContext() {
-        return new RenderingContext2D(this);
+    public int value() {
+        return value;
     }
+
 }
