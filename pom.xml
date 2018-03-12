@@ -58,7 +58,10 @@
 		<module>fujion-common</module>
 		<module>fujion-core</module>
 		<module>fujion-test</module>
+		<module>fujion-archetype-parent</module>
 		<module>fujion-script-parent</module>
+		<module>fujion-angular-parent</module>
+		<module>fujion-react-parent</module>
 		<module>fujion-highcharts</module>
 		<module>fujion-chartjs</module>
 		<module>fujion-plotly</module>
@@ -67,10 +70,7 @@
 		<module>fujion-captcha</module>
 		<module>fujion-sandbox</module>
 		<module>fujion-canvas</module>
-		<module>fujion-angular-parent</module>
-		<module>fujion-react-parent</module>
 		<module>fujion-testharness</module>
-		<module>fujion-archetype-parent</module>
 		<module>fujion-schemas</module>
 		<module>fujion-themes</module>
 	</modules>
@@ -136,7 +136,6 @@
 						<execution>
 							<id>attach-javadocs</id>
 							<goals>
-								<goal>aggregate-jar</goal>
 								<goal>jar</goal>
 							</goals>
 						</execution>
