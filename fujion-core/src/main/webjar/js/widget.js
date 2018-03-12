@@ -3878,7 +3878,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 
 		beforeRender: function() {
 			this._super();
-			this.widget$.appendTo('#fujion_root');			
+			this.widget$.appendTo(fujion.body$);			
 		},
 		
 		/*------------------------------ State ------------------------------*/
