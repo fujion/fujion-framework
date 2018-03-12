@@ -27,16 +27,16 @@ import org.fujion.annotation.JavaScript;
  * Time-related options.
  */
 public class TimeOptions extends Options {
-
+    
     public enum TimeUnitEnum {
         DAY, HOUR, MILLISECOND, MINUTE, MONTH, QUARTER, SECOND, WEEK, YEAR;
-
+        
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-    
+
     /**
      * Determines how different time units are displayed. See
      * <a href="http://momentjs.com/docs/#/displaying/format/">moment.js</a> for the allowable
@@ -44,6 +44,7 @@ public class TimeOptions extends Options {
      * <p>
      * Default:
      * <table>
+     * <caption>Time Unit Defaults</caption>
      * <tr>
      * <th>Unit</th>
      * <th>Default</th>
@@ -97,7 +98,7 @@ public class TimeOptions extends Options {
      * </table>
      */
     public String displayFormats;
-
+    
     /**
      * If true and the unit is set to 'week', then the first day of the week will be Monday.
      * Otherwise, it will be Sunday.
@@ -105,57 +106,57 @@ public class TimeOptions extends Options {
      * Default: false
      */
     public Boolean isoWeekday;
-
+    
     /**
      * The data maximum. For supported formats, see
      * <a href="http://momentjs.com/docs/#/parsing/">moment.js</a>.
      */
     public String max;
-
+    
     /**
      * The data minimum. For supported formats, see
      * <a href="http://momentjs.com/docs/#/parsing/">moment.js</a>.
      */
     public String min;
-
+    
     /**
      * The minimum display format to be used for a time unit.
      * <p>
      * Default: MILLISECOND
      */
     public TimeUnitEnum minUnit;
-
+    
     /**
      * Custom function for parsing dates.
      */
     @JavaScript
     public String parser$function;
-
+    
     /**
      * Custom format for parsing dates.
      */
     public String parser$string;
-
+    
     /**
      * Dates will be rounded to the start of this unit.
      */
     public TimeUnitEnum round;
-
+    
     /**
      * The number of units between grid lines.
      * <p>
      * Default: 1
      */
     public Integer stepSize;
-
+    
     /**
      * The momentjs format string to use for the tooltip.
      */
     public String tooltipFormat;
-
+    
     /**
      * Force the unit to be a certain type.
      */
     public TimeUnitEnum unit;
-
+    
 }

@@ -26,54 +26,54 @@ import org.fujion.ancillary.Options;
  * Options for editing various plot elements.
  */
 public class EditOptions extends Options {
-    
+
     /**
      * The main anchor of the annotation, which is the text (if no arrow) or the arrow (which drags
-     * the whole thing leaving the arrow length & direction unchanged). Defaults to false.
+     * the whole thing leaving the arrow length &amp; direction unchanged). Defaults to false.
      */
     public Boolean annotationPosition;
-
+    
     /**
      * Just for annotations with arrows, change the length and direction of the arrow. Defaults to
      * false.
      */
     public Boolean annotationTail;
-
+    
     /**
      * Defaults to false.
      */
     public Boolean annotationText;
-
+    
     /**
      * Defaults to false.
      */
     public Boolean axisTitleText;
-
+    
     /**
      * Defaults to false.
      */
     public Boolean colorbarPosition;
-
+    
     /**
      * Defaults to false.
      */
     public Boolean colorbarTitleText;
-
+    
     /**
      * Defaults to false.
      */
     public Boolean legendPosition;
-
+    
     /**
      * Can edit the trace name fields from the legend Defaults to false.
      */
     public Boolean legendText;
-
+    
     /**
      * Defaults to false.
      */
     public Boolean shapePosition;
-
+    
     /**
      * Can edit the global "layout.title".
      */

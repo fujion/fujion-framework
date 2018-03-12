@@ -26,20 +26,20 @@ import org.fujion.plotly.common.CalendarTypeEnum;
  * Options for 3D mesh plot.
  */
 public class PlotMesh3D extends PlotOptions {
-
+    
     /**
      * Specifies one of the three axes.
      */
     public enum AxisSelectorEnum {
-
+        
         X, Y, Z;
-
+        
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-
+    
     /**
      * Determines how the mesh surface triangles are derived from the set of vertices (points)
      * represented by the "x", "y" and "z" arrays, if the "i", "j", "k" arrays are not supplied. For
@@ -47,7 +47,7 @@ public class PlotMesh3D extends PlotOptions {
      * triangulation is used, which is mainly suitable if the mesh is a single, more or less layer
      * surface that is perpendicular to "delaunayaxis". In case the "delaunayaxis" intersects the
      * mesh surface at more than one point it will result triangles that are very long in the
-     * dimension of "delaunayaxis". If ">0", the alpha-shape algorithm is used. In this case, the
+     * dimension of "delaunayaxis". If "&gt;0", the alpha-shape algorithm is used. In this case, the
      * positive "alphahull" value signals the use of the alpha-shape algorithm, _and_ its value acts
      * as the parameter for the mesh fitting. If "0", the convex-hull algorithm is used. It is
      * suitable for convex bodies or if the intention is to enclose the "x", "y" and "z" point set
@@ -56,7 +56,7 @@ public class PlotMesh3D extends PlotOptions {
      * Default: -1
      */
     public Double alphahull;
-    
+
     /**
      * Has an effect only if "color" is set to a numerical array. Determines whether the colorscale
      * is a default palette ("autocolorscale: true") or the palette determined by "colorscale". In
@@ -65,7 +65,7 @@ public class PlotMesh3D extends PlotOptions {
      * mixed.
      */
     public Boolean autocolorscale;
-    
+
     /**
      * Has an effect only if "color" is set to a numerical array and "cmin", "cmax" are set by the
      * user. In this case, it controls whether the range of colors in "colorscale" is mapped to the
@@ -75,36 +75,36 @@ public class PlotMesh3D extends PlotOptions {
      * Default: false (when "cmin", "cmax" are set by the user)
      */
     public Boolean cauto;
-
+    
     /**
      * Has an effect only if "color" is set to a numerical array. The upper bound of the color
      * domain. Value should be associated to the "color" array index, and if set, "cmin" must be set
      * as well.
      */
     public Integer cmax;
-    
+
     /**
      * Has an effect only if "color" is set to a numerical array. The lower bound of the color
      * domain. Value should be associated to the "color" array index, and if set, "cmax" must be set
      * as well.
      */
     public Integer cmin;
-
+    
     /**
      * Alternate form. See {@link #colorscale$array}.
      */
     public int[] color$array;
-    
+
     /**
      * The color of the whole mesh.
      */
     public String color$string;
-
+    
     /**
      * Options for color bar display.
      */
     public final ColorbarOptions colorbar = new ColorbarOptions();
-    
+
     /**
      * The colorscale and only has an effect if "color" is set to a numerical array. The colorscale
      * must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsv,
@@ -113,33 +113,33 @@ public class PlotMesh3D extends PlotOptions {
      * the colorscale in color space, use "cmin" and "cmax".
      */
     public Object[] colorscale$array;
-
+    
     /**
      * Alternatively, "colorscale" may be a palette name string of the following list: Greys,
      * YlGnBu, Greens, YlOrRd, Bluered, RdBu, Reds, Blues, Picnic, Rainbow, Portland, Jet, Hot,
      * Blackbody, Earth, Electric, Viridis, Cividis
      */
     public String colorscale$string;
-
+    
     /**
      * The color of the contour lines.
      * <p>
      * Default: "#444"
      */
     public String contour_color;
-
+    
     /**
      * Determines whether or not dynamic contours are shown on hover.
      */
     public Boolean contour_show;
-    
+
     /**
      * The width of the contour lines.
      * <p>
      * Default: 2
      */
     public Integer contour_width;
-    
+
     /**
      * The Delaunay axis, which is the axis that is perpendicular to the surface of the Delaunay
      * triangulation. It has an effect if "i", "j", "k" are not provided and "alphahull" is set to
@@ -148,18 +148,18 @@ public class PlotMesh3D extends PlotOptions {
      * Default: Z
      */
     public AxisSelectorEnum delaunayaxis;
-    
+
     /**
      * The color of each face Overrides "color" and "vertexcolor".
      */
     public String[] facecolor;
-
+    
     /**
      * Determines whether or not normal smoothing is applied to the meshes, creating meshes with an
      * angular, low-poly look via flat reflections.
      */
     public Boolean flatshading;
-    
+
     /**
      * A vector of vertex indices, i.e. integer values between 0 and the length of the vertex
      * vectors, representing the "first" vertex of a triangle. For example, "{i[m], j[m], k[m]}"
@@ -168,12 +168,12 @@ public class PlotMesh3D extends PlotOptions {
      * in space, which is the first vertex of a triangle.
      */
     public int[] i;
-
+    
     /**
      * The vertex intensity values, used for plotting fields on meshes.
      */
     public double[] intensity;
-
+    
     /**
      * A vector of vertex indices, i.e. integer values between 0 and the length of the vertex
      * vectors, representing the "second" vertex of a triangle. For example, "{i[m], j[m], k[m]}"
@@ -182,7 +182,7 @@ public class PlotMesh3D extends PlotOptions {
      * in space, which is the second vertex of a triangle.
      */
     public int[] j;
-
+    
     /**
      * A vector of vertex indices, i.e. integer values between 0 and the length of the vertex
      * vectors, representing the "third" vertex of a triangle. For example, "{i[m], j[m], k[m]}"
@@ -191,104 +191,104 @@ public class PlotMesh3D extends PlotOptions {
      * in space, which is the third vertex of a triangle.
      */
     public int[] k;
-
+    
     /**
      * Options for lighting effect.
      */
     public final LightingOptions lighting = new LightingOptions();
-
+    
     /**
      * Numeric vector, representing the X coordinate for each vertex.
      * <p>
      * Default: 100000
      */
     public Double lightposition_x;
-
+    
     /**
      * Numeric vector, representing the Y coordinate for each vertex.
      * <p>
      * Default: 100000
      */
     public Double lightposition_y;
-    
+
     /**
      * Numeric vector, representing the Z coordinate for each vertex.
      * <p>
      * Default: 0
      */
     public Double lightposition_z;
-    
+
     /**
      * Has an effect only if "color" is set to a numerical array. Reverses the color mapping if true
      * ("cmin" will correspond to the last color in the array and "cmax" will correspond to the
      * first color).
      */
     public Boolean reversescale;
-    
+
     /**
      * Reference between this trace's 3D coordinate system and a 3D scene. If "scene" (the default
      * value), the (x,y,z) coordinates refer to "layout.scene". If "scene2", the (x,y,z) coordinates
      * refer to "layout.scene2", and so on.
      */
     public String scene;
-    
+
     /**
      * Determines whether or not a colorbar is displayed for this trace.
      * <p>
      * Default: true
      */
     public Boolean showscale;
-    
+
     /**
      * The text elements associated with the vertices. If trace "hoverinfo" contains a "text" flag
      * and "hovertext" is not set, these elements will be seen in the hover labels.
      */
     public String[] text$array;
-    
+
     /**
      * The text elements associated with the vertices to the same value. If trace "hoverinfo"
      * contains a "text" flag and "hovertext" is not set, these elements will be seen in the hover
      * labels.
      */
     public String text$string;
-    
+
     /**
      * The color of each vertex. Overrides "color".
      */
     public String[] vertexcolor;
-    
+
     /**
      * The X coordinates of the vertices. The nth element of vectors "x", "y" and "z" jointly
      * represent the X, Y and Z coordinates of the nth vertex.
      */
     public double[] x;
-    
+
     /**
      * The calendar system to use with "x" date data.
      * <p>
      * Default: GREGORIAN
      */
     public CalendarTypeEnum xcalendar;
-
+    
     /**
      * The Y coordinates of the vertices. The nth element of vectors "x", "y" and "z" jointly
      * represent the X, Y and Z coordinates of the nth vertex.
      */
     public double[] y;
-    
+
     /**
      * The calendar system to use with "y" date data.
      * <p>
      * Default: GREGORIAN
      */
     public CalendarTypeEnum ycalendar;
-    
+
     /**
      * The Z coordinates of the vertices. The nth element of vectors "x", "y" and "z" jointly
      * represent the X, Y and Z coordinates of the nth vertex.
      */
     public double[] z;
-    
+
     /**
      * The calendar system to use with "z" date data.
      * <p>
