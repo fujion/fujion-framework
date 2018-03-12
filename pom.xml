@@ -66,6 +66,7 @@
 		<module>fujion-barcode</module>
 		<module>fujion-captcha</module>
 		<module>fujion-sandbox</module>
+		<module>fujion-canvas</module>
 		<module>fujion-angular-parent</module>
 		<module>fujion-react-parent</module>
 		<module>fujion-testharness</module>

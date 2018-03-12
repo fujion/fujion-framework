@@ -63,6 +63,21 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>generate-canvas-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Canvas Exension</argument>
+								<argument>-p=org.fujion.canvas.*</argument>
+								<argument>${schemadir}fsp-canvas.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
 						<id>generate-angular-schema</id>
 						<phase>prepare-package</phase>
 						<goals>
@@ -191,6 +206,11 @@
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-canvas</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
