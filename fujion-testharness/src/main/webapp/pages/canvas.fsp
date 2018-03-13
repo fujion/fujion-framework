@@ -13,7 +13,7 @@
             <timer name="timer2D" interval="1000"/>
         </pane>
         <pane title="WebGL Context Renderer Demo" flex="1">
-            <canvasWebGL name="canvasWebGL" height="250px" width="250px"/>
+            <canvasWebGL name="canvasWebGL" flex="1" width="100%"/>
             <groupbox title="Inputs">
                 <caption label="Starting X Center:">
                     <doublebox name="zoomCenterXInput" value="0.28693186889504513"/>
