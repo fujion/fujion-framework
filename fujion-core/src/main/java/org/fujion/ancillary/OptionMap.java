@@ -23,7 +23,6 @@ package org.fujion.ancillary;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.fujion.client.IClientTransform;
 
@@ -31,19 +30,19 @@ import org.fujion.client.IClientTransform;
  * Subclasses HashMap to prevent entry of null values or empty collections/maps.
  */
 public class OptionMap extends HashMap<String, Object> {
-    
+
     /**
      * Interface for classes capable of generating an option map.
      */
     public interface IOptionMapConverter extends IClientTransform {
-        
+
         /**
          * Return object as an option map.
          *
          * @return Option map derived from object instance.
          */
         OptionMap toMap();
-        
+
         /**
          * @see org.fujion.client.IClientTransform#transformForClient()
          */
@@ -52,18 +51,18 @@ public class OptionMap extends HashMap<String, Object> {
             return toMap();
         }
     }
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * If the value is null, simply remove any existing value for this key.
      */
     @Override
     public Object put(String key, Object value) {
         value = convert(value);
-        return isEmpty(value) ? remove(key) : super.put(key, value);
+        return value == null ? remove(key) : super.put(key, value);
     }
-    
+
     /**
      * Performs conversions on selected values types.
      *
@@ -78,10 +77,10 @@ public class OptionMap extends HashMap<String, Object> {
                 value = convertCollection((Collection<?>) value);
             }
         }
-        
+
         return value;
     }
-    
+
     /**
      * Converts items in a collection.
      *
@@ -92,35 +91,14 @@ public class OptionMap extends HashMap<String, Object> {
         if (items.isEmpty()) {
             return null;
         }
-        
+
         Collection<Object> list = new ArrayList<>();
-        
+
         for (Object item : items) {
             list.add(convert(item));
         }
-        
+
         return list;
     }
-    
-    /**
-     * Returns true if the object is either null or is an empty map or collection.
-     *
-     * @param value The value to check.
-     * @return True if the object is empty.
-     */
-    private boolean isEmpty(Object value) {
-        if (value == null) {
-            return true;
-        }
-        
-        if (value instanceof Collection) {
-            return ((Collection<?>) value).isEmpty();
-        }
-        
-        if (value instanceof Map) {
-            return ((Map<?, ?>) value).isEmpty();
-        }
-        
-        return false;
-    }
+
 }
