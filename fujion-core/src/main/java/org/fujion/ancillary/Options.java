@@ -74,6 +74,10 @@ public abstract class Options implements IOptionMapConverter {
                         continue;
                     }
                     
+                    if (value instanceof IOptionMapConverter) {
+                        value = ((IOptionMapConverter) value).toMap();
+                    }
+
                     if (value instanceof Collection && ((Collection<?>) value).isEmpty()) {
                         continue;
                     }
@@ -90,7 +94,7 @@ public abstract class Options implements IOptionMapConverter {
                         }
                     }
                     
-                    setValue(name, value, map);
+                    setValue(name.replace("__", "@"), value, map);
                 } catch (Exception e) {
                     log.error("Exception transforming option map.", e);
                 }
@@ -113,30 +117,24 @@ public abstract class Options implements IOptionMapConverter {
     private void setValue(String name, Object value, OptionMap map) {
         if (name.contains("_")) {
             String pcs[] = name.split("\\_", 2);
-            name = pcs[0];
+            name = pcs[0].replace("@", "_");
             String rest = pcs[1];
             
-            if (rest.startsWith("_")) {
-                pcs = rest.split("\\_", 3);
-                name += pcs[1];
-                rest = pcs.length == 2 ? "" : pcs[2];
-            }
-            
-            OptionMap submap = (OptionMap) map.get(name);
-            
-            if (submap == null) {
-                map.put(name, submap = new OptionMap());
-            }
-            
             if (!rest.isEmpty()) {
-                setValue(rest, value, submap);
+                OptionMap submap = (OptionMap) map.get(name);
+                OptionMap newmap = submap == null ? new OptionMap() : submap;
+                setValue(rest, value, newmap);
+
+                if (submap == null && !newmap.isEmpty()) {
+                    map.put(name, newmap);
+                }
             }
 
             return;
         }
         
         name = name.contains("$") ? name.split("\\$", 2)[0] : name;
-        map.put(name, value);
+        map.put(name.replace("@", "_"), value);
     }
     
     /**
