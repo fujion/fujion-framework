@@ -480,7 +480,6 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			}
 			
 			var pkt = {};
-			params ? _.assign(event, params) : null;
 			event.id = ++fujion.event.eventId;
 			
 			_.forIn(event, function(value, pname) {
@@ -491,6 +490,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 				}
 			});
 			
+			params ? _.assign(pkt, params) : null;
 			orig.fujion_nosend = true;
 			fujion.event._postprocess(event, pkt);
 			fujion.ws.sendData('event', pkt);
