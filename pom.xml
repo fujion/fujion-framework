@@ -70,6 +70,7 @@
 		<module>fujion-captcha</module>
 		<module>fujion-sandbox</module>
 		<module>fujion-canvas</module>
+		<module>fujion-gmaps</module>
 		<module>fujion-testharness</module>
 		<module>fujion-schemas</module>
 		<module>fujion-themes</module>

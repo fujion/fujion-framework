@@ -71,9 +71,24 @@
 						<configuration>
 							<arguments>
 								<argument>-v=${project.version}</argument>
-								<argument>-t=Canvas Exension</argument>
+								<argument>-t=Canvas Extension</argument>
 								<argument>-p=org.fujion.canvas.*</argument>
 								<argument>${schemadir}fsp-canvas.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-gmaps-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Google Maps Extension</argument>
+								<argument>-p=org.fujion.gmaps</argument>
+								<argument>${schemadir}fsp-gmaps.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -211,6 +226,11 @@
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-canvas</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-gmaps</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
