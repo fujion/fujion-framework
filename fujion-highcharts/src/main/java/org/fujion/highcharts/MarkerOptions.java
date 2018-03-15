@@ -22,82 +22,95 @@ package org.fujion.highcharts;
 
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for point markers.
  */
 public class MarkerOptions extends Options {
-    
+
     /**
      * Enable or disable the point marker. Defaults to true.
      */
+    @Option
     public Boolean enabled;
-    
+
     /**
      * The threshold for how dense the point markers should be before they are hidden, given that
      * enabled is not defined. The number indicates the horizontal distance between the two closest
      * points in the series, as multiples of the marker.radius. In other words, the default value of
      * 2 means points are hidden if overlapping horizontally. Defaults to 2.
      */
+    @Option
     public Integer enabledThreshold;
-    
+
     /**
      * he fill color of the point marker. When null, the series' or point's color is used. Defaults
      * to null.
      */
+    @Option
     public String fillColor;
-    
+
     /**
      * Image markers only. Set the image width explicitly. When using this option, a width must also
      * be set. Defaults to null.
      */
+    @Option
     public Integer height;
-
+    
     /**
      * The color of the point marker's outline. When null, the series' or point's color is used.
      * Defaults to "#FFFFFF".
      */
+    @Option
     public String lineColor;
-    
+
     /**
      * The width of the point marker's outline. Defaults to 0.
      */
+    @Option
     public Integer lineWidth;
-    
+
     /**
      * The radius of the point marker. Defaults to 0.
      */
+    @Option
     public Integer radius;
-    
+
     /**
      * Marker states for hover.
      */
-    public transient final MarkerStateOptions hover_state = new MarkerStateOptions();
-    
+    @Option(ignore = true)
+    public final MarkerStateOptions hover_state = new MarkerStateOptions();
+
     /**
      * Marker states for select.
      */
-    public transient final MarkerStateOptions select_state = new MarkerStateOptions();
-    
+    @Option(ignore = true)
+    public  final MarkerStateOptions select_state = new MarkerStateOptions();
+
     /**
      * Hover and select states.
      */
+    @Option
     public final OptionMap states = new OptionMap();
-    
+
     /**
      * A predefined shape or symbol for the marker. When null, the symbol is pulled from
      * options.symbols. Other possible values are "circle", "square", "diamond", "triangle" and
      * "triangle-down". Additionally, the URL to a graphic can be given on this form:
      * "url(graphic.png)". Defaults to null.
      */
+    @Option
     public String symbol;
-    
+
     /**
      * Image markers only. Set the image width explicitly. When using this option, a height must
      * also be set. Defaults to null.
      */
+    @Option
     public Integer width;
-    
+
     @Override
     public OptionMap toMap() {
         OptionMap map = super.toMap();

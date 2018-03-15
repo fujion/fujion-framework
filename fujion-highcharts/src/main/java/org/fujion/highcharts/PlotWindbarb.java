@@ -20,6 +20,8 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for windbarb plot.
  * <p>
@@ -27,59 +29,68 @@ package org.fujion.highcharts;
  * direction is given by the stem direction, and wind speed by the number and shape of barbs.
  */
 public class PlotWindbarb extends PlotOptions {
-
+    
     /**
      * 3D columns only. The color of the edges. Similar to borderColor, except it defaults to the
      * same color as the column. Defaults to undefined.
      */
+    @Option
     public String edgeColor;
-
+    
     /**
      * 3D columns only. The width of the colored edges. Defaults to 1.
      */
+    @Option
     public Integer edgeWidth;
-    
+
     /**
      * Whether to group non-stacked columns or to let them render independent of each other.
      * Non-grouped columns will be laid out individually and overlap each other. Defaults to true.
      */
+    @Option
     public Boolean grouping;
-
+    
     /**
      * The spacing between columns on the Z Axis in a 3D chart. Requires highcharts-3d.js. Defaults
      * to 1.
      */
+    @Option
     public Integer groupZPadding;
-    
+
     /**
      * The maximum allowed pixel width for a column, translated to the height of a bar in a bar
      * chart. This prevents the columns from becoming too wide when there is a small number of
      * points in the chart. Defaults to null.
      */
+    @Option
     public Integer maxPointWidth;
-
+    
     /**
      * The id of another series in the chart that the wind barbs are projected on. When null, the
      * wind symbols are drawn on the X axis, but offset up or down by the yOffset setting. Defaults
      * to null.
      */
+    @Option
     public String onSeries;
-    
+
     /**
      * A pixel value specifying a fixed width for each column or bar. When null, the width is
      * calculated from the pointPadding and groupPadding. Defaults to null.
      */
+    @Option
     public Integer pointWidth;
-
+    
     /**
      * Pixel length of the stems. Defaults to 20.
      */
+    @Option
     public Integer vectorLength;
-    
+
     /**
      * Vertical offset from the cartesian position, in pixels. The default value makes sure the
      * symbols don't overlap the X axis when onSeries is null, and that they don't overlap the
      * linked series when onSeries is given. Defaults to -20.
      */
+    @Option
     public Integer yOffset;
 }

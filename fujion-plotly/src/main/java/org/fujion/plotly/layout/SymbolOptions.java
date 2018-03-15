@@ -21,6 +21,7 @@
 package org.fujion.plotly.layout;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.fujion.plotly.common.FontOptions;
 import org.fujion.plotly.common.TextPositionEnum;
 
@@ -28,34 +29,39 @@ import org.fujion.plotly.common.TextPositionEnum;
  * Layout options for layer symbols.
  */
 public class SymbolOptions extends Options {
-    
+
     /**
      * The symbol icon image. For full list see
      * <a href="https://www.mapbox.com/maki-icons/">here.</a>
      * <p>
      * Default: "marker"
      */
+    @Option
     public String icon;
-    
+
     /**
      * The symbol icon size.
      */
+    @Option
     public Integer iconsize;
-    
+
     /**
      * The symbol text.
      */
+    @Option
     public String text;
-    
+
     /**
      * The icon text font.
      */
+    @Option
     public final FontOptions textfont = new FontOptions();
-    
+
     /**
      * The positions of the "text" elements with respects to the (x,y) coordinates.
      * <p>
      * Default: MIDDLE_CENTER
      */
+    @Option
     public TextPositionEnum textposition;
 }

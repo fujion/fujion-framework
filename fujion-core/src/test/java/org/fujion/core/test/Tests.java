@@ -38,6 +38,7 @@ import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.CssClasses;
 import org.fujion.ancillary.CssStyles;
 import org.fujion.ancillary.DeferredInvocation;
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.annotation.ComponentScanner;
@@ -73,18 +74,18 @@ import org.springframework.util.Base64Utils;
  * circular dependencies.
  */
 public class Tests {
-
+    
     private static final String ATTR_TEST = "ATTR_TEST";
-    
+
     private static final String ATTR_OBJECT = "ATTR_OBJECT";
-    
+
     private static final String ATTR_NULL = "ATTR_NULL";
-    
+
     @BeforeClass
     public static void beforeTests() {
         ComponentScanner.getInstance().scanPackage("org.fujion.component");
     }
-
+    
     @Test
     public void parserTests() {
         PageDefinition pagedef = getPageDefinition("test.fsp");
@@ -93,7 +94,7 @@ public class Tests {
         assertEquals("page", cmpdef.getTag());
         assertEquals(Page.class, cmpdef.getComponentClass());
         assertEquals("page", pgele.getAttributes().get("name"));
-
+        
         Page page = new Page();
         List<BaseComponent> roots = PageUtil.createPage(pagedef, page, null);
         assertEquals(1, roots.size());
@@ -101,7 +102,7 @@ public class Tests {
         assertEquals("page", page.getName());
         assertEquals("The Page Title", page.getTitle());
     }
-
+    
     @Test
     public void attributeTests() {
         Div cmpt = new Div();
@@ -131,7 +132,7 @@ public class Tests {
         assertSame(cmpt, cmpt.getAttribute(ATTR_TEST, Div.class));
         assertNull(cmpt.getAttribute(ATTR_OBJECT, Div.class));
     }
-    
+
     @Test
     public void namespaceTests() {
         PageDefinition pagedef = getPageDefinition("nstest.fsp");
@@ -151,22 +152,23 @@ public class Tests {
         cmp = ref.findByName("^/mycomp/myinner/mycomp");
         assertTrue(cmp instanceof Button);
     }
-    
+
     private enum TestEnum {
         TEST1, TEST2, TEST3
     }
-    
+
     @Test
     public void conversionTests() {
         assertEquals("true", ConvertUtil.convert(true, String.class));
         assertEquals(Boolean.TRUE, ConvertUtil.convert("true", Boolean.class));
         assertEquals(TestEnum.TEST1, ConvertUtil.convert("test1", TestEnum.class));
         assertEquals("TEST2", ConvertUtil.convert(TestEnum.TEST2, String.class));
-        
-        assertEquals("function() {var x=1}", ConvertUtil.convertToJS("var x=1").toString());
-        assertEquals("function() {var x=1}", ConvertUtil.convertToJS("function() {var x=1}").toString());
-    }
 
+        assertEquals("function() {var x=1}", ConvertUtil.convert("var x=1", JavaScript.class).toString());
+        assertEquals("function() {var x=1}",
+            ConvertUtil.convert("function() {var x=1}", JavaScript.class).toString());
+    }
+    
     @Test
     public void cssClassesTests() {
         CssClasses classes = new CssClasses();
@@ -183,7 +185,7 @@ public class Tests {
         assertEquals("", classes.toString(true));
         assertTrue(!classes.hasChanged());
     }
-
+    
     @Test
     public void cssStylesTests() {
         CssStyles styles = new CssStyles();
@@ -204,7 +206,7 @@ public class Tests {
         styles.put("style1", null);
         assertTrue(styles.isEmpty());
     }
-
+    
     @Test
     public void deferredInvocationTests() throws Exception {
         Method method = Tests.class.getDeclaredMethod("_testMethod", String.class, String.class);
@@ -216,26 +218,26 @@ public class Tests {
         assertEquals("test5;test6", inv3.invoke());
         DeferredInvocation<String> inv4 = new DeferredInvocation<>(this, method, TestEnum.TEST1, TestEnum.TEST2);
         assertEquals("TEST1;TEST2", inv4.invoke());
-        
+
         try {
             inv4.addArgs(new Object());
             fail("Expected illegal argument exception.");
         } catch (IllegalArgumentException e) {}
     }
-    
+
     protected String _testMethod(String arg1, String arg2) {
         return arg1 + ";" + arg2;
     }
-    
+
     @Test
     public void keyCodeTests() {
         assertEquals(KeyCode.VK_BACK_SPACE, KeyCode.fromCode(8));
         assertEquals(KeyCode.VK_ASTERISK, KeyCode.fromString("ASTERISK"));
         assertEquals(KeyCode.normalizeKeyCapture("^A ~F1 ^@~@^$1"), "^#65 ~#112 ^@~$#49");
     }
-
+    
     private static final byte[] TEST_CONTENT = { 'a', 'e', 'i', 'o', 'u' };
-
+    
     @Test
     public void mimeContentTests() {
         MimeContent content = new MimeContent("image/png", TEST_CONTENT);
@@ -243,13 +245,13 @@ public class Tests {
         assertEquals("data:image/png;base64,YWVpb3U=", src);
         assertEquals("aeiou", new String(Base64Utils.decodeFromString(src.split("\\,", 2)[1])));
     }
-
+    
     private static final String GREEN = "green";
-
+    
     private static final String RED = "red";
-
+    
     private static final String ORANGE = "orange";
-
+    
     @Test
     public void bindingTests() {
         PageDefinition pagedef = getPageDefinition("binding.fsp");
@@ -283,11 +285,11 @@ public class Tests {
         model.setColor(GREEN);
         testBinding(root, model, GREEN);
     }
-    
+
     private void testBinding(BaseComponent root, TestModel model, String value) {
         testBinding(root, model, value, value, false);
     }
-    
+
     private void testBinding(BaseComponent root, TestModel model, String value, String labelValue, boolean noneSelected) {
         Textbox textbox = root.findByName("textbox", Textbox.class);
         Label label = root.findByName("label", Label.class);
@@ -298,7 +300,7 @@ public class Tests {
         assertEquals(value, model.getColor());
         assertEquals(value, textbox.getValue());
         assertEquals(labelValue, label.getLabel());
-
+        
         if (noneSelected) {
             assertNull(cbi);
             assertNull(rbtn);
@@ -309,23 +311,23 @@ public class Tests {
             assertEquals(value, rbtn.getLabel());
         }
     }
-    
-    private final String[] nodes = { "1.1", "2.1", "3.1", "2.2", "1.2", "1.3", "2.1", "3.1", "2.2" };
 
+    private final String[] nodes = { "1.1", "2.1", "3.1", "2.2", "1.2", "1.3", "2.1", "3.1", "2.2" };
+    
     @Test
     public void testTreeview() {
         Treeview tv = (Treeview) createPage("treeview.fsp", null).get(0);
-
+        
         // Test the node iterator
         int index = 0;
-
+        
         for (Treenode node : tv) {
             assertEquals(nodes[index++], node.getLabel());
         }
-
+        
         assertEquals(nodes.length, index);
     }
-    
+
     @Test
     public void testThemes() {
         Theme theme = new Theme("test-theme");
@@ -339,7 +341,7 @@ public class Tests {
             theme.translatePath("/webjars/bootstrap/css/bootstrap.css"));
         assertNull(theme.translatePath("this/should/not/match"));
     }
-    
+
     private PageDefinition getPageDefinition(String file) {
         try (InputStream is = getClass().getResourceAsStream("/" + file)) {
             Assert.assertNotNull(is);
@@ -349,10 +351,10 @@ public class Tests {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     private List<BaseComponent> createPage(String file, BaseComponent parent) {
         PageDefinition pagedef = getPageDefinition(file);
         return PageUtil.createPage(pagedef, parent);
     }
-
+    
 }

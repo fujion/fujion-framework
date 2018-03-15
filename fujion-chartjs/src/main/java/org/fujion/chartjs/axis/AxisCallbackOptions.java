@@ -20,96 +20,97 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
-import org.fujion.annotation.JavaScript;
+import org.fujion.annotation.Option;
 
 /**
  * Callback options for axes.
  */
 public class AxisCallbackOptions extends Options {
-
+    
     /**
      * Callback that runs after ticks are created. Useful for filtering ticks.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterBuildTicks;
-
+    
     /**
      * Callback that runs after tick rotation is determined.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterCalculateTickRotation;
-
+    
     /**
      * Callback that runs after data limits are determined.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterDataLimits;
-
+    
     /**
      * Callback that runs after the scale fits to the canvas.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterFit;
-
+    
     /**
      * Callback that runs after dimensions are set.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterSetDimensions;
-
+    
     /**
      * Callback that runs after ticks are converted into strings.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterTickToLabelConversion;
-
+    
     /**
      * Callback that runs at the end of the update process.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterUpdate;
-
+    
     /**
      * Callback that runs before ticks are created.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeBuildTicks;
-
+    
     /**
      * Callback that runs before tick rotation is determined.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeCalculateTickRotation;
-
+    
     /**
      * Callback that runs before data limits are determined.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeDataLimits;
-
+    
     /**
      * Callback that runs before the scale fits to the canvas.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeFit;
-
+    
     /**
      * Callback that runs before dimensions are set.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeSetDimensions;
-
+    
     /**
      * Callback that runs before ticks are converted into strings.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeTickToLabelConversion;
-
+    
     /**
      * Callback that runs before the update process starts.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeUpdate;
-
+    
 }

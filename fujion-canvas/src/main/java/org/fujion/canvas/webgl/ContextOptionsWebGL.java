@@ -21,43 +21,51 @@
 package org.fujion.canvas.webgl;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 public class ContextOptionsWebGL extends Options {
-    
+
     /**
      * Indicates if the canvas contains an alpha buffer.
      */
+    @Option
     public Boolean alpha;
-
+    
     /**
      * Indicates that the drawing buffer has a depth buffer of at least 16 bits.
      */
+    @Option
     public Boolean depth;
-
+    
     /**
      * Indicates that the drawing buffer has a stencil buffer of at least 8 bits.
      */
+    @Option
     public Boolean stencil;
-
+    
     /**
      * Indicates whether or not to perform anti-aliasing.
      */
+    @Option
     public Boolean antialias;
-
+    
     /**
      * Indicates that the page compositor will assume the drawing buffer contains colors with
      * pre-multiplied alpha.
      */
+    @Option
     public Boolean premultipliedAlpha;
-
+    
     /**
      * If the value is true the buffers will not be cleared and will preserve their values until
      * cleared or overwritten by the author.
      */
+    @Option
     public Boolean preserveDrawingBuffer;
-
+    
     /**
      * Indicates if a context will be created if the system performance is low.
      */
+    @Option
     public Boolean failIfMajorPerformanceCaveat;
 }

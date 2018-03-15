@@ -20,25 +20,29 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.TickOptions;
 
 /**
  * Tick options for category plots.
  */
 public class CategoryTickOptions extends TickOptions {
-
+    
     /**
      * An array of labels to display.
      */
+    @Option
     public String[] labels;
-    
+
     /**
      * The maximum item to display.
      */
+    @Option
     public String max;
-    
+
     /**
      * The minimum item to display.
      */
+    @Option
     public String min;
 }

@@ -20,6 +20,8 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for variable pie series.
  * <p>
@@ -28,36 +30,41 @@ package org.fujion.highcharts;
  * value and the radius of pie slice relates to the Z value. Requires highcharts-more.js. T
  */
 public class PlotVariablePie extends PlotPie {
-
+    
     /**
      * The maximum size of the points' radius related to chart's plotArea. If a number is set, it
      * applies in pixels. Defaults to 100%.
      */
+    @Option
     public String maxPointSize;
-
+    
     /**
      * The minimum size of the points' radius related to chart's plotArea. If a number is set, it
      * applies in pixels. Defaults to 10%.
      */
+    @Option
     public String minPointSize;
-    
+
     /**
      * Whether the pie slice's value should be represented by the area or the radius of the slice.
      * Can be either area or radius. The default, area, corresponds best to the human perception of
      * the size of each pie slice. Defaults to area.
      */
+    @Option
     public String sizeBy;
-
+    
     /**
      * The maximum possible z value for the point's radius calculation. If the point's Z value is
      * bigger than zMax, the slice will be drawn according to the zMax value Defaults to undefined.
      */
+    @Option
     public Double zMax;
-
+    
     /**
      * The minimum possible z value for the point's radius calculation. If the point's Z value is
      * smaller than zMin, the slice will be drawn according to the zMin value. Defaults to
      * undefined.
      */
+    @Option
     public Double zMin;
 }

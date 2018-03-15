@@ -21,58 +21,68 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Settings for a link in a Sankey plot.
  */
 public class LinkOptions extends Options {
-    
+
     /**
      * The "link" color as an array for specifying color for each "node". If "color" is omitted,
      * then by default, a translucent grey link will be used.
      */
+    @Option
     public String[] color$array;
-
+    
     /**
      * The same color to all links. If "color" is omitted, then by default, a translucent grey link
      * will be used.
      */
+    @Option
     public String color$string;
-
+    
     /**
      * The shown name of the link.
      */
+    @Option
     public String[] label;
-
+    
     /**
      * The color of the "line" around each "link".
      */
+    @Option
     public String line_color;
-
+    
     /**
      * The width (in px) of the "line" around each "link".
      */
+    @Option
     public int[] line_width$array;
-
+    
     /**
      * The width (in px) of the "line" around each "link".
      * <p>
      * Default: 0
      */
+    @Option
     public Integer line_width$number;
-
+    
     /**
      * An integer number "[0..nodes.length - 1]" that represents the source node.
      */
+    @Option
     public int[] source;
-    
+
     /**
      * An integer number "[0..nodes.length - 1]" that represents the target node.
      */
+    @Option
     public int[] target;
-    
+
     /**
      * A numeric value representing the flow volume value.
      */
+    @Option
     public double[] value;
 }

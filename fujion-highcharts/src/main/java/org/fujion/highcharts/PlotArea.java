@@ -20,38 +20,45 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for area series.
  */
 public class PlotArea extends PlotOptions {
-
+    
     /**
      * Fill color or gradient for the area. When null, the series' color is used with the series'
      * fillOpacity. Defaults to null.
      */
+    @Option
     public String fillColor;
-
+    
     /**
      * Fill opacity for the area. Defaults to .75.
      */
+    @Option
     public Double fillOpacity;
-
+    
     /**
      * A separate color for the graph line. By default the line takes the color of the series, but
      * the lineColor setting allows setting a separate color for the line without altering the
      * fillColor. Defaults to null.
      */
+    @Option
     public String lineColor;
-
+    
     /**
      * A separate color for the negative part of the area.
      */
+    @Option
     public String negativeFillColor;
-
+    
     /**
      * Whether the whole area or just the line should respond to mouseover tooltips and other mouse
      * or touch events. Defaults to false.
      */
+    @Option
     public Boolean trackByArea;
-
+    
 }

@@ -21,38 +21,43 @@
 package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for layout.
  */
 public class LayoutOptions extends Options {
-    
+
     /**
      * Bottom padding in pixels.
      * <p>
      * Default: 0
      */
+    @Option
     public Integer padding_bottom;
-
+    
     /**
      * Left padding in pixels.
      * <p>
      * Default: 0
      */
+    @Option
     public Integer padding_left;
-
+    
     /**
      * Right padding in pixels.
      * <p>
      * Default: 0
      */
+    @Option
     public Integer padding_right;
-
+    
     /**
      * Top padding in pixels.
      * <p>
      * Default: 0
      */
+    @Option
     public Integer padding_top;
-
+    
 }

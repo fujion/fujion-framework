@@ -21,26 +21,30 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for a 3D frame.
  */
 public class ThreeDFrameOptions extends Options {
-    
+
     /**
      * The color of the panel. Defaults to transparent.
      */
+    @Option
     public String color;
-
+    
     /**
      * The thickness of the panel. Defaults to 1.
      */
+    @Option
     public Integer size;
-
+    
     /**
      * Whether to display the frame. Possible values are true, false, "auto" to display only the
      * frames behind the data, and "default" to display faces behind the data based on the axis
      * layout, ignoring the point of view. Defaults to default.
      */
+    @Option
     public Boolean visible;
 }

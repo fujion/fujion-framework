@@ -20,6 +20,7 @@
  */
 package org.fujion.plotly.plot;
 
+import org.fujion.annotation.Option;
 import org.fujion.plotly.common.CalendarTypeEnum;
 import org.fujion.plotly.common.DashStyleEnum;
 
@@ -35,68 +36,79 @@ import org.fujion.plotly.common.DashStyleEnum;
  * rose or fell in that period.
  */
 public class PlotOHLC extends PlotOptions {
-
+    
     /**
      * The close values.
      */
+    @Option
     public double[] close;
-
+    
     /**
      * Options for displaying decreasing trend.
      */
+    @Option
     public final TrendOptions decreasing = new TrendOptions();
-
+    
     /**
      * The high values.
      */
+    @Option
     public double[] high;
-
+    
     /**
      * Options for displaying increasing trend.
      */
+    @Option
     public final TrendOptions increasing = new TrendOptions();
-
+    
     /**
      * The dash style of lines.
      * <p>
      * Default: SOLID
      */
+    @Option
     public DashStyleEnum line_dash$enum;
-
+    
     /**
      * An alternative in the form of a dash length list in px (eg "5px,10px,2px,2px").
      */
+    @Option
     public String line_dash$string;
-    
+
     /**
      * Note that this style setting can also be set per direction via "increasing.line.width" and
      * "decreasing.line.width".
      * <p>
      * Default: 2
      */
+    @Option
     public Integer line_width;
-
+    
     /**
      * The low values.
      */
+    @Option
     public double[] low;
-
+    
     /**
      * The open values.
      */
+    @Option
     public double[] open;
-
+    
     /**
      * Hover text elements associated with each sample point. The items are mapped in order to this
      * trace's sample points.
      */
+    @Option
     public String[] text$array;
-
+    
     /**
      * Hover text elements associated with each sample point to the same value.
      */
+    @Option
     public String text$string;
-    
+
     /**
      * The width of the open/close tick marks relative to the "x" minimal interval.
      * <p>
@@ -104,32 +116,37 @@ public class PlotOHLC extends PlotOptions {
      * <p>
      * Default: 0.3
      */
+    @Option
     public Double tickwidth;
-    
+
     /**
      * The x coordinates. If absent, linear coordinate will be generated.
      */
+    @Option
     public double[] x;
-
+    
     /**
      * Reference between this trace's x coordinates and a 2D Cartesian x axis. If "x" (the default
      * value), the x coordinates refer to "layout.xaxis". If "x2", the x coordinates refer to
      * "layout.xaxis2", and so on.
      */
+    @Option
     public String xaxis;
-    
+
     /**
      * The calendar system to use with "x" date data.
      * <p>
      * Default: GREGORIAN
      */
+    @Option
     public CalendarTypeEnum xcalendar;
-    
+
     /**
      * Reference between this trace's y coordinates and a 2D Cartesian y axis. If "y" (the default
      * value), the y coordinates refer to "layout.yaxis". If "y2", the y coordinates refer to
      * "layout.xaxis2", and so on.
      */
+    @Option
     public String yaxis;
-    
+
 }

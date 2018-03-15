@@ -24,104 +24,120 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Top level chart settings.
  */
 public class ChartInstance extends Options {
-
-    protected final ChartOptions chart = new ChartOptions();
-
-    protected final List<String> colors = new ArrayList<>();
-
-    protected final CreditsOptions credits = new CreditsOptions();
-
-    protected final ExportingOptions exporting = new ExportingOptions();
-
-    protected final LegendOptions legend = new LegendOptions();
-
-    protected final LoadingOptions loading = new LoadingOptions();
-
-    protected final NavigationOptions navigation = new NavigationOptions();
-
-    protected final PaneOptions pane = new PaneOptions();
-
+    
+    @Option
+    private final ChartOptions chart = new ChartOptions();
+    
+    @Option
+    private final List<String> colors = new ArrayList<>();
+    
+    @Option
+    private final CreditsOptions credits = new CreditsOptions();
+    
+    @Option
+    private final ExportingOptions exporting = new ExportingOptions();
+    
+    @Option
+    private final LegendOptions legend = new LegendOptions();
+    
+    @Option
+    private final LoadingOptions loading = new LoadingOptions();
+    
+    @Option
+    private final NavigationOptions navigation = new NavigationOptions();
+    
+    @Option
+    private final PaneOptions pane = new PaneOptions();
+    
+    @Option
     protected PlotOptions plotOptions;
-
-    protected final List<Series> series = new ArrayList<>();
-
-    protected final TitleOptions subtitle = new TitleOptions();
-
-    protected final TitleOptions title = new TitleOptions();
-
-    protected final GlobalTooltipOptions tooltip = new GlobalTooltipOptions();
-
-    protected final List<Axis> xAxis = new ArrayList<>();
-
-    protected final List<Axis> yAxis = new ArrayList<>();
-
+    
+    @Option
+    private final List<Series> series = new ArrayList<>();
+    
+    @Option
+    private final TitleOptions subtitle = new TitleOptions();
+    
+    @Option
+    private final TitleOptions title = new TitleOptions();
+    
+    @Option
+    private final GlobalTooltipOptions tooltip = new GlobalTooltipOptions();
+    
+    @Option
+    private final List<Axis> xAxis = new ArrayList<>();
+    
+    @Option
+    private final List<Axis> yAxis = new ArrayList<>();
+    
     public ChartOptions getChart() {
         return chart;
     }
-
+    
     public List<String> getColors() {
         return colors;
     }
-
+    
     public CreditsOptions getCredits() {
         return credits;
     }
-
+    
     public ExportingOptions getExporting() {
         return exporting;
     }
-
+    
     public LegendOptions getLegend() {
         return legend;
     }
-
+    
     public LoadingOptions getLoading() {
         return loading;
     }
-
+    
     public NavigationOptions getNavigation() {
         return navigation;
     }
-
+    
     public PaneOptions getPane() {
         return pane;
     }
-
+    
     public PlotOptions getPlotOptions() {
         return plotOptions;
     }
-
+    
     protected void setPlotOptions(PlotOptions plotOptions) {
         this.plotOptions = plotOptions;
     }
-
+    
     public List<Series> getSeries() {
         return series;
     }
-
+    
     public TitleOptions getSubtitle() {
         return subtitle;
     }
-
+    
     public TitleOptions getTitle() {
         return title;
     }
-
+    
     public GlobalTooltipOptions getTooltip() {
         return tooltip;
     }
-
+    
     public List<Axis> getxAxis() {
         return xAxis;
     }
-
+    
     public List<Axis> getyAxis() {
         return yAxis;
     }
-
+    
 }

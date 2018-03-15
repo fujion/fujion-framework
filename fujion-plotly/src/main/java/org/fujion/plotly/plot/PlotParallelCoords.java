@@ -20,6 +20,7 @@
  */
 package org.fujion.plotly.plot;
 
+import org.fujion.annotation.Option;
 import org.fujion.plotly.common.FontOptions;
 
 /**
@@ -35,39 +36,46 @@ import org.fujion.plotly.common.FontOptions;
  * axis arrangements may be of interest.
  */
 public class PlotParallelCoords extends PlotOptions {
-
+    
     /**
      * Options for display of dimensions.
      */
+    @Option
     public final DimensionOptions dimensions = new DimensionOptions();
-    
+
     /**
      * The horizontal domain of this parcoords trace (in plot fraction).
      */
+    @Option
     public double[] domain_x;
-    
+
     /**
      * The vertical domain of this parcoords trace (in plot fraction).
      */
+    @Option
     public double[] domain_y;
-    
+
     /**
      * The font for the "dimension" labels.
      */
+    @Option
     public final FontOptions labelfont = new FontOptions();
-    
+
     /**
      * Line options.
      */
+    @Option
     public final ParcoordsLineOptions line = new ParcoordsLineOptions();
-
+    
     /**
      * The font for the "dimension" range values.
      */
+    @Option
     public final FontOptions rangefont = new FontOptions();
-    
+
     /**
      * The font for the "tick" values.
      */
+    @Option
     public final FontOptions tickfont = new FontOptions();
 }

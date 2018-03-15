@@ -21,33 +21,37 @@
 package org.fujion.plotly.layout;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Layout options for range sliders.
  */
 public class RangeSliderOptions extends Options {
-    
+
     /**
      * Determines whether or not the range slider range is computed in relation to the input data.
      * <p>
      * Default: true (If "range" is provided, then "autorange" is set to false)
      */
+    @Option
     public Boolean autorange;
-    
+
     /**
      * The background color of the range slider.
      * <p>
      * Default: "#fff"
      */
+    @Option
     public String bgcolor;
-    
+
     /**
      * The border color of the range slider.
      * <p>
      * Default: "#444"
      */
+    @Option
     public String bordercolor;
-    
+
     /**
      * The border width of the range slider.
      * <p>
@@ -55,8 +59,9 @@ public class RangeSliderOptions extends Options {
      * <p>
      * Default: 0
      */
+    @Option
     public Integer borderwidth;
-    
+
     /**
      * The range of the range slider. If not set, defaults to the full xaxis range. If the axis
      * "type" is "log", then you must take the log of your desired range. If the axis "type" is
@@ -65,8 +70,9 @@ public class RangeSliderOptions extends Options {
      * numbers, using the scale where each category is assigned a serial number from zero in the
      * order it appears.
      */
+    @Option
     public Object[] range;
-    
+
     /**
      * The range of the range slider as a numeric array. If not set, defaults to the full xaxis
      * range. If the axis "type" is "log", then you must take the log of your desired range. If the
@@ -75,8 +81,9 @@ public class RangeSliderOptions extends Options {
      * "category", it should be numbers, using the scale where each category is assigned a serial
      * number from zero in the order it appears.
      */
+    @Option
     public double[] range$number;
-    
+
     /**
      * The height of the range slider as a fraction of the total plot area height.
      * <p>
@@ -84,13 +91,15 @@ public class RangeSliderOptions extends Options {
      * <p>
      * Default: 0.15
      */
+    @Option
     public Double thickness;
-    
+
     /**
      * Determines whether or not the range slider will be visible. If visible, perpendicular axes
      * will be set to "fixedrange".
      * <p>
      * Default: true
      */
+    @Option
     public Boolean visible;
 }

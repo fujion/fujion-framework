@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.axis.CartesianAxisOptions;
 import org.fujion.chartjs.axis.RadialAxisOptions;
 
@@ -31,10 +32,13 @@ import org.fujion.chartjs.axis.RadialAxisOptions;
  * Options for scales.
  */
 public class ScaleOptions extends Options {
-
+    
+    @Option
     public final List<RadialAxisOptions> rAxes = new ArrayList<>();
-
+    
+    @Option
     public final List<CartesianAxisOptions> xAxes = new ArrayList<>();
-
+    
+    @Option
     public final List<CartesianAxisOptions> yAxes = new ArrayList<>();
 }

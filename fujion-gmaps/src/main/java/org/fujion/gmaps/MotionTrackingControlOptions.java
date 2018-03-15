@@ -21,16 +21,18 @@
 package org.fujion.gmaps;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for the rendering of the motion tracking control.
  */
 public class MotionTrackingControlOptions extends Options {
-    
+
     /**
      * Position id. This is used to specify the position of this control on the panorama.
      * <p>
      * Default: RIGHT_BOTTOM
      */
+    @Option
     public ControlPosition position;
 }

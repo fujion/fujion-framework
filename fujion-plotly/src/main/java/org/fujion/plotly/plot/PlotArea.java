@@ -20,6 +20,8 @@
  */
 package org.fujion.plotly.plot;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for area plot.
  * <p>
@@ -28,10 +30,11 @@ package org.fujion.plotly.plot;
  * compares two or more quantities.
  */
 public class PlotArea extends PlotOptions {
-    
+
     /**
      * Options for marker.
      */
+    @Option
     public final MarkerOptions marker = new MarkerOptions();
-    
+
 }

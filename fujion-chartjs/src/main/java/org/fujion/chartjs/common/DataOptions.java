@@ -24,11 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.plot.PlotOptions;
 
 public class DataOptions extends Options {
-
+    
+    @Option
     public final List<PlotOptions> datasets = new ArrayList<>();
-
+    
+    @Option
     public String[] labels;
 }

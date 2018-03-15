@@ -20,29 +20,31 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.TickOptions;
 
 /**
  * Tick options for time plots.
  */
 public class TimeTickOptions extends TickOptions {
-    
+
     /**
      * Source options.
      */
     public enum SourceEnum {
         AUTO, DATA, LABELS;
-        
+
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-    
+
     /**
      * How ticks are generated.
      * <p>
      * Default: AUTO
      */
+    @Option
     public SourceEnum source;
 }

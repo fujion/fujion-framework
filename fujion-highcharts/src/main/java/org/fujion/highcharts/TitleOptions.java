@@ -21,30 +21,34 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Display options for a chart title.
  */
 public class TitleOptions extends Options {
-
+    
     /**
      * The horizontal alignment of the title or subtitle. Can be one of "left", "center" and
      * "right". Defaults to "center".
      */
+    @Option
     public AlignHorizontal align;
-
+    
     /**
      * When the title or subtitle is floating, the plot area will not move to make space for it.
      * Defaults to false.
      */
+    @Option
     public Boolean floating;
-
+    
     /**
      * The margin between the title and the plot area, or if a subtitle is present, the margin
      * between the subtitle and the plot area. Defaults to 15. Ignored for subtitles.
      */
+    @Option
     public Integer margin;
-
+    
     /**
      * CSS styles for the title or subtitle. Use this for font styling, but use align, x and y for
      * text alignment. Defaults to:
@@ -54,29 +58,34 @@ public class TitleOptions extends Options {
      *     fontSize: '16px' (title only)
      * </pre>
      */
+    @Option
     public final StyleOptions style = new StyleOptions();
-
+    
     /**
      * The title or subtitle of the chart. To disable, set the text to null. Defaults to "Chart
      * title" for title and "" for subtitle.
      */
+    @Option
     public String text;
-
+    
     /**
      * The vertical alignment of the title or subtitle. Can be one of "top", "middle" and "bottom".
      * Defaults to "top".
      */
+    @Option
     public AlignVertical verticalAlign;
-
+    
     /**
      * The x position of the title or subtitle relative to the alignment within chart.spacingLeft
      * and chart.spacingRight. Defaults to 0.
      */
+    @Option
     public Integer x;
-
+    
     /**
      * The y position of the subtitle relative to the alignment within chart.spacingTop and
      * chart.spacingBottom. Defaults to 15 for title and 30 for subtitle.
      */
+    @Option
     public Integer y;
 }

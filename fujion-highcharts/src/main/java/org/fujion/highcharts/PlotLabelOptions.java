@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Series labels are placed as close to the series as possible in a natural way, seeking to avoid
@@ -32,52 +33,60 @@ import org.fujion.ancillary.Options;
  * types having a graph or an area. Requires the series-label.js module.
  */
 public class PlotLabelOptions extends Options {
-
+    
     /**
      * An array of boxes to avoid when laying out the labels. Defaults to undefined.
      */
+    @Option
     public final List<Box> boxesToAvoid = new ArrayList<>();
-
+    
     /**
      * Allow labels to be placed distant to the graph if necessary, and draw a connector line to the
      * graph. Defaults to true.
      */
+    @Option
     public Boolean connectorAllowed;
-    
+
     /**
      * If the label is closer than this to a neighbour graph, draw a connector. Defaults to 24.
      */
+    @Option
     public Integer connectorNeighbourDistance;
-
+    
     /**
      * Enable the series label per series. Defaults to true.
      */
+    @Option
     public Boolean enabled;
-    
-    /**
-     * For area-like series, allow the font size to vary so that small areas get a smaller font
-     * size. The default applies this effect to area-like series but not line-like series. Defaults
-     * to null.
-     */
-    public Integer maxFontSize;
 
     /**
      * For area-like series, allow the font size to vary so that small areas get a smaller font
      * size. The default applies this effect to area-like series but not line-like series. Defaults
      * to null.
      */
-    public Integer minFontSize;
+    @Option
+    public Integer maxFontSize;
     
+    /**
+     * For area-like series, allow the font size to vary so that small areas get a smaller font
+     * size. The default applies this effect to area-like series but not line-like series. Defaults
+     * to null.
+     */
+    @Option
+    public Integer minFontSize;
+
     /**
      * Draw the label on the area of an area series. By default it is drawn on the area. Set it to
      * false to draw it next to the graph instead. Defaults to null.
      */
+    @Option
     public Boolean onArea;
-
+    
     /**
      * Styles for the series label. The color defaults to the series color, or a contrast color if
      * onArea.
      */
+    @Option
     public final StyleOptions style = new StyleOptions();
-
+    
 }

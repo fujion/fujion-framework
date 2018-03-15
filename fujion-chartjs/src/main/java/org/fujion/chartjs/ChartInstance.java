@@ -21,6 +21,7 @@
 package org.fujion.chartjs;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.DataOptions;
 import org.fujion.chartjs.plot.PlotType;
 
@@ -28,10 +29,13 @@ import org.fujion.chartjs.plot.PlotType;
  * Top level options for a single chart instance;
  */
 public class ChartInstance extends Options {
-    
+
+    @Option
     protected final DataOptions data = new DataOptions();
-
+    
+    @Option
     protected final ChartOptions options = new ChartOptions();
-
+    
+    @Option
     protected PlotType type = PlotType.LINE;
 }

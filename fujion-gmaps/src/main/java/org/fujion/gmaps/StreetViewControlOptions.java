@@ -21,12 +21,13 @@
 package org.fujion.gmaps;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for the rendering of the Street View pegman control on the map.
  */
 public class StreetViewControlOptions extends Options {
-
+    
     /**
      * Position id. Used to specify the position of the control on the map. The default position is
      * embedded within the navigation (zoom and pan) controls. If this position is empty or the same
@@ -34,5 +35,6 @@ public class StreetViewControlOptions extends Options {
      * will be displayed as part of the navigation controls. Otherwise, it will be displayed
      * separately.
      */
+    @Option
     public ControlPosition position;
 }

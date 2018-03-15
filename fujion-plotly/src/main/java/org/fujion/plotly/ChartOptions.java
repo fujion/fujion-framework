@@ -21,6 +21,7 @@
 package org.fujion.plotly;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Chart-wide settings.
@@ -51,6 +52,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: false
      */
+    @Option
     public Boolean autosizable;
     
     /**
@@ -58,6 +60,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: true
      */
+    @Option
     public Boolean displaylogo;
 
     /**
@@ -65,6 +68,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: HOVER
      */
+    @Option
     public ModeBarDisplayEnum displayModeBar;
     
     /**
@@ -72,6 +76,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: RESET_AUTOSIZE
      */
+    @Option
     public DoubleClickInteractionEnum doubleClick;
     
     /**
@@ -80,11 +85,13 @@ public class ChartOptions extends Options {
      * <p>
      * Default: false
      */
+    @Option
     public Boolean editable;
     
     /**
      * Edit options on individual elements.
      */
+    @Option
     public final EditOptions edits = new EditOptions();
     
     /**
@@ -92,6 +99,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: false
      */
+    @Option
     public Boolean fillFrame;
     
     /**
@@ -99,6 +107,7 @@ public class ChartOptions extends Options {
      * <p>
      * Defaults: 0
      */
+    @Option
     public Integer frameMargins;
     
     /**
@@ -106,6 +115,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: "Edit chart"
      */
+    @Option
     public String linkText;
     
     /**
@@ -113,13 +123,15 @@ public class ChartOptions extends Options {
      * <p>
      * Default: "en-US"
      */
+    @Option
     public String locale;
     
     /**
      * Mapbox access token (required to plot mapbox trace types) If using an Mapbox Atlas server,
-     * set this option to "", so that plotly.js won't attempt to authenticate to the public Mapbox
-     * server.
+     * set this option to "", so that plotly.js won't attempt to authenticate to the @Option public
+     * Mapbox server.
      */
+    @Option
     public String mapboxAccessToken;
     
     /**
@@ -128,11 +140,13 @@ public class ChartOptions extends Options {
      * <p>
      * Default: false
      */
+    @Option
     public Boolean modeBarButtons;
     
     /**
      * Remove mode bar button by name.
      */
+    @Option
     public String[] modeBarButtonsToRemove;
     
     /**
@@ -140,6 +154,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: 2
      */
+    @Option
     public Integer plotGlPixelRatio;
     
     /**
@@ -147,6 +162,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: 0
      */
+    @Option
     public Integer queueLength;
     
     /**
@@ -154,6 +170,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: false
      */
+    @Option
     public Boolean scrollZoom;
     
     /**
@@ -161,6 +178,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: true
      */
+    @Option
     public Boolean sendData;
     
     /**
@@ -168,6 +186,7 @@ public class ChartOptions extends Options {
      * "layout.paper_color" "opaque" blends bg color with white ensuring an opaque background or any
      * other custom function of gd
      */
+    @Option
     public String setBackground;
     
     /*
@@ -181,6 +200,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: true
      */
+    @Option
     public Boolean showAxisDragHandles;
     
     /**
@@ -188,6 +208,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: true
      */
+    @Option
     public Boolean showAxisRangeEntryBoxes;
     
     /**
@@ -195,11 +216,13 @@ public class ChartOptions extends Options {
      * <p>
      * Default: false
      */
+    @Option
     public Boolean showLink;
     
     /**
      * False or function adding source(s) to linkText.
      */
+    @Option
     public Boolean showSources;
     
     /**
@@ -207,6 +230,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: true
      */
+    @Option
     public Boolean showTips;
     
     /**
@@ -214,6 +238,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: false
      */
+    @Option
     public Boolean staticPlot;
     
     /*
@@ -236,6 +261,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: "https://cdn.plot.ly/"
      */
+    @Option
     public String topojsonURL;
     
     /*

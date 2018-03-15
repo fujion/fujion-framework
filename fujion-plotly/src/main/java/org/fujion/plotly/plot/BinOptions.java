@@ -21,40 +21,47 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for a histogram bin.
  */
 public class BinOptions extends Options {
-
+    
     /**
      * The ending value for the axis bins as a number.
      */
+    @Option
     public Double end$number;
-    
+
     /**
      * The ending value for the axis bins as a categorical coordinate string.
      */
+    @Option
     public String end$string;
-    
+
     /**
      * The step in-between value each axis bin as a number.
      */
+    @Option
     public Double size$number;
-    
+
     /**
      * The step in-between value each axis bin as a categorical coordinate string.
      */
+    @Option
     public String size$string;
-    
+
     /**
      * The starting value for the axis bins as a number.
      */
+    @Option
     public Double start$number;
-    
+
     /**
      * The starting value for the axis bins as a categorical coordinate string.
      */
+    @Option
     public String start$string;
-
+    
 }

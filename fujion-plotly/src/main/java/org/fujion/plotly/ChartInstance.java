@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.fujion.plotly.layout.LayoutOptions;
 import org.fujion.plotly.plot.PlotOptions;
 
@@ -31,11 +32,14 @@ import org.fujion.plotly.plot.PlotOptions;
  * Container for all configuration data for this chart instance.
  */
 public class ChartInstance extends Options {
-
+    
+    @Option
     protected final List<PlotOptions> data = new ArrayList<>();
-
+    
+    @Option
     protected final ChartOptions config = new ChartOptions();
-
+    
+    @Option
     protected final LayoutOptions layout = new LayoutOptions();
-
+    
 }

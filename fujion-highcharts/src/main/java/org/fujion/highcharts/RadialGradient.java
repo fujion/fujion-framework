@@ -21,25 +21,29 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Radial gradient options.
  */
 public class RadialGradient extends Options {
-    
+
     /**
      * The x-coordinate of the center.
      */
+    @Option
     public Double cx;
-    
+
     /**
      * The y coordinate of the center.
      */
+    @Option
     public Double cy;
-    
+
     /**
      * The radius.
      */
+    @Option
     public Double r;
-    
+
 }

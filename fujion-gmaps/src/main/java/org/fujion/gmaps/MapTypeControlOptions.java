@@ -21,26 +21,30 @@
 package org.fujion.gmaps;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for the rendering of the map type control.
  */
 public class MapTypeControlOptions extends Options {
-    
+
     /**
      * IDs of map types to show in the control.
      */
+    @Option
     public MapTypeId[] mapTypeIds;
-    
+
     /**
      * Position id. Used to specify the position of the control on the map.
      * <p>
      * Default: RIGHT_TOP
      */
+    @Option
     public ControlPosition position;
-    
+
     /**
      * Style id. Used to select what style of map type control to display.
      */
+    @Option
     public MapTypeControlStyle style;
 }

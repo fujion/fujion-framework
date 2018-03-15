@@ -21,16 +21,18 @@
 package org.fujion.gmaps;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for the rendering of the zoom control.
  */
 public class ZoomControlOptions extends Options {
-    
+
     /**
      * Position id. Used to specify the position of the control on the map.
      * <p>
      * Default: TOP_LEFT
      */
+    @Option
     public ControlPosition position;
 }

@@ -20,6 +20,7 @@
  */
 package org.fujion.plotly.plot;
 
+import org.fujion.annotation.Option;
 import org.fujion.plotly.common.FontOptions;
 import org.fujion.plotly.common.VHOrientationEnum;
 
@@ -30,12 +31,12 @@ import org.fujion.plotly.common.VHOrientationEnum;
  * shown proportionally to the flow quantity.
  */
 public class PlotSankey extends PlotOptions {
-    
+
     /**
      * Determines how nodes are arranged in a Sankey plot.
      */
     public enum ArrangementEnum {
-
+        
         /**
          * The nodes are stationary.
          */
@@ -53,54 +54,61 @@ public class PlotSankey extends PlotOptions {
          * between nodes specified via "nodepad".
          */
         SNAP;
-
+        
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-    
+
     /**
      * Determines how nodes are arranged.
      * <p>
      * Default: SNAP
      */
+    @Option
     public ArrangementEnum arrangement;
-
+    
     /**
      * The horizontal domain of this sankey trace (in plot fraction).
      * <p>
      * Default: [0,1]
      */
+    @Option
     public double[] domain_x;
-    
+
     /**
      * The vertical domain of this sankey trace (in plot fraction).
      * <p>
      * Default: [0,1]
      */
+    @Option
     public double[] domain_y;
-
+    
     /**
      * The links of the Sankey plot.
      */
+    @Option
     public final LinkOptions link = new LinkOptions();
-
+    
     /**
      * The nodes of the Sankey plot.
      */
+    @Option
     public final NodeOptions node = new NodeOptions();
-
+    
     /**
      * The orientation of the Sankey diagram.
      */
+    @Option
     public VHOrientationEnum orientation;
-
+    
     /**
      * The font for node labels
      */
+    @Option
     public final FontOptions textfont = new FontOptions();
-
+    
     /**
      * The value formatting rule using d3 formatting mini-language which is similar to those of
      * Python. See <a href="https://github.com/d3/d3-format/blob/master/README.md#locale_format">3d
@@ -108,12 +116,14 @@ public class PlotSankey extends PlotOptions {
      * <p>
      * Default: ".3s"
      */
+    @Option
     public String valueformat;
-    
+
     /**
      * Adds a unit to follow the value in the hover tooltip. Add a space if a separation is
      * necessary from the value.
      */
+    @Option
     public String valuesuffix;
-    
+
 }

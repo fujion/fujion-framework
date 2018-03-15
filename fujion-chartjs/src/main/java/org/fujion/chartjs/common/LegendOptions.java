@@ -20,54 +20,60 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
-import org.fujion.annotation.JavaScript;
+import org.fujion.annotation.Option;
 
 /**
  * Options for controlling legend display.
  */
 public class LegendOptions extends Options {
-
+    
     /**
      * If true, the legend is shown.
      * <p>
      * Default: true;
      */
+    @Option
     public Boolean display;
-
+    
     /**
      * Marks that this box should take the full width of the canvas (pushing down other boxes).
      * <p>
      * Default: true
      */
+    @Option
     public Boolean fullWidth;
-
+    
     /**
      * Legend label options.
      */
+    @Option
     public final LegendLabelOptions labels = new LegendLabelOptions();
-    
+
     /**
      * A callback that is called when a click event is registered on a label item.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String onClick;
-    
+
     /**
      * A callback that is called when a 'mousemove' event is registered on top of a label item.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String onHover;
-    
+
     /**
      * Position of the legend.
      */
+    @Option
     public PositionEnum position;
-    
+
     /**
      * Legend will show datasets in reverse order.
      * <p>
      * Default: false
      */
+    @Option
     public Boolean reverse;
 }

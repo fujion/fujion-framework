@@ -21,35 +21,41 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * A zone within a series.
  */
 public class Zone extends Options {
-
+    
     /**
      * Styled mode only. A custom CSS class name for the zone. Defaults to undefined.
      */
+    @Option
     public String className;
-    
+
     /**
      * Defines the color of the series. Defaults to undefined.
      */
+    @Option
     public String color;
-
+    
     /**
      * A name for the dash style to use for the graph. Defaults to undefined.
      */
+    @Option
     public DashStyle dashStyle;
-    
+
     /**
      * Defines the fill color for the series (in area type series) Defaults to undefined.
      */
+    @Option
     public String fillColor;
-
+    
     /**
      * The value up to where the zone extends, if undefined the zones stretches to the last value in
      * the series. Defaults to undefined.
      */
+    @Option
     public Double value;
 }

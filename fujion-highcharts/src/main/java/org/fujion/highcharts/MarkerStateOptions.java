@@ -21,37 +21,43 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for marker hover and select states.
  */
 public class MarkerStateOptions extends Options {
-    
+
     /**
      * Enable or disable the point marker. Defaults to true.
      */
+    @Option
     public Boolean enabled;
-    
+
     /**
      * The fill color of the point marker. When null, the series' or point's color is used. Defaults
      * to null.
      */
+    @Option
     public String fillColor;
-    
+
     /**
      * The color of the point marker's outline. When null, the series' or point's color is used.
      * Defaults to "#FFFFFF".
      */
+    @Option
     public String lineColor;
-    
+
     /**
      * The width of the point marker's outline. Defaults to 0.
      */
+    @Option
     public Integer lineWidth;
-    
+
     /**
      * The radius of the point marker. In hover state, it defaults to the normal state's radius + 2.
      */
+    @Option
     public Integer radius;
-    
+
 }

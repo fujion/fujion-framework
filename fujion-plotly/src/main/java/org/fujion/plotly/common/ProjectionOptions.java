@@ -21,12 +21,13 @@
 package org.fujion.plotly.common;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Projection options.
  */
 public class ProjectionOptions extends Options {
-
+    
     /**
      * The projection opacity.
      * <p>
@@ -34,8 +35,9 @@ public class ProjectionOptions extends Options {
      * <p>
      * Default: 1
      */
+    @Option
     public Double opacity;
-
+    
     /**
      * The scale factor determining the size of the projection marker points.
      * <p>
@@ -43,11 +45,13 @@ public class ProjectionOptions extends Options {
      * <p>
      * Default: 0.6666666666666666
      */
+    @Option
     public Double scale;
-
+    
     /**
      * Determines whether or not projections are shown along an axis.
      */
+    @Option
     public Boolean show;
-
+    
 }

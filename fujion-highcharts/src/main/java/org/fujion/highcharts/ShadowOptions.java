@@ -21,34 +21,40 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for shadow effect.
  */
 public class ShadowOptions extends Options {
-    
+
     /**
      * Color of shadow.
      */
+    @Option
     public String color;
-    
+
     /**
      * X offset for shadow.
      */
+    @Option
     public Integer offsetX;
-    
+
     /**
      * Y offset for shadow.
      */
+    @Option
     public Integer offsetY;
-    
+
     /**
      * Opacity factor for shadow.
      */
+    @Option
     public Double opacity;
-    
+
     /**
      * Pixel width of shadow.
      */
+    @Option
     public Integer width;
 }

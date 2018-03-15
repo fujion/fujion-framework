@@ -21,31 +21,36 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for a pivot.
  */
 public class PivotOptions extends Options {
-
+    
     /**
      * The background color or fill of the pivot. Defaults to black.
      */
+    @Option
     public String backgroundColor;
-
+    
     /**
      * The border or stroke color of the pivot. In able to change this, the borderWidth must also be
      * set to something other than the default 0. Defaults to silver.
      */
+    @Option
     public String borderColor;
-
+    
     /**
      * The border or stroke width of the pivot. Defaults to 0.
      */
+    @Option
     public Integer borderWidth;
-
+    
     /**
      * The pixel radius of the pivot. Defaults to 5.
      */
+    @Option
     public Integer radius;
-
+    
 }

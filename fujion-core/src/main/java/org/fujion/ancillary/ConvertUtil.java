@@ -48,6 +48,7 @@ public class ConvertUtil {
         dtc.setUseLocaleFormat(true);
         dtc.setPatterns(patterns);
         ConvertUtils.register(dtc, Date.class);
+        ConvertUtils.register(new JavaScriptConverter(), JavaScript.class);
     }
 
     /**
@@ -150,34 +151,6 @@ public class ConvertUtil {
         }
         
         return target;
-    }
-    
-    /**
-     * Process a JavaScript code snippet. If the snippet does not have a function wrapper, a
-     * no-argument wrapper will be added. Note: this function does no validation of the JavaScript
-     * code.
-     *
-     * @param snippet JS code snippet.
-     * @return A JavaScriptSnippet object or null if the input was null.
-     */
-    public static JavaScriptSnippet convertToJS(Object snippet) {
-        return snippet == null ? null : new JavaScriptSnippet(snippet.toString());
-    }
-    
-    /**
-     * Process an array of JavaScript code snippets. See {@link #convertToJS(Object)}.
-     *
-     * @param snippets Array of JS code snippet.
-     * @return New array of processed snippets.
-     */
-    public static JavaScriptSnippet[] convertToJS(Object[] snippets) {
-        JavaScriptSnippet[] results = new JavaScriptSnippet[snippets.length];
-
-        for (int i = 0; i < snippets.length; i++) {
-            results[i] = convertToJS(snippets[i]);
-        }
-        
-        return results;
     }
     
     /**

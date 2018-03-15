@@ -21,6 +21,7 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * For a date/time axis, the scale will automatically adjust to the appropriate unit. This class
@@ -28,7 +29,7 @@ import org.fujion.ancillary.Options;
  *
  * <pre>
  * Supported format specifiers are:
- * 
+ *
  * %a: Short weekday, like 'Mon'.
  * %A: Long weekday, like 'Monday'.
  * %d: Two digit day of the month, 01 to 31.
@@ -45,59 +46,66 @@ import org.fujion.ancillary.Options;
  * %p: Upper case AM or PM.
  * %P: Lower case AM or PM.
  * %S: Two digits seconds, 00 through 59
- *
  * </pre>
  */
 public class DateTimeFormatOptions extends Options {
-    
+
     /**
      * Axis defaults: "%H:%M:%S.%L" <br>
      * Tooltip defaults: "%A, %b %e, %H:%M:%S.%L"
      */
+    @Option
     public String millisecond;
-    
+
     /**
      * Axis defaults: "%H:%M:%S" <br>
      * Tooltip defaults: "%A, %b %e, %H:%M:%S"
      */
+    @Option
     public String second;
-    
+
     /**
      * Axis defaults: "%H:%M" <br>
      * Tooltip defaults: "%A, %b %e, %H:%M"
      */
+    @Option
     public String minute;
-    
+
     /**
      * Axis defaults: "%H:%M" <br>
      * Tooltip defaults: "%A, %b %e, %H:%M"
      */
+    @Option
     public String hour;
-    
+
     /**
      * Axis defaults: "%e. %b" <br>
      * Tooltip defaults: "%A, %b %e, %Y"
      */
+    @Option
     public String day;
-    
+
     /**
      * Axis defaults: "%e. %b" <br>
      * Tooltip defaults: "Week from %A, %b %e, %Y"
      */
+    @Option
     public String week;
-    
+
     /**
      * Axis defaults: "%b \'%y" <br>
      * Tooltip defaults: "%B %Y"
      */
+    @Option
     public String month;
-    
+
     /**
      * Axis defaults: "%Y" <br>
      * Tooltip defaults: "%Y"
      */
+    @Option
     public String year;
-    
+
     /**
      * Sets all formats to the specified value.
      *
@@ -107,7 +115,7 @@ public class DateTimeFormatOptions extends Options {
         setDateFormats(value);
         setTimeFormats(value);
     }
-    
+
     /**
      * Sets all date formats to specified value.
      *
@@ -119,7 +127,7 @@ public class DateTimeFormatOptions extends Options {
         week = value;
         year = value;
     }
-    
+
     /**
      * Sets all time formats to specified value.
      *
@@ -131,5 +139,5 @@ public class DateTimeFormatOptions extends Options {
         minute = value;
         second = value;
     }
-    
+
 }

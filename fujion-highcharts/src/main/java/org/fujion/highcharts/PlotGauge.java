@@ -20,6 +20,8 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for gauge plot.
  * <p>
@@ -27,22 +29,25 @@ package org.fujion.highcharts;
  * perimeter.
  */
 public class PlotGauge extends PlotOptions {
-    
+
     /**
      * Options for the dial or arrow pointer of the gauge.
      */
+    @Option
     public final DialOptions dial = new DialOptions();
-    
+
     /**
      * Allow the dial to overshoot the end of the perimeter axis by this many degrees. Say if the
      * gauge axis goes from 0 to 60, a value of 100, or 1000, will show 5 degrees beyond the end of
      * the axis. Defaults to 0.
      */
+    @Option
     public Integer overshoot;
-
+    
     /**
      * Options for the pivot or the center point of the gauge.
      */
+    @Option
     public final PivotOptions pivot = new PivotOptions();
-    
+
 }

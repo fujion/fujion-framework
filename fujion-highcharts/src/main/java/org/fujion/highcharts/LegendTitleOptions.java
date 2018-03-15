@@ -21,12 +21,13 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for a legend title.
  */
 public class LegendTitleOptions extends Options {
-
+    
     /**
      * Generic CSS styles for the legend title. Defaults to:
      *
@@ -36,11 +37,13 @@ public class LegendTitleOptions extends Options {
      * }
      * </pre>
      */
+    @Option
     public final StyleOptions style = new StyleOptions();
-
+    
     /**
      * A text or HTML string for the title. Defaults to null.
      */
+    @Option
     public String text;
-
+    
 }

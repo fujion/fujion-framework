@@ -20,6 +20,7 @@
  */
 package org.fujion.chartjs.plot;
 
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.Point;
 import org.fujion.chartjs.common.PositionEnum;
 
@@ -27,37 +28,43 @@ import org.fujion.chartjs.common.PositionEnum;
  * Options for bar plots.
  */
 public class PlotBar extends PlotOptions {
-
+    
     /**
      * Which edge to skip drawing the border for.
      */
+    @Option
     public PositionEnum borderSkipped;
-
+    
     /**
      * The plot data (as numbers).
      */
+    @Option
     public double[] data$number;
-    
+
     /**
      * The plot data (as points).
      */
+    @Option
     public Point[] data$points;
-
+    
     /**
      * The label for the dataset which appears in the legend and tooltips.
      */
+    @Option
     public String label;
-    
+
     /**
      * The ID of the x axis to plot this dataset on. If not specified, this defaults to the ID of
      * the first found x axis
      */
+    @Option
     public String xAxisID;
-
+    
     /**
      * The ID of the y axis to plot this dataset on. If not specified, this defaults to the ID of
      * the first found y axis.
      */
+    @Option
     public String yAxisID;
-
+    
 }

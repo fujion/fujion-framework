@@ -21,17 +21,19 @@
 package org.fujion.plotly.common;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for font settings.
  */
 public class FontOptions extends Options {
-
+    
     /**
      * The font color.
      */
+    @Option
     public String color;
-
+    
     /**
      * The typeface that will be applied by the web browser. The web browser will only be able to
      * apply a font if it is available on the system which it operates. Provide multiple font
@@ -42,12 +44,14 @@ public class FontOptions extends Options {
      * "Droid Sans Mono", "Gravitas One", "Old Standard TT", "Open Sans", "Overpass", "PT Sans
      * Narrow", "Raleway", "Times New Roman".
      */
+    @Option
     public String family;
-    
+
     /**
      * The font size.
      * <p>
      * Constraints: &ge;1
      */
+    @Option
     public Integer size;
 }

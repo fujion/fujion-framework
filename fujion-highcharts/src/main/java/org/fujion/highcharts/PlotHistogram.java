@@ -20,6 +20,8 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for histogram.
  * <p>
@@ -27,39 +29,45 @@ package org.fujion.highcharts;
  * series. Histogram splits data into bins and shows their frequencies.
  */
 public class PlotHistogram extends PlotOptions {
-
+    
     /**
      * Depth of the columns in a 3D column chart. Requires highcharts-3d.js. Defaults to 25.
      */
+    @Option
     public Integer depth;
-    
+
     /**
      * 3D columns only. The color of the edges. Similar to borderColor, except it defaults to the
      * same color as the column. Defaults to undefined.
      */
+    @Option
     public String edgeColor;
-
+    
     /**
      * 3D columns only. The width of the colored edges. Defaults to 1.
      */
+    @Option
     public Integer edgeWidth;
-
+    
     /**
      * Whether to group non-stacked columns or to let them render independent of each other.
      * Non-grouped columns will be laid out individually and overlap each other. Defaults to true.
      */
+    @Option
     public Boolean grouping;
-
+    
     /**
      * The spacing between columns on the Z Axis in a 3D chart. Requires highcharts-3d.js. Defaults
      * to 1.
      */
+    @Option
     public Integer groupingZPadding;
-
+    
     /**
      * The maximum allowed pixel width for a column, translated to the height of a bar in a bar
      * chart. This prevents the columns from becoming too wide when there is a small number of
      * points in the chart. Defaults to null.
      */
+    @Option
     public Integer maxPointWidth;
 }

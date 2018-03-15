@@ -21,13 +21,14 @@
 package org.fujion.plotly.layout;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.fujion.plotly.common.DashStyleEnum;
 
 /**
  * Layout options for shapes.
  */
 public class ShapeOptions extends Options {
-    
+
     /**
      * Type of shape.
      */
@@ -50,46 +51,51 @@ public class ShapeOptions extends Options {
          * ("x0","y0")
          */
         RECT;
-        
+
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-    
+
     /**
      * The color filling the shape's interior.
      * <p>
      * Default: "rgba(0,0,0,0)"
      */
+    @Option
     public String fillcolor;
-    
+
     /**
      * Specifies whether shapes are drawn below or above traces.
      * <p>
      * Default: ABOVE
      */
+    @Option
     public LayerEnum layer;
-    
+
     /**
      * The line color.
      */
+    @Option
     public String line_color;
-
+    
     /**
      * The dash style of lines.
      * <p>
      * Default: SOLID
      */
+    @Option
     public DashStyleEnum line_dash;
-    
+
     /**
      * The line width (in px).
      * <p>
      * Default: 2
      */
+    @Option
     public Integer line_width;
-    
+
     /**
      * The opacity of the shape.
      * <p>
@@ -97,8 +103,9 @@ public class ShapeOptions extends Options {
      * <p>
      * Default: 1
      */
+    @Option
     public Double opacity;
-    
+
     /**
      * For "type" PATH - a valid SVG path but with the pixel values replaced by data values. There
      * are a few restrictions / quirks only absolute instructions, not relative. So the allowed
@@ -112,30 +119,35 @@ public class ShapeOptions extends Options {
      * components of path strings, we can't use either to separate date from time parts. Therefore
      * we'll use underscore for this purpose: 2015-02-21_13:45:56.789.
      */
+    @Option
     public String path;
-
+    
     /**
      * Specifies the shape type to be drawn.
      */
+    @Option
     public TypeEnum type;
-    
+
     /**
      * Determines whether or not a shape is visible.
      * <p>
      * Default: true.
      */
+    @Option
     public Boolean visible;
-    
+
     /**
      * The shape's starting x position.
      */
+    @Option
     public Integer x0;
-
+    
     /**
      * The shape's ending x position.
      */
+    @Option
     public Integer x1;
-    
+
     /**
      * The shape's x coordinate axis. If set to an x axis id (e.g. "x" or "x2"), the "x" position
      * refers to an x coordinate If set to "paper", the "x" position refers to the distance from the
@@ -144,23 +156,27 @@ public class ShapeOptions extends Options {
      * range. If the axis "type" is "date", then you must convert the date to unix time in
      * milliseconds.
      */
+    @Option
     public String xref;
-    
+
     /**
      * The shape's starting y position.
      */
+    @Option
     public Integer y0;
-    
+
     /**
      * The shape's ending y position.
      */
+    @Option
     public Integer y1;
-    
+
     /**
      * The annotation's y coordinate axis. If set to an y axis id (e.g. "y" or "y2"), the "y"
      * position refers to an y coordinate If set to "paper", the "y" position refers to the distance
      * from the bottom of the plotting area in normalized coordinates where "0" ("1") corresponds to
      * the bottom (top).
      */
+    @Option
     public String yref;
 }

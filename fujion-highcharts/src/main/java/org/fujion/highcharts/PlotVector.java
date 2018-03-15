@@ -20,6 +20,8 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for vector plot.
  * <p>
@@ -27,17 +29,19 @@ package org.fujion.highcharts;
  * a direction. Vectors are drawn as arrows.
  */
 public class PlotVector extends PlotOptions {
-    
+
     /**
      * What part of the vector it should be rotated around. Can be one of start, center and end.
      * When start, the vectors will start from the given [x, y] position, and when end the vectors
      * will end in the [x, y] position. Defaults to center.
      */
+    @Option
     public AlignGeneral rotation;
-
+    
     /**
      * Maximum length of the arrows in the vector plot. The individual arrow length is computed
      * between 0 and this value. Defaults to 20.
      */
+    @Option
     public Integer vectorLength;
 }

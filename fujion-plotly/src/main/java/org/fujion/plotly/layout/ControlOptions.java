@@ -21,17 +21,19 @@
 package org.fujion.plotly.layout;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Layout options for button and slider controls.
  */
 public class ControlOptions extends Options {
-    
+
     /**
      * The arguments values to be passed to the Plotly method set in "method" on trigger event.
      */
+    @Option
     public Object[] args;
-
+    
     /**
      * When true, the API method is executed. When false, all other behaviors are the same and
      * command execution is skipped. This may be useful when hooking into, for example, the
@@ -41,13 +43,15 @@ public class ControlOptions extends Options {
      * <p>
      * Default: true
      */
+    @Option
     public Boolean execute;
-    
+
     /**
      * The text label to appear on the button.
      */
+    @Option
     public String label;
-    
+
     /**
      * The Plotly method to be called on trigger event (click for buttons, change for sliders). If
      * the SKIP method is used, the control API will function as normal but will perform no API
@@ -56,11 +60,13 @@ public class ControlOptions extends Options {
      * <p>
      * Default: RESTYLE
      */
+    @Option
     public MethodEnum method;
-    
+
     /**
      * The value of the step, used to refer to the step programmatically. Defaults to the label if
      * not provided. Applies to slider control only.
      */
+    @Option
     public String value;
 }

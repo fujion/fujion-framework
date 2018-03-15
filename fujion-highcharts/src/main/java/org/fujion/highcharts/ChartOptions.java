@@ -21,6 +21,7 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options regarding the chart area and plot area as well as general chart options.
@@ -39,17 +40,20 @@ public class ChartOptions extends Options {
         /**
          * The position of the button.
          */
+        @Option
         public final PositionOptions position = new PositionOptions();
         
         /**
          * What frame the button should be placed related to. Defaults to plot.
          */
+        @Option
         public RelativeTo relativeTo;
 
         /**
          * The Z index for the reset zoom button. The default value places it below the tooltip that
          * has Z index 7. Defaults to 6.
          */
+        @Option
         public Integer theme_zIndex;
     }
     
@@ -59,6 +63,7 @@ public class ChartOptions extends Options {
      * setting alignTicks to false. If the grid lines look messy, it's a good idea to hide them for
      * the secondary axis by setting gridLineWidth to 0. Defaults to true.
      */
+    @Option
     public Boolean alignTicks;
     
     /**
@@ -78,34 +83,40 @@ public class ChartOptions extends Options {
      * </ul>
      * Defaults to true.
      */
+    @Option
     public Object animation;
     
     /**
      * The background color or gradient for the outer chart area. Defaults to "#FFFFFF".
      */
+    @Option
     public String backgroundColor;
     
     /**
      * The color of the outer chart border. The border is painted using vector graphic techniques to
      * allow rounded corners. Defaults to "#4572A7".
      */
+    @Option
     public String borderColor;
     
     /**
      * The corner radius of the outer chart border. Defaults to 5.
      */
+    @Option
     public Integer borderRadius;
     
     /**
      * The pixel width of the outer chart border. The border is painted using vector graphic
      * techniques to allow rounded corners. Defaults to 0.
      */
+    @Option
     public Integer borderWidth;
     
     /**
      * A CSS class name to apply to the charts container div, allowing unique CSS styling for each
      * chart. Defaults to "".
      */
+    @Option
     public String className;
     
     /**
@@ -114,6 +125,7 @@ public class ChartOptions extends Options {
      * [...] highcharts-color-9. The equivalent in non-styled mode is to set colors using the colors
      * setting. Defaults to 10.
      */
+    @Option
     public Integer colorCount;
 
     /**
@@ -121,12 +133,14 @@ public class ChartOptions extends Options {
      * default as a long description of the chart and its contents in the hidden screen reader
      * information region. Defaults to undefined.
      */
+    @Option
     public String description;
     
     /**
      * An explicit height for the chart. By default the height is calculated from the offset height
      * of the containing element. Defaults to null.
      */
+    @Option
     public String height;
     
     /**
@@ -135,6 +149,7 @@ public class ChartOptions extends Options {
      * once one series within the stack is hidden, the rest of the stack will close in around it
      * even if the axis is not affected. Defaults to true.
      */
+    @Option
     public Boolean ignoreHiddenSeries;
     
     /**
@@ -142,6 +157,7 @@ public class ChartOptions extends Options {
      * true, the x axis is reversed by default. If a bar series is present in the chart, it will be
      * inverted automatically. Defaults to false.
      */
+    @Option
     public Boolean inverted;
     
     /**
@@ -149,6 +165,7 @@ public class ChartOptions extends Options {
      * fixed pixel value for the margin as opposed to the default dynamic margin. See also
      * spacingBottom. Defaults to 70.
      */
+    @Option
     public Integer marginBottom;
     
     /**
@@ -156,6 +173,7 @@ public class ChartOptions extends Options {
      * fixed pixel value for the margin as opposed to the default dynamic margin. See also
      * spacingLeft. Defaults to 80.
      */
+    @Option
     public Integer marginLeft;
     
     /**
@@ -163,6 +181,7 @@ public class ChartOptions extends Options {
      * fixed pixel value for the margin as opposed to the default dynamic margin. See also
      * spacingRight. Defaults to 50.
      */
+    @Option
     public Integer marginRight;
     
     /**
@@ -170,11 +189,13 @@ public class ChartOptions extends Options {
      * pixel value for the margin as opposed to the default dynamic margin. See also spacingTop.
      * Defaults to null.
      */
+    @Option
     public Integer marginTop;
     
     /**
      * Options to render charts in 3 dimensions. This feature requires highcharts-3d.js.
      */
+    @Option
     public final ThreeDOptions options3d = new ThreeDOptions();
     
     /**
@@ -183,6 +204,7 @@ public class ChartOptions extends Options {
      * the key properties of the click event argument (event.altKey, event.ctrlKey, event.metaKey
      * and event.shiftKey). Defaults to undefined.
      */
+    @Option
     public String panKey;
 
     /**
@@ -190,6 +212,7 @@ public class ChartOptions extends Options {
      * devices, when the tooltip.followTouchMove option is true (default), panning requires two
      * fingers. To allow panning with one finger, set followTouchMove to false. Defaults to false.
      */
+    @Option
     public Boolean panning;
     
     /**
@@ -199,27 +222,32 @@ public class ChartOptions extends Options {
      * enabled. When tooltip.followTouchMove is true, pinchType only applies to two-finger touches.
      * Defaults to null.
      */
+    @Option
     public String pinchType;
     
     /**
      * The background color or gradient for the plot area. Defaults to null.
      */
+    @Option
     public String plotBackgroundColor;
     
     /**
      * The URL for an image to use as the plot background. To set an image as the background for the
      * entire chart, set a CSS background image to the container element. Defaults to null.
      */
+    @Option
     public String plotBackgroundImage;
     
     /**
      * The color of the inner chart or plot area border. Defaults to "#C0C0C0".
      */
+    @Option
     public String plotBorderColor;
     
     /**
      * The pixel width of the plot area border. Defaults to 0.
      */
+    @Option
     public Integer plotBorderWidth;
     
     /**
@@ -228,29 +256,34 @@ public class ChartOptions extends Options {
      *
      * @see ShadowOptions
      */
+    @Option
     public ShadowOptions plotShadow;
     
     /**
      * When true, Cartesian charts like line, spline, area and column are transformed into the polar
      * coordinate system.
      */
+    @Option
     public Boolean polar;
     
     /**
      * Whether to reflow the chart to fit the width of the container div on resizing the window.
      * Under Fujion, the container handles resizing, so this option is forced to false.
      */
+    @Option
     protected final Boolean reflow = false;
     
     /**
      * The button that appears after a selection zoom, allowing the user to reset zoom.
      */
+    @Option
     public final ResetZoomButtonOptions resetZoomButton = new ResetZoomButtonOptions();
     
     /**
      * The background color of the marker square when selecting (zooming in on) an area of the
      * chart. Defaults to rgba(51,92,173,0.25).
      */
+    @Option
     public String selectionMarkerFill;
     
     /**
@@ -259,36 +292,42 @@ public class ChartOptions extends Options {
      *
      * @see ShadowOptions
      */
+    @Option
     public ShadowOptions shadow;
     
     /**
      * Whether to show the axes initially. This only applies to empty charts where series are added
      * dynamically, as axes are automatically added to Cartesian series. Defaults to false.
      */
+    @Option
     public Boolean showAxes;
     
     /**
      * The space between the bottom edge of the chart and the content (plot area, axis title and
      * labels, title, subtitle or legend in top position). Defaults to 15.
      */
+    @Option
     public Integer spacingBottom;
     
     /**
      * The space between the left edge of the chart and the content (plot area, axis title and
      * labels, title, subtitle or legend in top position). Defaults to 10.
      */
+    @Option
     public Integer spacingLeft;
     
     /**
      * The space between the right edge of the chart and the content (plot area, axis title and
      * labels, title, subtitle or legend in top position). Defaults to 10.
      */
+    @Option
     public Integer spacingRight;
     
     /**
      * The space between the top edge of the chart and the content (plot area, axis title and
      * labels, title, subtitle or legend in top position). . Defaults to 10.
      */
+    @Option
     public Integer spacingTop;
     
     /**
@@ -301,11 +340,13 @@ public class ChartOptions extends Options {
      *     fontSize: '12px'
      * </pre>
      */
+    @Option
     public final StyleOptions style = new StyleOptions();
     
     /**
      * The series type. Defaults to LINE.
      */
+    @Option
     protected PlotType type = PlotType.LINE;
     
     /**
@@ -314,18 +355,21 @@ public class ChartOptions extends Options {
      * will by default attempt to guess the chart type, but for more complex charts it is
      * recommended to specify this property for clarity. Defaults to undefined.
      */
+    @Option
     public String typeDescription;
     
     /**
      * An explicit width for the chart. By default the width is calculated from the offset width of
      * the containing element. Defaults to null.
      */
+    @Option
     public Integer width;
     
     /**
      * Decides in what dimensions the user can zoom by dragging the mouse. Can be one of x, y or xy.
      * Defaults to null.
      */
+    @Option
     public ZoomType zoomType;
     
 }

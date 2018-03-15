@@ -23,6 +23,8 @@ package org.fujion.highcharts;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for funnel chart.
  * <p>
@@ -31,40 +33,46 @@ import java.util.List;
  * loaded.
  */
 public class PlotFunnel extends PlotPie {
-    
+
     /**
      * The center of the series. By default, it is centered in the middle of the plot area, so it
      * fills the plot area height. Defaults to ["50%", "50%"].
      */
+    @Option
     public final List<String> center = new ArrayList<>();
-
+    
     /**
      * The height of the neck, the lower part of a funnel. If it is a number it defines the pixel
      * height, if it is a percentage string it is the percentage of the plot area height.
      */
+    @Option
     public String height;
-    
+
     /**
      * The height of the neck, the lower part of the funnel. A number defines pixel width, a
      * percentage string defines a percentage of the plot area height. Defaults to 25%.
      */
+    @Option
     public String neckHeight;
-    
+
     /**
      * The width of the neck, the lower part of the funnel. A number defines pixel width, a
      * percentage string defines a percentage of the plot area width.
      */
+    @Option
     public String neckWidth;
-    
+
     /**
      * A reversed funnel has the widest area down. A reversed funnel with no neck width and neck
      * height is a pyramid. Defaults to false.
      */
+    @Option
     public Boolean reversed;
-
+    
     /**
      * The width of the funnel compared to the width of the plot area, or the pixel width if it is a
      * number. Defaults to 90%.
      */
+    @Option
     public String width;
 }

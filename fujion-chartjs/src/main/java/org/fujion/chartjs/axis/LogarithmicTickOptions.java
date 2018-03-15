@@ -20,20 +20,23 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.TickOptions;
 
 /**
  * Tick options for logarithmic plots.
  */
 public class LogarithmicTickOptions extends TickOptions {
-    
+
     /**
      * Maximum number for the scale, overrides minimum value from data.
      */
+    @Option
     public Double max;
-    
+
     /**
      * Minimum number for the scale, overrides minimum value from data.
      */
+    @Option
     public Double min;
 }

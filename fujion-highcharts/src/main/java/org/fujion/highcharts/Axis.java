@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * A chart axis.
@@ -40,23 +41,27 @@ public class Axis extends Options {
      * Whether to allow decimals in this axis' ticks. When counting integers, like persons or hits
      * on a web page, decimals must be avoided in the axis tick labels. Defaults to true.
      */
+    @Option
     public Boolean allowDecimals;
 
     /**
      * When using an alternate grid color, a band is painted across the plot area between every
      * other grid line. Defaults to null.
      */
+    @Option
     public String alternateGridColor;
 
     /**
      * If categories are present for the x-axis, names are used instead of numbers for that axis.
      * Example: categories: ['Apples', 'Bananas', 'Oranges'] Defaults to none.
      */
+    @Option
     public final List<String> categories = new ArrayList<>();
 
     /**
      * The highest allowed value for automatically computed axis extremes.
      */
+    @Option
     public Double ceiling;
 
     /**
@@ -65,52 +70,62 @@ public class Axis extends Options {
      *
      * @see DateTimeFormatOptions
      */
+    @Option
     public final DateTimeFormatOptions dateTimeLabelFormats = new DateTimeFormatOptions();
 
     /**
      * Whether to force the axis to end on a tick. Use this option with the maxPadding option to
      * control the axis end. Defaults to false.
      */
+    @Option
     public Boolean endOnTick;
 
     /**
      * The lowest allowed value for automatically computed axis extremes. Defaults to null.
      */
+    @Option
     public Double floor;
 
     /**
      * Color of the grid lines extending the ticks across the plot area. Defaults to "#C0C0C0".
      */
+    @Option
     public String gridLineColor;
 
     /**
      * The dash or dot style of the grid lines. Defaults to Solid.
      */
+    @Option
     public DashStyle gridLineDashStyle;
 
     /**
      * The width of the grid lines extending the ticks across the plot area. Defaults to 0.
      */
+    @Option
     public Integer gridLineWidth;
 
     /**
      * An id for the axis. Defaults to null.
      */
+    @Option
     public String id;
 
     /**
      * The axis labels show the number or category for each tick.
      */
+    @Option
     public AxisLabelOptions labels;
 
     /**
      * The color of the line marking the axis itself. Defaults to "#C0D0E0".
      */
+    @Option
     public String lineColor;
 
     /**
      * The width of the line marking the axis itself. Defaults to 1.
      */
+    @Option
     public Integer lineWidth;
 
     /**
@@ -119,6 +134,7 @@ public class Axis extends Options {
      * setExtremes. It can be used to show additional info, or to ease reading the chart by
      * duplicating the scales. Defaults to null.
      */
+    @Option
     public Integer linkedTo;
 
     /**
@@ -126,6 +142,7 @@ public class Axis extends Options {
      * endOnTick option is true, the max value might be rounded up. The actual maximum value is also
      * influenced by chart.alignTicks. Defaults to null.
      */
+    @Option
     public Double max;
 
     /**
@@ -134,12 +151,14 @@ public class Axis extends Options {
      * the edge of the plot area. When the axis' max option is set or a max extreme is set using
      * axis.setExtremes(), the maxPadding will be ignored. Defaults to 0.01.
      */
+    @Option
     public Double maxPadding;
 
     /**
      * The minimum value of the axis. If null the min value is automatically calculated. If the
      * startOnTick option is true, the min value might be rounded down. Defaults to null.
      */
+    @Option
     public Double min;
 
     /**
@@ -148,6 +167,7 @@ public class Axis extends Options {
      * the edge of the plot area. When the axis' min option is set or a min extreme is set using
      * axis.setExtremes(), the minPadding will be ignored. Defaults to 0.01.
      */
+    @Option
     public Double minPadding;
 
     /**
@@ -158,32 +178,38 @@ public class Axis extends Options {
      * logarithmic axis, the unit for the minimum range is the power. So a minRange of 1 means that
      * the axis can be zoomed to 10-100, 100-1000, 1000-10000 etc.
      */
+    @Option
     public Double minRange;
 
     /**
      * The minimum tick interval allowed in axis values. For example on zooming in on an axis with
      * daily data, this can be used to prevent the axis from showing hours. Defaults to undefined.
      */
+    @Option
     public Double minTickInterval;
 
     /**
      * Color of the minor, secondary grid lines. Defaults to #E0E0E0.
      */
+    @Option
     public String minorGridLineColor;
 
     /**
      * The dash or dot style of the minor grid lines. Defaults to Solid.
      */
+    @Option
     public DashStyle minorGridLineDashStyle;
 
     /**
      * Width of the minor, secondary grid lines. Defaults to 1.
      */
+    @Option
     public Integer minorGridLineWidth;
 
     /**
      * Color for the minor tick marks. Defaults to #A0A0A0.
      */
+    @Option
     public String minorTickColor;
 
     /**
@@ -195,22 +221,26 @@ public class Axis extends Options {
      * minorTickInterval of "auto" on a log axis results in a best guess, attempting to enter
      * approximately 5 minor ticks between each major tick. Defaults to null.
      */
+    @Option
     public Double minorTickInterval;
 
     /**
      * The pixel length of the minor tick marks. Defaults to 2.
      */
+    @Option
     public Integer minorTickLength;
 
     /**
      * The position of the minor tick marks relative to the axis line. Can be one of inside and
      * outside. Defaults to outside.
      */
+    @Option
     public String minorTickPosition;
 
     /**
      * The pixel width of the minor tick mark. Defaults to 0.
      */
+    @Option
     public Integer minorTickWidth;
 
     /**
@@ -218,6 +248,7 @@ public class Axis extends Options {
      * with it's line, labels and ticks away from the plot area. This is typically used when two or
      * more axes are displayed on the same side of the plot. Defaults to 0.
      */
+    @Option
     public Integer offset;
 
     /**
@@ -225,6 +256,7 @@ public class Axis extends Options {
      * side for vertical axes and bottom for horizontal, so the opposite sides will be right and top
      * respectively. This is typically used with dual or multiple axes. Defaults to false.
      */
+    @Option
     public Boolean opposite;
 
     /**
@@ -232,6 +264,7 @@ public class Axis extends Options {
      *
      * @see PlotBandOptions
      */
+    @Option
     public final List<PlotBandOptions> plotBands = new ArrayList<>();
 
     /**
@@ -239,44 +272,52 @@ public class Axis extends Options {
      *
      * @see PlotLineOptions
      */
+    @Option
     public final List<PlotLineOptions> plotLines = new ArrayList<>();
 
     /**
      * Whether to reverse the axis so that the highest number is closest to origin. If the chart is
      * inverted, the x axis is reversed by default. Defaults to false.
      */
+    @Option
     public Boolean reversed;
 
     /**
      * Whether to show the axis line and title when the axis has no data. Defaults to true.
      */
+    @Option
     public Boolean showEmpty;
 
     /**
      * Whether to show the first tick label. Defaults to true.
      */
+    @Option
     public Boolean showFirstLabel;
 
     /**
      * Whether to show the last tick label. Defaults to false.
      */
+    @Option
     public Boolean showLastLabel;
 
     /**
      * For datetime axes, this decides where to put the tick between weeks. 0 = Sunday, 1 = Monday.
      * Defaults to 1.
      */
+    @Option
     public Integer startOfWeek;
 
     /**
      * Whether to force the axis to start on a tick. Use this option with the maxPadding option to
      * control the axis start. Defaults to false.
      */
+    @Option
     public Boolean startOnTick;
 
     /**
      * Color for the main tick marks. Defaults to #C0D0E0.
      */
+    @Option
     public String tickColor;
 
     /**
@@ -289,39 +330,46 @@ public class Axis extends Options {
      * tickInterval of 0.2 puts a tick on 0.1, 0.2, 0.4, 0.6, 0.8, 1, 2, 4, 6, 8, 10, 20, 40 etc.
      * Defaults to null.
      */
+    @Option
     public Double tickInterval;
 
     /**
      * The pixel length of the main tick marks. Defaults to 5.
      */
+    @Option
     public Integer tickLength;
 
     /**
      * If tickInterval is null this option sets the approximate pixel interval of the tick marks.
      * Not applicable to categorized axis. Defaults to 72 for the Y axis and 100 for the X axis.
      */
+    @Option
     public Integer tickPixelInterval;
 
     /**
      * The position of the major tick marks relative to the axis line. Can be one of inside and
      * outside. Defaults to "outside".
      */
+    @Option
     public String tickPosition;
 
     /**
      * The pixel width of the major tick marks. Defaults to 1.
      */
+    @Option
     public Integer tickWidth;
 
     /**
      * For categorized axes only. If "on" the tick mark is placed in the center of the category, if
      * "between" the tick mark is placed between categories. Defaults to "between".
      */
+    @Option
     public String tickmarkPlacement;
 
     /**
      * The axis title, showing next to the axis line.
      */
+    @Option
     public final AxisTitleOptions title = new AxisTitleOptions();
 
     /**
@@ -329,10 +377,12 @@ public class Axis extends Options {
      * the numbers are given in milliseconds, and tick marks are placed on appropriate values like
      * full hours or days. Defaults to "linear".
      */
+    @Option
     public String type;
 
     /**
      * Index of the axis within the chart.
      */
-    public transient final int index;
+    @Option(ignore = true)
+    public final int index;
 }

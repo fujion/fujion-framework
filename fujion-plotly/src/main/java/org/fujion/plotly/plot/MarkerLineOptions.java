@@ -21,9 +21,10 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 public class MarkerLineOptions extends Options {
-    
+
     /**
      * Has an effect only if "marker.line.color" is set to a numerical array. Determines whether the
      * colorscale is a default palette ("autocolorscale: true") or the palette determined by
@@ -31,8 +32,9 @@ public class MarkerLineOptions extends Options {
      * the default palette will be chosen according to whether numbers in the "color" array are all
      * positive, all negative or mixed.
      */
+    @Option
     public Boolean autocolorscale;
-
+    
     /**
      * Has an effect only if "marker.line.color" is set to a numerical array and "cmin", "cmax" are
      * set by the user. In this case, it controls whether the range of colors in "colorscale" is
@@ -41,31 +43,36 @@ public class MarkerLineOptions extends Options {
      * <p>
      * Default: false (when "cmin", "cmax" are set by the user)
      */
+    @Option
     public Boolean cauto;
-
+    
     /**
      * The upper bound of the color domain. Value should be associated to the "marker.line.color"
      * array index, and if set, "marker.line.cmin" must be set as well.
      */
+    @Option
     public Integer cmax;
-
+    
     /**
      * The lower bound of the color domain. Value should be associated to the "marker.line.color"
      * array index, and if set, "marker.line.cmax" must be set as well.
      */
+    @Option
     public Integer cmin;
-
+    
     /**
      * The line color. Array elements are mapped to the colorscale relative to the max and min
      * values of the array or relative to "cmin" and "cmax" if set.
      */
+    @Option
     public int[] color$array;
-    
+
     /**
      * Sets all line colors to the same value.
      */
+    @Option
     public String color$string;
-
+    
     /**
      * The colorscale and only has an effect if "marker.line.color" is set to a numerical array. The
      * colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba,
@@ -76,37 +83,43 @@ public class MarkerLineOptions extends Options {
      * YlGnBu, Greens, YlOrRd, Bluered, RdBu, Reds, Blues, Picnic, Rainbow, Portland, Jet, Hot,
      * Blackbody, Earth, Electric, Viridis, Cividis
      */
+    @Option
     public Object colorscale;
-    
+
     /**
      * The border line color of the outlier sample points.
      * <p>
      * Default: marker color
      */
+    @Option
     public String outliercolor;
-
+    
     /**
      * Sets the border line width (in px) of the outlier sample points.
      * <p>
      * Default: 1
      */
+    @Option
     public Integer outlierwidth;
-
+    
     /**
      * Has an effect only if "marker.line.color" is set to a numerical array. Reverses the color
      * mapping if true ("cmin" will correspond to the last color in the array and "cmax" will
      * correspond to the first color).
      */
+    @Option
     public Boolean reversescale;
-
+    
     /**
      * The width (in px) of the lines bounding the marker points.
      */
+    @Option
     public int[] width$array;
-    
+
     /**
      * The width (in px) of the lines bounding the marker points to the same value.
      */
+    @Option
     public Integer width$number;
-
+    
 }

@@ -20,88 +20,89 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
-import org.fujion.annotation.JavaScript;
+import org.fujion.annotation.Option;
 
 public class TooltipCallbackOptions extends Options {
-    
+
     /**
      * Returns text to render after the body section
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterBody;
-    
+
     /**
      * Text to render after the footer section.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterFooter;
-    
+
     /**
      * Returns text to render after an individual label.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterLabel;
-    
+
     /**
      * Returns text to render after the title.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String afterTitle;
-    
+
     /**
      * Returns text to render before the body section.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeBody;
-    
+
     /**
      * Returns text to render before the footer section.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeFooter;
-    
+
     /**
      * Returns text to render before an individual label. This will be called for each item in the
      * tooltip.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeLabel;
-    
+
     /**
      * Returns the text to render before the title.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String beforeTitle;
-    
+
     /**
      * Returns text to render as the footer of the tooltip.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String footer;
-    
+
     /**
      * Returns text to render for an individual item in the tooltip.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String label;
-    
+
     /**
      * Returns the colors to render for the tooltip item.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String labelColor;
-    
+
     /**
      * Returns the colors for the text of the label for the tooltip item.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String labelTextColor;
-    
+
     /**
      * Returns text to render as the title of the tooltip.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String title;
-    
+
 }

@@ -21,6 +21,7 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for animations.
@@ -31,14 +32,16 @@ import org.fujion.ancillary.Options;
  * the API methods.
  */
 public class AnimationOptions extends Options {
-
+    
     /**
      * The duration of the animation in milliseconds.
      */
+    @Option
     public Integer duration;
-
+    
     /**
      * A string reference to an easing function set on the Math object.
      */
+    @Option
     public String easing;
 }

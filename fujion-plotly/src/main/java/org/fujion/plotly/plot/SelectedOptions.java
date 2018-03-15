@@ -21,31 +21,36 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 public class SelectedOptions extends Options {
-
+    
     /**
      * The marker color of selected points.
      */
+    @Option
     public String marker_color;
-    
+
     /**
      * The marker opacity of selected points.
      * <p>
      * Constraints: &ge;0 and &le;1.
      */
+    @Option
     public Double marker_opacity;
-    
+
     /**
      * The marker size of selected points.
      * <p>
      * Constraints: &ge;0.
      */
+    @Option
     public Integer marker_size;
-    
+
     /**
      * The text font color of selected points.
      */
+    @Option
     public String textfont_color;
-
+    
 }

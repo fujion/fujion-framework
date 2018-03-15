@@ -20,30 +20,26 @@
  */
 package org.fujion.ancillary;
 
-import java.util.Collections;
-
-import org.apache.commons.lang.StringUtils;
-import org.fujion.client.IClientTransform;
+import org.apache.commons.beanutils.ConversionException;
+import org.apache.commons.beanutils.converters.AbstractConverter;
 
 /**
- * Represents a snippet of JavaScript code.
+ * Converts a string to a JavaScript Snippet
  */
-public class JavaScriptSnippet implements IClientTransform {
-
-    private final String snippet;
+public class JavaScriptConverter extends AbstractConverter {
     
-    public JavaScriptSnippet(String snippet) {
-        snippet = StringUtils.trimToNull(snippet);
-        this.snippet = snippet == null ? null : snippet.startsWith("function") ? snippet : "function() {" + snippet + "}";
+    @Override
+    protected <T> T convertToType(Class<T> type, Object value) throws Throwable {
+        if (type != getDefaultType() || !(value instanceof String)) {
+            throw new ConversionException("Cannot convert object of type " + value.getClass() + " to " + getDefaultType());
+        }
+
+        return type.cast(new JavaScript((String) value));
     }
     
     @Override
-    public String toString() {
-        return snippet;
+    protected Class<?> getDefaultType() {
+        return JavaScript.class;
     }
 
-    @Override
-    public Object transformForClient() {
-        return snippet == null ? null : Collections.singletonMap("__fujion_js__", snippet);
-    }
 }

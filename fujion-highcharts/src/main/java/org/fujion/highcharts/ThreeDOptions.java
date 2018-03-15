@@ -21,87 +21,103 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for 3D presentation.
  */
 public class ThreeDOptions extends Options {
-
+    
     /**
      * One of the two rotation angles for the chart. Defaults to 0.
      */
+    @Option
     public Double alpha;
-
+    
     /**
      * Set it to "auto" to automatically move the labels to the best edge. Defaults to null.
      */
+    @Option
     public String axisLabelPosition;
-    
+
     /**
      * One of the two rotation angles for the chart. Defaults to 0.
      */
+    @Option
     public Double beta;
-
+    
     /**
      * The total depth of the chart. Defaults to 100.
      */
+    @Option
     public Double depth;
-
+    
     /**
      * Whether to render the chart using the 3D functionality. Defaults to false.
      */
+    @Option
     public Boolean enabled;
-
+    
     /**
      * Whether the 3d box should automatically adjust to the chart plot area. Defaults to true.
      */
+    @Option
     public Boolean fitToPlot;
-
+    
     /**
      * Defines the back panel of the frame around 3D charts.
      */
+    @Option
     public final ThreeDFrameOptions frame_back = new ThreeDFrameOptions();
-    
+
     /**
      * The bottom of the frame around a 3D chart.
      */
+    @Option
     public final ThreeDFrameOptions frame_bottom = new ThreeDFrameOptions();
-    
+
     /**
      * The front of the frame around a 3D chart.
      */
+    @Option
     public final ThreeDFrameOptions frame_front = new ThreeDFrameOptions();
-
+    
     /**
      * The left side of the frame around a 3D chart.
      */
+    @Option
     public final ThreeDFrameOptions frame_left = new ThreeDFrameOptions();
-
+    
     /**
      * The right sied of the frame around a 3D chart.
      */
+    @Option
     public final ThreeDFrameOptions frame_right = new ThreeDFrameOptions();
-
+    
     /**
      * The side for the frame around a 3D chart.
      */
+    @Option
     public final ThreeDFrameOptions frame_side = new ThreeDFrameOptions();
-    
+
     /**
      * The top of the frame around a 3D chart.
      */
+    @Option
     public final ThreeDFrameOptions frame_top = new ThreeDFrameOptions();
-
+    
     /**
      * Whether the frames are visible. Defaults to default.
      */
+    @Option
     public Boolean frame_visible;
-
+    
     /**
      * Defines the distance the viewer is standing in front of the chart, this setting is important
      * to calculate the perspective effect in column and scatter charts. It is not used for 3D pie
      * charts. Defaults to 100.
      */
+    @Option
     public Double viewDistance;
-    
+
 }

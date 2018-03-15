@@ -20,6 +20,7 @@
  */
 package org.fujion.plotly.plot;
 
+import org.fujion.annotation.Option;
 import org.fujion.plotly.common.CalendarTypeEnum;
 import org.fujion.plotly.common.VHOrientationEnum;
 
@@ -34,20 +35,20 @@ import org.fujion.plotly.common.VHOrientationEnum;
  * adjacent, and are often (but not required to be) of equal size.
  */
 public class PlotHistogram extends PlotOptions {
-
+    
     /**
      * Specifies the direction at which bins are accumulated
      */
     public enum CumulativeDirectionEnum {
-        
+
         DECREASING, INCREASING;
-        
+
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-
+    
     /**
      * Determines how the current bin is included.
      */
@@ -65,13 +66,13 @@ public class PlotHistogram extends PlotOptions {
          * bias to the results.
          */
         INCLUDE;
-
+        
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-    
+
     /**
      * Specifies the binning function used for this histogram trace.
      */
@@ -96,13 +97,13 @@ public class PlotHistogram extends PlotOptions {
          * Histogram values are computed using the sum of the values lying inside each bin.
          */
         SUM;
-        
+
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-
+    
     /**
      * Specifies the type of normalization used for this histogram trace. By default, the span of
      * each bar corresponds to the number of occurrences (i.e. the number of data points lying
@@ -130,42 +131,46 @@ public class PlotHistogram extends PlotOptions {
          * corresponding bin (here, the sum of all bin AREAS equals 1).
          */
         PROBABILITY_DENSITY;
-
+        
         @Override
         public String toString() {
             return name().toLowerCase().replace("_", " ");
         }
     }
-    
+
     /**
      * Determines whether or not the x axis bin attributes are picked by an algorithm. Note that
      * this should be set to false if you want to manually set the number of bins using the
      * attributes in xbins.
      */
+    @Option
     public Boolean autobinx;
-
+    
     /**
      * Determines whether or not the y axis bin attributes are picked by an algorithm. Note that
      * this should be set to false if you want to manually set the number of bins using the
      * attributes in ybins.
      */
+    @Option
     public Boolean autobiny;
-
+    
     /**
      * Only applies if cumulative is enabled. Sets whether the current bin is included, excluded, or
      * has half of its value included in the current cumulative value. INCLUDE is the default for
      * compatibility with various other tools, however it introduces a half-bin bias to the results.
      * EXCLUDE makes the opposite half-bin bias, and HALF removes it.
      */
+    @Option
     public CurrentBinEnum cumulative_currentbin;
-
+    
     /**
      * Only applies if cumulative is enabled. If INCREASING (the default) we sum all prior bins, so
      * the result increases from left to right. If DECREASING we sum later bins so the result
      * decreases from left to right.
      */
+    @Option
     public CumulativeDirectionEnum cumulative_direction;
-
+    
     /**
      * If true, display the cumulative distribution by summing the binned values. Use the
      * "direction" and "centralbin" attributes to tune the accumulation method. Note: in this mode,
@@ -173,43 +178,40 @@ public class PlotHistogram extends PlotOptions {
      * and "density" both rise to the number of data points, and "probability" and "probability
      * density" both rise to the number of sample points.
      */
+    @Option
     public Boolean cumulative_enabled;
-
+    
     /**
      * Options for x-axis error bars.
      */
+    @Option
     public final ErrorBarOptions error__x = new ErrorBarOptions();
-
+    
     /**
      * Options for y-axis error bars.
      */
+    @Option
     public final ErrorBarOptions error__y = new ErrorBarOptions();
-
+    
     /**
      * Specifies the binning function used for this histogram trace.
      * <p>
      * Default: COUNT
      */
+    @Option
     public HistFuncEnum histfunc;
-
+    
     /**
      * Specifies the type of normalization used for this histogram trace.
      */
+    @Option
     public HistNormEnum histnorm;
-
+    
     /**
      * Options for marker.
      */
+    @Option
     public final MarkerOptions marker = new MarkerOptions();
-
-    /**
-     * Specifies the maximum number of desired bins. This value will be used in an algorithm that
-     * will decide the optimal bin size such that the histogram best visualizes the distribution of
-     * the data.
-     * <p>
-     * Default: 0
-     */
-    public Integer nbinsx;
     
     /**
      * Specifies the maximum number of desired bins. This value will be used in an algorithm that
@@ -218,93 +220,119 @@ public class PlotHistogram extends PlotOptions {
      * <p>
      * Default: 0
      */
-    public Integer nbinsy;
+    @Option
+    public Integer nbinsx;
 
+    /**
+     * Specifies the maximum number of desired bins. This value will be used in an algorithm that
+     * will decide the optimal bin size such that the histogram best visualizes the distribution of
+     * the data.
+     * <p>
+     * Default: 0
+     */
+    @Option
+    public Integer nbinsy;
+    
     /**
      * The orientation of the bars.
      */
+    @Option
     public VHOrientationEnum orientation;
-
+    
     /**
     *
     */
+    @Option
     public final SelectedOptions selected = new SelectedOptions();
-
+    
     /**
      * Text elements associated with each (x,y) pair. The items are mapped in order to the trace's
      * (x,y) coordinates. If trace "hoverinfo" contains a "text" flag and "hovertext" is not set,
      * these elements will be seen in the hover labels.
      */
+    @Option
     public String[] text$array;
-
+    
     /**
      * Text elements associated with each (x,y) pair. Alternate form where the same string appears
      * over all the data points. If trace "hoverinfo" contains a "text" flag and "hovertext" is not
      * set, these elements will be seen in the hover labels.
      */
+    @Option
     public String text$string;
-
+    
     /**
     *
     */
+    @Option
     public final SelectedOptions unselected = new SelectedOptions();
-
+    
     /**
      * Data points for x-axis.
      */
+    @Option
     public Object[] x;
-    
+
     /**
      * Data points for x-axis. Alternate form for numeric data.
      */
+    @Option
     public double[] x$number;
-    
+
     /**
      * Reference between this trace's x coordinates and a 2D Cartesian x axis. If "x" (the default
      * value), the x coordinates refer to "layout.xaxis". If "x2", the x coordinates refer to
      * "layout.xaxis2", and so on.
      */
+    @Option
     public String xaxis;
-    
+
     /**
      * Options for the x axis bins.
      */
+    @Option
     public final BinOptions xbins = new BinOptions();
-    
+
     /**
      * The calendar system to use with "x" date data.
      * <p>
      * Default: GREGORIAN
      */
+    @Option
     public CalendarTypeEnum xcalendar;
-
+    
     /**
      * Data points for y-axis.
      */
+    @Option
     public Object[] y;
-    
+
     /**
      * Data points for y-axis. Alternate form for numeric data.
      */
+    @Option
     public double[] y$number;
-    
+
     /**
      * Reference between this trace's y coordinates and a 2D Cartesian y axis. If "y" (the default
      * value), the y coordinates refer to "layout.yaxis". If "y2", the y coordinates refer to
      * "layout.xaxis2", and so on.
      */
+    @Option
     public String yaxis;
-    
+
     /**
      * Options for the y axis bins.
      */
+    @Option
     public final BinOptions ybins = new BinOptions();
-    
+
     /**
      * The calendar system to use with "y" date data.
      * <p>
      * Default: GREGORIAN
      */
+    @Option
     public CalendarTypeEnum ycalendar;
-    
+
 }

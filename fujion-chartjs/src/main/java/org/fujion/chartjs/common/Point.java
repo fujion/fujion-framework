@@ -21,19 +21,22 @@
 package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * A single data point.
  */
 public class Point extends Options {
-    
+
+    @Option
     protected final double x;
-
+    
+    @Option
     protected final double y;
-
+    
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
-
+    
 }

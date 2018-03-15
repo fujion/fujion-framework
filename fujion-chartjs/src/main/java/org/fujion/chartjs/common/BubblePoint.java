@@ -20,20 +20,23 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.annotation.Option;
+
 /**
  * A single point for a bubble plot.
  */
 public class BubblePoint extends Point {
-    
+
     /**
      * The bubble radius in pixels (not scaled; it is the raw radius in pixels of the bubble that is
      * drawn on the canvas).
      */
+    @Option
     protected final int r;
-    
+
     public BubblePoint(double x, double y, int r) {
         super(x, y);
         this.r = r;
     }
-
+    
 }

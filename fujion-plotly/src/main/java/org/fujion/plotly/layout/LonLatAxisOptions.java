@@ -21,24 +21,27 @@
 package org.fujion.plotly.layout;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Layout options for longitude/latitude axes.
  */
 public class LonLatAxisOptions extends Options {
-
+    
     /**
      * The graticule's longitude/latitude tick step.
      */
+    @Option
     public Double dtick;
-
+    
     /**
      * The graticule's stroke color.
      * <p>
      * Default: "#eee"
      */
+    @Option
     public String gridcolor;
-
+    
     /**
      * The graticule's stroke width (in px).
      * <p>
@@ -46,20 +49,24 @@ public class LonLatAxisOptions extends Options {
      * <p>
      * Default: 1
      */
+    @Option
     public Integer gridwidth;
-
+    
     /**
      * The range of this axis (in degrees), sets the map's clipped coordinates.
      */
+    @Option
     public int[] range;
-
+    
     /**
      * Determines whether or not graticule are shown on the map.
      */
+    @Option
     public Boolean showgrid;
-
+    
     /**
      * The graticule's starting tick longitude/latitude.
      */
+    @Option
     public Double tick0;
 }

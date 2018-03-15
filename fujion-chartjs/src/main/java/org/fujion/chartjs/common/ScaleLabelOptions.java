@@ -21,65 +21,74 @@
 package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for scale title.
  */
 public class ScaleLabelOptions extends Options {
-
+    
     /**
      * If true, display the axis title.
      * <p>
      * Default: false
      */
+    @Option
     public Boolean display;
-
+    
     /**
      * Font color for scale title.
      * <p>
      * Default: "#666"
      */
+    @Option
     public String fontColor;
-
+    
     /**
      * Font family for the scale title, follows CSS font-family options.
      * <p>
      * Default: "Helvetica Neue, Helvetica, Arial, sans-serif"
      */
+    @Option
     public String fontFamily;
-
+    
     /**
      * Font size for scale title.
      * <p>
      * Default: 12
      */
+    @Option
     public Integer fontSize;
-
+    
     /**
      * Font style for the scale title, follows CSS font-style options (i.e. normal, italic, oblique,
      * initial, inherit).
      * <p>
      * Default: normal
      */
+    @Option
     public String fontStyle;
-
+    
     /**
      * The text for the title.
      */
+    @Option
     public String labelString;
-
+    
     /**
      * Height of an individual line of text. See
      * <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height">MDN</a>.
      * <p>
      * Default: 1.2
      */
+    @Option
     public String lineHeight;
-
+    
     /**
      * Padding to apply around scale labels. Only top and bottom are implemented.
      * <p>
      * Default: 4
      */
+    @Option
     public Integer padding;
 }

@@ -20,135 +20,152 @@
  */
 package org.fujion.chartjs.plot;
 
-import org.fujion.annotation.JavaScript;
+import org.fujion.ancillary.JavaScript;
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.BubblePoint;
 
 /**
  * Options for bubble plots.
  */
 public class PlotBubble extends PlotOptions {
-
+    
     /**
      * The points to plot.
      */
+    @Option
     public BubblePoint[] data;
-
+    
     /**
      * The bubble additional radius for hit detection as an array.
      */
+    @Option
     public Integer[] hitRadius$array;
-
+    
     /**
      * The bubble additional radius for hit detection as a function.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String hitRadius$function;
-
+    
     /**
      * The bubble additional radius for hit detection as a single value.
      * <p>
      * Default: 1
      */
+    @Option
     public Integer hitRadius$number;
-
+    
     /**
      * The bubble background color when hovered as an array.
      */
+    @Option
     public String[] hoverBackgroundColor$array;
-
+    
     /**
      * The bubble background color when hovered as a function.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String hoverBackgroundColor$function;
-
+    
     /**
      * The bubble background color when hovered as a single value.
      */
+    @Option
     public String hoverBackgroundColor$string;
-
+    
     /**
      * The bubble border color when hovered as an array.
      */
+    @Option
     public String[] hoverBorderColor$array;
-
+    
     /**
      * The bubble border color when hovered as a function.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String hoverBorderColor$function;
-
+    
     /**
      * The bubble border color when hovered as a single value.
      */
+    @Option
     public String hoverBorderColor$string;
-
+    
     /**
      * The bubble border width when hovered as an array.
      */
+    @Option
     public Integer[] hoverBorderWidth$array;
-
+    
     /**
      * The bubble border width when hovered as a function.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String hoverBorderWidth$function;
-    
+
     /**
      * The bubble border width when hovered as a single value.
      * <p>
      * Default: 1
      */
+    @Option
     public Integer hoverBorderWidth$number;
-
+    
     /**
      * The bubble additional radius when hovered as an array.
      */
+    @Option
     public Integer[] hoverRadius$array;
-
+    
     /**
      * The bubble additional radius when hovered as a function.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String hoverRadius$function;
-    
+
     /**
      * The bubble additional radius when hovered as a single value.
      * <p>
      * Default: 4
      */
+    @Option
     public Integer hoverRadius$number;
-
+    
     /**
      * The label text.
      */
+    @Option
     public String label;
+    
+    /**
+     * The bubble shape style.
+     */
+    @Option
+    public PointStyleEnum[] pointStyle$array;
 
     /**
      * The bubble shape style.
      */
-    public PointStyleEnum[] pointStyle$array;
-    
-    /**
-     * The bubble shape style.
-     */
+    @Option
     public PointStyleEnum pointStyle$enum;
-    
+
     /**
      * The bubble radius as an array.
      */
+    @Option
     public Integer[] radius$array;
-    
+
     /**
      * The bubble radius as a function.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String radius$function;
-    
+
     /**
      * The bubble radius as a single value.
      * <p>
      * Default: 3
      */
+    @Option
     public Integer radius$number;
 }

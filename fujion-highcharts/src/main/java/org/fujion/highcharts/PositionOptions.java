@@ -21,29 +21,34 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Position configuration for visual elements.
  */
 public class PositionOptions extends Options {
-
+    
     /**
      * The horizontal alignment. Defaults to "right".
      */
+    @Option
     public AlignHorizontal align;
-
+    
     /**
      * The vertical alignment. Defaults to "bottom".
      */
+    @Option
     public AlignVertical verticalAlign;
-
+    
     /**
      * The x offset. Defaults to -10.
      */
+    @Option
     public Integer x;
-
+    
     /**
      * The y offset. Defaults to -5.
      */
+    @Option
     public Integer y;
 }

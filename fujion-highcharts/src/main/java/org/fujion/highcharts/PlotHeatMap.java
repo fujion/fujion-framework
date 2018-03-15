@@ -20,6 +20,8 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for heat map plot.
  * <p>
@@ -27,26 +29,30 @@ package org.fujion.highcharts;
  * matrix are represented as colors.
  */
 public class PlotHeatMap extends PlotOptions {
-    
+
     /**
      * The column size - how many X axis units each column in the heatmap should span. Defaults to
      * 1.
      */
+    @Option
     public Integer colsize;
-    
+
     /**
      * The color applied to null points. In styled mode, a general CSS class is applied instead.
      * Defaults to #f7f7f7.
      */
+    @Option
     public String nullColor;
-
+    
     /**
      * Padding between the points in the heatmap. Defaults to 0.
      */
+    @Option
     public Integer pointPadding;
-    
+
     /**
      * The row size - how many Y axis units each heatmap row should span. Defaults to 1.
      */
+    @Option
     public Integer rowsize;
 }

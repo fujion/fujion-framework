@@ -20,38 +20,45 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for tile map series.
  * <p>
  * A tile map series is a type of heat map where the tile shapes are configurable.
  */
 public class PlotTileMap extends PlotOptions {
-
+    
     /**
      * The column size - how many X axis units each column in the heatmap should span. Defaults to
      * 1.
      */
+    @Option
     public Integer colsize;
-
+    
     /**
      * The color applied to null points. In styled mode, a general CSS class is applied instead.
      * Defaults to #f7f7f7.
      */
+    @Option
     public String nullColor;
-    
+
     /**
      * The padding between points in the tilemap. Defaults to 2.
      */
+    @Option
     public Integer pointPadding;
-    
+
     /**
      * The row size - how many Y axis units each heatmap row should span. Defaults to 1.
      */
+    @Option
     public Integer rowsize;
-
+    
     /**
      * The shape of the tiles in the tilemap. Possible values are hexagon, circle, diamond, and
      * square. Defaults to hexagon.
      */
+    @Option
     public String tileShape;
 }

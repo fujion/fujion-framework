@@ -27,11 +27,32 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to mark a field as JavaScript for special processing. Fields so marked must contain
- * valid JavaScript (or be null) and will be converted to serialized form. If the field value does
- * not specify a function wrapper, a no-argument wrapper will be added.
+ * Annotation to mark a field to be serialized as part of an option map.
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface JavaScript {}
+public @interface Option {
+
+    /**
+     * The value of the map key to be used when serializing the field. Will default to the field
+     * name.
+     *
+     * @return Value of the map key.
+     */
+    String value() default "";
+    
+    /**
+     * Optional destination type for the conversion.
+     *
+     * @return The destination type for the conversion. Default is no conversion.
+     */
+    Class<?> convertTo() default Object.class;
+
+    /**
+     * Ignore the annotation. Useful to explicitly show that the field is not to be serialized.
+     *
+     * @return If true, ignore the annotation. Default is false.
+     */
+    boolean ignore() default false;
+}

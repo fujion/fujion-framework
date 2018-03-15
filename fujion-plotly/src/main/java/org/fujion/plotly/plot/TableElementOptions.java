@@ -21,64 +21,74 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.fujion.plotly.common.HorizontalAlignEnum;
 
 /**
  * Options for a table header.
  */
 public class TableElementOptions extends Options {
-
+    
     /**
      * The horizontal alignment of the "text" within the box. Has an effect only if "text" spans
      * more two or more lines (i.e. "text" contains one or more HTML tags) or if an explicit width
      * is set to override the text width.
      */
+    @Option
     public HorizontalAlignEnum align;
-
+    
     /**
      * The cell value formatting rule using d3 formatting mini-language which is similar to those of
      * Python. See <a href="https://github.com/d3/d3-format/blob/master/README.md#locale_format">d3
      * formatting reference.</a>
      */
+    @Option
     public String[] format;
-
+    
     /**
      * The height of cells.
      * <p>
      * Default: 28
      */
+    @Option
     public Integer height;
-
+    
     /**
      * Line options.
      */
+    @Option
     public final LineOptions line = new LineOptions();
-
+    
     /**
      * Prefix for cell values.
      */
+    @Option
     public String[] prefix$array;
-
+    
     /**
      * Prefix for cell values.
      */
+    @Option
     public String prefix$string;
-    
+
     /**
      * Suffix for cell values.
      */
+    @Option
     public String[] suffix$array;
-    
+
     /**
      * Suffix for cell values.
      */
+    @Option
     public String suffix$string;
-    
+
     /**
      * Header cell values. "values[m][n]" represents the value of the nth point in column "m",
      * therefore the "values[m]" vector length for all columns must be the same (longer vectors will
      * be truncated). Each value must be a finite number or a string.
      */
+    @Option
     public double[][] values;
-
+    
 }

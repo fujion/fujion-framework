@@ -20,22 +20,30 @@
  */
 package org.fujion.ancillary;
 
-import org.fujion.ancillary.OptionMap.IOptionMapConverter;
-import org.fujion.annotation.OptionScanner;
+import java.util.Collections;
+
+import org.apache.commons.lang.StringUtils;
+import org.fujion.client.IClientTransform;
 
 /**
- * Base class for options.
+ * Represents a snippet of JavaScript code.
  */
-public abstract class Options implements IOptionMapConverter {
+public class JavaScript implements IClientTransform {
 
-    /**
-     * @see org.fujion.ancillary.OptionMap.IOptionMapConverter#toMap()
-     */
-    @Override
-    public OptionMap toMap() {
-        OptionMap map = new OptionMap();
-        OptionScanner.scan(this, map);
-        return map;
+    private final String snippet;
+    
+    public JavaScript(String snippet) {
+        snippet = StringUtils.trimToNull(snippet);
+        this.snippet = snippet == null ? null : snippet.startsWith("function") ? snippet : "function() {" + snippet + "}";
     }
     
+    @Override
+    public String toString() {
+        return snippet;
+    }
+
+    @Override
+    public Object transformForClient() {
+        return snippet == null ? null : Collections.singletonMap("__fujion_js__", snippet);
+    }
 }

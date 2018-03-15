@@ -21,33 +21,38 @@
 package org.fujion.chartjs.axis;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options common to all axis types.
  */
 public abstract class AxisOptions extends Options {
-
+    
     /**
      * Callback functions.
      */
+    @Option
     public final AxisCallbackOptions callbacks = new AxisCallbackOptions();
-
+    
     /**
      * If set to false the axis is hidden from view.
      * <p>
      * Default: true
      */
+    @Option
     public Boolean display;
-    
+
     /**
      * The ID is used to link datasets and scale axes together.
      */
+    @Option
     public String id;
-    
+
     /**
      * The weight used to sort the axis. Higher weights are further away from the chart area.
      * <p>
      * Default: 0
      */
+    @Option
     public Double weight;
 }

@@ -20,6 +20,8 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for solid gauge plot.
  * <p>
@@ -27,17 +29,19 @@ package org.fujion.highcharts;
  * the arc may vary with the value.
  */
 public class PlotSolidGauge extends PlotOptions {
-
+    
     /**
      * Whether to draw rounded edges on the gauge. Defaults to false.
      */
+    @Option
     public Boolean rounded;
-    
+
     /**
      * Allow the dial to overshoot the end of the perimeter axis by this many degrees. Say if the
      * gauge axis goes from 0 to 60, a value of 100, or 1000, will show 5 degrees beyond the end of
      * the axis. Defaults to 0.
      */
+    @Option
     public Double overshoot;
-    
+
 }

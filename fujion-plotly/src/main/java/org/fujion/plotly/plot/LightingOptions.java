@@ -21,12 +21,13 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for lighting effects.
  */
 public class LightingOptions extends Options {
-
+    
     /**
      * Ambient light increases overall color visibility but can wash out the image.
      * <p>
@@ -34,8 +35,9 @@ public class LightingOptions extends Options {
      * <p>
      * Default: 0.8
      */
+    @Option
     public Double ambient;
-
+    
     /**
      * Represents the extent that incident rays are reflected in a range of angles. *
      * <p>
@@ -43,8 +45,9 @@ public class LightingOptions extends Options {
      * <p>
      * Default: 0.8
      */
+    @Option
     public Double diffuse;
-
+    
     /**
      * Epsilon for face normals calculation avoids math issues arising from degenerate geometry. *
      * <p>
@@ -52,8 +55,9 @@ public class LightingOptions extends Options {
      * <p>
      * Default: 1e-06
      */
+    @Option
     public Double facenormalsepsilon;
-
+    
     /**
      * Represents the reflectance as a dependency of the viewing angle; e.g. paper is reflective
      * when viewing it from the edge of the paper (almost 90 degrees), causing shine. *
@@ -62,8 +66,9 @@ public class LightingOptions extends Options {
      * <p>
      * Default: 0.2
      */
+    @Option
     public Double fresnel;
-
+    
     /**
      * Alters specular reflection; the rougher the surface, the wider and less contrasty the shine.
      * *
@@ -72,8 +77,9 @@ public class LightingOptions extends Options {
      * <p>
      * Default: 0.5
      */
+    @Option
     public Double roughness;
-
+    
     /**
      * Represents the level that incident rays are reflected in a single direction, causing shine. *
      * <p>
@@ -81,8 +87,9 @@ public class LightingOptions extends Options {
      * <p>
      * Default: 0.05
      */
+    @Option
     public Double specular;
-
+    
     /**
      * Epsilon for vertex normals calculation avoids math issues arising from degenerate geometry. *
      * <p>
@@ -90,5 +97,6 @@ public class LightingOptions extends Options {
      * <p>
      * Default: 1e-12
      */
+    @Option
     public Double vertexnormalsepsilon;
 }

@@ -21,20 +21,23 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 public class StreamOptions extends Options {
-
+    
     /**
      * The maximum number of points to keep on the plots from an incoming stream. If "maxpoints" is
      * set to 50, only the newest 50 points will be displayed on the plot.
      * <p>
      * Default: 500
      */
+    @Option
     public Integer maxpoints;
-
+    
     /**
      * The stream id number links a data trace on a plot with a stream. See
      * <a href="https://plot.ly/settings">plotly documentation</a> for more details.
      */
+    @Option
     public String token;
 }

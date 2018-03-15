@@ -21,38 +21,44 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Display options for box in violin plot.
  */
 public class ViolinBoxOptions extends Options {
-    
+
     /**
      * The inner box plot fill color.
      */
+    @Option
     public String fillcolor;
-
+    
     /**
      * The inner box plot bounding line color.
      */
+    @Option
     public String line_color;
-    
+
     /**
      * The inner box plot bounding line width.
      */
+    @Option
     public Integer line_width;
-    
+
     /**
      * Determines if an miniature box plot is drawn inside the violins.
      */
+    @Option
     public Boolean visible;
-    
+
     /**
      * The width of the inner box plots relative to the violins" width. For example, with 1, the
      * inner box plots are as wide as the violins.
      * <p>
      * Default: 0.25
      */
+    @Option
     public Double width;
-
+    
 }

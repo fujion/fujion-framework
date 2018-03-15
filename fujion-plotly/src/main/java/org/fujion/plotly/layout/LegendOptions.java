@@ -21,6 +21,7 @@
 package org.fujion.plotly.layout;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.fujion.plotly.common.FontOptions;
 import org.fujion.plotly.common.HorizontalAlignEnum;
 import org.fujion.plotly.common.VHOrientationEnum;
@@ -30,45 +31,51 @@ import org.fujion.plotly.common.VerticalAlignEnum;
  * Options for legends.
  */
 public class LegendOptions extends Options {
-    
+
     /**
      * The legend background color.
      */
+    @Option
     public String bgcolor;
-
+    
     /**
      * The color of the border enclosing the legend.
      * <p>
      * Default: "#444"
      */
+    @Option
     public String bordercolor;
-
+    
     /**
      * The width (in px) of the border enclosing the legend.
      * <p>
      * Default: 0
      */
+    @Option
     public Integer borderwidth;
-
+    
     /**
      * The font used to text the legend items.
      */
+    @Option
     public final FontOptions font = new FontOptions();
-
+    
     /**
      * The orientation of the legend.
      * <p>
      * Default: VERTICAL
      */
+    @Option
     public VHOrientationEnum orientation;
-
+    
     /**
      * The amount of vertical space (in px) between legend groups.
      * <p>
      * Default: 10
      */
+    @Option
     public Integer tracegroupgap;
-    
+
     /**
      * Any combination of "reversed", "grouped" joined with a "+" OR "normal". examples: "reversed",
      * "grouped", "reversed+grouped", "normal" Determines the order at which the legend items are
@@ -77,8 +84,9 @@ public class LegendOptions extends Options {
      * the items are displayed in groups (when a trace "legendgroup" is provided). if
      * "grouped+reversed", the items are displayed in the opposite order as "grouped".
      */
+    @Option
     public String traceorder;
-    
+
     /**
      * The x position (in normalized coordinates) of the legend.
      * <p>
@@ -86,14 +94,16 @@ public class LegendOptions extends Options {
      * <p>
      * Default: 1.02
      */
+    @Option
     public Double x;
-
+    
     /**
      * The legend's horizontal position anchor. This anchor binds the "x" position to the "left"
      * (the default), "center" or "right" of the legend.
      */
+    @Option
     public HorizontalAlignEnum xanchor;
-    
+
     /**
      * The y position (in normalized coordinates) of the legend.
      * <p>
@@ -101,14 +111,16 @@ public class LegendOptions extends Options {
      * <p>
      * Default: 1
      */
+    @Option
     public Double y;
-
+    
     /**
      * The legend's vertical position anchor This anchor binds the "y" position to the "top",
      * "middle" or "bottom" of the legend.
      * <p>
      * Default: AUTO
      */
+    @Option
     public VerticalAlignEnum yanchor;
-
+    
 }

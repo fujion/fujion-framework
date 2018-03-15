@@ -21,72 +21,83 @@
 package org.fujion.plotly.layout;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Layout options for map boxes.
  */
 public class MapboxOptions extends Options {
-    
+
     /**
      * The mapbox access token to be used for this mapbox map. Alternatively, the mapbox access
      * token can be set in the configuration options under "mapboxAccessToken".
      */
+    @Option
     public String accesstoken;
-
+    
     /**
      * The bearing angle of the map (in degrees counter-clockwise from North).
      * <p>
      * Default: 0
      */
+    @Option
     public Integer bearing;
-
+    
     /**
      * The latitude of the center of the map (in degrees North).
      */
+    @Option
     public Double center_lat;
-
+    
     /**
      * The longitude of the center of the map (in degrees East).
      */
+    @Option
     public Double center_lon;
-
+    
     /**
      * The horizontal domain of this mapbox subplot (in plot fraction).
      * <p>
      * Default: [0,1]
      */
+    @Option
     public int[] domain_x;
-    
+
     /**
      * The vertical domain of this mapbox subplot (in plot fraction).
      * <p>
      * Default: [0,1]
      */
+    @Option
     public int[] domain_y;
-
+    
     /**
      * Options for layers.
      */
+    @Option
     public final LayerOptions layers = new LayerOptions();
-
+    
     /**
      * The pitch angle of the map (in degrees, where 0 means perpendicular to the surface of the
      * map).
      * <p>
      * Default: 0
      */
+    @Option
     public Integer pitch;
-
+    
     /**
      * The Mapbox map style as a number. Either input one of the default Mapbox style names or the
      * URL to a custom style or a valid Mapbox style JSON.
      */
+    @Option
     public String style;
-
+    
     /**
      * The zoom level of the map.
      * <p>
      * Default: 1
      */
+    @Option
     public Double zoom;
 }

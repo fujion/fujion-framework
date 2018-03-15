@@ -21,6 +21,7 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * The loading options control the appearance of the loading screen that covers the plot area on
@@ -30,12 +31,13 @@ import org.fujion.ancillary.Options;
  * configuration object, but part of the lang object.
  */
 public class LoadingOptions extends Options {
-
+    
     /**
      * The duration in milliseconds of the fade out effect. Defaults to 100.
      */
+    @Option
     public Integer hideDuration;
-
+    
     /**
      * CSS styles for the loading label span. Defaults to:
      *
@@ -45,13 +47,15 @@ public class LoadingOptions extends Options {
      *     top: '45%'
      * </pre>
      */
+    @Option
     public final StyleOptions labelStyle = new StyleOptions();
-
+    
     /**
      * The duration in milliseconds of the fade in effect. Defaults to 100.
      */
+    @Option
     public Integer showDuration;
-
+    
     /**
      * CSS styles for the loading screen that covers the plot area. Defaults to:
      *
@@ -62,5 +66,6 @@ public class LoadingOptions extends Options {
      *     textAlign: 'center'
      * </pre>
      */
+    @Option
     public final StyleOptions style = new StyleOptions();
 }

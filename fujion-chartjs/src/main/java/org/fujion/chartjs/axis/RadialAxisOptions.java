@@ -20,28 +20,34 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for linear radial axes.
  */
 public class RadialAxisOptions extends AxisOptions {
-    
+
     /**
      * Angle line options.
      */
+    @Option
     public Object angleLines;
-    
+
     /**
      * Grid line options.
      */
+    @Option
     public Object gridLines;
-    
+
     /**
      * Point label options.
      */
+    @Option
     public Object pointLabels;
-    
+
     /**
      * Tick options.
      */
+    @Option
     public final LinearTickOptions ticks = new LinearTickOptions();
 }

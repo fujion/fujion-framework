@@ -21,44 +21,51 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for the paging or navigation appearing when the legend overflows.
  */
 public class LegendNavigationOptions extends Options {
-    
+
     /**
      * The color for the active up or down arrow in the legend page navigation. Defaults to #003399.
      */
+    @Option
     public String activeColor;
-    
+
     /**
      * How to animate the pages when navigating up or down. A value of true applies the default
      * navigation given in the chart.animation option.
      */
+    @Option
     public AnimationOptions animation;
-    
+
     /**
      * The pixel size of the up and down arrows in the legend paging navigation. Defaults to 12.
      */
+    @Option
     public Integer arrowSize;
-    
+
     /**
      * Whether to enable the legend navigation. In most cases, disabling the navigation results in
      * an unwanted overflow. See also the adapt chart to legend plugin for a solution to extend the
      * chart height to make room for the legend, optionally in exported charts only. Defaults to
      * true.
      */
+    @Option
     public Boolean enabled;
-    
+
     /**
      * The color of the inactive up or down arrow in the legend page navigation. Defaults to
      * #cccccc.
      */
+    @Option
     public String inactiveColor;
-    
+
     /**
      * Text styles for the legend page navigation.
      */
+    @Option
     public final StyleOptions style = new StyleOptions();
 }

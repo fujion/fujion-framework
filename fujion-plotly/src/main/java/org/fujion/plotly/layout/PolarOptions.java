@@ -21,26 +21,29 @@
 package org.fujion.plotly.layout;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Layout options for polar plots.
  */
 public class PolarOptions extends Options {
-
+    
     /**
      * The horizontal domain of the polar subplot (in plot fraction).
      * <p>
      * Default: [0,1]
      */
+    @Option
     public int[] domain_x;
-    
+
     /**
      * The vertical domain of the polar subplot (in plot fraction).
      * <p>
      * Default: [0,1]
      */
+    @Option
     public int[] domain_y;
-    
+
     /**
      * angular span of this polar subplot with two angles (in degrees). Sector are assumed to be
      * spanned in the counterclockwise direction with "0" corresponding to rightmost limit of the
@@ -48,23 +51,27 @@ public class PolarOptions extends Options {
      * <p>
      * Default: [0,360]
      */
+    @Option
     public int[] sector;
-
+    
     /**
      * The background color of the subplot.
      * <p>
      * Default: "#fff"
      */
+    @Option
     public String bgcolor;
-
+    
     /**
      * Options for polar angular axis.
      */
+    @Option
     public final AngularAxisOptions angularaxis = new AngularAxisOptions();
-    
+
     /**
      * Options for polar radial axis.
      */
+    @Option
     public final RadialAxisOptions radialaxis = new RadialAxisOptions();
-    
+
 }

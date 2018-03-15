@@ -20,27 +20,30 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
-import org.fujion.annotation.JavaScript;
+import org.fujion.annotation.Option;
 
 /**
  * Actions that may be associated with a menu item, for example.
  */
 public class ActionOptions extends Options {
-
+    
     /**
      * Label for action (e.g., menu item label).
      */
+    @Option
     public String text;
-
+    
     /**
      * If internationalization is required, the key to a language string.
      */
+    @Option
     public String textKey;
-
+    
     /**
      * Callback function to handle click event.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String onclick;
 }

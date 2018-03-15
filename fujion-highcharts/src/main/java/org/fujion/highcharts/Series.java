@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * A chart series.
@@ -46,22 +47,26 @@ public class Series extends Options {
      * }]
      * </pre>
      */
+    @Option
     public final List<DataPoint> data = new ArrayList<>();
     
     /**
      * The index of the series in the chart, affecting the internal index in the chart.series array,
      * the visible Z index as well as the order in the legend. Defaults to undefined.
      */
+    @Option
     public Integer index;
     
     /**
      * The sequential index of the series in the legend.
      */
+    @Option
     public Integer legendIndex;
     
     /**
      * The name of the series as shown in the legend, tooltip etc. Defaults to "".
      */
+    @Option
     public String name;
     
     /**
@@ -69,11 +74,13 @@ public class Series extends Options {
      * number or anything else, as long as the grouped series' stack options match each other.
      * Defaults to null.
      */
+    @Option
     public Object stack;
     
     /**
      * The type of series. Defaults to "line".
      */
+    @Option
     public final PlotType type;
     
     /**
@@ -81,6 +88,7 @@ public class Series extends Options {
      * connected to. It refers to the index of the axis in the xAxis array, with 0 being the first.
      * Defaults to 0.
      */
+    @Option
     public Integer xAxis;
     
     /**
@@ -88,12 +96,14 @@ public class Series extends Options {
      * connected to. It refers to the index of the axis in the yAxis array, with 0 being the first.
      * Defaults to 0.
      */
+    @Option
     public Integer yAxis;
     
     /**
      * Additional options.
      */
-    public transient final PlotOptions plotOptions;
+    @Option(ignore = true)
+    public final PlotOptions plotOptions;
     
     protected Series(PlotType type) {
         this.type = type;

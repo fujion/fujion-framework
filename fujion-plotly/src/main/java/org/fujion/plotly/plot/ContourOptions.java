@@ -21,33 +21,37 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for a single contour.
  */
 public class ContourOptions extends Options {
-    
+
     /**
      * The color of the contour lines.
      * <p>
      * Default: "#444"
      */
+    @Option
     public String color;
-    
+
     /**
      * Determines whether or not contour lines about the x dimension are highlighted on hover.
      * <p>
      * Default: true
      */
+    @Option
     public Boolean highlight;
-
+    
     /**
      * The color of the highlighted contour lines.
      * <p>
      * Default: "#444"
      */
+    @Option
     public String highlightcolor;
-
+    
     /**
      * The width of the highlighted contour lines.
      * <p>
@@ -55,40 +59,46 @@ public class ContourOptions extends Options {
      * <p>
      * Default: 2
      */
+    @Option
     public Integer highlightwidth;
-
+    
     /**
      * Determines whether or not these contour lines are projected on the x plane. If "highlight" is
      * set to "true" (the default), the projected lines are shown on hover. If "show" is set to
      * "true", the projected lines are shown in permanence.
      */
+    @Option
     public Boolean project_x;
-
+    
     /**
      * Determines whether or not these contour lines are projected on the y plane. If "highlight" is
      * set to "true" (the default), the projected lines are shown on hover. If "show" is set to
      * "true", the projected lines are shown in permanence.
      */
+    @Option
     public Boolean project_y;
-    
+
     /**
      * Determines whether or not these contour lines are projected on the z plane. If "highlight" is
      * set to "true" (the default), the projected lines are shown on hover. If "show" is set to
      * "true", the projected lines are shown in permanence.
      */
+    @Option
     public Boolean project_z;
-    
+
     /**
      * Determines whether or not contour lines about a dimension are drawn.
      */
+    @Option
     public Boolean show;
-
+    
     /**
      * An alternate to "color". Determines whether or not the contour lines are colored using the
      * trace "colorscale".
      */
+    @Option
     public Boolean usecolormap;
-
+    
     /**
      * The width of the contour lines.
      * <p>
@@ -96,6 +106,7 @@ public class ContourOptions extends Options {
      * <p>
      * Default: 2.
      */
+    @Option
     public Integer width;
-    
+
 }

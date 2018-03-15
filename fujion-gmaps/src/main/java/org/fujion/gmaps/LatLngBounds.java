@@ -23,26 +23,29 @@ package org.fujion.gmaps;
 import java.util.Objects;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Represents a rectangle in geographical coordinates, including one that crosses the 180 degrees
  * longitudinal meridian.
  */
 public class LatLngBounds extends Options {
-    
+
     /**
      * The southwest corner of the rectangle.
      */
+    @Option
     protected LatLng sw;
-
+    
     /**
      * The northeast corner of the rectangle.
      */
+    @Option
     protected LatLng ne;
-
+    
     /**
      * Create a new bounds given SW and NE coordinates.
-     * 
+     *
      * @param sw The southwest coordinate.
      * @param ne The northeast coordinate.
      */
@@ -50,10 +53,10 @@ public class LatLngBounds extends Options {
         this.sw = sw;
         this.ne = ne;
     }
-
+    
     /**
      * Create a new bounds given individual latitudes and longitudes.
-     * 
+     *
      * @param north The north latitude.
      * @param south The south latitude.
      * @param east The east latitude.
@@ -63,7 +66,7 @@ public class LatLngBounds extends Options {
         this.sw = new LatLng(south, west);
         this.ne = new LatLng(north, east);
     }
-
+    
     /**
      * Returns true if the given point is in this bounds.
      *
@@ -73,7 +76,7 @@ public class LatLngBounds extends Options {
     public boolean contains(LatLng point) {
         return point.lat >= sw.lat && point.lat <= ne.lat && point.lng >= sw.lng && point.lng <= ne.lng;
     }
-    
+
     /**
      * Extends this bounds to contain the given point.
      *
@@ -85,14 +88,14 @@ public class LatLngBounds extends Options {
         } else if (point.lat > ne.lat) {
             ne.lat = point.lat;
         }
-        
+
         if (point.lng < sw.lng) {
             sw.lng = point.lng;
         } else if (point.lng > ne.lng) {
             ne.lng = point.lng;
         }
     }
-    
+
     /**
      * Computes the center of this LatLngBounds.
      *
@@ -103,7 +106,7 @@ public class LatLngBounds extends Options {
         double lng = (ne.lng + sw.lng) / 2.0;
         return new LatLng(lat, lng);
     }
-    
+
     /**
      * Returns the north-east corner of this bounds.
      *
@@ -112,7 +115,7 @@ public class LatLngBounds extends Options {
     public LatLng getNortheast() {
         return ne;
     }
-
+    
     /**
      * Returns the south-west corner of this bounds.
      *
@@ -121,7 +124,7 @@ public class LatLngBounds extends Options {
     public LatLng getSouthwest() {
         return sw;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -135,7 +138,7 @@ public class LatLngBounds extends Options {
             return false;
         }
     }
-    
+
     @Override
     public String toString() {
         return "(" + ne + ", " + sw + ")";

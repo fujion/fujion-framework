@@ -20,8 +20,9 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
-import org.fujion.annotation.JavaScript;
+import org.fujion.annotation.Option;
 import org.fujion.common.StrUtil;
 
 /**
@@ -43,6 +44,7 @@ public class AnimationOptions extends Options {
      * <p>
      * Default: 1000
      */
+    @Option
     public Integer duration;
 
     /**
@@ -50,17 +52,18 @@ public class AnimationOptions extends Options {
      * <p>
      * Default: EASE_OUT_QUART
      */
+    @Option
     public EasingEnum easing;
 
     /**
      * Callback called at the end of an animation.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String onComplete;
 
     /**
      * Callback called on each step of an animation.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String onProgress;
 }

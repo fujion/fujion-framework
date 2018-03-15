@@ -21,30 +21,34 @@
 package org.fujion.chartjs.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options common to all plots.
  */
 public abstract class PlotOptions extends Options {
-    
+
     /**
      * The fill color under the line.
      */
+    @Option
     public String backgroundColor;
-
+    
     /**
      * The color of the line.
      */
+    @Option
     public String borderColor;
-    
+
     /**
      * The width of the line in pixels.
      */
+    @Option
     public Integer borderWidth;
-    
+
     /**
      * The plot type.
      */
     protected PlotType type;
-
+    
 }

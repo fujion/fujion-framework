@@ -20,64 +20,76 @@
  */
 package org.fujion.chartjs.plot;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for polar area plots.
  */
 public class PlotPolarArea extends PlotOptions {
-
+    
     /**
      * If true, the chart will animate in with a rotation animation.
      * <p>
      * Default: true
      */
+    @Option
     public Boolean animation_animateRotate;
-    
+
     /**
      * If true, will animate scaling the chart from the center outwards.
      * <p>
      * Default: true
      */
+    @Option
     public Boolean animation_animateScale;
-    
+
     /**
      * The data points.
      */
+    @Option
     public double[] data;
-    
+
     /**
      * The fill color of individual bars when hovered.
      */
+    @Option
     public String[] hoverBackgroundColor$array;
-    
+
     /**
      * The fill color of all bars when hovered.
      */
+    @Option
     public String hoverBackgroundColor$string;
-    
+
     /**
      * The stroke color of individual bars when hovered.
      */
+    @Option
     public String[] hoverBorderColor$array;
-    
+
     /**
      * The stroke color of all bars when hovered.
      */
+    @Option
     public String hoverBorderColor$string;
-    
+
     /**
      * The stroke width of individual bars when hovered.
      */
+    @Option
     public int[] hoverBorderWidth$array;
-    
+
     /**
      * The stroke width of all bars when hovered.
      */
+    @Option
     public Integer hoverBorderWidth$number;
-    
+
     /**
      * Starting angle to draw arcs for the first item in a dataset.
      * <p>
      * Default: 0.5 * pi
      */
+    @Option
     public Double startAngle;
 }

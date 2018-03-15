@@ -20,6 +20,8 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for polygon series.
  * <p>
@@ -28,9 +30,10 @@ package org.fujion.highcharts;
  * options. Requires the highcharts-more.js file.
  */
 public class PlotPolygon extends PlotOptions {
-
+    
     /**
      * Defaults to true.
      */
+    @Option
     public Boolean trackByArea;
 }

@@ -21,27 +21,30 @@
 package org.fujion.gmaps;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * A point on a two-dimensional plane.
  */
 public class Point extends Options {
-
+    
     /**
      * The x-coordinate.
      */
+    @Option
     protected final double x;
-    
+
     /**
      * The y-coordinate;
      */
+    @Option
     protected final double y;
-
+    
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
-
+    
     /**
      * Get the x-coordinate;
      *
@@ -50,7 +53,7 @@ public class Point extends Options {
     public double getX() {
         return x;
     }
-
+    
     /**
      * Get the y-coordinate;
      *
@@ -59,7 +62,7 @@ public class Point extends Options {
     public double getY() {
         return y;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -73,7 +76,7 @@ public class Point extends Options {
             return false;
         }
     }
-    
+
     @Override
     public String toString() {
         return String.format("(%f,%f)", x, y);

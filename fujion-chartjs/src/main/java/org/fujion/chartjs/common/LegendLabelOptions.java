@@ -20,76 +20,84 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
-import org.fujion.annotation.JavaScript;
+import org.fujion.annotation.Option;
 
 /**
  * Options for legend labels.
  */
 public class LegendLabelOptions extends Options {
-    
+
     /**
      * Width of colored box.
      * <p>
      * Default: 40
      */
+    @Option
     public Integer boxWidth;
-
+    
     /**
      * Function that filters items out of the legend. Receives 2 parameters, a Legend Item and the
      * chart data.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String filter;
-
+    
     /**
      * Font color.
      * <p>
      * Default: "#666"
      */
+    @Option
     public String fontColor;
-
+    
     /**
      * Font family.
      * <p>
      * Default: "Helvetica Neue, Helvetica, Arial, sans-serif"
      */
+    @Option
     public String fontFamily;
-
+    
     /**
      * Font size.
      * <p>
      * Default: 12
      */
+    @Option
     public Integer fontSize;
-
+    
     /**
      * Font style.
      * <p>
      * Default: "normal"
      */
+    @Option
     public String fontStyle;
-
+    
     /**
      * Function to generate legend items for each item in the legend. Default implementation returns
      * the text + styling for the color box.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String generateLabels;
-
+    
     /**
      * Padding between rows of colored boxes.
      * <p>
      * Default: 10
      */
+    @Option
     public Integer padding;
-
+    
     /**
      * Label style will match corresponding point style (size is based on fontSize, boxWidth is not
      * used in this case).
      * <p>
      * Default: false
      */
+    @Option
     public Boolean usePointStyle;
-
+    
 }

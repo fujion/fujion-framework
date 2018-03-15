@@ -20,6 +20,8 @@
  */
 package org.fujion.highcharts;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for stream graph.
  * <p>
@@ -27,14 +29,15 @@ package org.fujion.highcharts;
  * resulting in a flowing, organic shape.
  */
 public class PlotStreamGraph extends PlotOptions {
-    
+
     /**
      * Fill color or gradient for the area. When null, the series' color is used with the series'
      * fillOpacity. In styled mode, the fill color can be set with the .highcharts-area class name.
      * Defaults to null.
      */
+    @Option
     public String fillColor;
-    
+
     /**
      * Fill opacity for the area. When you set an explicit fillColor, the fillOpacity is not
      * applied. Instead, you should define the opacity in the fillColor with an rgba color
@@ -42,25 +45,29 @@ public class PlotStreamGraph extends PlotOptions {
      * of the color setting. In styled mode, the fill opacity can be set with the .highcharts-area
      * class name. Defaults to 1.
      */
+    @Option
     public Double fillOpacity;
-
+    
     /**
      * A separate color for the graph line. By default the line takes the color of the series, but
      * the lineColor setting allows setting a separate color for the line without altering the
      * fillColor. In styled mode, the line stroke can be set with the .highcharts-graph class name.
      * Defaults to null.
      */
+    @Option
     public String lineColor;
-    
+
     /**
      * A separate color for the negative part of the area. In styled mode, a negative color is set
      * with the .highcharts-negative class name. Defaults to undefined.
      */
+    @Option
     public String negativeFillColor;
-
+    
     /**
      * Whether the whole area or just the line should respond to mouseover tooltips and other mouse
      * or touch events. Defaults to false.
      */
+    @Option
     public Boolean trackByArea;
 }

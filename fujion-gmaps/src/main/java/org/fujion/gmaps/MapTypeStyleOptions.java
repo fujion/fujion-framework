@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * A collection of selectors and stylers that define how the map should be styled. Selectors specify
@@ -32,7 +33,7 @@ import org.fujion.ancillary.Options;
  * "https://developers.google.com/maps/documentation/javascript/style-reference#style-elements">here</a>.
  */
 public class MapTypeStyleOptions extends Options {
-
+    
     /**
      * The element to which a styler should be applied. An element is a visual aspect of a feature
      * on the map. Example: a label, an icon, the stroke or fill applied to the geometry, and more.
@@ -55,8 +56,9 @@ public class MapTypeStyleOptions extends Options {
      * <li><b>labels.text.stroke</b> selects only the stroke of the label's text.</li>
      * </ul>
      */
+    @Option
     public String elementType;
-    
+
     /**
      * The feature, or group of features, to which a styler should be applied. Optional. If
      * featureType is not specified, the value is assumed to be 'all'.
@@ -108,8 +110,9 @@ public class MapTypeStyleOptions extends Options {
      * <li><b>water</b> selects bodies of water.</li>
      * </ul>
      */
+    @Option
     public String featureType;
-
+    
     /**
      * The style rules to apply to the selected map features and elements.
      * <p>
@@ -119,5 +122,6 @@ public class MapTypeStyleOptions extends Options {
      * and/or elements that are modified through style operations (usually) already have existing
      * styles. The operations act on those existing styles, if present.
      */
+    @Option
     public final List<Styler<?>> stylers = new ArrayList<>();
 }

@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.junit.Test;
 
 /**
@@ -36,78 +37,82 @@ public class OptionTests {
     private static class TestOptions1 extends Options {
         
         // primitive type: should serialize
-        @SuppressWarnings("unused")
+        @Option
         public int should0;
         
-        // public with value: should serialize
-        @SuppressWarnings("unused")
+        // with value: should serialize
+        @Option
         public Integer should1 = 1;
         
-        // private with or without value: should not serialize
+        // no annotation: should not serialize
         @SuppressWarnings("unused")
-        private final Integer shouldnot2 = 2;
+        public final Integer shouldnot2 = 2;
 
-        // transient: should not serialize
-        @SuppressWarnings("unused")
-        public transient Integer shouldnot3 = 3;
+        // set to ignore: should not serialize
+        @Option(ignore = true)
+        private final Integer shouldnot3 = 3;
         
-        // protected with value: should serialize
-        @SuppressWarnings("unused")
+        // with value: should serialize
+        @Option
         protected Integer should4 = 4;
         
         // first alternate form without value: should not serialize
-        @SuppressWarnings("unused")
+        @Option
         public String alternate5$shouldnot;
         
         // second alternate form with value: should serialize
-        @SuppressWarnings("unused")
+        @Option
         public Integer alternate5$should = 5;
         
         // third alternate form without value: should not serialize
-        @SuppressWarnings("unused")
+        @Option
         public String alternate5$shouldnoteither;
         
         // should serialize under submap
-        @SuppressWarnings("unused")
+        @Option
         public Integer map1_should6 = 6;
         
         // should not serialize under submap
-        @SuppressWarnings("unused")
+        @Option
         public Integer map1_shouldnot7;
         
         // empty map2 should not serialize
-        @SuppressWarnings("unused")
+        @Option
         public Integer map2_shouldnot8;
         
         // empty map2 should not serialize
-        @SuppressWarnings("unused")
+        @Option
         public Integer map2_shouldnot9;
         
         // non-empty map: should serialize
-        @SuppressWarnings("unused")
+        @Option
         public TestOptions3 map3$should10 = new TestOptions3();
         
         // empty map: should not serialize
-        @SuppressWarnings("unused")
+        @Option
         public TestOptions4 map4$shouldnot11 = new TestOptions4();
 
         // test of underscore escape.
-        @SuppressWarnings("unused")
+        @Option
         public Integer should__12 = 12;
 
     }
-    
+
     public static class TestOptions3 extends Options {
         
+        @Option
         public Integer should30 = 30;
         
+        @Option
         public Integer shouldnot31;
     }
 
     public static class TestOptions4 extends Options {
         
+        @Option
         public Integer shouldnot40;
         
+        @Option
         public Integer shouldnot41;
     }
 

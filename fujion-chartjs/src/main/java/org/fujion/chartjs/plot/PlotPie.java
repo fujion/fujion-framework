@@ -20,100 +20,113 @@
  */
 package org.fujion.chartjs.plot;
 
-import org.fujion.annotation.JavaScript;
+import org.fujion.ancillary.JavaScript;
+import org.fujion.annotation.Option;
 
 /**
  * Options for pie plots.
  */
 public class PlotPie extends PlotOptions {
-
+    
     /**
      * If true, the chart will animate in with a rotation animation.
      * <p>
      * Default: true
      */
+    @Option
     public Boolean animation_animateRotate;
-    
+
     /**
      * If true, will animate scaling the chart from the center outwards.
      * <p>
      * Default: false
      */
+    @Option
     public Boolean animation_animateScale;
-    
+
     /**
      * Sweep to allow arcs to cover.
      * <p>
      * Default: 2 * pi
      */
+    @Option
     public Double circumference;
-    
+
     /**
      * The percentage of the chart that is cut out of the middle.
      * <p>
      * Default: 0 for pie chart, 50 for doughnut.
      */
+    @Option
     public Integer cutoutPercentage;
-    
+
     /**
      * The data points.
      */
+    @Option
     public double[] data;
-    
+
     /**
      * The background color when hovered as an array.
      */
+    @Option
     public String[] hoverBackgroundColor$array;
-    
+
     /**
      * The background color when hovered as a function.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String hoverBackgroundColor$function;
-    
+
     /**
      * The background color when hovered as a single value.
      */
+    @Option
     public String hoverBackgroundColor$string;
-
+    
     /**
      * The border color when hovered as an array.
      */
+    @Option
     public String[] hoverBorderColor$array;
-    
+
     /**
      * The border color when hovered as a function.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String hoverBorderColor$function;
-    
+
     /**
      * The border color when hovered as a single value.
      */
+    @Option
     public String hoverBorderColor$string;
-    
+
     /**
      * The border width when hovered as an array.
      */
+    @Option
     public Integer[] hoverBorderWidth$array;
-    
+
     /**
      * The border width when hovered as a function.
      */
-    @JavaScript
+    @Option(convertTo = JavaScript.class)
     public String hoverBorderWidth$function;
-    
+
     /**
      * The border width when hovered as a single value.
      * <p>
      * Default: 1
      */
+    @Option
     public Integer hoverBorderWidth$number;
-
+    
     /**
      * Starting angle to draw arcs from.
      * <p>
      * Default: -0.5 * pi
      */
+    @Option
     public Double rotation;
 }

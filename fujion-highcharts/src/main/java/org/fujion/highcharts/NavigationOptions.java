@@ -21,48 +21,53 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * A collection of options for buttons and menus appearing in the exporting module.
  */
 public class NavigationOptions extends Options {
-    
+
     /**
      * A collection of options for buttons appearing in the exporting module.
      */
+    @Option
     public final ButtonOptions buttonOptions = new ButtonOptions();
-    
+
     /**
      * CSS styles for the hover state of the individual items within the popup menu appearing by
      * default when the export icon is clicked. The menu items are rendered in HTML. Defaults to
-     * 
+     *
      * <pre>
      *     background: '#4572A5'
      *     color: '#FFFFFF'
      * </pre>
      */
+    @Option
     public final StyleOptions menuItemHoverStyle = new StyleOptions();
-    
+
     /**
      * CSS styles for the individual items within the popup menu appearing by default when the
      * export icon is clicked. The menu items are rendered in HTML. Defaults to
-     * 
+     *
      * <pre>
      *     padding: '0 5px'
      *     background: none
      *     color: '#303030'
      * </pre>
      */
+    @Option
     public final StyleOptions menuItemStyle = new StyleOptions();
-    
+
     /**
      * CSS styles for the popup menu appearing by default when the export icon is clicked. This menu
      * is rendered in HTML. Defaults to
-     * 
+     *
      * <pre>
      *     border: '1px solid #A0A0A0'
      *     background: '#FFFFFF'
      * </pre>
      */
+    @Option
     public final StyleOptions menuStyle = new StyleOptions();
 }

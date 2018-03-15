@@ -22,25 +22,28 @@ package org.fujion.highcharts;
 
 import java.lang.reflect.Field;
 
-import org.fujion.common.StrUtil;
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
+import org.fujion.common.StrUtil;
 
 /**
  * Global settings for Highcharts. These are set on a per desktop basis. Values are loaded from
  * label properties. For example, to set the decimal separator in the lang options:
- * 
+ *
  * <pre>
  * highcharts.lang.decimalPoint=.
  * </pre>
  */
 public class GlobalSettings extends Options {
-    
+
     private static final String LABEL_PREFIX = "highcharts.";
-    
+
+    @Option
     public final GlobalOptions global = new GlobalOptions();
-    
+
+    @Option
     public final LanguageOptions lang = new LanguageOptions();
-    
+
     /**
      * Create and load global settings.
      */
@@ -49,10 +52,10 @@ public class GlobalSettings extends Options {
         loadSettings("global.", global);
         loadSettings("lang.", lang);
     }
-    
+
     /**
      * Load global settings into the specified options object.
-     * 
+     *
      * @param cat This is the category prefix for the options.
      * @param options The options instance to receive the settings.
      */
@@ -60,10 +63,10 @@ public class GlobalSettings extends Options {
         for (Field field : options.getClass().getFields()) {
             try {
                 String value = StrUtil.getLabel(LABEL_PREFIX + cat + field.getName());
-                
+
                 if (value != null && !value.isEmpty()) {
                     Class<?> type = field.getType();
-                    
+
                     if (type.isArray()) {
                         field.set(options, value.split("\\,"));
                     } else if (type == Boolean.class) {

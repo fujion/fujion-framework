@@ -21,6 +21,7 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * A linear gradient that lets us create gradients in plot bands instead of just using solid colors.
@@ -32,25 +33,29 @@ import org.fujion.ancillary.Options;
  * and as you go down, y increases.
  */
 public class LinearGradient extends Options {
-    
+
     /**
      * The x1 coordinate of the line that defines the gradient.
      */
+    @Option
     public Double x1;
-    
+
     /**
      * The y1 coordinate of the line that defines the gradient.
      */
+    @Option
     public Double y1;
-    
+
     /**
      * The x2 coordinate of the line that defines the gradient.
      */
+    @Option
     public Double x2;
-    
+
     /**
      * The y2 coordinate of the line that defines the gradient.
      */
+    @Option
     public Double y2;
-    
+
 }

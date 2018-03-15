@@ -21,17 +21,19 @@
 package org.fujion.canvas.d2;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Configuration options for 2D renderings.
  */
 public class ContextOptions2D extends Options {
-
+    
     /**
      * Indicates if the canvas contains an alpha channel. If set to false, the browser now knows
      * that the backdrop is always opaque, which can speed up drawing of transparent content and
      * images.
      */
+    @Option
     public Boolean alpha;
-    
+
 }

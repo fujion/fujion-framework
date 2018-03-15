@@ -21,14 +21,16 @@
 package org.fujion.gmaps;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Options for the rendering of the scale control.
  */
 public class ScaleControlOptions extends Options {
-    
+
     /**
      * Style id. Used to select what style of scale control to display.
      */
+    @Option
     public ScaleControlStyle style;
 }

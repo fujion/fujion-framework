@@ -21,6 +21,7 @@
 package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 import org.fujion.plotly.common.ExponentFormatEnum;
 import org.fujion.plotly.common.FontOptions;
 import org.fujion.plotly.common.HorizontalAlignEnum;
@@ -72,6 +73,7 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: "#000"
      */
+    @Option
     public String bgcolor;
 
     /**
@@ -79,6 +81,7 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: "#444"
      */
+    @Option
     public String bordercolor;
     
     /**
@@ -88,6 +91,7 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 0
      */
+    @Option
     public Integer borderwidth;
     
     /**
@@ -106,6 +110,7 @@ public class ColorbarOptions extends Options {
      * ticks on the 15th of every third month, set "tick0" to "2000-01-15" and "dtick" to "M3". To
      * set ticks every 4 years, set "dtick" to "M48"
      */
+    @Option
     public Double dtick$number;
 
     /**
@@ -124,11 +129,13 @@ public class ColorbarOptions extends Options {
      * ticks on the 15th of every third month, set "tick0" to "2000-01-15" and "dtick" to "M3". To
      * set ticks every 4 years, set "dtick" to "M48"
      */
+    @Option
     public String dtick$string;
     
     /**
      * Formatting rule for the tick exponents.
      */
+    @Option
     public ExponentFormatEnum exponentformat;
 
     /**
@@ -137,6 +144,7 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 1
      */
+    @Option
     public Integer len;
 
     /**
@@ -144,6 +152,7 @@ public class ColorbarOptions extends Options {
      * direction) is set in units of plot "fraction" (the default) or in "pixels". Use "len" to set
      * the value.
      */
+    @Option
     public MeasurementEnum lenmode;
     
     /**
@@ -153,6 +162,7 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 0
      */
+    @Option
     public Integer nticks;
 
     /**
@@ -160,6 +170,7 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: "#444"
      */
+    @Option
     public String outlinecolor;
 
     /**
@@ -169,16 +180,19 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 1.
      */
+    @Option
     public Integer outlinewidth;
 
     /**
      * If true, even 4-digit integers are separated.
      */
+    @Option
     public Boolean separatethousands;
 
     /**
      * Controls display of the tick exponent.
      */
+    @Option
     public ShowTickEnum showexponent;
 
     /**
@@ -186,16 +200,19 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: true
      */
+    @Option
     public Boolean showticklabels;
 
     /**
      * Controls the display of the tick prefix.
      */
+    @Option
     public ShowTickEnum showtickprefix;
     
     /**
      * Controls the display of the tick suffix.
      */
+    @Option
     public ShowTickEnum showticksuffix;
     
     /**
@@ -204,6 +221,7 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 30
      */
+    @Option
     public Integer thickness;
 
     /**
@@ -211,6 +229,7 @@ public class ColorbarOptions extends Options {
      * direction) is set in units of plot "fraction" or in "pixels" (the default). Use "thickness"
      * to set the value.
      */
+    @Option
     public MeasurementEnum thicknessmode;
 
     /**
@@ -221,6 +240,7 @@ public class ColorbarOptions extends Options {
      * "category", it should be a number, using the scale where each category is assigned a serial
      * number from zero in the order it appears.
      */
+    @Option
     public Double tick0$number;
 
     /**
@@ -231,12 +251,14 @@ public class ColorbarOptions extends Options {
      * "category", it should be a number, using the scale where each category is assigned a serial
      * number from zero in the order it appears.
      */
+    @Option
     public String tick0$string;
     
     /**
      * The angle of the tick labels with respect to the horizontal. For example, a "tickangle" of
      * -90 draws the tick labels vertically.
      */
+    @Option
     public Integer tickangle;
 
     /**
@@ -244,11 +266,13 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: "#444"
      */
+    @Option
     public String tickcolor;
     
     /**
      * The color bar's tick label font.
      */
+    @Option
     public final FontOptions tickfont = new FontOptions();
 
     /**
@@ -257,17 +281,20 @@ public class ColorbarOptions extends Options {
      * n digits. For example, "2016-10-13 09:15:23.456" with tickformat "%H~%M~%S.%2f" would display
      * "09~15~23.46"
      */
+    @Option
     public String tickformat;
 
     /**
      * Range ["min", "max"], where "min", "max" - dtick values which describe some zoom level. It is
      * possible to omit "min" or "max" value by passing "null".
      */
+    @Option
     public Double[] tickformatstops_dtickrange;
 
     /**
      * Format for described zoom level, the same as "tickformat"
      */
+    @Option
     public String tickformatstops_value;
 
     /**
@@ -275,16 +302,19 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 5
      */
+    @Option
     public Integer ticklen;
 
     /**
      * The tick mode for this axis.
      */
+    @Option
     public TickModeEnum tickmode;
 
     /**
      * The tick label prefix.
      */
+    @Option
     public String tickprefix;
 
     /**
@@ -292,23 +322,27 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: no ticks
      */
+    @Option
     public TickPositionEnum ticks;
     
     /**
      * The tick label suffix.
      */
+    @Option
     public String ticksuffix;
     
     /**
      * The text displayed at the ticks position via "tickvals". Only has an effect if "tickmode" is
      * set to "array". Used with "tickvals".
      */
+    @Option
     public String[] ticktext;
     
     /**
      * The values at which ticks on this axis appear. Only has an effect if "tickmode" is set to
      * "array". Used with "ticktext".
      */
+    @Option
     public Object[] tickvals;
     
     /**
@@ -316,21 +350,25 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 1
      */
+    @Option
     public Integer tickwidth;
     
     /**
      * The title of the color bar.
      */
+    @Option
     public String title;
     
     /**
      * The font of the title of the color bar.
      */
+    @Option
     public final FontOptions titlefont = new FontOptions();
     
     /**
      * Determines the location of the colorbar title with respect to the color bar.
      */
+    @Option
     public TitleSideEnum titleside;
     
     /**
@@ -340,12 +378,14 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 1.02
      */
+    @Option
     public Double x;
     
     /**
      * The color bar's horizontal position anchor. This anchor binds the "x" position to the "left
      * (the default), "center" or "right" of the color bar.
      */
+    @Option
     public HorizontalAlignEnum xanchor;
     
     /**
@@ -355,6 +395,7 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 10
      */
+    @Option
     public Integer xpad;
 
     /**
@@ -364,12 +405,14 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 0.5
      */
+    @Option
     public Double y;
 
     /**
      * The color bar's vertical position anchor This anchor binds the "y" position to the "top",
      * "middle" (the default) or "bottom" of the color bar.
      */
+    @Option
     public VerticalAlignEnum yanchor;
     
     /**
@@ -379,5 +422,6 @@ public class ColorbarOptions extends Options {
      * <p>
      * Default: 10
      */
+    @Option
     public Integer ypad;
 }
