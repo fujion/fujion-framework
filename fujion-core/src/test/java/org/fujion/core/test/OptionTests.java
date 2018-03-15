@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
@@ -33,85 +34,87 @@ import org.junit.Test;
  * Tests for Option class functionality.
  */
 public class OptionTests {
-
+    
     private static class TestOptions1 extends Options {
-
+        
         // primitive type: should serialize
         @Option
         public int should0;
-
+        
         // with value: should serialize
         @Option
         public Integer should1 = 1;
-
+        
         // no annotation: should not serialize
         @SuppressWarnings("unused")
         public final Integer shouldnot2 = 2;
-        
+
         // set to ignore: should not serialize
         @Option(ignore = true)
         private final Integer shouldnot3 = 3;
-
+        
         // with value: should serialize
         @Option
         private final Integer should4 = 4;
-
+        
         // first alternate form without value: should not serialize
         @Option("alternate5")
         public String alternate5$shouldnot;
-
+        
         // second alternate form with value: should serialize
         @Option("alternate5")
         public Integer alternate5$should = 5;
-
+        
         // third alternate form without value: should not serialize
         @Option("alternate5")
         public String alternate5$shouldnoteither;
-
+        
         // should serialize under submap
         @Option("map1.should6")
         public Integer map1_should6 = 6;
-
+        
         // should not serialize under submap
         @Option("map1.shouldnot7")
         public Integer map1_shouldnot7;
-
+        
         // empty map2 should not serialize
         @Option("map2.shouldnot8")
         public Integer map2_shouldnot8;
-
+        
         // empty map2 should not serialize
         @Option("map2.shouldnot9")
         public Integer map2_shouldnot9;
-
+        
         // non-empty map: should serialize
         @Option("map3")
         public TestOptions3 map3$should10 = new TestOptions3();
-
+        
         // empty map: should not serialize
         @Option("map4")
         public TestOptions4 map4$shouldnot11 = new TestOptions4();
-        
-    }
-    
-    public static class TestOptions3 extends Options {
 
+        @Option(convertTo = JavaScript.class)
+        protected String should12 = "x=1;";
+    }
+
+    public static class TestOptions3 extends Options {
+        
         @Option
         public Integer should30 = 30;
-
+        
         @Option
         public Integer shouldnot31;
     }
-    
-    public static class TestOptions4 extends Options {
 
+    public static class TestOptions4 extends Options {
+        
         @Option
         public Integer shouldnot40;
-
+        
         @Option
         public Integer shouldnot41;
     }
-    
+
     @Test
     public void test() {
         TestOptions1 opt = new TestOptions1();
@@ -132,5 +135,6 @@ public class OptionTests {
         OptionMap map3 = (OptionMap) map.get("map3");
         assertEquals(30, map3.get("should30"));
         assertFalse(map3.containsKey("shouldnot31"));
+        assertTrue(map.get("should12") instanceof JavaScript);
     }
 }
