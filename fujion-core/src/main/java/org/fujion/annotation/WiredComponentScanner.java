@@ -20,70 +20,57 @@
  */
 package org.fujion.annotation;
 
-import java.lang.reflect.Field;
-
 import org.fujion.component.BaseComponent;
 
 /**
  * Scans an object's class and superclasses for fields marked for wiring. Only fields that extend
  * BaseComponent are eligible for wiring.
  */
-public class WiredComponentScanner {
+public class WiredComponentScanner extends AbstractFieldScanner<Object, WiredComponent> {
+
+    private static final WiredComponentScanner instance = new WiredComponentScanner();
     
     private WiredComponentScanner() {
+        super(Object.class, WiredComponent.class);
     }
-    
+
     /**
      * Wire an object instance using the root component to resolve component names.
      *
-     * @param instance The object whose fields are to be scanned.
+     * @param object The object whose fields are to be scanned.
      * @param root The root component used to resolve component names.
      */
-    public static void wire(Object instance, BaseComponent root) {
-        Class<?> clazz = instance.getClass();
-        
-        while (clazz != Object.class) {
-            wire(instance, root, clazz);
-            clazz = clazz.getSuperclass();
-        }
-    }
-    
-    private static void wire(Object instance, BaseComponent root, Class<?> clazz) {
-        for (Field field : clazz.getDeclaredFields()) {
-            field.setAccessible(true);
-            WiredComponent annot = field.getAnnotation(WiredComponent.class);
-            
-            if (annot == null) {
-                continue;
-            }
-            
-            OnFailure onFailure = annot.onFailure();
-            
+    public static void wire(Object object, BaseComponent root) {
+        instance.scan(object, (annotation, field) -> {
+            OnFailure onFailure = annotation.onFailure();
+
             if (!BaseComponent.class.isAssignableFrom(field.getType())) {
                 onFailure.doAction("Field \"%s\" is not a component type", field.getName());
-                return;
+                return true;
             }
-            
+
             try {
-                if (!annot.overwrite() && field.get(instance) != null) {
+                if (!annotation.overwrite() && field.get(object) != null) {
                     onFailure.doAction("Field \"%s\" is already assigned a value", field.getName());
-                    continue;
+                    return true;
                 }
-                
-                String name = annot.value();
+
+                String name = annotation.value();
                 name = name.isEmpty() ? field.getName() : name;
                 BaseComponent component = root.findByName(name);
-                
+
                 if (component == null) {
                     onFailure.doAction("No component matching name \"%s\"", name);
-                    continue;
+                    return true;
                 }
-                
-                field.set(instance, component);
+
+                field.set(object, component);
             } catch (Exception e) {
                 onFailure.doAction(e);
             }
-        }
+
+            return true;
+        });
     }
-    
+
 }

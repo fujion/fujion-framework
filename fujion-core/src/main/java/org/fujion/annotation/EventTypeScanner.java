@@ -32,11 +32,11 @@ import org.fujion.event.Event;
  * Builds a map of event types to implementation classes by scanning class annotations.
  */
 public class EventTypeScanner extends AbstractClassScanner<Event, EventType> {
-    
+
     private static final EventTypeScanner instance = new EventTypeScanner();
-    
+
     private final Map<String, Class<? extends Event>> typeToClass = new RegistryMap<>(DuplicateAction.ERROR);
-    
+
     /**
      * Returns a singleton instance of the event type scanner.
      *
@@ -45,21 +45,21 @@ public class EventTypeScanner extends AbstractClassScanner<Event, EventType> {
     public static EventTypeScanner getInstance() {
         return instance;
     }
-    
+
     private EventTypeScanner() {
         super(Event.class, EventType.class);
     }
-    
+
     /**
      * Creates mapping between event type and its implementation class.
      *
-     * @param eventClass Class containing EventType annotation.
+     * @param eventClass Class containing EventType annotations.
      */
     @Override
     protected void doScanClass(Class<Event> eventClass) {
         typeToClass.put(getEventType(eventClass), eventClass);
     }
-    
+
     /**
      * Returns an implementation class given an event type. Will never return null; for any event
      * types that do not have an explicit implementation class this method will return a generic
@@ -72,7 +72,7 @@ public class EventTypeScanner extends AbstractClassScanner<Event, EventType> {
         Class<? extends Event> eventClass = typeToClass.get(eventType);
         return eventClass == null ? Event.class : eventClass;
     }
-    
+
     /**
      * Given an event class, returns the event type implemented by that class.
      *
@@ -83,7 +83,7 @@ public class EventTypeScanner extends AbstractClassScanner<Event, EventType> {
         EventType eventType = eventClass.getAnnotation(EventType.class);
         return eventType == null ? null : eventType.value();
     }
-
+    
     /**
      * Returns the set of registered event types.
      *

@@ -20,49 +20,29 @@
  */
 package org.fujion.annotation;
 
-import java.lang.reflect.Field;
-
 import org.fujion.annotation.EventType.EventParameter;
 import org.fujion.client.ClientRequest;
 import org.fujion.common.MiscUtil;
 import org.fujion.event.Event;
 
 /**
- * Scans an object's class and superclasses for fields marked for wiring. Only fields that extend
- * BaseComponent are eligible for wiring.
+ * Scans an event object's class and superclasses for fields annotated for wiring.
  */
-public class EventParameterScanner {
+public class EventParameterScanner extends AbstractFieldScanner<Event, EventParameter> {
 
-    private EventParameterScanner() {
-    }
-
+    private static EventParameterScanner instance = new EventParameterScanner();
+    
     /**
      * Wire an event object with parameters in a client request.
-     * 
-     * @param instance The event object to be wired..
+     *
+     * @param event The event object to be wired..
      * @param request The client request from which parameter values will be derived.
      */
-    public static void wire(Event instance, ClientRequest request) {
-        Class<?> clazz = instance.getClass();
-
-        while (clazz != Object.class) {
-            wire(instance, request, clazz);
-            clazz = clazz.getSuperclass();
-        }
-    }
-
-    private static void wire(Event instance, ClientRequest request, Class<?> clazz) {
-        for (Field field : clazz.getDeclaredFields()) {
+    public static void wire(Event event, ClientRequest request) {
+        instance.scan(event, (annotation, field) -> {
             try {
-                field.setAccessible(true);
-                EventParameter annot = field.getAnnotation(EventParameter.class);
-
-                if (annot == null) {
-                    continue;
-                }
-
-                String name = annot.value();
-                OnFailure onFailure = annot.onFailure();
+                String name = annotation.value();
+                OnFailure onFailure = annotation.onFailure();
 
                 name = name.isEmpty() ? field.getName() : name;
                 Object value = request.getParam(name, field.getType());
@@ -70,12 +50,17 @@ public class EventParameterScanner {
                 if (value == null) {
                     onFailure.doAction("Request contains no valid value for field  \"%s\"", name);
                 } else {
-                    field.set(instance, value);
+                    field.set(event, value);
                 }
             } catch (Exception e) {
                 throw MiscUtil.toUnchecked(e);
             }
-        }
+            return true;
+        });
+    }
+
+    private EventParameterScanner() {
+        super(Event.class, EventParameter.class);
     }
 
 }

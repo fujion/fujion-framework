@@ -34,19 +34,20 @@ import org.fujion.annotation.JavaScript;
  * Base class for options. Supports interconverting class-based properties to a map and vice-versa.
  */
 public abstract class Options implements IOptionMapConverter {
-
-    private static final Log log = LogFactory.getLog(Options.class);
     
+    private static final Log log = LogFactory.getLog(Options.class);
+
     /**
      * @see org.fujion.ancillary.OptionMap.IOptionMapConverter#toMap()
      */
     @Override
     public OptionMap toMap() {
         OptionMap map = new OptionMap();
+        // OptionScanner.scan(this, map);
         toMap(getClass(), map);
         return map;
     }
-    
+
     /**
      * Set each of the class' fields into a map. Ignores private and transient fields. Recurses for
      * each superclass until the root Options class is reached.
@@ -58,34 +59,34 @@ public abstract class Options implements IOptionMapConverter {
         if (clazz == Options.class) {
             return;
         }
-        
+
         toMap(clazz.getSuperclass(), map);
-        
+
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
             int modifiers = field.getModifiers();
-            
+
             if (!Modifier.isTransient(modifiers) && !Modifier.isPrivate(modifiers)) {
                 try {
                     String name = field.getName();
                     Object value = field.get(this);
-                    
+
                     if (value == null) {
                         continue;
                     }
-                    
+
                     if (value instanceof IOptionMapConverter) {
                         value = ((IOptionMapConverter) value).toMap();
                     }
-
+                    
                     if (value instanceof Collection && ((Collection<?>) value).isEmpty()) {
                         continue;
                     }
-
+                    
                     if (value instanceof Map && ((Map<?, ?>) value).isEmpty()) {
                         continue;
                     }
-                    
+
                     if (field.isAnnotationPresent(JavaScript.class)) {
                         if (value.getClass().isArray()) {
                             value = ConvertUtil.convertToJS((Object[]) value);
@@ -93,7 +94,7 @@ public abstract class Options implements IOptionMapConverter {
                             value = ConvertUtil.convertToJS(value);
                         }
                     }
-                    
+
                     setValue(name.replace("__", "@"), value, map);
                 } catch (Exception e) {
                     log.error("Exception transforming option map.", e);
@@ -101,7 +102,7 @@ public abstract class Options implements IOptionMapConverter {
             }
         }
     }
-    
+
     /**
      * Sets the name/value pair into the specified map. If the name contains an underscore, the
      * value is stored in a submap using the first part of the name as the top level key and the
@@ -119,24 +120,24 @@ public abstract class Options implements IOptionMapConverter {
             String pcs[] = name.split("\\_", 2);
             name = pcs[0].replace("@", "_");
             String rest = pcs[1];
-            
+
             if (!rest.isEmpty()) {
                 OptionMap submap = (OptionMap) map.get(name);
                 OptionMap newmap = submap == null ? new OptionMap() : submap;
                 setValue(rest, value, newmap);
-
+                
                 if (submap == null && !newmap.isEmpty()) {
                     map.put(name, newmap);
                 }
             }
-
+            
             return;
         }
-        
+
         name = name.contains("$") ? name.split("\\$", 2)[0] : name;
         map.put(name.replace("@", "_"), value);
     }
-    
+
     /**
      * Copies this instance to a target of the same class.
      *
@@ -146,7 +147,7 @@ public abstract class Options implements IOptionMapConverter {
         if (target.getClass() != getClass()) {
             throw new IllegalArgumentException();
         }
-        
+
         for (Field field : getClass().getFields()) {
             if (field.isAccessible() && !Modifier.isTransient(field.getModifiers())) {
                 try {
@@ -154,6 +155,6 @@ public abstract class Options implements IOptionMapConverter {
                 } catch (Exception e) {}
             }
         }
-        
+
     }
 }
