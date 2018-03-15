@@ -27,51 +27,51 @@ import org.fujion.annotation.Option;
  * Options for a colored band stretching across the plot area marking an interval on the axis.
  */
 public class PlotBandOptions extends Options {
-    
+
     /**
      * The color of the plot band.
      */
     @Option
     public String color;
-    
+
     /**
      * The linear gradient that defines the line which defines the direction of the gradient.
      */
-    @Option
+    @Option("color.linearGradient")
     public final LinearGradient color_linearGradient = new LinearGradient();
-    
+
     /**
      * The radial gradient that defines the line which defines the direction of the gradient.
      */
-    @Option
+    @Option("color.radialGradient")
     public final RadialGradient color_radialGradient = new RadialGradient();
-    
+
     /**
      * The "stops" that define where the color transitions happen in the linear gradient. The first
      * element is a value between 0 and 1 that define where along the line the transition happens
      * (like a percentage) and the second element is the actual color (#FFBBAA for example).
      */
-    @Option
+    @Option("color.stops")
     public String[][] color_stops;
-    
+
     /**
      * The start position of the plot band in axis units. Defaults to null.
      */
     @Option
     public Double from;
-    
+
     /**
      * An id used for identifying the plot band in Axis.removePlotBand. Defaults to null.
      */
     @Option
     public String id;
-    
+
     /**
      * The end position of the plot band in axis units. Defaults to null.
      */
     @Option
     public Double to;
-    
+
     /**
      * The z index of the plot band within the chart. Defaults to null.
      */

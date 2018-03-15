@@ -27,14 +27,14 @@ import org.fujion.annotation.Option;
  * Layout options for map boxes.
  */
 public class MapboxOptions extends Options {
-
+    
     /**
      * The mapbox access token to be used for this mapbox map. Alternatively, the mapbox access
      * token can be set in the configuration options under "mapboxAccessToken".
      */
     @Option
     public String accesstoken;
-    
+
     /**
      * The bearing angle of the map (in degrees counter-clockwise from North).
      * <p>
@@ -42,41 +42,41 @@ public class MapboxOptions extends Options {
      */
     @Option
     public Integer bearing;
-    
+
     /**
      * The latitude of the center of the map (in degrees North).
      */
-    @Option
+    @Option("center.lat")
     public Double center_lat;
-    
+
     /**
      * The longitude of the center of the map (in degrees East).
      */
-    @Option
+    @Option("center.lon")
     public Double center_lon;
-    
+
     /**
      * The horizontal domain of this mapbox subplot (in plot fraction).
      * <p>
      * Default: [0,1]
      */
-    @Option
+    @Option("domain.x")
     public int[] domain_x;
-
+    
     /**
      * The vertical domain of this mapbox subplot (in plot fraction).
      * <p>
      * Default: [0,1]
      */
-    @Option
+    @Option("domain.y")
     public int[] domain_y;
-    
+
     /**
      * Options for layers.
      */
     @Option
     public final LayerOptions layers = new LayerOptions();
-    
+
     /**
      * The pitch angle of the map (in degrees, where 0 means perpendicular to the surface of the
      * map).
@@ -85,14 +85,14 @@ public class MapboxOptions extends Options {
      */
     @Option
     public Integer pitch;
-    
+
     /**
      * The Mapbox map style as a number. Either input one of the default Mapbox style names or the
      * URL to a custom style or a valid Mapbox style JSON.
      */
     @Option
     public String style;
-    
+
     /**
      * The zoom level of the map.
      * <p>

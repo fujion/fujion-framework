@@ -65,13 +65,13 @@ public class ParcoordsLineOptions extends Options {
      * The line color as an array of numbers that are mapped to the colorscale relative to the max
      * and min values of the array or relative to "cmin" and "cmax" if set.
      */
-    @Option
+    @Option("color")
     public int[] color$array;
 
     /**
      * The line color as a constant value.
      */
-    @Option
+    @Option("color")
     public String color$string;
     
     /**
@@ -87,7 +87,7 @@ public class ParcoordsLineOptions extends Options {
      * required. For example, "[[0, "rgb(0,0,255)", [1, "rgb(255,0,0)"]]". To control the bounds of
      * the colorscale in color space, use "cmin" and "cmax".
      */
-    @Option
+    @Option("colorscale")
     public Object[] colorscale$array;
     
     /**
@@ -95,7 +95,7 @@ public class ParcoordsLineOptions extends Options {
      * YlGnBu, Greens, YlOrRd, Bluered, RdBu, Reds, Blues, Picnic, Rainbow, Portland, Jet, Hot,
      * Blackbody, Earth, Electric, Viridis, Cividis
      */
-    @Option
+    @Option("colorscale")
     public String colorscale$string;
 
     /**

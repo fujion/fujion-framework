@@ -70,8 +70,8 @@ public class RangeSliderOptions extends Options {
      * numbers, using the scale where each category is assigned a serial number from zero in the
      * order it appears.
      */
-    @Option
-    public Object[] range;
+    @Option("range")
+    public Object[] range$array;
 
     /**
      * The range of the range slider as a numeric array. If not set, defaults to the full xaxis
@@ -81,7 +81,7 @@ public class RangeSliderOptions extends Options {
      * "category", it should be numbers, using the scale where each category is assigned a serial
      * number from zero in the order it appears.
      */
-    @Option
+    @Option("range")
     public double[] range$number;
 
     /**

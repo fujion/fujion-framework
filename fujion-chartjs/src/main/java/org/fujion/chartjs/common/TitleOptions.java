@@ -96,13 +96,13 @@ public class TitleOptions extends Options {
     /**
      * The text of the title.
      */
-    @Option
+    @Option("text")
     public String[] text$array;
     
     /**
      * The text of the title.
      */
-    @Option
+    @Option("text")
     public String text$string;
 
 }

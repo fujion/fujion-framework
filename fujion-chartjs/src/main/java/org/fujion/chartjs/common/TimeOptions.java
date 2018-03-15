@@ -135,13 +135,13 @@ public class TimeOptions extends Options {
     /**
      * Custom function for parsing dates.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value="parser", convertTo = JavaScript.class)
     public String parser$function;
 
     /**
      * Custom format for parsing dates.
      */
-    @Option
+    @Option("parser")
     public String parser$string;
 
     /**

@@ -33,89 +33,85 @@ import org.junit.Test;
  * Tests for Option class functionality.
  */
 public class OptionTests {
-    
+
     private static class TestOptions1 extends Options {
-        
+
         // primitive type: should serialize
         @Option
         public int should0;
-        
+
         // with value: should serialize
         @Option
         public Integer should1 = 1;
-        
+
         // no annotation: should not serialize
         @SuppressWarnings("unused")
         public final Integer shouldnot2 = 2;
-
+        
         // set to ignore: should not serialize
         @Option(ignore = true)
         private final Integer shouldnot3 = 3;
-        
+
         // with value: should serialize
         @Option
-        protected Integer should4 = 4;
-        
+        private final Integer should4 = 4;
+
         // first alternate form without value: should not serialize
-        @Option
+        @Option("alternate5")
         public String alternate5$shouldnot;
-        
+
         // second alternate form with value: should serialize
-        @Option
+        @Option("alternate5")
         public Integer alternate5$should = 5;
-        
+
         // third alternate form without value: should not serialize
-        @Option
+        @Option("alternate5")
         public String alternate5$shouldnoteither;
-        
+
         // should serialize under submap
-        @Option
+        @Option("map1.should6")
         public Integer map1_should6 = 6;
-        
+
         // should not serialize under submap
-        @Option
+        @Option("map1.shouldnot7")
         public Integer map1_shouldnot7;
-        
+
         // empty map2 should not serialize
-        @Option
+        @Option("map2.shouldnot8")
         public Integer map2_shouldnot8;
-        
+
         // empty map2 should not serialize
-        @Option
+        @Option("map2.shouldnot9")
         public Integer map2_shouldnot9;
-        
+
         // non-empty map: should serialize
-        @Option
+        @Option("map3")
         public TestOptions3 map3$should10 = new TestOptions3();
-        
+
         // empty map: should not serialize
-        @Option
+        @Option("map4")
         public TestOptions4 map4$shouldnot11 = new TestOptions4();
-
-        // test of underscore escape.
-        @Option
-        public Integer should__12 = 12;
-
-    }
-
-    public static class TestOptions3 extends Options {
         
+    }
+    
+    public static class TestOptions3 extends Options {
+
         @Option
         public Integer should30 = 30;
-        
+
         @Option
         public Integer shouldnot31;
     }
-
+    
     public static class TestOptions4 extends Options {
-        
+
         @Option
         public Integer shouldnot40;
-        
+
         @Option
         public Integer shouldnot41;
     }
-
+    
     @Test
     public void test() {
         TestOptions1 opt = new TestOptions1();
@@ -130,7 +126,6 @@ public class OptionTests {
         assertFalse(map.containsKey("map2"));
         assertTrue(map.get("map3") instanceof OptionMap);
         assertFalse(map.containsKey("map4"));
-        assertEquals(12, map.get("should_12"));
         OptionMap map1 = (OptionMap) map.get("map1");
         assertEquals(6, map1.get("should6"));
         assertFalse(map1.containsKey("shouldnot7"));

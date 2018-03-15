@@ -27,41 +27,41 @@ import org.fujion.annotation.Option;
  * Layout options for layers.
  */
 public class LayerOptions extends Options {
-    
+
     /**
      * Source types.
      */
     public enum SourceTypeEnum {
         GEOJSON, VECTOR;
-
+        
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-
+    
     /**
      * Layer types.
      */
     public enum TypeEnum {
         CIRCLE, FILL, LINE, SYMBOL;
     }
-
+    
     /**
      * Determines if the layer will be inserted before the layer with the specified ID. If omitted
      * or set to '', the layer will be inserted above every existing layer.
      */
     @Option
     public String below;
-
+    
     /**
      * The circle radius. Has an effect only when "type" is set to CIRCLE.
      * <p>
      * Default: 15
      */
-    @Option
+    @Option("circle.radius")
     public Integer circle_radius;
-    
+
     /**
      * The primary layer color. If "type" is CIRCLE, color corresponds to the circle color. If
      * "type" is LINE, color corresponds to the line color. If "type" is FILL, color corresponds to
@@ -71,23 +71,23 @@ public class LayerOptions extends Options {
      */
     @Option
     public String color;
-
+    
     /**
      * The fill outline color. Has an effect only when "type" is set to FILL.
      * <p>
      * Default: "#444"
      */
-    @Option
+    @Option("fill.outlinecolor")
     public String fill_outlinecolor;
-
+    
     /**
      * The line width. Has an effect only when "type" is set to LINE.
      * <p>
      * Default: 2
      */
-    @Option
+    @Option("line.width")
     public Integer line_width;
-    
+
     /**
      * The opacity of the layer.
      * <p>
@@ -95,33 +95,33 @@ public class LayerOptions extends Options {
      */
     @Option
     public Double opacity;
-
+    
     /**
      * The source data for this layer. Source can be either a URL, a geojson object (with
      * "sourcetype" set to "geojson") or an array of tile URLS (with "sourcetype" set to "vector").
      */
     @Option
     public String source;
-
+    
     /**
      * Specifies the layer to use from a vector tile source. Required for "vector" source type that
      * supports multiple layers.
      */
     @Option
     public String sourcelayer;
-
+    
     /**
      * The source type for this layer.
      */
     @Option
     public SourceTypeEnum sourcetype;
-
+    
     /**
      * Symbol options. Has an effect only when "type" is set to SYMBOL.
      */
     @Option
     public final SymbolOptions symbol = new SymbolOptions();
-    
+
     /**
      * The layer type.
      * <p>

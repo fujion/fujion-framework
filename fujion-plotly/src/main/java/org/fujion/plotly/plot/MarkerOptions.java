@@ -25,26 +25,26 @@ import org.fujion.annotation.Option;
 import org.fujion.plotly.common.SymbolEnum;
 
 public class MarkerOptions extends Options {
-    
+
     public enum GradientTypeEnum {
         HORIZONTAL, NONE, RADIAL, VERTICAL;
-        
+
         @Override
         public String toString() {
             return name().toLowerCase();
         }
-        
+
     }
-    
+
     public enum SizeModeEnum {
         AREA, DIAMETER;
-        
+
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-    
+
     /**
      * Has an effect only if "marker.color" is set to a numerical array. Determines whether the
      * colorscale is a default palette ("autocolorscale: true") or the palette determined by
@@ -54,7 +54,7 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Boolean autocolorscale;
-
+    
     /**
      * Determines if colors are blended together for a translucency effect in case "opacity" is
      * specified as a value less then "1". Setting "blend" to "true" reduces zoom/pan speed if used
@@ -62,7 +62,7 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Boolean blend;
-    
+
     /**
      * Specifies what fraction of the marker area is covered with the border.
      * <p>
@@ -70,16 +70,16 @@ public class MarkerOptions extends Options {
      * <p>
      * Default: 0
      */
-    @Option
+    @Option("border.arearatio")
     public Double border_arearatio;
-
+    
     /**
      * The stroke color. It accepts a specific color. If the color is not fully opaque and there are
      * hundreds of thousands of points, it may cause slower zooming and panning.
      */
-    @Option
+    @Option("border.color")
     public String border_color;
-    
+
     /**
      * Has an effect only if "marker.color" is set to a numerical array and "cmin", "cmax" are set
      * by the user. In this case, it controls whether the range of colors in "colorscale" is mapped
@@ -90,21 +90,21 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Boolean cauto;
-
+    
     /**
      * The upper bound of the color domain. Value should be associated to the "marker.color" array
      * index, and if set, "marker.cmin" must be set as well.
      */
     @Option
     public Integer cmax;
-
+    
     /**
      * The lower bound of the color domain. Value should be associated to the "marker.color" array
      * index, and if set, "marker.cmax" must be set as well.
      */
     @Option
     public Integer cmin;
-
+    
     /**
      * The marker color. It accepts either a specific color or an array of numbers that are mapped
      * to the colorscale relative to the max and min values of the array or relative to "cmin" and
@@ -112,20 +112,20 @@ public class MarkerOptions extends Options {
      */
     @Option
     public String color;
-    
+
     /**
      * Color bar options.
      */
     @Option
     public final ColorbarOptions colorbar = new ColorbarOptions();
-    
+
     /**
      * For pie charts, specifies the color of each sector. If not specified, the default trace color
      * set is used to pick the sector colors.
      */
     @Option
     public String[] colors;
-
+    
     /**
      * The colorscale and only has an effect if "marker.color" is set to a numerical array. The
      * colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba,
@@ -138,32 +138,32 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Object colorscale;
-
+    
     /**
      * The final color of the gradient fill: the center color for radial, the right for horizontal,
      * or the bottom for vertical.
      */
-    @Option
+    @Option("gradient.color")
     public String gradient_color;
-    
+
     /**
      * The type of gradient used to fill the markers.
      */
-    @Option
+    @Option("gradient.type")
     public GradientTypeEnum[] gradient_type$array;
-
+    
     /**
      * The type of gradient used to fill the markers to the same value.
      */
-    @Option
+    @Option("gradient.type")
     public GradientTypeEnum gradient_type$enum;
-
+    
     /**
      * Line options.
      */
     @Option
     public final MarkerLineOptions line = new MarkerLineOptions();
-    
+
     /**
      * Maximum number of points to be drawn on the graph. 0 corresponds to no limit.
      * <p>
@@ -171,7 +171,7 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Integer maxdisplayed;
-    
+
     /**
      * The marker opacity.
      * <p>
@@ -179,13 +179,13 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Double opacity;
-    
+
     /**
      * The color of the outlier sample points.
      */
     @Option
     public String outliercolor;
-
+    
     /**
      * Has an effect only if "marker.color" is set to a numerical array. Reverses the color mapping
      * if true ("cmin" will correspond to the last color in the array and "cmax" will correspond to
@@ -193,26 +193,26 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Boolean reversescale;
-
+    
     /**
      * Has an effect only if "color" is set to a numerical array. Determines whether or not a
      * colorbar is displayed.
      */
     @Option
     public Boolean showscale;
-    
-    /**
-     * The marker size (in px).
-     */
-    @Option
-    public int[] size$array;
 
     /**
      * The marker size (in px).
      */
-    @Option
-    public Integer size$number;
+    @Option("size")
+    public int[] size$array;
     
+    /**
+     * The marker size (in px).
+     */
+    @Option("size")
+    public Integer size$number;
+
     /**
      * The maximum size (in px) of the rendered marker points. Effective when the pointcloud shows
      * only few points.
@@ -221,7 +221,7 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Integer sizemax;
-
+    
     /**
      * The minimum size (in px) of the rendered marker points.
      * <p>
@@ -229,7 +229,7 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Integer sizemin;
-
+    
     /**
      * The rule for which the data in "size" is converted to pixels.
      * <p>
@@ -237,7 +237,7 @@ public class MarkerOptions extends Options {
      */
     @Option
     public SizeModeEnum sizemode;
-    
+
     /**
      * The scale factor used to determine the rendered size of marker points. Use with "sizemin" and
      * "sizemode".
@@ -246,11 +246,11 @@ public class MarkerOptions extends Options {
      */
     @Option
     public Integer sizeref;
-
+    
     /**
      * The marker symbol type.
      */
     @Option
     public SymbolEnum symbol;
-
+    
 }

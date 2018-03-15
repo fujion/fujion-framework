@@ -74,14 +74,14 @@ public class PlotScatterPolar extends PlotOptions {
      * are mapped in order to the this trace's (x,y) coordinates. To be seen, trace "hoverinfo" must
      * contain a "text" flag.
      */
-    @Option
+    @Option("hovertext")
     public String[] hovertext$array;
     
     /**
      * Hover text elements associated with each (x,y) pair as a single string where the same string
      * appears over all the data points. To be seen, trace "hoverinfo" must contain a "text" flag.
      */
-    @Option
+    @Option("hovertext")
     public String hovertext$string;
     
     /**
@@ -131,7 +131,7 @@ public class PlotScatterPolar extends PlotOptions {
      * mapped in order to the this trace's (x,y) coordinates. If trace "hoverinfo" contains a "text"
      * flag and "hovertext" is not set, these elements will be seen in the hover labels.
      */
-    @Option
+    @Option("text")
     public String[] text$array;
 
     /**
@@ -139,7 +139,7 @@ public class PlotScatterPolar extends PlotOptions {
      * appears over all the data points. If trace "hoverinfo" contains a "text" flag and "hovertext"
      * is not set, these elements will be seen in the hover labels.
      */
-    @Option
+    @Option("text")
     public String text$string;
 
     /**

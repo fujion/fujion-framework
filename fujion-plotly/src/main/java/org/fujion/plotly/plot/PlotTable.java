@@ -26,13 +26,13 @@ import org.fujion.annotation.Option;
  * Options for table plot.
  */
 public class PlotTable extends PlotOptions {
-
+    
     /**
      * Options for table cells.
      */
     @Option
     public final TableElementOptions cells = new TableElementOptions();
-    
+
     /**
      * Specifies the rendered order of the data columns; for example, a value "2" at position "0"
      * means that column index "0" in the data will be rendered as the third column, as columns have
@@ -40,33 +40,33 @@ public class PlotTable extends PlotOptions {
      */
     @Option
     public int[] columnorder;
-    
-    /**
-     * The width of columns expressed as a ratio. Columns fill the available width in proportion of
-     * their specified column widths.
-     */
-    @Option
-    public double[] columnwidth$array;
 
     /**
      * The width of columns expressed as a ratio. Columns fill the available width in proportion of
      * their specified column widths.
      */
-    @Option
-    public Double columnwidth$number;
+    @Option("columnwidth")
+    public double[] columnwidth$array;
     
+    /**
+     * The width of columns expressed as a ratio. Columns fill the available width in proportion of
+     * their specified column widths.
+     */
+    @Option("columnwidth")
+    public Double columnwidth$number;
+
     /**
      * The horizontal domain of this parcoords trace (in plot fraction).
      */
-    @Option
+    @Option("domain.x")
     public double[] domain_x;
-
+    
     /**
      * The vertical domain of this parcoords trace (in plot fraction).
      */
-    @Option
+    @Option("domain.y")
     public double[] domain_y;
-    
+
     /**
      * Options for the table header.
      */

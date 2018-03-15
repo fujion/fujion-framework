@@ -27,31 +27,31 @@ import org.fujion.annotation.Option;
  * Display options for box in violin plot.
  */
 public class ViolinBoxOptions extends Options {
-
+    
     /**
      * The inner box plot fill color.
      */
     @Option
     public String fillcolor;
-    
+
     /**
      * The inner box plot bounding line color.
      */
-    @Option
+    @Option("line.color")
     public String line_color;
-
+    
     /**
      * The inner box plot bounding line width.
      */
-    @Option
+    @Option("line.width")
     public Integer line_width;
-
+    
     /**
      * Determines if an miniature box plot is drawn inside the violins.
      */
     @Option
     public Boolean visible;
-
+    
     /**
      * The width of the inner box plots relative to the violins" width. For example, with 1, the
      * inner box plots are as wide as the violins.
@@ -60,5 +60,5 @@ public class ViolinBoxOptions extends Options {
      */
     @Option
     public Double width;
-    
+
 }

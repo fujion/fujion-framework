@@ -29,13 +29,13 @@ import org.fujion.annotation.Option;
  * determined by how it is weighted.
  */
 public class PlotWordCloud extends PlotOptions {
-    
+
     /**
      * 3D columns only. The width of the colored edges. Defaults to 1.
      */
     @Option
     public Integer edgeWidth;
-    
+
     /**
      * This option decides which algorithm is used for placement, and rotation of a word. The choice
      * of algorithm is therefore a crucial part of the resulting layout of the word cloud. It is
@@ -44,26 +44,26 @@ public class PlotWordCloud extends PlotOptions {
      */
     @Option
     public String placementStrategy;
-    
+
     /**
      * The smallest degree of rotation for a word. Defaults to 0.
      */
-    @Option
+    @Option("rotation.from")
     public Integer rotation_from;
-    
+
     /**
      * The number of possible orientations for a word, within the range of rotation.from and
      * rotation.to. Defaults to 2.
      */
-    @Option
+    @Option("rotation.orientations")
     public Integer rotation_orientations;
-    
+
     /**
      * The largest degree of rotation for a word. Defaults to 90.
      */
-    @Option
+    @Option("rotation.to")
     public Integer rotation_to;
-
+    
     /**
      * Spiral used for placing a word after the initial position experienced a collision with either
      * another word or the borders. It is possible for users to add their own custom spiraling

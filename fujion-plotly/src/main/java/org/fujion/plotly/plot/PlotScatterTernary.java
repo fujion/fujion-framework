@@ -91,14 +91,14 @@ public class PlotScatterTernary extends PlotOptions {
      * are mapped in order to the this trace's (x,y) coordinates. To be seen, trace "hoverinfo" must
      * contain a "text" flag.
      */
-    @Option
+    @Option("hovertext")
     public String[] hovertext$array;
 
     /**
      * Hover text elements associated with each (x,y) pair as a single string where the same string
      * appears over all the data points. To be seen, trace "hoverinfo" must contain a "text" flag.
      */
-    @Option
+    @Option("hovertext")
     public String hovertext$string;
 
     /**
@@ -158,14 +158,14 @@ public class PlotScatterTernary extends PlotOptions {
      * Text elements associated with each (a,b,c) point as an array of strings where the items are
      * mapped in order to the the data points in (a,b,c).
      */
-    @Option
+    @Option("text")
     public String[] text$array;
     
     /**
      * Text elements associated with each (a,b,c) point as a single string where the same string
      * appears over all the data points.
      */
-    @Option
+    @Option("text")
     public String text$string;
 
     /**

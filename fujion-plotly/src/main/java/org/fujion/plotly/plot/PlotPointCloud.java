@@ -38,7 +38,7 @@ public class PlotPointCloud extends PlotOptions {
      * (x,y) coordinates. If trace "hoverinfo" contains a "text" flag and "hovertext" is not set,
      * these elements will be seen in the hover labels.
      */
-    @Option
+    @Option("text")
     public String[] text$array;
 
     /**
@@ -46,7 +46,7 @@ public class PlotPointCloud extends PlotOptions {
      * over all the data points. If trace "hoverinfo" contains a "text" flag and "hovertext" is not
      * set, these elements will be seen in the hover labels.
      */
-    @Option
+    @Option("text")
     public String text$string;
 
     /**
@@ -58,7 +58,7 @@ public class PlotPointCloud extends PlotOptions {
     /**
      * Data points for x-axis. Alternate form for numeric data.
      */
-    @Option
+    @Option("x")
     public double[] x$number;
 
     /**
@@ -78,7 +78,7 @@ public class PlotPointCloud extends PlotOptions {
     /**
      * Data points for y-axis. Alternate form for numeric data.
      */
-    @Option
+    @Option("y")
     public double[] y$number;
 
     /**

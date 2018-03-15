@@ -102,13 +102,13 @@ public class AnnotationOptions extends Options {
      * (negative) component corresponds to an arrow pointing from right to left (left to right). If
      * "axref" is an axis, this is an absolute value on that axis, like "x", NOT a relative value.
      */
-    @Option
+    @Option("ax")
     public Double ax$number;
 
     /**
      * The x component of the arrow tail about the arrow head as a categorical string.
      */
-    @Option
+    @Option("ax")
     public String ax$string;
 
     /**
@@ -129,13 +129,13 @@ public class AnnotationOptions extends Options {
      * (negative) component corresponds to an arrow pointing from bottom to top (top to bottom). If
      * "ayref" is an axis, this is an absolute value on that axis, like "y", NOT a relative value.
      */
-    @Option
+    @Option("ay")
     public Double ay$number;
 
     /**
      * The y component of the arrow tail about the arrow head as a categorical string.
      */
-    @Option
+    @Option("ay")
     public String ay$string;
 
     /**
@@ -354,7 +354,7 @@ public class AnnotationOptions extends Options {
      * the axis "type" is "category", it should be numbers, using the scale where each category is
      * assigned a serial number from zero in the order it appears.
      */
-    @Option
+    @Option("x")
     public Double x$number;
 
     /**
@@ -364,7 +364,7 @@ public class AnnotationOptions extends Options {
      * converted to strings. If the axis "type" is "category", it should be numbers, using the scale
      * where each category is assigned a serial number from zero in the order it appears.
      */
-    @Option
+    @Option("x")
     public String x$string;
     
     /**
@@ -384,14 +384,14 @@ public class AnnotationOptions extends Options {
      * Toggle the annotation when clicking a data point whose "x" value is "xclick" rather than the
      * annotation's "x" value.
      */
-    @Option
+    @Option("xclick")
     public Double xclick$number;
 
     /**
      * Toggle the annotation when clicking a data point whose "x" value is "xclick" rather than the
      * annotation's "x" value.
      */
-    @Option
+    @Option("xclick")
     public String xclick$string;
 
     /**
@@ -421,7 +421,7 @@ public class AnnotationOptions extends Options {
      * the axis "type" is "category", it should be numbers, using the scale where each category is
      * assigned a serial number from zero in the order it appears.
      */
-    @Option
+    @Option("y")
     public Double y$number;
 
     /**
@@ -431,7 +431,7 @@ public class AnnotationOptions extends Options {
      * converted to strings. If the axis "type" is "category", it should be numbers, using the scale
      * where each category is assigned a serial number from zero in the order it appears.
      */
-    @Option
+    @Option("y")
     public String y$string;
     
     /**
@@ -451,14 +451,14 @@ public class AnnotationOptions extends Options {
      * Toggle this annotation when clicking a data point whose "y" value is "yclick" rather than the
      * annotation's "y" value.
      */
-    @Option
+    @Option("yclick")
     public Double yclick$number;
 
     /**
      * Toggle this annotation when clicking a data point whose "y" value is "yclick" rather than the
      * annotation's "y" value.
      */
-    @Option
+    @Option("yclick")
     public String yclick$string;
     
     /**

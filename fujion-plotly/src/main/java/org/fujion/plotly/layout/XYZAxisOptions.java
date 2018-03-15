@@ -152,14 +152,14 @@ public class XYZAxisOptions extends AxisOptions {
      * When axis compression occurs, determines which direction we push the originally specified
      * plot area.
      */
-    @Option
+    @Option("constraintoward")
     public HorizontalAlignEnum constraintoward$horizontal;
 
     /**
      * When axis compression occurs, determines which direction we push the originally specified
      * plot area.
      */
-    @Option
+    @Option("constraintoward")
     public VerticalAlignEnum constraintoward$vertical;
     
     /**
@@ -292,13 +292,13 @@ public class XYZAxisOptions extends AxisOptions {
     /**
      * The dash style of lines.
      */
-    @Option
+    @Option("spikedash")
     public DashStyleEnum spikedash$enum;
 
     /**
      * Alternate form using a dash length list in px (eg "5px,10px,2px,2px").
      */
-    @Option
+    @Option("spikedash")
     public String spikedash$string;
 
     /**

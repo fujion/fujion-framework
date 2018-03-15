@@ -117,14 +117,14 @@ public class PlotScatterCarpet extends PlotOptions {
      * Text elements associated with each (a,b,c) point as an array of strings where the items are
      * mapped in order to the the data points in (a,b,c).
      */
-    @Option
+    @Option("text")
     public String[] text$array;
 
     /**
      * Text elements associated with each (a,b,c) point as a single string where the same string
      * appears over all the data points.
      */
-    @Option
+    @Option("text")
     public String text$string;
     
     /**

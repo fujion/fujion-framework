@@ -27,23 +27,23 @@ import org.fujion.annotation.Option;
  * Layout options for polar plots.
  */
 public class PolarOptions extends Options {
-    
+
     /**
      * The horizontal domain of the polar subplot (in plot fraction).
      * <p>
      * Default: [0,1]
      */
-    @Option
+    @Option("domain.x")
     public int[] domain_x;
-
+    
     /**
      * The vertical domain of the polar subplot (in plot fraction).
      * <p>
      * Default: [0,1]
      */
-    @Option
+    @Option("domain.y")
     public int[] domain_y;
-
+    
     /**
      * angular span of this polar subplot with two angles (in degrees). Sector are assumed to be
      * spanned in the counterclockwise direction with "0" corresponding to rightmost limit of the
@@ -53,7 +53,7 @@ public class PolarOptions extends Options {
      */
     @Option
     public int[] sector;
-    
+
     /**
      * The background color of the subplot.
      * <p>
@@ -61,17 +61,17 @@ public class PolarOptions extends Options {
      */
     @Option
     public String bgcolor;
-    
+
     /**
      * Options for polar angular axis.
      */
     @Option
     public final AngularAxisOptions angularaxis = new AngularAxisOptions();
-
+    
     /**
      * Options for polar radial axis.
      */
     @Option
     public final RadialAxisOptions radialaxis = new RadialAxisOptions();
-
+    
 }

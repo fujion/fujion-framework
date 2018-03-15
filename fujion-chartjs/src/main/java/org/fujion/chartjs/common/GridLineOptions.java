@@ -46,7 +46,7 @@ public class GridLineOptions extends Options {
      * The color of the grid lines. The first color applies to the first grid line, the second to
      * the second grid line and so on.
      */
-    @Option
+    @Option("color")
     public String[] color$array;
 
     /**
@@ -54,7 +54,7 @@ public class GridLineOptions extends Options {
      * <p>
      * Default: "rgba(0, 0, 0, 0.1)"
      */
-    @Option
+    @Option("color")
     public String color$string;
     
     /**
@@ -93,7 +93,7 @@ public class GridLineOptions extends Options {
     /**
      * Stroke width of individual grid lines.
      */
-    @Option
+    @Option("lineWidth")
     public int[] lineWidth$array;
 
     /**
@@ -101,7 +101,7 @@ public class GridLineOptions extends Options {
      * <p>
      * Default: 1
      */
-    @Option
+    @Option("lineWidth")
     public Integer lineWidth$number;
     
     /**

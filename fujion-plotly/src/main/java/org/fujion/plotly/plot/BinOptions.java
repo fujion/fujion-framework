@@ -31,37 +31,37 @@ public class BinOptions extends Options {
     /**
      * The ending value for the axis bins as a number.
      */
-    @Option
+    @Option("end")
     public Double end$number;
 
     /**
      * The ending value for the axis bins as a categorical coordinate string.
      */
-    @Option
+    @Option("end")
     public String end$string;
 
     /**
      * The step in-between value each axis bin as a number.
      */
-    @Option
+    @Option("size")
     public Double size$number;
 
     /**
      * The step in-between value each axis bin as a categorical coordinate string.
      */
-    @Option
+    @Option("size")
     public String size$string;
 
     /**
      * The starting value for the axis bins as a number.
      */
-    @Option
+    @Option("start")
     public Double start$number;
 
     /**
      * The starting value for the axis bins as a categorical coordinate string.
      */
-    @Option
+    @Option("start")
     public String start$string;
     
 }

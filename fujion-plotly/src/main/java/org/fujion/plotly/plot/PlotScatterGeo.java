@@ -64,7 +64,7 @@ public class PlotScatterGeo extends PlotOptions {
      * array of string where the items are mapped in order to the this trace's (lon,lat) or
      * "locations" coordinates. To be seen, trace "hoverinfo" must contain a "text" flag.
      */
-    @Option
+    @Option("hovertext")
     public String[] hovertext$array;
     
     /**
@@ -72,7 +72,7 @@ public class PlotScatterGeo extends PlotOptions {
      * single string where the same string appears over all the data points. To be seen, trace
      * "hoverinfo" must contain a "text" flag.
      */
-    @Option
+    @Option("hovertext")
     public String hovertext$string;
     
     /**
@@ -134,7 +134,7 @@ public class PlotScatterGeo extends PlotOptions {
      * coordinates. If trace "hoverinfo" contains a "text" flag and "hovertext" is not set, these
      * elements will be seen in the hover labels.
      */
-    @Option
+    @Option("text")
     public String[] text$array;
 
     /**
@@ -142,7 +142,7 @@ public class PlotScatterGeo extends PlotOptions {
      * string where the same string appears over all the data points. If trace "hoverinfo" contains
      * a "text" flag and "hovertext" is not set, these elements will be seen in the hover labels.
      */
-    @Option
+    @Option("text")
     public String text$string;
     
     /**

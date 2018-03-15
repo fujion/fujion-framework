@@ -64,13 +64,13 @@ public class MarkerLineOptions extends Options {
      * The line color. Array elements are mapped to the colorscale relative to the max and min
      * values of the array or relative to "cmin" and "cmax" if set.
      */
-    @Option
+    @Option("color")
     public int[] color$array;
 
     /**
      * Sets all line colors to the same value.
      */
-    @Option
+    @Option("color")
     public String color$string;
     
     /**
@@ -113,13 +113,13 @@ public class MarkerLineOptions extends Options {
     /**
      * The width (in px) of the lines bounding the marker points.
      */
-    @Option
+    @Option("width")
     public int[] width$array;
 
     /**
      * The width (in px) of the lines bounding the marker points to the same value.
      */
-    @Option
+    @Option("width")
     public Integer width$number;
     
 }

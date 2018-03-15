@@ -27,34 +27,34 @@ import org.fujion.annotation.Option;
  * TODO: Layout options for ternary plots.
  */
 public class TernaryOptions extends Options {
-
+    
     /**
      * Options for a axis.
      */
     @Option
     public final ABCAxisOptions aaxis = new ABCAxisOptions();
-
+    
     /**
      * Options for b axis.
      */
     @Option
     public final ABCAxisOptions baxis = new ABCAxisOptions();
-
+    
     /**
      * Options for c axis.
      */
     @Option
     public final ABCAxisOptions caxis = new ABCAxisOptions();
-
+    
     @Option
     public String bgcolor;
-
-    @Option
+    
+    @Option("domain.x")
     public int[] domain_x;
-
-    @Option
+    
+    @Option("domain.y")
     public int[] domain_y;
-
+    
     @Option
     public Object sum;
 }

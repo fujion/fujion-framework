@@ -103,13 +103,13 @@ public class PlotChoropleth extends PlotOptions {
     /**
      * Text elements associated with each location.
      */
-    @Option
+    @Option("text")
     public String[] text$array;
     
     /**
      * Text constant associated with each location.
      */
-    @Option
+    @Option("text")
     public String text$string;
     
     /**
@@ -127,7 +127,7 @@ public class PlotChoropleth extends PlotOptions {
     /**
      * Data points for z-axis. Alternate form for numeric data.
      */
-    @Option
+    @Option("z")
     public double[] z$number;
     
     /**

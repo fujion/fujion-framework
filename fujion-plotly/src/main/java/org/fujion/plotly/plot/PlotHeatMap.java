@@ -87,13 +87,13 @@ public class PlotHeatMap extends PlotOptions {
     /**
      * The text elements associated with each z value.
      */
-    @Option
+    @Option("text")
     public String[] text$array;
 
     /**
      * Text constant associated with each z value.
      */
-    @Option
+    @Option("text")
     public String text$string;
     
     /**
@@ -111,20 +111,20 @@ public class PlotHeatMap extends PlotOptions {
     /**
      * Data points for x-axis. Alternate form for numeric data.
      */
-    @Option
+    @Option("x")
     public double[] x$number;
     
     /**
      * Alternate to "x". Builds a linear space of x coordinates. Use with "dx" where "x0" is the
      * starting coordinate and "dx" the step.
      */
-    @Option
+    @Option("x0")
     public Double x0$number;
 
     /**
      * Alternate form of x0, where the step will be appended to a string value.
      */
-    @Option
+    @Option("x0")
     public String x0$string;
     
     /**
@@ -166,20 +166,20 @@ public class PlotHeatMap extends PlotOptions {
     /**
      * Data points for y-axis. Alternate form for numeric data.
      */
-    @Option
+    @Option("y")
     public double[] y$number;
     
     /**
      * Alternate to "y". Builds a linear space of y coordinates. Use with "dy" where "y0" is the
      * starting coordinate and "dy" the step.
      */
-    @Option
+    @Option("y0")
     public Double y0$number;
 
     /**
      * Alternate form of y0, where the step will be appended to a string value.
      */
-    @Option
+    @Option("y0")
     public String y0$string;
 
     /**
@@ -221,7 +221,7 @@ public class PlotHeatMap extends PlotOptions {
     /**
      * Data points for z-axis. Alternate form for numeric data.
      */
-    @Option
+    @Option("z")
     public double[] z$number;
     
     /**

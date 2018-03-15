@@ -29,20 +29,20 @@ import org.fujion.annotation.Option;
  * date.
  */
 public class PlotXRange extends PlotOptions {
-
+    
     /**
      * Defaults to 3.
      */
     @Option
     public Integer borderRadius;
-    
+
     /**
      * The spacing between columns on the Z Axis in a 3D chart. Requires highcharts-3d.js. Defaults
      * to 1.
      */
     @Option
     public Integer groupZPadding;
-
+    
     /**
      * The maximum allowed pixel width for a column, translated to the height of a bar in a bar
      * chart. This prevents the columns from becoming too wide when there is a small number of
@@ -50,11 +50,11 @@ public class PlotXRange extends PlotOptions {
      */
     @Option
     public Integer maxPointWidth;
-    
+
     /**
      * The fill color to be used for partial fills. Defaults to a darker shade of the point color.
      * Defaults to undefined.
      */
-    @Option
+    @Option("partialFill.fill")
     public String partialFill_fill;
 }

@@ -62,25 +62,25 @@ public class TableElementOptions extends Options {
     /**
      * Prefix for cell values.
      */
-    @Option
+    @Option("prefix")
     public String[] prefix$array;
     
     /**
      * Prefix for cell values.
      */
-    @Option
+    @Option("prefix")
     public String prefix$string;
 
     /**
      * Suffix for cell values.
      */
-    @Option
+    @Option("suffix")
     public String[] suffix$array;
 
     /**
      * Suffix for cell values.
      */
-    @Option
+    @Option("suffix")
     public String suffix$string;
 
     /**

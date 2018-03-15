@@ -38,13 +38,13 @@ public class PlotBubble extends PlotOptions {
     /**
      * The bubble additional radius for hit detection as an array.
      */
-    @Option
+    @Option("hitRadius")
     public Integer[] hitRadius$array;
     
     /**
      * The bubble additional radius for hit detection as a function.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value="hitRadius", convertTo = JavaScript.class)
     public String hitRadius$function;
     
     /**
@@ -52,55 +52,55 @@ public class PlotBubble extends PlotOptions {
      * <p>
      * Default: 1
      */
-    @Option
+    @Option("hitRadius")
     public Integer hitRadius$number;
     
     /**
      * The bubble background color when hovered as an array.
      */
-    @Option
+    @Option("hoverBackgroundColor")
     public String[] hoverBackgroundColor$array;
     
     /**
      * The bubble background color when hovered as a function.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value="hoverBackgroundColor", convertTo = JavaScript.class)
     public String hoverBackgroundColor$function;
     
     /**
      * The bubble background color when hovered as a single value.
      */
-    @Option
+    @Option("hoverBackgroundColor")
     public String hoverBackgroundColor$string;
     
     /**
      * The bubble border color when hovered as an array.
      */
-    @Option
+    @Option("hoverBorderColor")
     public String[] hoverBorderColor$array;
     
     /**
      * The bubble border color when hovered as a function.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value="hoverBorderColor", convertTo = JavaScript.class)
     public String hoverBorderColor$function;
     
     /**
      * The bubble border color when hovered as a single value.
      */
-    @Option
+    @Option("hoverBorderColor")
     public String hoverBorderColor$string;
     
     /**
      * The bubble border width when hovered as an array.
      */
-    @Option
+    @Option("hoverBorderWidth")
     public Integer[] hoverBorderWidth$array;
     
     /**
      * The bubble border width when hovered as a function.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value="hoverBorderWidth", convertTo = JavaScript.class)
     public String hoverBorderWidth$function;
 
     /**
@@ -108,19 +108,19 @@ public class PlotBubble extends PlotOptions {
      * <p>
      * Default: 1
      */
-    @Option
+    @Option("hoverBorderWidth")
     public Integer hoverBorderWidth$number;
     
     /**
      * The bubble additional radius when hovered as an array.
      */
-    @Option
+    @Option("hoverRadius")
     public Integer[] hoverRadius$array;
     
     /**
      * The bubble additional radius when hovered as a function.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value="hoverRadius", convertTo = JavaScript.class)
     public String hoverRadius$function;
 
     /**
@@ -128,7 +128,7 @@ public class PlotBubble extends PlotOptions {
      * <p>
      * Default: 4
      */
-    @Option
+    @Option("hoverRadius")
     public Integer hoverRadius$number;
     
     /**
@@ -140,25 +140,25 @@ public class PlotBubble extends PlotOptions {
     /**
      * The bubble shape style.
      */
-    @Option
+    @Option("pointStyle")
     public PointStyleEnum[] pointStyle$array;
 
     /**
      * The bubble shape style.
      */
-    @Option
+    @Option("pointStyle")
     public PointStyleEnum pointStyle$enum;
 
     /**
      * The bubble radius as an array.
      */
-    @Option
+    @Option("radius")
     public Integer[] radius$array;
 
     /**
      * The bubble radius as a function.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value="radius", convertTo = JavaScript.class)
     public String radius$function;
 
     /**
@@ -166,6 +166,6 @@ public class PlotBubble extends PlotOptions {
      * <p>
      * Default: 3
      */
-    @Option
+    @Option("radius")
     public Integer radius$number;
 }

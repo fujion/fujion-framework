@@ -38,12 +38,12 @@ import org.fujion.plotly.common.VHOrientationEnum;
  * can be drawn either horizontally or vertically.
  */
 public class PlotBox extends PlotOptions {
-    
+
     /**
      * Controls whether mean and standard deviation are shown.
      */
     public enum MeanEnum {
-        
+
         /**
          * Neither mean nor standard deviation are drawn.
          */
@@ -57,25 +57,25 @@ public class PlotBox extends PlotOptions {
          * box(es).
          */
         TRUE;
-        
+
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-    
+
     /**
      * Controls whether mean and standard deviation are drawn.
      */
     @Option
     public MeanEnum boxmean;
-    
+
     /**
      * Controls which sample points are shown.
      */
     @Option
     public PointsFilterEnum boxpoints;
-    
+
     /**
      * The fill color.
      * <p>
@@ -84,7 +84,7 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public String fillcolor;
-    
+
     /**
      * Any combination of "points", "fills" joined with a "+". Examples: "points", "fills",
      * "points+fills" Do the hover effects highlight individual points (markers or line points) or
@@ -93,7 +93,7 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public String hoveron;
-    
+
     /**
      * The amount of jitter in the sample points drawn. If "0", the sample points align along the
      * distribution axis. If "1", the sample points are drawn in a random jitter of width equal to
@@ -103,31 +103,31 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public Double jitter;
-    
+
     /**
      * The color of line bounding the box(es).
      */
-    @Option
+    @Option("line.color")
     public String line_color;
-    
+
     /**
      * The width (in px) of line bounding the box(es).
      */
-    @Option
+    @Option("line.width")
     public Integer line_width;
-    
+
     /**
      * Options for marker.
      */
     @Option
     public final MarkerOptions marker = new MarkerOptions();
-    
+
     /**
      * Determines whether or not notches should be drawn.
      */
     @Option
     public Boolean notched;
-
+    
     /**
      * The width of the notches relative to the box" width. For example, with 0, the notches are as
      * wide as the box(es).
@@ -136,13 +136,13 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public Double notchwidth;
-
+    
     /**
      * The orientation of the box(es).
      */
     @Option
     public VHOrientationEnum orientation;
-    
+
     /**
      * The position of the sample points in relation to the box(es). If "0", the sample points are
      * places over the center of the box(es). Positive (negative) values correspond to positions to
@@ -152,35 +152,35 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public Double pointpos;
-
+    
     /**
      *
      */
     @Option
     public final SelectedOptions selected = new SelectedOptions();
-
+    
     /**
      * Text elements associated with each (x,y) pair. The items are mapped in order to the this
      * trace's (x,y) coordinates. If trace "hoverinfo" contains a "text" flag and "hovertext" is not
      * set, these elements will be seen in the hover labels.
      */
-    @Option
+    @Option("text")
     public String[] text$array;
-
+    
     /**
      * Text elements associated with each (x,y) pair. Alternate form where the same string appears
      * over all the data points. If trace "hoverinfo" contains a "text" flag and "hovertext" is not
      * set, these elements will be seen in the hover labels.
      */
-    @Option
+    @Option("text")
     public String text$string;
-
+    
     /**
      *
      */
     @Option
     public final SelectedOptions unselected = new SelectedOptions();
-    
+
     /**
      * The width of the whiskers relative to the box" width. For example, with 1, the whiskers are
      * as wide as the box(es).
@@ -189,32 +189,32 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public Double whiskerwidth;
-
+    
     /**
      * Data points for x-axis.
      */
     @Option
     public Object[] x;
-    
+
     /**
      * Data points for x-axis. Alternate form for numeric data.
      */
-    @Option
+    @Option("x")
     public double[] x$number;
-
+    
     /**
      * Alternate to "x". Builds a linear space of x coordinates. Use with "dx" where "x0" is the
      * starting coordinate and "dx" the step.
      */
-    @Option
+    @Option("x0")
     public Double x0$number;
-
+    
     /**
      * Alternate form of x0, where the step will be appended to a string value.
      */
-    @Option
+    @Option("x0")
     public String x0$string;
-    
+
     /**
      * Reference between this trace's x coordinates and a 2D Cartesian x axis. If "x" (the default
      * value), the x coordinates refer to "layout.xaxis". If "x2", the x coordinates refer to
@@ -222,7 +222,7 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public String xaxis;
-    
+
     /**
      * The calendar system to use with "x" date data.
      * <p>
@@ -230,32 +230,32 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public CalendarTypeEnum xcalendar;
-    
+
     /**
      * Data points for y-axis.
      */
     @Option
     public Object[] y;
-    
+
     /**
      * Data points for y-axis. Alternate form for numeric data.
      */
-    @Option
+    @Option("y")
     public double[] y$number;
-
+    
     /**
      * Alternate to "y". Builds a linear space of y coordinates. Use with "dy" where "y0" is the
      * starting coordinate and "dy" the step.
      */
-    @Option
+    @Option("y0")
     public Double y0$number;
-
+    
     /**
      * Alternate form of y0, where the step will be appended to a string value.
      */
-    @Option
+    @Option("y0")
     public String y0$string;
-
+    
     /**
      * Reference between this trace's y coordinates and a 2D Cartesian y axis. If "y" (the default
      * value), the y coordinates refer to "layout.yaxis". If "y2", the y coordinates refer to
@@ -263,7 +263,7 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public String yaxis;
-
+    
     /**
      * The calendar system to use with "y" date data.
      * <p>
@@ -271,5 +271,5 @@ public class PlotBox extends PlotOptions {
      */
     @Option
     public CalendarTypeEnum ycalendar;
-    
+
 }

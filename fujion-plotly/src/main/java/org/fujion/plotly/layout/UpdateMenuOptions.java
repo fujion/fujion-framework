@@ -30,24 +30,12 @@ import org.fujion.plotly.common.VerticalAlignEnum;
  * Layout options for update menus.
  */
 public class UpdateMenuOptions extends Options {
-
+    
     /**
      * Determines how buttons are laid out.
      */
     public enum DirectionEnum {
         DOWN, LEFT, RIGHT, UP;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
-
-    /**
-     * Type of update menu.
-     */
-    public enum TypeEnum {
-        BUTTONS, DROPDOWN;
         
         @Override
         public String toString() {
@@ -55,6 +43,18 @@ public class UpdateMenuOptions extends Options {
         }
     }
     
+    /**
+     * Type of update menu.
+     */
+    public enum TypeEnum {
+        BUTTONS, DROPDOWN;
+
+        @Override
+        public String toString() {
+            return name().toLowerCase();
+        }
+    }
+
     /**
      * Determines which button (by index starting from 0) is considered active.
      * <p>
@@ -64,13 +64,13 @@ public class UpdateMenuOptions extends Options {
      */
     @Option
     public Integer active;
-    
+
     /**
      * The background color of the update menu buttons.
      */
     @Option
     public String bgcolor;
-
+    
     /**
      * The color of the border enclosing the update menu.
      * <p>
@@ -78,7 +78,7 @@ public class UpdateMenuOptions extends Options {
      */
     @Option
     public String bordercolor;
-    
+
     /**
      * The width (in px) of the border enclosing the update menu.
      * <p>
@@ -88,13 +88,13 @@ public class UpdateMenuOptions extends Options {
      */
     @Option
     public Integer borderwidth;
-    
+
     /**
      * Menu button options.
      */
     @Option
     public final ControlOptions buttons = new ControlOptions();
-
+    
     /**
      * Determines the direction in which the buttons are laid out, whether in a dropdown menu or a
      * row/column of buttons. For LEFT and UP, the buttons will still appear in left-to-right or
@@ -104,45 +104,45 @@ public class UpdateMenuOptions extends Options {
      */
     @Option
     public DirectionEnum direction;
-
+    
     /**
      * The font of the update menu button text.
      */
     @Option
     public final FontOptions font = new FontOptions();
-
+    
     /**
      * The amount of padding (in px) along the bottom of the component.
      * <p>
      * Default: 0
      */
-    @Option
+    @Option("pad.b")
     public Integer pad_b;
-
+    
     /**
      * The amount of padding (in px) along the left of the component.
      * <p>
      * Default: 0
      */
-    @Option
+    @Option("pad.l")
     public Integer pad_l;
-
+    
     /**
      * The amount of padding (in px) along the right of the component.
      * <p>
      * Default: 0
      */
-    @Option
+    @Option("pad.r")
     public Integer pad_r;
-    
+
     /**
      * The amount of padding (in px) along the top of the component.
      * <p>
      * Default: 0
      */
-    @Option
+    @Option("pad.t")
     public Integer pad_t;
-    
+
     /**
      * Highlights active dropdown item or active button if true.
      * <p>
@@ -150,7 +150,7 @@ public class UpdateMenuOptions extends Options {
      */
     @Option
     public Boolean showactive;
-    
+
     /**
      * Determines whether the buttons are accessible via a dropdown menu or whether the buttons are
      * stacked horizontally or vertically.
@@ -159,13 +159,13 @@ public class UpdateMenuOptions extends Options {
      */
     @Option
     public TypeEnum type;
-    
+
     /**
      * Determines whether or not the update menu is visible.
      */
     @Option
     public Boolean visible;
-
+    
     /**
      * The x position (in normalized coordinates) of the update menu.
      * <p>
@@ -175,7 +175,7 @@ public class UpdateMenuOptions extends Options {
      */
     @Option
     public Double x;
-
+    
     /**
      * The update menu's horizontal position anchor. This anchor binds the "x" position to the left,
      * center or right of the range selector.
@@ -184,7 +184,7 @@ public class UpdateMenuOptions extends Options {
      */
     @Option
     public HorizontalAlignEnum xanchor;
-
+    
     /**
      * The y position (in normalized coordinates) of the update menu.
      * <p>
@@ -194,7 +194,7 @@ public class UpdateMenuOptions extends Options {
      */
     @Option
     public Double y;
-
+    
     /**
      * The update menu's vertical position anchor This anchor binds the "y" position to the top,
      * middle or bottom of the range selector.

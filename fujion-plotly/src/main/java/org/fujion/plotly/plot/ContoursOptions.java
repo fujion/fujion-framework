@@ -224,20 +224,20 @@ public class ContoursOptions extends Options {
      * bound and the second is the upper bound. This form requires that "operation" be set to one of
      * the interval values.
      */
-    @Option
+    @Option("value")
     public double[] value$array;
     
     /**
      * The value of the constraint boundary. This form requires that "operation" be set to one of
      * the comparison values.
      */
-    @Option
+    @Option("value")
     public Double value$number;
     
     /**
      * Alternate form where value is a categorical coordinate string.
      */
-    @Option
+    @Option("value")
     public String value$string;
     
 }

@@ -136,13 +136,13 @@ public class MapOptions extends Options {
      * <p>
      * Default: ROADMAP
      */
-    @Option
+    @Option("mapTypeId")
     public MapTypeId mapTypeId$enum;
     
     /**
      * The initial Map mapTypeId as a string.
      */
-    @Option
+    @Option("mapTypeId")
     public String mapTypeId$string;
     
     /**

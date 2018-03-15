@@ -49,13 +49,13 @@ public class HoverLabelOptions extends Options {
      * &gt;3 will show the whole name if it is less than that many characters, but if it is longer,
      * will truncate to "namelength - 3" characters and add an ellipsis.
      */
-    @Option
+    @Option("namelength")
     public int[] namelength$array;
 
     /**
      * Alternative to specifying an array of integers for namelength, if specified this value will
      * be applied to all labels.
      */
-    @Option
+    @Option("namelength")
     public Integer namelength$number;
 }

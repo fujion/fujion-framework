@@ -51,13 +51,13 @@ public class LineOptions extends Options {
      * <p>
      * Default: SOLID
      */
-    @Option
+    @Option("dash")
     public DashStyleEnum dash$enum;
 
     /**
      * An alternative in the form of a dash length list in px (eg "5px,10px,2px,2px").
      */
-    @Option
+    @Option("dash")
     public String dash$string;
     
     /**

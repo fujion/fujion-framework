@@ -38,13 +38,13 @@ public class PlotBar extends PlotOptions {
     /**
      * The plot data (as numbers).
      */
-    @Option
+    @Option("data")
     public double[] data$number;
 
     /**
      * The plot data (as points).
      */
-    @Option
+    @Option("data")
     public Point[] data$points;
     
     /**

@@ -65,25 +65,25 @@ public class PlotRadar extends PlotOptions {
     /**
      * If false, fill mode is disabled.
      */
-    @Option
+    @Option("fill")
     public Boolean fill$boolean;
 
     /**
      * A boundary-based fill.
      */
-    @Option
+    @Option("fill")
     public FillEnum fill$enum;
 
     /**
      * An absolute dataset index.
      */
-    @Option
+    @Option("fill")
     public Integer fill$number;
     
     /**
      * A relative dataset index (e.g., "+1" or "-2").
      */
-    @Option
+    @Option("fill")
     public String fill$string;
     
     /**
@@ -114,97 +114,97 @@ public class PlotRadar extends PlotOptions {
     /**
      * The width of the point border in pixels.
      */
-    @Option
+    @Option("pointBorderWidth")
     public int[] pointBorderWidth$array;
 
     /**
      * The width of the point border in pixels.
      */
-    @Option
+    @Option("pointBorderWidth")
     public Integer pointBorderWidth$number;
 
     /**
      * The pixel size of the non-displayed point that reacts to mouse events.
      */
-    @Option
+    @Option("pointHitRadius")
     public int[] pointHitRadius$array;
     
     /**
      * The pixel size of the non-displayed point that reacts to mouse events.
      */
-    @Option
+    @Option("pointHitRadius")
     public Integer pointHitRadius$number;
     
     /**
      * Point background color when hovered.
      */
-    @Option
+    @Option("pointHoverBackgroundColor")
     public String[] pointHoverBackgroundColor$array;
     
     /**
      * Point background color when hovered.
      */
-    @Option
+    @Option("pointHoverBackgroundColor")
     public String pointHoverBackgroundColor$string;
     
     /**
      * Point border color when hovered.
      */
-    @Option
+    @Option("pointHoverBorderColor")
     public String[] pointHoverBorderColor$array;
     
     /**
      * Point border color when hovered.
      */
-    @Option
+    @Option("pointHoverBorderColor")
     public String pointHoverBorderColor$string;
     
     /**
      * Border width of point when hovered.
      */
-    @Option
+    @Option("pointHoverBorderWidth")
     public int[] pointHoverBorderWidth$array;
 
     /**
      * Border width of point when hovered.
      */
-    @Option
+    @Option("pointHoverBorderWidth")
     public Integer pointHoverBorderWidth$number;
     
     /**
      * The radius of the point when hovered.
      */
-    @Option
+    @Option("pointHoverRadius")
     public int[] pointHoverRadius$array;
     
     /**
      * The radius of the point when hovered.
      */
-    @Option
+    @Option("pointHoverRadius")
     public Integer pointHoverRadius$number;
     
     /**
      * The radius of the point shape in pixels. If set to 0, the point is not rendered.
      */
-    @Option
+    @Option("pointRadius")
     public int[] pointRadius$array;
     
     /**
      * The radius of the point shape in pixels. If set to 0, the point is not rendered.
      */
-    @Option
+    @Option("pointRadius")
     public Integer pointRadius$number;
     
     /**
      * Style of the point.
      */
-    @Option
+    @Option("pointStyle")
     public PointStyleEnum[] pointStyle$array;
     
     /**
      * Style of the point.
      */
-    @Option
+    @Option("pointStyle")
     public PointStyleEnum pointStyle$enum;
     
 }

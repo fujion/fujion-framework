@@ -28,7 +28,7 @@ import org.fujion.plotly.common.DashStyleEnum;
  * Layout options for shapes.
  */
 public class ShapeOptions extends Options {
-
+    
     /**
      * Type of shape.
      */
@@ -51,13 +51,13 @@ public class ShapeOptions extends Options {
          * ("x0","y0")
          */
         RECT;
-
+        
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-
+    
     /**
      * The color filling the shape's interior.
      * <p>
@@ -65,7 +65,7 @@ public class ShapeOptions extends Options {
      */
     @Option
     public String fillcolor;
-
+    
     /**
      * Specifies whether shapes are drawn below or above traces.
      * <p>
@@ -73,29 +73,29 @@ public class ShapeOptions extends Options {
      */
     @Option
     public LayerEnum layer;
-
+    
     /**
      * The line color.
      */
-    @Option
+    @Option("line.color")
     public String line_color;
-    
+
     /**
      * The dash style of lines.
      * <p>
      * Default: SOLID
      */
-    @Option
+    @Option("line.dash")
     public DashStyleEnum line_dash;
-
+    
     /**
      * The line width (in px).
      * <p>
      * Default: 2
      */
-    @Option
+    @Option("line.width")
     public Integer line_width;
-
+    
     /**
      * The opacity of the shape.
      * <p>
@@ -105,7 +105,7 @@ public class ShapeOptions extends Options {
      */
     @Option
     public Double opacity;
-
+    
     /**
      * For "type" PATH - a valid SVG path but with the pixel values replaced by data values. There
      * are a few restrictions / quirks only absolute instructions, not relative. So the allowed
@@ -121,13 +121,13 @@ public class ShapeOptions extends Options {
      */
     @Option
     public String path;
-    
+
     /**
      * Specifies the shape type to be drawn.
      */
     @Option
     public TypeEnum type;
-
+    
     /**
      * Determines whether or not a shape is visible.
      * <p>
@@ -135,19 +135,19 @@ public class ShapeOptions extends Options {
      */
     @Option
     public Boolean visible;
-
+    
     /**
      * The shape's starting x position.
      */
     @Option
     public Integer x0;
-    
+
     /**
      * The shape's ending x position.
      */
     @Option
     public Integer x1;
-
+    
     /**
      * The shape's x coordinate axis. If set to an x axis id (e.g. "x" or "x2"), the "x" position
      * refers to an x coordinate If set to "paper", the "x" position refers to the distance from the
@@ -158,19 +158,19 @@ public class ShapeOptions extends Options {
      */
     @Option
     public String xref;
-
+    
     /**
      * The shape's starting y position.
      */
     @Option
     public Integer y0;
-
+    
     /**
      * The shape's ending y position.
      */
     @Option
     public Integer y1;
-
+    
     /**
      * The annotation's y coordinate axis. If set to an y axis id (e.g. "y" or "y2"), the "y"
      * position refers to an y coordinate If set to "paper", the "y" position refers to the distance

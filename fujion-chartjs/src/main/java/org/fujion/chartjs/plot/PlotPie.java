@@ -27,23 +27,23 @@ import org.fujion.annotation.Option;
  * Options for pie plots.
  */
 public class PlotPie extends PlotOptions {
-    
+
     /**
      * If true, the chart will animate in with a rotation animation.
      * <p>
      * Default: true
      */
-    @Option
+    @Option("animation.animateRotate")
     public Boolean animation_animateRotate;
-
+    
     /**
      * If true, will animate scaling the chart from the center outwards.
      * <p>
      * Default: false
      */
-    @Option
+    @Option("animation.animateScale")
     public Boolean animation_animateScale;
-
+    
     /**
      * Sweep to allow arcs to cover.
      * <p>
@@ -51,7 +51,7 @@ public class PlotPie extends PlotOptions {
      */
     @Option
     public Double circumference;
-
+    
     /**
      * The percentage of the chart that is cut out of the middle.
      * <p>
@@ -59,69 +59,69 @@ public class PlotPie extends PlotOptions {
      */
     @Option
     public Integer cutoutPercentage;
-
+    
     /**
      * The data points.
      */
     @Option
     public double[] data;
-
+    
     /**
      * The background color when hovered as an array.
      */
-    @Option
+    @Option("hoverBackgroundColor")
     public String[] hoverBackgroundColor$array;
-
+    
     /**
      * The background color when hovered as a function.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value = "hoverBackgroundColor", convertTo = JavaScript.class)
     public String hoverBackgroundColor$function;
-
+    
     /**
      * The background color when hovered as a single value.
      */
-    @Option
+    @Option("hoverBackgroundColor")
     public String hoverBackgroundColor$string;
-    
+
     /**
      * The border color when hovered as an array.
      */
-    @Option
+    @Option("hoverBorderColor")
     public String[] hoverBorderColor$array;
-
+    
     /**
      * The border color when hovered as a function.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value = "hoverBorderColor", convertTo = JavaScript.class)
     public String hoverBorderColor$function;
-
+    
     /**
      * The border color when hovered as a single value.
      */
-    @Option
+    @Option("hoverBorderColor")
     public String hoverBorderColor$string;
-
+    
     /**
      * The border width when hovered as an array.
      */
-    @Option
+    @Option("hoverBorderWidth")
     public Integer[] hoverBorderWidth$array;
-
+    
     /**
      * The border width when hovered as a function.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(value = "hoverBorderWidth", convertTo = JavaScript.class)
     public String hoverBorderWidth$function;
-
+    
     /**
      * The border width when hovered as a single value.
      * <p>
      * Default: 1
      */
-    @Option
+    @Option("hoverBorderWidth")
     public Integer hoverBorderWidth$number;
-    
+
     /**
      * Starting angle to draw arcs from.
      * <p>
