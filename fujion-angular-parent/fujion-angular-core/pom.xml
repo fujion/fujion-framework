@@ -14,8 +14,8 @@
 		<webjar.name>fujion-angular</webjar.name>
         <systemjs>
         {'map': {
-			'fujion-angular-widget': 'fujion/widget.js',
-			'fujion-angular-bootstrap': 'fujion/bootstrap.js',
+			'fujion-angular-widget': 'js/widget.js',
+			'fujion-angular-bootstrap': 'js/bootstrap.js',
 			'@angular/animations': '@angular/animations/bundles/animations.umd.js',
 			'@angular/animations/browser': '@angular/animations/bundles/animations-browser.umd.js',
 			'@angular/core': '@angular/core/bundles/core.umd.js',

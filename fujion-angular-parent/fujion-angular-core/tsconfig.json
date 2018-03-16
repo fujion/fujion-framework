@@ -5,13 +5,13 @@
         "sourceMap": true,
         "target": "es5",
         "lib": ["es2015", "es2017", "dom"],
-        "outDir": "src/main/webjar/fujion"
+        "outDir": "src/main/webjar/js"
     },
     
     "compileOnSave": true,
     
     "include": [
-        "src/main/webjar/fujion/*.ts"
+        "src/main/webjar/js/*.ts"
     ],
     
     "exclude": []
