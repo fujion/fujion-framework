@@ -17,6 +17,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			fujion.ws.setKeepalive(0);
 		};
 		
+		window.fujion = fujion;
+		
 		this.debug = options.debug;
 		this.pid = options.pid;
 		this._canClose = true;

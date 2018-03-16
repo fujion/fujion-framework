@@ -1,22 +1,6 @@
 {
 	"paths": {
-		"react": null,
-		"react-dom": null
-	},
-	
-	"map": {
-		"react": "webjars/react",
-		"react-dom": "webjars/react-dom"
-	},
-	
-	"packages": {
-		"react": {
-			"main": "dist/react",
-			"defaultExtension": "js"
-		},
-		"react-dom": {
-			"main": "dist/react-dom",
-			"defaultExtension": "js"
-		}
+		"react": "webjars/fujion-react/js/react-loader.js",
+		"react-dom": "webjars/fujion-react/js/react-dom-loader.js"
 	}
 }
