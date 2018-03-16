@@ -12,13 +12,13 @@
 
 	<properties>
 		<webjar.name>fujion-plotly</webjar.name>
-        <requirejs>
+        <systemjs>
         {
 			'paths': {
 				'fujion-plotly': 'js/plotly'
 			}
 		}
-        </requirejs>
+        </systemjs>
 	</properties>
 	
 	<build>

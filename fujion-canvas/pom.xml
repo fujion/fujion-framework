@@ -11,14 +11,14 @@
 	<artifactId>fujion-canvas</artifactId>
 
 	<properties>
-        <requirejs>
+        <systemjs>
         {
 			'paths': {
 				'fujion-canvas': 'js/canvas',
 				'fujion-canvas-css': 'css/canvas'
 			}
 		}
-        </requirejs>
+        </systemjs>
 	</properties>
 	
 	<build>

@@ -12,14 +12,14 @@
 
 	<properties>
 		<webjar.name>fujion-gmaps</webjar.name>
-        <requirejs>
+        <systemjs>
         {
 			'paths': {
 				'fujion-gmaps': 'js/gmaps',
 				'fujion-gmaps-css': 'css/gmaps'
 			}
 		}
-        </requirejs>
+        </systemjs>
 	</properties>
 	
 	<build>

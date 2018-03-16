@@ -12,13 +12,13 @@
 
 	<properties>
 		<webjar.name>fujion-hchart</webjar.name>
-        <requirejs>
+        <systemjs>
         {
 			'paths': {
 				'fujion-hchart': 'js/hchart'
 			}
 		}
-        </requirejs>
+        </systemjs>
 	</properties>
 	
 	<licenses>

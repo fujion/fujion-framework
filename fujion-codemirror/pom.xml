@@ -12,14 +12,14 @@
 
 	<properties>
 		<webjar.name>fujion-codemirror</webjar.name>
-        <requirejs>
+        <systemjs>
         {
 			'paths': {
 				'fujion-codemirror': 'js/codemirror',
 				'fujion-codemirror-css': 'css/codemirror'
 			}
 		}
-        </requirejs>
+        </systemjs>
 	</properties>
 	
 	<build>

@@ -12,13 +12,13 @@
 
 	<properties>
 		<webjar.name>fujion-chartjs</webjar.name>
-        <requirejs>
+        <systemjs>
         {
 			'paths': {
 				'fujion-chartjs': 'js/chart-js'
 			}
 		}
-        </requirejs>
+        </systemjs>
 	</properties>
 	
 	<build>

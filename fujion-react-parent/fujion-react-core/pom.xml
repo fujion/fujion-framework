@@ -55,31 +55,9 @@
 	<dependencies>
 		<!-- React -->
 		<dependency>
-			<groupId>org.webjars.npm</groupId>
+			<groupId>org.webjars.bower</groupId>
 			<artifactId>react</artifactId>
-			<version>15.6.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.webjars.npm</groupId>
-					<artifactId>fbjs</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars.npm</groupId>
-			<artifactId>react-dom</artifactId>
-			<version>15.6.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.webjars.npm</groupId>
-					<artifactId>fbjs</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars.npm</groupId>
-			<artifactId>fbjs</artifactId>
-			<version>0.8.16</version>
+			<version>16.1.0</version>
 		</dependency>
 		<!-- Fujion Framework -->
 		<dependency>

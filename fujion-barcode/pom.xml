@@ -12,14 +12,14 @@
 
 	<properties>
 		<webjar.name>fujion-barcode</webjar.name>
-        <requirejs>
+        <systemjs>
         {
 			'paths': {
 				'fujion-barcode': 'js/barcode',
 				'fujion-barcode-css': 'css/barcode'
 			}
 		}
-        </requirejs>
+        </systemjs>
 	</properties>
 	
 	<build>

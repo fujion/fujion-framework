@@ -12,7 +12,7 @@
 
 	<properties>
 		<webjar.name>fujion-captcha</webjar.name>
-        <requirejs>
+        <systemjs>
         {
 			'paths': {
 				'fujion-captcha': 'js/captcha',
@@ -27,7 +27,7 @@
 		         }
 		    }
 		}
-        </requirejs>
+        </systemjs>
 	</properties>
 	
 	<build>
