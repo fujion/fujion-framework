@@ -21,10 +21,70 @@
 package org.fujion.highcharts;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
  * Set options on specific levels. Takes precedence over series options, but not point options.
  */
 public class LevelOptions extends Options {
-    //TODO
+    
+    /**
+     * Color on all points which lies on the same level.
+     */
+    @Option
+    public String borderColor;
+    
+    /**
+     * Border dash style on all points which lies on the same level.
+     */
+    @Option
+    public DashStyle borderDashStyle;
+    
+    /**
+     * Border width on all points which lies on the same level.
+     */
+    @Option
+    public Integer borderWidth;
+    
+    /**
+     * Color on all points which lies on the same level.
+     */
+    @Option
+    public String color;
+    
+    /**
+     * The key of a color variation. Currently supports brightness only.
+     */
+    @Option("colorVariation.key")
+    public String colorVariation_key;
+    
+    /**
+     * The ending value of a color variation. The last sibling will receive this value.
+     */
+    @Option("colorVariation.to")
+    public Double colorVariation_to;
+    
+    /**
+     * Data labels on all points which lies on the same level.
+     */
+    @Option
+    public Object dataLabels;
+
+    /**
+     * Level size on all points which lies on the same level.
+     */
+    @Option
+    public Object levelSize;
+
+    /**
+     * Rotation on all points which lies on the same level.
+     */
+    @Option
+    public Double rotation;
+    
+    /**
+     * Rotation mode on all points which lies on the same level.
+     */
+    @Option
+    public String rotationMode;
 }

@@ -21,10 +21,25 @@
 package org.fujion.gmaps;
 
 import org.fujion.ancillary.Options;
+import org.fujion.annotation.Option;
 
 /**
- * TODO:
+ * A point of view object which specifies the camera's orientation at the Street View panorama's
+ * position.
  */
-public class StreetViewPanorama extends Options {
+public class StreetViewPov extends Options {
 
+    /**
+     * The camera heading in degrees relative to true north. True north is 0°, east is 90°, south is
+     * 180°, west is 270°.
+     */
+    @Option
+    public Double heading;
+    
+    /**
+     * The camera pitch in degrees, relative to the street view vehicle. Ranges from 90° (directly
+     * upwards) to -90° (directly downwards).
+     */
+    @Option
+    public Double pitch;
 }

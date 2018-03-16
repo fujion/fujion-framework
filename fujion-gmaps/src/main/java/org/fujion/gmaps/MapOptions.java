@@ -202,12 +202,12 @@ public class MapOptions extends Options {
     public Boolean scrollWheel;
     
     /**
-     * A StreetViewPanorama to display when the Street View pegman is dropped on the map. If no
-     * panorama is specified, a default StreetViewPanorama will be displayed in the map's div when
-     * the pegman is dropped.
+     * Options to create a StreetViewPanorama to display when the Street View pegman is dropped on
+     * the map. If no panorama is specified, a default StreetViewPanorama will be displayed in the
+     * map's div when the pegman is dropped.
      */
     @Option
-    public final StreetViewPanorama streetView = new StreetViewPanorama();
+    public final StreetViewPanoramaOptions streetViewOptions = new StreetViewPanoramaOptions();
     
     /**
      * The initial enabled/disabled state of the Street View Pegman control. This control is part of

@@ -68,10 +68,15 @@ define('fujion-gmaps', [
 		},
 		
 		run: function(options) {
-			this._options = options || this._options;
-			this._map = this.api && this._options ? new this.api.Map(this.widget$[0], this._options) : null;
-			
-			if (this._map) {
+			this._options = options = options || this._options;
+
+			if (this.api && options) {				
+				if (options.streetViewOptions) {
+					options.streetView = new this.api.StreetViewPanorama(this.widget$[0], options.streetView);
+				}
+				
+				this._map = new this.api.Map(this.widget$[0], options);
+
 				var map = this._map,
 					self = this;
 				
