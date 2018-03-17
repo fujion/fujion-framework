@@ -56,9 +56,7 @@ public class GoogleMap extends BaseUIComponent {
     }
 
     private void ensureRunning() {
-        if (!running) {
-            throw new IllegalStateException("A map has not yet been created.");
-        }
+        Assert.state(running, "A map has not yet been created.");
     }
     
     public MapOptions getOptions() {

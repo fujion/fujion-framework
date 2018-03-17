@@ -24,19 +24,20 @@ import org.fujion.client.ExecutionContext;
 import org.fujion.websocket.ISessionLifecycle;
 import org.fujion.websocket.Session;
 import org.fujion.websocket.Sessions;
+import org.springframework.util.Assert;
 
 /**
  * Implements a custom Spring scope bound to Fujion's execution context.
  */
 public class PageScope extends AbstractScope {
-
-    private static final String SCOPE_ATTR = PageScope.class.getName();
     
+    private static final String SCOPE_ATTR = PageScope.class.getName();
+
     /**
      * Manages creating and destroying scope containers.
      */
     private final ISessionLifecycle sessionTracker = new ISessionLifecycle() {
-
+        
         /**
          * Create a new scope container and bind it to the newly created session.
          *
@@ -47,7 +48,7 @@ public class PageScope extends AbstractScope {
             ScopeContainer scopeContainer = new ScopeContainer(session.getId());
             session.getAttributes().put(SCOPE_ATTR, scopeContainer);
         }
-
+        
         /**
          * Destroy the scope container bound to the session.
          *
@@ -56,30 +57,26 @@ public class PageScope extends AbstractScope {
         @Override
         public void onSessionDestroy(Session session) {
             ScopeContainer container = (ScopeContainer) session.getAttributes().remove(SCOPE_ATTR);
-
+            
             if (container != null) {
                 container.destroy();
             }
         }
-
+        
     };
-
+    
     public PageScope() {
         Sessions.getInstance().addLifecycleListener(sessionTracker);
     }
-
+    
     /**
      * Return container for current execution context.
      */
     @Override
     public ScopeContainer getContainer() {
         Session session = ExecutionContext.getSession();
-        
-        if (session == null) {
-            throw new IllegalStateException("Cannot access Page scope outside of an execution context");
-        }
-        
+        Assert.state(session != null, "Cannot access Page scope outside of an execution context");
         return (ScopeContainer) session.getAttributes().get(SCOPE_ATTR);
     }
-
+    
 }

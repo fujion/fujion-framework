@@ -30,19 +30,20 @@ import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.component.BaseUIComponent;
 import org.fujion.component.Page;
+import org.springframework.util.Assert;
 
 /**
  * Fujion wrapper for HighCharts component.
  */
 @Component(tag = "hchart", widgetModule = "fujion-hchart", widgetClass = "HChart", parentTag = "*", description = "Fujion wrapper for HighCharts component.")
 public class Chart extends BaseUIComponent {
-
+    
     private static final String GLOBAL_SETTINGS = Chart.class.getName() + ".global";
-
+    
     public final ChartInstance instance = new ChartInstance();
-
+    
     private boolean running;
-
+    
     /**
      * Create default chart (line plot, single x- and y-axis).
      */
@@ -52,7 +53,7 @@ public class Chart extends BaseUIComponent {
         addYAxis();
         setType(PlotType.LINE);
     }
-
+    
     /**
      * Sets the default colors for the chart's series. When all colors are used, new colors are
      * pulled from the start again.
@@ -61,12 +62,12 @@ public class Chart extends BaseUIComponent {
      */
     public void setDefaultColors(String... colors) {
         instance.getColors().clear();
-
+        
         if (colors != null) {
             instance.getColors().addAll(Arrays.asList(colors));
         }
     }
-
+    
     /**
      * Returns the chart type.
      *
@@ -76,7 +77,7 @@ public class Chart extends BaseUIComponent {
     public PlotType getType() {
         return instance.getChart().type;
     }
-
+    
     /**
      * Sets the chart type. This will remove any existing series.
      *
@@ -89,7 +90,7 @@ public class Chart extends BaseUIComponent {
         instance.getChart().type = type;
         instance.getSeries().clear();
     }
-
+    
     /**
      * Convenience method for returning the x-axis. If there are no x-axes, returns null. If there
      * are multiple x-axes, returns the first only.
@@ -99,7 +100,7 @@ public class Chart extends BaseUIComponent {
     public Axis getXAxis() {
         return instance.getxAxis().isEmpty() ? null : instance.getxAxis().get(0);
     }
-
+    
     /**
      * Convenience method for returning the y-axis. If there are no y-axes, returns null. If there
      * are multiple y-axes, returns the first only.
@@ -109,7 +110,7 @@ public class Chart extends BaseUIComponent {
     public Axis getYAxis() {
         return instance.getyAxis().isEmpty() ? null : instance.getyAxis().get(0);
     }
-
+    
     /**
      * Adds a new series to the chart using the chart's default type.
      *
@@ -118,7 +119,7 @@ public class Chart extends BaseUIComponent {
     public Series addSeries() {
         return addSeries(instance.getChart().type);
     }
-
+    
     /**
      * Adds a new series to the chart using the specified type.
      *
@@ -130,7 +131,7 @@ public class Chart extends BaseUIComponent {
         instance.getSeries().add(series);
         return series;
     }
-
+    
     /**
      * Adds an additional x axis.
      *
@@ -139,7 +140,7 @@ public class Chart extends BaseUIComponent {
     public Axis addXAxis() {
         return new Axis(instance.getxAxis());
     }
-
+    
     /**
      * Adds an additional y axis.
      *
@@ -148,7 +149,7 @@ public class Chart extends BaseUIComponent {
     public Axis addYAxis() {
         return new Axis(instance.getyAxis());
     }
-
+    
     /**
      * Build the graph on the client.
      */
@@ -157,7 +158,7 @@ public class Chart extends BaseUIComponent {
         invoke("_run", instance);
         running = true;
     }
-
+    
     /**
      * Returns true if a chart is currently running on the client.
      *
@@ -166,7 +167,7 @@ public class Chart extends BaseUIComponent {
     public boolean isRunning() {
         return running;
     }
-
+    
     /**
      * Removes all series and data points and destroys the client graph.
      */
@@ -175,7 +176,7 @@ public class Chart extends BaseUIComponent {
         instance.getSeries().clear();
         invoke("_reset");
     }
-
+    
     /**
      * Force a redraw of the chart.
      */
@@ -186,7 +187,7 @@ public class Chart extends BaseUIComponent {
             run();
         }
     }
-
+    
     /**
      * Send global settings to client if necessary.
      */
@@ -195,7 +196,7 @@ public class Chart extends BaseUIComponent {
             invoke("_global", new GlobalSettings());
         }
     }
-
+    
     /**
      * Returns true if global settings need to be sent to client. This occurs once per page.
      *
@@ -203,15 +204,15 @@ public class Chart extends BaseUIComponent {
      */
     private boolean shouldInitialize() {
         Page pg = getPage();
-
+        
         if (pg != null && !pg.hasAttribute(GLOBAL_SETTINGS)) {
             pg.setAttribute(GLOBAL_SETTINGS, true);
             return true;
         }
-
+        
         return false;
     }
-
+    
     /**
      * Convenience method for getting title.
      *
@@ -221,7 +222,7 @@ public class Chart extends BaseUIComponent {
     public String getTitle() {
         return instance.getTitle().text;
     }
-
+    
     /**
      * Convenience method for setting title.
      *
@@ -232,7 +233,7 @@ public class Chart extends BaseUIComponent {
         instance.getTitle().text = text;
         updateTitle();
     }
-
+    
     /**
      * Convenience method for getting subtitle.
      *
@@ -242,7 +243,7 @@ public class Chart extends BaseUIComponent {
     public String getSubtitle() {
         return instance.getSubtitle().text;
     }
-
+    
     /**
      * Convenience method for setting subtitle.
      *
@@ -253,7 +254,7 @@ public class Chart extends BaseUIComponent {
         instance.getSubtitle().text = text;
         updateTitle();
     }
-
+    
     /**
      * Calls the exportChart function on the chart.
      */
@@ -261,7 +262,7 @@ public class Chart extends BaseUIComponent {
         ensureRunning("Exporting");
         invokeJS("_export", instance.getExporting().buttons_exportButton.onclick);
     }
-
+    
     /**
      * Calls the print function on the chart.
      */
@@ -269,7 +270,7 @@ public class Chart extends BaseUIComponent {
         ensureRunning("Printing");
         invokeJS("_print", instance.getExporting().buttons_printButton.onclick);
     }
-
+    
     /**
      * Invokes the specified widget function, passing the JavaScript snippet as its argument.
      *
@@ -279,7 +280,7 @@ public class Chart extends BaseUIComponent {
     private void invokeJS(String func, String js) {
         invoke(func, ConvertUtil.convert(js, JavaScript.class));
     }
-
+    
     /**
      * If the chart is active, dynamically update the title and subtitle.
      */
@@ -291,16 +292,14 @@ public class Chart extends BaseUIComponent {
             invoke("_title", map);
         }
     }
-
+    
     /**
      * Throws an exception if a chart is not currently running.
      *
      * @param operation The operation to be invoked.
      */
     private void ensureRunning(String operation) {
-        if (!running) {
-            throw new IllegalStateException(operation + " requires an active chart.");
-        }
+        Assert.state(running, operation + " requires an active chart.");
     }
-
+    
 }

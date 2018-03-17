@@ -157,19 +157,6 @@ public class MiscUtil {
     }
     
     /**
-     * Asserts that a condition is true, throwing an illegal state exception if it is not.
-     *
-     * @param condition Condition to test.
-     * @param message Exception message.
-     * @param params Optional parameters for formatting exception message.
-     */
-    public static void assertState(boolean condition, String message, Object... params) {
-        if (!condition) {
-            throw new IllegalStateException(params == null || params.length == 0 ? message : String.format(message, params));
-        }
-    }
-    
-    /**
      * Returns an array of parameter types given an array of parameters. Unlike other libraries,
      * this allows null parameter values.
      *
