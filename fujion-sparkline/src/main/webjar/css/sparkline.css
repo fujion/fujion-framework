@@ -1,0 +1,101 @@
+.fujion_carouselview {
+    margin: 20px auto;
+    position: relative;
+    border: 10px solid #fff;
+    width: 600px;
+    height: 400px;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-box-shadow: 0 0 2px #999;
+       -moz-box-shadow: 0 0 2px #999;
+            box-shadow: 0 0 2px #999;
+    overflow: hidden;
+}
+
+.fujion_carouselview ul {
+    width: 10000em;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.fujion_carouselview li {
+    float: left;
+}
+
+/** Carousel Controls **/
+
+.fujion_carouselview-control-prev,
+.fujion_carouselview-control-next {
+    position: absolute;
+    top: 200px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background: #4E443C;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 0 1px #000;
+    font: 24px/27px Arial, sans-serif;
+    -webkit-border-radius: 30px;
+       -moz-border-radius: 30px;
+            border-radius: 30px;
+    -webkit-box-shadow: 0 0 2px #999;
+       -moz-box-shadow: 0 0 2px #999;
+            box-shadow: 0 0 2px #999;
+}
+
+.fujion_carouselview-control-prev {
+    left: -50px;
+}
+
+.fujion_carouselview-control-next {
+    right: -50px;
+}
+
+.fujion_carouselview-control-prev:hover span,
+.fujion_carouselview-control-next:hover span {
+    display: block;
+}
+
+.fujion_carouselview-control-prev.inactive,
+.fujion_carouselview-control-next.inactive {
+    opacity: .5;
+    cursor: default;
+}
+
+/** Carousel Pagination **/
+
+.fujion_carouselview-pagination {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+}
+
+.fujion_carouselview-pagination a {
+    text-decoration: none;
+    display: inline-block;
+    
+    font-size: 11px;
+    line-height: 14px;
+    min-width: 14px;
+    
+    background: #fff;
+    color: #4E443C;
+    border-radius: 14px;
+    padding: 3px;
+    text-align: center;
+    
+    margin-right: 2px;
+    
+    opacity: .75;
+}
+
+.fujion_carouselview-pagination a.active {
+    background: #4E443C;
+    color: #fff;
+    opacity: 1;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75);
+}

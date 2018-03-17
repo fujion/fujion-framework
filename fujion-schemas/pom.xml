@@ -168,6 +168,21 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>generate-sparkline-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=Sparkline Extension</argument>
+								<argument>-c=org.fujion.sparkline.Sparkline</argument>
+								<argument>${schemadir}fsp-sparkline.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
 						<id>generate-barcode-schema</id>
 						<phase>prepare-package</phase>
 						<goals>
@@ -246,6 +261,11 @@
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-plotly</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-sparkline</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

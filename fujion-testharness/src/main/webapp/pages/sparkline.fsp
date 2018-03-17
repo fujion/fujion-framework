@@ -1,0 +1,5 @@
+ 
+<div controller="org.fujion.testharness.SparklineController"> 
+    <label label="Sparkline Plot:"/>
+    <sparkline width="200px" height="40px" name="sparkline" type="line"/>
+</div>

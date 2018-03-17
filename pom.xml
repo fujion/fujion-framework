@@ -65,6 +65,7 @@
 		<module>fujion-highcharts</module>
 		<module>fujion-chartjs</module>
 		<module>fujion-plotly</module>
+		<module>fujion-sparkline</module>
 		<module>fujion-codemirror</module>
 		<module>fujion-barcode</module>
 		<module>fujion-captcha</module>
