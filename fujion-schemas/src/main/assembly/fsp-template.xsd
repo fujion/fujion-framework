@@ -1,0 +1,6 @@
+<xs:schema xmlns:fsp="http://www.fujion.org/schema/fsp" elementFormDefault="qualified" targetNamespace="http://www.fujion.org/schema/fsp" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:annotation>
+        <xs:documentation>Fujion Server Page Schema, version ${version}</xs:documentation>
+    </xs:annotation>
+    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-${name}.xsd"/>
+</xs:schema>

@@ -12,43 +12,21 @@
 	<name>Fujion Schema Generation</name>
 
 	<properties>
-		<schemadir>${basedir}/target/classes/</schemadir>
+		<maven.source.skip>true</maven.source.skip>
 	</properties>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<configuration>
-					<skipSource>true</skipSource>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>org.fujion.annotation.SchemaGenerator</mainClass>
+					<mainClass>org.fujion.schema.SchemaAssembler</mainClass>
 					<classpathScope>compile</classpathScope>
 				</configuration>
 				<executions>
 					<execution>
-						<id>generate-root-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-r</argument>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=Root Schema</argument>
-								<argument>${schemadir}fsp-root.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-core-schema</id>
+						<id>generate-schemas</id>
 						<phase>prepare-package</phase>
 						<goals>
 							<goal>java</goal>
@@ -56,174 +34,9 @@
 						<configuration>
 							<arguments>
 								<argument>-v=${project.version}</argument>
-								<argument>-t=Core Schema</argument>
-								<argument>-p=org.fujion.component</argument>
-								<argument>${schemadir}fsp-core.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-canvas-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=Canvas Extension</argument>
-								<argument>-p=org.fujion.canvas.*</argument>
-								<argument>${schemadir}fsp-canvas.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-gmaps-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=Google Maps Extension</argument>
-								<argument>-p=org.fujion.gmaps</argument>
-								<argument>${schemadir}fsp-gmaps.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-angular-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=AngularJS Extension</argument>
-								<argument>-c=org.fujion.angular.AngularComponent</argument>
-								<argument>${schemadir}fsp-angular.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-codemirror-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=CodeMirror Extension</argument>
-								<argument>-c=org.fujion.codemirror.CodeMirror</argument>
-								<argument>${schemadir}fsp-codemirror.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-highcharts-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=Highcharts Extension</argument>
-								<argument>-c=org.fujion.highcharts.Chart</argument>
-								<argument>${schemadir}fsp-highcharts.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-plotly-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=Plotly Extension</argument>
-								<argument>-c=org.fujion.plotly.Chart</argument>
-								<argument>${schemadir}fsp-plotly.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-chartjs-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=Chart.js Extension</argument>
-								<argument>-c=org.fujion.chartjs.Chart</argument>
-								<argument>${schemadir}fsp-chartjs.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-sparkline-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=Sparkline Extension</argument>
-								<argument>-c=org.fujion.sparkline.Sparkline</argument>
-								<argument>${schemadir}fsp-sparkline.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-barcode-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=Barcode Extension</argument>
-								<argument>-c=org.fujion.barcode.BarCode</argument>
-								<argument>${schemadir}fsp-barcode.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-captcha-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=Captcha Extension</argument>
-								<argument>-c=org.fujion.captcha.Captcha</argument>
-								<argument>${schemadir}fsp-captcha.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-react-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=React Extension</argument>
-								<argument>-c=org.fujion.react.ReactComponent</argument>
-								<argument>${schemadir}fsp-react.xsd</argument>
+								<argument>-c=${basedir}/src/main/assembly/schemas.properties</argument>
+								<argument>-t=${basedir}/src/main/assembly/fsp-template.xsd</argument>
+								<argument>-o=${basedir}/target/classes/</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -237,61 +50,73 @@
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-core</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-canvas</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-gmaps</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-highcharts</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-chartjs</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-plotly</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-sparkline</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-barcode</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-captcha</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-codemirror</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-angular-core</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-react-core</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

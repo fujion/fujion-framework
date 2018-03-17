@@ -64,7 +64,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>org.fujion.annotation.SchemaGenerator</mainClass>
+					<mainClass>org.fujion.schema.SchemaGenerator</mainClass>
 					<classpathScope>compile</classpathScope>
 				</configuration>
 				<executions>
