@@ -427,6 +427,16 @@ public abstract class BaseComponent implements IElementIdentifier {
     public boolean isDead() {
         return dead;
     }
+    
+    /**
+     * Returns true if the component has been rendered on the browser. A component is considered
+     * rendered if it belongs to a rendered page.
+     *
+     * @return True if the component has been rendered on the browser.
+     */
+    public boolean isRendered() {
+        return page != null && page.getId() != null;
+    }
 
     /**
      * Validates that this component is not dead.

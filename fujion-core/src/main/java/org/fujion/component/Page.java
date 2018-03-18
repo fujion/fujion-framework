@@ -257,6 +257,10 @@ public final class Page extends BaseComponent implements INamespace {
      * @param register If true, register the component. If false, unregister it.
      */
     /*package*/ void registerComponent(BaseComponent component, boolean register) {
+        if (getId() == null) {
+            return;
+        }
+        
         String id = component.getId();
 
         if (id == null) {
