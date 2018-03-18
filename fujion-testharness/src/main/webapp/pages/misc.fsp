@@ -52,6 +52,10 @@
 				This button has a hover popup associated with it.
 			</row>
 			<row>
+				<button name="btnPrint" label="Print test"/>
+				Test print function by printing the contents of this tab.
+			</row>
+			<row>
 				<button name="btnSaveAsFile" label="Save to File" />
 				This button saves some text to a file.
 			</row>

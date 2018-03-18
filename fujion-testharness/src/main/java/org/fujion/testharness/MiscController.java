@@ -34,6 +34,7 @@ import org.fujion.component.Detail;
 import org.fujion.component.Div;
 import org.fujion.component.Popup;
 import org.fujion.component.Radiogroup;
+import org.fujion.component.Tab;
 import org.fujion.event.ChangeEvent;
 import org.fujion.event.Event;
 import org.fujion.page.PageUtil;
@@ -85,6 +86,11 @@ public class MiscController extends BaseController {
     @EventHandler(value = "click", target = "btnSaveAsFile")
     public void btnSaveAsFileHandler() {
         ClientUtil.saveToFile("This is test content", "text/plain", "testFile.txt");
+    }
+
+    @EventHandler(value = "click", target = "btnPrint")
+    public void btnPrintHandler() {
+        this.root.getAncestor(Tab.class).print();
     }
 
     @EventHandler(value = "click", target = "btnTestCallback")

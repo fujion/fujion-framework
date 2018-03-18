@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scrollTo', 'balloon-css', 'jquery-ui-css', 'bootstrap-css', 'fujion-widget-css'], function(fujion) { 
+define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scrollTo', 'jQuery.print','balloon-css', 'jquery-ui-css', 'bootstrap-css', 'fujion-widget-css'], function(fujion) { 
 	/* Widget support.  In the documentation, when we refer to 'widget' we mean an instance of the Widget
 	 * class.  When we refer to 'widget$' (following the convention that a variable name ending in '$'
 	 * is always a jquery object), we mean the jquery object managed by the widget.
@@ -953,6 +953,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		input$: function() {
 			var input$ = this.sub$('inp');
 			return input$.length ? input$ : this.widget$;
+		},
+		
+		print: function(options) {
+			var ele$ = options && options.selector ? $(options.selector) : this.anchor$();
+			ele$.print(options);
 		},
 		
 		/**
