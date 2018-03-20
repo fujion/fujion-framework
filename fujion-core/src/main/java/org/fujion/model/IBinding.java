@@ -24,24 +24,31 @@ import java.lang.reflect.Method;
 
 import org.fujion.component.BaseComponent;
 
+/**
+ * Represents a binding between a property on a model object and one on a component. Naming
+ * conventions are from the perspective of the model object. Therefore, a read binding reads a value
+ * from a model object's property and writes that value to a component's property. Similarly, a
+ * write binding reads a value from a component's property and writes that value to a model object's
+ * property.
+ */
 public interface IBinding {
-    
+
     void init(BaseComponent instance, String propertyName, Method getter, Method setter);
-    
+
     /**
      * Read from model, write to target.
      */
     public interface IReadBinding extends IBinding {
-        
+
         void read();
     }
-
+    
     /**
      * Read from target, write to model.
      */
     public interface IWriteBinding extends IBinding {
-        
+
         void write();
     }
-
+    
 }

@@ -1062,7 +1062,7 @@ public abstract class BaseComponent implements IElementIdentifier {
      *
      * @return True if this component is a namespace boundary.
      */
-    @PropertyGetter(value = "namespace", description = "When true, this component acts as a namespace boundary.")
+    @PropertyGetter(value = "namespace", bindable = false, description = "When true, this component acts as a namespace boundary.")
     public boolean isNamespace() {
         return namespace;
     }
@@ -1073,7 +1073,7 @@ public abstract class BaseComponent implements IElementIdentifier {
      *
      * @param namespace True to make component a namespace boundary.
      */
-    @PropertySetter(value = "namespace", description = "When true, this component acts as a namespace boundary.")
+    @PropertySetter(value = "namespace", bindable = false, description = "When true, this component acts as a namespace boundary.")
     private void setNamespace(boolean namespace) {
         this.namespace = namespace;
     }
@@ -1372,7 +1372,7 @@ public abstract class BaseComponent implements IElementIdentifier {
      *            targeting the component that is the result of resolving the
      *            <code>window.listbox</code> path.
      */
-    @PropertySetter(value = "forward", defer = true, description = "Sets one or more event forwarding directives.")
+    @PropertySetter(value = "forward", bindable = false, defer = true, description = "Sets one or more event forwarding directives.")
     private void setForward(String forwards) {
         forwards = trimify(forwards);
 
@@ -1786,7 +1786,7 @@ public abstract class BaseComponent implements IElementIdentifier {
      *            <li>All other - The controller instance to be wired.</li>
      *            </ul>
      */
-    @PropertySetter(value = "controller", defer = true, description = "Controller to be wired to this component.")
+    @PropertySetter(value = "controller", bindable = false, defer = true, description = "Controller to be wired to this component.")
     public void wireController(Object controller) {
         if (controller == null) {
             throw new ComponentException("Controller is null or could not be resolved");
@@ -1924,7 +1924,7 @@ public abstract class BaseComponent implements IElementIdentifier {
      */
     @PropertySetter(value = "data", description = "Data object to associate with this component.")
     public void setData(Object data) {
-        this.data = data;
+        propertyChange("data", this.data, this.data = data, false);
     }
 
     /**
