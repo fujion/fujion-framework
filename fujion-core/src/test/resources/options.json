@@ -1,0 +1,13 @@
+{
+    "should0": 0,
+    "should1": 1,
+    "should4": 4,
+    "alternate5": 5,
+    "map1": {
+        "should6": 6
+    },
+    "map3": {
+        "should30": 30
+    },
+    "should12": "function() {x=1;}"
+}

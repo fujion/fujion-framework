@@ -20,15 +20,19 @@
  */
 package org.fujion.core.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.common.JSONUtil;
+import org.fujion.common.StrUtil;
 import org.junit.Test;
+import org.springframework.util.ResourceUtils;
 
 /**
  * Tests for Option class functionality.
@@ -116,25 +120,13 @@ public class OptionTests {
     }
 
     @Test
-    public void test() {
+    public void test() throws Exception {
         TestOptions1 opt = new TestOptions1();
         OptionMap map = opt.toMap();
-        assertEquals(0, map.get("should0"));
-        assertEquals(1, map.get("should1"));
-        assertFalse(map.containsKey("shouldnot2"));
-        assertFalse(map.containsKey("shouldnot3"));
-        assertEquals(4, map.get("should4"));
-        assertEquals(5, map.get("alternate5"));
-        assertTrue(map.get("map1") instanceof OptionMap);
-        assertFalse(map.containsKey("map2"));
-        assertTrue(map.get("map3") instanceof OptionMap);
-        assertFalse(map.containsKey("map4"));
-        OptionMap map1 = (OptionMap) map.get("map1");
-        assertEquals(6, map1.get("should6"));
-        assertFalse(map1.containsKey("shouldnot7"));
-        OptionMap map3 = (OptionMap) map.get("map3");
-        assertEquals(30, map3.get("should30"));
-        assertFalse(map3.containsKey("shouldnot31"));
-        assertTrue(map.get("should12") instanceof JavaScript);
+        String json = FileUtils.readFileToString(ResourceUtils.getFile("classpath:options.json"), StrUtil.UTF8);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> expected = (Map<String, Object>) JSONUtil.deserialize(json);
+        expected.put("should12", new JavaScript((String) expected.get("should12")));
+        assertTrue(expected.equals(map));
     }
 }
