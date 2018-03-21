@@ -122,7 +122,7 @@ public class BarCode extends BaseUIComponent {
     private void validateValue(String value) {
         if (!format.validate(value)) {
             throw new IllegalArgumentException(
-                    String.format("Value '%s' is not valid for the format type '%s'", value, format.name()));
+                    String.format("Value \"%s\" is not valid for the format type \"%s\"", value, format.name()));
         }
     }
     

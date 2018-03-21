@@ -117,6 +117,17 @@
 				</groupbox>
 				Group box.
 			</row>
+			<row>
+				<rowcell>
+					<button name="btnEventTest" label="Test event"/>
+					<radiogroup name="rgEventTest">
+						<radiobutton label="Send" checked="true"/>
+						<radiobutton label="Post"/>
+						<radiobutton label="Echo"/>
+					</radiogroup>
+				</rowcell>
+				On button click, should see log entry ".. event test successful."
+			</row>
 		</rows>
 	</grid>
 	

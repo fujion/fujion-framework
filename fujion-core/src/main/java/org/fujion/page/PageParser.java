@@ -233,7 +233,7 @@ public class PageParser implements BeanPostProcessor {
      * @param name Name of offending attribute.
      */
     private void badAttribute(String tag, String name) {
-        throw new ParserException("Unrecognized attribute '%s' on tag '<%s>'", name, tag);
+        throw new ParserException("Unrecognized attribute \"%s\" on tag \"<%s>\"", name, tag);
     }
 
     /**
