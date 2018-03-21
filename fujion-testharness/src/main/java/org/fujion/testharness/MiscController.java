@@ -47,33 +47,33 @@ import org.springframework.core.io.Resource;
  * Demonstration of miscellaneous capabilities.
  */
 public class MiscController extends BaseController {
-    
+
     private static final String DYNAMIC_CONTENT_1 = "<button label='Dynamic Content' class='flavor:btn-danger'/>";
-
+    
     private static final String DYNAMIC_CONTENT_2 = "<button label='Dynamic Resource' class='flavor:btn-success'/>";
-
+    
     static {
         DynamicResourceRegistry drr = DynamicResourceRegistry.getInstance();
         Resource resource = new ByteArrayResource(DYNAMIC_CONTENT_2.getBytes());
         drr.registerResource("dynamic_resource.fsp", resource);
     }
-
+    
     @WiredComponent(onFailure = OnFailure.IGNORE)
     private Div nomatch;
-    
+
     @WiredComponent
     private BaseComponent dynamicContent;
-    
+
     @WiredComponent
     private Popup contextMenu;
-    
+
     @Override
     public void afterInitialized(BaseComponent root) {
         super.afterInitialized(root);
         log(nomatch == null, "Component 'nomatch' was correctly not wired.", "Component 'nomatch' as erroneously wired.");
         PageUtil.createPageFromContent(DYNAMIC_CONTENT_1, dynamicContent);
     }
-    
+
     /**
      * Controls whether or not application closure is challenged.
      *
@@ -83,31 +83,31 @@ public class MiscController extends BaseController {
     public void chkPreventClosureHandler(ChangeEvent event) {
         page.setClosable(!((Checkbox) event.getTarget()).isChecked());
     }
-    
+
     @EventHandler(value = "click", target = "btnSaveAsFile")
     public void btnSaveAsFileHandler() {
         ClientUtil.saveToFile("This is test content", "text/plain", "testFile.txt");
     }
-    
+
     @EventHandler(value = "click", target = "btnPrint")
     public void btnPrintHandler() {
         this.root.getAncestor(Tab.class).print();
     }
-    
+
     @EventHandler(value = "click", target = "btnTestCallback")
     public void btnTestCallbackHandler() {
         log("You should see \"The document url is:...\"");
-
+        
         ClientUtil.invoke("window.location.href", (response) -> {
             log("The document url is: " + response);
         });
     }
-    
+
     @WiredComponent
     private Div divMaskTest;
-    
+
     private boolean masked;
-    
+
     @EventHandler(value = "click", target = "btnMaskTest")
     private void btnMaskTestClickHandler() {
         if (masked = !masked) {
@@ -116,10 +116,10 @@ public class MiscController extends BaseController {
             divMaskTest.removeMask();
         }
     }
-    
+
     @WiredComponent
     private Button btnToggleBalloon;
-    
+
     @EventHandler(value = "click", target = "@btnToggleBalloon")
     private void btnToggleBalloonClickHandler() {
         if (btnToggleBalloon.getBalloon() == null) {
@@ -128,61 +128,65 @@ public class MiscController extends BaseController {
             btnToggleBalloon.setBalloon(null);
         }
     }
-    
+
     @WiredComponent
     private Caption caption;
-
+    
     @WiredComponent
     private Radiogroup rgPosition;
-
+    
     @EventHandler(value = "change", target = "@rgPosition")
     private void positionChangeHandler() {
         String value = rgPosition.getSelected().getLabel();
         LabelPositionAll position = LabelPositionAll.valueOf(value.toUpperCase());
         caption.setPosition(position);
     }
-
+    
     @WiredComponent
     private Radiogroup rgAlignment;
-    
+
     @EventHandler(value = "change", target = "@rgAlignment")
     private void alignmentChangeHandler() {
         String value = rgAlignment.getSelected().getLabel();
         LabelAlignment alignment = LabelAlignment.valueOf(value.toUpperCase());
         caption.setAlignment(alignment);
     }
-    
+
     @WiredComponent
     private Detail detail;
-
+    
     @EventHandler(value = "click", target = "btnToggleDetail")
     private void toggleDetailHandler(Event event) {
         detail.setOpen(!detail.isOpen());
     }
-
+    
     @WiredComponent
-    private Radiogroup rgEventTest;
-
+    private BaseComponent eventTestParent;
+    
     @EventHandler(value = "click", target = "btnEventTest")
     private void eventTestHandler() {
         String message = " event test successful.";
         Event event;
+        
+        for (Checkbox chk : eventTestParent.getChildren(Checkbox.class)) {
+            if (chk.isChecked()) {
+                switch ((Integer) chk.getData()) {
+                    case 0: // Send
+                        event = new Event("log", root, "Send" + message);
+                        EventUtil.send(event);
+                        break;
 
-        switch (rgEventTest.getSelected().getIndex()) {
-            case 0: // Send
-                event = new Event("log", root, "Send" + message);
-                EventUtil.send(event);
-                break;
-            
-            case 1: // Post
-                event = new Event("log", root, "Post" + message);
-                EventUtil.post(event);
-                break;
-            
-            case 2: // Echo
-                event = new Event("log", root, "Echo" + message);
-                EventUtil.echo(event);
-                break;
+                    case 1: // Post
+                        event = new Event("log", root, "Post" + message);
+                        EventUtil.post(event);
+                        break;
+
+                    case 2: // Echo
+                        event = new Event("log", root, "Echo" + message);
+                        EventUtil.echo(event);
+                        break;
+                }
+            }
         }
     }
 }

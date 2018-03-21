@@ -118,15 +118,13 @@
 				Group box.
 			</row>
 			<row>
-				<rowcell>
+				<rowcell name="eventTestParent">
 					<button name="btnEventTest" label="Test event"/>
-					<radiogroup name="rgEventTest">
-						<radiobutton label="Send" checked="true"/>
-						<radiobutton label="Post"/>
-						<radiobutton label="Echo"/>
-					</radiogroup>
+					<checkbox label="Echo" checked="true" data="${2}"/>
+					<checkbox label="Post" checked="true" data="${1}"/>
+					<checkbox label="Send" checked="true" data="${0}"/>
 				</rowcell>
-				On button click, should see log entry ".. event test successful."
+				On button click, should see log entry ".. event test successful." for each selected method.
 			</row>
 		</rows>
 	</grid>
