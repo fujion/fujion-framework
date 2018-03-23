@@ -328,7 +328,8 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
 
         ExecutionContext.clear();
         ExecutionContext.put(ExecutionContext.ATTR_REQUEST, request);
-
+        ExecutionContext.put(ExecutionContext.ATTR_PROCESSING, true);
+        
         try {
             handler.handleRequest(request);
             session.notifySessionListeners(request);

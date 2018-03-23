@@ -40,6 +40,8 @@ public class ExecutionContext {
     
     public static final String ATTR_REQUEST = "fujion_request";
     
+    public static final String ATTR_PROCESSING = "fujion_processing";
+    
     private static final ThreadLocal<Map<String, Object>> context = new ThreadLocal<Map<String, Object>>() {
         
         @Override
@@ -100,6 +102,10 @@ public class ExecutionContext {
      */
     public static boolean isEmpty() {
         return context.get().isEmpty();
+    }
+    
+    public static boolean isProcessing() {
+        return context.get().containsKey(ATTR_PROCESSING);
     }
     
     /**
