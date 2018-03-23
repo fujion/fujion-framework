@@ -59,8 +59,8 @@ public class EventQueue {
         }
         
         queue.add(event);
-        
-        if (queue.size() == 1 && ExecutionContext.getPage() != page) {
+
+        if (queue.size() == 1 && (!ExecutionContext.isProcessing() || ExecutionContext.getPage() != page)) {
             Session session = page.getSession();
             
             if (session != null) {
