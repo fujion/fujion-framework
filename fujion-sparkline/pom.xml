@@ -12,14 +12,13 @@
 
 	<properties>
 		<webjar.name>fujion-sparkline</webjar.name>
-        <requirejs>
+        <systemjs>
         {
 			'paths': {
-				'fujion-sparkline': 'js/sparkline',
-				'fujion-sparkline-css': 'css/sparkline'
+				'fujion-sparkline': 'js/sparkline'
 			}
 		}
-        </requirejs>
+        </systemjs>
 	</properties>
 	
 	<build>
