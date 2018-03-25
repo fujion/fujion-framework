@@ -108,6 +108,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
+			<artifactId>fujion-ckeditor</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
 			<artifactId>fujion-angular-core</artifactId>
 			<version>${project.parent.version}</version>
 			<scope>provided</scope>

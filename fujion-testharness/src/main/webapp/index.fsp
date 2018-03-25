@@ -37,6 +37,10 @@
 				<import src="pages/sparkline.fsp" />
 			</tab>
 			
+			<tab label="CKEditor" hint="${@msg.fujion.testharness.ckeditor}">
+				<import src="pages/ckeditor.fsp" />
+			</tab>
+			
 			<tab label="Conditionals" hint="${@msg.fujion.testharness.conditionals}">
 				<import src="pages/conditionals.fsp" />
 			</tab>

@@ -1,0 +1,5 @@
+/* Fixes spurious scrollbar issue. */
+.cke_screen_reader_only {
+	bottom: 0;
+	left: 0;
+}
