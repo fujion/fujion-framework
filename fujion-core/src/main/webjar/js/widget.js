@@ -797,10 +797,15 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 */
 		syncState: function() {
 			var self = this;
-
-			_.forOwn(this._state, function(value, key) {
-				self.applyState(key);
-			});
+			this._syncing = this._syncing ? this._syncing++ : 1;
+						
+			try {
+				_.forOwn(this._state, function(value, key) {
+					self.applyState(key);
+				});
+			} finally {
+				this._syncing--;
+			}
 		},
 		
 		/**
@@ -1916,7 +1921,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		});
 	};
 	
-	
+	fujion.body$.on('click', function() {
+		fujion.widget.Popup.closePopups();
+	});
+
 	/******************************************************************************************************************
 	 * A toolbar widget
 	 ******************************************************************************************************************/ 
@@ -3893,7 +3901,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		}
 		
 	});
-	
 	
 	return fujion.widget;
 });

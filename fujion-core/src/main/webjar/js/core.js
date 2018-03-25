@@ -21,6 +21,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		
 		this.debug = options.debug;
 		this.pid = options.pid;
+		this.baseurl = options.baseurl;
 		this._canClose = true;
 		this.body$ = $('body');
 		this.head$ = $('head');
@@ -509,9 +510,6 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		_init: function() {
 		    $.widget.bridge('uitooltip', $.ui.tooltip);
 		    $.widget.bridge('uibutton', $.ui.button);
-			fujion.body$.on('click', function() {
-				fujion.widget.Popup.closePopups();
-			});
 		},
 		
 		/**
