@@ -58,6 +58,7 @@
 		<module>fujion-common</module>
 		<module>fujion-core</module>
 		<module>fujion-test</module>
+		<module>fujion-transpiler</module>
 		<module>fujion-archetype-parent</module>
 		<module>fujion-script-parent</module>
 		<module>fujion-angular-parent</module>
@@ -66,6 +67,7 @@
 		<module>fujion-chartjs</module>
 		<module>fujion-plotly</module>
 		<module>fujion-sparkline</module>
+		<module>fujion-spinjs</module>
 		<module>fujion-ckeditor</module>
 		<module>fujion-codemirror</module>
 		<module>fujion-barcode</module>
