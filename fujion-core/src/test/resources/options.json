@@ -9,5 +9,6 @@
     "map3": {
         "should30": 30
     },
-    "should12": "function() {x=1;}"
+    "should12": "function() {x=1;}",
+    "should13": 1
 }

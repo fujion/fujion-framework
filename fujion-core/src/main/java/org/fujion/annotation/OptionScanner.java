@@ -20,23 +20,31 @@
  */
 package org.fujion.annotation;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.OptionMap.IOptionMapConverter;
+import org.fujion.common.MiscUtil;
 
 /**
  * Builds an OptionMap from Option annotations.
  */
 public class OptionScanner extends AbstractFieldScanner<Object, Option> {
+    
+    protected interface NOPConverter extends Function<Object, Object> {};
 
     private static final Log log = LogFactory.getLog(OptionScanner.class);
-    
+
     private static final OptionScanner instance = new OptionScanner();
+    
+    private final Map<Class<?>, Function<Object, Object>> converters = new HashMap<>();
 
     public static void scan(Object object, OptionMap map) {
         instance.scan(object, (annotation, field) -> {
@@ -44,44 +52,48 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
                 if (annotation.ignore()) {
                     return true;
                 }
-                
+
                 String name = annotation.value();
                 name = name.isEmpty() ? field.getName() : name;
                 Object value = field.get(object);
-
+                
                 if (value == null) {
                     return true;
                 }
-
+                
                 if (value instanceof IOptionMapConverter) {
                     value = ((IOptionMapConverter) value).toMap();
                 }
-
+                
                 if (value instanceof Collection && ((Collection<?>) value).isEmpty()) {
                     return true;
                 }
-
+                
                 if (value instanceof Map && ((Map<?, ?>) value).isEmpty()) {
                     return true;
                 }
-
+                
                 if (annotation.convertTo() != Object.class) {
                     value = ConvertUtil.convert(value, annotation.convertTo());
                 }
                 
+                if (annotation.convertWith() != NOPConverter.class) {
+                    value = instance.convertWith(value, annotation.convertWith());
+                }
+
                 instance.setValue(name, value, map);
             } catch (Exception e) {
                 log.error("Exception transforming option map.", e);
             }
-
+            
             return true;
         });
     }
-
+    
     private OptionScanner() {
         super(Object.class, Option.class);
     }
-    
+
     /**
      * Sets the name/value pair into the specified map. If the name contains an underscore, the
      * value is stored in a submap using the first part of the name as the top level key and the
@@ -99,21 +111,39 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
             String pcs[] = name.split("\\.", 2);
             name = pcs[0];
             String rest = pcs[1];
-            
+
             if (!rest.isEmpty()) {
                 OptionMap submap = (OptionMap) map.get(name);
                 OptionMap newmap = submap == null ? new OptionMap() : submap;
                 setValue(rest, value, newmap);
-
+                
                 if (submap == null && !newmap.isEmpty()) {
                     map.put(name, newmap);
                 }
             }
-
+            
             return;
         }
-        
+
         map.put(name, value);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private Object convertWith(Object value, Class<? extends Function<?, ?>> convertWith) {
+        Function<Object, Object> converter = converters.get(convertWith);
+        
+        if (converter == null) {
+            try {
+                Constructor<?> ctor = convertWith.getDeclaredConstructor();
+                ctor.setAccessible(true);
+                converter = (Function<Object, Object>) ctor.newInstance();
+                converters.put(convertWith, converter);
+            } catch (Exception e) {
+                throw MiscUtil.toUnchecked(e);
+            }
+        }
+        
+        return converter.apply(value);
     }
 
 }
