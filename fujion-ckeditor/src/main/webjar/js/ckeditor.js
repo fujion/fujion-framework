@@ -32,8 +32,16 @@ define('fujion-ckeditor', [
 		
 		instanceReadyHandler: function() {
 			this._ready = true;
-			this.syncState();
+			this.syncState('readonly', 'value');
 			this.getState('sizable') ? null : this.resizeHandler();
+			
+			if (this._focus) {
+				delete this._focus;
+				var editor = this._editor;
+				setTimeout(function() {
+					editor.focus();
+				}, 0);
+			}
 		},
 		
 		resizeHandler: function() {
@@ -106,12 +114,16 @@ define('fujion-ckeditor', [
 		
 		/*------------------------------ State ------------------------------*/
 		
+		focus: function(v) {
+			!this._ready ? this._focus = v : v ? this._editor.focus() : this._super();
+		},
+		
 		readonly: function(v) {
 			this._ready ? this._editor.setReadOnly(v) : null;
 		},
 		
 		sizable: function(v) {
-			this._syncing ? null : this.rerender();
+			this.rerender();
 		},
 		
 		synced: function(v) {			

@@ -793,19 +793,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 
 		/**
-		 * Calls setters for all saved states.
+		 * Calls setters for specified or all saved states.  If parameters are specified,
+		 * they are assumed to be named states to synchronize.  Otherwise, all states
+		 * are synchronized.
 		 */
 		syncState: function() {
-			var self = this;
-			this._syncing = this._syncing ? this._syncing++ : 1;
-						
-			try {
-				_.forOwn(this._state, function(value, key) {
-					self.applyState(key);
-				});
-			} finally {
-				this._syncing--;
-			}
+			var self = this,
+				states = arguments.length ? _.pick(this._state, arguments) : this._state;
+			
+			_.forOwn(states, function(value, key) {
+				self.applyState(key);
+			});
 		},
 		
 		/**
