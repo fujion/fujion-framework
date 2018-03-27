@@ -25,7 +25,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.function.Function;
 
 /**
  * Annotation to mark a field to be serialized as part of an option map.
@@ -51,11 +50,12 @@ public @interface Option {
     Class<?> convertTo() default Object.class;
     
     /**
-     * Optional converter to convert value to a new type.
+     * Optional EL expression to convert value to a new type. Use variable name "value" to access
+     * current value. EL prefix ("${") and suffix ("}") are optional.
      *
-     * @return The converter to use. Default is no conversion.
+     * @return The EL expression to convert the value. Default is none.
      */
-    Class<? extends Function<?, ?>> convertWith() default OptionScanner.NOPConverter.class;
+    String convertUsing() default "";
 
     /**
      * Ignore the annotation. Useful to explicitly show that the field is not to be serialized.

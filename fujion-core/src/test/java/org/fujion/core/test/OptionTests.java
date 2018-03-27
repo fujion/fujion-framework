@@ -23,7 +23,6 @@ package org.fujion.core.test;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
-import java.util.function.Function;
 
 import org.apache.commons.io.FileUtils;
 import org.fujion.ancillary.JavaScript;
@@ -39,15 +38,6 @@ import org.springframework.util.ResourceUtils;
  * Tests for Option class functionality.
  */
 public class OptionTests {
-
-    private static class TestConverter implements Function<Boolean, Integer> {
-        
-        @Override
-        public Integer apply(Boolean value) {
-            return value ? 1 : -1;
-        }
-
-    }
 
     private static class TestOptions1 extends Options {
 
@@ -112,7 +102,7 @@ public class OptionTests {
         protected String should12 = "x=1;";
 
         // should serialize as numeric value
-        @Option(convertWith = TestConverter.class)
+        @Option(convertUsing = "${value ? 1 : -1}")
         private final Boolean should13 = true;
 
     }

@@ -20,40 +20,49 @@
  */
 package org.fujion.annotation;
 
-import java.lang.reflect.Constructor;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.OptionMap.IOptionMapConverter;
-import org.fujion.common.MiscUtil;
+import org.fujion.expression.ELEvaluator;
 
 /**
  * Builds an OptionMap from Option annotations.
  */
 public class OptionScanner extends AbstractFieldScanner<Object, Option> {
 
-    protected interface NOPConverter extends Function<Object, Object> {};
+    /**
+     * Used for EL expressions.
+     */
+    private static class ValueWrapper {
+
+        private final Object value;
+
+        ValueWrapper(Object value) {
+            this.value = value;
+        }
+
+        @SuppressWarnings("unused")
+        public Object getValue() {
+            return value;
+        }
+    }
     
     private static final Log log = LogFactory.getLog(OptionScanner.class);
     
     private static final OptionScanner instance = new OptionScanner();
 
-    private final Map<Class<?>, Function<Object, Object>> converters = Collections.synchronizedMap(new HashMap<>());
-    
     public static void scan(Object object, OptionMap map) {
         instance.scan(object, (annotation, field) -> {
             try {
                 if (annotation.ignore()) {
                     return true;
                 }
-                
+
                 String name = annotation.value();
                 name = name.isEmpty() ? field.getName() : name;
                 Object value = field.get(object);
@@ -78,10 +87,10 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
                     value = ConvertUtil.convert(value, annotation.convertTo());
                 }
 
-                if (annotation.convertWith() != NOPConverter.class) {
-                    value = instance.convertWith(value, annotation.convertWith());
+                if (!annotation.convertUsing().isEmpty()) {
+                    value = instance.convertWith(value, annotation.convertUsing());
                 }
-                
+
                 instance.setValue(name, value, map);
             } catch (Exception e) {
                 log.error("Exception transforming option map.", e);
@@ -129,22 +138,11 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
         map.put(name, value);
     }
 
-    @SuppressWarnings("unchecked")
-    private Object convertWith(Object value, Class<? extends Function<?, ?>> convertWith) {
-        Function<Object, Object> converter = converters.get(convertWith);
-
-        if (converter == null) {
-            try {
-                Constructor<?> ctor = convertWith.getDeclaredConstructor();
-                ctor.setAccessible(true);
-                converter = (Function<Object, Object>) ctor.newInstance();
-                converters.put(convertWith, converter);
-            } catch (Exception e) {
-                throw MiscUtil.toUnchecked(e);
-            }
+    private Object convertWith(Object value, String expression) {
+        if (!expression.contains("${")) {
+            expression = "${" + expression + "}";
         }
 
-        return converter.apply(value);
+        return ELEvaluator.getInstance().evaluate(expression, new ValueWrapper(value));
     }
-    
 }
