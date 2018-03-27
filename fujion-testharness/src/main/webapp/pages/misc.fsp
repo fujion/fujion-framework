@@ -126,6 +126,10 @@
 				</rowcell>
 				On button click, should see log entry ".. event test successful." for each selected method.
 			</row>
+			<row>
+				<spinjs linecolor="red,green,blue" start="true"/>
+				spin.js integration demo
+			</row>
 		</rows>
 	</grid>
 	

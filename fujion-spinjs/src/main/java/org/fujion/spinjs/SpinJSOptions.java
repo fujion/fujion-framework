@@ -155,4 +155,9 @@ public class SpinJSOptions extends Options {
     @Option
     public String shadow;
     
+    /**
+     * Element positioning.
+     */
+    @Option
+    public String position = "relative";
 }
