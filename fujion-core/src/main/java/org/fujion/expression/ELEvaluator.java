@@ -30,7 +30,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.expression.BeanResolver;
 import org.springframework.expression.ConstructorResolver;
-import org.springframework.expression.Expression;
 import org.springframework.expression.MethodResolver;
 import org.springframework.expression.PropertyAccessor;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -40,17 +39,17 @@ import org.springframework.expression.spel.support.StandardTypeConverter;
  * An extension of Spring's EL evaluator that supports plugin accessors, resolvers, and converters..
  */
 public class ELEvaluator extends StandardEvaluationContext implements BeanPostProcessor, ApplicationContextAware {
-
+    
     private static final ELEvaluator instance = new ELEvaluator();
-
+    
     private final ExpressionCache cache = new ExpressionCache();
-
+    
     private final DefaultConversionService conversionService = new DefaultConversionService();
-
+    
     public static ELEvaluator getInstance() {
         return instance;
     }
-
+    
     private ELEvaluator() {
         addPropertyAccessor(new EnvironmentAccessor());
         addPropertyAccessor(new MessageAccessor());
@@ -59,7 +58,7 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
         conversionService.addConverter(new MessageAccessor.MessageContextConverter());
         setTypeConverter(new StandardTypeConverter(conversionService));
     }
-
+    
     /**
      * Evaluate an EL expression against the specified root object.
      *
@@ -68,21 +67,10 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
      * @return The result of the evaluation.
      */
     public Object evaluate(String expression, Object root) {
-        return evaluate(parseExpression(expression), root);
-    }
-
-    /**
-     * Evaluate an EL expression against the specified root object.
-     *
-     * @param expression An EL expression.
-     * @param root The root object against which to evaluate the expression.
-     * @return The result of the evaluation.
-     */
-    public Object evaluate(Expression expression, Object root) {
-        Object value = expression.getValue(this, root);
+        Object value = cache.hasExpression(expression) ? cache.get(expression).getValue(this, root) : expression;
         return value instanceof MessageContext ? value.toString() : value;
     }
-
+    
     /**
      * Evaluate an EL expression.
      *
@@ -90,34 +78,14 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
      * @return The result of the evaluation.
      */
     public Object evaluate(String expression) {
-        return evaluate(parseExpression(expression));
+        return cache.hasExpression(expression) ? cache.get(expression).getValue(this) : expression;
     }
-
-    /**
-     * Evaluate an EL expression.
-     *
-     * @param expression An EL expression.
-     * @return The result of the evaluation.
-     */
-    public Object evaluate(Expression expression) {
-        return expression.getValue(this);
-    }
-
-    /**
-     * Parse an EL expression.
-     *
-     * @param expression An EL expression.
-     * @return The parsed expression.
-     */
-    public Expression parseExpression(String expression) {
-        return cache.get(expression);
-    }
-
+    
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
-
+    
     /**
      * Discover and register plugin resolvers, accessors, and converters.
      */
@@ -134,10 +102,10 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
         } else if (bean instanceof BeanResolver) {
             setBeanResolver((BeanResolver) bean);
         }
-
+        
         return bean;
     }
-
+    
     /**
      * Register the application context as a bean resolver and its environment as the default root
      * object.
@@ -147,10 +115,10 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         setRootObject(applicationContext.getEnvironment());
-
+        
         setBeanResolver((context, beanName) -> {
             return applicationContext.getBean(beanName);
         });
     }
-
+    
 }

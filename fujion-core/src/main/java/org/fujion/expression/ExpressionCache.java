@@ -40,4 +40,13 @@ public class ExpressionCache extends AbstractCache<String, Expression> {
         return parser.parseExpression(expression, templateContext);
     }
 
+    /**
+     * Returns true if the value contains an EL expression.
+     *
+     * @param value The value to check.
+     * @return True if the value contains an EL expression.
+     */
+    protected boolean hasExpression(String value) {
+        return value != null && value.contains(templateContext.getExpressionPrefix());
+    }
 }
