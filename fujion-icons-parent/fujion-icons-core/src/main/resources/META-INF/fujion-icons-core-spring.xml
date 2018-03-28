@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:ffc="http://www.fujion.org/schema/component"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.fujion.org/schema/component
+        http://www.fujion.org/schema/component-extensions.xsd">
+
+		<!-- Registry for shared icon libraries. -->
+		
+		<bean id="iconLibraryRegistry" class="org.fujion.icon.IconLibraryRegistry"
+			factory-method="init">
+			<constructor-arg value="${org.fujion.icon.library.default:}" />
+			<constructor-arg value="${org.fujion.icon.dimensions.default:16x16}" />
+		</bean>
+
+
+</beans>

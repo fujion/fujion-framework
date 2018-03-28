@@ -60,6 +60,7 @@
 		<module>fujion-test</module>
 		<module>fujion-transpiler</module>
 		<module>fujion-archetype-parent</module>
+		<module>fujion-icons-parent</module>
 		<module>fujion-script-parent</module>
 		<module>fujion-angular-parent</module>
 		<module>fujion-react-parent</module>
