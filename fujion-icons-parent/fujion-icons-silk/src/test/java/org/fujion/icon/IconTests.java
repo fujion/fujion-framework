@@ -29,15 +29,15 @@ import org.fujion.test.MockTest;
 import org.junit.Test;
 
 public class IconTests extends MockTest {
-
+    
     @Test
     public void test() {
-        IIconLibrary library = IconLibraryRegistry.getInstance().get("famfamfam-silk");
+        IIconLibrary library = IconLibraryRegistry.getInstance().get("silk");
         assertNotNull(library);
         String path = library.getIconPath("arrow_left", "16x16");
         assertTrue(IconUtil.matcher.match("webjars/famfamfam-silk/*/icons/arrow_left.png", path));
         List<String> matches = library.getMatching("arrow*.png", "16x*");
         assertEquals(20, matches.size());
     }
-
+    
 }
