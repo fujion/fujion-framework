@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:ffc="http://www.fujion.org/schema/component"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.fujion.org/schema/component
+        http://www.fujion.org/schema/component-extensions.xsd">
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="actions" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="animations" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="apps" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="categories" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="devices" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="emblems" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="emotes" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="intl" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="mimetypes" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="others" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="places" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="status" />
+		</bean>
+
+		<bean class="org.fujion.icon.oil.IconLibrary">
+			<constructor-arg value="symbols" />
+		</bean>
+
+</beans>

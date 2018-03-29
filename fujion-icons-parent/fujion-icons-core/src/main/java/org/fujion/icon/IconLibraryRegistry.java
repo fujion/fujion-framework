@@ -22,6 +22,7 @@ package org.fujion.icon;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujion.common.AbstractRegistry;
@@ -43,8 +44,8 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
     private String defaultDimensions;
     
     public static IconLibraryRegistry init(String defaultLibrary, String defaultDimensions) {
-        instance.defaultLibrary = defaultLibrary;
-        instance.defaultDimensions = defaultDimensions;
+        instance.defaultLibrary = StringUtils.trimToNull(defaultLibrary);
+        instance.defaultDimensions = StringUtils.trimToNull(defaultDimensions);
         return instance;
     }
     
@@ -60,8 +61,17 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
     }
     
     @Override
+    public void register(IIconLibrary library) {
+        super.register(library);
+
+        if (defaultLibrary == null) {
+            defaultLibrary = library.getId();
+        }
+    }
+    
+    @Override
     public IIconLibrary get(String library) {
-        return super.get(library == null ? getDefaultLibrary() : library);
+        return super.get(library == null ? defaultLibrary : library);
     }
     
     @Override
@@ -86,16 +96,12 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
     }
     
     /**
-     * Returns the default icon library. If none has been explicitly set, assumes the first
-     * registered library to be default.
+     * Returns the default icon library. If none has been explicitly set, the first registered
+     * library is the default.
      *
      * @return The default icon library.
      */
     public String getDefaultLibrary() {
-        if (defaultLibrary == null || defaultLibrary.isEmpty()) {
-            defaultLibrary = iterator().next().getId();
-        }
-        
         return defaultLibrary;
     }
     

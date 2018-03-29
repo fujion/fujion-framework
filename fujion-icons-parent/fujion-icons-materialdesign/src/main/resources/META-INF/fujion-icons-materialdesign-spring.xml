@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:ffc="http://www.fujion.org/schema/component"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.fujion.org/schema/component
+        http://www.fujion.org/schema/component-extensions.xsd">
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="action" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="alert" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="av" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="communication" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="content" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="device" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="editor" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="file" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="hardware" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="image" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="maps" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="navigation" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="notification" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="places" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="social" />
+		</bean>
+
+		<bean class="org.fujion.icon.materialdesign.IconLibrary">
+			<constructor-arg value="toggle" />
+		</bean>
+
+</beans>

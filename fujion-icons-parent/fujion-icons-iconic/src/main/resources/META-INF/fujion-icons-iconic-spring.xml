@@ -9,12 +9,6 @@
         http://www.fujion.org/schema/component
         http://www.fujion.org/schema/component-extensions.xsd">
 
-		<!-- Registry for shared icon libraries. -->
-		
-		<bean class="org.fujion.icon.IconLibraryRegistry" factory-method="init">
-			<constructor-arg value="${org.fujion.icon.library.default:}" />
-			<constructor-arg value="${org.fujion.icon.dimensions.default:16x16}" />
-		</bean>
-
+		<bean class="org.fujion.icon.iconic.IconLibrary"/>
 
 </beans>

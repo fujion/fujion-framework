@@ -13,7 +13,12 @@
 	
 	<modules>
 		<module>fujion-icons-core</module>
-		<module>fujion-icons-famfamfam</module>
+		<module>fujion-icons-silk</module>
+		<module>fujion-icons-iconic</module>
+		<module>fujion-icons-materialdesign</module>
+		<!-- awaiting deployment to Maven Central
+		<module>fujion-icons-oil</module>
+		-->
 	</modules>
 	
 </project>

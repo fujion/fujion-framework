@@ -1,0 +1,54 @@
+/* #%L
+ * fujion
+ * %%
+ * Copyright (C) 2008 - 2018 Regenstrief Institute, Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * #L%
+ */
+package org.fujion.icon.oil;
+
+import org.apache.commons.io.FilenameUtils;
+import org.fujion.icon.IconLibraryBase;
+
+/**
+ * Icon library wrapper for open icon library.
+ */
+public class IconLibrary extends IconLibraryBase {
+
+    private final String id;
+
+    /**
+     * Create icon library definition.
+     *
+     * @param id The icon group.
+     */
+    protected IconLibrary(String id) {
+        super("open-icon-library", "png", "16x16", "8x8", "22x22", "24x24", "32x32", "48x48", "64x64", "128x128");
+        this.id = id;
+    }
+
+    @Override
+    public String getId() {
+        return "oil-" + id;
+    }
+
+    @Override
+    protected String doFormatPath(String name, String dims) {
+        name = expandName(name);
+        String ext = FilenameUtils.getExtension(name) + "/";
+        return ext + dims + "/" + id + "/" + name;
+    }
+
+}
