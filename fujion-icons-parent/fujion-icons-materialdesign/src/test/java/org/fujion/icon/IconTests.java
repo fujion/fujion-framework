@@ -28,16 +28,16 @@ import org.fujion.test.MockTest;
 import org.junit.Test;
 
 public class IconTests extends MockTest {
-
+    
     @Test
     public void test() {
         IIconLibrary library = IconLibraryRegistry.getInstance().get("materialdesign-action");
         assertNotNull(library);
         String url = library.getIconPath("ic_account_balance_white.png", "18x18");
         assertTrue(
-            IconUtil.matcher.match("webjars/material-design-icons/*/action/2x_web/ic_account_balance_white_18dp.png", url));
+            IconUtil.matcher.match("webjars/material-design-icons/*/action/1x_web/ic_account_balance_white_18dp.png", url));
         List<String> matches = library.getMatching("ic_account_balance_*.png", "48x48");
         //assertEquals(20, matches.size());
     }
-
+    
 }
