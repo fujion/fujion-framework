@@ -20,6 +20,7 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>open-icon-library</artifactId>
 			<version>0.11</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
