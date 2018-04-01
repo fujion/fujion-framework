@@ -50,35 +50,35 @@ import org.springframework.core.io.Resource;
  */
 @Component(tag = "page", widgetClass = "Page", content = ContentHandling.AS_CHILD, childTag = @ChildTag("*"), description = "The root component of a Fujion Server Page.")
 public final class Page extends BaseComponent implements INamespace {
-
+    
     public static final String ID_PREFIX = "_fujion_";
-
+    
     private static final AtomicInteger uniqueId = new AtomicInteger();
-
+    
     private Synchronizer synchronizer;
-
+    
     private Session session;
-
+    
     private int nextId;
-
+    
     private final Map<String, BaseComponent> ids = new WeakMap<>();
-
+    
     private final EventQueue eventQueue = new EventQueue(this);
-
+    
     private final Map<String, Object> browserInfo = new HashMap<>();
-
+    
     private final CallbackRegistry callbacks = new CallbackRegistry(this);
-
+    
     private Map<String, String> queryParams;
-
+    
     private String title;
-
+    
     private String image;
-    
-    private boolean closable = true;
-    
-    private final String src;
 
+    private boolean closable = true;
+
+    private final String src;
+    
     /**
      * Creates an uninitialized page. For internal use only.
      *
@@ -88,7 +88,7 @@ public final class Page extends BaseComponent implements INamespace {
     public static Page _create(String src) {
         return new Page(src);
     }
-
+    
     /**
      * Performs final initialization of a newly created page. For internal use only.
      *
@@ -103,17 +103,17 @@ public final class Page extends BaseComponent implements INamespace {
         page.browserInfo.putAll((Map<String, Object>) request.getData());
         page._attach(page);
     }
-
+    
     public Page() {
         src = null;
     }
-
+    
     private Page(String src) {
         this._setId(ID_PREFIX + Integer.toHexString(uniqueId.incrementAndGet()));
         this.src = src;
         PageRegistry.registerPage(this);
     }
-
+    
     /**
      * Returns the synchronizer for this page.
      *
@@ -122,7 +122,7 @@ public final class Page extends BaseComponent implements INamespace {
     public Synchronizer getSynchronizer() {
         return synchronizer;
     }
-
+    
     /**
      * Returns the event queue for this page. Events placed on the event queue (typically by posting
      * the event) will be processed at the end of the execution cycle.
@@ -132,7 +132,7 @@ public final class Page extends BaseComponent implements INamespace {
     public EventQueue getEventQueue() {
         return eventQueue;
     }
-
+    
     /**
      * A Page may not have a parent.
      *
@@ -143,7 +143,7 @@ public final class Page extends BaseComponent implements INamespace {
     public void setParent(BaseComponent parent) {
         throw new ComponentException(this, "Page cannot have a parent");
     }
-
+    
     /**
      * Returns the requested attribute value from information provided by the client browser.
      *
@@ -154,7 +154,7 @@ public final class Page extends BaseComponent implements INamespace {
         Object value = browserInfo.get(key);
         return value == null ? null : value.toString();
     }
-
+    
     /**
      * Returns the requested attribute value, cast to the specified type, from information provided
      * by the client browser.
@@ -168,7 +168,7 @@ public final class Page extends BaseComponent implements INamespace {
     public <T> T getBrowserInfo(String key, Class<T> type) {
         return (T) browserInfo.get(key);
     }
-
+    
     /**
      * Returns an immutable map of information provided by the browser.
      *
@@ -177,7 +177,7 @@ public final class Page extends BaseComponent implements INamespace {
     public Map<String, Object> getBrowserInfo() {
         return Collections.unmodifiableMap(browserInfo);
     }
-
+    
     /**
      * Returns the named query parameter from the original request URL.
      *
@@ -187,7 +187,7 @@ public final class Page extends BaseComponent implements INamespace {
     public String getQueryParam(String param) {
         return getQueryParams().get(param);
     }
-
+    
     /**
      * Returns an immutable map containing all query parameters from the original request URL.
      *
@@ -197,17 +197,17 @@ public final class Page extends BaseComponent implements INamespace {
         if (queryParams == null) {
             String requestUrl = (String) browserInfo.get("requestURL");
             int i = requestUrl == null ? -1 : requestUrl.indexOf("?");
-
+            
             if (i >= 0) {
                 queryParams = WebUtil.queryStringToMap(requestUrl.substring(i + 1), ",");
             } else {
                 queryParams = Collections.emptyMap();
             }
         }
-
+        
         return Collections.unmodifiableMap(queryParams);
     }
-
+    
     /**
      * Returns the web socket session dedicated to this page.
      *
@@ -216,7 +216,7 @@ public final class Page extends BaseComponent implements INamespace {
     public Session getSession() {
         return session;
     }
-
+    
     /**
      * Returns the URL of the FSP resource that created this page.
      *
@@ -225,7 +225,7 @@ public final class Page extends BaseComponent implements INamespace {
     public String getSrc() {
         return src;
     }
-
+    
     /**
      * Returns the next available component id.
      *
@@ -234,7 +234,7 @@ public final class Page extends BaseComponent implements INamespace {
     private String nextComponentId() {
         return getId() + "_" + Integer.toHexString(++nextId);
     }
-
+    
     /**
      * Cleanup page resources.
      *
@@ -244,12 +244,15 @@ public final class Page extends BaseComponent implements INamespace {
     protected void onDestroy() {
         super.onDestroy();
         PageRegistry.unregisterPage(this);
-        synchronizer.clear();
-        eventQueue.clearAll();
-        callbacks.clear();
-        session = null;
-    }
 
+        if (session != null) {
+            synchronizer.clear();
+            eventQueue.clearAll();
+            callbacks.clear();
+            session = null;
+        }
+    }
+    
     /**
      * Registers/unregisters a component newly attached to this page.
      *
@@ -260,24 +263,24 @@ public final class Page extends BaseComponent implements INamespace {
         if (getId() == null) {
             return;
         }
-        
-        String id = component.getId();
 
+        String id = component.getId();
+        
         if (id == null) {
             id = nextComponentId();
             component._setId(id);
         }
-
+        
         if (register) {
             ids.put(id, component);
         } else {
             ids.remove(id);
         }
-
+        
         Event event = new Event(register ? "register" : "unregister", this, component);
         fireEvent(event);
     }
-
+    
     /**
      * Registers a dynamic resource with this page.
      *
@@ -288,7 +291,7 @@ public final class Page extends BaseComponent implements INamespace {
     public void registerResource(String path, Resource resource) {
         DynamicResourceRegistry.getInstance().registerResource(getId() + "/" + path, resource);
     }
-    
+
     /**
      * Registers a client callback request. For internal use only.
      *
@@ -298,7 +301,7 @@ public final class Page extends BaseComponent implements INamespace {
     public int registerCallback(IResponseCallback<?> callback) {
         return callbacks.registerCallback(callback);
     }
-
+    
     /**
      * Searches for a component attached to this page given its id.
      *
@@ -309,7 +312,7 @@ public final class Page extends BaseComponent implements INamespace {
         int i = id.indexOf('-');
         return ids.get(i == -1 ? id : id.substring(0, i));
     }
-
+    
     /**
      * Returns true if the browser window may be closed without challenge. If false, the browser
      * will present a confirmation dialog before allowing the window to be closed.
@@ -320,7 +323,7 @@ public final class Page extends BaseComponent implements INamespace {
     public boolean isClosable() {
         return closable;
     }
-
+    
     /**
      * When set to true (the default value), the browser window may be closed without challenge.
      * When set to false, the browser will present a confirmation dialog before allowing the window
@@ -332,7 +335,7 @@ public final class Page extends BaseComponent implements INamespace {
     public void setClosable(boolean closable) {
         propertyChange("closable", this.closable, this.closable = closable, true);
     }
-
+    
     /**
      * Returns the page title.
      *
@@ -342,7 +345,7 @@ public final class Page extends BaseComponent implements INamespace {
     public String getTitle() {
         return title;
     }
-
+    
     /**
      * Sets the page title.
      *
@@ -352,7 +355,7 @@ public final class Page extends BaseComponent implements INamespace {
     public void setTitle(String title) {
         propertyChange("title", this.title, this.title = nullify(title), true);
     }
-
+    
     /**
      * Returns the URL of the image used for the page icon.
      *
@@ -362,7 +365,7 @@ public final class Page extends BaseComponent implements INamespace {
     public String getImage() {
         return image;
     }
-
+    
     /**
      * Sets the image used for the page icon.
      *
