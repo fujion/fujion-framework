@@ -160,6 +160,12 @@
 		    <groupId>org.webjars.bower</groupId>
 		    <artifactId>github-com-DoersGuild-jQuery-print</artifactId>
 		    <version>1.5.1</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>org.webjars.bower</groupId>
+		    		<artifactId>jquery</artifactId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
