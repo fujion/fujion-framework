@@ -17,9 +17,7 @@
 		<module>fujion-icons-iconic</module>
 		<module>fujion-icons-feather</module>
 		<module>fujion-icons-materialdesign</module>
-		<!-- awaiting deployment to Maven Central
 		<module>fujion-icons-oil</module>
-		-->
 	</modules>
 	
 </project>
