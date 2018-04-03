@@ -1,4 +1,4 @@
-<?taglib uri="http://www.fujion.org/tld/test" prefix="testlib"?>
+<?taglib uri="http://www.fujion.org/tld/icons-core" prefix="icon"?>
 <fsp>
 	<grid>
 		<columns style="visibility:hidden">
@@ -7,8 +7,8 @@
 		</columns>
 		<rows>
 			<row>
-				<div>${testlib.getLabel('test.message')}</div>
-				Test of tag library method resolution
+				<image src="${icon.getIconPath('silk:exclamation')}"/>
+				Test of icon tag library method resolution
 			</row>
 			<row name="myrow">
 				<?attribute name="myattrib" value="This is a test attribute"?>

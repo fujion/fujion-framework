@@ -371,15 +371,33 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			if (data && data.blob) {
 				var blob = data.blob;
 				delete data.blob;
-				this.socket.send(new Blob([JSON.stringify(pkt), '\n', blob]));
+				this.socket.send(new Blob([JSON.stringify(pkt, _replacer), '\n', blob]));
 			} else {
-				this.socket.send(JSON.stringify(pkt));
+				this.socket.send(JSON.stringify(pkt, _replacer));
 			}
 			
 			this.lastSend = Date.now();
 				
 			if (!nolog) {
 				fujion.log.debug('Sent: ', pkt);
+			}
+			
+			function _replacer(key, value) {
+				if (!_.isObject(value)) {
+					return value;
+				}
+				
+				if (value.jquery) {
+					return value.attr('id');
+				}
+
+				if (fujion.widget.isWidget(value) || _.isElement(value)) {
+					return value.id;
+				}
+				
+				if (value !== window && !_.isFunction(value)) {
+					return value;
+				}
 			}
 		}
 	},
@@ -482,18 +500,9 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 				return;
 			}
 			
-			var pkt = {};
 			event.id = ++fujion.event.eventId;
-			
-			_.forIn(event, function(value, pname) {
-				value = pname === 'data' || pname === 'blob' || !_.isObject(value) ? value : fujion.id(value);
-				
-				if (value !== null) {
-					pkt[pname] = value;
-				}
-			});
-			
-			params ? _.assign(pkt, params) : null;
+			var pkt = _.assign({}, event, params || {});
+			delete pkt.originalEvent;
 			orig.fujion_nosend = true;
 			fujion.event._postprocess(event, pkt);
 			fujion.ws.sendData('event', pkt);
