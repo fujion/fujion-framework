@@ -501,7 +501,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			}
 			
 			event.id = ++fujion.event.eventId;
-			var pkt = _.assign({}, event, params || {});
+			var pkt = _.assignIn({}, event, params || {});
 			delete pkt.originalEvent;
 			orig.fujion_nosend = true;
 			fujion.event._postprocess(event, pkt);
