@@ -20,6 +20,7 @@
  */
 package org.fujion.event;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -34,11 +35,14 @@ import org.fujion.client.ExecutionContext;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
+import org.springframework.util.Assert;
 
 /**
  * Static methods for manipulating events.
  */
 public class EventUtil {
+    
+    private static final Class<?>[] CTOR_PARAM_TYPES = { BaseComponent.class, Object.class };
     
     /**
      * Sends an event to its designated target.
@@ -301,7 +305,9 @@ public class EventUtil {
                 return eventClass.newInstance();
             }
 
-            return (Event) ConstructorUtils.invokeConstructor(eventClass, new Object[] { target, data });
+            Constructor<?> ctor = ConstructorUtils.getMatchingAccessibleConstructor(eventClass, CTOR_PARAM_TYPES);
+            Assert.notNull(ctor, "Cannot find compatible constructor for event type " + eventType);
+            return (Event) ctor.newInstance(target, data);
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
