@@ -46,7 +46,7 @@ public class MockTest {
     public static Class<? extends MockEnvironment> mockEnvironmentClass = MockEnvironment.class;
     
     public static MockConfig rootConfig = new MockConfig(
-            new String[] { "classpath:/META-INF/fujion-dispatcher-servlet.xml", "classpath*:/META-INF/*-spring.xml" }, null);
+            new String[] { "classpath:/META-INF/fujion-dispatcher-servlet.xml" }, null);
     
     public static MockConfig childConfig;
     

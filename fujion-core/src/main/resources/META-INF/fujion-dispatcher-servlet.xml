@@ -15,6 +15,8 @@
         http://www.springframework.org/schema/websocket
         http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
+	<import resource="classpath*:/META-INF/fujion-config.xml" />
+	
 	<context:property-placeholder
 		location="classpath*:/META-INF/*-default.properties,${org.fujion.location.properties:classpath:fujion*.properties}"
 		ignore-resource-not-found="true"  />
