@@ -23,6 +23,8 @@ package org.fujion.annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.fujion.common.MiscUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -33,16 +35,18 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  */
 public class PackageScanner {
 
+    private static final Log log = LogFactory.getLog(PackageScanner.class);
+    
     private final ResourcePatternResolver resolver;
-
+    
     public PackageScanner() {
         this(new PathMatchingResourcePatternResolver());
     }
-
+    
     public PackageScanner(ResourcePatternResolver resolver) {
         this.resolver = resolver;
     }
-
+    
     /**
      * Find all classes belonging to the specified package.
      *
@@ -52,7 +56,7 @@ public class PackageScanner {
     public List<Class<?>> getClasses(Package pkg) {
         return getClasses(pkg.getName());
     }
-    
+
     /**
      * Find all classes belonging packages matching the pattern.
      *
@@ -62,21 +66,25 @@ public class PackageScanner {
     public List<Class<?>> getClasses(String pattern) {
         try {
             List<Class<?>> classes = new ArrayList<>();
-
+            
             for (Resource resource : resolver.getResources("classpath*:" + pattern.replace(".", "/") + "/*.class")) {
-                String path = resource.getURL().getPath();
-                int i = path.lastIndexOf(".jar!/") + 6;
-                i = i > 5 ? i : path.lastIndexOf("/classes/") + 9;
-                int j = path.lastIndexOf(".class");
-                path = path.substring(i, j).replace("/", ".");
-                Class<?> clazz = Class.forName(path);
-                classes.add(clazz);
+                try {
+                    String path = resource.getURL().getPath();
+                    int i = path.lastIndexOf(".jar!/") + 6;
+                    i = i > 5 ? i : path.lastIndexOf("classes/") + 8;
+                    int j = path.lastIndexOf(".class");
+                    path = path.substring(i, j).replace("/", ".");
+                    Class<?> clazz = Class.forName(path);
+                    classes.add(clazz);
+                } catch (Exception e) {
+                    log.warn("Failed to extract class from resource " + resource, e);
+                }
             }
-
+            
             return classes;
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
 }
