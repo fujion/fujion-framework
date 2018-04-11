@@ -7,7 +7,7 @@
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Icon Library Wrapper for Open Icon Library</name>
+	<name>Fujion Icon Library Wrapper for Open Icon Library Collection</name>
 	<artifactId>fujion-icons-oil</artifactId>
 
 	<dependencies>

@@ -7,7 +7,7 @@
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Icon Library Wrapper for Material Design Icons</name>
+	<name>Fujion Icon Library Wrapper for Material Design Collection</name>
 	<artifactId>fujion-icons-materialdesign</artifactId>
 
 	<dependencies>
