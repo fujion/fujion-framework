@@ -17,27 +17,17 @@
  *
  * #L%
  */
-package org.fujion.icon;
+package org.fujion.icon.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
-import org.fujion.test.MockTest;
 import org.junit.Test;
 
-public class IconTests extends MockTest {
+public class IconTests extends IconTestBase {
     
     @Test
     public void test() {
-        IIconLibrary library = IconLibraryRegistry.getInstance().get("silk");
-        assertNotNull(library);
-        String path = library.getIconPath("arrow_left", "16x16");
-        assertTrue(IconUtil.matcher.match("webjars/famfamfam-silk/*/icons/arrow_left.png", path));
-        List<String> matches = library.getMatching("arrow*.png", "16x*");
-        assertEquals(20, matches.size());
+        setLibrary("silk");
+        singleton("arrow_left", "16x16");
+        multiple("arrow*.png", "16x*", 20);
     }
     
 }

@@ -17,27 +17,21 @@
  *
  * #L%
  */
-package org.fujion.icon;
+package org.fujion.icon.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
-import org.fujion.test.MockTest;
 import org.junit.Test;
 
-public class IconTests extends MockTest {
-
+public class IconTests extends IconTestBase {
+    
     @Test
     public void test() {
-        IIconLibrary library = IconLibraryRegistry.getInstance().get("oil-emblems");
-        assertNotNull(library);
-        String url = library.getIconPath("emblem-readonly", null);
-        assertTrue(IconUtil.matcher.match("webjars/open-icon-library/*/png/16x16/emblems/emblem-readonly.png", url));
-        List<String> matches = library.getMatching("emblem-import*.png", "32x32");
-        assertEquals(6, matches.size());
+        setLibrary("iconic");
+        singleton("action-redo", "16x16");
+        singleton("action-redo", "8x8");
+        multiple("arrow*.png", "8x*", 12);
+        multiple("arrow*.png", "*x32", 12);
+        multiple("arrow*.png", "16x16", 12);
+        multiple("arrow*.svg", "8x8", 12);
     }
-
+    
 }

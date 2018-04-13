@@ -40,17 +40,17 @@ import org.springframework.util.Assert;
  * An abstract base implementation for webjar-packaged icon libraries.
  */
 public abstract class IconLibraryBase implements IIconLibrary, ApplicationContextAware {
-    
+
     private static final Log log = LogFactory.getLog(IconLibraryBase.class);
-    
+
     private final String defaultExtension;
-
+    
     private final WebJar webjar;
-    
-    private final String[] dimensions;
-    
-    private ResourcePatternResolver resolver;
 
+    private final String[] dimensions;
+
+    private ResourcePatternResolver resolver;
+    
     /**
      * Create icon library definition.
      *
@@ -64,88 +64,96 @@ public abstract class IconLibraryBase implements IIconLibrary, ApplicationContex
         this.dimensions = dimensions;
         this.defaultExtension = defaultExtension.startsWith(".") ? defaultExtension : "." + defaultExtension;
     }
-    
+
     @Override
     public String getId() {
         return webjar.getName();
     }
-    
+
     @Override
     public String getIconPath(String iconName, String dimensions) {
         return webjar.getRootPath() + webjar.getVersion() + "/" + formatPath(iconName, dimensions);
     }
-    
+
     @Override
     public List<String> getMatching(String iconName, String dims) {
-        dims = resolveDims(dims);
-        return dims == null ? Collections.emptyList() : getMatching(formatPath(iconName, dims));
-    }
-
-    protected List<String> getMatching(String path) {
         List<String> matches = new ArrayList<>();
-        
+
         try {
-            path = webjar.getAbsolutePath() + "**/" + path;
-            
-            for (Resource resource : resolver.getResources(path)) {
-                if (resource.exists()) {
-                    String p = resource.getURL().getPath();
-                    int i = p.lastIndexOf("jar!/META-INF/resources/webjars/");
-                    matches.add(p.substring(i + 24));
+            for (String dim : resolveDims(dims)) {
+                String path = webjar.getAbsolutePath() + "**/" + formatPath(iconName, dim);
+
+                for (Resource resource : resolver.getResources(path)) {
+                    if (resource.exists()) {
+                        String p = resource.getURL().getPath();
+                        int i = p.lastIndexOf("jar!/META-INF/resources/webjars/");
+                        matches.add(p.substring(i + 24));
+                    }
                 }
             }
         } catch (IOException e) {
             log.error("Error enumerating icons.", e);
         }
-        
+
         return matches;
     }
-
+    
     @Override
     public String[] supportedDimensions() {
         return dimensions;
     }
-    
+
     protected String getDefaultExtension() {
         return defaultExtension;
     }
-    
-    protected String resolveDims(String dims) {
-        dims = StringUtils.isEmpty(dims) ? "*" : dims.toLowerCase();
+
+    protected String getDefaultDimension() {
+        return ArrayUtils.isEmpty(dimensions) ? "" : dimensions[0];
+    }
+
+    /**
+     * Returns a list of matching dimensions.
+     *
+     * @param dims Input dimensions (wildcards allowed).
+     * @return List of matching dimensions (never null);
+     */
+    protected List<String> resolveDims(String dims) {
+        dims = StringUtils.isEmpty(dims) ? getDefaultDimension() : dims.toLowerCase();
 
         if (ArrayUtils.contains(dimensions, dims)) {
-            return dims;
+            return Collections.singletonList(dims);
         }
-
+        
         if (!dims.contains("x")) {
             dims += "x" + dims;
         }
+        
+        List<String> results = new ArrayList<>();
 
         if (!ArrayUtils.isEmpty(dimensions)) {
             for (String dim : dimensions) {
                 if (IconUtil.matcher.match(dims, dim)) {
-                    return dim;
+                    results.add(dim);
                 }
             }
         }
-
-        return null;
+        
+        return results;
     }
-    
+
     protected String expandName(String name) {
         return name.contains(".") ? name : name + defaultExtension;
     }
-    
-    private String formatPath(String name, String dims) {
-        dims = resolveDims(dims);
-        return dims == null ? null : doFormatPath(name, dims);
-    }
-    
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         resolver = applicationContext;
     }
-
-    protected abstract String doFormatPath(String name, String dims);
     
+    private String formatPath(String iconName, String dimensions) {
+        return doFormatPath(iconName, StringUtils.isEmpty(dimensions) ? getDefaultDimension() : dimensions);
+    }
+    
+    protected abstract String doFormatPath(String iconName, String dimensions);
+
 }

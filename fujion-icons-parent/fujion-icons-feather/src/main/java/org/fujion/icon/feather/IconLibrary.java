@@ -22,25 +22,25 @@ package org.fujion.icon.feather;
 import org.fujion.icon.IconLibraryBase;
 
 /**
- * Icon library wrapper for Feather icon library.
+ * Icon library wrapper for Feather icon collection.
  */
 public class IconLibrary extends IconLibraryBase {
-    
+
     /**
      * Create icon library definition.
      */
     protected IconLibrary() {
         super("feather-icons", "svg", "24x24");
     }
-    
+
     @Override
     public String getId() {
         return "feather";
     }
-
+    
     @Override
     protected String doFormatPath(String name, String dims) {
         return "dist/icons/" + expandName(name);
     }
-    
+
 }

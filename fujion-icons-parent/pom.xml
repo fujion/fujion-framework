@@ -13,6 +13,7 @@
 	
 	<modules>
 		<module>fujion-icons-core</module>
+		<module>fujion-icons-test</module>
 		<module>fujion-icons-silk</module>
 		<module>fujion-icons-iconic</module>
 		<module>fujion-icons-feather</module>

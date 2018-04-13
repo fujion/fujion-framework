@@ -17,30 +17,17 @@
  *
  * #L%
  */
-package org.fujion.icon.silk;
+package org.fujion.icon.test;
 
-import org.fujion.icon.IconLibraryBase;
+import org.junit.Test;
 
-/**
- * Icon library wrapper for famfamfam Silk icon collection.
- */
-public class IconLibrary extends IconLibraryBase {
+public class IconTests extends IconTestBase {
     
-    /**
-     * Create icon library definition.
-     */
-    protected IconLibrary() {
-        super("famfamfam-silk", "png", "16x16");
-    }
-    
-    @Override
-    public String getId() {
-        return "silk";
-    }
-
-    @Override
-    protected String doFormatPath(String name, String dims) {
-        return "icons/" + expandName(name);
+    @Test
+    public void test() {
+        setLibrary("materialdesign-action");
+        singleton("ic_account_balance_white.png", "18x18");
+        multiple("ic_account_balance_*.png", "48x48", 4);
     }
     
 }

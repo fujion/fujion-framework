@@ -25,14 +25,14 @@ import java.util.List;
  * Interface for plug-in icon libraries.
  */
 public interface IIconLibrary {
-
+    
     /**
      * Returns the unique identifier for the library.
      *
      * @return The unique identifier.
      */
     String getId();
-
+    
     /**
      * Returns the relative path for the requested icon.
      *
@@ -42,17 +42,17 @@ public interface IIconLibrary {
      * @return The relative path referencing the requested icon.
      */
     String getIconPath(String iconName, String dimensions);
-
+    
     /**
      * Returns a list of relative paths for icons that match the criteria. Criteria may include
      * wildcard characters. For example, <code>getMatching("weather*", "*x16")</code>
      *
      * @param iconName Name of icon to match.
-     * @param dimensions Desired dimensions to match.
+     * @param dimensions Desired dimensions to match. May be null for default dimensions.
      * @return List of matching paths.
      */
     List<String> getMatching(String iconName, String dimensions);
-
+    
     /**
      * Returns an array of dimensions supported by this library.
      *

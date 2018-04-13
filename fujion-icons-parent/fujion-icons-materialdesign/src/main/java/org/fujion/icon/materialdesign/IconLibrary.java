@@ -22,12 +22,12 @@ package org.fujion.icon.materialdesign;
 import org.fujion.icon.IconLibraryBase;
 
 /**
- * Icon library wrapper for material design icon libraries.
+ * Icon library wrapper for Material Design icon collection.
  */
 public class IconLibrary extends IconLibraryBase {
-
+    
     private final String id;
-
+    
     /**
      * Create icon library definition.
      *
@@ -37,12 +37,12 @@ public class IconLibrary extends IconLibraryBase {
         super("material-design-icons", "png", "18x18", "24x24", "36x36", "48x48");
         this.id = id;
     }
-
+    
     @Override
     public String getId() {
         return "materialdesign-" + id;
     }
-
+    
     @Override
     protected String doFormatPath(String name, String dims) {
         String sz = dims.split("x")[0];
@@ -51,5 +51,5 @@ public class IconLibrary extends IconLibraryBase {
         real += "_" + sz + "dp" + (i == -1 ? "" : name.substring(i));
         return id + "/1x_web/" + expandName(real);
     }
-
+    
 }

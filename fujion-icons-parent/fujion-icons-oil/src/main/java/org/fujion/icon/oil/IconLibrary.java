@@ -23,12 +23,12 @@ import org.apache.commons.io.FilenameUtils;
 import org.fujion.icon.IconLibraryBase;
 
 /**
- * Icon library wrapper for open icon library.
+ * Icon library wrapper for Open Icon Library.
  */
 public class IconLibrary extends IconLibraryBase {
-
+    
     private final String id;
-
+    
     /**
      * Create icon library definition.
      *
@@ -38,17 +38,17 @@ public class IconLibrary extends IconLibraryBase {
         super("open-icon-library", "png", "16x16", "8x8", "22x22", "24x24", "32x32", "48x48", "64x64", "128x128");
         this.id = id;
     }
-
+    
     @Override
     public String getId() {
         return "oil-" + id;
     }
-
+    
     @Override
     protected String doFormatPath(String name, String dims) {
         name = expandName(name);
         String ext = FilenameUtils.getExtension(name) + "/";
         return ext + dims + "/" + id + "/" + name;
     }
-
+    
 }

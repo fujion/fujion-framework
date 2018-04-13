@@ -23,22 +23,22 @@ import org.fujion.common.StrUtil;
 import org.fujion.icon.IconLibraryBase;
 
 /**
- * Icon library wrapper for open iconic library.
+ * Icon library wrapper for Open Iconic collection.
  */
 public class IconLibrary extends IconLibraryBase {
-    
+
     /**
      * Create icon library definition.
      */
     protected IconLibrary() {
         super("open-iconic", "png", "16x16", "8x8", "24x24", "32x32", "48x48", "64x64");
     }
-    
+
     @Override
     public String getId() {
         return "iconic";
     }
-
+    
     @Override
     protected String doFormatPath(String name, String dims) {
         name = expandName(name);
@@ -49,5 +49,5 @@ public class IconLibrary extends IconLibraryBase {
         String sfx = name.endsWith("*") ? "{x:[^x]}." : ".";
         return ext + "/" + name + (dm == -1 ? sfx : dm + "x.") + ext;
     }
-    
+
 }

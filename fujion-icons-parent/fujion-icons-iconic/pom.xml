@@ -24,13 +24,9 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
-			<artifactId>fujion-test</artifactId>
+			<artifactId>fujion-icons-test</artifactId>
 			<version>${project.parent.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
 </project>
