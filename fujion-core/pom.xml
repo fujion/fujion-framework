@@ -188,9 +188,9 @@
 		    <version>4.17.4</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
+		    <groupId>org.webjars.npm</groupId>
 		    <artifactId>file-saver</artifactId>
-		    <version>1.3.4</version>
+		    <version>1.3.8</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.webjars</groupId>
