@@ -60,7 +60,7 @@ public class BoxPlot extends AbstractPlot {
     public Boolean raw;
 
     /**
-     * If true, then outliers (values > 1.5x the IQR) are marked with circles and the whiskers are
+     * If true, then outliers (values &gt; 1.5x the IQR) are marked with circles and the whiskers are
      * placed at Q1 and Q3 instead of the least and greatest value.
      * <p>
      * Default: true
