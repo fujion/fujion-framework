@@ -42,8 +42,6 @@ import org.springframework.web.servlet.ThemeResolver;
  */
 public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
     
-    public static final String DEFAULT_THEME = "default";
-    
     private static final String THEME_ATTR = ThemeResolvers.class.getName();
     
     private static final ThemeResolvers instance = new ThemeResolvers();
@@ -51,6 +49,8 @@ public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
     private final Set<ThemeResolver> themeResolvers = new TreeSet<>((tr1, tr2) -> {
         return getOrder(tr1) - getOrder(tr2);
     });
+    
+    private String defaultTheme = "default";
     
     public static ThemeResolvers getInstance() {
         return instance;
@@ -73,15 +73,15 @@ public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
         }
         
         cacheThemeName(request, themeName);
-        return StringUtils.hasText(themeName) ? themeName : DEFAULT_THEME;
+        return StringUtils.hasText(themeName) ? themeName : defaultTheme;
     }
     
     /**
      * Attempts to retrieve the name of the current theme. Tries the following, in order:
      * <ol>
      * <li>The request object</li>
-     * <li>A query parameter ("?theme=xxx")</li>
-     * <li>The session object</li>
+     * <li>Query parameter from the request ("?theme=xxx")</li>
+     * <li>Query parameter from the referer ("?theme=xxx")</li>
      * </ol>
      *
      * @param request The servlet request.
@@ -120,7 +120,7 @@ public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
     
     @Override
     public void setThemeName(HttpServletRequest request, HttpServletResponse response, String themeName) {
-        themeName = StringUtils.hasText(themeName) ? themeName : DEFAULT_THEME;
+        themeName = StringUtils.hasText(themeName) ? themeName : defaultTheme;
         
         for (ThemeResolver themeResolver : themeResolvers) {
             themeResolver.setThemeName(request, response, themeName);
@@ -139,6 +139,24 @@ public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
         }
         
         return bean;
+    }
+    
+    /**
+     * Returns the name of the default theme. This theme will be applied if no theme is specified.
+     * 
+     * @return The name of the default theme
+     */
+    public String getDefaultTheme() {
+        return defaultTheme;
+    }
+    
+    /**
+     * Sets the name of the default theme. This theme will be applied if no theme is specified.
+     * 
+     * @param defaultTheme The name of the default theme
+     */
+    public void setDefaultTheme(String defaultTheme) {
+        this.defaultTheme = defaultTheme;
     }
     
 }
