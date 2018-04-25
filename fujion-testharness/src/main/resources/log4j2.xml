@@ -35,7 +35,7 @@
 		<Logger name="EXCEPTION_LOG" additivity="false" level="info">
 			<AppenderRef ref="exc" />
 		</Logger>
-		<Logger name="org.fujion" level="trace">
+		<Logger name="org.fujion" level="error">
 		</Logger>
 		<Logger name="org.springframework" level="error">
 		</Logger>

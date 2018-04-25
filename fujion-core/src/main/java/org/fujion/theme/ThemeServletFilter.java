@@ -31,6 +31,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.ThemeResolver;
 
 /**
@@ -60,10 +61,8 @@ public class ThemeServletFilter implements Filter {
             String requestPath = theme.translatePath(httpRequest.getPathInfo());
             
             if (requestPath != null) {
-                httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-                httpResponse.setHeader("Pragma", "no-cache");
-                httpResponse.setDateHeader("Expires", 0);
-
+                httpResponse.setHeader(HttpHeaders.ETAG, theme.getEtag());
+                
                 if (!requestPath.isEmpty()) {
                     httpRequest.getRequestDispatcher(requestPath).forward(httpRequest, httpResponse);
                     return;

@@ -49,6 +49,7 @@ import org.fujion.webjar.WebJarResourceResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 
 /**
  * Utility methods for accessing and manipulating web resources and settings.
@@ -355,6 +356,17 @@ public class WebUtil {
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
+    }
+    
+    /**
+     * Add headers to suppress browser caching.
+     * 
+     * @param httpResponse HTTP response to receive headers.
+     */
+    public static void setNoCache(HttpServletResponse httpResponse) {
+        httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+        httpResponse.setHeader(HttpHeaders.PRAGMA, "no-cache");
+        httpResponse.setDateHeader(HttpHeaders.EXPIRES, 0);
     }
     
     /**

@@ -22,6 +22,7 @@ package org.fujion.theme;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,6 +37,8 @@ public class Theme {
 
     private static final Log log = LogFactory.getLog(Theme.class);
 
+    private final String etag = UUID.randomUUID().toString();
+    
     /**
      * Represents a single URL mapping.
      */
@@ -209,4 +212,13 @@ public class Theme {
         return null;
     }
     
+    /**
+     * Returns the ETag for this theme. ETags are used to ensure theme resources are re-fetched when
+     * a theme change occurs.
+     * 
+     * @return The theme's ETag.
+     */
+    public String getEtag() {
+        return etag;
+    }
 }

@@ -20,14 +20,24 @@
  */
 package org.fujion.servlet;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.http.HttpStatus;
 import org.fujion.common.MiscUtil;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 /**
- * Subclass DispatcherServlet to prevent re-initialization if an exception occurred during initial
- * loading. It does this by caching the exception and re-throwing it if re-initialization is
- * attempted.
+ * Subclass of DispatcherServlet. Provides the following modifications:
+ * <p>
+ * <ul>
+ * <li>Prevents re-initialization if an exception occurred during initial loading. It does this by
+ * caching the exception and re-throwing it if initialization is re-attempted.</li>
+ * <li>Manages ETags and cache control.</li>
+ * </ul>
  */
 public class FujionServlet extends DispatcherServlet {
     
@@ -35,6 +45,23 @@ public class FujionServlet extends DispatcherServlet {
 
     private static final String ATTR_EXCEPTION = FujionServlet.class.getName() + ".EXCEPTION";
 
+    /**
+     * Request wrapper to alter return value for If-Modified-Since header. This is necessary to make
+     * ETags work properly.
+     */
+    private static class RequestWrapper extends HttpServletRequestWrapper {
+        
+        public RequestWrapper(HttpServletRequest request) {
+            super(request);
+        }
+        
+        @Override
+        public long getDateHeader(String name) {
+            return HttpHeaders.IF_MODIFIED_SINCE.equalsIgnoreCase(name) ? 0 : super.getDateHeader(name);
+        }
+        
+    }
+    
     @Override
     protected WebApplicationContext initWebApplicationContext() {
         Object exc = getServletContext().getAttribute(ATTR_EXCEPTION);
@@ -53,4 +80,21 @@ public class FujionServlet extends DispatcherServlet {
             throw MiscUtil.toUnchecked(t);
         }
     }
+    
+    @Override
+    protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String requestEtag = request.getHeader(HttpHeaders.IF_NONE_MATCH);
+        String responseEtag = response.getHeader(HttpHeaders.ETAG);
+        int status = response.getStatus();
+        
+        if (responseEtag == null || status < 200 || status > 299) {
+            super.doService(request, response);
+        } else if (requestEtag != null && (responseEtag.equals(requestEtag) || "*".equals(requestEtag))) {
+            response.setStatus(HttpStatus.SC_NOT_MODIFIED);
+        } else {
+            response.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
+            super.doService(new RequestWrapper(request), response);
+        }
+    }
+    
 }
