@@ -325,6 +325,17 @@ public class WebUtil {
      * @return The corresponding resource.
      */
     public static Resource getResource(String src) {
+        return getResource(src, ExecutionContext.getServletContext());
+    }
+    
+    /**
+     * Returns the resource corresponding to the source URL.
+     *
+     * @param src The URL of the source.
+     * @param ctx The active servlet context.
+     * @return The corresponding resource.
+     */
+    public static Resource getResource(String src, ServletContext ctx) {
         try {
             Resource resource;
             
@@ -342,8 +353,7 @@ public class WebUtil {
                     src = "/webjars/" + WebJarResourceResolver.getResourcePath(src.substring(9));
                 }
                 
-                ServletContext ctx = ExecutionContext.getSession().getServletContext();
-                URL url = ctx.getResource(src);
+                URL url = ctx == null ? null : ctx.getResource(src);
                 resource = url == null ? null : new UrlResource(url);
             }
             

@@ -122,6 +122,11 @@
 	</bean>
 	
 	<bean factory-method="getInstance" 
+		class="org.fujion.page.PageDefinitionCache">
+		<property name="precompiled" value="${org.fujion.page.precompile:}"/>	
+	</bean>
+	
+	<bean factory-method="getInstance" 
 		class="org.fujion.page.PageParser" />
 	
 	<bean class="org.fujion.page.PIParserAttribute" />
