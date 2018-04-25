@@ -48,7 +48,7 @@ public class PageDefinitionCache extends AbstractCache<String, PageDefinition> i
     
     private static Log log = LogFactory.getLog(PageDefinitionCache.class);
     
-    private Set<String> precompiledFSPs = new LinkedHashSet<>();
+    private Set<String> precompiled = new LinkedHashSet<>();
     
     private ServletContext servletContext;
     
@@ -72,7 +72,7 @@ public class PageDefinitionCache extends AbstractCache<String, PageDefinition> i
     }
     
     public void setPrecompiled(Collection<String> fsps) {
-        precompiledFSPs.addAll(fsps);
+        precompiled.addAll(fsps);
     }
     
     @Override
@@ -99,9 +99,9 @@ public class PageDefinitionCache extends AbstractCache<String, PageDefinition> i
      */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (precompiledFSPs != null) {
-            Set<String> fsps = precompiledFSPs;
-            precompiledFSPs = null;
+        if (precompiled != null) {
+            Set<String> fsps = precompiled;
+            precompiled = null;
             
             for (String url : fsps) {
                 url = url.trim();
@@ -117,7 +117,8 @@ public class PageDefinitionCache extends AbstractCache<String, PageDefinition> i
                     
                     get(url);
                 } catch (Exception e) {
-                    log.error("Error precompiling " + url, e);
+                    if (log.isWarnEnabled())
+                        log.warn("Error precompiling " + url, e);
                 }
             }
         }

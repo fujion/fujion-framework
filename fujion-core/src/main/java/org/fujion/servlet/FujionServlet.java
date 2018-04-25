@@ -21,8 +21,8 @@
 package org.fujion.servlet;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.http.HttpStatus;
 import org.fujion.common.MiscUtil;
@@ -46,20 +46,22 @@ public class FujionServlet extends DispatcherServlet {
     private static final String ATTR_EXCEPTION = FujionServlet.class.getName() + ".EXCEPTION";
 
     /**
-     * Request wrapper to alter return value for If-Modified-Since header. This is necessary to make
-     * ETags work properly.
+     * Response wrapper to suppress inclusion of Last-Modified header when ETag header is present.
      */
-    private static class RequestWrapper extends HttpServletRequestWrapper {
+    private static class ResponseWrapper extends HttpServletResponseWrapper {
         
-        public RequestWrapper(HttpServletRequest request) {
-            super(request);
+        public ResponseWrapper(HttpServletResponse response) {
+            super(response);
         }
         
         @Override
-        public long getDateHeader(String name) {
-            return HttpHeaders.IF_MODIFIED_SINCE.equalsIgnoreCase(name) ? 0 : super.getDateHeader(name);
+        public void setDateHeader(String name, long date) {
+            if (HttpHeaders.LAST_MODIFIED.equalsIgnoreCase(name)) {
+                setHeader(name, null);
+            } else {
+                super.setDateHeader(name, date);
+            }
         }
-        
     }
     
     @Override
@@ -89,12 +91,15 @@ public class FujionServlet extends DispatcherServlet {
         
         if (responseEtag == null || status < 200 || status > 299) {
             super.doService(request, response);
-        } else if (requestEtag != null && (responseEtag.equals(requestEtag) || "*".equals(requestEtag))) {
-            response.setStatus(HttpStatus.SC_NOT_MODIFIED);
-        } else {
-            response.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
-            super.doService(new RequestWrapper(request), response);
+            return;
         }
+        
+        if (requestEtag != null && (responseEtag.equals(requestEtag) || "*".equals(requestEtag))) {
+            response.setStatus(HttpStatus.SC_NOT_MODIFIED);
+            return;
+        }
+        
+        super.doService(request, new ResponseWrapper(response));
     }
     
 }
