@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.http.HttpStatus;
 import org.fujion.common.MiscUtil;
+import org.fujion.core.WebUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -85,16 +86,21 @@ public class FujionServlet extends DispatcherServlet {
     
     @Override
     protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String requestEtag = request.getHeader(HttpHeaders.IF_NONE_MATCH);
-        String responseEtag = response.getHeader(HttpHeaders.ETAG);
         int status = response.getStatus();
         
-        if (responseEtag == null || status < 200 || status > 299) {
+        if (status < 200 || status > 299) {
             super.doService(request, response);
             return;
         }
         
-        if (requestEtag != null && (responseEtag.equals(requestEtag) || "*".equals(requestEtag))) {
+        String requestEtag = request.getHeader(HttpHeaders.IF_NONE_MATCH);
+        String responseEtag = response.getHeader(HttpHeaders.ETAG);
+        
+        if (responseEtag == null) {
+            responseEtag = WebUtil.addETag(response, WebUtil.DEFAULT_ETAG, true);
+        }
+        
+        if (WebUtil.matchETag(requestEtag, responseEtag)) {
             response.setStatus(HttpStatus.SC_NOT_MODIFIED);
             return;
         }

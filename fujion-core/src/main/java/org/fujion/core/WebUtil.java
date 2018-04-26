@@ -29,6 +29,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -36,8 +37,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.fujion.client.ExecutionContext;
@@ -50,6 +51,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.util.Assert;
 
 /**
  * Utility methods for accessing and manipulating web resources and settings.
@@ -57,6 +59,8 @@ import org.springframework.http.HttpHeaders;
 public class WebUtil {
     
     public static final String FUJION_VERSION = WebUtil.class.getPackage().getImplementationVersion();
+    
+    public static final String DEFAULT_ETAG = versionToETag(FUJION_VERSION);
     
     /**
      * Returns the debug state of the servlet. When enabled, the debug state can affect various
@@ -116,10 +120,10 @@ public class WebUtil {
      * @param url url to receive the query string.
      * @param queryString Query string to add.
      * @return The updated url.
-     * @throws IllegalArgumentException if url is null
+     * @throws IllegalArgumentException if url is null.
      */
     public static String addQueryString(String url, String queryString) {
-        Validate.notNull(url, "The url must not be null");
+        Assert.notNull(url, "The url must not be null");
         
         if (!StringUtils.isEmpty(queryString)) {
             if (url.endsWith("?")) {
@@ -183,17 +187,17 @@ public class WebUtil {
      *
      * @see #decodeCookieValue(String)
      * @param cookieName Name of cookie
-     * @param httpRequest Request containing cookie.
+     * @param request Request containing cookie.
      * @return A cookie, or null if not found.
-     * @throws IllegalArgumentException if arguments are null
+     * @throws IllegalArgumentException if any argument is null.
      */
-    public static Cookie getCookie(String cookieName, HttpServletRequest httpRequest) {
-        Validate.notNull(cookieName, "The cookieName must not be null");
-        Validate.notNull(httpRequest, "The httpRequest must not be null");
-        Cookie[] cookies = httpRequest.getCookies();
+    public static Cookie getCookie(String cookieName, HttpServletRequest request) {
+        Assert.notNull(cookieName, "The cookie name must not be null");
+        Assert.notNull(request, "The request must not be null");
+        Cookie[] cookies = request.getCookies();
         
         if (cookies != null) {
-            for (Cookie cookie : httpRequest.getCookies()) {
+            for (Cookie cookie : request.getCookies()) {
                 if (cookieName.equals(cookie.getName())) {
                     return cookie;
                 }
@@ -209,8 +213,6 @@ public class WebUtil {
      * @see #getCookieValue(String, HttpServletRequest)
      * @param cookieName Name of cookie
      * @return A cookie value, or null if not found.
-     * @throws IllegalArgumentException if argument is null or if underlying HttpServletRequest is
-     *             null
      */
     public static String getCookieValue(String cookieName) {
         return getCookieValue(cookieName, RequestUtil.getRequest());
@@ -223,12 +225,11 @@ public class WebUtil {
      * @see #getCookie(String, HttpServletRequest)
      * @see #decodeCookieValue(String)
      * @param cookieName Name of cookie
-     * @param httpRequest Request containing cookie.
+     * @param request Request containing cookie.
      * @return A cookie value, or null if not found.
-     * @throws IllegalArgumentException if arguments are null
      */
-    public static String getCookieValue(String cookieName, HttpServletRequest httpRequest) {
-        Cookie cookie = getCookie(cookieName, httpRequest);
+    public static String getCookieValue(String cookieName, HttpServletRequest request) {
+        Cookie cookie = getCookie(cookieName, request);
         return cookie == null ? null : decodeCookieValue(cookie.getValue());
     }
     
@@ -243,10 +244,10 @@ public class WebUtil {
      * @see Base64#encodeBase64String(byte[])
      * @param cookieValuePlainText The plain text to encode
      * @return encoded cookie value
-     * @throws IllegalArgumentException If the argument is null
+     * @throws IllegalArgumentException If the argument is null.
      */
     public static String encodeCookieValue(String cookieValuePlainText) {
-        Validate.notNull(cookieValuePlainText, "The cookieValuePlainText must not be null");
+        Assert.notNull(cookieValuePlainText, "The cookieValuePlainText must not be null");
         
         try {
             return URLEncoder.encode(Base64.encodeBase64String(cookieValuePlainText.getBytes()), StrUtil.UTF8_STR);
@@ -266,10 +267,10 @@ public class WebUtil {
      * @see Base64#decode(String)
      * @param encodedCookieValue The encoded cookie value
      * @return decoded cookie value
-     * @throws IllegalArgumentException If the argument is null
+     * @throws IllegalArgumentException If the argument is null.
      */
     public static String decodeCookieValue(String encodedCookieValue) {
-        Validate.notNull(encodedCookieValue, "The encodedCookieValue must not be null");
+        Assert.notNull(encodedCookieValue, "The encodedCookieValue must not be null");
         
         try {
             return new String(Base64.decodeBase64(URLDecoder.decode(encodedCookieValue, StrUtil.UTF8_STR)));
@@ -284,16 +285,15 @@ public class WebUtil {
      *
      * @param cookieName Name of cookie.
      * @param value Value of cookie. If null, the cookie is removed from the client if it exists.
-     * @param httpResponse Response object.
-     * @param httpRequest Request object.
+     * @param response Response object.
+     * @param request Request object.
      * @return Newly created cookie.
-     * @throws IllegalArgumentException if cookieName, httpResponse, or httpRequest arguments are
-     *             null
+     * @throws IllegalArgumentException if cookieName, response, or request arguments are null.
      */
-    public static Cookie setCookie(String cookieName, String value, HttpServletResponse httpResponse,
-                                   HttpServletRequest httpRequest) {
-        Validate.notNull(httpResponse, "The httpResponse must not be null");
-        Cookie cookie = getCookie(cookieName, httpRequest);
+    public static Cookie setCookie(String cookieName, String value, HttpServletResponse response,
+                                   HttpServletRequest request) {
+        Assert.notNull(response, "The response must not be null");
+        Cookie cookie = getCookie(cookieName, request);
         
         if (value != null) {
             value = encodeCookieValue(value);
@@ -310,11 +310,11 @@ public class WebUtil {
             cookie.setValue(value);
         }
         
-        if (httpRequest.isSecure()) {
+        if (request.isSecure()) {
             cookie.setSecure(true);
         }
         
-        httpResponse.addCookie(cookie);
+        response.addCookie(cookie);
         return cookie;
     }
     
@@ -371,12 +371,73 @@ public class WebUtil {
     /**
      * Add headers to suppress browser caching.
      * 
-     * @param httpResponse HTTP response to receive headers.
+     * @param response HTTP response to receive headers.
      */
-    public static void setNoCache(HttpServletResponse httpResponse) {
-        httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
-        httpResponse.setHeader(HttpHeaders.PRAGMA, "no-cache");
-        httpResponse.setDateHeader(HttpHeaders.EXPIRES, 0);
+    public static void setNoCache(HttpServletResponse response) {
+        response.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+        response.setHeader(HttpHeaders.PRAGMA, "no-cache");
+        response.setDateHeader(HttpHeaders.EXPIRES, 0);
+    }
+    
+    /**
+     * Add ETag to response.
+     * 
+     * @param response HTTP response to receive ETag.
+     * @param etag ETag to add.
+     * @param weak If true, mark ETag as weak.
+     * @return The ETag value that was added.
+     */
+    public static String addETag(HttpServletResponse response, String etag, boolean weak) {
+        etag = StrUtil.enquoteDouble(StringUtils.trimToNull(etag));
+        etag = etag == null ? null : weak ? "W/" + etag : etag;
+        response.setHeader(HttpHeaders.ETAG, etag);
+        return response.getHeader(HttpHeaders.ETAG);
+    }
+    
+    /**
+     * Returns true if the request and response ETags match.
+     * 
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     * @return True if the ETags match.
+     */
+    public static boolean matchETag(HttpServletRequest request, HttpServletResponse response) {
+        return matchETag(request.getHeader(HttpHeaders.IF_NONE_MATCH), response.getHeader(HttpHeaders.ETAG));
+    }
+    
+    /**
+     * Returns true if the request and response ETags match.
+     * 
+     * @param requestETag The request ETag.
+     * @param responseETag The response ETag.
+     * @return True if the ETags match.
+     */
+    public static boolean matchETag(String requestETag, String responseETag) {
+        requestETag = StringUtils.removeStart(requestETag, "W/");
+        responseETag = StringUtils.removeStart(responseETag, "W/");
+        return requestETag != null && ("*".equals(requestETag) || requestETag.equals(responseETag));
+    }
+    
+    /**
+     * Converts a version specifier to an ETag value. If the version is null, empty or is a
+     * snapshot, returns a random ETag. Otherwise, computes an ETag by calculating the MD5 checksum
+     * on the version specifier.
+     * 
+     * @param version A version specifier.
+     * @return An ETag value (never null).
+     */
+    public static String versionToETag(String version) {
+        version = StringUtils.trimToNull(version);
+        return version == null || version.contains("SNAPSHOT") ? randomETag() : DigestUtils.md5Hex(version);
+    }
+    
+    /**
+     * Returns a random ETag value.
+     * 
+     * @return A random ETag value.
+     */
+    public static String randomETag() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
     
     /**

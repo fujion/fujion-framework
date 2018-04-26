@@ -22,13 +22,13 @@ package org.fujion.theme;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.fujion.core.WebUtil;
 
 /**
  * Theme implementation that specifies URL rewrites for theme resources.
@@ -37,7 +37,7 @@ public class Theme {
 
     private static final Log log = LogFactory.getLog(Theme.class);
 
-    private final String etag = UUID.randomUUID().toString();
+    private final String etag = WebUtil.randomETag();
     
     /**
      * Represents a single URL mapping.

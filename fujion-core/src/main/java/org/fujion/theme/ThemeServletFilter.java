@@ -31,7 +31,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpHeaders;
+import org.fujion.core.WebUtil;
 import org.springframework.web.servlet.ThemeResolver;
 
 /**
@@ -61,7 +61,7 @@ public class ThemeServletFilter implements Filter {
             String requestPath = theme.translatePath(httpRequest.getPathInfo());
             
             if (requestPath != null) {
-                httpResponse.setHeader(HttpHeaders.ETAG, theme.getEtag());
+                WebUtil.addETag(httpResponse, theme.getEtag(), false);
                 
                 if (!requestPath.isEmpty()) {
                     httpRequest.getRequestDispatcher(requestPath).forward(httpRequest, httpResponse);

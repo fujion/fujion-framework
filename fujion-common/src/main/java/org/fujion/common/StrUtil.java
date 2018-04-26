@@ -43,6 +43,10 @@ public class StrUtil {
     
     public static final String LINE_TERMINATOR = "\n";
     
+    public static final String DQT = "\"";
+    
+    public static final String SQT = "'";
+    
     public static final Charset UTF8 = StandardCharsets.UTF_8;
     
     public static final String UTF8_STR = CharEncoding.UTF_8;
@@ -306,10 +310,46 @@ public class StrUtil {
      * @return Input value without the enclosing quotes.
      */
     public static String stripQuotes(String value) {
-        String qt = value == null ? null : value.startsWith("\"") ? "\"" : value.startsWith("'") ? "'" : null;
+        String qt = value == null ? null : value.startsWith(DQT) ? DQT : value.startsWith(SQT) ? SQT : null;
         
         if (qt != null && value.endsWith(qt)) {
             value = value.substring(1, value.length() - 1);
+        }
+        
+        return value;
+    }
+    
+    /**
+     * Surround value with double quotes if not already so.
+     * 
+     * @param value Value to enquote.
+     * @return Enquoted value (or null if value was null).
+     */
+    public static String enquoteDouble(String value) {
+        return enquote(value, DQT);
+    }
+    
+    /**
+     * Surround value with single quotes if not already so.
+     * 
+     * @param value Value to enquote.
+     * @return Enquoted value (or null if value was null).
+     */
+    public static String enquoteSingle(String value) {
+        return enquote(value, SQT);
+    }
+    
+    /**
+     * Surround value with quotes if not already so.
+     * 
+     * @param value Value to enquote.
+     * @param qt Type of quote (single or double).
+     * @return Enquoted value (or null if value was null).
+     */
+    private static String enquote(String value, String qt) {
+        if (value != null) {
+            value = value.startsWith(qt) ? value : qt + value;
+            value = value.endsWith(qt) ? value : value + qt;
         }
         
         return value;

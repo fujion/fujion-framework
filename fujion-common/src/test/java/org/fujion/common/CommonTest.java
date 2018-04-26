@@ -260,6 +260,44 @@ public class CommonTest {
         assertEquals("2 mos", DateUtil.formatAge(dob, true, ref));
     }
 
+    private static final String QT_NONE = "This is a test.";
+    
+    private static final String QT_DOUBLE = "\"This is a test.\"";
+    
+    private static final String QT_SINGLE = "'This is a test.'";
+    
+    private static final String QT_OTHER1 = "\"This is a test.'";
+    
+    private static final String QT_OTHER2 = "\"This is a test.";
+    
+    private static final String QT_OTHER3 = "This is a test.'";
+    
+    @Test
+    public void testStripQuotes() {
+        testStripQuotes(QT_NONE, QT_NONE);
+        testStripQuotes(QT_NONE, QT_SINGLE);
+        testStripQuotes(QT_NONE, QT_DOUBLE);
+        testStripQuotes(QT_OTHER1, QT_OTHER1);
+        testStripQuotes(QT_OTHER2, QT_OTHER2);
+        testStripQuotes(QT_OTHER3, QT_OTHER3);
+    }
+    
+    private void testStripQuotes(String expected, String value) {
+        assertEquals(expected, StrUtil.stripQuotes(value));
+    }
+    
+    @Test
+    public void testEnquote() {
+        testEnquote(QT_DOUBLE, QT_NONE, false);
+        testEnquote(QT_SINGLE, QT_NONE, true);
+        testEnquote(QT_DOUBLE, QT_DOUBLE, false);
+        testEnquote(QT_SINGLE, QT_SINGLE, true);
+    }
+    
+    public void testEnquote(String expected, String value, boolean single) {
+        assertEquals(expected, single ? StrUtil.enquoteSingle(value) : StrUtil.enquoteDouble(value));
+    }
+    
     @Test
     public void testColorUtil() {
         testColorUtil("darkorchid", "#9932CC");
