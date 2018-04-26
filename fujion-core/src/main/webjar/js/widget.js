@@ -2257,6 +2257,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.widget.Checkbox = fujion.widget.LabeledWidget.extend({
 		
+		/*------------------------------ Lifecycle ------------------------------*/
+		
+		init: function() {
+			this._super();
+			this.toggleClass('label-default', true);
+		},
+		
 		/*------------------------------ Events ------------------------------*/
 		
 		handleChange: function(event, params) {
