@@ -1068,14 +1068,26 @@ public abstract class BaseComponent implements IElementIdentifier {
     }
     
     /**
-     * When set to true, this component is a namespace boundary. This may not be changed once a
-     * parent or children are added.
+     * When set to true, this component defines a namespace boundary. This may not be changed once a
+     * parent or children are added or for a component that implements the INamespace interface.
      *
      * @param namespace True to make component a namespace boundary.
      */
     @PropertySetter(value = "namespace", bindable = false, description = "When true, this component acts as a namespace boundary.")
-    private void setNamespace(boolean namespace) {
-        this.namespace = namespace;
+    public void setNamespace(boolean namespace) {
+        if (this.namespace != namespace) {
+            if (this instanceof INamespace) {
+                throw new ComponentException(this,
+                        "You may not disable namespace support for a component that implements INamespace");
+            }
+            
+            if (this.parent != null || this.getChildCount() > 0) {
+                throw new ComponentException(this,
+                        "You may not modify the namespace property if a component has a parent or any children.");
+            }
+            
+            this.namespace = namespace;
+        }
     }
 
     /**
@@ -2077,12 +2089,12 @@ public abstract class BaseComponent implements IElementIdentifier {
 
         //@formatter:off
         sb.append(getClass().getName())
-          .append(", ")
-          .append("id: ")
-          .append(id)
-          .append(", ")
-          .append("name: ")
-          .append(name);
+        .append(", ")
+        .append("id: ")
+        .append(id)
+        .append(", ")
+        .append("name: ")
+        .append(name);
         //@formatter:on
 
         return sb.toString();
