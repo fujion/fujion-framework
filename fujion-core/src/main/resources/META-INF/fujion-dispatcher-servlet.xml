@@ -4,7 +4,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:ffc="http://www.fujion.org/schema/component"
+	xmlns:ffe="http://www.fujion.org/schema/eventtype"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -12,34 +13,24 @@
  		http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
-        http://www.springframework.org/schema/websocket
-        http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+        http://www.fujion.org/schema/component
+		http://www.fujion.org/schema/component-extensions.xsd
+		http://www.fujion.org/schema/eventtype
+		http://www.fujion.org/schema/eventtype-extensions.xsd">
 
 	<import resource="classpath*:/META-INF/fujion-config.xml" />
 	
 	<context:property-placeholder
 		location="classpath*:/META-INF/*-default.properties,${org.fujion.location.properties:classpath:fujion*.properties}"
-		ignore-resource-not-found="true"  />
+		ignore-resource-not-found="true" />
 
 	<context:component-scan base-package="org.fujion" />
-
+	
+	<ffc:component-scan package="org.fujion.component" />
+	
+	<ffe:eventtype-scan package="org.fujion.event" />
+	
 	<mvc:annotation-driven />
-
-	<mvc:interceptors>
-
-		<bean class="org.springframework.web.servlet.mvc.WebContentInterceptor">
-			<property name="cacheMappings">
-				<props>
-					<prop key="/**/*.fsp">0</prop>
-				</props>
-			</property>
-		</bean>
-
-		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-			<property name="paramName" value="locale" />
-		</bean>
-
-	</mvc:interceptors>
 
 	<bean id="fujion_WebSocketHandler" 
 		class="org.fujion.websocket.WebSocketHandler" />
@@ -114,11 +105,6 @@
 	
 	<bean class="org.fujion.theme.Theme">
 		<constructor-arg value="default"/>
-		<property name="mappings" >
-			<map>
-				<entry key="/webjars/bootstrap/**" value=""/>
-			</map>
-		</property>
 	</bean>
 	
 	<bean factory-method="getInstance" 

@@ -60,7 +60,7 @@ public class WebUtil {
     
     public static final String FUJION_VERSION = WebUtil.class.getPackage().getImplementationVersion();
     
-    public static final String DEFAULT_ETAG = versionToETag(FUJION_VERSION);
+    public static final String DEFAULT_ETAG = generateETag(FUJION_VERSION);
     
     /**
      * Returns the debug state of the servlet. When enabled, the debug state can affect various
@@ -373,10 +373,28 @@ public class WebUtil {
      * 
      * @param response HTTP response to receive headers.
      */
-    public static void setNoCache(HttpServletResponse response) {
+    public static void disableCache(HttpServletResponse response) {
         response.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
         response.setHeader(HttpHeaders.PRAGMA, "no-cache");
         response.setDateHeader(HttpHeaders.EXPIRES, 0);
+    }
+    
+    /**
+     * Formats an ETag into form suitable for storing in a header. If null or already formatted,
+     * returns the original value.
+     * 
+     * @param etag The ETag to format.
+     * @param weak If true, mark ETag as weak.
+     * @return The formatted ETag.
+     */
+    public static String formatETag(String etag, boolean weak) {
+        etag = StringUtils.trimToNull(etag);
+        
+        if (etag == null || etag.startsWith(StrUtil.DQT) || etag.startsWith("W/\"")) {
+            return etag;
+        }
+        
+        return (weak ? "W/" : "") + StrUtil.enquoteDouble(etag);
     }
     
     /**
@@ -388,9 +406,27 @@ public class WebUtil {
      * @return The ETag value that was added.
      */
     public static String addETag(HttpServletResponse response, String etag, boolean weak) {
-        etag = StrUtil.enquoteDouble(StringUtils.trimToNull(etag));
-        etag = etag == null ? null : weak ? "W/" + etag : etag;
-        response.setHeader(HttpHeaders.ETAG, etag);
+        response.setHeader(HttpHeaders.ETAG, formatETag(etag, weak));
+        return getETag(response);
+    }
+    
+    /**
+     * Returns an ETag from an HTTP request.
+     * 
+     * @param request HTTP request.
+     * @return The ETag value, or null if none.
+     */
+    public static String getETag(HttpServletRequest request) {
+        return request.getHeader(HttpHeaders.IF_NONE_MATCH);
+    }
+    
+    /**
+     * Returns an ETag from an HTTP response.
+     * 
+     * @param response HTTP response.
+     * @return The ETag value, or null if none.
+     */
+    public static String getETag(HttpServletResponse response) {
         return response.getHeader(HttpHeaders.ETAG);
     }
     
@@ -401,8 +437,8 @@ public class WebUtil {
      * @param response The HTTP response.
      * @return True if the ETags match.
      */
-    public static boolean matchETag(HttpServletRequest request, HttpServletResponse response) {
-        return matchETag(request.getHeader(HttpHeaders.IF_NONE_MATCH), response.getHeader(HttpHeaders.ETAG));
+    public static boolean sameETag(HttpServletRequest request, HttpServletResponse response) {
+        return sameETag(getETag(request), getETag(response));
     }
     
     /**
@@ -412,23 +448,23 @@ public class WebUtil {
      * @param responseETag The response ETag.
      * @return True if the ETags match.
      */
-    public static boolean matchETag(String requestETag, String responseETag) {
+    public static boolean sameETag(String requestETag, String responseETag) {
         requestETag = StringUtils.removeStart(requestETag, "W/");
         responseETag = StringUtils.removeStart(responseETag, "W/");
         return requestETag != null && ("*".equals(requestETag) || requestETag.equals(responseETag));
     }
     
     /**
-     * Converts a version specifier to an ETag value. If the version is null, empty or is a
-     * snapshot, returns a random ETag. Otherwise, computes an ETag by calculating the MD5 checksum
-     * on the version specifier.
+     * Converts a value to an ETag value. If the value is null, empty or contains the text
+     * "SNAPSHOT", returns a random ETag. Otherwise, computes an ETag by calculating the MD5
+     * checksum on the value.
      * 
-     * @param version A version specifier.
+     * @param value Value from which an ETag will be generated.
      * @return An ETag value (never null).
      */
-    public static String versionToETag(String version) {
-        version = StringUtils.trimToNull(version);
-        return version == null || version.contains("SNAPSHOT") ? randomETag() : DigestUtils.md5Hex(version);
+    public static String generateETag(String value) {
+        value = StringUtils.trimToNull(value);
+        return value == null || value.contains("SNAPSHOT") ? randomETag() : DigestUtils.md5Hex(value);
     }
     
     /**

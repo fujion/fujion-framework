@@ -29,52 +29,47 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.fujion.core.WebUtil;
 import org.springframework.web.servlet.ThemeResolver;
 
 /**
  * Performs URL rewrites for theme-based resources.
  */
 public class ThemeServletFilter implements Filter {
-
+    
     private final ThemeResolver themeResolver = ThemeResolvers.getInstance();
     
     public ThemeServletFilter() {
     }
-
+    
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
-
+    
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
                                                                                               ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
         
         String themeName = themeResolver.resolveThemeName(httpRequest);
         Theme theme = ThemeRegistry.getInstance().get(themeName);
-
+        
         if (theme != null) {
-            String requestPath = theme.translatePath(httpRequest.getPathInfo());
+            String originalPath = httpRequest.getPathInfo();
+            String requestPath = theme.translatePath(originalPath);
             
             if (requestPath != null) {
-                WebUtil.addETag(httpResponse, theme.getEtag(), false);
-                
-                if (!requestPath.isEmpty()) {
-                    httpRequest.getRequestDispatcher(requestPath).forward(httpRequest, httpResponse);
-                    return;
-                }
+                requestPath = requestPath.isEmpty() ? "empty/" + originalPath : requestPath;
+                httpRequest.getRequestDispatcher(requestPath).forward(httpRequest, response);
+                return;
             }
         }
-
+        
         chain.doFilter(request, response);
     }
-
+    
     @Override
     public void destroy() {
     }
-
+    
 }

@@ -24,6 +24,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.fujion.core.WebUtil;
+import org.fujion.servlet.ETaggedResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.AbstractResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
@@ -58,7 +60,14 @@ public class WebJarResourceResolver extends AbstractResourceResolver {
     protected Resource resolveResourceInternal(HttpServletRequest request, String requestPath,
                                                List<? extends Resource> locations, ResourceResolverChain chain) {
         String newPath = getResourcePath(requestPath);
-        return chain.resolveResource(request, newPath, locations);
+        Resource resource = chain.resolveResource(request, newPath, locations);
+        
+        if (resource != null) {
+            String etag = WebUtil.generateETag(newPath);
+            resource = ETaggedResource.create(resource, request, etag);
+        }
+        
+        return resource;
     }
     
     @Override
