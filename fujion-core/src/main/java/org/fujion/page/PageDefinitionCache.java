@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * #L%
  */
 package org.fujion.page;
@@ -43,22 +43,22 @@ import org.springframework.web.context.ServletContextAware;
  * automatically compiled and added to the cache.
  */
 public class PageDefinitionCache extends AbstractCache<String, PageDefinition> implements ServletContextAware, ApplicationListener<ContextRefreshedEvent> {
-    
+
     private static PageDefinitionCache instance = new PageDefinitionCache();
-    
+
     private static Log log = LogFactory.getLog(PageDefinitionCache.class);
-    
+
     private Set<String> precompiled = new LinkedHashSet<>();
-    
+
     private ServletContext servletContext;
-    
+
     public static PageDefinitionCache getInstance() {
         return instance;
     }
-    
+
     private PageDefinitionCache() {
     }
-    
+
     private String normalizeKey(String key) {
         try {
             return WebUtil.getResource(key, servletContext).getURL().toString();
@@ -66,25 +66,25 @@ public class PageDefinitionCache extends AbstractCache<String, PageDefinition> i
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     public void setPrecompiled(String fsps) {
         setPrecompiled(StrUtil.toList(fsps, ","));
     }
-    
+
     public void setPrecompiled(Collection<String> fsps) {
         precompiled.addAll(fsps);
     }
-    
+
     @Override
     public PageDefinition get(String key) {
         return super.get(normalizeKey(key));
     }
-    
+
     @Override
     public boolean isCached(String key) {
         return super.isCached(normalizeKey(key));
     }
-    
+
     @Override
     protected PageDefinition fetch(String url) {
         try {
@@ -93,7 +93,7 @@ public class PageDefinitionCache extends AbstractCache<String, PageDefinition> i
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * Process FSPs marked for pre-compilation.
      */
@@ -102,32 +102,37 @@ public class PageDefinitionCache extends AbstractCache<String, PageDefinition> i
         if (precompiled != null) {
             Set<String> fsps = precompiled;
             precompiled = null;
-            
+
             for (String url : fsps) {
                 url = url.trim();
-                
+
+                if (url.isEmpty()) {
+                    continue;
+                }
+
                 if (!"fsp".equals(FilenameUtils.getExtension(url))) {
                     url += ".fsp";
                 }
-                
+
                 try {
                     if (log.isInfoEnabled()) {
                         log.info("Precompiling " + url);
                     }
-                    
+
                     get(url);
                 } catch (Exception e) {
-                    if (log.isWarnEnabled())
+                    if (log.isWarnEnabled()) {
                         log.warn("Error precompiling " + url, e);
+                    }
                 }
             }
         }
-        
+
     }
-    
+
     @Override
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
-    
+
 }
