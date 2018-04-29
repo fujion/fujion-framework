@@ -335,6 +335,7 @@
 								<goal>copy-resources</goal>
 							</goals>
 							<configuration>
+								<overwrite>true</overwrite>
 								<outputDirectory>
 									${project.build.directory}/classes/META-INF/resources/webjars/${webjar.name}/${webjar.version}
 								</outputDirectory>
