@@ -57,12 +57,12 @@
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>react</artifactId>
-			<version>16.2.0</version>
+			<version>16.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>react-dom</artifactId>
-			<version>16.2.0</version>
+			<version>16.3.1</version>
 		</dependency>
 		<!-- Fujion Framework -->
 		<dependency>
