@@ -7,5 +7,5 @@
         		<generated-on>${generated-on}</generated-on>
         </xs:appinfo>
     </xs:annotation>
-    <xs:include schemaLocation="http://www.fujion.org/schema/fsp-${schema-name}.xsd"/>
+    <xs:include schemaLocation="./fsp-${schema-name}.xsd"/>
 </xs:schema>
