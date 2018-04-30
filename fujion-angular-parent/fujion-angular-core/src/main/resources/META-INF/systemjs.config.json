@@ -1,0 +1,20 @@
+{
+    "paths": {
+		"core-js": "webjars/core-js",
+		"core.js": null,
+		"rxjs": "webjars/rxjs",
+		"zone.js": "webjars/zone.js"
+    },
+        	
+	"packages": {
+		"core-js": {
+			"main": "client/core.js"
+		},
+		"rxjs": {
+			"main": "bundles/Rx.js"
+		},
+		"zone.js": {
+			"main": "dist/zone.js"
+		}
+	}
+}
