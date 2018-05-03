@@ -37,32 +37,29 @@ import org.springframework.util.Assert;
  */
 @Component(tag = "gmap", widgetModule = "fujion-gmaps", widgetClass = "GMap", parentTag = "*", description = "Google Maps component.")
 public class GoogleMap extends BaseUIComponent {
-
-    private String siteKey;
     
     private boolean running;
-    
-    private final MapOptions options = new MapOptions();
 
+    private final MapOptions options = new MapOptions();
+    
     public void run() {
-        Assert.notNull(siteKey, "A map may not be created without a site key.");
-        invoke("run", options);
+        invoke("run", options, LoaderOptions.getInstance().validate());
         running = true;
     }
-    
+
     public void clear() {
         invoke("clear");
         running = false;
     }
-
+    
     private void ensureRunning() {
         Assert.state(running, "A map has not yet been created.");
     }
-    
+
     public MapOptions getOptions() {
         return options;
     }
-    
+
     /**
      * Changes the center of the map by the given distance in pixels. If the distance is less than
      * both the width and height of the map, the transition will be smoothly animated. Note that the
@@ -75,7 +72,7 @@ public class GoogleMap extends BaseUIComponent {
     public void panBy(double x, double y) {
         invokeMap("panBy", x, y);
     }
-
+    
     /**
      * Changes the center of the map to the given LatLng. If the change is less than both the width
      * and height of the map, the transition will be smoothly animated.
@@ -85,7 +82,7 @@ public class GoogleMap extends BaseUIComponent {
     public void panTo(LatLng center) {
         invokeMap("panTo", center);
     }
-    
+
     /**
      * Pans the map by the minimum amount necessary to contain the given LatLngBounds. It makes no
      * guarantee where on the map the bounds will be, except that as much of the bounds as possible
@@ -100,12 +97,12 @@ public class GoogleMap extends BaseUIComponent {
     public void panToBounds(LatLngBounds bounds) {
         invokeMap("panToBounds", bounds);
     }
-    
+
     private void invokeMap(String function, Object... args) {
         ensureRunning();
         invoke("invoke", function, args);
     }
-    
+
     /**
      * Returns the current center of the map.
      *
@@ -115,7 +112,7 @@ public class GoogleMap extends BaseUIComponent {
     public LatLng getCenter() {
         return options.center;
     }
-
+    
     /**
      * Sets the current center of the map.
      *
@@ -124,12 +121,12 @@ public class GoogleMap extends BaseUIComponent {
     public void setCenter(LatLng center) {
         propertyChange("center", options.center, options.center = center, running);
     }
-    
+
     @PropertySetter(value = "center", description = "The latitude and longitude of the current center of the map.")
     private void setCenter(String center) {
         setCenter(LatLng.parse(center));
     }
-
+    
     /**
      * Returns the tilt setting, which controls the automatic switching behavior for the angle of
      * incidence of the map.
@@ -140,7 +137,7 @@ public class GoogleMap extends BaseUIComponent {
     public TiltAngle getTilt() {
         return options.tilt;
     }
-
+    
     /**
      * Set the current tilt value, which controls the automatic switching behavior for the angle of
      * incidence of the map.
@@ -151,7 +148,7 @@ public class GoogleMap extends BaseUIComponent {
     public void setTilt(TiltAngle tilt) {
         propertyChange("tilt", options.tilt, options.tilt = tilt, running);
     }
-    
+
     /**
      * Returns the {@link MapOptions#zoom zoom value}.
      *
@@ -161,7 +158,7 @@ public class GoogleMap extends BaseUIComponent {
     public int getZoom() {
         return options.zoom;
     }
-    
+
     /**
      * Sets the current {@link MapOptions#zoom zoom value}.
      *
@@ -171,47 +168,27 @@ public class GoogleMap extends BaseUIComponent {
     public void setZoom(int zoom) {
         propertyChange("zoom", options.zoom, options.zoom = zoom, running);
     }
-    
-    /**
-     * Returns the Google Map API key.
-     *
-     * @return The Google Map API key.
-     */
-    @PropertyGetter(value = "siteKey", description = "The site key.")
-    public String getSiteKey() {
-        return siteKey;
-    }
-    
-    /**
-     * Sets the Google Map API key.
-     *
-     * @param siteKey The Google Map API key.
-     */
-    @PropertySetter(value = "siteKey", description = "The site key.")
-    public void setSiteKey(String siteKey) {
-        propertyChange("siteKey", this.siteKey, this.siteKey = trimify(siteKey), true);
-    }
 
     @EventHandler(TiltChangeEvent.TYPE)
     private void _onTiltChanged(TiltChangeEvent event) {
         propertyChange("tilt", options.tilt, options.tilt = event.getTilt(), false);
     }
-
+    
     @EventHandler(ZoomChangeEvent.TYPE)
     private void _onZoomChanged(ZoomChangeEvent event) {
         propertyChange("zoom", options.zoom, options.zoom = event.getZoom(), false);
     }
-    
+
     @EventHandler(CenterChangeEvent.TYPE)
     private void _onCenterChanged(CenterChangeEvent event) {
         options.center = event.getLocation();
     }
-    
+
     @EventHandler(HeadingChangeEvent.TYPE)
     private void _onHeadingChanged(HeadingChangeEvent event) {
         options.heading = event.getHeading();
     }
-    
+
     @EventHandler(MapTypeIdChangeEvent.TYPE)
     private void _onMapTypeIdChanged(MapTypeIdChangeEvent event) {
         options.mapTypeId$enum = event.getMapTypeIdEnum();

@@ -8,8 +8,6 @@ define('fujion-gmaps', [
 	
 	function(fujion, Widget, GoogleMapsLoader) { 
 	
-	GoogleMapsLoader.VERSION = '3.31';
-	
 	/**
 	 * Google Maps widget
 	 */
@@ -21,35 +19,35 @@ define('fujion-gmaps', [
 			'maptypeid_changed', 'tilesloaded', 'tilt_changed', 'zoom_changed'],
 		
 		bounds_changedHandler: function(event) {
-			this.triggerMapEvent(event, this._map.getBounds());
+			this.triggerMapEvent(event, this._map.getBounds(), true);
 		},
 		
 		center_changedHandler: function(event) {
-			this.triggerMapEvent(event, this._map.getCenter());
+			this.triggerMapEvent(event, this._map.getCenter(), true);
 		},
 		
 		clickHandler: function(event, data) {
-			data.latLng ? this.triggerMapEvent('location', data.latLng) : null;
+			this.triggerMapEvent('location', data.latLng, true);
 		},
 		
 		heading_changedHandler: function(event) {
-			this.triggerMapEvent(event, this._map.getHeading());
+			this.triggerMapEvent(event, this._map.getHeading(), true);
 		},
 		
 		maptypeid_changedHandler: function(event) {
-			this.triggerMapEvent(event, this._map.getMapTypeId());
+			this.triggerMapEvent(event, this._map.getMapTypeId(), true);
 		},
 		
 		tilt_changedHandler: function(event) {
-			this.triggerMapEvent(event, this._map.getTilt());
+			this.triggerMapEvent(event, this._map.getTilt(), true);
 		},
 		
 		zoom_changedHandler: function(event) {
-			this.triggerMapEvent(event, this._map.getZoom());
+			this.triggerMapEvent(event, this._map.getZoom(), true);
 		},
 		
-		triggerMapEvent: function(event, data) {
-			if (!this._rendering) {
+		triggerMapEvent: function(event, data, ignoreNil) {
+			if (!this._rendering && !(ignoreNil && _.isNil(data))) {
 				data = data && data.toJSON ? data.toJSON() : data;
 				this.trigger('gmap_' + event, {value: data});
 			}
@@ -67,15 +65,26 @@ define('fujion-gmaps', [
 			return this._map ? this._map[fnc].apply(this._map, args) : null;
 		},
 		
-		run: function(options) {
-			this._options = options = options || this._options;
-
-			if (this.api && options) {				
+		run: function(options, loaderOptions) {
+			this._options = options || this._options;
+			this._load(this._run.bind(this), loaderOptions);
+		},
+		
+		_load: function(cb, loaderOptions) {
+			delete this._map;
+			GoogleMapsLoader.KEY ? null : loaderOptions ? _.assign(GoogleMapsLoader, loaderOptions) : null;
+			GoogleMapsLoader.KEY ? GoogleMapsLoader.load(cb) : null;
+		},
+		
+		_run: function(google) {
+			var options = this._options;
+			
+			if (options) {				
 				if (options.streetViewOptions) {
-					options.streetView = new this.api.StreetViewPanorama(this.widget$[0], options.streetView);
+					options.streetView = new google.maps.StreetViewPanorama(this.widget$[0], options.streetView);
 				}
 				
-				this._map = new this.api.Map(this.widget$[0], options);
+				this._map = new google.maps.Map(this.widget$[0], options);
 
 				var map = this._map,
 					self = this;
@@ -86,18 +95,6 @@ define('fujion-gmaps', [
 					map.addListener(eventName, handler.bind(self, eventName));
 				});
 			}
-		},
-		
-		_load: function() {
-			var self = this;
-			delete this.api;
-			GoogleMapsLoader.KEY = this.getState('siteKey');
-			GoogleMapsLoader.VERSION = '3.31';
-
-			GoogleMapsLoader.load(function(module) {
-				self.api = module.maps;
-				self.rerender();
-			});
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
@@ -112,14 +109,6 @@ define('fujion-gmaps', [
 		},
 		
 		/*------------------------------ State ------------------------------*/
-		
-		siteKey: function(v) {
-			if (v === GoogleMapsLoader.KEY) {
-				this.api ? null : this._load();
-			}  else {
-				GoogleMapsLoader.release(this._load.bind(this))
-			}
-		},
 		
 		tilt: function(v) {
 			this._options ? this._options.tilt = v : null;

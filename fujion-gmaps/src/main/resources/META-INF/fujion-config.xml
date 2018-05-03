@@ -14,4 +14,8 @@
 	
 	<ffc:component-scan package="org.fujion.gmaps" />
 	<ffe:eventtype-scan package="org.fujion.gmaps.event" />
+	
+	
+	<bean class="org.fujion.gmaps.LoaderOptions" factory-method="getInstance"/>
+	
 </beans>

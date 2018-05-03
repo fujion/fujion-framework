@@ -7,8 +7,7 @@
  		http://www.fujion.org/schema/fsp.xsd">
     <div controller="org.fujion.testharness.MapsController" class="fujion-layout-vertical"
         width="100%" height="100%">
-        <gmap name="gmap" siteKey="AIzaSyC6aZ5lEPrhZO2QiW2yZ3eAYIaeFicXqWA" zoom="4"
-            center="[39.7684° N, 86.1581° W]" flex="1"/>
+        <gmap name="gmap" zoom="4" center="[39.7684° N, 86.1581° W]" flex="1"/>
         <toolbar alignment="center">
             <label label="latitude: "/>
             <doublebox name="latitude"/>
