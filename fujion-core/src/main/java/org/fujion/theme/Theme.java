@@ -33,23 +33,23 @@ import org.apache.commons.logging.LogFactory;
  * Theme implementation that specifies URL rewrites for theme resources.
  */
 public class Theme {
-
+    
     private static final Log log = LogFactory.getLog(Theme.class);
-
+    
     /**
      * Represents a single URL mapping.
      */
     private class Mapping {
-        
+
         final Pattern fromPattern;
-        
+
         final String toPattern;
-        
+
         Mapping(String fromPattern, String toPattern) {
             this.fromPattern = toRegEx(fromPattern);
             this.toPattern = StringUtils.trimToNull(toPattern);
         }
-        
+
         /**
          * Convert text pattern to a regular expression.
          *
@@ -60,15 +60,15 @@ public class Theme {
             if (pattern.startsWith("^")) {
                 return Pattern.compile(pattern);
             }
-
+            
             StringBuilder regex = new StringBuilder("^");
             int last = pattern.length() - 1;
             String literal = "";
-            
+
             for (int i = 0; i <= last; i++) {
                 char c = pattern.charAt(i);
                 String token = "";
-                
+
                 switch (c) {
                     case '*':
                         if (i < last && pattern.charAt(i + 1) == '*') {
@@ -77,32 +77,32 @@ public class Theme {
                         } else {
                             token = "([^\\/]*)";
                         }
-                        
+
                         break;
-                    
+
                     case '?':
                         token = "(.)";
                         break;
-                    
+
                     default:
                         literal += c;
-                        
+
                         if (i < last) {
                             continue;
                         }
                 }
-                
+
                 if (!literal.isEmpty()) {
                     regex.append("\\Q").append(literal).append("\\E");
                     literal = "";
                 }
-                
+
                 regex.append(token);
             }
-            
+
             return Pattern.compile(regex.append('$').toString());
         }
-        
+
         /**
          * If path matches the fromPattern, convert to the toPattern.
          *
@@ -112,19 +112,19 @@ public class Theme {
          */
         String translate(String path) {
             Matcher from = fromPattern.matcher(path);
-
+            
             if (from.matches()) {
                 return toPattern == null ? "" : from.replaceAll(toPattern.replace("$0", name));
             }
-
+            
             return null;
         }
     }
-    
+
     private final String name;
-    
+
     private final Map<String, Mapping> urlMap = new LinkedHashMap<>();
-    
+
     /**
      * Create a theme.
      *
@@ -133,7 +133,7 @@ public class Theme {
     public Theme(String name) {
         this.name = name;
     }
-    
+
     /**
      * Returns the unique theme name.
      *
@@ -142,7 +142,7 @@ public class Theme {
     public String getName() {
         return name;
     }
-    
+
     /**
      * Merges URL pattern mappings from another like-named theme.
      *
@@ -150,13 +150,13 @@ public class Theme {
      */
     protected void merge(Theme theme) {
         Map<String, Mapping> srcMap = theme.urlMap;
-        
+
         for (String pattern : srcMap.keySet()) {
             dupCheck(pattern);
             urlMap.put(pattern, srcMap.get(pattern));
         }
     }
-    
+
     /**
      * Merge a set of mappings into existing mappings.
      *
@@ -167,7 +167,7 @@ public class Theme {
             addMapping(fromPattern, mappings.get(fromPattern));
         }
     }
-
+    
     /**
      * Add a single mapping to existing mappings.
      *
@@ -178,7 +178,7 @@ public class Theme {
         dupCheck(fromPattern);
         urlMap.put(fromPattern, new Mapping(fromPattern, toPattern));
     }
-    
+
     /**
      * Displays a warning if a mapping is being overwritten.
      *
@@ -189,7 +189,7 @@ public class Theme {
             log.warn(String.format("Overwriting URL pattern \"%s\" in theme \"%s\"", pattern, name));
         }
     }
-    
+
     /**
      * If the input path matches one of the theme's mapped patterns, return the translated path.
      * Otherwise, return null.
@@ -198,15 +198,17 @@ public class Theme {
      * @return The translated path, or null.
      */
     public String translatePath(String path) {
-        for (Mapping mapping : urlMap.values()) {
-            String newPath = mapping.translate(path);
-            
-            if (newPath != null) {
-                return newPath;
+        if (path != null) {
+            for (Mapping mapping : urlMap.values()) {
+                String newPath = mapping.translate(path);
+
+                if (newPath != null) {
+                    return newPath;
+                }
             }
         }
-        
+
         return null;
     }
-    
+
 }
