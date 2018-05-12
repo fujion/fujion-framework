@@ -25,7 +25,7 @@ define('${artifactId}', [
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $('<label>${displayName}</label>');
+			return $('<div><label>${displayName}</label></div>');
 		}
 		
 		/*------------------------------ State ------------------------------*/
