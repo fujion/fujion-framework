@@ -36,40 +36,40 @@ import org.springframework.web.servlet.ThemeResolver;
  * Performs URL rewrites for theme-based resources.
  */
 public class ThemeServletFilter implements Filter {
-    
+
     private final ThemeResolver themeResolver = ThemeResolvers.getInstance();
-    
+
     public ThemeServletFilter() {
     }
-    
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-                                                                                              ServletException {
+    ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        
+
         String themeName = themeResolver.resolveThemeName(httpRequest);
         Theme theme = ThemeRegistry.getInstance().get(themeName);
-        
+
         if (theme != null) {
             String originalPath = httpRequest.getPathInfo();
-            String requestPath = theme.translatePath(originalPath);
-            
+            String requestPath = originalPath == null ? null : theme.translatePath(originalPath);
+
             if (requestPath != null) {
                 requestPath = requestPath.isEmpty() ? "empty/" + originalPath : requestPath;
                 httpRequest.getRequestDispatcher(requestPath).forward(httpRequest, response);
                 return;
             }
         }
-        
+
         chain.doFilter(request, response);
     }
-    
+
     @Override
     public void destroy() {
     }
-    
+
 }
