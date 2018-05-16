@@ -25,7 +25,7 @@ import java.util.Map;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
-import org.fujion.page.PageParser;
+import org.fujion.page.PageUtil;
 
 /**
  * A component that permits importing another page into the referencing page. Note that while it
@@ -34,25 +34,25 @@ import org.fujion.page.PageParser;
  */
 @Component(tag = "import", widgetClass = "Span", parentTag = "*", description = "A component that permits importing another page into the referencing page.")
 public class Import extends BaseUIComponent {
-
+    
     private String src;
-
+    
     @Override
     protected void _initProps(Map<String, Object> props) {
         super._initProps(props);
         props.put("wclazz", "fujion_import");
     }
-    
+
     @Override
     public boolean isContainer() {
         return true;
     }
-
+    
     @Override
     protected void validateChild(BaseComponent child) {
         child.getDefinition().validateParent(getDefinition());
     }
-
+    
     /**
      * Returns the URL of the imported FSP.
      *
@@ -62,7 +62,7 @@ public class Import extends BaseUIComponent {
     public String getSrc() {
         return src;
     }
-
+    
     /**
      * Sets the URL of the FSP to import.
      *
@@ -72,9 +72,9 @@ public class Import extends BaseUIComponent {
     public void setSrc(String src) {
         if (propertyChange("src", this.src, this.src = nullify(src), false)) {
             this.destroyChildren();
-
+            
             if (this.src != null) {
-                PageParser.getInstance().parse(src).materialize(this);
+                PageUtil.createPage(src, this);
             }
         }
     }

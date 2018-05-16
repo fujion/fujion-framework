@@ -25,7 +25,7 @@ import java.util.List;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.page.PageDefinition;
-import org.fujion.page.PageParser;
+import org.fujion.page.PageUtil;
 import org.springframework.util.Assert;
 
 /**
@@ -35,7 +35,7 @@ import org.springframework.util.Assert;
  */
 @Component(tag = "snippet", widgetClass = "MetaWidget", parentTag = "template", description = "A Fujion resource that can be inserted into a template.")
 public class Snippet extends BaseComponent {
-
+    
     private enum AnchorPosition {
         BEFORE, // Add snippet as sibling before anchor
         AFTER, // Add snippet as sibling after anchor
@@ -43,62 +43,62 @@ public class Snippet extends BaseComponent {
         PARENT, // Add snippet as new parent of anchor
         REPLACE // Replace anchor with snippet.
     }
-
+    
     private String src;
-
+    
     private String anchor;
-
+    
     private AnchorPosition position = AnchorPosition.CHILD;
-
+    
     public Snippet() {
     }
-
+    
     /*package*/ void materialize(Template template) {
         Assert.isTrue(src != null && anchor != null, "A snippet requires both a src and an anchor");
         BaseComponent ref = template.findByName(anchor);
         Assert.notNull(ref, "Could not locate anchor for snippet at " + anchor);
-        PageDefinition def = PageParser.getInstance().parse(src);
+        PageDefinition def = PageUtil.getPageDefinition(src);
         BaseComponent parent = ref.getParent();
         int index = ref.getIndex();
-
+        
         switch (position) {
             case CHILD:
                 addToParent(ref, -1, def);
                 break;
-
+                
             case PARENT:
                 ref.detach();
                 BaseComponent newParent = addToParent(parent, index, def).get(0);
                 ref.setParent(newParent);
                 break;
-
+                
             case REPLACE:
                 ref.destroy();
                 addToParent(parent, index, def);
                 break;
-
+                
             case BEFORE:
                 addToParent(parent, index, def);
                 break;
-
+                
             case AFTER:
                 addToParent(parent, index + 1, def);
                 break;
         }
     }
-
+    
     private List<BaseComponent> addToParent(BaseComponent parent, int index, PageDefinition def) {
         Assert.notNull(parent, "Anchor must have a parent for position value of " + position);
         List<BaseComponent> children = def.materialize(null);
-
+        
         for (BaseComponent child : children) {
             parent.addChild(child, index);
             index = index < 0 ? index : index + 1;
         }
-
+        
         return children;
     }
-
+    
     /**
      * Sets the URL of the source FSP for this snippet.
      *
@@ -108,7 +108,7 @@ public class Snippet extends BaseComponent {
     private void setSrc(String src) {
         this.src = trimify(src);
     }
-
+    
     /**
      * Sets the name of the anchor component within the template.
      *
@@ -118,7 +118,7 @@ public class Snippet extends BaseComponent {
     private void setAnchor(String anchor) {
         this.anchor = trimify(anchor);
     }
-
+    
     /**
      * Sets the insertion point of the snippet relative to its anchor.
      *

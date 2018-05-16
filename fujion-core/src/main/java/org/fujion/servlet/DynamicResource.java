@@ -23,6 +23,7 @@ package org.fujion.servlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
@@ -37,46 +38,46 @@ import org.springframework.core.io.Resource;
  */
 class DynamicResource extends AbstractResource {
     
-    private final Resource resource;
-    
-    private final String filename;
-    
     private final File file;
 
+    private final Resource resource;
+    
     public DynamicResource(String filename, Resource resource) {
-        this.filename = filename;
         this.resource = resource;
-        this.file = createDummyFile();
-    }
-
-    /**
-     * Create an empty dummy file.
-     *
-     * @return Dummy file.
-     */
-    private File createDummyFile() {
+        
         try {
-            return File.createTempFile("fujion", "." + FilenameUtils.getExtension(filename));
+            file = File.createTempFile("fujion_", "." + FilenameUtils.getExtension(filename));
+            FileUtils.copyInputStreamToFile(resource.getInputStream(), file);
         } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
         }
+    }
+
+    @Override
+    public boolean isFile() {
+        return true;
     }
     
     @Override
     public File getFile() {
         return file;
     }
-    
+
     @Override
     public String getFilename() {
-        return filename;
+        return file.getName();
     }
 
     @Override
     public URL getURL() throws IOException {
-        return file.toURI().toURL();
+        return getURI().toURL();
     }
     
+    @Override
+    public URI getURI() throws IOException {
+        return file.toURI();
+    }
+
     @Override
     public String getDescription() {
         return resource.getDescription();
@@ -93,8 +94,13 @@ class DynamicResource extends AbstractResource {
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        FileUtils.deleteQuietly(file);
+    public boolean exists() {
+        return true;
+    }
+
+    @Override
+    public void finalize() throws Throwable {
+        file.delete();
         super.finalize();
     }
 }

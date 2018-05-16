@@ -90,14 +90,12 @@ public class DynamicResourceRegistry implements ISessionLifecycle {
     public void registerResource(String path, Resource resource) {
         ResourceRegistry registry = getRegistry(path, resource != null);
         String name = extractFromPath(path, false);
-        resource = resource == null || name == null ? null
-                : resource.getFilename() == null ? new DynamicResource(name, resource) : resource;
 
         if (registry != null && name != null) {
             if (resource == null) {
                 registry.remove(name);
             } else {
-                registry.put(name, resource);
+                registry.put(name, resource.isFile() ? resource : new DynamicResource(name, resource));
             }
         }
     }

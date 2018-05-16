@@ -24,7 +24,7 @@ import org.fujion.ancillary.INamespace;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.PropertySetter;
-import org.fujion.page.PageParser;
+import org.fujion.page.PageUtil;
 
 /**
  * A component that merges a source page with zero or more snippets.
@@ -33,14 +33,14 @@ import org.fujion.page.PageParser;
  */
 @Component(tag = "template", widgetClass = "Span", parentTag = "*", childTag = @ChildTag("snippet"), description = "A component that merges a source page with zero or more snippets.")
 public class Template extends BaseComponent implements INamespace {
-
+    
     public Template() {
     }
-
+    
     public Template(String src) {
         setSrc(src);
     }
-
+    
     /**
      * Snippets are handled differently from other children. They are never really added as
      * children. Rather, the component tree resulting from the materialization of the snippet's
@@ -54,7 +54,7 @@ public class Template extends BaseComponent implements INamespace {
             super.addChild(child, index);
         }
     }
-
+    
     /**
      * We override this because the schema constrains children to snippets only, but we want to be
      * able to dynamically add children of any type.
@@ -63,7 +63,7 @@ public class Template extends BaseComponent implements INamespace {
     protected void validateChild(BaseComponent child) {
         // NOP
     }
-
+    
     /**
      * Sets the URL of the FSP for this template.
      *
@@ -72,9 +72,9 @@ public class Template extends BaseComponent implements INamespace {
     @PropertySetter(value = "src", description = "The URL of the FSP for this template.")
     private void setSrc(String src) {
         src = nullify(src);
-
+        
         if (src != null) {
-            PageParser.getInstance().parse(src).materialize(this);
+            PageUtil.createPage(src, this);
         }
     }
 }
