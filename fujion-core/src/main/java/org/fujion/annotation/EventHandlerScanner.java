@@ -41,22 +41,22 @@ import org.springframework.util.ReflectionUtils;
  * Wires {@literal @EventHandler}-annotated methods.
  */
 public class EventHandlerScanner {
-
+    
     /**
      * Event listener implementation that invokes an {@literal @EventHandler}-annotated method on a
      * target object.
      */
     private static class EventListener implements IEventListener {
-
+        
         private final Object target;
-
+        
         private final Method method;
-
+        
         EventListener(Object target, Method method) {
             this.target = target;
             this.method = method;
         }
-
+        
         /**
          * Pass an event to the handler method on the target.
          */
@@ -72,27 +72,27 @@ public class EventHandlerScanner {
                 throw MiscUtil.toUnchecked(e);
             }
         }
-
+        
         @Override
         public boolean equals(Object object) {
             if (object == this) {
                 return true;
             }
-            
+
             if (!(object instanceof EventListener)) {
                 return false;
             }
-            
+
             EventListener el = (EventListener) object;
             return target == el.target && method.equals(el.method);
         }
-
+        
         @Override
         public int hashCode() {
             return target.hashCode() ^ method.hashCode();
         }
     }
-
+    
     /**
      * Recursively scans the controller's class and superclasses for {@literal @EventHandler}
      * -annotated methods.
@@ -101,14 +101,9 @@ public class EventHandlerScanner {
      * @param root The root component used to resolve component names.
      */
     public static void wire(Object instance, BaseComponent root) {
-        Class<?> clazz = instance.getClass();
-
-        while (clazz != Object.class) {
-            wire(instance, root, clazz);
-            clazz = clazz.getSuperclass();
-        }
+        wire(instance, root, instance.getClass());
     }
-
+    
     /**
      * Wires onEvent style event handlers.
      *
@@ -123,17 +118,17 @@ public class EventHandlerScanner {
             Class<? extends Event> eventClass = EventUtil.getEventClass(eventType);
             Method handler = ReflectionUtils.findMethod(instance.getClass(), methodName, eventClass);
             handler = handler == null ? ReflectionUtils.findMethod(instance.getClass(), methodName) : handler;
-
+            
             if (handler == null) {
                 throw new ComponentException("A suitable event handler named \"" + methodName + "\"could not be found");
-
+                
             }
-
+            
             EventListener eventListener = new EventListener(instance, handler);
             component.addEventListener(eventType, eventListener);
         }
     }
-
+    
     /**
      * Scans the specified class for {@literal @EventHandler}-annotated methods.
      *
@@ -142,47 +137,46 @@ public class EventHandlerScanner {
      * @param clazz The class to be scanned.
      */
     private static void wire(Object instance, BaseComponent root, Class<?> clazz) {
-        for (Method method : clazz.getDeclaredMethods()) {
-            method.setAccessible(true);
+        MethodScanner.scan(clazz, method -> {
             EventHandler[] annotations = method.getAnnotationsByType(EventHandler.class);
-
+            
             for (EventHandler annot : annotations) {
                 OnFailure onFailure = annot.onFailure();
-                
+
                 if (!validateSignature(method)) {
                     onFailure.doAction("Signature for method \"%s\" does not conform to that required of an event handler",
                         method.getName());
                     break;
                 }
-
+                
                 Set<String> targets = asSet(annot.target());
                 Set<String> types = asSet(annot.value());
                 BaseComponent component = null;
-
+                
                 if (types.isEmpty()) {
                     onFailure.doAction("At least one event type must be specified");
                 }
-
+                
                 if (targets.isEmpty()) {
                     targets.add("self");
                 }
-
+                
                 for (String target : targets) {
                     if ("self".equals(target)) {
                         component = isComponent(clazz) ? (BaseComponent) instance : root;
                     } else if (target.startsWith("@")) {
                         String[] fld = target.substring(1).split("\\.", 2);
                         Field field = findField(clazz, fld[0]);
-
+                        
                         if (field != null) {
                             try {
                                 field.setAccessible(true);
                                 Object value = field.get(instance);
-                                
+
                                 if (value != null && fld.length == 2) {
                                     value = PropertyUtils.getProperty(value, fld[1]);
                                 }
-                                
+
                                 component = (BaseComponent) value;
                             } catch (Exception e) {
                                 onFailure.doAction(e);
@@ -191,7 +185,7 @@ public class EventHandlerScanner {
                     } else {
                         component = root == null ? null : root.findByName(target);
                     }
-
+                    
                     if (component == null) {
                         onFailure.doAction("No suitable event handler target found for \"%s\"", target);
                     } else {
@@ -201,9 +195,9 @@ public class EventHandlerScanner {
                     }
                 }
             }
-        }
+        });
     }
-    
+
     /**
      * Validates if the method signature is suitable for an event handler.
      *
@@ -214,7 +208,7 @@ public class EventHandlerScanner {
         Class<?>[] params = method.getParameterTypes();
         return params.length == 0 || (params.length == 1 && Event.class.isAssignableFrom(params[0]));
     }
-
+    
     /**
      * Converts an array of string values to a set. This effectively removes duplicate and empty
      * entries.
@@ -224,16 +218,16 @@ public class EventHandlerScanner {
      */
     private static Set<String> asSet(String[] values) {
         Set<String> set = new HashSet<>();
-
+        
         for (String value : values) {
             if (!value.isEmpty()) {
                 set.add(value);
             }
         }
-
+        
         return set;
     }
-
+    
     /**
      * Returns true if the class is a component class.
      *
@@ -243,7 +237,7 @@ public class EventHandlerScanner {
     private static boolean isComponent(Class<?> clazz) {
         return BaseComponent.class.isAssignableFrom(clazz);
     }
-
+    
     /**
      * Returns the field definition for the named field. Field must be a component type.
      *
@@ -259,8 +253,8 @@ public class EventHandlerScanner {
             return null;
         }
     }
-
+    
     private EventHandlerScanner() {
     }
-
+    
 }

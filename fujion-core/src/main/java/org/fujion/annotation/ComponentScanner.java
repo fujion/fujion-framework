@@ -20,8 +20,6 @@
  */
 package org.fujion.annotation;
 
-import java.lang.reflect.Method;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujion.ancillary.ComponentRegistry;
@@ -32,11 +30,11 @@ import org.fujion.component.BaseComponent;
  * them.
  */
 public class ComponentScanner extends AbstractClassScanner<BaseComponent, Component> {
-    
+
     private static final Log log = LogFactory.getLog(ComponentScanner.class);
-    
+
     private static final ComponentScanner instance = new ComponentScanner();
-    
+
     /**
      * Returns a singleton instance of the component scanner.
      *
@@ -45,11 +43,11 @@ public class ComponentScanner extends AbstractClassScanner<BaseComponent, Compon
     public static ComponentScanner getInstance() {
         return instance;
     }
-    
+
     private ComponentScanner() {
         super(BaseComponent.class, Component.class);
     }
-    
+
     /**
      * Creates and registers a component definition for a class by scanning the class and its
      * superclasses for method annotations.
@@ -61,49 +59,16 @@ public class ComponentScanner extends AbstractClassScanner<BaseComponent, Compon
         if (log.isDebugEnabled()) {
             log.debug("Processing @Component annotation for class " + clazz);
         }
-
+        
         ComponentDefinition def = new ComponentDefinition(clazz);
-        scanMethods(def, clazz, false);
-        scanMethods(def, def.getFactoryClass(), true);
-        ComponentRegistry.getInstance().register(def);
-    }
-    
-    /**
-     * Scans a class for method annotations, adding them to the component definition as they are
-     * found.
-     *
-     * @param def Component definition for the class.
-     * @param clazz The class to be scanned.
-     * @param factoryMethods If true, scan for factory methods. Otherwise, component methods.
-     */
-    private void scanMethods(ComponentDefinition def, Class<?> clazz, boolean factoryMethods) {
-        if (clazz == null || clazz == Object.class) {
-            return;
-        }
-        
-        for (Method method : clazz.getDeclaredMethods()) {
-            processMethod(def, method, factoryMethods);
-        }
-        
-        for (Class<?> intf : clazz.getInterfaces()) {
-            scanMethods(def, intf, factoryMethods);
-        }
-        
-        scanMethods(def, clazz.getSuperclass(), factoryMethods);
-    }
-    
-    private void processMethod(ComponentDefinition def, Method method, boolean factoryMethods) {
-        method.setAccessible(true);
-        
-        if (method.isSynthetic() || method.isBridge()) {
-            return;
-        }
-        
-        if (factoryMethods) {
-            def._addFactoryParameter(method);
-        } else {
+        MethodScanner.scan(clazz, method -> {
             def._addSetter(method);
             def._addGetter(method);
-        }
+        });
+        MethodScanner.scan(def.getFactoryClass(), method -> {
+            def._addFactoryParameter(method);
+        });
+        ComponentRegistry.getInstance().register(def);
     }
+
 }
