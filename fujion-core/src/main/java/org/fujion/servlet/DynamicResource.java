@@ -21,8 +21,11 @@
 package org.fujion.servlet;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
@@ -37,70 +40,72 @@ import org.springframework.core.io.Resource;
  * client.
  */
 class DynamicResource extends AbstractResource {
-    
-    private final File file;
 
-    private final Resource resource;
+    private final File file;
     
+    private final String description;
+
+    private final long contentLength;
+
     public DynamicResource(String filename, Resource resource) {
-        this.resource = resource;
-        
         try {
+            description = resource.getDescription();
+            contentLength = resource.contentLength();
             file = File.createTempFile("fujion_", "." + FilenameUtils.getExtension(filename));
             FileUtils.copyInputStreamToFile(resource.getInputStream(), file);
         } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     @Override
     public boolean isFile() {
         return true;
     }
-    
+
     @Override
     public File getFile() {
         return file;
     }
-
+    
     @Override
     public String getFilename() {
         return file.getName();
     }
-
+    
     @Override
-    public URL getURL() throws IOException {
+    public URL getURL() throws MalformedURLException {
         return getURI().toURL();
     }
-    
+
     @Override
-    public URI getURI() throws IOException {
+    public URI getURI() {
         return file.toURI();
     }
-
+    
     @Override
     public String getDescription() {
-        return resource.getDescription();
-    }
-
-    @Override
-    public InputStream getInputStream() throws IOException {
-        return resource.getInputStream();
+        return description;
     }
     
     @Override
-    public long contentLength() throws IOException {
-        return resource.contentLength();
+    public InputStream getInputStream() throws FileNotFoundException {
+        return new FileInputStream(file);
     }
 
+    @Override
+    public long contentLength() {
+        return contentLength;
+    }
+    
     @Override
     public boolean exists() {
         return true;
     }
-
+    
     @Override
     public void finalize() throws Throwable {
-        file.delete();
+        FileUtils.deleteQuietly(file);
         super.finalize();
     }
 }
