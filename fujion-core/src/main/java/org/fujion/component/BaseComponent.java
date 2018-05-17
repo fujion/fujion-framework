@@ -40,6 +40,8 @@ import org.fujion.ancillary.IElementIdentifier;
 import org.fujion.ancillary.ILabeled;
 import org.fujion.ancillary.INamespace;
 import org.fujion.ancillary.IResponseCallback;
+import org.fujion.ancillary.ISnippet;
+import org.fujion.ancillary.ISnippet.SnippetPosition;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -59,6 +61,8 @@ import org.fujion.event.IEventListener;
 import org.fujion.event.PropertychangeEvent;
 import org.fujion.event.StatechangeEvent;
 import org.fujion.model.IBinding;
+import org.fujion.page.PageDefinition;
+import org.fujion.page.PageUtil;
 import org.springframework.util.Assert;
 
 /**
@@ -640,6 +644,11 @@ public abstract class BaseComponent implements IElementIdentifier {
      * @param index The position in the child list where the new child will be inserted.
      */
     public void addChild(BaseComponent child, int index) {
+        if (child instanceof ISnippet) {
+            addSnippet((ISnippet) child);
+            return;
+        }
+        
         boolean noSync = child.getPage() == null && index < 0;
         child.validate();
         BaseComponent oldParent = child.getParent();
@@ -774,6 +783,67 @@ public abstract class BaseComponent implements IElementIdentifier {
         children.set(index1, child2);
         children.set(index2, child1);
         invokeIfAttached("swapChildren", index1, index2);
+    }
+    
+    /**
+     * Adds a snippet into the component tree rooted at this component.
+     *
+     * @param snippet Snippet to add.
+     */
+    public void addSnippet(ISnippet snippet) {
+        String src = snippet.getSnippetSource();
+        Assert.notNull(src, "A snippet must specify a source");
+        String anchorName = snippet.getSnippetAnchor();
+        Assert.notNull(anchorName, "A snippet must specify an anchor");
+        SnippetPosition position = snippet.getSnippetPosition();
+        Assert.notNull(position, "A snippet must specify a position");
+        BaseComponent anchor = findByName(anchorName);
+        Assert.notNull(anchor, "Could not locate any anchor named " + anchorName);
+        PageDefinition def = PageUtil.getPageDefinition(src);
+        BaseComponent parent = position == SnippetPosition.FIRST || position == SnippetPosition.LAST ? anchor
+                : anchor.getParent();
+        Assert.notNull(parent, "Anchor must have a parent for position value of " + position);
+        int index = anchor.getIndex();
+        
+        switch (position) {
+            case FIRST:
+                addSnippetToParent(parent, 0, def);
+                break;
+            
+            case LAST:
+                addSnippetToParent(parent, -1, def);
+                break;
+
+            case PARENT:
+                anchor.detach();
+                BaseComponent newParent = addSnippetToParent(parent, index, def).get(0);
+                anchor.setParent(newParent);
+                break;
+
+            case REPLACE:
+                anchor.destroy();
+                addSnippetToParent(parent, index, def);
+                break;
+
+            case BEFORE:
+                addSnippetToParent(parent, index, def);
+                break;
+
+            case AFTER:
+                addSnippetToParent(parent, index + 1, def);
+                break;
+        }
+    }
+    
+    private List<BaseComponent> addSnippetToParent(BaseComponent parent, int index, PageDefinition def) {
+        List<BaseComponent> children = def.materialize(null);
+        
+        for (BaseComponent child : children) {
+            parent.addChild(child, index);
+            index = index < 0 ? index : index + 1;
+        }
+        
+        return children;
     }
     
     /**

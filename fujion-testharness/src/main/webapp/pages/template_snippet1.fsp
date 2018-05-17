@@ -1,3 +1,3 @@
-<tab label="snippet1">
+<tab label="snippet1" selected="true">
 	<label label="this is snippet1" />
 </tab>
