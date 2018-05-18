@@ -45,9 +45,14 @@ public class Caption extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     private String labelClass = "label-default";
 
     public Caption() {
-        setPosition(LabelPositionAll.LEFT);
+        this(null);
     }
 
+    public Caption(String label) {
+        super(label);
+        setPosition(LabelPositionAll.LEFT);
+    }
+    
     /**
      * Returns the position of the label relative to its associated component. Defaults to 'left'.
      *
