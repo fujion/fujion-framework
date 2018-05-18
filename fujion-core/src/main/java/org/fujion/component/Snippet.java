@@ -32,68 +32,68 @@ import org.fujion.annotation.Component.PropertySetter;
  */
 @Component(tag = "snippet", widgetClass = "MetaWidget", parentTag = "template", description = "A Fujion resource that can be inserted into a template.")
 public class Snippet extends BaseComponent implements ISnippet {
-    
+
     private String src;
-    
+
     private String anchor;
-    
+
     private SnippetPosition position = SnippetPosition.LAST;
-    
+
     public Snippet() {
     }
-    
+
     public Snippet(String src, String anchor, SnippetPosition position) {
         setSnippetSource(src);
         setSnippetAnchor(anchor);
         setSnippetPosition(position);
     }
-
+    
     @PropertyGetter(value = "src", bindable = false, description = "The URL of the source FSP for this snippet.")
     @Override
     public String getSnippetSource() {
         return src;
     }
-
+    
     /**
      * Sets the URL of the source FSP for this snippet.
      *
      * @param src The URL of the source FSP for this snippet.
      */
     @PropertySetter(value = "src", bindable = false, description = "The URL of the source FSP for this snippet.")
-    private void setSnippetSource(String src) {
+    protected void setSnippetSource(String src) {
         this.src = trimify(src);
     }
-    
+
     @PropertyGetter(value = "anchor", bindable = false, description = "The name of the anchor component within the template.")
     @Override
     public String getSnippetAnchor() {
         return anchor;
     }
-
+    
     /**
      * Sets the name of the anchor component within the template.
      *
      * @param anchor The name of the anchor component within the template.
      */
     @PropertySetter(value = "anchor", bindable = false, description = "The name of the anchor component within the template.")
-    private void setSnippetAnchor(String anchor) {
+    protected void setSnippetAnchor(String anchor) {
         this.anchor = trimify(anchor);
     }
-    
+
     @Override
     @PropertyGetter(value = "position", bindable = false, description = "The insertion point of the snippet relative to its anchor.")
     public SnippetPosition getSnippetPosition() {
         return position;
     }
-
+    
     /**
      * Sets the insertion point of the snippet relative to its anchor.
      *
      * @param position The insertion point of the snippet relative to its anchor.
      */
     @PropertySetter(value = "position", defaultValue = "last", bindable = false, description = "The insertion point of the snippet relative to its anchor.")
-    private void setSnippetPosition(SnippetPosition position) {
+    protected void setSnippetPosition(SnippetPosition position) {
         this.position = position == null ? SnippetPosition.LAST : position;
     }
-
+    
 }
