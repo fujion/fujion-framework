@@ -20,80 +20,61 @@
  */
 package org.fujion.component;
 
-import org.fujion.ancillary.ISnippet;
+import org.fujion.ancillary.INamespace;
 import org.fujion.annotation.Component;
+import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 
 /**
- * A component representing a Fujion resource that can be inserted into a template.
+ * A component representing a FSP that can be inserted into a template.
  *
  * @see Template
  */
-@Component(tag = "snippet", widgetClass = "MetaWidget", parentTag = "template", description = "A Fujion resource that can be inserted into a template.")
-public class Snippet extends BaseComponent implements ISnippet {
-
-    private String src;
-
-    private String anchor;
-
-    private SnippetPosition position = SnippetPosition.LAST;
+@Component(tag = "snippet", widgetClass = "MetaWidget", parentTag = { "template",
+        "snippet" }, childTag = @ChildTag("snippet"), description = "A Fujion resource that can be inserted into a template.")
+public class Snippet extends BaseCompositeComponent implements INamespace {
 
     public Snippet() {
     }
 
-    public Snippet(String src, String anchor, SnippetPosition position) {
-        setSnippetSource(src);
-        setSnippetAnchor(anchor);
-        setSnippetPosition(position);
+    public Snippet(String src, String anchor, CompositePosition position) {
+        super(src, anchor, position);
     }
     
     @PropertyGetter(value = "src", bindable = false, description = "The URL of the source FSP for this snippet.")
     @Override
-    public String getSnippetSource() {
-        return src;
+    public String getCompositeSource() {
+        return super.getCompositeSource();
     }
     
-    /**
-     * Sets the URL of the source FSP for this snippet.
-     *
-     * @param src The URL of the source FSP for this snippet.
-     */
+    @Override
     @PropertySetter(value = "src", bindable = false, description = "The URL of the source FSP for this snippet.")
-    protected void setSnippetSource(String src) {
-        this.src = trimify(src);
+    protected void setCompositeSource(String src) {
+        super.setCompositeSource(src);
     }
 
     @PropertyGetter(value = "anchor", bindable = false, description = "The name of the anchor component within the template.")
     @Override
-    public String getSnippetAnchor() {
-        return anchor;
+    public String getCompositeAnchor() {
+        return super.getCompositeAnchor();
     }
     
-    /**
-     * Sets the name of the anchor component within the template.
-     *
-     * @param anchor The name of the anchor component within the template.
-     */
+    @Override
     @PropertySetter(value = "anchor", bindable = false, description = "The name of the anchor component within the template.")
-    protected void setSnippetAnchor(String anchor) {
-        this.anchor = trimify(anchor);
+    protected void setCompositeAnchor(String anchor) {
+        super.setCompositeAnchor(anchor);
     }
 
-    @Override
     @PropertyGetter(value = "position", bindable = false, description = "The insertion point of the snippet relative to its anchor.")
-    public SnippetPosition getSnippetPosition() {
-        return position;
+    @Override
+    public CompositePosition getCompositePosition() {
+        return super.getCompositePosition();
     }
     
-    /**
-     * Sets the insertion point of the snippet relative to its anchor.
-     *
-     * @param position The insertion point of the snippet relative to its anchor.
-     */
     @PropertySetter(value = "position", defaultValue = "last", bindable = false, description = "The insertion point of the snippet relative to its anchor.")
-    protected void setSnippetPosition(SnippetPosition position) {
-        this.position = position == null ? SnippetPosition.LAST : position;
+    protected void setCompositionPosition(CompositePosition position) {
+        super.setCompositePosition(position);
     }
     
 }

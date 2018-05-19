@@ -40,8 +40,8 @@ import org.fujion.ancillary.IElementIdentifier;
 import org.fujion.ancillary.ILabeled;
 import org.fujion.ancillary.INamespace;
 import org.fujion.ancillary.IResponseCallback;
-import org.fujion.ancillary.ISnippet;
-import org.fujion.ancillary.ISnippet.SnippetPosition;
+import org.fujion.ancillary.IComposite;
+import org.fujion.ancillary.IComposite.CompositePosition;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -644,8 +644,8 @@ public abstract class BaseComponent implements IElementIdentifier {
      * @param index The position in the child list where the new child will be inserted.
      */
     public void addChild(BaseComponent child, int index) {
-        if (child instanceof ISnippet) {
-            addSnippet((ISnippet) child);
+        if (child instanceof IComposite) {
+            addSnippet((IComposite) child);
             return;
         }
         
@@ -790,17 +790,17 @@ public abstract class BaseComponent implements IElementIdentifier {
      *
      * @param snippet Snippet to add.
      */
-    public void addSnippet(ISnippet snippet) {
-        String src = snippet.getSnippetSource();
+    public void addSnippet(IComposite snippet) {
+        String src = snippet.getCompositeSource();
         Assert.notNull(src, "A snippet must specify a source");
-        String anchorName = snippet.getSnippetAnchor();
+        String anchorName = snippet.getCompositeAnchor();
         Assert.notNull(anchorName, "A snippet must specify an anchor");
-        SnippetPosition position = snippet.getSnippetPosition();
+        CompositePosition position = snippet.getCompositePosition();
         Assert.notNull(position, "A snippet must specify a position");
         BaseComponent anchor = findByName(anchorName);
         Assert.notNull(anchor, "Could not locate any anchor named " + anchorName);
         PageDefinition def = PageUtil.getPageDefinition(src);
-        BaseComponent parent = position == SnippetPosition.FIRST || position == SnippetPosition.LAST ? anchor
+        BaseComponent parent = position == CompositePosition.FIRST || position == CompositePosition.LAST ? anchor
                 : anchor.getParent();
         Assert.notNull(parent, "Anchor must have a parent for position value of " + position);
         int index = anchor.getIndex();

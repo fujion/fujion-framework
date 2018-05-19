@@ -21,59 +21,61 @@
 package org.fujion.ancillary;
 
 /**
- * Implemented by components that act as snippets for insertion into other components.
+ * Implemented by classes that can supply components for insertion into other components. A
+ * composite provides a FSP source for insertion, the anchor in the parent where insertion is to
+ * take place, and the position of the insertion relative to the anchor.
  */
-public interface ISnippet {
-
+public interface IComposite {
+    
     /**
-     * Describes the insertion point of the snippet relative to its anchor.
+     * Describes the insertion point of the composite relative to its anchor.
      */
-    enum SnippetPosition {
+    enum CompositePosition {
         /**
-         * Add snippet as sibling before anchor.
+         * Add composite as sibling before anchor.
          */
         BEFORE,
         /**
-         * Add snippet as sibling after anchor.
+         * Add composite as sibling after anchor.
          */
         AFTER,
         /**
-         * Add snippet as first child of anchor.
+         * Add composite as first child of anchor.
          */
         FIRST,
         /**
-         * Add snippet as last child of anchor.
+         * Add composite as last child of anchor.
          */
         LAST,
         /**
-         * Add snippet as new parent of anchor.
+         * Add composite as new parent of anchor.
          */
         PARENT,
         /**
-         * Replace anchor with snippet.
+         * Replace anchor with composite.
          */
         REPLACE
     }
-
+    
     /**
      * Returns the name of the anchor component within a template.
      *
      * @return The name of the anchor component within a template.
      */
-    String getSnippetAnchor();
-    
+    String getCompositeAnchor();
+
     /**
-     * Returns the insertion point of the snippet relative to its anchor.
+     * Returns the insertion point of the composite relative to its anchor.
      *
-     * @return The insertion point of the snippet relative to its anchor.
+     * @return The insertion point of the composite relative to its anchor.
      */
-    SnippetPosition getSnippetPosition();
-    
+    CompositePosition getCompositePosition();
+
     /**
-     * Returns the URL of the source FSP for this snippet.
+     * Returns the URL of the source FSP for this composite.
      *
-     * @return The URL of the source FSP for this snippet.
+     * @return The URL of the source FSP for this composite.
      */
-    String getSnippetSource();
-    
+    String getCompositeSource();
+
 }
