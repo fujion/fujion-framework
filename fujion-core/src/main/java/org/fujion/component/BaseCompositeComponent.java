@@ -26,27 +26,27 @@ import org.fujion.ancillary.IComposite;
  * Base for creating components that are composites of other Fujion components.
  */
 public abstract class BaseCompositeComponent extends BaseComponent implements IComposite {
-    
+
     private String src;
-    
+
     private String anchor;
-    
+
     private CompositePosition position = CompositePosition.LAST;
-    
+
     public BaseCompositeComponent() {
     }
-    
+
     public BaseCompositeComponent(String src, String anchor, CompositePosition position) {
         setCompositeSource(src);
         setCompositeAnchor(anchor);
         setCompositePosition(position);
     }
-
+    
     @Override
     public String getCompositeSource() {
         return src;
     }
-
+    
     /**
      * Sets the URL of the source FSP for this composite.
      *
@@ -55,26 +55,26 @@ public abstract class BaseCompositeComponent extends BaseComponent implements IC
     protected void setCompositeSource(String src) {
         this.src = trimify(src);
     }
-    
+
     @Override
     public String getCompositeAnchor() {
         return anchor;
     }
-
+    
     /**
-     * Sets the name of the anchor component within the template.
+     * Sets the name of the anchor component within the parent namespace.
      *
-     * @param anchor The name of the anchor component within the template.
+     * @param anchor The name of the anchor component within the parent namespace.
      */
     protected void setCompositeAnchor(String anchor) {
         this.anchor = trimify(anchor);
     }
-    
+
     @Override
     public CompositePosition getCompositePosition() {
         return position;
     }
-
+    
     /**
      * Sets the insertion point of the composite relative to its anchor.
      *
@@ -83,5 +83,5 @@ public abstract class BaseCompositeComponent extends BaseComponent implements IC
     protected void setCompositePosition(CompositePosition position) {
         this.position = position == null ? CompositePosition.LAST : position;
     }
-
+    
 }
