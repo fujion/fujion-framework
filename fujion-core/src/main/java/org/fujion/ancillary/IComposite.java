@@ -26,7 +26,7 @@ package org.fujion.ancillary;
  * take place, and the position of the insertion relative to the anchor.
  */
 public interface IComposite {
-    
+
     /**
      * Describes the insertion point of the composite relative to its anchor.
      */
@@ -56,26 +56,27 @@ public interface IComposite {
          */
         REPLACE
     }
-    
+
     /**
-     * Returns the name of the anchor component within a template.
+     * Returns the name of the anchor component within the parent namespace. If null, the anchor is
+     * assumed to be the parent component itself.
      *
-     * @return The name of the anchor component within a template.
+     * @return The name of the anchor component within the parent namespace.
      */
     String getCompositeAnchor();
-
+    
     /**
      * Returns the insertion point of the composite relative to its anchor.
      *
      * @return The insertion point of the composite relative to its anchor.
      */
     CompositePosition getCompositePosition();
-
+    
     /**
      * Returns the URL of the source FSP for this composite.
      *
      * @return The URL of the source FSP for this composite.
      */
     String getCompositeSource();
-
+    
 }
