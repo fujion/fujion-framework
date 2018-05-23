@@ -21,6 +21,9 @@
 package org.fujion.ancillary;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -35,18 +38,20 @@ import org.fujion.expression.ELEvaluator;
  * deserialization to provide control over component creation.
  */
 public class ComponentFactory {
-
+    
     private final ComponentDefinition def;
-
+    
     private Class<? extends BaseComponent> clazz;
-
+    
     private boolean inactive;
+    
+    private Iterable<?> forEach;
 
     public ComponentFactory(ComponentDefinition def) {
         this.def = def;
         this.clazz = def.getComponentClass();
     }
-
+    
     /**
      * A special processor may modify the component's implementation class, as long as the
      * substituted class is a subclass of the original.
@@ -56,14 +61,14 @@ public class ComponentFactory {
     @FactoryParameter(value = "impl", description = "Component implementation class to substitute.")
     protected void setImplementationClass(Class<? extends BaseComponent> clazz) {
         Class<? extends BaseComponent> originalClazz = def.getComponentClass();
-        
+
         if (clazz != null && !originalClazz.isAssignableFrom(clazz)) {
             throw new ComponentException("Implementation class must extend class " + originalClazz.getName());
         }
-
+        
         this.clazz = clazz;
     }
-
+    
     /**
      * Conditionally prevents the factory from creating a component.
      *
@@ -73,7 +78,7 @@ public class ComponentFactory {
     protected void setIf(boolean condition) {
         inactive = !condition;
     }
-
+    
     /**
      * Conditionally prevents the factory from creating a component.
      *
@@ -82,6 +87,11 @@ public class ComponentFactory {
     @FactoryParameter(value = "unless", description = "If true, prevent component creation.")
     protected void setUnless(boolean condition) {
         inactive = condition;
+    }
+    
+    @FactoryParameter(value = "foreach", description = "Specifies a collection for iterative component creation.")
+    protected void setForEach(Object forEach) {
+        this.forEach = ConvertUtil.convertToIterable(forEach);
     }
 
     /**
@@ -92,30 +102,51 @@ public class ComponentFactory {
     public boolean isInactive() {
         return inactive;
     }
-    
+
     /**
-     * Creates a component instance from the definition using a factory context.
+     * Creates one or more component instances from the component definition using a factory
+     * context.
      *
      * @param attributes Attribute map for initializing.
-     * @return A component instance. May be null if creation is suppressed.
+     * @return A list of newly created components (never null).
      */
-    public BaseComponent create(Map<String, String> attributes) {
+    public List<BaseComponent> create(Map<String, String> attributes) {
         if (attributes != null) {
             for (Entry<String, Method> entry : def.getFactoryParameters().entrySet()) {
                 String name = entry.getKey();
-
+                
                 if (attributes.containsKey(name)) {
                     Object value = ELEvaluator.getInstance().evaluate(attributes.remove(name));
                     ConvertUtil.invokeMethod(this, entry.getValue(), value);
                 }
             }
         }
+        
+        if (inactive) {
+            return Collections.emptyList();
+        }
 
+        if (forEach == null) {
+            return Collections.singletonList(create());
+        }
+
+        List<BaseComponent> components = new ArrayList<>();
+
+        for (Object each : forEach) {
+            BaseComponent comp = create();
+            comp.setAttribute("each", each);
+            components.add(comp);
+        }
+
+        return components;
+    }
+
+    private BaseComponent create() {
         try {
-            return inactive ? null : clazz.newInstance();
+            return clazz.newInstance();
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
 }

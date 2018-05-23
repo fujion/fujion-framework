@@ -21,6 +21,7 @@
 package org.fujion.page;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -115,58 +116,58 @@ public class PageDefinition {
                              Map<String, Object> args, List<BaseComponent> created) {
         if (children != null) {
             for (PageElement child : children) {
-                BaseComponent component = materialize(child, parent, deferrals, args);
+                List<BaseComponent> components = materialize(child, parent, deferrals, args);
                 
                 if (created != null) {
-                    if (args != null && !args.isEmpty()) {
-                        component.getAttributes().putAll(args);
+                    for (BaseComponent component : components) {
+                        if (args != null && !args.isEmpty()) {
+                            component.getAttributes().putAll(args);
+                        }
+
+                        created.add(component);
                     }
 
-                    created.add(component);
                 }
             }
         }
     }
     
-    private BaseComponent materialize(PageElement element, BaseComponent parent, List<DeferredInvocation<?>> deferrals,
-                                      Map<String, Object> args) {
+    private List<BaseComponent> materialize(PageElement element, BaseComponent parent, List<DeferredInvocation<?>> deferrals,
+                                            Map<String, Object> args) {
         ComponentDefinition def = element.getDefinition();
         boolean merge = parent instanceof Page && def.getComponentClass() == Page.class;
-        Map<String, String> attributes;
-        BaseComponent component;
+        Map<String, String> attributes = element.getAttributes();
+        List<BaseComponent> components;
         
         if (merge) {
-            component = parent;
+            components = Collections.singletonList(parent);
             parent = null;
-            attributes = element.getAttributes();
         } else {
-            attributes = element.getAttributes();
-            component = def.getFactory().create(attributes);
-            
-            if (component == null) {
-                return null;
-            }
+            components = def.getFactory().create(attributes);
         }
         
-        if (attributes != null) {
-            ELContext elContext = new ELContext(component, parent, element, args);
-            
-            for (Entry<String, String> attribute : attributes.entrySet()) {
-                Object value = ELEvaluator.getInstance().evaluate(attribute.getValue(), elContext);
-                DeferredInvocation<?> deferral = def.setProperty(component, attribute.getKey(), value);
+        for (BaseComponent component : components) {
+            if (attributes != null && !attributes.isEmpty()) {
+                ELContext elContext = new ELContext(component, parent, element, args);
                 
-                if (deferral != null) {
-                    deferrals.add(deferral);
+                for (Entry<String, String> attribute : attributes.entrySet()) {
+                    Object value = ELEvaluator.getInstance().evaluate(attribute.getValue(), elContext);
+                    DeferredInvocation<?> deferral = def.setProperty(component, attribute.getKey(), value);
+                    
+                    if (deferral != null) {
+                        deferrals.add(deferral);
+                    }
                 }
             }
+            
+            if (parent != null) {
+                parent.addChild(component);
+            }
+            
+            materialize(element.getChildren(), component, deferrals, args, null);
         }
         
-        if (parent != null) {
-            parent.addChild(component);
-        }
-        
-        materialize(element.getChildren(), component, deferrals, args, null);
-        
-        return component;
+        return components;
     }
+
 }
