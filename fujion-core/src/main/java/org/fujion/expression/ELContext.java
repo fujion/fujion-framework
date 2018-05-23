@@ -55,8 +55,8 @@ public class ELContext {
     
     /**
      * Returns a value for the named object. If the name is "self", the component itself is
-     * returned. Otherwise, name resolution is attempted from several sources in the following
-     * order:
+     * returned. If the name is "parent" the component's parent is returned. Otherwise, name
+     * resolution is attempted from several sources in the following order:
      * <ol>
      * <li>Tag library prefixes</li>
      * <li>The argument map passed to the materializer</li>
@@ -69,7 +69,9 @@ public class ELContext {
      * @return The value of the named object, or null if not found.
      */
     public Object getValue(String name) {
-        Object result = "self".equals(name) ? component : element.getTagLibrary(name);
+        Object result = "self".equals(name) ? component : null;
+        result = result != null ? result : "parent".equals(name) ? parent : null;
+        result = result != null ? result : element.getTagLibrary(name);
         result = result != null ? result : args == null ? null : args.get(name);
         result = result != null ? result : component.getAttribute(name);
         result = result != null ? result : parent == null ? null : parent.findByName(name);
