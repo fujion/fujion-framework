@@ -38,20 +38,20 @@ import org.fujion.expression.ELEvaluator;
  * deserialization to provide control over component creation.
  */
 public class ComponentFactory {
-    
-    private final ComponentDefinition def;
-    
-    private Class<? extends BaseComponent> clazz;
-    
-    private boolean inactive;
-    
-    private Iterable<?> forEach;
 
+    private final ComponentDefinition def;
+
+    private Class<? extends BaseComponent> clazz;
+
+    private boolean inactive;
+
+    private Iterable<?> forEach;
+    
     public ComponentFactory(ComponentDefinition def) {
         this.def = def;
         this.clazz = def.getComponentClass();
     }
-    
+
     /**
      * A special processor may modify the component's implementation class, as long as the
      * substituted class is a subclass of the original.
@@ -61,14 +61,14 @@ public class ComponentFactory {
     @FactoryParameter(value = "impl", description = "Component implementation class to substitute.")
     protected void setImplementationClass(Class<? extends BaseComponent> clazz) {
         Class<? extends BaseComponent> originalClazz = def.getComponentClass();
-
+        
         if (clazz != null && !originalClazz.isAssignableFrom(clazz)) {
             throw new ComponentException("Implementation class must extend class " + originalClazz.getName());
         }
-        
+
         this.clazz = clazz;
     }
-    
+
     /**
      * Conditionally prevents the factory from creating a component.
      *
@@ -78,7 +78,7 @@ public class ComponentFactory {
     protected void setIf(boolean condition) {
         inactive = !condition;
     }
-    
+
     /**
      * Conditionally prevents the factory from creating a component.
      *
@@ -88,12 +88,21 @@ public class ComponentFactory {
     protected void setUnless(boolean condition) {
         inactive = condition;
     }
-    
+
+    /**
+     * Sets an iterable which will be used to produce one component for each value returned by the
+     * iterable. Components produced by an iterable will contain an attribute named "each" that may
+     * be referenced to retrieve the value of the associated iterable element.
+     *
+     * @param forEach An object that will be converted to an iterable. See
+     *            {@link org.fujion.ancillary.ConvertUtil#convertToIterable convertToITerable} for
+     *            supported types.
+     */
     @FactoryParameter(value = "foreach", description = "Specifies a collection for iterative component creation.")
     protected void setForEach(Object forEach) {
         this.forEach = ConvertUtil.convertToIterable(forEach);
     }
-
+    
     /**
      * Returns true if component creation has been inactivated.
      *
@@ -102,7 +111,7 @@ public class ComponentFactory {
     public boolean isInactive() {
         return inactive;
     }
-
+    
     /**
      * Creates one or more component instances from the component definition using a factory
      * context.
@@ -114,33 +123,33 @@ public class ComponentFactory {
         if (attributes != null) {
             for (Entry<String, Method> entry : def.getFactoryParameters().entrySet()) {
                 String name = entry.getKey();
-                
+
                 if (attributes.containsKey(name)) {
                     Object value = ELEvaluator.getInstance().evaluate(attributes.remove(name));
                     ConvertUtil.invokeMethod(this, entry.getValue(), value);
                 }
             }
         }
-        
+
         if (inactive) {
             return Collections.emptyList();
         }
-
+        
         if (forEach == null) {
             return Collections.singletonList(create());
         }
-
+        
         List<BaseComponent> components = new ArrayList<>();
-
+        
         for (Object each : forEach) {
             BaseComponent comp = create();
             comp.setAttribute("each", each);
             components.add(comp);
         }
-
+        
         return components;
     }
-
+    
     private BaseComponent create() {
         try {
             return clazz.newInstance();
@@ -148,5 +157,5 @@ public class ComponentFactory {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
 }

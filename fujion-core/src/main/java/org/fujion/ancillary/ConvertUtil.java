@@ -160,7 +160,8 @@ public class ConvertUtil {
     /**
      * Converts an arbitrary value to an iterable type.
      *
-     * @param value Value to convert.
+     * @param value Value to convert. This may be any iterable, an array, a map (in which case the
+     *            map's entry set is used), a scalar value, or null.
      * @return The value as an iterable, or null if the value is null.
      */
     public static Iterable<?> convertToIterable(Object value) {
