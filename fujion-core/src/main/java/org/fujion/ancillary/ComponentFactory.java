@@ -125,15 +125,6 @@ public class ComponentFactory {
     }
 
     /**
-     * Returns false if component creation has been inactivated.
-     *
-     * @return False prevents component creation.
-     */
-    public boolean isActive() {
-        return active;
-    }
-
-    /**
      * Creates one or more component instances from the component definition using a factory
      * context.
      *
