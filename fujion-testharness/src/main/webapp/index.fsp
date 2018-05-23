@@ -53,6 +53,10 @@
 				<import src="pages/explang.fsp" />
 			</tab>
 			
+			<tab label="For Each" hint="${@msg.fujion.testharness.foreach}">
+				<import src="pages/foreach.fsp" />
+			</tab>
+			
 			<tab label="Google Maps" hint="${@msg.fujion.testharness.gmaps}">
 				<import src="pages/gmaps.fsp" />
 			</tab>
