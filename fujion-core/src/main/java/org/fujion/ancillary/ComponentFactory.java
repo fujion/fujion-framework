@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.fujion.annotation.Component.FactoryParameter;
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.common.MiscUtil;
@@ -46,6 +47,8 @@ public class ComponentFactory {
     private boolean inactive;
 
     private Iterable<?> forEach;
+
+    private String forVar = "each";
     
     public ComponentFactory(ComponentDefinition def) {
         this.def = def;
@@ -91,8 +94,9 @@ public class ComponentFactory {
 
     /**
      * Sets an iterable which will be used to produce one component for each value returned by the
-     * iterable. Components produced by an iterable will contain an attribute named "each" that may
-     * be referenced to retrieve the value of the associated iterable element.
+     * iterable. Components produced by an iterable will contain an attribute named "each" (unless
+     * overridden by forvar) that may be referenced to retrieve the value of the associated iterable
+     * element.
      *
      * @param forEach An object that will be converted to an iterable. See
      *            {@link org.fujion.ancillary.ConvertUtil#convertToIterable convertToITerable} for
@@ -101,6 +105,23 @@ public class ComponentFactory {
     @FactoryParameter(value = "foreach", description = "Specifies a collection for iterative component creation.")
     protected void setForEach(Object forEach) {
         this.forEach = ConvertUtil.convertToIterable(forEach);
+    }
+    
+    /**
+     * Sets the attribute name to use in foreach iteration.
+     *
+     * @param forVar Name of attribute to use in foreach iteration.
+     */
+    @FactoryParameter(value = "forvar", defaultValue = "each", description = "Specifies the attribute name used in foreach.")
+    protected void setForVar(String forVar) {
+        forVar = StringUtils.trimToNull(forVar);
+        forVar = forVar == null ? "each" : forVar;
+
+        if (!BaseComponent.validateName(forVar)) {
+            throw new ComponentException("Name specified in 'forvar' is not valid: " + forVar);
+        }
+
+        this.forVar = forVar;
     }
     
     /**
@@ -143,7 +164,7 @@ public class ComponentFactory {
         
         for (Object each : forEach) {
             BaseComponent comp = create();
-            comp.setAttribute("each", each);
+            comp.setAttribute(forVar, each);
             components.add(comp);
         }
         
