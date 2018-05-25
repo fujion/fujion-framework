@@ -25,6 +25,7 @@ import java.util.LinkedList;
 import org.fujion.client.ExecutionContext;
 import org.fujion.component.Page;
 import org.fujion.websocket.Session;
+import org.springframework.util.Assert;
 
 /**
  * A page's queue for posted events. Queued (posted) events are delivered at the end of an execution
@@ -34,41 +35,38 @@ import org.fujion.websocket.Session;
  * target page.
  */
 public class EventQueue {
-    
+
     private final LinkedList<Event> queue = new LinkedList<>();
-    
+
     private final Page page;
-    
+
     /**
      * Create a dedicated event queue for the page.
-     * 
+     *
      * @param page A page.
      */
     public EventQueue(Page page) {
         this.page = page;
     }
-    
+
     /**
      * Queue an event.
      *
      * @param event Event to queue.
      */
     public synchronized void queue(Event event) {
-        if (event.getPage() != page) {
-            throw new RuntimeException("Event does not belong to this queue's page");
-        }
-        
+        Assert.isTrue(event.getPage() == page, "Event does not belong to this queue's page");
         queue.add(event);
-
+        
         if (queue.size() == 1 && (!ExecutionContext.isProcessing() || ExecutionContext.getPage() != page)) {
             Session session = page.getSession();
-            
+
             if (session != null) {
                 session.ping("flush");
             }
         }
     }
-    
+
     /**
      * Process all queued events.
      */
@@ -78,14 +76,14 @@ public class EventQueue {
             EventUtil.send(event, event.getTarget() == null ? page : event.getTarget());
         }
     }
-    
+
     /**
      * Clear all queued events.
      */
     public synchronized void clearAll() {
         queue.clear();
     }
-    
+
     /**
      * Returns true if the queue is empty.
      *

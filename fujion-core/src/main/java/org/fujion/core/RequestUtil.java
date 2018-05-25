@@ -32,6 +32,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.fujion.common.MiscUtil;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -41,9 +42,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * Utility methods for dealing with servlet requests.
  */
 public class RequestUtil {
-
+    
     private static Log log = LogFactory.getLog(RequestUtil.class);
-
+    
     /**
      * Return current HttpServletRequest. Note that this will return null when invoked outside the
      * scope of an execution/request.
@@ -56,7 +57,7 @@ public class RequestUtil {
         ServletRequestAttributes requestAttrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return requestAttrs == null ? null : requestAttrs.getRequest();
     }
-
+    
     /**
      * Return current HttpSession
      *
@@ -65,7 +66,7 @@ public class RequestUtil {
     public static HttpSession getSession() {
         return getSession(getRequest());
     }
-
+    
     /**
      * Return current HttpSession given request.
      *
@@ -75,25 +76,25 @@ public class RequestUtil {
     public static HttpSession getSession(ServletRequest request) {
         return request instanceof HttpServletRequest ? ((HttpServletRequest) request).getSession(false) : null;
     }
-
+    
     /**
      * Logs at trace level the request headers
      */
     public static void logHeaderNames() {
         HttpServletRequest request = getRequest();
-        
+
         if (request == null) {
             log.debug("logHeaderNames() invoked outside the scope of a servlet request");
         } else {
             Enumeration<?> enumeration = request.getHeaderNames();
-            
+
             while (enumeration.hasMoreElements()) {
                 String headerName = (String) enumeration.nextElement();
                 log.trace(String.format("HeaderName: %s", headerName));
             }
         }
     }
-
+    
     /**
      * Return server name.
      *
@@ -104,7 +105,7 @@ public class RequestUtil {
         HttpServletRequest request = getRequest();
         return request == null ? null : request.getServerName();
     }
-
+    
     /**
      * Return local host IP. Note: HttpServletRequest#getLocalAddr() doesn't seem to be consistent.
      * This method uses java.net.InetAddress.
@@ -120,7 +121,7 @@ public class RequestUtil {
             return null;
         }
     }
-
+    
     /**
      * Return client's ip address. Returns null if invoked outside scope of a servlet request.
      * <p>
@@ -134,7 +135,7 @@ public class RequestUtil {
         if (request != null) {
             ipAddress = request.getHeader("x-forwarded-for");
             boolean ipFromHeader = true;
-
+            
             if (isEmpty(ipAddress)) {
                 ipAddress = request.getHeader("X_FORWARDED_FOR");
                 if (isEmpty(ipAddress)) {
@@ -152,7 +153,7 @@ public class RequestUtil {
         }
         return ipAddress;
     }
-
+    
     /**
      * Returns the full base URL for the servlet.
      *
@@ -161,9 +162,9 @@ public class RequestUtil {
      */
     public static String getBaseURL(HttpServletRequest request) {
         return "http" + (request.isSecure() ? "s" : "") + "://" + request.getServerName() + ":" + request.getServerPort()
-                + request.getContextPath() + "/";
+        + request.getContextPath() + "/";
     }
-    
+
     /**
      * Returns the resolved URL of the servlet request path.
      *
@@ -173,7 +174,7 @@ public class RequestUtil {
     public static URL getResourceURL(HttpServletRequest request) {
         return getResourceURL(request.getPathInfo());
     }
-
+    
     /**
      * Returns the resolved URL for the specified path.
      *
@@ -184,10 +185,10 @@ public class RequestUtil {
         try {
             return ResourceUtils.getURL(path.startsWith("/web/") ? "classpath:" + path : path);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     /**
      * Get current request's session id or null if session has not yet been created or if invoked
      * outside the scope of an Execution/ServletRequest.
@@ -198,7 +199,7 @@ public class RequestUtil {
         HttpSession session = getSession(getRequest());
         return session == null ? null : session.getId();
     }
-
+    
     /**
      * Return request, throwing IllegalStateException if invoked outside the scope of an
      * Execution/ServletRequest
@@ -211,11 +212,11 @@ public class RequestUtil {
         Assert.state(request != null, "Method must be invoked within the scope of a servlet request.");
         return request;
     }
-
+    
     private static boolean isEmpty(String s) {
         return StringUtils.isEmpty(s) || "unknown".equalsIgnoreCase(s);
     }
-
+    
     /**
      * Enforce static class.
      */

@@ -30,60 +30,60 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
- * Registry for icon libraries. Will automatically registry icon library beans instantiated in the
+ * Registry for icon libraries. Will automatically register icon library beans instantiated in the
  * root container.
  */
 public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> implements BeanPostProcessor {
-    
+
     private static final Log log = LogFactory.getLog(IconLibraryRegistry.class);
-    
+
     private static final IconLibraryRegistry instance = new IconLibraryRegistry();
-    
+
     private String defaultLibrary;
-    
+
     private String defaultDimensions;
-    
+
     public static IconLibraryRegistry init(String defaultLibrary, String defaultDimensions) {
         instance.defaultLibrary = StringUtils.trimToNull(defaultLibrary);
         instance.defaultDimensions = StringUtils.trimToNull(defaultDimensions);
         return instance;
     }
-    
+
     public static IconLibraryRegistry getInstance() {
         return instance;
     }
-    
+
     /**
      * Enforce singleton instance.
      */
     private IconLibraryRegistry() {
         super();
     }
-    
+
     @Override
     public void register(IIconLibrary library) {
         super.register(library);
-
+        
         if (defaultLibrary == null) {
             defaultLibrary = library.getId();
         }
     }
-    
+
     @Override
     public IIconLibrary get(String library) {
         return super.get(library == null ? defaultLibrary : library);
     }
-    
+
     @Override
     protected String getKey(IIconLibrary item) {
         return item.getId();
     }
-    
+
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
-    
+
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof IIconLibrary) {
@@ -91,10 +91,10 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
             register(lib);
             log.info("Registered icon library: " + lib.getId());
         }
-        
+
         return bean;
     }
-    
+
     /**
      * Returns the default icon library. If none has been explicitly set, the first registered
      * library is the default.
@@ -104,7 +104,7 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
     public String getDefaultLibrary() {
         return defaultLibrary;
     }
-    
+
     /**
      * Returns the paths to matching icon resources given name, dimensions, and library name, any
      * one of which may contain wildcard characters.
@@ -117,13 +117,13 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
      */
     public List<String> getMatching(String library, String iconName, String dimensions) {
         dimensions = dimensions == null ? defaultDimensions : dimensions;
-        
+
         List<String> results = null;
-        
+
         for (IIconLibrary lib : this) {
             if (library == null || IconUtil.matcher.match(library, lib.getId())) {
                 List<String> urls = lib.getMatching(iconName, dimensions);
-                
+
                 if (results == null) {
                     results = urls;
                 } else {
@@ -131,7 +131,7 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
                 }
             }
         }
-        
+
         return results == null ? Collections.<String> emptyList() : results;
     }
 }

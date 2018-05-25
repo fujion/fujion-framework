@@ -23,24 +23,26 @@ package org.fujion.taglib;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.util.Assert;
+
 /**
  * Represents a single tag library. We only expose function definitions since custom tags are not
  * supported.
  */
 public class TagLibrary {
-
+    
     private final Map<String, TagLibraryFunction> functions = new HashMap<>();
-
+    
     private final String uri;
-
+    
     public TagLibrary(String uri) {
         this.uri = uri;
     }
-
+    
     public String getUri() {
         return uri;
     }
-
+    
     /**
      * Create and add a function definition based on the input parameters.
      *
@@ -51,16 +53,14 @@ public class TagLibrary {
     public void addFunction(String functionName, String className, String methodSignature) {
         TagLibraryFunction newFunction = new TagLibraryFunction(className, methodSignature);
         TagLibraryFunction oldFunction = functions.get(functionName);
-
+        
         if (oldFunction != null) {
-            if (!oldFunction.equals(newFunction)) {
-                throw new RuntimeException("Duplicate tag library function name: " + functionName);
-            }
+            Assert.isTrue(oldFunction.equals(newFunction), "Duplicate tag library function name: " + functionName);
         } else {
             functions.put(functionName, newFunction);
         }
     }
-
+    
     /**
      * Returns a function definition given its name.
      *

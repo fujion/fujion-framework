@@ -33,6 +33,7 @@ import org.fujion.client.ClientRequest;
 import org.fujion.client.Synchronizer;
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
+import org.springframework.util.Assert;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
@@ -265,18 +266,10 @@ public class Session {
      */
     protected boolean _init(String pageId) {
         if (page != null) {
-            if (!page.getId().equals(pageId)) {
-                throw new RuntimeException("Page ids do not match");
-            }
-
+            Assert.isTrue(page.getId().equals(pageId), "Unexpected page id: " + pageId);
             return false;
         } else {
             page = PageRegistry.getPage(pageId);
-
-            if (page == null) {
-                throw new RuntimeException("Unknown page id");
-            }
-
             return true;
         }
     }

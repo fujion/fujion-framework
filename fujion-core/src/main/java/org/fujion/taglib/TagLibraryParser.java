@@ -27,6 +27,7 @@ import org.fujion.common.MiscUtil;
 import org.fujion.common.XMLUtil;
 import org.fujion.core.WebUtil;
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -34,16 +35,16 @@ import org.w3c.dom.NodeList;
  * Parses a tag library definition file.
  */
 public class TagLibraryParser {
-    
+
     private static final TagLibraryParser instance = new TagLibraryParser();
-    
+
     public static TagLibraryParser getInstance() {
         return instance;
     }
-    
+
     private TagLibraryParser() {
     }
-    
+
     /**
      * Parse a tag library.
      *
@@ -53,7 +54,7 @@ public class TagLibraryParser {
     public TagLibrary parse(String src) {
         return parse(WebUtil.getResource(src));
     }
-    
+
     /**
      * Parse a tag library.
      *
@@ -67,7 +68,7 @@ public class TagLibraryParser {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * Parse a tag library.
      *
@@ -81,7 +82,7 @@ public class TagLibraryParser {
             NodeList nodes = root.getElementsByTagName("function");
             int nodeCount = nodes.getLength();
             TagLibrary tagLibrary = new TagLibrary(uri);
-            
+
             for (int i = 0; i < nodeCount; i++) {
                 Element ele = (Element) nodes.item(i);
                 String name = getValue(ele, "name");
@@ -89,13 +90,13 @@ public class TagLibraryParser {
                 String signature = getValue(ele, "function-signature");
                 tagLibrary.addFunction(name, clazz, signature);
             }
-            
+
             return tagLibrary;
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * Returns the text content of the specified tag.
      *
@@ -105,11 +106,7 @@ public class TagLibraryParser {
      */
     private String getValue(Element ele, String tag) {
         NodeList nodes = ele.getElementsByTagName(tag);
-        
-        if (nodes.getLength() == 0) {
-            throw new RuntimeException("Tag library definition missing attribute: " + tag);
-        }
-        
+        Assert.state(nodes.getLength() > 0, "Tag library definition missing attribute: " + tag);
         return nodes.item(0).getTextContent().trim();
     }
 }
