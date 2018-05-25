@@ -169,7 +169,7 @@ public class Slider extends BaseUIComponent {
      */
     @PropertySetter(value = "step", defaultValue = "1", description = "The amount of change in the current value when an arrow button is clicked.")
     public void setStep(int step) {
-        Assert.isTrue(step > 0, "Step value must be greater than zero.");
+        Assert.isTrue(step > 0, () -> "Step value must be greater than zero");
         propertyChange("step", this.step, this.step = step, true);
     }
     

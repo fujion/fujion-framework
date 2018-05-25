@@ -75,7 +75,7 @@ public class PageScope extends AbstractScope {
     @Override
     public ScopeContainer getContainer() {
         Session session = ExecutionContext.getSession();
-        Assert.state(session != null, "Cannot access Page scope outside of an execution context");
+        Assert.state(session != null, () -> "Cannot access Page scope outside of an execution context");
         return (ScopeContainer) session.getAttributes().get(SCOPE_ATTR);
     }
     

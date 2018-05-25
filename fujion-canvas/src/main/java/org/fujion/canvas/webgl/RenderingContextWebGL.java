@@ -1345,7 +1345,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
      */
     public void uniform(WebGLUniformLocation location, Double... values) {
         int i = values.length;
-        Assert.isTrue(i > 0 && i < 5, "Must specify between 1 and 4 values.");
+        Assert.isTrue(i > 0 && i < 5, () -> "Must specify between 1 and 4 values");
         invoke(String.format("uniform%dfv", i), new Object[] { values });
     }
     
@@ -1358,7 +1358,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
      */
     public void uniform(WebGLUniformLocation location, Integer... values) {
         int i = values.length;
-        Assert.isTrue(i > 0 && i < 5, "Must specify between 1 and 4 values.");
+        Assert.isTrue(i > 0 && i < 5, () -> "Must specify between 1 and 4 values");
         invoke(String.format("uniform%div", i), new Object[] { values });
     }
     
@@ -1371,7 +1371,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
      */
     public void uniformMatrix(WebGLUniformLocation location, Double... values) {
         int i = values.length;
-        Assert.isTrue(i > 1 && i < 5, "Must specify between 2 and 4 values.");
+        Assert.isTrue(i > 1 && i < 5, () -> "Must specify between 2 and 4 values");
         invoke(String.format("uniformMatrix%dfv", i), false, values);
     }
     
@@ -1402,7 +1402,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
      */
     public void vertexAttrib(int index, Double... values) {
         int i = values.length;
-        Assert.isTrue(i > 0 && i < 5, "Must specify between 1 and 4 values.");
+        Assert.isTrue(i > 0 && i < 5, () -> "Must specify between 1 and 4 values");
         invoke(String.format("vertexAttrib%dfv", i), new Object[] { values });
     }
     

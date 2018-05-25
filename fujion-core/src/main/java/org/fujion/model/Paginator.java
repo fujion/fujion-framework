@@ -75,8 +75,8 @@ public class Paginator implements IPaginator {
     @Override
     public void setCurrentPage(int pageIndex) {
         if (pageIndex != currentPage) {
-            Assert.isTrue(pageIndex >= 0, "Current page may not be less than 0");
-            Assert.isTrue(pageIndex <= getMaxPage(), "Current page may not exceed maximum number of pages");
+            Assert.isTrue(pageIndex >= 0, () -> "Current page may not be less than 0");
+            Assert.isTrue(pageIndex <= getMaxPage(), () -> "Current page may not exceed maximum number of pages");
             fireEvent(PagingEventType.CURRENT_PAGE, this.currentPage, this.currentPage = pageIndex);
         }
     }
@@ -96,7 +96,7 @@ public class Paginator implements IPaginator {
      */
     public void setModelSize(int modelSize) {
         if (modelSize != this.modelSize) {
-            Assert.isTrue(modelSize >= 0, "Model size must not be less than 0");
+            Assert.isTrue(modelSize >= 0, () -> "Model size must not be less than 0");
             int oldmax = getMaxPage();
             this.modelSize = modelSize;
             fireEvent(PagingEventType.MAX_PAGE, oldmax, getMaxPage());

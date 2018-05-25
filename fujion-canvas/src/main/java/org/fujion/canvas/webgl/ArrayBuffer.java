@@ -47,10 +47,10 @@ public class ArrayBuffer extends ArrayBufferBase {
     }
 
     private static PixelDataType typeFromData(Object data) {
-        Assert.notNull(data, "Data may not be null.");
+        Assert.notNull(data, () -> "Data may not be null");
         Class<?> clazz = data.getClass().getComponentType();
         PixelDataType type = classToType.get(clazz);
-        Assert.notNull(type, "Unsupported numeric data type: " + clazz.getName());
+        Assert.notNull(type, () -> "Unsupported numeric data type: " + clazz.getName());
         return type;
     }
     

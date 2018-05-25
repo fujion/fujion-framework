@@ -106,7 +106,7 @@ public class TagLibraryParser {
      */
     private String getValue(Element ele, String tag) {
         NodeList nodes = ele.getElementsByTagName(tag);
-        Assert.state(nodes.getLength() > 0, "Tag library definition missing attribute: " + tag);
+        Assert.state(nodes.getLength() > 0, () -> "Tag library definition missing attribute: " + tag);
         return nodes.item(0).getTextContent().trim();
     }
 }

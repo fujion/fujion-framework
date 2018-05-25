@@ -727,7 +727,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      * @param options Print options.
      */
     public void print(PrintOptions options) {
-        Assert.state(isRendered(), "A component may not be printed if it has not yet been rendered.");
+        Assert.state(isRendered(), () -> "A component may not be printed if it has not yet been rendered");
         invoke("print", options);
     }
 }

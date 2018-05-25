@@ -121,7 +121,7 @@ public class PageElement {
             }
         }
 
-        Assert.state(sb.length() == 0, sb.toString());
+        Assert.state(sb.length() == 0, () -> sb.toString());
     }
 
     private void build(StringBuilder sb, String format, Object... args) {

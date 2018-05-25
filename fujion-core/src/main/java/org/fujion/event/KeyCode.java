@@ -462,7 +462,7 @@ public enum KeyCode {
         synchronized (map) {
             if (!initialized) {
                 for (KeyCode e : values()) {
-                    Assert.isTrue(!map.containsKey(e.code), "Duplicate key code: " + e);
+                    Assert.isTrue(!map.containsKey(e.code), () -> "Duplicate key code: " + e);
                     map.put(e.code, e);
                 }
 

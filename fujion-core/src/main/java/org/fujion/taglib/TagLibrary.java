@@ -55,7 +55,7 @@ public class TagLibrary {
         TagLibraryFunction oldFunction = functions.get(functionName);
         
         if (oldFunction != null) {
-            Assert.isTrue(oldFunction.equals(newFunction), "Duplicate tag library function name: " + functionName);
+            Assert.isTrue(oldFunction.equals(newFunction), () -> "Duplicate tag library function name: " + functionName);
         } else {
             functions.put(functionName, newFunction);
         }

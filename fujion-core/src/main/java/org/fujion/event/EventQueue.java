@@ -55,7 +55,7 @@ public class EventQueue {
      * @param event Event to queue.
      */
     public synchronized void queue(Event event) {
-        Assert.isTrue(event.getPage() == page, "Event does not belong to this queue's page");
+        Assert.isTrue(event.getPage() == page, () -> "Event does not belong to this queue's page");
         queue.add(event);
         
         if (queue.size() == 1 && (!ExecutionContext.isProcessing() || ExecutionContext.getPage() != page)) {

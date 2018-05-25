@@ -94,7 +94,7 @@ public class ConvertUtil {
         if (targetType == Boolean.class || targetType == boolean.class) {
             String val = value.toString().trim().toLowerCase();
             Boolean result = "true".equals(val) ? Boolean.TRUE : "false".equals(val) ? Boolean.FALSE : null;
-            Assert.notNull(result, "Not a valid Boolean value: " + value);
+            Assert.notNull(result, () -> "Not a valid Boolean value: " + value);
             return (T) result;
         }
 

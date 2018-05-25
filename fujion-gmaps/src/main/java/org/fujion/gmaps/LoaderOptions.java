@@ -73,7 +73,7 @@ public class LoaderOptions extends Options {
     }
     
     public LoaderOptions validate() {
-        Assert.isTrue(!StringUtils.isEmpty(apiKey), "An API key must be specified to access Google Maps functionality");
+        Assert.isTrue(!StringUtils.isEmpty(apiKey), () -> "An API key must be specified to access Google Maps functionality");
         return this;
     }
 

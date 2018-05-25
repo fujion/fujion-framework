@@ -299,7 +299,7 @@ public class Chart extends BaseUIComponent {
      * @param operation The operation to be invoked.
      */
     private void ensureRunning(String operation) {
-        Assert.state(running, operation + " requires an active chart.");
+        Assert.state(running, () -> operation + " requires an active chart.");
     }
     
 }

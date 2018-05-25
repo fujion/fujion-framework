@@ -266,7 +266,7 @@ public class Session {
      */
     protected boolean _init(String pageId) {
         if (page != null) {
-            Assert.isTrue(page.getId().equals(pageId), "Unexpected page id: " + pageId);
+            Assert.isTrue(page.getId().equals(pageId), () -> "Unexpected page id: " + pageId);
             return false;
         } else {
             page = PageRegistry.getPage(pageId);

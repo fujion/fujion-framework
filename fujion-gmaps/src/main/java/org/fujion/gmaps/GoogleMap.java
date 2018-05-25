@@ -53,7 +53,7 @@ public class GoogleMap extends BaseUIComponent {
     }
     
     private void ensureRunning() {
-        Assert.state(running, "A map has not yet been created.");
+        Assert.state(running, () -> "A map has not yet been created");
     }
 
     public MapOptions getOptions() {

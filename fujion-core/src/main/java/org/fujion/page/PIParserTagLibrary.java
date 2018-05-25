@@ -39,7 +39,7 @@ public class PIParserTagLibrary extends PIParserBase {
         String uri = getAttribute(pi, "uri", true);
         String prefix = getAttribute(pi, "prefix", true);
         TagLibrary tagLibrary = TagLibraryRegistry.getInstance().get(uri);
-        Assert.notNull(tagLibrary, "Tag library not found: " + uri);
+        Assert.notNull(tagLibrary, () -> "Tag library not found: " + uri);
         element.addTagLibrary(prefix, tagLibrary);
     }
     

@@ -209,7 +209,7 @@ public class RequestUtil {
      */
     public static HttpServletRequest assertRequest() {
         HttpServletRequest request = getRequest();
-        Assert.state(request != null, "Method must be invoked within the scope of a servlet request.");
+        Assert.state(request != null, () -> "Method must be invoked within the scope of a servlet request");
         return request;
     }
     

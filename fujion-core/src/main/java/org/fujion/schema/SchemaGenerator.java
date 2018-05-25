@@ -137,7 +137,7 @@ public class SchemaGenerator {
         ComponentRegistry registry = ComponentRegistry.getInstance();
 
         // Should only be run from command line, never within a server instance.
-        Assert.state(registry.size() == 0, "Schema generator may only be run in standalone mode.");
+        Assert.state(registry.size() == 0, () -> "Schema generator may only be run in standalone mode");
         
         try {
             version = formatVersion(version);
@@ -184,7 +184,7 @@ public class SchemaGenerator {
                 ele = createElement("element", root, "name", "anyParent");
                 ele.setAttribute("abstract", "true");
             } else {
-                Assert.isTrue(registry.size() > 0, "No component annotations found for " + title);
+                Assert.isTrue(registry.size() > 0, () -> "No component annotations found for " + title);
                 createElement("include", root, "schemaLocation", "./fsp-root.xsd");
             }
             

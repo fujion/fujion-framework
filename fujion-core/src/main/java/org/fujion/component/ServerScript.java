@@ -87,7 +87,7 @@ public class ServerScript extends BaseScriptComponent {
      */
     private IParsedScript getScript() {
         if (script == null) {
-            Assert.notNull(scriptLanguage, "A script type must be specified");
+            Assert.notNull(scriptLanguage, () -> "A script type must be specified");
             String code = getSrc() == null ? getContent() : getExternalScript();
             script = scriptLanguage.parse(code);
         }

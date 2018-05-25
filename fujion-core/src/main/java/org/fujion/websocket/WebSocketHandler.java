@@ -82,7 +82,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
     public static void registerRequestHandler(IRequestHandler handler) {
         String type = handler.getRequestType();
         Assert.isTrue(!handlers.containsKey(type),
-            "Attempt to register a duplicate request handler for request type: " + type);
+            () -> "Attempt to register a duplicate request handler for request type: " + type);
         handlers.put(type, handler);
     }
     
@@ -204,7 +204,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
     private static Session resolveSession(WebSocketSession socket) {
         Session session = socket == null ? ExecutionContext.getSession()
                 : (Session) socket.getAttributes().get(Session.ATTR_SESSION);
-        Assert.state(session != null, "Request received on unknown socket");
+        Assert.state(session != null, () -> "Request received on unknown socket");
         return session;
     }
     

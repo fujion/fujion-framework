@@ -140,7 +140,7 @@ public class Memobox extends BaseInputboxComponent<String> {
      */
     @PropertySetter(value = "cols", defaultValue = "20", description = "The visible width of the input area in characters.")
     public void setCols(int cols) {
-        Assert.isTrue(cols > 0, "Cols must be greater than zero");
+        Assert.isTrue(cols > 0, () -> "Cols must be greater than zero");
         propertyChange("cols", this.cols, this.cols = cols, true);
     }
     
@@ -161,7 +161,7 @@ public class Memobox extends BaseInputboxComponent<String> {
      */
     @PropertySetter(value = "rows", defaultValue = "2", description = "The visible number of rows in the input area.")
     public void setRows(int rows) {
-        Assert.isTrue(rows > 0, "Rows must be greater than zero");
+        Assert.isTrue(rows > 0, () -> "Rows must be greater than zero");
         propertyChange("rows", this.rows, this.rows = rows, true);
     }
     

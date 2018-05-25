@@ -158,7 +158,7 @@ public class Chart extends BaseUIComponent {
     @SuppressWarnings("unchecked")
     public <T extends PlotOptions> T addSeries(Class<T> plotClass) {
         PlotType type = PlotType.fromPlotClass(plotClass);
-        Assert.notNull(type, "Unrecognized plot class: " + plotClass);
+        Assert.notNull(type, () -> "Unrecognized plot class: " + plotClass);
         return (T) addSeries(type);
     }
 

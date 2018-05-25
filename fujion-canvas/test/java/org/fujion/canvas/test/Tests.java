@@ -74,7 +74,7 @@ public class Tests {
         System.out.println("Checked " + memberCount + " members in " + enumCount + " enums.");
         String invmsg = "There were " + invalidCount + " invalid member(s) found.";
         System.out.println(invmsg);
-        Assert.isTrue(invalidCount == 0, invmsg);
+        Assert.isTrue(invalidCount == 0, () -> invmsg);
     }
 
 }

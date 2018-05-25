@@ -109,7 +109,7 @@ public class Upload extends BaseUIComponent {
      */
     @PropertySetter(value = "maxsize", defaultValue = "104857600", description = "The maximum allowable file size, in bytes.")
     public void setMaxsize(int maxsize) {
-        Assert.isTrue(maxsize >= 0, "maxsize must be >= 0");
+        Assert.isTrue(maxsize >= 0, () -> "maxsize must be >= 0");
         propertyChange("_maxsize", this.maxsize, this.maxsize = maxsize, true);
     }
 

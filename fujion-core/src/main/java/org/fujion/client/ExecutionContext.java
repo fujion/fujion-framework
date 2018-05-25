@@ -161,7 +161,7 @@ public class ExecutionContext {
     public static void invoke(String pid, Runnable callback) {
         Page page = PageRegistry.getPage(pid);
         Page current = getPage();
-        Assert.isTrue(current == null || current == page, "Cannot switch current page execution context");
+        Assert.isTrue(current == null || current == page, () -> "Cannot switch current page execution context");
 
         try {
             if (current == null) {

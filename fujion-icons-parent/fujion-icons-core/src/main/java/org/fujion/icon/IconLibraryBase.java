@@ -60,7 +60,7 @@ public abstract class IconLibraryBase implements IIconLibrary, ApplicationContex
      */
     protected IconLibraryBase(String webjarName, String defaultExtension, String... dimensions) {
         webjar = WebJarLocator.getInstance().getWebjar(webjarName);
-        Assert.notNull(webjar, "Cannot find webjar named \"" + webjarName + "\" during icon library initialization.");
+        Assert.notNull(webjar, () -> "Cannot find webjar named \"" + webjarName + "\" during icon library initialization");
         this.dimensions = dimensions;
         this.defaultExtension = defaultExtension.startsWith(".") ? defaultExtension : "." + defaultExtension;
     }

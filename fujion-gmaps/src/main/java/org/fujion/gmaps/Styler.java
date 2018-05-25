@@ -99,7 +99,7 @@ public class Styler<T> implements IOptionMapConverter {
          */
         public LightnessStyler(double lightness) {
             super("lightness", lightness);
-            Assert.isTrue(lightness >= -100.0 && lightness <= 100.0, "Lightness must be between -100 and 100, inclusive");
+            Assert.isTrue(lightness >= -100.0 && lightness <= 100.0, () -> "Lightness must be between -100 and 100, inclusive");
         }
     }
     
@@ -124,7 +124,7 @@ public class Styler<T> implements IOptionMapConverter {
          */
         public SaturationStyler(double saturation) {
             super("saturation", saturation);
-            Assert.isTrue(saturation >= -100.0 && saturation <= 100.0, "Saturation must be between -100 and 100, inclusive");
+            Assert.isTrue(saturation >= -100.0 && saturation <= 100.0, () -> "Saturation must be between -100 and 100, inclusive");
         }
     }
     
@@ -149,7 +149,7 @@ public class Styler<T> implements IOptionMapConverter {
          */
         public GammaStyler(double gamma) {
             super("gamma", gamma);
-            Assert.isTrue(gamma >= 0.01 && gamma <= 10.0, "Gamma must be between 0.01 and 10.0, inclusive");
+            Assert.isTrue(gamma >= 0.01 && gamma <= 10.0, () -> "Gamma must be between 0.01 and 10.0, inclusive");
         }
     }
 
@@ -220,7 +220,7 @@ public class Styler<T> implements IOptionMapConverter {
          */
         public WeightStyler(int weight) {
             super("weight", weight);
-            Assert.isTrue(weight >= 0, "Weight must be greater than or equal to 0");
+            Assert.isTrue(weight >= 0, () -> "Weight must be greater than or equal to 0");
         }
     }
 }

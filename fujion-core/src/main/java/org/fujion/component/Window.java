@@ -495,7 +495,7 @@ public class Window extends BaseUIComponent implements INamespace {
     }
     
     private void doShow(Mode mode, IEventListener closeListener) {
-        Assert.state(this.closeListener == null, "Window is already open");
+        Assert.state(this.closeListener == null, () -> "Window is already open");
         
         if (getParent() == null) {
             setParent(ExecutionContext.getPage());

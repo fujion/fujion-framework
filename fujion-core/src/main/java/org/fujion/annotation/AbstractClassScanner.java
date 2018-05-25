@@ -101,7 +101,7 @@ public abstract class AbstractClassScanner<T, A extends Annotation> {
         }
 
         Assert.isTrue(targetClass.isAssignableFrom(clazz),
-            annotationClass.getName() + " annotation only valid on " + targetClass.getName() + " subclass");
+            () -> annotationClass.getName() + " annotation only valid on " + targetClass.getName() + " subclass");
         doScanClass((Class<T>) clazz);
     }
 

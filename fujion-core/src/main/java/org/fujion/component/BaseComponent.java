@@ -366,7 +366,7 @@ public abstract class BaseComponent implements IElementIdentifier {
      * @param id The id of the client widget.
      */
     /*package*/ void _setId(String id) {
-        Assert.isNull(this.id, "Unique id cannot be modified.");
+        Assert.isNull(this.id, () -> "Unique id cannot be modified");
         this.id = id;
     }
     
@@ -803,16 +803,16 @@ public abstract class BaseComponent implements IElementIdentifier {
      */
     public void addSnippet(IComposite snippet) {
         String src = snippet.getCompositeSource();
-        Assert.notNull(src, "A snippet must specify a source");
+        Assert.notNull(src, () -> "A snippet must specify a source");
         String anchorName = snippet.getCompositeAnchor();
         CompositePosition position = snippet.getCompositePosition();
-        Assert.notNull(position, "A snippet must specify a position");
+        Assert.notNull(position, () -> "A snippet must specify a position");
         BaseComponent anchor = anchorName == null ? this : findByName(anchorName);
-        Assert.notNull(anchor, "Could not locate any anchor named " + anchorName);
+        Assert.notNull(anchor, () -> "Could not locate any anchor named " + anchorName);
         PageDefinition def = PageUtil.getPageDefinition(src);
         BaseComponent parent = position == CompositePosition.FIRST || position == CompositePosition.LAST ? anchor
                 : anchor.getParent();
-        Assert.notNull(parent, "Anchor must have a parent for position value of " + position);
+        Assert.notNull(parent, () -> "Anchor must have a parent for position value of " + position);
         int index = anchor.getIndex();
         
         switch (position) {

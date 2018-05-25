@@ -228,7 +228,7 @@ public class SpinJS extends BaseUIComponent {
     @PropertySetter(value = "corners", defaultValue = "1", description = "The corner roundness.")
     public void setCorners(Double corners) {
         Assert.isTrue(corners == null || (corners >= 0.0 && corners <= 1.0),
-            "Property \"corners\" must be between 0 and 1, inclusive");
+                () -> "Property \"corners\" must be between 0 and 1, inclusive");
         propertyChange("corners", options.corners, options.corners = corners, false);
     }
 
@@ -312,7 +312,7 @@ public class SpinJS extends BaseUIComponent {
     @PropertySetter(value = "opacity", defaultValue = "0.25", description = "The opacity of the lines.")
     public void setOpacity(Double opacity) {
         Assert.isTrue(opacity == null || (opacity >= 0.0 && opacity <= 1.0),
-            "Property \"opacity\" must be between 0 and 1, inclusive");
+                () -> "Property \"opacity\" must be between 0 and 1, inclusive");
         propertyChange("opacity", options.opacity, options.opacity = opacity, false);
     }
 
@@ -415,7 +415,7 @@ public class SpinJS extends BaseUIComponent {
     @PropertySetter(value = "trail", defaultValue = "100", description = "The after-glow percentage.")
     public void setTrail(Integer trail) {
         Assert.isTrue(trail == null || (trail >= 0.0 && trail <= 100.0),
-            "Property \"trail\" must be between 0 and 100, inclusive");
+                () -> "Property \"trail\" must be between 0 and 100, inclusive");
         propertyChange("trail", options.trail, options.trail = trail, false);
     }
 

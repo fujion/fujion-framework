@@ -76,7 +76,7 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
         @Override
         public void init(BaseComponent instance, String propertyName, Method getter, Method setter) {
             if (this instanceof IReadBinding) {
-                Assert.notNull(setter, "Property is not writable: " + propertyName);
+                Assert.notNull(setter, () -> "Property is not writable: " + propertyName);
                 this.setter = toDeferred(instance, setter, propertyName, 2);
                 readBindings = readBindings == null ? new ArrayList<>() : readBindings;
                 readBindings.add(this);
@@ -86,7 +86,7 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
             }
 
             if (this instanceof IWriteBinding) {
-                Assert.notNull(getter, "Property is not readable: " + propertyName);
+                Assert.notNull(getter, () -> "Property is not readable: " + propertyName);
                 this.getter = toDeferred(instance, getter, propertyName, 1);
 
                 if (!(this instanceof IReadBinding)) {

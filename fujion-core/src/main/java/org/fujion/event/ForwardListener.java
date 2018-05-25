@@ -33,8 +33,8 @@ public class ForwardListener implements IEventListener {
     private final BaseComponent target;
     
     public ForwardListener(String forwardType, BaseComponent target) {
-        Assert.notNull(this.forwardType = forwardType, "A forward type must be specified.");
-        Assert.notNull(this.target = target, "A forward target must be specified");
+        Assert.notNull(this.forwardType = forwardType, () -> "A forward type must be specified");
+        Assert.notNull(this.target = target, () -> "A forward target must be specified");
     }
     
     @Override

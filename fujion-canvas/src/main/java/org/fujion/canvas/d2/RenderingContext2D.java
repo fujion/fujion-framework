@@ -598,7 +598,7 @@ public class RenderingContext2D extends RenderingContextBase {
      * @param globalAlpha The global alpha value.
      */
     public void setGlobalAlpha(double globalAlpha) {
-        Assert.isTrue(globalAlpha >= 0 && globalAlpha <= 1, "globalAlpha must be between 0 and 1, inclusive");
+        Assert.isTrue(globalAlpha >= 0 && globalAlpha <= 1, () -> "globalAlpha must be between 0 and 1, inclusive");
         config("globalAlpha", this.globalAlpha = globalAlpha);
     }
 
@@ -659,7 +659,7 @@ public class RenderingContext2D extends RenderingContextBase {
      * @param lineWidth The thickness of lines in space units.
      */
     public void setLineWidth(double lineWidth) {
-        Assert.isTrue(lineWidth > 0, "lineWidth must be greater than zero");
+        Assert.isTrue(lineWidth > 0, () -> "lineWidth must be greater than zero");
         config("lineWidth", this.lineWidth = lineWidth);
     }
     
@@ -669,7 +669,7 @@ public class RenderingContext2D extends RenderingContextBase {
      * @param miterLimit The miter limit ratio.
      */
     public void setMiterLimit(double miterLimit) {
-        Assert.isTrue(miterLimit > 0, "miterLimit must be greater than zero");
+        Assert.isTrue(miterLimit > 0, () -> "miterLimit must be greater than zero");
         config("miterLimit", this.miterLimit = miterLimit);
     }
     
