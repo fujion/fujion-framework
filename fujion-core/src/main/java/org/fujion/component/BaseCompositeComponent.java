@@ -21,13 +21,14 @@
 package org.fujion.component;
 
 import org.fujion.ancillary.IComposite;
+import org.fujion.page.PageUtil;
 
 /**
  * Base for creating components that are composites of other Fujion components.
  */
 public abstract class BaseCompositeComponent extends BaseComponent implements IComposite {
 
-    private String src;
+    private BaseComponent root;
 
     private String anchor;
 
@@ -43,8 +44,8 @@ public abstract class BaseCompositeComponent extends BaseComponent implements IC
     }
     
     @Override
-    public String getCompositeSource() {
-        return src;
+    public BaseComponent getCompositeRoot() {
+        return root;
     }
     
     /**
@@ -53,7 +54,8 @@ public abstract class BaseCompositeComponent extends BaseComponent implements IC
      * @param src The URL of the source FSP for this composite.
      */
     protected void setCompositeSource(String src) {
-        this.src = trimify(src);
+        src = trimify(src);
+        root = src == null ? null : PageUtil.createPage(src, null).get(0);
     }
 
     @Override
@@ -84,4 +86,8 @@ public abstract class BaseCompositeComponent extends BaseComponent implements IC
         this.position = position == null ? CompositePosition.LAST : position;
     }
     
+    @Override
+    public void addChild(BaseComponent child, int index) {
+        root.addChild(child, index);
+    }
 }

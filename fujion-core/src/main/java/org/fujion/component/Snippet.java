@@ -42,12 +42,6 @@ public class Snippet extends BaseCompositeComponent implements INamespace {
         super(src, anchor, position);
     }
     
-    @PropertyGetter(value = "src", bindable = false, description = "The URL of the source FSP for this snippet.")
-    @Override
-    public String getCompositeSource() {
-        return super.getCompositeSource();
-    }
-    
     @Override
     @PropertySetter(value = "src", bindable = false, description = "The URL of the source FSP for this snippet.")
     protected void setCompositeSource(String src) {

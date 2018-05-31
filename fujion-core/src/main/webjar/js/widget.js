@@ -842,8 +842,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		/**
-		 * Extend render$ to also render the real widget.  The widget$ returned
-		 * is really just a NOP placeholder.
+		 * Extend renderReal$ to also render the real widget.  The widget$ returned
+		 * by render$ is really just a NOP placeholder.
 		 */
 		render$: function() {
 			this._detachAncillaries(true);

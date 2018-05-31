@@ -61,8 +61,6 @@ import org.fujion.event.IEventListener;
 import org.fujion.event.PropertychangeEvent;
 import org.fujion.event.StatechangeEvent;
 import org.fujion.model.IBinding;
-import org.fujion.page.PageDefinition;
-import org.fujion.page.PageUtil;
 import org.springframework.util.Assert;
 
 /**
@@ -657,6 +655,7 @@ public abstract class BaseComponent implements IElementIdentifier {
     public void addChild(BaseComponent child, int index) {
         if (child instanceof IComposite) {
             addSnippet((IComposite) child);
+            child._setPage(page);
             return;
         }
         
@@ -763,6 +762,11 @@ public abstract class BaseComponent implements IElementIdentifier {
      * @param destroy If true, destroy the child once it is removed.
      */
     /*package*/ void _removeChild(BaseComponent child, boolean noSync, boolean destroy) {
+        if (child instanceof IComposite) {
+            _removeChild(((IComposite) child).getCompositeRoot(), noSync, destroy);
+            return;
+        }
+
         int index = children.indexOf(child);
         
         if (index == -1) {
@@ -802,14 +806,13 @@ public abstract class BaseComponent implements IElementIdentifier {
      * @param snippet Snippet to add.
      */
     public void addSnippet(IComposite snippet) {
-        String src = snippet.getCompositeSource();
-        Assert.notNull(src, () -> "A snippet must specify a source");
+        BaseComponent root = snippet.getCompositeRoot();
+        Assert.notNull(root, () -> "A snippet must specify a root");
         String anchorName = snippet.getCompositeAnchor();
         CompositePosition position = snippet.getCompositePosition();
         Assert.notNull(position, () -> "A snippet must specify a position");
         BaseComponent anchor = anchorName == null ? this : findByName(anchorName);
         Assert.notNull(anchor, () -> "Could not locate any anchor named " + anchorName);
-        PageDefinition def = PageUtil.getPageDefinition(src);
         BaseComponent parent = position == CompositePosition.FIRST || position == CompositePosition.LAST ? anchor
                 : anchor.getParent();
         Assert.notNull(parent, () -> "Anchor must have a parent for position value of " + position);
@@ -817,43 +820,32 @@ public abstract class BaseComponent implements IElementIdentifier {
         
         switch (position) {
             case FIRST:
-                addSnippetToParent(parent, 0, def);
+                parent.addChild(root, 0);
                 break;
                 
             case LAST:
-                addSnippetToParent(parent, -1, def);
+                parent.addChild(root, -1);
                 break;
 
             case PARENT:
                 anchor.detach();
-                BaseComponent newParent = addSnippetToParent(parent, index, def).get(0);
-                anchor.setParent(newParent);
+                parent.addChild(root, index);
+                anchor.setParent(root);
                 break;
 
             case REPLACE:
                 anchor.destroy();
-                addSnippetToParent(parent, index, def);
+                parent.addChild(root, index);
                 break;
 
             case BEFORE:
-                addSnippetToParent(parent, index, def);
+                parent.addChild(root, index);
                 break;
 
             case AFTER:
-                addSnippetToParent(parent, index + 1, def);
+                parent.addChild(root, index + 1);
                 break;
         }
-    }
-    
-    private List<BaseComponent> addSnippetToParent(BaseComponent parent, int index, PageDefinition def) {
-        List<BaseComponent> children = def.materialize(null);
-        
-        for (BaseComponent child : children) {
-            parent.addChild(child, index);
-            index = index < 0 ? index : index + 1;
-        }
-        
-        return children;
     }
     
     /**
