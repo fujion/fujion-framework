@@ -36,6 +36,8 @@ public class ComponentException extends UnhandledException {
 
     private final Class<? extends BaseComponent> componentClass;
 
+    private final String message;
+    
     private static String formatMessage(Class<?> componentClass, BaseComponent component, String message, Object... args) {
         Object object = component != null ? component : componentClass;
         return (object == null ? "" : object + ": ") + String.format(message, args);
@@ -46,8 +48,9 @@ public class ComponentException extends UnhandledException {
     }
 
     private ComponentException(Throwable cause, Class<? extends BaseComponent> componentClass, BaseComponent component,
-        String message, Object... args) {
-        super(formatMessage(componentClass, component, message, args), getCause(cause));
+                               String message, Object... args) {
+        super(getCause(cause));
+        this.message = formatMessage(componentClass, component, message, args);
         this.component = component;
         this.componentClass = component != null ? component.getClass() : componentClass;
     }
@@ -57,7 +60,7 @@ public class ComponentException extends UnhandledException {
     }
     
     public ComponentException(Throwable cause, Class<? extends BaseComponent> componentClass, String message,
-        Object... args) {
+                              Object... args) {
         this(cause, componentClass, null, message, args);
     }
     
@@ -98,4 +101,20 @@ public class ComponentException extends UnhandledException {
         return componentClass;
     }
 
+    /**
+     * Override default behavior and simply prepend this exception's message to that of its
+     * superclass.
+     */
+    @Override
+    public String getMessage() {
+        String message = super.getMessage();
+        
+        if (message == null) {
+            message = this.message;
+        } else if (this.message != null) {
+            message = this.message + "\n" + message;
+        }
+        
+        return message;
+    }
 }
