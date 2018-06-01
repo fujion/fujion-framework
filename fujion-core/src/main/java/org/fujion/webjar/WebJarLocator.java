@@ -33,8 +33,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.common.JSONUtil;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.XMLUtil;
@@ -56,7 +55,7 @@ import com.fasterxml.jackson.databind.node.TextNode;
  */
 public class WebJarLocator implements ApplicationContextAware {
 
-    private static final Log log = LogFactory.getLog(WebJarLocator.class);
+    private static final Logger log = Logger.create(WebJarLocator.class);
 
     private static final WebJarLocator instance = new WebJarLocator();
 
@@ -131,10 +130,7 @@ public class WebJarLocator implements ApplicationContextAware {
                         continue;
                     }
                     
-                    if (log.isDebugEnabled()) {
-                        log.debug("Parsing configuration data for web jar: " + resource);
-                    }
-
+                    log.debug(() -> "Parsing configuration data for web jar: " + resource);
                     WebJar webjar = new WebJar(resource);
                     String name = webjar.getName();
 
@@ -150,10 +146,10 @@ public class WebJarLocator implements ApplicationContextAware {
                     if (success) {
                         JSONUtil.merge(config, webjar.getConfig(), true);
                     } else {
-                        log.warn("No configuration information found for web jar: " + webjar.getName());
+                        log.warn(() -> "No configuration information found for web jar: " + webjar.getName());
                     }
                 } catch (Exception e) {
-                    log.error("Error extracting configuration information from web jar: " + resource, e);
+                    log.error(() -> "Error extracting configuration information from web jar: " + resource, e);
                 }
             }
 
@@ -225,7 +221,7 @@ public class WebJarLocator implements ApplicationContextAware {
             Resource[] poms = applicationContext.getResources(pomPath);
             return poms.length > 0 && extractConfig(poms[0], webjar, parser);
         } catch (Exception e) {
-            log.error("Error processing configuration data from " + webjar, e);
+            log.error(() -> "Error processing configuration data from " + webjar, e);
             return false;
         }
     }

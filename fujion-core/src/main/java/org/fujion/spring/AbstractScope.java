@@ -24,8 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
@@ -34,7 +33,7 @@ import org.springframework.beans.factory.config.Scope;
  */
 public abstract class AbstractScope implements Scope {
 
-    private static final Log log = LogFactory.getLog(AbstractScope.class);
+    private static final Logger log = Logger.create(AbstractScope.class);
 
     /**
      * IOC container for the custom scopes.
@@ -98,7 +97,7 @@ public abstract class AbstractScope implements Scope {
                 try {
                     entry.getValue().run();
                 } catch (Throwable t) {
-                    log.error("Error during destruction callback for bean " + entry.getKey(), t);
+                    log.error(() -> "Error during destruction callback for bean " + entry.getKey(), t);
                 }
             }
 

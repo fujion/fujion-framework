@@ -23,8 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.common.AbstractRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -35,7 +34,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
  */
 public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> implements BeanPostProcessor {
 
-    private static final Log log = LogFactory.getLog(IconLibraryRegistry.class);
+    private static final Logger log = Logger.create(IconLibraryRegistry.class);
 
     private static final IconLibraryRegistry instance = new IconLibraryRegistry();
 
@@ -89,7 +88,7 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
         if (bean instanceof IIconLibrary) {
             IIconLibrary lib = (IIconLibrary) bean;
             register(lib);
-            log.info("Registered icon library: " + lib.getId());
+            log.info(() -> "Registered icon library: " + lib.getId());
         }
 
         return bean;

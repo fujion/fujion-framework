@@ -26,8 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.core.WebUtil;
 
 /**
@@ -35,7 +34,7 @@ import org.fujion.core.WebUtil;
  */
 public class Theme {
 
-    private static final Log log = LogFactory.getLog(Theme.class);
+    private static final Logger log = Logger.create(Theme.class);
 
     private final String etag = WebUtil.randomETag();
     
@@ -188,8 +187,8 @@ public class Theme {
      * @param pattern Pattern to check.
      */
     private void dupCheck(String pattern) {
-        if (log.isWarnEnabled() && urlMap.containsKey(pattern)) {
-            log.warn(String.format("Overwriting URL pattern \"%s\" in theme \"%s\"", pattern, name));
+        if (urlMap.containsKey(pattern)) {
+            log.warn(() -> String.format("Overwriting URL pattern \"%s\" in theme \"%s\"", pattern, name));
         }
     }
     

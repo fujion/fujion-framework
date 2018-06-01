@@ -23,8 +23,7 @@ package org.fujion.annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -35,7 +34,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  */
 public class PackageScanner {
 
-    private static final Log log = LogFactory.getLog(PackageScanner.class);
+    private static final Logger log = Logger.create(PackageScanner.class);
     
     private final ResourcePatternResolver resolver;
     
@@ -77,7 +76,7 @@ public class PackageScanner {
                     Class<?> clazz = Class.forName(path);
                     classes.add(clazz);
                 } catch (Exception e) {
-                    log.warn("Failed to extract class from resource " + resource, e);
+                    log.warn(() -> "Failed to extract class from resource " + resource, e);
                 }
             }
             

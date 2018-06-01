@@ -28,8 +28,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.component.Page;
 import org.fujion.event.CallbackEvent;
@@ -41,7 +40,7 @@ import org.fujion.event.ITypedEventListener;
  */
 public class CallbackRegistry {
     
-    private static final Log log = LogFactory.getLog(CallbackRegistry.class);
+    private static final Logger log = Logger.create(CallbackRegistry.class);
     
     private static final long HALF_HOUR = 1000 * 60 * 30;
 
@@ -146,10 +145,7 @@ public class CallbackRegistry {
                 if (entry.getValue() < threshold) {
                     iter.remove();
                     callbacks.remove(entry.getKey());
-
-                    if (log.isWarnEnabled()) {
-                        log.warn("Evicted expired callback #" + entry.getKey());
-                    }
+                    log.warn(() -> "Evicted expired callback #" + entry.getKey());
                 } else {
                     break;
                 }

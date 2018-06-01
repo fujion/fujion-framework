@@ -26,8 +26,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientRequest;
 import org.fujion.client.Synchronizer;
@@ -41,7 +40,7 @@ import org.springframework.web.socket.WebSocketSession;
  */
 public class Session {
 
-    private static final Log log = LogFactory.getLog(Session.class);
+    private static final Logger log = Logger.create(Session.class);
 
     public static final String ATTR_SESSION = "fujion_session";
 

@@ -25,19 +25,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * Provides localization support.
  */
 public class Localizer {
-
+    
     /**
      * Source of localized messages.
      */
     public interface IMessageSource {
-
+        
         /**
          * Retrieve a message for the specified locale given its id.
          *
@@ -47,14 +44,14 @@ public class Localizer {
          * @return A fully formatted message, or null if none was found.
          */
         String getMessage(String id, Locale locale, Object... args);
-
+        
     }
-
+    
     /**
      * Resolves the default locale.
      */
     public interface ILocaleResolver {
-
+        
         /**
          * Returns the default locale when none is specified.
          *
@@ -62,33 +59,33 @@ public class Localizer {
          */
         Locale getLocale();
     }
-
+    
     /**
      * Interface for accessing the current time zone
      */
     public interface ITimeZoneResolver {
-
+        
         /**
          * Returns the current time zone.
          *
          * @return TimeZone instance
          */
         TimeZone getTimeZone();
-
+        
     }
-
-    private static final Log log = LogFactory.getLog(Localizer.class);
-
+    
+    private static final Logger log = Logger.create(Localizer.class);
+    
     private static final List<IMessageSource> messageSources = new ArrayList<>();
-
+    
     private static ILocaleResolver localeResolver = () -> {
         return Locale.getDefault();
     };
-
+    
     private static ITimeZoneResolver timeZoneResolver = () -> {
         return TimeZone.getDefault();
     };
-
+    
     /**
      * Registers a message source for resolving messages.
      *
@@ -97,7 +94,7 @@ public class Localizer {
     public static void registerMessageSource(IMessageSource messageSource) {
         messageSources.add(messageSource);
     }
-
+    
     /**
      * Returns a formatted message given a label identifier. Recognizes line continuation with
      * backslash characters.
@@ -109,7 +106,7 @@ public class Localizer {
      */
     public static String getMessage(String id, Locale locale, Object... args) {
         locale = locale == null ? getDefaultLocale() : locale;
-
+        
         for (IMessageSource messageSource : messageSources) {
             try {
                 return messageSource.getMessage(id, locale, args).replace("\\\n", "");
@@ -118,10 +115,10 @@ public class Localizer {
             }
         }
         // Failing resolution, just return null.
-        log.warn("Label not found for identifier: " + id);
+        log.warn(() -> "Label not found for identifier: " + id);
         return null;
     }
-
+    
     /**
      * Returns the default locale.
      *
@@ -130,7 +127,7 @@ public class Localizer {
     public static Locale getDefaultLocale() {
         return localeResolver.getLocale();
     }
-
+    
     /**
      * Sets the resolver used to determine the default locale.
      *
@@ -139,7 +136,7 @@ public class Localizer {
     public static void setLocaleResolver(ILocaleResolver localeResolver) {
         Localizer.localeResolver = localeResolver;
     }
-
+    
     /**
      * Returns the local time zone.
      *
@@ -148,7 +145,7 @@ public class Localizer {
     public static TimeZone getTimeZone() {
         return timeZoneResolver.getTimeZone();
     }
-
+    
     /**
      * Sets the resolver used to determine the local time zone.
      *
@@ -157,11 +154,11 @@ public class Localizer {
     public static void setTimeZoneResolver(ITimeZoneResolver timeZoneResolver) {
         Localizer.timeZoneResolver = timeZoneResolver;
     }
-
+    
     /**
      * Enforce static class.
      */
     private Localizer() {
     }
-
+    
 }

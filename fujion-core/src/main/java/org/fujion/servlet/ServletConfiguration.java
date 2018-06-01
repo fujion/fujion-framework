@@ -22,8 +22,7 @@ package org.fujion.servlet;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.webjar.WebJarResourceResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -53,7 +52,7 @@ import org.springframework.web.servlet.resource.ResourceResolver;
 @Configuration
 public class ServletConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
-    private static final Log log = LogFactory.getLog(ServletConfiguration.class);
+    private static final Logger log = Logger.create(ServletConfiguration.class);
 
     private final GzipResourceResolver gzipResourceResolver = new GzipResourceResolver();
 
@@ -110,7 +109,7 @@ public class ServletConfiguration implements WebMvcConfigurer, ApplicationContex
 
                 String file = "/" + resources[0].getFilename();
                 registry.addRedirectViewController("/", file);
-                log.info("Default home page set to: " + file);
+                log.info(() -> "Default home page set to: " + file);
             } else {
                 log.info("No default home page detected.");
             }

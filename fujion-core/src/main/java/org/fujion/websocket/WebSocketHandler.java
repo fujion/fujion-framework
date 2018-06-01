@@ -32,11 +32,10 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientRequest;
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.Page;
 import org.springframework.beans.BeansException;
@@ -57,23 +56,23 @@ import com.fasterxml.jackson.databind.ObjectWriter;
  * Handler for all web socket communications.
  */
 public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPostProcessor, ServletContextAware {
-    
-    private static final Log log = LogFactory.getLog(WebSocketHandler.class);
-    
-    private static final String ATTR_BUFFER = "message_buffer";
-    
-    private static final Map<String, IRequestHandler> handlers = new HashMap<>();
-    
-    private static final ObjectMapper mapper = new ObjectMapper();
-    
-    private static final ObjectReader reader = mapper.readerFor(Map.class);
-    
-    private static final ObjectWriter writer = mapper.writerFor(Map.class);
-    
-    private static final Sessions sessions = Sessions.getInstance();
-    
-    private ServletContext servletContext;
 
+    private static final Logger log = Logger.create(WebSocketHandler.class);
+
+    private static final String ATTR_BUFFER = "message_buffer";
+
+    private static final Map<String, IRequestHandler> handlers = new HashMap<>();
+
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    private static final ObjectReader reader = mapper.readerFor(Map.class);
+
+    private static final ObjectWriter writer = mapper.writerFor(Map.class);
+
+    private static final Sessions sessions = Sessions.getInstance();
+
+    private ServletContext servletContext;
+    
     /**
      * Register a request handler.
      *
@@ -85,7 +84,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
             () -> "Attempt to register a duplicate request handler for request type: " + type);
         handlers.put(type, handler);
     }
-    
+
     /**
      * Sends a json payload to the client via the web socket session.
      *
@@ -103,7 +102,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
             log.error(e);
         }
     }
-    
+
     /**
      * Sends a client invocation request to the client via the web socket session derived from the
      * current execution context.
@@ -113,7 +112,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
     public static void send(ClientInvocation invocation) {
         send(null, invocation);
     }
-    
+
     /**
      * Sends a client invocation request to the client via the web socket session.
      *
@@ -132,7 +131,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * Sends multiple client invocation requests to the client via the web socket session derived
      * from the current execution context.
@@ -142,7 +141,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
     public static void send(Collection<ClientInvocation> invocations) {
         send(null, invocations);
     }
-    
+
     /**
      * Sends multiple client invocation requests to the client via the web socket session.
      *
@@ -154,7 +153,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
         StringBuilder sb = null;
         Session session = resolveSession(socket);
         Page page = session.getPage();
-
+        
         try {
             for (ClientInvocation invocation : invocations) {
                 sb = sb == null ? new StringBuilder() : sb;
@@ -162,7 +161,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
                 sb.append(sb.length() == 0 ? "[" : ",").append(json);
                 session.notifySessionListeners(invocation);
             }
-            
+
             if (sb != null) {
                 sb.append("]");
                 sendData(socket, sb.toString());
@@ -171,7 +170,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
             log.error("Unexpected exception", e);
         }
     }
-    
+
     /**
      * Sends an exception to the client for display via the web socket session.
      *
@@ -183,7 +182,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
         log.error("Uncaught exception", exception);
         Throwable cause = ExceptionUtils.getRootCause(exception);
         cause = cause == null ? exception : cause;
-
+        
         try (StringWriter writer = new StringWriter(); PrintWriter print = new PrintWriter(writer);) {
             cause.printStackTrace(print);
             ClientInvocation invocation = new ClientInvocation("fujion.alert", null, writer.toString(), "Error", "danger");
@@ -192,7 +191,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
             log.error("Could not send exception to client.", exception);
         }
     }
-    
+
     /**
      * Returns a session given a web socket.
      *
@@ -207,7 +206,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
         Assert.state(session != null, () -> "Request received on unknown socket");
         return session;
     }
-    
+
     /**
      * Processes a client request sent via the web socket session. Extracts the client request from
      * the message, creates a new execution context, and invokes registered request handlers. If no
@@ -221,41 +220,39 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
     protected void handleTextMessage(WebSocketSession socket, TextMessage message) {
         Session session = resolveSession(socket);
         Map<String, Object> attribs = socket.getAttributes();
-        
+
         try {
             StringBuilder buffer = (StringBuilder) attribs.get(ATTR_BUFFER);
             String payload = message.getPayload();
-            
+
             if (!message.isLast()) {
                 if (buffer == null) {
                     attribs.put(ATTR_BUFFER, buffer = new StringBuilder(payload));
                 } else {
                     buffer.append(payload);
                 }
-                
+
                 return;
             }
-            
+
             if (buffer != null) {
                 payload = buffer.append(payload).toString();
+                int len = payload.length();
                 buffer = null;
                 attribs.remove(ATTR_BUFFER);
-                
-                if (log.isWarnEnabled()) {
-                    log.warn("Large payload received from client (" + payload.length() + " bytes).");
-                }
+                log.warn(() -> "Large payload received from client (" + len + " bytes).");
             }
-            
+
             Map<String, Object> map = reader.readValue(payload);
             processRequest(session, map);
-            
+
         } catch (Exception e) {
             attribs.remove(ATTR_BUFFER);
             log.error("Error processing client request.", e);
             sendError(socket, e);
         }
     }
-    
+
     /**
      * Processes a client request containing a BLOB payload sent via the web socket session.
      * Extracts the client request from the message, creates a new execution context, and invokes
@@ -269,67 +266,68 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
     protected void handleBinaryMessage(WebSocketSession socket, BinaryMessage message) throws Exception {
         Session session = resolveSession(socket);
         Map<String, Object> attribs = socket.getAttributes();
-        
+
         try {
             byte[] buffer = (byte[]) attribs.get(ATTR_BUFFER);
             byte[] payload = new byte[message.getPayloadLength()];
             message.getPayload().get(payload);
             buffer = buffer == null ? payload : ArrayUtils.addAll(buffer, payload);
-            
+
             if (!message.isLast()) {
                 attribs.put(ATTR_BUFFER, buffer);
                 return;
             }
-            
-            if (attribs.remove(ATTR_BUFFER) != null && log.isWarnEnabled()) {
-                log.warn("Large payload received from client (" + buffer.length + " bytes).");
+
+            if (attribs.remove(ATTR_BUFFER) != null) {
+                int len = buffer.length;
+                log.warn(() -> "Large payload received from client (" + len + " bytes).");
             }
-            
+
             ByteArrayInputStream is = new ByteArrayInputStream(buffer);
             byte[] preamble = new byte[100];
             int i = 0;
-            
+
             while (true) {
                 int b = is.read();
-                
+
                 if (b == 10 || b == -1) {
                     break;
                 }
-                
+
                 if (i >= preamble.length) {
                     preamble = Arrays.copyOf(preamble, i + 100);
                 }
-                
+
                 preamble[i++] = (byte) b;
             }
-            
+
             Map<String, Object> map = reader.readValue(preamble, 0, i);
             @SuppressWarnings("unchecked")
             Map<String, Object> data = (Map<String, Object>) map.get("data");
             data.put("blob", is);
             processRequest(session, map);
-            
+
         } catch (Exception e) {
             attribs.remove(ATTR_BUFFER);
             log.error("Error processing client request.", e);
             sendError(socket, e);
         }
     }
-    
+
     private void processRequest(Session session, Map<String, Object> map) throws Exception {
         session._init((String) map.get("pid"));
         session.updateLastActivity();
         ClientRequest request = new ClientRequest(session, map);
         IRequestHandler handler = handlers.get(request.getType());
-        
+
         if (handler == null) {
             throw new IllegalArgumentException("No registered handler for request type: " + request.getType());
         }
-        
+
         ExecutionContext.clear();
         ExecutionContext.put(ExecutionContext.ATTR_REQUEST, request);
         ExecutionContext.put(ExecutionContext.ATTR_PROCESSING, true);
-
+        
         try {
             handler.handleRequest(request);
             session.notifySessionListeners(request);
@@ -342,22 +340,22 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
             ExecutionContext.clear();
         }
     }
-    
+
     @Override
     public void afterConnectionEstablished(WebSocketSession socket) throws Exception {
         sessions.createSession(servletContext, socket);
     }
-    
+
     @Override
     public void afterConnectionClosed(WebSocketSession socket, CloseStatus status) throws Exception {
         sessions.destroySession(socket, status);
     }
-    
+
     @Override
     public boolean supportsPartialMessages() {
         return true;
     }
-    
+
     /**
      * NOP
      */
@@ -365,7 +363,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
-    
+
     /**
      * Detects and registers request handlers.
      */
@@ -374,13 +372,13 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
         if (bean instanceof IRequestHandler) {
             registerRequestHandler((IRequestHandler) bean);
         }
-        
+
         return bean;
     }
-    
+
     @Override
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
-    
+
 }

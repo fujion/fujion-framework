@@ -23,8 +23,7 @@ package org.fujion.annotation;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.OptionMap.IOptionMapConverter;
@@ -52,7 +51,7 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
         }
     }
     
-    private static final Log log = LogFactory.getLog(OptionScanner.class);
+    private static final Logger log = Logger.create(OptionScanner.class);
     
     private static final OptionScanner instance = new OptionScanner();
 

@@ -20,8 +20,7 @@
  */
 package org.fujion.theme;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.common.AbstractRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -31,7 +30,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
  */
 public class ThemeRegistry extends AbstractRegistry<String, Theme> implements BeanPostProcessor {
 
-    private static final Log log = LogFactory.getLog(ThemeRegistry.class);
+    private static final Logger log = Logger.create(ThemeRegistry.class);
 
     private static final ThemeRegistry instance = new ThemeRegistry();
     
@@ -67,7 +66,7 @@ public class ThemeRegistry extends AbstractRegistry<String, Theme> implements Be
             }
             
             register(newTheme);
-            log.info("Registered theme: " + themeName);
+            log.info(() -> "Registered theme: " + themeName);
         }
 
         return bean;

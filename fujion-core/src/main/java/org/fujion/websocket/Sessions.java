@@ -30,8 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.web.socket.CloseStatus;
@@ -42,7 +41,7 @@ import org.springframework.web.socket.WebSocketSession;
  */
 public class Sessions implements BeanPostProcessor {
 
-    private static final Log log = LogFactory.getLog(Sessions.class);
+    private static final Logger log = Logger.create(Sessions.class);
     
     private static final Sessions instance = new Sessions();
 
@@ -164,7 +163,7 @@ public class Sessions implements BeanPostProcessor {
      * @param event The text describing the event.
      */
     private void logSessionEvent(Session session, String event) {
-        log.debug("Session #" + session.getId() + " " + event + ".");
+        log.debug(() -> "Session #" + session.getId() + " " + event + ".");
     }
 
     /**

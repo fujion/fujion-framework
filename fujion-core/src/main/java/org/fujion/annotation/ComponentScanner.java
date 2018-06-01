@@ -20,8 +20,7 @@
  */
 package org.fujion.annotation;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.ancillary.ComponentRegistry;
 import org.fujion.component.BaseComponent;
 
@@ -31,7 +30,7 @@ import org.fujion.component.BaseComponent;
  */
 public class ComponentScanner extends AbstractClassScanner<BaseComponent, Component> {
 
-    private static final Log log = LogFactory.getLog(ComponentScanner.class);
+    private static final Logger log = Logger.create(ComponentScanner.class);
 
     private static final ComponentScanner instance = new ComponentScanner();
 
@@ -56,10 +55,7 @@ public class ComponentScanner extends AbstractClassScanner<BaseComponent, Compon
      */
     @Override
     protected void doScanClass(Class<BaseComponent> clazz) {
-        if (log.isDebugEnabled()) {
-            log.debug("Processing @Component annotation for class " + clazz);
-        }
-        
+        log.debug(() -> "Processing @Component annotation for class " + clazz);
         ComponentDefinition def = new ComponentDefinition(clazz);
         MethodScanner.scan(clazz, method -> {
             def._addSetter(method);

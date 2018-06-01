@@ -2,18 +2,16 @@ package ${package};
 
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.common.Logger;
 import org.fujion.component.BaseUIComponent;
 
 @Component(tag = "${classname}", widgetModule = "${artifactId}", widgetClass = "${ClassName}", parentTag = "*")
 public class ${ClassName} extends BaseUIComponent {
 
-	private static final Log log = LogFactory.getLog(${ClassName}.class);
+	private static final Logger log = Logger.create(${ClassName}.class);
 
 	public ${ClassName}() {
 	}

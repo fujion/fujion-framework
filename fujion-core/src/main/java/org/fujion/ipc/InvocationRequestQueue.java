@@ -21,8 +21,7 @@
 package org.fujion.ipc;
 
 import org.apache.commons.lang.reflect.MethodUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
@@ -35,7 +34,7 @@ import org.fujion.event.IEventListener;
  */
 public class InvocationRequestQueue {
 
-    private static final Log log = LogFactory.getLog(InvocationRequestQueue.class);
+    private static final Logger log = Logger.create(InvocationRequestQueue.class);
 
     private final Object target;
 

@@ -26,8 +26,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.webjar.WebJar;
 import org.fujion.webjar.WebJarLocator;
 import org.springframework.context.ApplicationContext;
@@ -41,7 +40,7 @@ import org.springframework.util.Assert;
  */
 public abstract class IconLibraryBase implements IIconLibrary, ApplicationContextAware {
 
-    private static final Log log = LogFactory.getLog(IconLibraryBase.class);
+    private static final Logger log = Logger.create(IconLibraryBase.class);
 
     private final String defaultExtension;
     

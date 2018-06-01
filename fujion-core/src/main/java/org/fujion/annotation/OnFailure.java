@@ -20,8 +20,7 @@
  */
 package org.fujion.annotation;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 
@@ -42,7 +41,7 @@ public enum OnFailure {
      */
     LOG;
     
-    private final Log log = LogFactory.getLog(OnFailure.class);
+    private final Logger log = Logger.create(OnFailure.class);
     
     /**
      * Perform an action.
@@ -80,7 +79,7 @@ public enum OnFailure {
                 throw MiscUtil.toUnchecked(e);
                 
             case LOG:
-                log.error(e.getMessage(), e);
+                log.error(() -> e.getMessage(), e);
                 return;
         }
     }

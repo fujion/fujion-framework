@@ -2,18 +2,16 @@ package ${package};
 
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.angular.AngularComponent;
+import org.fujion.common.Logger;
 
 @Component(tag = "${classname}", widgetModule = "fujion-angular-widget", widgetClass = "AngularWidget", parentTag = "*")
 public class ${ClassName} extends AngularComponent {
 
-	private static final Log log = LogFactory.getLog(${ClassName}.class);
+	private static final Logger log = Logger.create(${ClassName}.class);
 
 	public ${ClassName}() {
 		super.setSrc("${artifactId}");

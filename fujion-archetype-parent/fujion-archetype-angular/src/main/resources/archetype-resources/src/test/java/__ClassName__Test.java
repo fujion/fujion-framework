@@ -2,9 +2,7 @@ package ${package};
 
 import static org.junit.Assert.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.fujion.common.Logger;
 import org.fujion.test.MockTest;
 
 import org.junit.Before;
@@ -15,7 +13,7 @@ import org.junit.Test;
  */
 public class ${ClassName}Test extends MockTest {
     
-    private static final Log log = LogFactory.getLog(${ClassName}Test.class);
+    private static final Logger log = Logger.create(${ClassName}Test.class);
     
     /**
      * Unit Test initialization

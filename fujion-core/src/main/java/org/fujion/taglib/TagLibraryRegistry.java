@@ -20,8 +20,7 @@
  */
 package org.fujion.taglib;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.common.AbstractRegistry;
 import org.fujion.common.MiscUtil;
 import org.springframework.beans.BeansException;
@@ -34,7 +33,7 @@ import org.springframework.core.io.Resource;
  */
 public class TagLibraryRegistry extends AbstractRegistry<String, TagLibrary> implements ApplicationContextAware {
     
-    private static Log log = LogFactory.getLog(TagLibraryRegistry.class);
+    private static Logger log = Logger.create(TagLibraryRegistry.class);
     
     private static TagLibraryRegistry instance = new TagLibraryRegistry();
     
@@ -60,7 +59,7 @@ public class TagLibraryRegistry extends AbstractRegistry<String, TagLibrary> imp
             Resource[] resources = applicationContext.getResources("classpath*:**/*.tld");
             
             for (Resource resource : resources) {
-                log.info("Found tag library at " + resource);
+                log.info(() -> "Found tag library at " + resource);
                 
                 try {
                     register(TagLibraryParser.getInstance().parse(resource));

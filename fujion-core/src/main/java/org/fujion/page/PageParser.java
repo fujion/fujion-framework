@@ -25,8 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.ancillary.ComponentRegistry;
 import org.fujion.annotation.Component.ContentHandling;
 import org.fujion.annotation.ComponentDefinition;
@@ -49,7 +48,7 @@ import org.w3c.dom.Text;
  */
 public class PageParser implements BeanPostProcessor {
 
-    private static final Log log = LogFactory.getLog(PageParser.class);
+    private static final Logger log = Logger.create(PageParser.class);
 
     private static final PageParser instance = new PageParser();
 
@@ -326,7 +325,7 @@ public class PageParser implements BeanPostProcessor {
      */
     private void registerPIParser(PIParserBase piParser) {
         piParsers.put(piParser.getTarget(), piParser);
-        log.info("Registered processing instruction parser for target '" + piParser.getTarget() + "'.");
+        log.info(() -> "Registered processing instruction parser for target '" + piParser.getTarget() + "'.");
     }
 
     @Override

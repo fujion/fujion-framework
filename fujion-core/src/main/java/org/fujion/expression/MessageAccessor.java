@@ -23,8 +23,7 @@ package org.fujion.expression;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -45,7 +44,7 @@ import org.springframework.expression.TypedValue;
  */
 public class MessageAccessor implements PropertyAccessor {
 
-    private static final Log log = LogFactory.getLog(MessageAccessor.class);
+    private static final Logger log = Logger.create(MessageAccessor.class);
 
     private static final Class<?>[] TARGET_CLASSES = { MessageSource.class, MessageContext.class };
 
@@ -116,7 +115,7 @@ public class MessageAccessor implements PropertyAccessor {
 
                 if (resolved.contains(name)) {
                     message = name;
-                    log.warn("Circular reference to label \"" + name + "\" will not be resolved.");
+                    log.warn(() -> "Circular reference to label \"" + name + "\" will not be resolved.");
                 } else {
                     resolved.add(name);
                     message = messageSource.getMessage(name, null, LocaleContextHolder.getLocale());
@@ -131,7 +130,7 @@ public class MessageAccessor implements PropertyAccessor {
 
                 return message;
             } catch (NoSuchMessageException e) {
-                log.warn("Reference to unknown label \"" + name + "\" will be ignored.");
+                log.warn(() -> "Reference to unknown label \"" + name + "\" will be ignored.");
                 return "";
             }
         }

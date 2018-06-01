@@ -23,8 +23,7 @@ package org.fujion.spring;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.common.Localizer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
@@ -40,7 +39,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  */
 public class ClasspathMessageSource extends ReloadableResourceBundleMessageSource {
 
-    private static final Log log = LogFactory.getLog(ClasspathMessageSource.class);
+    private static final Logger log = Logger.create(ClasspathMessageSource.class);
 
     private static final String PROPERTIES_SUFFIX = ".properties";
 
@@ -104,7 +103,7 @@ public class ClasspathMessageSource extends ReloadableResourceBundleMessageSourc
                 lastModified = Math.min(lastModified, resource.lastModified());
             }
         } catch (Exception e) {
-            log.warn("Error reading message source: " + filename);
+            log.warn(() -> "Error reading message source: " + filename);
         }
 
         return new PropertiesHolder(properties, lastModified);

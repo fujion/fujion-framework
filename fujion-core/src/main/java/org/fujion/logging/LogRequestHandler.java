@@ -22,8 +22,7 @@ package org.fujion.logging;
 
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Logger;
 import org.fujion.client.ClientRequest;
 import org.fujion.websocket.IRequestHandler;
 
@@ -33,7 +32,7 @@ import org.fujion.websocket.IRequestHandler;
  */
 public class LogRequestHandler implements IRequestHandler {
 
-    private static final Log log = LogFactory.getLog(LogRequestHandler.class);
+    private static final Logger log = Logger.create(LogRequestHandler.class);
 
     @Override
     public void handleRequest(ClientRequest request) {
@@ -69,7 +68,7 @@ public class LogRequestHandler implements IRequestHandler {
                 break;
 
             default:
-                log.info("Unknown logging level: " + level);
+                log.info(() -> "Unknown logging level: " + level);
                 log.info(message);
                 break;
         }
