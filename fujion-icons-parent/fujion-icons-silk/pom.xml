@@ -7,7 +7,7 @@
 		<version>2.0.1-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Icon Library Wrapper for FamFamFam Silk Collection</name>
+	<name>Fujion Icon Library: FamFamFam Silk Collection</name>
 	<artifactId>fujion-icons-silk</artifactId>
 
 	<dependencies>

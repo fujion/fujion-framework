@@ -7,7 +7,7 @@
 		<version>2.0.1-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Icon Library Wrapper for Open Iconic Collection</name>
+	<name>Fujion Icon Library: Open Iconic Collection</name>
 	<artifactId>fujion-icons-iconic</artifactId>
 
 	<dependencies>

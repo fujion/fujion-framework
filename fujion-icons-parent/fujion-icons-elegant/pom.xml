@@ -7,7 +7,7 @@
 		<version>2.0.1-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Icon Library Wrapper for Elegant Icon Collection</name>
+	<name>Fujion Icon Library: Elegant Icon Collection</name>
 	<artifactId>fujion-icons-elegant</artifactId>
 
 	<dependencies>

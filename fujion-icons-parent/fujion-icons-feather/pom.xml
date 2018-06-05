@@ -7,7 +7,7 @@
 		<version>2.0.1-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Icon Library Wrapper for Feather Icon Collection</name>
+	<name>Fujion Icon Library: Feather Icon Collection</name>
 	<artifactId>fujion-icons-feather</artifactId>
 
 	<dependencies>
