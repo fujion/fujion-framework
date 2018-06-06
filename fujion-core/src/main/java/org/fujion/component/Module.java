@@ -23,16 +23,15 @@ package org.fujion.component;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
-import org.fujion.client.ClientInvocation;
 
 /**
  * A component for loading a module via the SystemJS module loader.
  */
 @Component(tag = "module", widgetClass = "NullWidget", parentTag = "*", description = "A component for loading a module via the SystemJS module loader.")
 public class Module extends BaseComponent {
-
-    private String src;
     
+    private String src;
+
     /**
      * Returns the module's path.
      *
@@ -42,7 +41,7 @@ public class Module extends BaseComponent {
     public String getSrc() {
         return src;
     }
-
+    
     /**
      * Sets the module's path.
      *
@@ -52,11 +51,11 @@ public class Module extends BaseComponent {
     public void setSrc(String src) {
         if (!areEqual(src = trimify(src), this.src)) {
             this.src = src;
-
+            
             if (src != null) {
-                invoke(new ClientInvocation(src, "", null));
+                loadModule(src);
             }
         }
     }
-
+    
 }

@@ -23,10 +23,10 @@ package org.fujion.annotation;
 import java.util.Collection;
 import java.util.Map;
 
-import org.fujion.common.Logger;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.OptionMap.IOptionMapConverter;
+import org.fujion.common.Logger;
 import org.fujion.expression.ELEvaluator;
 
 /**
@@ -70,6 +70,10 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
                     return true;
                 }
 
+                if (name.contains("${")) {
+                    name = instance.convertWith(value, name).toString();
+                }
+                
                 if (value instanceof IOptionMapConverter) {
                     value = ((IOptionMapConverter) value).toMap();
                 }

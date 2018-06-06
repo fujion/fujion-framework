@@ -33,22 +33,22 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Option {
-    
+
     /**
      * The value of the map key to be used when serializing the field. Will default to the field
-     * name.
+     * name. May contain an EL expression (use variable name "value" to access the field value).
      *
      * @return Value of the map key.
      */
     String value() default "";
-
+    
     /**
      * Optional destination type for the conversion.
      *
      * @return The destination type for the conversion. Default is no conversion.
      */
     Class<?> convertTo() default Object.class;
-    
+
     /**
      * Optional EL expression to convert value to a new type. Use variable name "value" to access
      * current value. EL prefix ("${") and suffix ("}") are optional.
@@ -56,7 +56,7 @@ public @interface Option {
      * @return The EL expression to convert the value. Default is none.
      */
     String convertUsing() default "";
-
+    
     /**
      * Ignore the annotation. Useful to explicitly show that the field is not to be serialized.
      *
