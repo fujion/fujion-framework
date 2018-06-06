@@ -88,10 +88,6 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		_processAction: function(action) {
 			fujion.log.debug('Processing: ', action);
 			
-			if (!action.fcn) {
-				return;
-			}
-		
 			var tgt = action.tgt;
 		
 			if (tgt) {
@@ -118,6 +114,10 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			return _invokeAction(tgt, action);
 			
 			function _invokeAction(tgt, action) {
+				if (!action.fcn) {
+					return;
+				}
+				
 				var fcn = fujion.resolveReference(tgt, action.fcn);
 			
 				if (!fcn) {
