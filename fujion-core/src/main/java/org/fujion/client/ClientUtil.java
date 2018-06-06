@@ -28,7 +28,7 @@ import org.fujion.component.BaseUIComponent;
  * Static convenience methods for client-side operations.
  */
 public class ClientUtil {
-    
+
     /**
      * Invoke a function on the client.
      *
@@ -39,7 +39,7 @@ public class ClientUtil {
     public static void invoke(String function, IResponseCallback<?> callback, Object... args) {
         ExecutionContext.getPage().invoke(null, function, callback, args);
     }
-    
+
     /**
      * Invoke a function on the client.
      *
@@ -49,7 +49,16 @@ public class ClientUtil {
     public static void invoke(String function, Object... args) {
         invoke(function, null, args);
     }
-    
+
+    /**
+     * Perform a client invocation on the active page.
+     *
+     * @param invocation The client invocation.
+     */
+    public static void invoke(ClientInvocation invocation) {
+        ExecutionContext.getPage().invoke(invocation);
+    }
+
     /**
      * Redirects the client.
      *
@@ -58,7 +67,7 @@ public class ClientUtil {
     public static void redirect(String target) {
         redirect(target, null);
     }
-    
+
     /**
      * Redirects the client.
      *
@@ -69,7 +78,7 @@ public class ClientUtil {
     public static void redirect(String target, String window) {
         invoke("fujion.redirect", target, window);
     }
-    
+
     /**
      * Invokes a JavaScript expression on the client.
      *
@@ -78,7 +87,7 @@ public class ClientUtil {
     public static void eval(String expression) {
         invoke("fujion.eval", expression);
     }
-    
+
     /**
      * Invokes a JavaScript expression on the client, returning the result asynchronously.
      *
@@ -88,7 +97,7 @@ public class ClientUtil {
     public static void eval(String expression, IResponseCallback<?> callback) {
         invoke("fujion.eval", callback, expression);
     }
-    
+
     /**
      * Submits a form.
      *
@@ -97,7 +106,7 @@ public class ClientUtil {
     public static void submit(BaseComponent form) {
         invoke("fujion.submit", form);
     }
-    
+
     /**
      * Creates a busy message covering the specified target. A busy message consists of a mask the
      * covers and prevents interaction with the target component and a message centered within the
@@ -113,7 +122,7 @@ public class ClientUtil {
             target.addMask(message);
         }
     }
-    
+
     /**
      * Saves content as a file on the client machine.
      *
@@ -124,7 +133,7 @@ public class ClientUtil {
     public static void saveToFile(String content, String mimeType, String fileName) {
         invoke("fujion.saveToFile", content, mimeType, fileName);
     }
-    
+
     private ClientUtil() {
     }
 }
