@@ -23,67 +23,16 @@ package org.fujion.codemirror;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
-import org.fujion.component.BaseInputComponent;
+import org.fujion.codemirror.CodeMirrorBase.CodeMirrorOptions;
 
 /**
  * Fujion wrapper for CodeMirror JavaScript editor.
  */
-@Component(tag = "codemirror", widgetModule = "fujion-codemirror", widgetClass = "CodeMirror", parentTag = "*", description = "Fujion wrapper for CodeMirror JavaScript editor.")
-public class CodeMirror extends BaseInputComponent<String> {
+@Component(tag = "codemirror", widgetModule = "fujion-codemirror", widgetClass = "CodeMirrorBase", parentTag = "*", description = "Fujion wrapper for CodeMirror JavaScript editor.")
+public class CodeMirror extends CodeMirrorBase<CodeMirrorOptions> {
     
-    private String mode;
-    
-    private boolean lineNumbers;
-    
-    private String placeholder;
-    
-    private boolean readonly;
-    
-    /**
-     * Invokes the CodeMirror format method.
-     */
-    public void format() {
-        invoke("format");
-    }
-    
-    /**
-     * Returns true if the editor is set to read-only.
-     *
-     * @return True if read-only.
-     */
-    @PropertyGetter(value = "readonly", description = "True if read-only.")
-    public boolean isReadonly() {
-        return readonly;
-    }
-    
-    /**
-     * Set the read-only state of the editor.
-     *
-     * @param readonly The read-only state.
-     */
-    @PropertySetter(value = "readonly", defaultValue = "false", description = "True if read-only.")
-    public void setReadonly(boolean readonly) {
-        propertyChange("readonly", this.readonly, this.readonly = readonly, true);
-    }
-    
-    /**
-     * Returns the placeholder message that is displayed when the editor is empty.
-     *
-     * @return The placeholder message that is displayed when the editor is empty.
-     */
-    @PropertyGetter(value = "placeholder", description = "The placeholder message that is displayed when the editor is empty.")
-    public String getPlaceholder() {
-        return placeholder;
-    }
-    
-    /**
-     * Sets the placeholder value.
-     *
-     * @param placeholder The placeholder value.
-     */
-    @PropertySetter(value = "placeholder", description = "The placeholder message that is displayed when the editor is empty.")
-    public void setPlaceholder(String placeholder) {
-        propertyChange("placeholder", this.placeholder, this.placeholder = nullify(placeholder), true);
+    public CodeMirror() {
+        super(new CodeMirrorOptions(null));
     }
     
     /**
@@ -91,9 +40,10 @@ public class CodeMirror extends BaseInputComponent<String> {
      *
      * @return The CodeMirror mode parameter.
      */
+    @Override
     @PropertyGetter(value = "mode", description = "The CodeMirror mode parameter.")
     public String getMode() {
-        return mode;
+        return super.getMode();
     }
     
     /**
@@ -101,38 +51,10 @@ public class CodeMirror extends BaseInputComponent<String> {
      *
      * @param mode The CodeMirror mode parameter.
      */
+    @Override
     @PropertySetter(value = "mode", description = "The CodeMirror mode parameter.")
     public void setMode(String mode) {
-        propertyChange("mode", this.mode, this.mode = trimify(mode), true);
+        super.setMode(mode);
     }
     
-    /**
-     * Returns the CodeMirror lineNumbers parameter.
-     *
-     * @return The CodeMirror lineNumbers parameter.
-     */
-    @PropertyGetter(value = "lineNumbers", description = "The CodeMirror lineNumbers parameter.")
-    public boolean getLineNumbers() {
-        return lineNumbers;
-    }
-    
-    /**
-     * Sets the CodeMirror lineNumbers parameter.
-     *
-     * @param lineNumbers The CodeMirror lineNumbers parameter.
-     */
-    @PropertySetter(value = "lineNumbers", description = "The CodeMirror lineNumbers parameter.")
-    public void setLineNumbers(boolean lineNumbers) {
-        propertyChange("lineNumbers", this.lineNumbers, this.lineNumbers = lineNumbers, true);
-    }
-    
-    @Override
-    protected String _toValue(String value) {
-        return value;
-    }
-    
-    @Override
-    protected String _toString(String value) {
-        return value;
-    }
 }

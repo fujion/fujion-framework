@@ -17,8 +17,8 @@
 				<button name="btnRenderContent"
 					class="size:btn-xs flavor:btn-success" label="${@msg.fujion.sandbox.btn.view.label}" />
 			</toolbar>
-			<codemirror name="editor" mode="xml" flex="1" width="100%"
-				placeholder="${@msg.fujion.sandbox.textbox.placeholder}" />
+			<codemirror_xml name="editor" flex="1" width="100%"
+				placeholder="${@msg.fujion.sandbox.textbox.placeholder}"/>
 		</pane>
 		<pane name="contentParent" flex="1">
 			<toolbar width="100%">

@@ -6,88 +6,87 @@ define('fujion-codemirror', [
 	'codemirror/lib/codemirror', 
 	'fujion-codemirror-css', 
 	'codemirror-css',
+	'codemirror/addon/hint/show-hint.css',
 	'codemirror/addon/display/placeholder',
+    'codemirror/addon/hint/show-hint',
 	'codemirror/addon/edit/closebrackets',
-	'codemirror/addon/edit/closetag',
 	'codemirror/addon/edit/matchbrackets',
-	'codemirror/addon/edit/matchtags',
-	'codemirror/addon/fold/xml-fold',
 	'codemirror/addon/fold/brace-fold'], 
 	
 	function(fujion, Widget, CodeMirror) { 
 	
 	/**
-	 * Wrapper for CodeMirror
+	 * Base Wrapper for CodeMirror Editor
 	 */
-	Widget.CodeMirror = Widget.UIWidget.extend({
+	Widget.CodeMirrorBase = Widget.UIWidget.extend({
 	
 		/*------------------------------ Lifecycle ------------------------------*/
 
 		init: function() {
 			this._super();
+			this.initState({'options': {}});
+			this._options = {};
+			this._options.extraKeys = {'Alt-F': this.format.bind(this)};
 			this.forwardToServer('change');
-			this._cm = null;
 		},
 		
 		destroy: function() {
-			this._cm = null;
+			this._destroy();
 			this._super();
+		},
+		
+		_destroy: function() {
+			this.widget$ ? this.widget$.empty() : null;
+			delete this._cm;
 		},
 		
 		/*------------------------------ Other ------------------------------*/
 	
-		format: function() {
-		    var cm = this._cm,
-		    	from = cm.getCursor('from'),
-		    	to = cm.getCursor('to');
-		    
-		    if (from.line == to.line && from.ch == to.ch) {
-		    	from.line = 0;
-		    	to.line = cm.lastLine();
-		    }
-		        
-    		cm.operation(function() {
-				for (var i = from.line; i <= to.line; i++) {
-					cm.indentLine(i);
-			    }
-			});
-    		
-    		from.ch = 0;
-    		cm.setSelection(from, from);
-    		cm.focus();
-		},
-		
-		load: function(path, callback) {
-			return fujion.load('codemirror/' + path, callback);
-		},
-		
 		clear: function() {
 		    this._cm.setValue('');
 		    this._cm.focus();
 		},
 		
+		format: function() {
+		    var cm = this._cm,
+		    	sel = cm.doc.somethingSelected(),
+		    	from = sel ? cm.getCursor('from') : {line: 0, ch: 0},
+		    	to = sel ? cm.getCursor('to') : {line: cm.lastLine(), ch: 99999999};
+		    
+    		cm.operation(this._format.bind(this, cm, from, to));
+    		from.ch = 0;
+    		cm.setSelection(from, from);
+    		cm.focus();
+		},
+		
+		setOption: function(name, value) {
+			_.isNil(value) ? delete this._options[name] : this._options[name] = value;
+			this._cm ? this._cm.setOption(name, value) : null;
+		},
+		
+		_format: function(cm, from, to) {
+			for (var i = from.line; i <= to.line; i++) {
+				cm.indentLine(i);
+		    }
+		},
+		
 		/*------------------------------ Rendering ------------------------------*/
 
 		afterRender: function() {
-			var cm = this._cm;
+			var self = this;
 			
 			setTimeout(function() {
-			    cm.refresh();
+			    self._cm ? self._cm.refresh() : null;
 			}, 1);
 
 		},
 		
 		beforeRender: function() {
-			var self = this;
+			var self = this, 
+				options = _.merge({}, this._options, this.getState('options'));
 			this._super();
-			this._cm = CodeMirror(this.widget$[0], {
-				autoCloseTags: true,
-				matchTags: {bothTags: true},
-				extraKeys: {
-					'Alt-F': self.format.bind(self),
-					'Alt-J': 'toMatchingTag'
-				}
-			});
+			this._destroy();
+			this._cm = CodeMirror(this.widget$[0], options);
 			
 			this._cm.on('changes', function() {
 				var v = self._cm.getValue();
@@ -111,36 +110,25 @@ define('fujion-codemirror', [
 		},
 		
 		lineNumbers: function(v) {
-			this._cm.setOption('lineNumbers', v);
+			this.setOption('lineNumbers', v);
 		},
 		
-		mode: function(v) {
-			var self = this;
-			v = v ? v.toLowerCase() : null;
-			
-			if (!v) {
-				_mode();
-			} else {
-				this.load('mode/' + v + '/' + v, _mode);
-			}
-			
-			function _mode() {
-				self._cm.setOption('mode', v);
-			}
+		options: function(v) {
+			this.rerender();
 		},
 		
 		placeholder: function(v) {
-			this._cm.setOption('placeholder', v);
+			this.setOption('placeholder', v);
 		},
 		
 		readonly: function(v) {
-			this._cm.setOption('readOnly', v);
+			this.setOption('readOnly', v);
 		},
 		
 		value: function(v) {
 			this._cm.setValue(v || '');
 		}
 	});
-
-	return fujion.widget;
+	
+	return Widget;
 });

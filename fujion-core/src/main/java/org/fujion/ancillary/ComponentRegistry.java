@@ -20,11 +20,17 @@
  */
 package org.fujion.ancillary;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.common.AbstractRegistry;
+import org.fujion.common.MiscUtil;
 import org.fujion.common.RegistryMap.DuplicateAction;
 import org.fujion.component.BaseComponent;
 
@@ -88,6 +94,35 @@ public class ComponentRegistry extends AbstractRegistry<String, ComponentDefinit
         } while (def == null && BaseComponent.class.isAssignableFrom((clazz = clazz.getSuperclass())));
 
         return def;
+    }
+    
+    /**
+     * Returns a list of all component definitions whose tags match the specified pattern.
+     *
+     * @param pattern A glob pattern for matching tags.
+     * @return A list of matching component definitions (never null).
+     */
+    public Collection<ComponentDefinition> getMatching(String pattern) {
+        if ("*".equals(pattern)) {
+            return Collections.unmodifiableCollection(map.values());
+        }
+        
+        ComponentDefinition def = get(pattern);
+        
+        if (def != null) {
+            return Collections.singleton(def);
+        }
+        
+        List<ComponentDefinition> matches = new ArrayList<>();
+        Pattern regex = MiscUtil.globToRegex(pattern);
+        
+        for (String tag : map.keySet()) {
+            if (regex.matcher(tag).matches()) {
+                matches.add(map.get(tag));
+            }
+        }
+        
+        return matches;
     }
 
 }

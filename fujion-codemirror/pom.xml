@@ -16,7 +16,8 @@
         {
 			'paths': {
 				'fujion-codemirror': 'js/codemirror',
-				'fujion-codemirror-css': 'css/codemirror'
+				'fujion-codemirror-css': 'css/codemirror',
+				'fujion-codemirror-xml': 'js/codemirror-xml'
 			}
 		}
         </systemjs>

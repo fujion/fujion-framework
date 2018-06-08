@@ -10,5 +10,5 @@
 		http://www.fujion.org/schema/component-extensions.xsd">
 	
 	<ffc:component-scan package="org.fujion.codemirror" />
-
+	
 </beans>
