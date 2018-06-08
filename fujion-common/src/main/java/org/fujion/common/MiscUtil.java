@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.UnhandledException;
@@ -34,7 +35,7 @@ import org.apache.commons.lang.UnhandledException;
  * Miscellaneous utility methods.
  */
 public class MiscUtil {
-    
+
     /**
      * Returns true if the specified file exists.
      *
@@ -44,7 +45,7 @@ public class MiscUtil {
     public static boolean fileExists(String fileName) {
         return new File(fileName).exists();
     }
-    
+
     /**
      * Returns true if the list contains the exact instance of the specified object.
      *
@@ -55,7 +56,7 @@ public class MiscUtil {
     public static boolean containsInstance(List<?> list, Object object) {
         return indexOfInstance(list, object) > -1;
     }
-    
+
     /**
      * Performs a lookup for the exact instance of an object in the list and returns its index, or
      * -1 if not found. This is different from the usual implementation of a list search that uses
@@ -71,10 +72,10 @@ public class MiscUtil {
                 return i;
             }
         }
-        
+
         return -1;
     }
-    
+
     /**
      * Casts a list containing elements of class T to a list containing elements of a subclass S.
      *
@@ -88,7 +89,7 @@ public class MiscUtil {
     public static <T, S extends T> List<S> castList(List<T> list, Class<S> clazz) {
         return (List<S>) list;
     }
-    
+
     /**
      * Returns a list iterator that produces only collection elements of the specified type.
      *
@@ -101,7 +102,7 @@ public class MiscUtil {
     public static <T, S extends T> Iterator<S> iteratorForType(Collection<T> collection, Class<S> type) {
         return iteratorForType(collection.iterator(), type);
     }
-    
+
     /**
      * Returns an iterator that returns only elements of the specified type.
      *
@@ -117,11 +118,11 @@ public class MiscUtil {
                 ? IteratorUtils.filteredListIterator((ListIterator<T>) iterator, (element) -> {
                     return type.isInstance(element);
                 })
-                : IteratorUtils.filteredIterator(iterator, (element) -> {
-                    return type.isInstance(element);
-                });
+                        : IteratorUtils.filteredIterator(iterator, (element) -> {
+                            return type.isInstance(element);
+                        });
     }
-    
+
     /**
      * Returns an iterable that produces only collection members of the specified type.
      *
@@ -136,7 +137,7 @@ public class MiscUtil {
             return iteratorForType(collection, type);
         };
     }
-    
+
     /**
      * Converts a checked exception to unchecked. If the original exception is already unchecked, it
      * is simply returned.
@@ -148,14 +149,14 @@ public class MiscUtil {
         if (e instanceof InvocationTargetException) {
             e = ((InvocationTargetException) e).getTargetException();
         }
-        
+
         if (e instanceof RuntimeException) {
             return (RuntimeException) e;
         }
-        
+
         return new UnhandledException(e);
     }
-    
+
     /**
      * Returns an array of parameter types given an array of parameters. Unlike other libraries,
      * this allows null parameter values.
@@ -166,12 +167,124 @@ public class MiscUtil {
     public static Class<?>[] getParameterTypes(Object... parameters) {
         int len = parameters == null ? 0 : parameters.length;
         Class<?>[] parameterTypes = new Class[len];
-        
+
         for (int i = 0; i < len; i++) {
             parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
         }
-
+        
         return parameterTypes;
+    }
+
+    /**
+     * Converts a glob search pattern to a regular expression.
+     *
+     * @param glob Glob search pattern.
+     * @return Regular expression.
+     */
+    public static Pattern globToRegex(String glob) {
+        StringBuilder sb = new StringBuilder(glob.length());
+        int inGroup = 0;
+        int inClass = 0;
+        int firstIndexInClass = -1;
+        char[] arr = glob.toCharArray();
+        
+        for (int i = 0; i < arr.length; i++) {
+            char ch = arr[i];
+            switch (ch) {
+                case '\\':
+                    if (++i >= arr.length) {
+                        sb.append('\\');
+                    } else {
+                        char next = arr[i];
+                        switch (next) {
+                            case ',':
+                                // escape not needed
+                                break;
+                            case 'Q':
+                            case 'E':
+                                // extra escape needed
+                                sb.append('\\');
+                            default:
+                                sb.append('\\');
+                        }
+                        sb.append(next);
+                    }
+                    break;
+
+                case '*':
+                    if (inClass == 0) {
+                        sb.append("[^/]*");
+                    } else {
+                        sb.append('*');
+                    }
+                    break;
+
+                case '?':
+                    if (inClass == 0) {
+                        sb.append("[^/]");
+                    } else {
+                        sb.append('?');
+                    }
+                    break;
+
+                case '[':
+                    inClass++;
+                    firstIndexInClass = i + 1;
+                    sb.append('[');
+                    break;
+
+                case ']':
+                    inClass--;
+                    sb.append(']');
+                    break;
+
+                case '.':
+                case '(':
+                case ')':
+                case '+':
+                case '|':
+                case '^':
+                case '$':
+                case '@':
+                case '%':
+                    if (inClass == 0 || (firstIndexInClass == i && ch == '^')) {
+                        sb.append('\\');
+                    }
+                    sb.append(ch);
+                    break;
+
+                case '!':
+                    if (firstIndexInClass == i) {
+                        sb.append('^');
+                    } else {
+                        sb.append('!');
+                    }
+                    break;
+
+                case '{':
+                    inGroup++;
+                    sb.append('(');
+                    break;
+
+                case '}':
+                    inGroup--;
+                    sb.append(')');
+                    break;
+
+                case ',':
+                    if (inGroup > 0) {
+                        sb.append('|');
+                    } else {
+                        sb.append(',');
+                    }
+                    break;
+
+                default:
+                    sb.append(ch);
+            }
+        }
+        
+        return Pattern.compile(sb.toString());
     }
     
     /**
