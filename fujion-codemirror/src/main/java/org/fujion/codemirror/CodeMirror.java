@@ -23,7 +23,6 @@ package org.fujion.codemirror;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
-import org.fujion.codemirror.CodeMirrorBase.CodeMirrorOptions;
 
 /**
  * Fujion wrapper for CodeMirror JavaScript editor.

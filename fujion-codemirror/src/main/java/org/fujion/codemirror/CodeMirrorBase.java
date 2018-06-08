@@ -22,10 +22,8 @@ package org.fujion.codemirror;
 
 import java.util.Map;
 
-import org.fujion.ancillary.Options;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
-import org.fujion.annotation.Option;
 import org.fujion.component.BaseInputComponent;
 
 /**
@@ -33,39 +31,22 @@ import org.fujion.component.BaseInputComponent;
  *
  * @param <T> Options class for the CodeMirror instance.
  */
-public class CodeMirrorBase<T extends CodeMirrorBase.CodeMirrorOptions> extends BaseInputComponent<String> {
-
-    public static class CodeMirrorOptions extends Options {
-        
-        @Option
-        protected String mode;
-        
-        public CodeMirrorOptions(String mode) {
-            this.mode = mode;
-        }
-
-    }
+public class CodeMirrorBase<T extends CodeMirrorOptions> extends BaseInputComponent<String> {
     
-    private boolean lineNumbers;
-
-    private String placeholder;
-
-    private boolean readonly;
-
     protected final T options;
-    
+
     protected CodeMirrorBase(T options) {
         this.options = options;
         setMode(options.mode);
     }
-    
+
     /**
      * Invokes the CodeMirror format method.
      */
     public void format() {
         invoke("format");
     }
-
+    
     /**
      * Returns true if the editor is set to read-only.
      *
@@ -73,9 +54,9 @@ public class CodeMirrorBase<T extends CodeMirrorBase.CodeMirrorOptions> extends 
      */
     @PropertyGetter(value = "readonly", description = "True if read-only.")
     public boolean isReadonly() {
-        return readonly;
+        return options.readonly;
     }
-
+    
     /**
      * Set the read-only state of the editor.
      *
@@ -83,9 +64,9 @@ public class CodeMirrorBase<T extends CodeMirrorBase.CodeMirrorOptions> extends 
      */
     @PropertySetter(value = "readonly", defaultValue = "false", description = "True if read-only.")
     public void setReadonly(boolean readonly) {
-        propertyChange("readonly", this.readonly, this.readonly = readonly, true);
+        propertyChange("readonly", options.readonly, options.readonly = readonly, true);
     }
-
+    
     /**
      * Returns the placeholder message that is displayed when the editor is empty.
      *
@@ -93,9 +74,9 @@ public class CodeMirrorBase<T extends CodeMirrorBase.CodeMirrorOptions> extends 
      */
     @PropertyGetter(value = "placeholder", description = "The placeholder message that is displayed when the editor is empty.")
     public String getPlaceholder() {
-        return placeholder;
+        return options.placeholder;
     }
-
+    
     /**
      * Sets the placeholder value.
      *
@@ -103,9 +84,9 @@ public class CodeMirrorBase<T extends CodeMirrorBase.CodeMirrorOptions> extends 
      */
     @PropertySetter(value = "placeholder", description = "The placeholder message that is displayed when the editor is empty.")
     public void setPlaceholder(String placeholder) {
-        propertyChange("placeholder", this.placeholder, this.placeholder = nullify(placeholder), true);
+        propertyChange("placeholder", options.placeholder, options.placeholder = nullify(placeholder), true);
     }
-
+    
     /**
      * Returns the CodeMirror mode parameter.
      *
@@ -114,7 +95,7 @@ public class CodeMirrorBase<T extends CodeMirrorBase.CodeMirrorOptions> extends 
     protected String getMode() {
         return options.mode;
     }
-
+    
     /**
      * Sets the CodeMirror mode parameter.
      *
@@ -122,15 +103,15 @@ public class CodeMirrorBase<T extends CodeMirrorBase.CodeMirrorOptions> extends 
      */
     protected void setMode(String mode) {
         mode = trimify(mode);
-
+        
         if (mode != null) {
             loadModule("codemirror/mode/" + mode + "/" + mode);
         }
-
+        
         options.mode = mode;
-        optionsUpdated();
+        refreshOptions();
     }
-
+    
     /**
      * Returns the CodeMirror lineNumbers parameter.
      *
@@ -138,9 +119,9 @@ public class CodeMirrorBase<T extends CodeMirrorBase.CodeMirrorOptions> extends 
      */
     @PropertyGetter(value = "lineNumbers", description = "The CodeMirror lineNumbers parameter.")
     public boolean getLineNumbers() {
-        return lineNumbers;
+        return options.lineNumbers;
     }
-
+    
     /**
      * Sets the CodeMirror lineNumbers parameter.
      *
@@ -148,29 +129,33 @@ public class CodeMirrorBase<T extends CodeMirrorBase.CodeMirrorOptions> extends 
      */
     @PropertySetter(value = "lineNumbers", description = "The CodeMirror lineNumbers parameter.")
     public void setLineNumbers(boolean lineNumbers) {
-        propertyChange("lineNumbers", this.lineNumbers, this.lineNumbers = lineNumbers, true);
+        propertyChange("lineNumbers", options.lineNumbers, options.lineNumbers = lineNumbers, true);
     }
-
+    
     @Override
     protected void _initProps(Map<String, Object> props) {
         super._initProps(props);
         props.put("wclazz", "fujion_codemirror");
     }
-
+    
     @Override
     protected String _toValue(String value) {
         return value;
     }
-
+    
     @Override
     protected String _toString(String value) {
         return value;
     }
-    
-    public void optionsUpdated() {
+
+    public void refreshOptions() {
         if (options != null) {
             sync("options", options);
         }
     }
 
+    public T getOptions() {
+        return options;
+    }
+    
 }
