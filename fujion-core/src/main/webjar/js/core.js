@@ -56,15 +56,16 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 					var result = this._processAction(action);
 					
 					if (result && _.isFunction(result.then)) {
-						return result.then(function() {
+						return result.then(function(result) {
+							self._doCallback(action, result);
 							self.processing = false;
 							self.processQueue();
 						}, function(error) {
 							self.processing = false;
 							throw error;
 						})
-					} else if (action.cbk) {
-						fujion.widget._page.trigger('callback', {handle: action.cbk, data: result});
+					} else {
+						this._doCallback(action, result);
 					}
 				}
 			} catch (e) {
@@ -83,6 +84,12 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			}
 			
 			this.processQueue();
+		},
+		
+		_doCallback: function(action, result) {
+			if (action.cbk) {
+				fujion.widget._page.trigger('callback', {handle: action.cbk, data: result});
+			}			
 		},
 		
 		_processAction: function(action) {
