@@ -20,6 +20,7 @@
  */
 package org.fujion.codemirror;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -36,37 +37,37 @@ import org.fujion.annotation.Option;
  */
 @Component(tag = "codemirror_xml", widgetModule = "fujion-codemirror-xml", widgetClass = "CodeMirrorXML", parentTag = "*", description = "XML Extensions CodeMirror JavaScript editor.")
 public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
-
+    
     protected static class XMLOptions extends CodeMirrorOptions {
-
+        
         public XMLOptions() {
             super("xml");
         }
-
+        
         @Option
         boolean autoCloseTags = true;
-        
+
         @Option(value = "matchTags.bothTags")
         boolean matchTags = true;
-        
+
         @Option(value = "extraKeys.${value}", convertUsing = "'toMatchingTag'")
         final String jumpShortcut = "Alt-J";
-
+        
         @Option(value = "hintOptions")
         SchemaInfo schemaInfo;
     }
-
+    
     /**
      * Represents a single XML tag with its attributes and children.
      */
     public static class Tag extends Options {
-
+        
         @Option
         private final Map<String, String[]> attrs = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        
+
         @Option
         private final Set<String> children = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-        
+
         /**
          * Add an attribute with optional value constraints.
          *
@@ -75,10 +76,11 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
          * @return The original tag (for chaining).
          */
         public Tag addAttribute(String name, String... values) {
+            Arrays.sort(values);
             attrs.put(name, values);
             return this;
         }
-        
+
         /**
          * Add zero or more children.
          *
@@ -91,7 +93,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
             }
             return this;
         }
-        
+
         /**
          * Remove all attributes and children.
          *
@@ -102,7 +104,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
             children.clear();
             return this;
         }
-        
+
         /**
          * Copy the attributes and children of one tag to this one, removing any existing values.
          *
@@ -116,24 +118,24 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
             return this;
         }
     }
-    
+
     /**
      * Represents the collection of tags that comprise a schema. This resolves to the format
      * expected by the CodeMirror XML add-on.
      */
     public static class SchemaInfo extends Options {
-        
+
         @Option
         private final Map<String, Tag> schemaInfo = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        
+
         private final Tag root = new Tag();
-        
+
         @Option("schemaInfo.!top")
         private final Set<String> top = root.children;
-        
+
         @Option("schemaInfo.!attrs")
         private final Map<String, String[]> attrs = root.attrs;
-        
+
         /**
          * Add a tag if one does not already exist.
          *
@@ -144,19 +146,19 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
             Tag tag = getTag(tagName);
             return tag != null ? tag : addTag(tagName, new Tag());
         }
-        
+
         public Tag addTag(String tagName, Tag tag) {
             Tag atag = getTag(tagName);
-
+            
             if (atag == null) {
                 schemaInfo.put(tagName, tag);
             } else {
                 tag = atag.copy(tag);
             }
-            
+
             return tag;
         }
-
+        
         /**
          * Returns the tag associated with the specified name.
          *
@@ -166,7 +168,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
         public Tag getTag(String tagName) {
             return tagName == null ? root : schemaInfo.get(tagName);
         }
-        
+
         /**
          * Clears all schema information.
          */
@@ -174,13 +176,13 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
             root.clear();
             schemaInfo.clear();
         }
-
+        
     }
-    
+
     public CodeMirrorXML() {
         super(new XMLOptions());
     }
-    
+
     /**
      * Returns the autoCloseTags setting. If true, the editor will automatically generate closing
      * tags.
@@ -191,7 +193,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
     public boolean getAutoCloseTags() {
         return options.autoCloseTags;
     }
-    
+
     /**
      * Sets the autoCloseTags setting. If true, the editor will automatically generate closing tags.
      *
@@ -203,7 +205,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
             refreshOptions();
         }
     }
-    
+
     /**
      * Returns the matchTags setting. If true, the editor will highlight matching tags.
      *
@@ -213,7 +215,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
     public boolean getMatchTags() {
         return options.matchTags;
     }
-    
+
     /**
      * Sets the matchTags setting. If true, the editor will highlight matching tags.
      *
@@ -225,7 +227,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
             refreshOptions();
         }
     }
-
+    
     /**
      * Sets schema information.
      *
