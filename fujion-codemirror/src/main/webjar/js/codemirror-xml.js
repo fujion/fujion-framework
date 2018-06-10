@@ -21,6 +21,7 @@ define('fujion-codemirror-xml', [
 		
 		init: function() {
 			this._super();
+			this.initState({autoComplete: true});
 			this._options.mode = 'xml';
 			_.merge(this._options.extraKeys, {
 		        "'<'": this.completeAfter.bind(this),
@@ -36,7 +37,7 @@ define('fujion-codemirror-xml', [
 		completeAfter: function(cm, pred) {
 			var cur = cm.getCursor();
 	          
-			if (!pred || pred()) {
+			if (this.getState('autoComplete') && (!pred || pred())) {
 				setTimeout(function() {
 					if (!cm.state.completionActive) {
 						cm.showHint({completeSingle: false});
@@ -80,6 +81,12 @@ define('fujion-codemirror-xml', [
 		    }
 			
 			this._super();
+		},
+		
+		/*------------------------------ Lifecycle ------------------------------*/
+		
+		autoComplete: function(v) {
+			// NOP
 		}
 		
 	});
