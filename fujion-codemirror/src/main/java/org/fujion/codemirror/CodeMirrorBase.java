@@ -22,9 +22,12 @@ package org.fujion.codemirror;
 
 import java.util.Map;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.annotation.EventHandler;
 import org.fujion.component.BaseInputComponent;
+import org.fujion.event.EventUtil;
 
 /**
  * Base class for CodeMirror JavaScript editor components.
@@ -35,6 +38,8 @@ public class CodeMirrorBase<T extends CodeMirrorOptions> extends BaseInputCompon
     
     protected final T options;
 
+    private boolean refreshOptions;
+    
     protected CodeMirrorBase(T options) {
         this.options = options;
         setMode(options.mode);
@@ -54,7 +59,7 @@ public class CodeMirrorBase<T extends CodeMirrorOptions> extends BaseInputCompon
      */
     @PropertyGetter(value = "readonly", description = "True if read-only.")
     public boolean isReadonly() {
-        return options.readonly;
+        return BooleanUtils.isTrue(options.readonly);
     }
     
     /**
@@ -64,7 +69,7 @@ public class CodeMirrorBase<T extends CodeMirrorOptions> extends BaseInputCompon
      */
     @PropertySetter(value = "readonly", defaultValue = "false", description = "True if read-only.")
     public void setReadonly(boolean readonly) {
-        propertyChange("readonly", options.readonly, options.readonly = readonly, true);
+        propertyChange("readonly", options.readonly, options.readonly = readonly ? readonly : null, true);
     }
     
     /**
@@ -119,7 +124,7 @@ public class CodeMirrorBase<T extends CodeMirrorOptions> extends BaseInputCompon
      */
     @PropertyGetter(value = "lineNumbers", description = "The CodeMirror lineNumbers parameter.")
     public boolean getLineNumbers() {
-        return options.lineNumbers;
+        return BooleanUtils.isTrue(options.lineNumbers);
     }
     
     /**
@@ -127,9 +132,9 @@ public class CodeMirrorBase<T extends CodeMirrorOptions> extends BaseInputCompon
      *
      * @param lineNumbers The CodeMirror lineNumbers parameter.
      */
-    @PropertySetter(value = "lineNumbers", description = "The CodeMirror lineNumbers parameter.")
+    @PropertySetter(value = "lineNumbers", defaultValue = "false", description = "The CodeMirror lineNumbers parameter.")
     public void setLineNumbers(boolean lineNumbers) {
-        propertyChange("lineNumbers", options.lineNumbers, options.lineNumbers = lineNumbers, true);
+        propertyChange("lineNumbers", options.lineNumbers, options.lineNumbers = lineNumbers ? lineNumbers : null, true);
     }
     
     @Override
@@ -149,11 +154,18 @@ public class CodeMirrorBase<T extends CodeMirrorOptions> extends BaseInputCompon
     }
 
     public void refreshOptions() {
-        if (options != null) {
-            sync("options", options);
+        if (!refreshOptions && options != null) {
+            refreshOptions = true;
+            EventUtil.post("refreshOptions", this, null);
         }
     }
 
+    @EventHandler("refreshOptions")
+    private void onRefreshOptions() {
+        sync("options", options);
+        refreshOptions = false;
+    }
+    
     public T getOptions() {
         return options;
     }

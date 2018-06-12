@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
@@ -37,31 +38,37 @@ import org.fujion.annotation.Option;
  */
 @Component(tag = "codemirror_xml", widgetModule = "fujion-codemirror-xml", widgetClass = "CodeMirrorXML", parentTag = "*", description = "XML Extensions CodeMirror JavaScript editor.")
 public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
-
+    
     protected static class XMLOptions extends CodeMirrorOptions {
-
+        
         public XMLOptions() {
             super("xml");
         }
-
+        
         @Option
-        boolean autoCloseTags = true;
+        Boolean htmlMode;
+        
+        @Option
+        Boolean matchClosing;
+        
+        @Option
+        Boolean alignCDATA;
+        
+        @Option
+        Boolean autoCloseTags = true;
         
         @Option(value = "matchTags.bothTags")
-        boolean matchTags = true;
+        Boolean matchTags = true;
         
-        @Option(value = "extraKeys.${value}", convertUsing = "'toMatchingTag'")
-        final String jumpShortcut = "Alt-J";
-
         @Option(value = "hintOptions")
         SchemaInfo schemaInfo;
     }
-
+    
     /**
      * Represents a single XML tag with its attributes and children.
      */
     public static class Tag extends Options {
-
+        
         @Option
         private final Map<String, String[]> attrs = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         
@@ -149,7 +156,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
         
         public Tag addTag(String tagName, Tag tag) {
             Tag atag = getTag(tagName);
-
+            
             if (atag == null) {
                 schemaInfo.put(tagName, tag);
             } else {
@@ -158,7 +165,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
             
             return tag;
         }
-
+        
         /**
          * Returns the tag associated with the specified name.
          *
@@ -176,13 +183,18 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
             root.clear();
             schemaInfo.clear();
         }
-
+        
     }
     
+    private static final String MATCHING_TAG_COMMAND = "toMatchingTag";
+    
     private boolean autoComplete = true;
-
+    
+    private String jumpShortcut;
+    
     public CodeMirrorXML() {
         super(new XMLOptions());
+        setJumpShortcut("Alt-J");
     }
     
     /**
@@ -192,7 +204,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
      * @return The autoCloseTags setting.
      */
     @PropertyGetter(value = "autoCloseTags", bindable = false, description = "If true, automatically generate closing XML tags.")
-    public boolean getAutoCloseTags() {
+    public Boolean getAutoCloseTags() {
         return options.autoCloseTags;
     }
     
@@ -202,7 +214,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
      * @param autoCloseTags The autoCloseTags setting.
      */
     @PropertySetter(value = "autoCloseTags", bindable = false, defaultValue = "true", description = "If true, automatically generate closing XML tags.")
-    public void setAutoCloseTags(boolean autoCloseTags) {
+    public void setAutoCloseTags(Boolean autoCloseTags) {
         if (propertyChange("autoCloseTags", options.autoCloseTags, options.autoCloseTags = autoCloseTags, false)) {
             refreshOptions();
         }
@@ -253,7 +265,114 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
     public void setAutoComplete(boolean autoComplete) {
         propertyChange("autoComplete", this.autoComplete, this.autoComplete = autoComplete, true);
     }
+    
+    /**
+     * Returns the HTML mode setting. If true, attributes do not have to be quoted, and some
+     * elements (such as &lt;br&gt;) do not require a closing tag.
+     *
+     * @return The HTML mode setting.
+     */
+    @PropertyGetter(value = "htmlMode", bindable = false, description = "If true, sets the mode to parse HTML instead of XML. This means attributes do not have to be quoted, and some elements (such as br) do not require a closing tag.")
+    public boolean isHtmlMode() {
+        return BooleanUtils.isTrue(options.htmlMode);
+    }
+    
+    /**
+     * Sets the HTML mode setting. If true, attributes do not have to be quoted, and some elements
+     * (such as &lt;br&gt;) do not require a closing tag.
+     *
+     * @param htmlMode The HTML mode setting.
+     */
+    @PropertySetter(value = "htmlMode", bindable = false, defaultValue = "false", description = "If true, sets the mode to parse HTML instead of XML. This means attributes do not have to be quoted, and some elements (such as br) do not require a closing tag.")
+    public void setHtmlMode(Boolean htmlMode) {
+        if (propertyChange("htmlMode", options.htmlMode, options.htmlMode = htmlMode ? htmlMode : null, false)) {
+            refreshOptions();
+        }
+    }
+    
+    /**
+     * Returns the matchClosing setting which controls whether the mode checks that close tags match
+     * the corresponding opening tag, and highlights mismatches as errors.
+     *
+     * @return The matchClosing setting.
+     */
+    @PropertyGetter(value = "matchClosing", bindable = false, description = "Controls whether the mode checks that close tags match the corresponding opening tag, and highlights mismatches as errors.")
+    public boolean getMatchClosing() {
+        return !BooleanUtils.isFalse(options.matchClosing);
+    }
+    
+    /**
+     * Sets the matchClosing setting which controls whether the mode checks that close tags match
+     * the corresponding opening tag, and highlights mismatches as errors.
+     *
+     * @param matchClosing The matchClosing setting.
+     */
+    @PropertySetter(value = "matchClosing", bindable = false, defaultValue = "true", description = "Controls whether the mode checks that close tags match the corresponding opening tag, and highlights mismatches as errors. ")
+    public void setMatchClosing(boolean matchClosing) {
+        if (propertyChange("matchClosing", options.matchClosing, options.matchClosing = matchClosing ? null : matchClosing,
+                false)) {
+            refreshOptions();
+        }
+    }
+    
+    /**
+     * Returns the alignCDATA setting. When true, the opening tag of CDATA blocks to not be
+     * indented.
+     *
+     * @return The alignCDATA setting.
+     */
+    @PropertyGetter(value = "alignCDATA", bindable = false, description = "Setting this to true will force the opening tag of CDATA blocks to not be indented.")
+    public boolean getAlignCDATA() {
+        return BooleanUtils.isTrue(options.alignCDATA);
+    }
+    
+    /**
+     * Sets the alignCDATA setting. When true, the opening tag of CDATA blocks to not be indented.
+     *
+     * @param alignCDATA The alignCDATA setting.
+     */
+    @PropertySetter(value = "alignCDATA", bindable = false, defaultValue = "false", description = "Setting this to true will force the opening tag of CDATA blocks to not be indented.")
+    public void setAlignCDATA(boolean alignCDATA) {
+        if (propertyChange("alignCDATA", options.alignCDATA, options.alignCDATA = alignCDATA ? alignCDATA : null, false)) {
+            refreshOptions();
+        }
+    }
+    
+    /**
+     * Returns the key combination that will jump to the tag matching the one currently under the
+     * cursor. Setting to null will disable this feature.
+     *
+     * @return Key combination to jump to matching tag.
+     */
+    @PropertyGetter(value = "jumpShortcut", bindable = false, description = "Key combination to jump to matching tag.")
+    public String getJumpShortcut() {
+        return jumpShortcut;
+    }
+    
+    /**
+     * Sets the key combination that will jump to the tag matching the one currently under the
+     * cursor. Setting to null will disable this feature.
+     *
+     * @param jumpShortcut Key combination to jump to matching tag.
+     */
+    @PropertySetter(value = "jumpShortcut", bindable = false, defaultValue = "Alt-J", description = "Key combination to jump to matching tag.")
+    public void setJumpShortcut(String jumpShortcut) {
+        String oldValue = this.jumpShortcut;
+        XMLOptions options = this.getOptions();
+        
+        if (propertyChange("jumpShortcut", this.jumpShortcut, this.jumpShortcut = trimify(jumpShortcut), false)) {
+            if (oldValue != null && MATCHING_TAG_COMMAND.equals(options.getKeyBinding(oldValue))) {
+                options.removeKeyBinding(oldValue);
+            }
+            
+            if (jumpShortcut != null) {
+                options.addKeyBinding(jumpShortcut, MATCHING_TAG_COMMAND);
+            }
 
+            refreshOptions();
+        }
+    }
+    
     /**
      * Sets schema information.
      *
@@ -263,4 +382,5 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
         options.schemaInfo = schemaInfo;
         refreshOptions();
     }
+    
 }
