@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2008 - 2017 Regenstrief Institute, Inc.
+ * Copyright (C) 2018 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
