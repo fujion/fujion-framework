@@ -30,28 +30,36 @@ import org.springframework.web.servlet.DispatcherServlet;
  * re-attempted.
  */
 public class FujionServlet extends DispatcherServlet {
-
+    
     private static final long serialVersionUID = 1L;
-    
+
     private static final String ATTR_EXCEPTION = FujionServlet.class.getName() + ".EXCEPTION";
+
+    public FujionServlet() {
+        super();
+    }
     
+    public FujionServlet(WebApplicationContext webApplicationContext) {
+        super(webApplicationContext);
+    }
+
     @Override
     protected WebApplicationContext initWebApplicationContext() {
         Object exc = getServletContext().getAttribute(ATTR_EXCEPTION);
-        
+
         try {
             if (exc instanceof Throwable) {
                 throw (Throwable) exc;
             }
-            
+
             return super.initWebApplicationContext();
         } catch (Throwable t) {
             if (exc == null) {
                 getServletContext().setAttribute(ATTR_EXCEPTION, t);
             }
-            
+
             throw MiscUtil.toUnchecked(t);
         }
     }
-
+    
 }
