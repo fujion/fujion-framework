@@ -8,7 +8,7 @@ import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.angular.AngularComponent;
 import org.fujion.common.Logger;
 
-@Component(tag = "${classname}", widgetModule = "fujion-angular-widget", widgetClass = "AngularWidget", parentTag = "*")
+@Component(tag = "${classname}", widgetModule = "fujion-angular-widget", widgetClass = "AngularWidget", parentTag = "*", description="${displayName}")
 public class ${ClassName} extends AngularComponent {
 
 	private static final Logger log = Logger.create(${ClassName}.class);

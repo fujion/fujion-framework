@@ -8,7 +8,7 @@ import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.common.Logger;
 import org.fujion.react.ReactComponent;
 
-@Component(tag = "${classname}", widgetModule = "fujion-react-widget", widgetClass = "ReactWidget", parentTag = "*")
+@Component(tag = "${classname}", widgetModule = "fujion-react-widget", widgetClass = "ReactWidget", parentTag = "*", description="${displayName}")
 public class ${ClassName} extends ReactComponent {
 
 	private static final Logger log = Logger.create(${ClassName}.class);
