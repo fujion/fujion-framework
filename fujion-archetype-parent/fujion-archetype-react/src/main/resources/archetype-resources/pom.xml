@@ -39,6 +39,33 @@
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>com.samaxes.maven</groupId>
+				<artifactId>minify-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>org.fujion.schema.SchemaGenerator</mainClass>
+							<classpathScope>compile</classpathScope>
+							<arguments>
+								<argument>-v=${project.version}</argument>
+								<argument>-t=${displayName} Extension</argument>
+								<argument>-c=${package}.${ClassName}</argument>
+								<argument>${schemadir}fsp-${classname}.xsd</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	

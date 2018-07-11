@@ -365,6 +365,7 @@
 									${project.build.directory}/classes/META-INF/resources/webjars/${webjar.name}/${webjar.version}
 								</webappTargetDir>
 								<cssFinalFile>${webjar.name}.css</cssFinalFile>
+								<cssSourceDir>.</cssSourceDir>
 								<cssSourceIncludes>
 									<cssSourceInclude>**/*.css</cssSourceInclude>
 								</cssSourceIncludes>
@@ -372,6 +373,7 @@
 									<cssSourceExclude>**/*.min.css</cssSourceExclude>
 								</cssSourceExcludes>
 								<jsFinalFile>${webjar.name}.js</jsFinalFile>
+								<jsSourceDir>.</jsSourceDir>
 								<jsSourceIncludes>
 									<jsSourceInclude>**/*.js</jsSourceInclude>
 								</jsSourceIncludes>
