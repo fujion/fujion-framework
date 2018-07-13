@@ -73,6 +73,10 @@
 				pharmacode
 			</row>
 			<row>
+				<barcode format="qr" displayValue="true" value="test12345" />
+				qr
+			</row>
+			<row>
 				<barcode format="upc" displayValue="true" value="123456789012" />
 				upc
 			</row>
