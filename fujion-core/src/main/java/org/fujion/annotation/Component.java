@@ -38,7 +38,7 @@ import org.fujion.model.IBinding.IWriteBinding;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Component {
-
+    
     /**
      * Methods of handling text content nodes.
      */
@@ -60,7 +60,7 @@ public @interface Component {
          */
         AS_CHILD
     }
-
+    
     /**
      * Marks a property getter.
      */
@@ -68,14 +68,14 @@ public @interface Component {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
     public @interface PropertyGetter {
-
+        
         /**
          * The property name.
          *
          * @return The property name.
          */
         String value();
-
+        
         /**
          * If true, the getter may be bound to a {@link IWriteBinding write binder}. A property must
          * signal a change in value via a {@link PropertychangeEvent} in order to serve as a data
@@ -84,7 +84,7 @@ public @interface Component {
          * @return If true, the getter may be bound to a {@link IWriteBinding write binder}.
          */
         boolean bindable() default true;
-
+        
         /**
          * If true, hide the getter method from the deserializer. Use this to hide a getter
          * annotated in a superclass.
@@ -92,7 +92,7 @@ public @interface Component {
          * @return If true, hide the getter method from the deserializer.
          */
         boolean hide() default false;
-        
+
         /**
          * Optional description of property.
          *
@@ -100,7 +100,7 @@ public @interface Component {
          */
         String description() default "";
     }
-
+    
     /**
      * Marks a property setter
      */
@@ -108,21 +108,21 @@ public @interface Component {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
     public @interface PropertySetter {
-
+        
         /**
          * The property name.
          *
          * @return The property name.
          */
         String value();
-
+        
         /**
          * If true, the setter may be bound to a {@link IReadBinding read binder}.
          *
          * @return If true, the setter may be bound to a {@link IReadBinding read binder}.
          */
         boolean bindable() default true;
-
+        
         /**
          * If true, hide the setter method from the deserializer. Use this to hide a setter
          * annotated in a superclass.
@@ -130,21 +130,21 @@ public @interface Component {
          * @return If true, hide the setter method from the deserializer.
          */
         boolean hide() default false;
-
+        
         /**
          * If true, defer invoking the setter until deserialization is complete.
          *
          * @return If true, defer invoking the setter until deserialization is complete.
          */
         boolean defer() default false;
-        
+
         /**
          * The default value for the property.
          *
          * @return The default value for the property, if any.
          */
         String defaultValue() default "";
-
+        
         /**
          * Optional description of property.
          *
@@ -152,7 +152,7 @@ public @interface Component {
          */
         String description() default "";
     }
-
+    
     /**
      * Binds a factory parameter to an XML attribute. Such attributes are used to modify factory
      * settings that affect component creation.
@@ -161,21 +161,21 @@ public @interface Component {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
     public @interface FactoryParameter {
-
+        
         /**
          * The attribute name.
          *
          * @return The attribute name.
          */
         String value();
-
+        
         /**
          * The default value for the parameter.
          *
          * @return The default value for the parameter, if any.
          */
         String defaultValue() default "";
-
+        
         /**
          * Optional description of property.
          *
@@ -183,7 +183,7 @@ public @interface Component {
          */
         String description() default "";
     }
-
+    
     /**
      * Represents a child tag and its cardinality.
      */
@@ -191,83 +191,83 @@ public @interface Component {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.ANNOTATION_TYPE)
     public @interface ChildTag {
-
+        
         /**
          * The child tag.
          *
          * @return The child tag.
          */
         String value();
-
+        
         /**
          * Minimum number of occurrences.
          *
          * @return Minimum number of occurrences.
          */
         int minimum() default 0;
-
+        
         /**
          * Maximum number of occurrences.
          *
          * @return Maximum number of occurrences.
          */
         int maximum() default Integer.MAX_VALUE;
-
+        
     }
-
+    
     /**
      * The XML tag corresponding to this component.
      *
      * @return The XML tag corresponding to this component.
      */
     String tag();
-
+    
     /**
      * How to handle text content associated with the tag.
      *
      * @return The content handling.
      */
     ContentHandling content() default ContentHandling.ERROR;
-
+    
     /**
      * The allowable parent tag(s) for this component.
      *
      * @return The allowable parent tag(s).
      */
     String[] parentTag() default {};
-
+    
     /**
      * The allowable child tag(s) for this component, including cardinality.
      *
      * @return The allowable child tag(s).
      */
     ChildTag[] childTag() default {};
-
+    
     /**
      * The class of the factory for creating this component.
      *
      * @return The factory class.
      */
     Class<? extends ComponentFactory> factoryClass() default ComponentFactory.class;
-
+    
     /**
      * The JavaScript module containing the widget.
      *
      * @return The JavaScript module name.
      */
     String widgetModule() default "fujion-widget";
-
+    
     /**
      * The JavaScript class for the widget.
      *
      * @return The JavaScript widget class.
      */
     String widgetClass();
-
+    
     /**
-     * Optional description of property.
+     * Optional description of component.
      *
-     * @return Description of property.
+     * @return Description of component.
      */
     String description() default "";
 }
