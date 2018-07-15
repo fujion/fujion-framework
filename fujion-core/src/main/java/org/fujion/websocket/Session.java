@@ -26,10 +26,11 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.fujion.common.Logger;
+import org.fujion.ancillary.IAttributeMap;
 import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientRequest;
 import org.fujion.client.Synchronizer;
+import org.fujion.common.Logger;
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
 import org.springframework.util.Assert;
@@ -38,30 +39,30 @@ import org.springframework.web.socket.WebSocketSession;
 /**
  * Container for core resources for a single client session (i.e., web socket connection).
  */
-public class Session {
-
+public class Session implements IAttributeMap<String, Object> {
+    
     private static final Logger log = Logger.create(Session.class);
-
+    
     public static final String ATTR_SESSION = "fujion_session";
-
+    
     private enum EventType {
         DESTROY, REQUEST, INVOCATION
     }
-
-    private final ServletContext servletContext;
-
-    private final WebSocketSession socket;
-
-    private final Synchronizer synchronizer;
-
-    private Set<ISessionListener> sessionListeners;
     
+    private final ServletContext servletContext;
+    
+    private final WebSocketSession socket;
+    
+    private final Synchronizer synchronizer;
+    
+    private Set<ISessionListener> sessionListeners;
+
     private final long creationTime;
-
+    
     private long lastActivity;
-
+    
     private Page page;
-
+    
     /**
      * Create a session, with references to its servlet context and web socket.
      *
@@ -76,7 +77,7 @@ public class Session {
         creationTime = System.currentTimeMillis();
         lastActivity = creationTime;
     }
-
+    
     /**
      * Destroy the session. This destroys the associated page.
      */
@@ -90,10 +91,10 @@ public class Session {
                 page = null;
             }
         }
-
+        
         notifySessionListeners(EventType.DESTROY, null);
     }
-
+    
     /**
      * Returns the session's id, which is the same as the underlying web socket id.
      *
@@ -102,7 +103,7 @@ public class Session {
     public String getId() {
         return socket.getId();
     }
-
+    
     /**
      * Returns the session's time of creation.
      *
@@ -111,7 +112,7 @@ public class Session {
     public long getCreationTime() {
         return creationTime;
     }
-
+    
     /**
      * Returns the time of last activity for the session.
      *
@@ -120,14 +121,14 @@ public class Session {
     public long getLastActivity() {
         return lastActivity;
     }
-
+    
     /**
      * Updates the session's last activity.
      */
     public void updateLastActivity() {
         this.lastActivity = System.currentTimeMillis();
     }
-
+    
     /**
      * Returns the servlet context associated with the session.
      *
@@ -136,7 +137,7 @@ public class Session {
     public ServletContext getServletContext() {
         return servletContext;
     }
-
+    
     /**
      * Returns the web socket associated with the session.
      *
@@ -145,7 +146,7 @@ public class Session {
     public WebSocketSession getSocket() {
         return socket;
     }
-
+    
     /**
      * Returns the synchronizer associated with the session.
      *
@@ -154,7 +155,7 @@ public class Session {
     public Synchronizer getSynchronizer() {
         return synchronizer;
     }
-
+    
     /**
      * Returns the page associated with the session.
      *
@@ -163,17 +164,18 @@ public class Session {
     public Page getPage() {
         return page;
     }
-
+    
     /**
      * Returns the attribute map associated with the session. This is a convenience method for
      * accessing the attribute map of the underlying web socket session.
      *
      * @return The attribute map.
      */
+    @Override
     public Map<String, Object> getAttributes() {
         return socket.getAttributes();
     }
-
+    
     /**
      * Register a session listener.
      *
@@ -184,10 +186,10 @@ public class Session {
         if (sessionListeners == null) {
             sessionListeners = new LinkedHashSet<>();
         }
-        
+
         return sessionListeners.add(listener);
     }
-    
+
     /**
      * Unregister a session listener.
      *
@@ -197,7 +199,7 @@ public class Session {
     public boolean removeSessionListener(ISessionListener listener) {
         return sessionListeners != null && sessionListeners.remove(listener);
     }
-    
+
     /**
      * Notify all session listeners of a client request event.
      *
@@ -206,7 +208,7 @@ public class Session {
     protected void notifySessionListeners(ClientRequest request) {
         notifySessionListeners(EventType.REQUEST, request);
     }
-
+    
     /**
      * Notify all session listeners of a client invocation event.
      *
@@ -215,7 +217,7 @@ public class Session {
     protected void notifySessionListeners(ClientInvocation invocation) {
         notifySessionListeners(EventType.INVOCATION, invocation);
     }
-
+    
     /**
      * Notify all session listeners of an event.
      *
@@ -230,11 +232,11 @@ public class Session {
                         case DESTROY:
                             sessionListener.onDestroy();
                             break;
-
+                            
                         case REQUEST:
                             sessionListener.onClientRequest((ClientRequest) argument);
                             break;
-
+                            
                         case INVOCATION:
                             sessionListener.onClientInvocation((ClientInvocation) argument);
                             break;
@@ -245,7 +247,7 @@ public class Session {
             }
         }
     }
-
+    
     /**
      * Send a ping to the client.
      *
@@ -254,7 +256,7 @@ public class Session {
     public void ping(String data) {
         WebSocketHandler.send(socket, new ClientInvocation("fujion.ws.ping", null, data));
     }
-
+    
     /**
      * Initialize the session. If already initialized, this only validates that the page id matches
      * that of the associated page. Otherwise, it associates the session with the page specified by

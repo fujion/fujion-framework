@@ -35,6 +35,7 @@ import org.apache.commons.lang.reflect.FieldUtils;
 import org.fujion.ancillary.ComponentException;
 import org.fujion.ancillary.ComponentRegistry;
 import org.fujion.ancillary.ConvertUtil;
+import org.fujion.ancillary.IAttributeMap;
 import org.fujion.ancillary.IAutoWired;
 import org.fujion.ancillary.IComposite;
 import org.fujion.ancillary.IComposite.CompositePosition;
@@ -67,7 +68,7 @@ import org.springframework.util.Assert;
 /**
  * The abstract base class for all components.
  */
-public abstract class BaseComponent implements IElementIdentifier {
+public abstract class BaseComponent implements IElementIdentifier, IAttributeMap<String, Object> {
     
     private static final String ATTR_CONTROLLER = "controller";
 
@@ -511,18 +512,9 @@ public abstract class BaseComponent implements IElementIdentifier {
      *
      * @return The attribute map.
      */
+    @Override
     public Map<String, Object> getAttributes() {
         return attributes;
-    }
-    
-    /**
-     * Returns the value of the named attribute.
-     *
-     * @param name The attribute name.
-     * @return The named attribute's value (or null if not found).
-     */
-    public Object getAttribute(String name) {
-        return attributes.get(name);
     }
     
     /**
@@ -592,28 +584,8 @@ public abstract class BaseComponent implements IElementIdentifier {
      * @return The previous value of the named attribute, if any.
      */
     @PropertySetter("attr:")
-    public Object setAttribute(String name, Object value) {
-        return attributes.put(name, value);
-    }
-    
-    /**
-     * Removes the named attribute if it exists.
-     *
-     * @param name The attribute name.
-     * @return The value of the removed attribute.
-     */
-    public Object removeAttribute(String name) {
-        return attributes.remove(name);
-    }
-    
-    /**
-     * Returns true if the named attribute exists.
-     *
-     * @param name The attribute name.
-     * @return True if the named attribute exists.
-     */
-    public boolean hasAttribute(String name) {
-        return attributes.containsKey(name);
+    private Object _setAttribute(String name, Object value) {
+        return setAttribute(name, value);
     }
     
     /**
