@@ -18,7 +18,7 @@
  *
  * #L%
  */
-package org.fujion.ancillary;
+package org.fujion.common;
 
 import java.util.Map;
 
