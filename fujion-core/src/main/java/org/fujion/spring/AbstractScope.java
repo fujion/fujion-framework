@@ -32,41 +32,46 @@ import org.springframework.beans.factory.config.Scope;
  * Abstract base class for implementing custom scopes.
  */
 public abstract class AbstractScope implements Scope {
-    
+
     private static final Logger log = Logger.create(AbstractScope.class);
-    
+
     /**
      * IOC container for the custom scopes.
      */
     public static class ScopeContainer implements Scope {
-        
-        private final Map<String, Object> beans = new HashMap<>();
-        
+
+        private final Map<String, Object> beans;
+
         private final Map<String, Runnable> destructionCallbacks = new HashMap<>();
-        
+
         private final String conversationId;
-        
+
         public ScopeContainer(String conversationId) {
-            this.conversationId = conversationId;
+            this(conversationId, null);
         }
-        
+
+        public ScopeContainer(String conversationId, Map<String, Object> beans) {
+            this.conversationId = conversationId;
+            this.beans = beans == null ? new HashMap<>() : beans;
+        }
+
         @Override
         public synchronized Object remove(String key) {
             destructionCallbacks.remove(key);
             return beans.remove(key);
         }
-        
+
         @Override
         public synchronized Object get(String name, ObjectFactory<?> objectFactory) {
             Object bean = beans.get(name);
-            
+
             if (bean == null) {
                 registerBean(name, bean = objectFactory.getObject());
             }
-            
+
             return bean;
         }
-        
+
         /**
          * Register a bean in this scope.
          *
@@ -81,7 +86,7 @@ public abstract class AbstractScope implements Scope {
                 return beans.put(name, bean);
             }
         }
-
+        
         /**
          * Register a bean destruction callback.
          *
@@ -92,7 +97,7 @@ public abstract class AbstractScope implements Scope {
         public synchronized void registerDestructionCallback(String name, Runnable callback) {
             destructionCallbacks.put(name, callback);
         }
-        
+
         /**
          * For orphan containers.
          */
@@ -101,7 +106,7 @@ public abstract class AbstractScope implements Scope {
             destroy();
             super.finalize();
         }
-        
+
         /**
          * Calls all registered destruction callbacks and removes all bean references from the
          * container.
@@ -114,53 +119,53 @@ public abstract class AbstractScope implements Scope {
                     log.error(() -> "Error during destruction callback for bean " + entry.getKey(), t);
                 }
             }
-            
+
             beans.clear();
             destructionCallbacks.clear();
         }
-        
+
         @Override
         public Object resolveContextualObject(String key) {
             return null;
         }
-        
+
         @Override
         public String getConversationId() {
             return conversationId;
         }
     }
-    
+
     /**
      * Implement to retrieve the container for this scope.
      *
      * @return Container for this scope.
      */
     public abstract ScopeContainer getContainer();
-    
+
     @Override
     public Object get(String name, ObjectFactory<?> objectFactory) {
         return getContainer().get(name, objectFactory);
     }
-    
+
     @Override
     public Object remove(String name) {
         return getContainer().remove(name);
     }
-    
+
     @Override
     public void registerDestructionCallback(String name, Runnable callback) {
         getContainer().registerDestructionCallback(name, callback);
     }
-    
+
     @Override
     public Object resolveContextualObject(String key) {
         return getContainer().resolveContextualObject(key);
     }
-    
+
     @Override
     public String getConversationId() {
         ScopeContainer container = getContainer();
         return container == null ? null : container.getConversationId();
     }
-    
+
 }
