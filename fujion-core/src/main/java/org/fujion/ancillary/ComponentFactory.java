@@ -171,9 +171,8 @@ public class ComponentFactory {
         if (active && caseVal != null) {
             BaseComponent parent = (BaseComponent) elContext.getValue("parent");
             Object switchVal = parent == null ? null : parent.getAttribute(SWITCH_ATTR);
-            active = switchVal != null && (CASE_DEFAULT.equals(caseVal) || ObjectUtils.equals(switchVal, caseVal));
             
-            if (active) {
+            if (active = caseMatches(switchVal)) {
                 parent.removeAttribute(SWITCH_ATTR);
             }
         }
@@ -197,6 +196,18 @@ public class ComponentFactory {
         return components;
     }
     
+    private boolean caseMatches(Object switchVal) {
+        if (switchVal != null) {
+            for (Object val : ConvertUtil.convertToIterable(caseVal)) {
+                if (CASE_DEFAULT.equals(val) || ObjectUtils.equals(switchVal, val)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
     private BaseComponent create() {
         try {
             BaseComponent comp = clazz.newInstance();

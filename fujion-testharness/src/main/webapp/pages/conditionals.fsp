@@ -19,6 +19,12 @@
 		<label case="third" class="alert-danger" label="This label should not appear."/>
 		<label case="@default" class="alert-danger" label="This label should not appear."/>
 	</div>
+	<div switch="third">
+		Switch statement test:
+		<label case="first" class="alert-danger" label="This label should not appear."/>
+		<label case="${{'second','third'}}" class="alert-success" label="This label should appear."/>
+		<label case="@default" class="alert-danger" label="This label should not appear."/>
+	</div>
 	<div switch="other">
 		Switch statement test:
 		<label case="first" class="alert-danger" label="This label should not appear."/>
