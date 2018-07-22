@@ -30,50 +30,134 @@ import org.fujion.component.BaseComponent;
  * Run time exception related to a component operation.
  */
 public class ComponentException extends UnhandledException {
-
-    private static final long serialVersionUID = 1L;
-
-    private final BaseComponent component;
-
-    private final Class<? extends BaseComponent> componentClass;
-
-    private final String message;
     
+    private static final long serialVersionUID = 1L;
+    
+    private final BaseComponent component;
+    
+    private final Class<? extends BaseComponent> componentClass;
+    
+    private final String message;
+
     /**
      * Asserts that a condition is true, throwing a ComponentException if it is not.
      *
      * @param condition Condition to test.
      * @param message The exception message.
+     * @exception ComponentException Thrown if the condition is not met.
      */
     public static void assertTrue(boolean condition, Supplier<String> message) {
+        assertTrue(condition, null, null, message);
+    }
+
+    /**
+     * Asserts that a condition is true, throwing a ComponentException if it is not.
+     *
+     * @param condition Condition to test.
+     * @param componentClass Class of the component that caused the exception. May be null.
+     * @param message The exception message.
+     * @exception ComponentException Thrown if the condition is not met.
+     */
+    public static void assertTrue(boolean condition, Class<? extends BaseComponent> componentClass,
+                                  Supplier<String> message) {
+        assertTrue(condition, componentClass, null, message);
+    }
+
+    /**
+     * Asserts that a condition is true, throwing a ComponentException if it is not.
+     *
+     * @param condition Condition to test.
+     * @param component Component instance that caused the exception. May be null.
+     * @param message The exception message.
+     * @exception ComponentException Thrown if the condition is not met.
+     */
+    public static void assertTrue(boolean condition, BaseComponent component, Supplier<String> message) {
+        assertTrue(condition, null, component, message);
+    }
+
+    /**
+     * Asserts that a condition is true, throwing a ComponentException if it is not.
+     *
+     * @param condition Condition to test.
+     * @param componentClass Class of the component that caused the exception. May be null.
+     * @param component Component instance that caused the exception. May be null.
+     * @param message The exception message.
+     * @exception ComponentException Thrown if the condition is not met.
+     */
+    private static void assertTrue(boolean condition, Class<? extends BaseComponent> componentClass, BaseComponent component,
+                                   Supplier<String> message) {
         if (!condition) {
-            throw new ComponentException(message.get());
+            throw new ComponentException((Throwable) null, componentClass, component, message.get());
         }
     }
-    
+
     /**
      * Asserts that a condition is true, throwing a ComponentException if it is not.
      *
      * @param condition Condition to test.
      * @param message The exception message.
      * @param args Optional message parameters
+     * @exception ComponentException Thrown if the condition is not met.
      */
     public static void assertTrue(boolean condition, String message, Object... args) {
+        assertTrue(condition, null, null, message, args);
+    }
+
+    /**
+     * Asserts that a condition is true, throwing a ComponentException if it is not.
+     *
+     * @param condition Condition to test.
+     * @param componentClass Class of the component that caused the exception. May be null.
+     * @param message The exception message.
+     * @param args Optional message parameters
+     * @exception ComponentException Thrown if the condition is not met.
+     */
+    public static void assertTrue(boolean condition, Class<? extends BaseComponent> componentClass, String message,
+                                  Object... args) {
+        assertTrue(condition, componentClass, null, message, args);
+    }
+
+    /**
+     * Asserts that a condition is true, throwing a ComponentException if it is not.
+     *
+     * @param condition Condition to test.
+     * @param component Component instance that caused the exception. May be null.
+     * @param message The exception message.
+     * @param args Optional message parameters
+     * @exception ComponentException Thrown if the condition is not met.
+     */
+    public static void assertTrue(boolean condition, BaseComponent component, String message, Object... args) {
+        assertTrue(condition, null, component, message, args);
+    }
+
+    /**
+     * Asserts that a condition is true, throwing a ComponentException if it is not.
+     *
+     * @param condition Condition to test.
+     * @param componentClass Class of the component that caused the exception. May be null.
+     * @param component Component instance that caused the exception. May be null.
+     * @param message The exception message.
+     * @param args Optional message parameters
+     * @exception ComponentException Thrown if the condition is not met.
+     */
+    private static void assertTrue(boolean condition, Class<? extends BaseComponent> componentClass, BaseComponent component,
+                                   String message, Object... args) {
         if (!condition) {
-            throw new ComponentException(message, args);
+            throw new ComponentException((Throwable) null, componentClass, component, message, args);
         }
     }
-    
-    private static String formatMessage(Class<?> componentClass, BaseComponent component, String message, Object... args) {
+
+    private static String formatMessage(Class<? extends BaseComponent> componentClass, BaseComponent component,
+                                        String message, Object... args) {
         Object object = component != null ? component : componentClass;
         message = args == null || args.length == 0 ? message : String.format(message, args);
         return (object == null ? "" : object + ": ") + message;
     }
-    
+
     private static Throwable getCause(Throwable cause) {
         return cause instanceof InvocationTargetException ? cause.getCause() : cause;
     }
-
+    
     private ComponentException(Throwable cause, Class<? extends BaseComponent> componentClass, BaseComponent component,
                                String message, Object... args) {
         super(getCause(cause));
@@ -81,32 +165,32 @@ public class ComponentException extends UnhandledException {
         this.component = component;
         this.componentClass = component != null ? component.getClass() : componentClass;
     }
-    
+
     public ComponentException(Throwable cause, String message, Object... args) {
         this(cause, null, null, message, args);
     }
-    
+
     public ComponentException(Throwable cause, Class<? extends BaseComponent> componentClass, String message,
                               Object... args) {
         this(cause, componentClass, null, message, args);
     }
-    
+
     public ComponentException(Throwable cause, BaseComponent component, String message, Object... args) {
         this(cause, null, component, message, args);
     }
-    
+
     public ComponentException(String message, Object... args) {
         this(null, null, null, message, args);
     }
-
+    
     public ComponentException(Class<? extends BaseComponent> componentClass, String message, Object... args) {
         this(null, componentClass, null, message, args);
     }
-
+    
     public ComponentException(BaseComponent component, String message, Object... args) {
         this(null, null, component, message, args);
     }
-
+    
     /**
      * Returns the component instance that caused the exception.
      *
@@ -115,7 +199,7 @@ public class ComponentException extends UnhandledException {
     public BaseComponent getComponent() {
         return component;
     }
-
+    
     /**
      * Returns the class of the component that caused the exception. If a component instance is
      * associated with the exception, the class will be that of the component instance. However, if
@@ -127,7 +211,7 @@ public class ComponentException extends UnhandledException {
     public Class<? extends BaseComponent> getComponentClass() {
         return componentClass;
     }
-
+    
     /**
      * Override default behavior and simply prepend this exception's message to that of its
      * superclass.
@@ -135,13 +219,13 @@ public class ComponentException extends UnhandledException {
     @Override
     public String getMessage() {
         String message = super.getMessage();
-        
+
         if (message == null) {
             message = this.message;
         } else if (this.message != null) {
             message = this.message + "\n" + message;
         }
-        
+
         return message;
     }
 }

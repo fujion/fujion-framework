@@ -159,10 +159,8 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         private void _validate(String name, BaseComponent root, BaseComponent component) {
             if (name != null) {
                 BaseComponent cmp = _find(name, root);
-
-                if (cmp != null && cmp != component) {
-                    throw new ComponentException("Name \"" + name + "\"already exists in enclosing namespace");
-                }
+                ComponentException.assertTrue(cmp == null || cmp == component,
+                        "Name \"%s\"already exists in enclosing namespace", name);
             }
         }
 
@@ -278,9 +276,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @exception ComponentException Thrown upon validation failure.
      */
     protected static void validate(BaseComponent comp) {
-        if (comp != null && comp.isDead()) {
-            throw new ComponentException("Component no longer exists: %s", comp.getId());
-        }
+        ComponentException.assertTrue(comp == null || !comp.isDead(), "Component no longer exists: %s", comp);
     }
 
     /**
@@ -341,10 +337,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
 
     private void _validateName(String name) {
         if (name != null) {
-            if (!validateName(name)) {
-                throw new ComponentException(this, "Component name is not valid: " + name);
-            }
-
+            ComponentException.assertTrue(validateName(name), this, "Component name \"%s\" is not valid", name);
             nameIndex.validate(name);
         }
     }
@@ -484,10 +477,8 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         }
 
         componentDefinition.validateParent(parent.componentDefinition);
-
-        if (isAncestor(parent)) {
-            throw new ComponentException("Not a valid parent because it is the same as or an descendant of this component");
-        }
+        ComponentException.assertTrue(!isAncestor(parent),
+                "Not a valid parent because it is the same as or an descendant of this component");
     }
 
     /**
@@ -595,9 +586,8 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @exception ComponentException Thrown if the component fails validation.
      */
     protected void validateIsChild(BaseComponent child) {
-        if (child != null && child.getParent() != this) {
-            throw new ComponentException("Child does not belong to this parent");
-        }
+        ComponentException.assertTrue(child == null || child.getParent() == this, child,
+                "Child does not belong to this parent");
     }
 
     /**
@@ -699,10 +689,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             return;
         }
 
-        if (before.getParent() != this) {
-            throw new ComponentException(this, "Before component does not belong to this parent");
-        }
-
+        ComponentException.assertTrue(before.getParent() == this, this, "Before component does not belong to this parent");
         int i = children.indexOf(before);
         addChild(child, i);
     }
@@ -748,11 +735,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         }
 
         int index = children.indexOf(child);
-
-        if (index == -1) {
-            throw new ComponentException(this, "Child does not belong to this parent");
-        }
-
+        ComponentException.assertTrue(index != -1, this, "Child does not belong to this parent");
         beforeRemoveChild(child);
         nameIndex.remove(child);
         child.parent = null;
@@ -1147,16 +1130,10 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     @PropertySetter(value = "namespace", bindable = false, description = "When true, this component acts as a namespace boundary.")
     public void setNamespace(boolean namespace) {
         if (this.namespace != namespace) {
-            if (this instanceof INamespace) {
-                throw new ComponentException(this,
-                        "You may not disable namespace support for a component that implements INamespace");
-            }
-            
-            if (this.parent != null || this.getChildCount() > 0) {
-                throw new ComponentException(this,
-                        "You may not modify the namespace property if a component has a parent or any children.");
-            }
-            
+            ComponentException.assertTrue(!(this instanceof INamespace), this,
+                    "You may not disable namespace support for a component that implements INamespace");
+            ComponentException.assertTrue(parent == null && !hasChildren(), this,
+                    "You may not modify the namespace property if a component has a parent or any children.");
             this.namespace = namespace;
         }
     }
@@ -1204,9 +1181,8 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @exception ComponentException If fails validation.
      */
     protected void validatePage(Page page) {
-        if (page != this.page && this.page != null) {
-            throw new ComponentException(this, "Component cannot be assigned to a different page");
-        }
+        ComponentException.assertTrue(page == this.page || this.page == null, this,
+                "Component cannot be assigned to a different page");
     }
 
     /**
@@ -1482,15 +1458,8 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
                     String name = i == -1 ? null : forward.substring(0, i);
                     forward = forward.substring(i + 1);
                     BaseComponent target = name == null ? this : findByName(name);
-
-                    if (target == null) {
-                        throw new ComponentException(this, "No component named \"%s\" found", name);
-                    }
-
-                    if (forward.isEmpty()) {
-                        throw new IllegalArgumentException("No forward event specified");
-                    }
-
+                    ComponentException.assertTrue(target != null, this, "No component named \"%s\" found", name);
+                    ComponentException.assertTrue(!forward.isEmpty(), this, "No forward event specified");
                     addEventForward(original, target, forward);
                 }
             }
@@ -1879,9 +1848,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     @PropertySetter(value = "controller", bindable = false, defer = true, description = "Controller to be wired to this component.")
     public void wireController(Object controller) {
-        if (controller == null) {
-            throw new ComponentException("Controller is null or could not be resolved");
-        }
+        ComponentException.assertTrue(controller != null, this, "Controller is null or could not be resolved");
 
         if (controller instanceof String) {
             try {
@@ -2075,7 +2042,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             field.set(this, newValue);
             propertyChange(state, oldValue, newValue, false);
         } catch (Exception e) {
-            throw new ComponentException(e, "Error updating state: " + state);
+            throw new ComponentException(e, this, "Error updating state \"%s\"", state);
         }
     }
 
