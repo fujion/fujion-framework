@@ -24,9 +24,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -94,6 +97,306 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         }
     }
     
+    /**
+     * Manages child components. The component list should only be manipulated through this wrapper,
+     * never directly.
+     */
+    private static class ChildList implements List<BaseComponent> {
+        
+        private final List<BaseComponent> delegate = new LinkedList<>();
+
+        private final BaseComponent parent;
+
+        private int modCount;
+
+        private ChildList(BaseComponent parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        public int size() {
+            return delegate.size();
+        }
+        
+        @Override
+        public boolean isEmpty() {
+            return delegate.isEmpty();
+        }
+        
+        @Override
+        public boolean contains(Object o) {
+            return delegate.contains(o);
+        }
+        
+        @Override
+        public Iterator<BaseComponent> iterator() {
+            return new Iterator<BaseComponent>() {
+
+                int next = 0;
+
+                boolean fetched = false;
+
+                int expected = modCount;
+
+                @Override
+                public boolean hasNext() {
+                    checkModCount();
+                    return next < delegate.size();
+                }
+
+                @Override
+                public BaseComponent next() {
+                    checkModCount();
+                    fetched = true;
+                    return delegate.get(next++);
+                }
+                
+                @Override
+                public void remove() {
+                    checkModCount();
+                    Assert.state(fetched, "No element to remove");
+                    fetched = false;
+                    ChildList.this.remove(--next);
+                    expected = modCount;
+                }
+
+                private void checkModCount() {
+                    if (modCount != expected) {
+                        throw new ConcurrentModificationException();
+                    }
+                }
+            };
+        }
+        
+        @Override
+        public Object[] toArray() {
+            return delegate.toArray();
+        }
+        
+        @Override
+        public <T> T[] toArray(T[] a) {
+            return delegate.toArray(a);
+        }
+        
+        @Override
+        public boolean remove(Object o) {
+            remove((BaseComponent) o, false, false);
+            return true;
+        }
+        
+        protected void remove(BaseComponent child, boolean noSync, boolean destroy) {
+            if (child instanceof IComposite) {
+                BaseComponent root = ((IComposite) child).getCompositeRoot();
+                BaseComponent parent = root == null ? null : root.getParent();
+
+                if (parent != null) {
+                    parent.children.remove(root, noSync, destroy);
+                }
+
+                child.parent = null;
+                modCount++;
+            } else {
+                int index = indexOf(child);
+                ComponentException.assertTrue(index != -1, parent, "Child does not belong to this parent");
+                parent.beforeRemoveChild(child);
+                parent.nameIndex.remove(child);
+                child.parent = null;
+                delegate.remove(child);
+                modCount++;
+                
+                if (!noSync) {
+                    parent.invokeIfAttached("removeChild", child, destroy);
+                }
+                
+                child.dead |= destroy;
+                parent.afterRemoveChild(child);
+            }
+        }
+        
+        @Override
+        public boolean containsAll(Collection<?> c) {
+            return delegate.containsAll(c);
+        }
+        
+        @Override
+        public boolean addAll(Collection<? extends BaseComponent> c) {
+            return addAll(delegate.size(), c);
+        }
+        
+        @Override
+        public boolean addAll(int index, Collection<? extends BaseComponent> c) {
+            for (BaseComponent child : c) {
+                add(index++, child);
+            }
+            
+            return true;
+        }
+        
+        @Override
+        public boolean removeAll(Collection<?> c) {
+            for (Object child : c) {
+                remove(child);
+            }
+
+            return true;
+        }
+        
+        @Override
+        public boolean retainAll(Collection<?> c) {
+            List<BaseComponent> remove = new ArrayList<>(delegate);
+            remove.removeAll(c);
+            return removeAll(remove);
+        }
+        
+        @Override
+        public void clear() {
+            clear(false);
+        }
+        
+        public void clear(boolean destroy) {
+            while (!isEmpty()) {
+                remove(get(0), false, destroy);
+            }
+        }
+
+        @Override
+        public BaseComponent get(int index) {
+            return delegate.get(index);
+        }
+        
+        @Override
+        public BaseComponent set(int index, BaseComponent child) {
+            BaseComponent old = get(index);
+            old.detach();
+            add(index, child);
+            return old;
+        }
+        
+        @Override
+        public boolean add(BaseComponent child) {
+            add(-1, child);
+            return true;
+        }
+        
+        @Override
+        public void add(int index, BaseComponent child) {
+            modCount++;
+
+            if (child instanceof IComposite) {
+                parent.addComposite((IComposite) child);
+                child.parent = parent;
+                return;
+            }
+
+            boolean noSync = child.getPage() == null && index < 0;
+            child.validate();
+            BaseComponent oldParent = child.getParent();
+            
+            if (oldParent != parent) {
+                child.validateParent(parent);
+                parent.validateChild(child);
+                parent.nameIndex.validate(child);
+            }
+            
+            child.validatePage(parent.page);
+            
+            if (oldParent == parent) {
+                int i = child.getIndex();
+                
+                if (i == index) {
+                    return;
+                }
+                
+                if (index > i) {
+                    index--;
+                }
+            } else {
+                child.beforeSetParent(parent);
+                parent.beforeAddChild(child);
+            }
+            
+            if (oldParent != null) {
+                oldParent.children.remove(child, true, false);
+            }
+            
+            if (index < 0) {
+                delegate.add(child);
+            } else {
+                delegate.add(index, child);
+            }
+            
+            child.parent = parent;
+            
+            if (parent.page != null) {
+                child._attach(parent.page);
+            }
+            
+            parent.nameIndex.add(child);
+            
+            if (!noSync) {
+                parent.invokeIfAttached("addChild", child, index);
+            }
+            
+            if (oldParent != parent) {
+                parent.afterAddChild(child);
+                child.afterSetParent(parent);
+            }
+        }
+        
+        @Override
+        public BaseComponent remove(int index) {
+            BaseComponent old = get(index);
+            
+            if (old != null) {
+                remove(old);
+            }
+            
+            return old;
+        }
+        
+        @Override
+        public int indexOf(Object o) {
+            return delegate.indexOf(o);
+        }
+        
+        @Override
+        public int lastIndexOf(Object o) {
+            return delegate.lastIndexOf(o);
+        }
+        
+        @Override
+        public ListIterator<BaseComponent> listIterator() {
+            throw new UnsupportedOperationException();
+        }
+        
+        @Override
+        public ListIterator<BaseComponent> listIterator(int index) {
+            throw new UnsupportedOperationException();
+        }
+        
+        @Override
+        public List<BaseComponent> subList(int fromIndex, int toIndex) {
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Swap positions of two children.
+         * 
+         * @param index1 Index of first child.
+         * @param index2 Index of second child.
+         */
+        public void swap(int index1, int index2) {
+            if (index1 != index2) {
+                BaseComponent child1 = delegate.get(index1);
+                BaseComponent child2 = delegate.get(index2);
+                delegate.set(index1, child2);
+                delegate.set(index2, child1);
+                parent.invokeIfAttached("swapChildren", index1, index2);
+                modCount++;
+            }
+        }
+    }
+
     /**
      * An index of child component names maintained by a parent component.
      */
@@ -259,7 +562,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     
     private List<Object> controllers;
     
-    private final List<BaseComponent> children = new LinkedList<>();
+    private final ChildList children = new ChildList(this);
     
     private final Map<String, Object> attributes = new HashMap<>();
     
@@ -374,9 +677,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Detach all children under this component.
      */
     public void detachChildren() {
-        while (!children.isEmpty()) {
-            children.get(0).detach();
-        }
+        children.clear();
     }
     
     /**
@@ -396,7 +697,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         destroyChildren();
         
         if (parent != null) {
-            parent._removeChild(this, false, true);
+            parent.children.remove(this, false, true);
         } else {
             invokeIfAttached("destroy");
         }
@@ -424,9 +725,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Destroy all children under this component.
      */
     public void destroyChildren() {
-        while (!children.isEmpty()) {
-            children.get(0).destroy();
-        }
+        children.clear(true);
     }
     
     /**
@@ -615,7 +914,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param child Child to add.
      */
     public void addChild(BaseComponent child) {
-        addChild(child, -1);
+        children.add(-1, child);
     }
     
     /**
@@ -625,65 +924,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param index The position in the child list where the new child will be inserted.
      */
     public void addChild(BaseComponent child, int index) {
-        if (child instanceof IComposite) {
-            addComposite((IComposite) child);
-            child.parent = this;
-            return;
-        }
-
-        boolean noSync = child.getPage() == null && index < 0;
-        child.validate();
-        BaseComponent oldParent = child.getParent();
-        
-        if (oldParent != this) {
-            child.validateParent(this);
-            validateChild(child);
-            nameIndex.validate(child);
-        }
-        
-        child.validatePage(page);
-        
-        if (oldParent == this) {
-            int i = child.getIndex();
-            
-            if (i == index) {
-                return;
-            }
-            
-            if (index > i) {
-                index--;
-            }
-        } else {
-            child.beforeSetParent(this);
-            beforeAddChild(child);
-        }
-        
-        if (oldParent != null) {
-            oldParent._removeChild(child, true, false);
-        }
-        
-        if (index < 0) {
-            children.add(child);
-        } else {
-            children.add(index, child);
-        }
-        
-        child.parent = this;
-        
-        if (page != null) {
-            child._attach(page);
-        }
-        
-        nameIndex.add(child);
-        
-        if (!noSync) {
-            invokeIfAttached("addChild", child, index);
-        }
-        
-        if (oldParent != this) {
-            afterAddChild(child);
-            child.afterSetParent(this);
-        }
+        children.add(index, child);
     }
     
     /**
@@ -694,13 +935,13 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     public void addChild(BaseComponent child, BaseComponent before) {
         if (before == null) {
-            addChild(child);
-            return;
+            children.add(-1, child);
+        } else {
+            ComponentException.assertTrue(before.getParent() == this, this,
+                    "Reference component does not belong to this parent");
+            int i = children.indexOf(before);
+            children.add(i, child);
         }
-        
-        ComponentException.assertTrue(before.getParent() == this, this, "Before component does not belong to this parent");
-        int i = children.indexOf(before);
-        addChild(child, i);
     }
     
     /**
@@ -709,9 +950,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param children List of children to add.
      */
     public void addChildren(Collection<? extends BaseComponent> children) {
-        for (BaseComponent child : children) {
-            addChild(child);
-        }
+        this.children.addAll(children);
     }
     
     /**
@@ -720,42 +959,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param child Child to remove.
      */
     public void removeChild(BaseComponent child) {
-        _removeChild(child, false, false);
-    }
-    
-    /**
-     * Removes a child from this parent.
-     *
-     * @param child Child to remove.
-     * @param noSync If true, don't sync change with client.
-     * @param destroy If true, destroy the child once it is removed.
-     */
-    /*package*/ void _removeChild(BaseComponent child, boolean noSync, boolean destroy) {
-        if (child instanceof IComposite) {
-            BaseComponent root = ((IComposite) child).getCompositeRoot();
-            BaseComponent parent = root == null ? null : root.getParent();
-
-            if (parent != null) {
-                parent._removeChild(root, noSync, destroy);
-            }
-
-            child.parent = null;
-            return;
-        }
-        
-        int index = children.indexOf(child);
-        ComponentException.assertTrue(index != -1, this, "Child does not belong to this parent");
-        beforeRemoveChild(child);
-        nameIndex.remove(child);
-        child.parent = null;
         children.remove(child);
-        
-        if (!noSync) {
-            invokeIfAttached("removeChild", child, destroy);
-        }
-        
-        child.dead |= destroy;
-        afterRemoveChild(child);
     }
     
     /**
@@ -765,11 +969,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param index2 Index of the second child.
      */
     public void swapChildren(int index1, int index2) {
-        BaseComponent child1 = children.get(index1);
-        BaseComponent child2 = children.get(index2);
-        children.set(index1, child2);
-        children.set(index2, child1);
-        invokeIfAttached("swapChildren", index1, index2);
+        children.swap(index1, index2);
     }
     
     /**
@@ -875,15 +1075,6 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @return List of existing children.
      */
     public final List<BaseComponent> getChildren() {
-        return Collections.unmodifiableList(children);
-    }
-    
-    /**
-     * Returns the list of existing children. Never directly modify the returned list.
-     *
-     * @return List of existing children.
-     */
-    protected final List<BaseComponent> _getChildren() {
         return children;
     }
     
@@ -913,7 +1104,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @return True if the component has any children.
      */
     public boolean hasChildren() {
-        return getChildCount() > 0;
+        return !children.isEmpty();
     }
 
     /**
@@ -1098,7 +1289,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     private BaseComponent getRelativeSibling(int offset) {
         int i = getIndex();
         i = i == -1 ? -1 : i + offset;
-        return i < 0 || i >= getParent().getChildCount() ? null : getParent().children.get(i);
+        return i < 0 || i >= getParent().getChildCount() ? null : getParent().getChildAt(i);
     }
     
     /**

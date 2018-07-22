@@ -36,17 +36,17 @@ import org.fujion.model.ModelAndView;
  */
 @Component(tag = "treeview", widgetModule = "fujion-treeview", widgetClass = "Treeview", parentTag = "*", childTag = @ChildTag("treenode"), description = "A component acting as a root for a hierarchical collection of nodes.")
 public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISupportsModel<Treenode> {
-    
+
     private boolean showRoot;
-    
+
     private boolean showLines = true;
-    
+
     private boolean showToggles = true;
-    
+
     private Treenode selectedNode;
-    
+
     private final ModelAndView<Treenode, Object> modelAndView = new ModelAndView<>(this);
-    
+
     /**
      * Returns true if the tree root should be visible. Otherwise, the visible tree starts with the
      * immediate children of the root.
@@ -57,7 +57,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
     public boolean getShowRoot() {
         return showRoot;
     }
-    
+
     /**
      * Set to true if the tree root should be visible. Otherwise, the visible tree starts with the
      * immediate children of the root.
@@ -68,7 +68,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
     public void setShowRoot(boolean showRoot) {
         propertyChange("showRoot", this.showRoot, this.showRoot = showRoot, true);
     }
-    
+
     /**
      * Returns true if lines connecting parent nodes to their children should be displayed.
      *
@@ -78,7 +78,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
     public boolean getShowLines() {
         return showLines;
     }
-    
+
     /**
      * Set to true to display lines connecting parent nodes to their children.
      *
@@ -88,7 +88,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
     public void setShowLines(boolean showLines) {
         propertyChange("showLines", this.showLines, this.showLines = showLines, true);
     }
-    
+
     /**
      * Returns true if expander icons should be displayed for each parent node with children.
      * Clicking an expander icon toggles between displaying (expanding) and hiding (collapsing) a
@@ -100,7 +100,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
     public boolean getShowToggles() {
         return showToggles;
     }
-    
+
     /**
      * Set to true to display expander icons for each parent node with children. Clicking an
      * expander icon toggles between displaying (expanding) and hiding (collapsing) a node's
@@ -112,28 +112,28 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
     public void setShowToggles(boolean showToggles) {
         propertyChange("showToggles", this.showToggles, this.showToggles = showToggles, true);
     }
-    
+
     /**
      * Collapses all nodes.
      */
     public void collapseAll() {
         expandOrCollapse(this, true);
     }
-    
+
     /**
      * Expands all nodes.
      */
     public void expandAll() {
         expandOrCollapse(this, false);
     }
-    
+
     private void expandOrCollapse(BaseComponent parent, boolean collapse) {
-        for (BaseComponent child : parent._getChildren()) {
+        for (BaseComponent child : parent.getChildren()) {
             ((Treenode) child).setCollapsed(collapse);
             expandOrCollapse(child, collapse);
         }
     }
-    
+
     /**
      * Returns the currently selected node.
      *
@@ -142,7 +142,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
     public Treenode getSelectedNode() {
         return selectedNode;
     }
-    
+
     /**
      * Sets the selected node.
      *
@@ -152,18 +152,18 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
         if (selectedNode == this.selectedNode) {
             return;
         }
-        
+
         if (this.selectedNode != null) {
             this.selectedNode._setSelected(false, true, false);
         }
-        
+
         this.selectedNode = selectedNode;
-        
+
         if (selectedNode != null) {
             selectedNode._setSelected(true, true, false);
         }
     }
-    
+
     /**
      * Clears the selection if the removed node or one of its descendants is the selected node.
      *
@@ -175,7 +175,7 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
             selectedNode = null;
         }
     }
-    
+
     /**
      * Sets the selection if the added node or one of its descendants is flagged as selected.
      *
@@ -184,28 +184,28 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
     @Override
     protected void afterAddChild(BaseComponent child) {
         Treenode selnode = findSelected((Treenode) child, null);
-        
+
         if (selnode != null) {
             setSelectedNode(selnode);
         }
     }
-    
+
     private Treenode findSelected(Treenode node, Treenode selnode) {
         if (node.isSelected()) {
             if (selnode != null) {
                 selnode._setSelected(false, true, false);
             }
-            
+
             selnode = node;
         }
-        
-        for (BaseComponent child : node._getChildren()) {
+
+        for (BaseComponent child : node.getChildren()) {
             selnode = findSelected((Treenode) child, selnode);
         }
-        
+
         return selnode;
     }
-    
+
     /**
      * Returns an iterator for all the nodes in this tree.
      *
@@ -215,16 +215,16 @@ public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISu
     public Iterator<Treenode> iterator() {
         return new TreenodeIterator(this);
     }
-    
+
     @Override
     public void destroy() {
         super.destroy();
         modelAndView.destroy();
     }
-    
+
     @Override
     public IModelAndView<Treenode, ?> getModelAndView() {
         return modelAndView;
     }
-    
+
 }
