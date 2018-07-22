@@ -158,10 +158,10 @@ public class PageElement {
     /**
      * Returns a copy of the attribute map.
      *
-     * @return A copy of the attribute map, possibly null.
+     * @return A copy of the attribute map, never null.
      */
     public Map<String, String> getAttributes() {
-        return attributes == null ? null : new HashMap<>(attributes);
+        return attributes == null ? Collections.emptyMap() : new HashMap<>(attributes);
     }
 
     /**

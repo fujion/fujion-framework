@@ -27,11 +27,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.fujion.annotation.Component.FactoryParameter;
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
+import org.fujion.expression.ELContext;
 import org.fujion.expression.ELEvaluator;
 
 /**
@@ -40,6 +42,10 @@ import org.fujion.expression.ELEvaluator;
  */
 public class ComponentFactory {
 
+    private static final String SWITCH_ATTR = "@switch";
+
+    private static final String CASE_DEFAULT = "@default";
+    
     private final ComponentDefinition def;
 
     private Class<? extends BaseComponent> clazz;
@@ -49,6 +55,10 @@ public class ComponentFactory {
     private Iterable<?> forEach;
 
     private String forVar = "each";
+    
+    private Object caseVal;
+    
+    private Object switchVal;
     
     public ComponentFactory(ComponentDefinition def) {
         this.def = def;
@@ -65,7 +75,7 @@ public class ComponentFactory {
     protected void setImplementationClass(Class<? extends BaseComponent> clazz) {
         Class<? extends BaseComponent> originalClazz = def.getComponentClass();
         ComponentException.assertTrue(clazz == null || originalClazz.isAssignableFrom(clazz),
-            "Implementation class must extend class %s", originalClazz.getName());
+                "Implementation class must extend class %s", originalClazz.getName());
         this.clazz = clazz;
     }
 
@@ -119,21 +129,52 @@ public class ComponentFactory {
     }
     
     /**
+     * Specifies the value for a switch statement.
+     *
+     * @param switchVal Value for a switch statement.
+     */
+    @FactoryParameter(value = "switch", description = "Specifies the value for a switch statement.")
+    protected void setSwitch(Object switchVal) {
+        this.switchVal = switchVal;
+    }
+    
+    /**
+     * Specifies the value for matching a switch statement.
+     *
+     * @param caseVal Value for matching a switch statement.
+     */
+    @FactoryParameter(value = "case", description = "Specifies the value for matching a switch statement.")
+    protected void setCase(Object caseVal) {
+        this.caseVal = caseVal;
+    }
+    
+    /**
      * Creates one or more component instances from the component definition using a factory
      * context.
      *
      * @param attributes Attribute map for initializing.
+     * @param elContext Evaluation context for EL expressions.
      * @return A list of newly created components (never null).
      */
-    public List<BaseComponent> create(Map<String, String> attributes) {
-        if (attributes != null) {
+    public List<BaseComponent> create(Map<String, String> attributes, ELContext elContext) {
+        if (!attributes.isEmpty()) {
             for (Entry<String, Method> entry : def.getFactoryParameters().entrySet()) {
                 String name = entry.getKey();
 
                 if (attributes.containsKey(name)) {
-                    Object value = ELEvaluator.getInstance().evaluate(attributes.remove(name));
+                    Object value = ELEvaluator.getInstance().evaluate(attributes.remove(name), elContext);
                     ConvertUtil.invokeMethod(this, entry.getValue(), value);
                 }
+            }
+        }
+
+        if (active && caseVal != null) {
+            BaseComponent parent = (BaseComponent) elContext.getValue("parent");
+            Object switchVal = parent == null ? null : parent.getAttribute(SWITCH_ATTR);
+            active = switchVal != null && (CASE_DEFAULT.equals(caseVal) || ObjectUtils.equals(switchVal, caseVal));
+            
+            if (active) {
+                parent.removeAttribute(SWITCH_ATTR);
             }
         }
 
@@ -158,7 +199,13 @@ public class ComponentFactory {
     
     private BaseComponent create() {
         try {
-            return clazz.newInstance();
+            BaseComponent comp = clazz.newInstance();
+
+            if (switchVal != null) {
+                comp.setAttribute(SWITCH_ATTR, switchVal);
+            }
+
+            return comp;
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }

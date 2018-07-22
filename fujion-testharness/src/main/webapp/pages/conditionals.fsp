@@ -11,4 +11,20 @@
 	<div class="alert-danger" unless="${1==1}">
 		This conditional "unless" block should not be included.
 	</div>
+	<div switch="second">
+		Switch statement test:
+		<label case="first" class="alert-danger" label="This label should not appear."/>
+		<label case="second" class="alert-success" label="This label should appear."/>
+		<label case="second" class="alert-danger" label="This label should not appear."/>
+		<label case="third" class="alert-danger" label="This label should not appear."/>
+		<label case="@default" class="alert-danger" label="This label should not appear."/>
+	</div>
+	<div switch="other">
+		Switch statement test:
+		<label case="first" class="alert-danger" label="This label should not appear."/>
+		<label case="second" class="alert-danger" label="This label should not appear."/>
+		<label case="third" class="alert-danger" label="This label should not appear."/>
+		<label case="@default" class="alert-success" label="This label should appear."/>
+		<label case="@default" class="alert-danger" label="This label should not appear."/>
+	</div>
 </fsp>
