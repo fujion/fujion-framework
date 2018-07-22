@@ -21,6 +21,7 @@
 package org.fujion.ancillary;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.Supplier;
 
 import org.apache.commons.lang.UnhandledException;
 import org.fujion.component.BaseComponent;
@@ -38,9 +39,35 @@ public class ComponentException extends UnhandledException {
 
     private final String message;
     
+    /**
+     * Asserts that a condition is true, throwing a ComponentException if it is not.
+     *
+     * @param condition Condition to test.
+     * @param message The exception message.
+     */
+    public static void assertTrue(boolean condition, Supplier<String> message) {
+        if (!condition) {
+            throw new ComponentException(message.get());
+        }
+    }
+    
+    /**
+     * Asserts that a condition is true, throwing a ComponentException if it is not.
+     *
+     * @param condition Condition to test.
+     * @param message The exception message.
+     * @param args Optional message parameters
+     */
+    public static void assertTrue(boolean condition, String message, Object... args) {
+        if (!condition) {
+            throw new ComponentException(message, args);
+        }
+    }
+    
     private static String formatMessage(Class<?> componentClass, BaseComponent component, String message, Object... args) {
         Object object = component != null ? component : componentClass;
-        return (object == null ? "" : object + ": ") + String.format(message, args);
+        message = args == null || args.length == 0 ? message : String.format(message, args);
+        return (object == null ? "" : object + ": ") + message;
     }
     
     private static Throwable getCause(Throwable cause) {
