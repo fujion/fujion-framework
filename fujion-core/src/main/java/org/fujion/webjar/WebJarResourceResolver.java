@@ -41,35 +41,35 @@ import org.springframework.web.servlet.resource.ResourceResolverChain;
  * </p>
  */
 public class WebJarResourceResolver extends AbstractResourceResolver {
-    
+
     public static String getResourcePath(String path) {
         int i = path.indexOf("/");
         String name = path.substring(0, i);
         int j = path.indexOf("/", i + 1);
         String version = j < 0 ? "" : path.substring(i + 1, j);
         WebJar webjar = WebJarLocator.getInstance().getWebjar(name);
-
+        
         if (webjar != null && !version.equals(webjar.getVersion())) {
             path = name + "/" + webjar.getVersion() + path.substring(i);
         }
-
+        
         return path;
     }
-
+    
     @Override
     protected Resource resolveResourceInternal(HttpServletRequest request, String requestPath,
                                                List<? extends Resource> locations, ResourceResolverChain chain) {
         String newPath = getResourcePath(requestPath);
         Resource resource = chain.resolveResource(request, newPath, locations);
-        
+
         if (resource != null) {
-            String etag = WebUtil.generateETag(newPath);
+            String etag = WebUtil.generateETag(newPath) + (WebUtil.isDebugEnabled() ? "@debug@" : "");
             resource = ETaggedResource.create(resource, request, etag);
         }
-        
+
         return resource;
     }
-    
+
     @Override
     protected String resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
                                             ResourceResolverChain chain) {
