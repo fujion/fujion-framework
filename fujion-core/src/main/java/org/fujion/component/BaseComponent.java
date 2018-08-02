@@ -2047,6 +2047,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      *            created.</li>
      *            <li>&lt;Class&gt; - The class from which a controller instance will be
      *            created.</li>
+     *            <li>&lt;Collection&gt; - Each element of the collection will be wired.</li>
      *            <li>All other - The controller instance to be wired.</li>
      *            </ul>
      */
@@ -2054,6 +2055,14 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     public void wireController(Object controller) {
         ComponentException.assertTrue(controller != null, this, "Controller is null or could not be resolved");
 
+        if (controller instanceof Collection) {
+            for (Object ctlr : (Collection<?>) controller) {
+                wireController(ctlr);
+            }
+            
+            return;
+        }
+        
         if (controller instanceof String) {
             try {
                 controller = "self".equals(controller) ? this : Class.forName((String) controller);
