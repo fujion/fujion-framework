@@ -17,7 +17,7 @@
 			'paths': {
 				'fujion-captcha': 'js/captcha',
 				'fujion-captcha-css': 'css/captcha',
-        			'recaptcha': '//www.google.com/recaptcha/api.js?onload=recaptcha_onload&amp;render=explicit'
+        		'recaptcha': '//www.google.com/recaptcha/api.js?onload=recaptcha_onload&amp;render=explicit'
 			},
 		    'meta': {
 		         'recaptcha': {
@@ -53,7 +53,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=Captcha Extension</argument>
 								<argument>-c=org.fujion.captcha.Captcha</argument>
-								<argument>${schemadir}fsp-captcha.xsd</argument>
+								<argument>${webjar.schemadir}fsp-captcha.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>

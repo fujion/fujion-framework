@@ -59,7 +59,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=${displayName} Extension</argument>
 								<argument>-c=${package}.${ClassName}</argument>
-								<argument>${schemadir}fsp-${classname}.xsd</argument>
+								<argument>${webjar.schemadir}fsp-${classname}.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>

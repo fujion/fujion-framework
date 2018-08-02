@@ -3,7 +3,7 @@
 define('fujion-barcode', [
 	'fujion-core', 
 	'fujion-widget', 
-	'JsBarcode', 
+	'jsbarcode', 
 	'jquery-qrcode',
 	'fujion-barcode-css'], 
 	

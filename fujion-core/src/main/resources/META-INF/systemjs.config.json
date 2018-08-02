@@ -1,6 +1,0 @@
-{
-    "paths": {
-        "balloon-css": "webjars/balloon-css/balloon.css",
-        "jquery-ui-css": "webjars/jquery-ui/jquery-ui.css"
-    }
-}

@@ -14,7 +14,7 @@
 	</description>
 	
 	<properties>
-		<bootswatch.version>3.3.7</bootswatch.version>
+		<bootswatch.version>3.3.7-SNAPSHOT</bootswatch.version>
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 	
@@ -25,83 +25,83 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-cerulean</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-cerulean</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-cosmo</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-cosmo</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-cyborg</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-cyborg</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-darkly</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-darkly</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-flatly</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-flatly</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-journal</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-journal</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-lumen</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-lumen</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-paper</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-paper</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-readable</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-readable</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-sandstone</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-sandstone</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-simplex</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-simplex</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-slate</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-slate</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-spacelab</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-spacelab</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-superhero</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-superhero</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-united</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-united</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-yeti</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-yeti</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>

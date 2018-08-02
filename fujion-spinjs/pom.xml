@@ -15,7 +15,7 @@
         <systemjs>
         {
 			'paths': {
-				'fujion-spinjs': 'js/spinjs'
+				'fujion-spinjs': 'js/spinjs.js'
 			}
 		}
         </systemjs>
@@ -44,7 +44,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=spin.js Extension</argument>
 								<argument>-p=org.fujion.spinjs</argument>
-								<argument>${schemadir}fsp-spinjs.xsd</argument>
+								<argument>${webjar.schemadir}fsp-spinjs.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -60,14 +60,9 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-transpiler</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.webjars.npm</groupId>
-		    <artifactId>spin.js</artifactId>
-		    <version>3.1.0</version>
+		    <groupId>org.fujion.webjars</groupId>
+		    <artifactId>webjar-spin-js</artifactId>
+		    <version>4.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

@@ -52,7 +52,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=CKEditor Extension</argument>
 								<argument>-p=org.fujion.ckeditor</argument>
-								<argument>${schemadir}fsp-ckeditor.xsd</argument>
+								<argument>${webjar.schemadir}fsp-ckeditor.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -68,14 +68,14 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>ckeditor</artifactId>
-			<version>4.9.2</version>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-ckeditor-full</artifactId>
+			<version>4.10.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>jshashes</artifactId>
-		    <version>1.0.5</version>
+		    <groupId>org.fujion.webjars</groupId>
+		    <artifactId>webjar-jshashes</artifactId>
+		    <version>1.0.7-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

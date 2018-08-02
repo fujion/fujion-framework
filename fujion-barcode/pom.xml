@@ -16,11 +16,10 @@
 		<webjar.name>fujion-barcode</webjar.name>
 		<systemjs>
 			{
-			'paths': {
-				'fujion-barcode': 'js/barcode',
-				'fujion-barcode-css': 'css/barcode',
-				'jquery-qrcode': 'js/jquery.qrcode'
-				}
+				'paths': {
+					'fujion-barcode': 'js/barcode',
+					'fujion-barcode-css': 'css/barcode'
+					}
 			}
 		</systemjs>
 	</properties>
@@ -48,7 +47,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=Barcode Extension</argument>
 								<argument>-c=org.fujion.barcode.BarCode</argument>
-								<argument>${schemadir}fsp-barcode.xsd</argument>
+								<argument>${webjar.schemadir}fsp-barcode.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -64,9 +63,14 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars.bower</groupId>
-			<artifactId>JsBarcode</artifactId>
-			<version>3.9.0</version>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-jsbarcode</artifactId>
+			<version>3.9.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-jquery-qrcode</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

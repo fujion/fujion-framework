@@ -44,7 +44,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=chart.js Extension</argument>
 								<argument>-c=org.fujion.chartjs.Chart</argument>
-								<argument>${schemadir}fsp-chartjs.xsd</argument>
+								<argument>${webjar.schemadir}fsp-chartjs.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -60,9 +60,9 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars.bower</groupId>
-			<artifactId>chart.js</artifactId>
-			<version>2.7.2</version>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-chart-js</artifactId>
+			<version>2.7.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

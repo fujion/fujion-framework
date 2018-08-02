@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-plotly', ['fujion-core', 'fujion-widget', 'chart.js'], function(fujion, wgt, Chart) { 
+define('fujion-chartjs', ['fujion-core', 'fujion-widget', 'chart-js'], function(fujion, wgt, Chart) { 
 	
 	/**
 	 * Wrapper for chart.js

@@ -9,6 +9,10 @@
 			vertical-align: middle;
 		}
 		
+		.my-dd>span {
+			display: block;
+		}
+
 		.my-draggables {
 			background-color: lightgray;
 			min-height: 100px;

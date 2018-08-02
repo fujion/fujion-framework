@@ -1002,9 +1002,9 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	
 	saveToFile: function(content, mimetype, filename) {
 		mimetype = !mimetype || navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? 'application/octet-stream' : mimetype;
-		System.import('file-saver').then(function(saveAs) {
+		System.import('file-saver').then(function(fileSaver) {
 			var blob = new Blob([content], {type: mimetype});
-			saveAs(blob, filename);
+			fileSaver.saveAs(blob, filename);
 		});
 	},
 	

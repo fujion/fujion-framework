@@ -47,7 +47,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=React Extension</argument>
 								<argument>-c=org.fujion.react.ReactComponent</argument>
-								<argument>${schemadir}fsp-react.xsd</argument>
+								<argument>${webjar.schemadir}fsp-react.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>

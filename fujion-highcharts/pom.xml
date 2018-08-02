@@ -55,7 +55,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=Highcharts Extension</argument>
 								<argument>-c=org.fujion.highcharts.Chart</argument>
-								<argument>${schemadir}fsp-highcharts.xsd</argument>
+								<argument>${webjar.schemadir}fsp-highcharts.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -71,9 +71,9 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>highcharts</artifactId>
-			<version>6.1.1</version>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-highcharts</artifactId>
+			<version>6.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

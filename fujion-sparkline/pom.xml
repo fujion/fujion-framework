@@ -44,7 +44,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=Sparkline Extension</argument>
 								<argument>-p=org.fujion.sparkline</argument>
-								<argument>${schemadir}fsp-sparkline.xsd</argument>
+								<argument>${webjar.schemadir}fsp-sparkline.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -60,9 +60,9 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>jquery-sparkline</artifactId>
-		    <version>2.1.3</version>
+		    <groupId>org.fujion.webjars</groupId>
+		    <artifactId>webjar-jquery-sparkline</artifactId>
+		    <version>2.4.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

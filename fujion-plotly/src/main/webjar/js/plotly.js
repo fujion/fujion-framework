@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-plotly', ['fujion-core', 'fujion-widget', 'plotly.js'], function(fujion, wgt, Plotly) { 
+define('fujion-plotly', ['fujion-core', 'fujion-widget', 'plotly-js'], function(fujion, wgt, Plotly) { 
 	
 	/**
 	 * Wrapper for Plotly

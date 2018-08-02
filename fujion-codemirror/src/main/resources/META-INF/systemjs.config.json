@@ -1,6 +1,0 @@
-{
-    "map": {
-        "codemirror": "webjars/codemirror",
-        "codemirror-css": "webjars/codemirror/lib/codemirror.css"
-    }
-}

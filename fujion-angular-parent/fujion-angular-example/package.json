@@ -3,14 +3,17 @@
   "version": "1.2.0",
   "description": "Angular 5 example",
   "main": "",
-  "keywords": ["fujion", "angular"],
+  "keywords": [
+    "fujion",
+    "angular"
+  ],
   "author": "Fujion Framework",
   "repository": {
     "type": "git",
     "url": "git://github.com/fujion/fujion-framework.git"
   },
   "scripts": {
-  	"postinstall" : "tsc"
+    "postinstall": "tsc"
   },
   "dependencies": {
     "@angular/animations": "5.2.10",
@@ -28,6 +31,6 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-  	"typescript": "2.7.2"
+    "typescript": "2.7.2"
   }
 }

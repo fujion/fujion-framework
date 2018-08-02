@@ -45,7 +45,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=Google Maps Extension</argument>
 								<argument>-c=org.fujion.gmaps.GoogleMap</argument>
-								<argument>${schemadir}fsp-gmaps.xsd</argument>
+								<argument>${webjar.schemadir}fsp-gmaps.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -61,9 +61,9 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>google-maps</artifactId>
-		    <version>3.2.1</version>
+		    <groupId>org.fujion.webjars</groupId>
+		    <artifactId>webjar-google-maps</artifactId>
+		    <version>3.2.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

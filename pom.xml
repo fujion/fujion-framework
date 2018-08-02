@@ -4,10 +4,11 @@
 	<parent>
 		<groupId>org.fujion</groupId>
 		<artifactId>fujion-root</artifactId>
-		<version>2.1.0-SNAPSHOT</version>
+		<version>2.1.0</version>
 	</parent>
 
 	<artifactId>fujion-parent</artifactId>
+	<version>2.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Fujion Framework Parent POM</name>
 	<description>Fujion Framework Parent POM</description>
@@ -23,7 +24,6 @@
 		<module>fujion-common</module>
 		<module>fujion-core</module>
 		<module>fujion-test</module>
-		<module>fujion-transpiler</module>
 		<module>fujion-archetype-parent</module>
 		<module>fujion-icons-parent</module>
 		<module>fujion-script-parent</module>

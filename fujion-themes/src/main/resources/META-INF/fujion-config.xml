@@ -9,7 +9,7 @@
 	<bean id="fujion-bootswatch" abstract="true" class="org.fujion.theme.Theme">
 		<property name="mappings">
 			<map>
-				<entry key="/webjars/bootstrap/**" value="/webjars/bootswatch-$0/$1" />
+				<entry key="/webjars/webjar-bootstrap/**" value="/webjars/webjar-bootswatch-$0/$1" />
 			</map>
 		</property>
 	</bean>

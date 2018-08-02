@@ -44,7 +44,7 @@
 								<argument>-v=${project.version}</argument>
 								<argument>-t=Canvas Extension</argument>
 								<argument>-p=org.fujion.canvas.*</argument>
-								<argument>${schemadir}fsp-canvas.xsd</argument>
+								<argument>${webjar.schemadir}fsp-canvas.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
