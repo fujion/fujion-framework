@@ -62,7 +62,7 @@
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-spin-js</artifactId>
-		    <version>4.0.0-SNAPSHOT</version>
+		    <version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

@@ -14,7 +14,7 @@
 	</description>
 	
 	<properties>
-		<bootswatch.version>3.3.7-SNAPSHOT</bootswatch.version>
+		<bootswatch.version>3.3.7</bootswatch.version>
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 	
