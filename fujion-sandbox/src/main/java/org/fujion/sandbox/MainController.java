@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.io.IOUtils;
@@ -120,31 +121,35 @@ public class MainController implements IAutoWired, ApplicationContextAware {
                 }
             }
             
-            for (Entry<String, Method> setter : comp.getSetters().entrySet()) {
-                Method method = setter.getValue();
-                int p = method == null ? -1 : method.getParameterCount();
-                Class<?> type = p != 1 ? null : method.getParameterTypes()[0];
-                String name = setter.getKey();
-                
-                if (type == null || name.startsWith("#")) {
-                    continue;
-                } else if (type == boolean.class || type == Boolean.class) {
-                    tag.addAttribute(name, "true", "false");
-                } else if (type.isEnum()) {
-                    Object[] members = type.getEnumConstants();
-                    String[] values = new String[members.length];
-                    
-                    for (int i = 0; i < members.length; i++) {
-                        values[i] = members[i].toString().toLowerCase();
-                    }
-                    
-                    tag.addAttribute(name, values);
-                } else {
-                    tag.addAttribute(name);
-                }
-            }
-            
+            addAttributes(comp.getSetters(), tag);
+            addAttributes(comp.getFactoryParameters(), tag);
         });
+    }
+    
+    private static void addAttributes(Map<String, Method> methods, Tag tag) {
+        for (Entry<String, Method> entry : methods.entrySet()) {
+            Method method = entry.getValue();
+            int p = method == null ? -1 : method.getParameterCount();
+            Class<?> type = p != 1 ? null : method.getParameterTypes()[0];
+            String name = entry.getKey();
+            
+            if (type == null || name.startsWith("#")) {
+                continue;
+            } else if (type == boolean.class || type == Boolean.class) {
+                tag.addAttribute(name, "true", "false");
+            } else if (type.isEnum()) {
+                Object[] members = type.getEnumConstants();
+                String[] values = new String[members.length];
+                
+                for (int i = 0; i < members.length; i++) {
+                    values[i] = members[i].toString().toLowerCase();
+                }
+                
+                tag.addAttribute(name, values);
+            } else {
+                tag.addAttribute(name);
+            }
+        }
     }
 
     // Start of auto-wired section
