@@ -1,4 +1,6 @@
-<span controller="org.fujion.testharness.MiscController">
+<span xmlns="http://www.fujion.org/schema/fsp"
+	xmlns:attr="http://www.fujion.org/schema/fsp/attr"
+	controller="org.fujion.testharness.MiscController">
 	<popup name="hoverPopup">
 		<label label="This is a test of a hover popup." />
 	</popup>
@@ -77,11 +79,17 @@
 				Click to toggle balloon text.
 			</row>
 			<row>
-				<span name="custom">
-					This span has a custom attribute.
+				<span name="customPI">
+					This span has a custom attribute (via processing instruction).
 					<?attribute name="test" value="this is a custom attribute"?>
 				</span>
-				Test of custom attribute: ${custom.test}
+				Test of custom attribute: ${customPI.test}
+			</row>
+			<row>
+				<span name="customAttr" attr:test="this is also a custom attribute">
+					This span has a custom attribute (via attr: extension).
+				</span>
+				Test of custom attribute: ${customAttr.test}
 			</row>
 			<row>
 				<slider synchronized="true"/>
