@@ -185,7 +185,7 @@ public class ComponentDefinition {
     }
     
     /**
-     * Returns true if attribute name is validate for this component definition.
+     * Returns true if attribute name is valid for this component definition.
      *
      * @param name The attribute name.
      * @return True if valid.
@@ -514,7 +514,7 @@ public class ComponentDefinition {
     /**
      * Registers a factory parameter.
      *
-     * @param method The static processor method.
+     * @param method The factory parameter method.
      */
     /*package*/ void _addFactoryParameter(Method method) {
         FactoryParameter parameter = method.getAnnotation(FactoryParameter.class);
