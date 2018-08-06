@@ -110,6 +110,30 @@ public class ComponentDefinition {
             return count >= minimum && count <= maximum;
         }
     }
+
+    private static class PropertyName {
+
+        private final String name;
+
+        private final String qualifier;
+
+        /**
+         * Parses property name into 2 components, name and qualifier.
+         *
+         * @param value Property name to parse.
+         */
+        PropertyName(String value) {
+            if (!value.contains(":")) {
+                name = value;
+                qualifier = value;
+            } else {
+                String[] pcs = value.split("\\:", 2);
+                name = pcs[0] + ":";
+                qualifier = pcs[1];
+            }
+
+        }
+    }
     
     private final ContentHandling contentHandling;
     
@@ -169,16 +193,14 @@ public class ComponentDefinition {
      * @return The property value.
      */
     public Object getProperty(BaseComponent instance, String name) {
-        String[] pname = parsePropertyName(name);
-        String key = pname[0];
-        name = pname[1];
-        Method setter = setters.get(key);
-        Method getter = getters.get(key);
+        PropertyName pname = new PropertyName(name);
+        Method setter = setters.get(pname.name);
+        Method getter = getters.get(pname.name);
         assertTrue(getter != null, setter != null ? "Property \"%s\" is write-only" : "Property \"%s\" is not recognized",
                 name);
         
         try {
-            return getter.invoke(instance, getter.getParameterCount() == 1 ? new Object[] { name } : null);
+            return getter.invoke(instance, getter.getParameterCount() == 1 ? new Object[] { pname.qualifier } : null);
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
@@ -191,10 +213,8 @@ public class ComponentDefinition {
      * @return True if valid.
      */
     public boolean validateAttribute(String name) {
-        String[] pname = parsePropertyName(name);
-        String key = pname[0];
-        name = pname[1];
-        return setters.get(key) != null || getters.get(key) != null || parameters.containsKey(name);
+        PropertyName pname = new PropertyName(name);
+        return setters.get(pname.name) != null || getters.get(pname.name) != null || parameters.containsKey(name);
     }
     
     /**
@@ -206,11 +226,9 @@ public class ComponentDefinition {
      * @return Null if the operation occurred, or a DeferredInvocation object if deferred.
      */
     public DeferredInvocation<?> setProperty(BaseComponent instance, String name, Object value) {
-        String[] pname = parsePropertyName(name);
-        String key = pname[0];
-        name = pname[1];
-        Method setter = setters.get(key);
-        Method getter = getters.get(key);
+        PropertyName pname = new PropertyName(name);
+        Method setter = setters.get(pname.name);
+        Method getter = getters.get(pname.name);
         
         if (value instanceof IBinding) {
             assertTrue(
@@ -229,7 +247,7 @@ public class ComponentDefinition {
             return null;
         }
         
-        Object[] args = setter.getParameterCount() == 1 ? new Object[] { value } : new Object[] { name, value };
+        Object[] args = setter.getParameterCount() == 1 ? new Object[] { value } : new Object[] { pname.qualifier, value };
         
         if (setter.getAnnotation(PropertySetter.class).defer()) {
             return new DeferredInvocation<>(instance, setter, args);
@@ -251,22 +269,6 @@ public class ComponentDefinition {
         ComponentException.assertTrue(condition, componentClass, message, args);
     }
 
-    /**
-     * Parses property name into 2 element array: [0] = property key, [1] = property name
-     *
-     * @param name Property name to parse.
-     * @return Parsed name.
-     */
-    private String[] parsePropertyName(String name) {
-        if (!name.contains(":")) {
-            return new String[] { name, name };
-        }
-
-        String[] pname = name.split("\\:", 2);
-        pname[0] += ":";
-        return pname;
-    }
-    
     /**
      * Returns the XML tag for this component type.
      *
