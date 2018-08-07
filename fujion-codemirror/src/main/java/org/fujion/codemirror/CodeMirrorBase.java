@@ -160,7 +160,7 @@ public class CodeMirrorBase<T extends CodeMirrorOptions> extends BaseInputCompon
         }
     }
 
-    @EventHandler("refreshOptions")
+    @EventHandler(value = "refreshOptions", mode = "init")
     private void onRefreshOptions() {
         sync("options", options);
         refreshOptions = false;

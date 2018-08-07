@@ -32,7 +32,7 @@ import org.springframework.util.Assert;
  */
 @Component(tag = "slider", widgetClass = "Slider", parentTag = "*", description = "A slider component.")
 public class Slider extends BaseUIComponent {
-    
+
     /**
      * Orientation of slider component.
      */
@@ -46,19 +46,19 @@ public class Slider extends BaseUIComponent {
          */
         VERTICAL
     }
-
+    
     private Orientation orientation = Orientation.HORIZONTAL;
-
+    
     private int value;
-
+    
     private int maxvalue = 100;
-
+    
     private int minvalue;
-    
+
     private int step = 1;
-    
+
     private boolean synced;
-    
+
     /**
      * Returns the current value of the slider.
      *
@@ -68,7 +68,7 @@ public class Slider extends BaseUIComponent {
     public int getValue() {
         return value;
     }
-
+    
     /**
      * Sets the current value of the slider.
      *
@@ -78,7 +78,7 @@ public class Slider extends BaseUIComponent {
     public void setValue(int value) {
         _setValue(value, true);
     }
-
+    
     /**
      * Set the new value of the slider, optionally notifying the client.
      *
@@ -88,7 +88,7 @@ public class Slider extends BaseUIComponent {
     private void _setValue(int value, boolean notifyClient) {
         propertyChange("value", this.value, this.value = value, notifyClient);
     }
-
+    
     /**
      * Returns the maximum allowable value. Defaults to 100.
      *
@@ -98,7 +98,7 @@ public class Slider extends BaseUIComponent {
     public int getMaxValue() {
         return maxvalue;
     }
-
+    
     /**
      * Sets the maximum allowable value.
      *
@@ -108,7 +108,7 @@ public class Slider extends BaseUIComponent {
     public void setMaxValue(int maxvalue) {
         propertyChange("maxvalue", this.maxvalue, this.maxvalue = maxvalue, true);
     }
-
+    
     /**
      * Returns the minimum allowable value. Defaults to 0.
      *
@@ -118,7 +118,7 @@ public class Slider extends BaseUIComponent {
     public int getMinValue() {
         return minvalue;
     }
-    
+
     /**
      * Sets the minimum allowable value.
      *
@@ -128,7 +128,7 @@ public class Slider extends BaseUIComponent {
     public void setMinValue(int minvalue) {
         propertyChange("minvalue", this.minvalue, this.minvalue = minvalue, true);
     }
-
+    
     /**
      * Returns the {@link Orientation orientation} of the component.
      *
@@ -138,7 +138,7 @@ public class Slider extends BaseUIComponent {
     public Orientation getOrientation() {
         return orientation;
     }
-
+    
     /**
      * Sets the {@link Orientation orientation} of the component.
      *
@@ -147,9 +147,9 @@ public class Slider extends BaseUIComponent {
     @PropertySetter(value = "orientation", defaultValue = "horizontal", description = "The orientation of the component.")
     public void setOrientation(Orientation orientation) {
         propertyChange("orientation", this.orientation, this.orientation = defaultify(orientation, Orientation.HORIZONTAL),
-            true);
+                true);
     }
-
+    
     /**
      * Returns the amount of change in the current value when an arrow button is clicked. Default is
      * 1.
@@ -161,7 +161,7 @@ public class Slider extends BaseUIComponent {
     public int getStep() {
         return step;
     }
-
+    
     /**
      * Sets the amount of change in the current value when an arrow button is clicked.
      *
@@ -172,7 +172,7 @@ public class Slider extends BaseUIComponent {
         Assert.isTrue(step > 0, () -> "Step value must be greater than zero");
         propertyChange("step", this.step, this.step = step, true);
     }
-    
+
     /**
      * Returns the synchronized setting. If set to true, every change to the slider's value will be
      * sent to the server. If false, only the final value will be sent.
@@ -184,7 +184,7 @@ public class Slider extends BaseUIComponent {
     public boolean getSynchronized() {
         return synced;
     }
-    
+
     /**
      * Sets the synchronized setting. If set to true, every change to the slider's value will be
      * sent to the server. If false, only the final value will be sent.
@@ -196,13 +196,13 @@ public class Slider extends BaseUIComponent {
     protected void setSynchronized(boolean synced) {
         propertyChange("synced", this.synced, this.synced = synced, true);
     }
-    
+
     /**
      * Handles change events from the client.
      *
      * @param event A change event.
      */
-    @EventHandler(value = "change", syncToClient = false)
+    @EventHandler(value = "change", syncToClient = false, mode = "init")
     private void _onChange(ChangeEvent event) {
         _setValue(defaultify(event.getValue(Integer.class), value), false);
     }

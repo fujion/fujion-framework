@@ -34,9 +34,9 @@ import org.fujion.event.EventUtil;
  */
 @Component(tag = "row", widgetModule = "fujion-grid", widgetClass = "Row", content = ContentHandling.AS_CHILD, parentTag = "rows", childTag = @ChildTag("*"), description = "A single row within a grid.")
 public class Row extends BaseUIComponent {
-    
+
     private boolean selected;
-    
+
     /**
      * Returns the selected state of this row.
      *
@@ -46,7 +46,7 @@ public class Row extends BaseUIComponent {
     public boolean isSelected() {
         return selected;
     }
-    
+
     /**
      * Sets the selected state of this row.
      *
@@ -56,7 +56,7 @@ public class Row extends BaseUIComponent {
     public void setSelected(boolean selected) {
         _setSelected(selected, true, true);
     }
-    
+
     protected void _setSelected(boolean selected, boolean notifyClient, boolean notifyParent) {
         if (propertyChange("selected", this.selected, this.selected = selected, notifyClient)) {
             if (notifyParent && getParent() != null) {
@@ -64,13 +64,13 @@ public class Row extends BaseUIComponent {
             }
         }
     }
-    
+
     /**
      * Handles change events from the client.
      *
      * @param event A change event.
      */
-    @EventHandler(value = "change", syncToClient = false)
+    @EventHandler(value = "change", syncToClient = false, mode = "init")
     private void _onChange(ChangeEvent event) {
         _setSelected(defaultify(event.getValue(Boolean.class), true), false, true);
         event = new ChangeEvent(this.getParent(), event.getData(), this);

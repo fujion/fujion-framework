@@ -32,7 +32,7 @@ import org.fujion.event.EventUtil;
  * Base for components that implement scripting support.
  */
 public abstract class BaseScriptComponent extends BaseSourcedComponent {
-
+    
     /**
      * Controls timing of script execution.
      */
@@ -50,23 +50,23 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
          */
         MANUAL
     }
-
+    
     private static final String EVENT_DEFERRED = "deferredExecution";
-
+    
     private ExecutionMode mode = ExecutionMode.IMMEDIATE;
-
+    
     private BaseComponent self = this;
-    
+
     private boolean includeNamedComponents = true;
-    
+
     protected BaseScriptComponent(boolean contentSynced) {
         super(contentSynced);
     }
-    
+
     protected BaseScriptComponent(String content, boolean contentSynced) {
         super(content, contentSynced);
     }
-    
+
     /**
      * Returns the {@link ExecutionMode execution mode}.
      *
@@ -76,7 +76,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public ExecutionMode getMode() {
         return mode;
     }
-
+    
     /**
      * Sets the {@link ExecutionMode execution mode}.
      *
@@ -86,7 +86,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public void setMode(ExecutionMode mode) {
         propertyChange("mode", this.mode, this.mode = defaultify(mode, ExecutionMode.IMMEDIATE), false);
     }
-
+    
     /**
      * Returns the script language's variable name corresponding to "this".
      *
@@ -95,7 +95,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public String getSelfName() {
         return "self";
     }
-    
+
     /**
      * Returns the component referenced by the script language's "self" variable. By default, it is
      * the script component itself. If "self" is explicitly included in the variable map passed to
@@ -107,7 +107,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public BaseComponent getSelf() {
         return self;
     }
-
+    
     /**
      * Sets the component to be referenced by the script language's "self" variable. If "self" is
      * explicitly included in the variable map passed to {@link #execute(Map)}, that value will be
@@ -122,7 +122,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
             propertyChange("self", this.self, this.self = self, false);
         }
     }
-
+    
     /**
      * If true, any named components within the namespace occupied by "self" will be passed as
      * arguments to the script.
@@ -133,7 +133,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public boolean getIncludeNamedComponents() {
         return includeNamedComponents;
     }
-
+    
     /**
      * If true, any named components within the namespace occupied by "self" will be passed as
      * arguments to the script.
@@ -145,7 +145,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public void setIncludeNamedComponents(boolean includeNamedComponents) {
         this.includeNamedComponents = includeNamedComponents;
     }
-
+    
     /**
      * Remove reference when "self" is destroyed.
      *
@@ -156,10 +156,10 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
         if (comp == self) {
             setSelf(null);
         }
-        
+
         super.onDestroyTracked(comp);
     }
-
+    
     /**
      * Execute the script with the specified variable values.
      *
@@ -169,18 +169,18 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public Object execute(Map<String, Object> variables) {
         Map<String, Object> vars = new HashMap<>();
         vars.put(getSelfName(), self);
-        
+
         if (includeNamedComponents && self != null) {
             vars.putAll(self.findAllNamed());
         }
-        
+
         if (variables != null) {
             vars.putAll(variables);
         }
-
+        
         return _execute(vars);
     }
-
+    
     /**
      * Execute the script with the default variable values.
      *
@@ -189,7 +189,7 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     public Object execute() {
         return execute(null);
     }
-
+    
     /**
      * Triggers script execution. If not deferred, execution is immediate. Otherwise, a
      * {@value #EVENT_DEFERRED} event is posted, deferring script execution until the end of the
@@ -200,28 +200,28 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
     @Override
     protected void onAttach(Page page) {
         super.onAttach(page);
-
+        
         switch (getMode()) {
             case DEFER:
                 EventUtil.post(EVENT_DEFERRED, this, null);
                 break;
-
+                
             case IMMEDIATE:
                 execute();
                 break;
-
+                
             case MANUAL:
                 break;
         }
     }
-
+    
     /**
      * Performs deferred execution of the script.
      */
-    @EventHandler(value = EVENT_DEFERRED, syncToClient = false)
+    @EventHandler(value = EVENT_DEFERRED, syncToClient = false, mode = "init")
     private void onDeferredExecution() {
         execute();
     }
-
+    
     protected abstract Object _execute(Map<String, Object> variables);
 }

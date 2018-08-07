@@ -35,33 +35,40 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Repeatable(EventHandlers.class)
 public @interface EventHandler {
-    
+
     /**
      * The event type(s) to be handled.
-     * 
+     *
      * @return The event type(s) to be handled.
      */
     String[] value();
-    
+
+    /**
+     * The wiring mode(s). If specified, will only be wired when one of the modes is active.
+     *
+     * @return The wiring mode(s).
+     */
+    String[] mode() default "";
+
     /**
      * The event target(s). If prefixed with an "@" character, the target is assumed to be the name
      * of an instance variable (member field). Otherwise, it represents the name associated with the
      * target component.
-     * 
+     *
      * @return The event target(s).
      */
     String[] target() default {};
-    
+
     /**
      * Action to be taken if event handler cannot be wired.
-     * 
+     *
      * @return The on failure action.
      */
     OnFailure onFailure() default OnFailure.EXCEPTION;
-    
+
     /**
      * If true, register the handler with the client.
-     * 
+     *
      * @return If true, register the handler with the client.
      */
     boolean syncToClient() default true;

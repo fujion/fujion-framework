@@ -603,7 +603,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     protected BaseComponent() {
         componentDefinition = ComponentRegistry.getInstance().get(getClass());
         namespace = this instanceof INamespace;
-        EventHandlerScanner.wire(this, this);
+        EventHandlerScanner.wire(this, this, "init");
     }
 
     /**
@@ -2053,11 +2053,32 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     @PropertySetter(value = "controller", bindable = false, defer = true, description = "Controller to be wired to this component.")
     public void wireController(Object controller) {
+        wireController("", controller);
+    }
+    
+    /**
+     * Wires a controller's annotated components and event handlers, in that order, using this
+     * component to resolve name references.
+     *
+     * @param mode The wiring mode.
+     * @param controller The controller to wire. The following values are recognized:
+     *            <ul>
+     *            <li>self - Controller is the component itself.</li>
+     *            <li>&lt;String&gt; - Name of the class from which a controller instance will be
+     *            created.</li>
+     *            <li>&lt;Class&gt; - The class from which a controller instance will be
+     *            created.</li>
+     *            <li>&lt;Collection&gt; - Each element of the collection will be wired.</li>
+     *            <li>All other - The controller instance to be wired.</li>
+     *            </ul>
+     */
+    @PropertySetter(value = "controller:", bindable = false, defer = true, description = "Controller to be wired to this component.")
+    public void wireController(String mode, Object controller) {
         ComponentException.assertTrue(controller != null, this, "Controller is null or could not be resolved");
 
         if (controller instanceof Collection) {
             for (Object ctlr : (Collection<?>) controller) {
-                wireController(ctlr);
+                wireController(mode, ctlr);
             }
             
             return;
@@ -2085,8 +2106,8 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             ((IAutoWired) controller).beforeInitialized(this);
         }
 
-        WiredComponentScanner.wire(controller, this);
-        EventHandlerScanner.wire(controller, this);
+        WiredComponentScanner.wire(controller, this, mode);
+        EventHandlerScanner.wire(controller, this, mode);
         controllers = controllers == null ? new ArrayList<>() : controllers;
         controllers.add(controller);
         
@@ -2255,7 +2276,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      *
      * @param event The state change event.
      */
-    @EventHandler(value = "statechange", syncToClient = false)
+    @EventHandler(value = "statechange", syncToClient = false, mode = "init")
     private void _onStateChange(StatechangeEvent event) {
         String state = event.getState();
 

@@ -34,19 +34,19 @@ import org.fujion.annotation.EventHandler;
  */
 @Component(tag = "messagepane", widgetClass = "Messagepane", content = ContentHandling.AS_CHILD, parentTag = "messagewindow", childTag = @ChildTag("*"), description = "A pane holding a single message in a message window.")
 public class MessagePane extends BaseUIComponent {
-
+    
     private String title;
-
+    
     private int duration = 8000;
-
+    
     private String category;
-
+    
     private boolean actionable;
-
+    
     public MessagePane() {
-
+        
     }
-
+    
     /**
      * Create a message pane.
      *
@@ -61,7 +61,7 @@ public class MessagePane extends BaseUIComponent {
         setDuration(duration);
         setActionable(actionable);
     }
-
+    
     /**
      * Returns the title bar text.
      *
@@ -71,7 +71,7 @@ public class MessagePane extends BaseUIComponent {
     public String getTitle() {
         return title;
     }
-
+    
     /**
      * Sets the title bar text.
      *
@@ -81,7 +81,7 @@ public class MessagePane extends BaseUIComponent {
     public void setTitle(String title) {
         propertyChange("title", this.title, this.title = nullify(title), true);
     }
-
+    
     /**
      * Returns the duration, in milliseconds, that the message will be displayed. The default is
      * 8000 ms. A value of &lt;=0 means infinite duration.
@@ -92,7 +92,7 @@ public class MessagePane extends BaseUIComponent {
     public int getDuration() {
         return duration;
     }
-
+    
     /**
      * Sets the duration, in milliseconds, that the message will be displayed. A value of &lt;=0
      * means infinite duration.
@@ -103,7 +103,7 @@ public class MessagePane extends BaseUIComponent {
     public void setDuration(int duration) {
         propertyChange("duration", this.duration, this.duration = duration, true);
     }
-
+    
     /**
      * Returns the category of the message. This allows messages to be cleared based on their
      * category.
@@ -114,7 +114,7 @@ public class MessagePane extends BaseUIComponent {
     public String getCategory() {
         return category;
     }
-
+    
     /**
      * Sets the category of the message. This allows messages to be cleared based on their category.
      *
@@ -124,7 +124,7 @@ public class MessagePane extends BaseUIComponent {
     public void setCategory(String category) {
         this.category = nullify(category);
     }
-
+    
     /**
      * Returns true if the message is actionable. An actionable message has an action icon that,
      * when clicked, triggers an action event.
@@ -136,7 +136,7 @@ public class MessagePane extends BaseUIComponent {
     public boolean isActionable() {
         return actionable;
     }
-
+    
     /**
      * Set to true to make the message actionable. An actionable message has an action icon that,
      * when clicked, triggers an action event.
@@ -148,11 +148,11 @@ public class MessagePane extends BaseUIComponent {
     public void setActionable(boolean actionable) {
         propertyChange("actionable", this.actionable, this.actionable = actionable, true);
     }
-
+    
     /**
      * Handles close events from the client.
      */
-    @EventHandler(value = "close", syncToClient = false)
+    @EventHandler(value = "close", syncToClient = false, mode = "init")
     private void _close() {
         destroy();
     }

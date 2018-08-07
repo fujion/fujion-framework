@@ -45,24 +45,24 @@ import org.springframework.util.Assert;
  */
 @Component(tag = "sscript", widgetClass = "MetaWidget", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", description = "Script source code for server-side invocation.")
 public class ServerScript extends BaseScriptComponent {
-
+    
     public static final String EVENT_EXECUTED = "scriptExecution";
-
+    
     private IScriptLanguage scriptLanguage;
-
+    
     private IParsedScript script;
-
+    
     private String type;
-
+    
     public ServerScript() {
         super(false);
     }
-    
+
     public ServerScript(String type, String script) {
         super(script, false);
         setType(type);
     }
-
+    
     /**
      * Executes the compiled script.
      *
@@ -74,12 +74,12 @@ public class ServerScript extends BaseScriptComponent {
         EventUtil.post(new Event(EVENT_EXECUTED, this, result));
         return result;
     }
-
+    
     @Override
     public String getSelfName() {
         return scriptLanguage == null ? null : scriptLanguage.getSelf();
     }
-    
+
     /**
      * Returns the script text, either from an external source or as embedded content.
      *
@@ -91,10 +91,10 @@ public class ServerScript extends BaseScriptComponent {
             String code = getSrc() == null ? getContent() : getExternalScript();
             script = scriptLanguage.parse(code);
         }
-
+        
         return script;
     }
-    
+
     /**
      * Destroys the compiled script, if any.
      */
@@ -104,7 +104,7 @@ public class ServerScript extends BaseScriptComponent {
             script = null;
         }
     }
-
+    
     /**
      * Return the text of an external script.
      *
@@ -118,13 +118,13 @@ public class ServerScript extends BaseScriptComponent {
             throw MiscUtil.toUnchecked(e);
         }
     }
-
+    
     @Override
     public void destroy() {
         destroyScript();
         super.destroy();
     }
-    
+
     /**
      * Returns the type of script.
      *
@@ -134,7 +134,7 @@ public class ServerScript extends BaseScriptComponent {
     public String getType() {
         return type;
     }
-
+    
     /**
      * Sets the type of script.
      *
@@ -144,18 +144,18 @@ public class ServerScript extends BaseScriptComponent {
     public void setType(String type) {
         type = nullify(type);
         scriptLanguage = type == null ? null : ScriptRegistry.getInstance().get(type);
-
+        
         if (scriptLanguage == null && type != null) {
             throw new IllegalArgumentException("Unknown script type: " + type);
         }
-        
+
         propertyChange("type", this.type, this.type = type, false);
     }
-
+    
     /**
      * Force script re-compilation if any property changes.
      */
-    @EventHandler("propertychange")
+    @EventHandler(value = "propertychange", mode = "init")
     private void onPropertyChanged() {
         destroyScript();
     }

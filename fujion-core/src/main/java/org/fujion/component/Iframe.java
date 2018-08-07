@@ -32,11 +32,11 @@ import org.fujion.event.LoadEvent;
  */
 @Component(tag = "iframe", widgetClass = "Iframe", parentTag = "*", description = "An iframe component.")
 public class Iframe extends BaseUIComponent {
-    
+
     private String src;
-    
+
     private String sandbox;
-    
+
     /**
      * Returns the URL of the loaded document.
      *
@@ -46,7 +46,7 @@ public class Iframe extends BaseUIComponent {
     public String getSrc() {
         return src;
     }
-    
+
     /**
      * Sets the URL of the document to be loaded.
      *
@@ -56,7 +56,7 @@ public class Iframe extends BaseUIComponent {
     public void setSrc(String src) {
         _setSrc(src, true);
     }
-    
+
     /**
      * Sets the URL of the document to be loaded, optionally notifying the client.
      *
@@ -66,7 +66,7 @@ public class Iframe extends BaseUIComponent {
     private void _setSrc(String src, boolean notifyClient) {
         propertyChange("src", this.src, this.src = nullify(src), notifyClient);
     }
-
+    
     /**
      * Directly sets the iframe content.
      *
@@ -75,7 +75,7 @@ public class Iframe extends BaseUIComponent {
     public void setContent(MimeContent content) {
         setSrc(content == null ? null : content.getSrc());
     }
-    
+
     /**
      * Directly sets the iframe content.
      *
@@ -85,7 +85,7 @@ public class Iframe extends BaseUIComponent {
     public void setContent(String content) {
         setContent(content == null ? null : new MimeContent("text/html", content.getBytes()));
     }
-    
+
     /**
      * Returns the sandbox setting for the iframe.
      *
@@ -97,7 +97,7 @@ public class Iframe extends BaseUIComponent {
     public String getSandbox() {
         return sandbox;
     }
-    
+
     /**
      * Sets the sandbox setting for the iframe.
      *
@@ -109,16 +109,16 @@ public class Iframe extends BaseUIComponent {
     public void setSandbox(String sandbox) {
         propertyChange("sandbox", this.sandbox, this.sandbox = sandbox, true);
     }
-    
+
     /**
      * Handles a load event from the client.
      *
      * @param event A load event.
      */
-    @EventHandler(value = "load", syncToClient = false)
+    @EventHandler(value = "load", syncToClient = false, mode = "init")
     private void _onLoad(LoadEvent event) {
         String src = nullify(event.getSrc());
-        
+
         if (src != null) {
             _setSrc(src, false);
         }

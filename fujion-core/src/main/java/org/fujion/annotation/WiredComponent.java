@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface WiredComponent {
-
+    
     /**
      * The name associated with the component instance to be wired to this field. If not specified,
      * is assumed to be the same as the field name.
@@ -41,6 +41,13 @@ public @interface WiredComponent {
      * @return The component name.
      */
     String value() default "";
+    
+    /**
+     * The wiring mode(s). If specified, will only be wired when one of the modes is active.
+     *
+     * @return The wiring mode(s).
+     */
+    String[] mode() default "";
 
     /**
      * Determines the action to be taken if the annotated field already has an assigned value. If
@@ -49,7 +56,7 @@ public @interface WiredComponent {
      * @return The overwrite action.
      */
     boolean overwrite() default false;
-
+    
     /**
      * The action to be taken if wiring fails.
      *

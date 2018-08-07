@@ -37,25 +37,25 @@ import org.fujion.model.Sorting.SortToggle;
  */
 @Component(tag = "column", widgetClass = "Column", widgetModule = "fujion-grid", parentTag = "columns", childTag = @ChildTag("*"), description = "A single column within a grid.")
 public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> {
-    
-    private Comparator<?> sortComparator;
-    
-    private SortOrder sortOrder = SortOrder.UNSORTED;
-    
-    private SortToggle sortToggle;
-    
-    private boolean sortColumn;
 
-    private boolean sizable;
+    private Comparator<?> sortComparator;
+
+    private SortOrder sortOrder = SortOrder.UNSORTED;
+
+    private SortToggle sortToggle;
+
+    private boolean sortColumn;
     
+    private boolean sizable;
+
     public Column() {
         super();
     }
-    
+
     public Column(String label) {
         super(label);
     }
-    
+
     /**
      * Returns the comparator to be used for sorting (if any).
      *
@@ -64,7 +64,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public Comparator<?> getSortComparator() {
         return sortComparator;
     }
-    
+
     /**
      * Sets the comparator to be used for sorting.
      *
@@ -77,7 +77,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
             updateClient();
         }
     }
-    
+
     /**
      * Sets the name of the model property to be used for sorting.
      *
@@ -87,7 +87,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public void setSortComparator(String propertyName) {
         setSortComparator(new SmartComparator(propertyName));
     }
-    
+
     /**
      * Returns the sort order. This may not reflect the current sort order. Rather, it specifies the
      * ordering to be used when the <code>sort</code> method is invoked.
@@ -98,7 +98,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public SortOrder getSortOrder() {
         return sortOrder;
     }
-    
+
     /**
      * Sets the sort order. This does not affect the current sort order. Rather, it specifies the
      * ordering to be used when the <code>sort</code> method is invoked.
@@ -110,7 +110,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
         sortOrder = sortOrder == null ? SortOrder.UNSORTED : sortOrder;
         propertyChange("sortOrder", this.sortOrder, this.sortOrder = sortOrder, false);
     }
-    
+
     /**
      * Returns the type of sort toggle.
      *
@@ -120,7 +120,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public SortToggle getSortToggle() {
         return sortToggle;
     }
-    
+
     /**
      * Sets the type of sort toggle.
      *
@@ -130,7 +130,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public void setSortToggle(SortToggle sortToggle) {
         propertyChange("sortToggle", this.sortToggle, this.sortToggle = sortToggle, false);
     }
-    
+
     /**
      * Returns true if the column can be resized. Note that the grid's autoSize property must be set
      * to false in order to allow resizing of columns.
@@ -141,7 +141,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public boolean isSizable() {
         return sizable;
     }
-    
+
     /**
      * Sets whether the column can be resized. Note that the grid's autoSize property must be set to
      * false in order to allow resizing of columns.
@@ -152,7 +152,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public void setSizable(boolean sizable) {
         propertyChange("sizable", this.sizable, this.sizable = sizable, true);
     }
-    
+
     /**
      * Transitions the sort order to the next state (depending on the setting of the sort toggle)
      * and performs the sort.
@@ -163,7 +163,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
         setSortOrder(SortOrder.values()[i >= max ? 0 : i]);
         sort();
     }
-    
+
     /**
      * Sort the column according to the sort order property.
      */
@@ -172,17 +172,17 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
             setSortColumn(true);
             return;
         }
-        
+
         IListModel<Object> model = sortComparator == null || sortOrder == SortOrder.UNSORTED ? null : getRowsModel();
         updateClient();
-        
+
         if (model != null) {
             @SuppressWarnings("unchecked")
             Comparator<Object> comparator = sortOrder == SortOrder.NATIVE ? null : (Comparator<Object>) sortComparator;
             model.sort(comparator, sortOrder != SortOrder.DESCENDING);
         }
     }
-    
+
     /**
      * Returns the model from the associated grid rows.
      *
@@ -193,15 +193,15 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
         Rows rows = grid == null ? null : grid.getRows();
         return rows == null ? null : rows.getModel(Object.class);
     }
-    
+
     /**
      * Handles a sort request from the client.
      */
-    @EventHandler(value = "sort", syncToClient = false)
+    @EventHandler(value = "sort", syncToClient = false, mode = "init")
     private void _sort() {
         toggleSort();
     }
-    
+
     /**
      * Returns true if this is the currently sorted column. Note that this setting is mutually
      * exclusive among columns within the same grid instance.
@@ -212,7 +212,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public boolean isSortColumn() {
         return sortColumn;
     }
-    
+
     /**
      * When set to true, designates this column as the currently sorted column. Note that this
      * setting is mutually exclusive among columns within the same grid instance.
@@ -224,7 +224,7 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public void setSortColumn(boolean sortColumn) {
         _setSortColumn(sortColumn, true);
     }
-    
+
     /**
      * Sets the sort column state. If set to true, the column is sorted and designated as the
      * current sort column.
@@ -234,16 +234,16 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      */
     protected void _setSortColumn(boolean sortColumn, boolean notifyParent) {
         if (propertyChange("sortColumn", this.sortColumn, this.sortColumn = sortColumn, false)) {
-            
+
             if (sortColumn) {
                 sort();
             } else {
                 updateClient();
             }
-            
+
             if (notifyParent) {
                 Columns parent = (Columns) getParent();
-                
+
                 if (parent != null) {
                     if (sortColumn) {
                         parent.setSortColumn(this);
@@ -254,9 +254,9 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
             }
         }
     }
-    
+
     private void updateClient() {
         sync("sortOrder", sortComparator == null ? null : sortColumn ? sortOrder : SortOrder.UNSORTED);
     }
-    
+
 }

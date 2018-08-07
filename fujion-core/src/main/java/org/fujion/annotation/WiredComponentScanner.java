@@ -20,6 +20,7 @@
  */
 package org.fujion.annotation;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.fujion.component.BaseComponent;
 
 /**
@@ -41,7 +42,23 @@ public class WiredComponentScanner extends AbstractFieldScanner<Object, WiredCom
      * @param root The root component used to resolve component names.
      */
     public static void wire(Object object, BaseComponent root) {
+        wire(object, root, "");
+    }
+
+    /**
+     * Wire an object instance using the root component to resolve component names.
+     *
+     * @param object The object whose fields are to be scanned.
+     * @param root The root component used to resolve component names.
+     * @param mode The wiring mode.
+     */
+    public static void wire(Object object, BaseComponent root, String mode) {
         instance.scan(object, (annotation, field) -> {
+
+            if (!ArrayUtils.contains(annotation.mode(), mode)) {
+                return true;
+            }
+            
             OnFailure onFailure = annotation.onFailure();
 
             if (!BaseComponent.class.isAssignableFrom(field.getType())) {

@@ -22,14 +22,15 @@ package org.fujion.annotation;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.fujion.ancillary.ComponentException;
+import org.fujion.ancillary.ConvertUtil;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.event.Event;
@@ -101,7 +102,19 @@ public class EventHandlerScanner {
      * @param root The root component used to resolve component names.
      */
     public static void wire(Object instance, BaseComponent root) {
-        wire(instance, root, instance.getClass());
+        wire(instance, root, instance.getClass(), "");
+    }
+
+    /**
+     * Recursively scans the controller's class and superclasses for {@literal @EventHandler}
+     * -annotated methods.
+     *
+     * @param instance Controller to be wired.
+     * @param root The root component used to resolve component names.
+     * @param mode The wiring mode.
+     */
+    public static void wire(Object instance, BaseComponent root, String mode) {
+        wire(instance, root, instance.getClass(), mode);
     }
 
     /**
@@ -119,7 +132,7 @@ public class EventHandlerScanner {
             Method handler = ReflectionUtils.findMethod(instance.getClass(), methodName, eventClass);
             handler = handler == null ? ReflectionUtils.findMethod(instance.getClass(), methodName) : handler;
             ComponentException.assertTrue(handler != null, "A suitable event handler named \"%s\" could not be found",
-                methodName);
+                    methodName);
             EventListener eventListener = new EventListener(instance, handler);
             component.addEventListener(eventType, eventListener);
         }
@@ -131,12 +144,17 @@ public class EventHandlerScanner {
      * @param instance Controller to be wired.
      * @param root The root component used to resolve component names.
      * @param clazz The class to be scanned.
+     * @param mode The wiring mode.
      */
-    private static void wire(Object instance, BaseComponent root, Class<?> clazz) {
+    private static void wire(Object instance, BaseComponent root, Class<?> clazz, String mode) {
         MethodScanner.scan(clazz, method -> {
             EventHandler[] annotations = method.getAnnotationsByType(EventHandler.class);
 
             for (EventHandler annot : annotations) {
+                if (!ArrayUtils.contains(annot.mode(), mode)) {
+                    continue;
+                }
+                
                 OnFailure onFailure = annot.onFailure();
                 
                 if (!validateSignature(method)) {
@@ -145,8 +163,8 @@ public class EventHandlerScanner {
                     break;
                 }
 
-                Set<String> targets = asSet(annot.target());
-                Set<String> types = asSet(annot.value());
+                Set<String> targets = ConvertUtil.convertToSet(annot.target(), true);
+                Set<String> types = ConvertUtil.convertToSet(annot.value(), true);
                 BaseComponent component = null;
 
                 if (types.isEmpty()) {
@@ -203,25 +221,6 @@ public class EventHandlerScanner {
     private static boolean validateSignature(Method method) {
         Class<?>[] params = method.getParameterTypes();
         return params.length == 0 || (params.length == 1 && Event.class.isAssignableFrom(params[0]));
-    }
-
-    /**
-     * Converts an array of string values to a set. This effectively removes duplicate and empty
-     * entries.
-     *
-     * @param values Array of string values.
-     * @return Corresponding set of values.
-     */
-    private static Set<String> asSet(String[] values) {
-        Set<String> set = new HashSet<>();
-
-        for (String value : values) {
-            if (!value.isEmpty()) {
-                set.add(value);
-            }
-        }
-
-        return set;
     }
 
     /**

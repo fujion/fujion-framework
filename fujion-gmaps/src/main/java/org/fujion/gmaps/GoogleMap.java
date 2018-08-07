@@ -169,27 +169,27 @@ public class GoogleMap extends BaseUIComponent {
         propertyChange("zoom", options.zoom, options.zoom = zoom, running);
     }
 
-    @EventHandler(TiltChangeEvent.TYPE)
+    @EventHandler(value=TiltChangeEvent.TYPE, mode = "init")
     private void _onTiltChanged(TiltChangeEvent event) {
         propertyChange("tilt", options.tilt, options.tilt = event.getTilt(), false);
     }
     
-    @EventHandler(ZoomChangeEvent.TYPE)
+    @EventHandler(value=ZoomChangeEvent.TYPE, mode = "init")
     private void _onZoomChanged(ZoomChangeEvent event) {
         propertyChange("zoom", options.zoom, options.zoom = event.getZoom(), false);
     }
 
-    @EventHandler(CenterChangeEvent.TYPE)
+    @EventHandler(value=CenterChangeEvent.TYPE, mode = "init")
     private void _onCenterChanged(CenterChangeEvent event) {
         options.center = event.getLocation();
     }
 
-    @EventHandler(HeadingChangeEvent.TYPE)
+    @EventHandler(value=HeadingChangeEvent.TYPE, mode = "init")
     private void _onHeadingChanged(HeadingChangeEvent event) {
         options.heading = event.getHeading();
     }
 
-    @EventHandler(MapTypeIdChangeEvent.TYPE)
+    @EventHandler(value=MapTypeIdChangeEvent.TYPE, mode = "init")
     private void _onMapTypeIdChanged(MapTypeIdChangeEvent event) {
         options.mapTypeId$enum = event.getMapTypeIdEnum();
         options.mapTypeId$string = options.mapTypeId$enum == null ? event.getMapTypeIdString() : null;

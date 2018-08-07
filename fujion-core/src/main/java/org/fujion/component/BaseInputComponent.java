@@ -32,9 +32,9 @@ import org.fujion.event.ChangeEvent;
  * @param <T> The type of the input value.
  */
 public abstract class BaseInputComponent<T> extends BaseUIComponent {
-    
+
     private T value;
-    
+
     /**
      * Returns the input value.
      *
@@ -43,7 +43,7 @@ public abstract class BaseInputComponent<T> extends BaseUIComponent {
     public T getValue() {
         return value;
     }
-    
+
     /**
      * Sets the input value.
      *
@@ -52,14 +52,14 @@ public abstract class BaseInputComponent<T> extends BaseUIComponent {
     public void setValue(T value) {
         _setValue(value, true);
     }
-    
+
     /**
      * Clears the input value.
      */
     public void clear() {
         setValue(null);
     }
-    
+
     /**
      * Returns the input value as a string. Uses the _toString method to do the conversion.
      *
@@ -69,7 +69,7 @@ public abstract class BaseInputComponent<T> extends BaseUIComponent {
     protected String _getValue() {
         return value == null ? null : _toString(value);
     }
-    
+
     /**
      * Sets the input value as a string. Uses the _toValue method to do the conversion.
      *
@@ -79,7 +79,7 @@ public abstract class BaseInputComponent<T> extends BaseUIComponent {
     protected void _setValue(String value) {
         setValue(_toValue(value));
     }
-    
+
     /**
      * Sets the input value.
      *
@@ -91,7 +91,7 @@ public abstract class BaseInputComponent<T> extends BaseUIComponent {
             sync("value", value == null ? null : _toClient(value));
         }
     }
-    
+
     /**
      * Converts a string value to this component's value type.
      *
@@ -99,7 +99,7 @@ public abstract class BaseInputComponent<T> extends BaseUIComponent {
      * @return The converted value.
      */
     protected abstract T _toValue(String value);
-    
+
     /**
      * Converts a value to a string.
      *
@@ -107,7 +107,7 @@ public abstract class BaseInputComponent<T> extends BaseUIComponent {
      * @return The converted value.
      */
     protected abstract String _toString(T value);
-    
+
     /**
      * Override to provide alternate serialization format for sending to client. Default action is
      * to serialize to string.
@@ -118,13 +118,13 @@ public abstract class BaseInputComponent<T> extends BaseUIComponent {
     protected Object _toClient(T value) {
         return _toString(value);
     }
-    
+
     /**
      * Event handler for change events sent by the client.
      *
      * @param event The change event.
      */
-    @EventHandler(value = "change", syncToClient = false)
+    @EventHandler(value = "change", syncToClient = false, mode = "init")
     protected void _onChange(ChangeEvent event) {
         try {
             _setValue(_toValue(event.getValue(String.class)), false);
@@ -132,5 +132,5 @@ public abstract class BaseInputComponent<T> extends BaseUIComponent {
             setBalloon(ExceptionUtils.getRootCauseMessage(e));
         }
     }
-    
+
 }
