@@ -27,7 +27,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.fujion.ancillary.ComponentException;
 import org.fujion.ancillary.ConvertUtil;
@@ -95,29 +94,6 @@ public class EventHandlerScanner {
     }
 
     /**
-     * Recursively scans the controller's class and superclasses for {@literal @EventHandler}
-     * -annotated methods.
-     *
-     * @param instance Controller to be wired.
-     * @param root The root component used to resolve component names.
-     */
-    public static void wire(Object instance, BaseComponent root) {
-        wire(instance, root, instance.getClass(), "");
-    }
-
-    /**
-     * Recursively scans the controller's class and superclasses for {@literal @EventHandler}
-     * -annotated methods.
-     *
-     * @param instance Controller to be wired.
-     * @param root The root component used to resolve component names.
-     * @param mode The wiring mode.
-     */
-    public static void wire(Object instance, BaseComponent root, String mode) {
-        wire(instance, root, instance.getClass(), mode);
-    }
-
-    /**
      * Wires onEvent style event handlers.
      *
      * @param instance Controller to be wired.
@@ -138,24 +114,28 @@ public class EventHandlerScanner {
         }
     }
 
+    private static final String[] DEFAULT_MODE = { "" };
+
     /**
      * Scans the specified class for {@literal @EventHandler}-annotated methods.
      *
      * @param instance Controller to be wired.
      * @param root The root component used to resolve component names.
-     * @param clazz The class to be scanned.
-     * @param mode The wiring mode.
+     * @param mode The wiring mode(s).
      */
-    private static void wire(Object instance, BaseComponent root, Class<?> clazz, String mode) {
+    public static void wire(Object instance, BaseComponent root, String... mode) {
+        Class<?> clazz = instance.getClass();
+        String[] activeModes = mode == null || mode.length == 0 ? DEFAULT_MODE : mode;
+
         MethodScanner.scan(clazz, method -> {
             EventHandler[] annotations = method.getAnnotationsByType(EventHandler.class);
 
-            for (EventHandler annot : annotations) {
-                if (!ArrayUtils.contains(annot.mode(), mode)) {
+            for (EventHandler annotation : annotations) {
+                if (!MiscUtil.overlaps(annotation.mode(), activeModes)) {
                     continue;
                 }
                 
-                OnFailure onFailure = annot.onFailure();
+                OnFailure onFailure = annotation.onFailure();
                 
                 if (!validateSignature(method)) {
                     onFailure.doAction("Signature for method \"%s\" does not conform to that required of an event handler",
@@ -163,8 +143,8 @@ public class EventHandlerScanner {
                     break;
                 }
 
-                Set<String> targets = ConvertUtil.convertToSet(annot.target(), true);
-                Set<String> types = ConvertUtil.convertToSet(annot.value(), true);
+                Set<String> targets = ConvertUtil.convertToSet(annotation.target(), true);
+                Set<String> types = ConvertUtil.convertToSet(annotation.value(), true);
                 BaseComponent component = null;
 
                 if (types.isEmpty()) {
@@ -204,7 +184,7 @@ public class EventHandlerScanner {
                         onFailure.doAction("No suitable event handler target found for \"%s\"", target);
                     } else {
                         for (String type : types) {
-                            component.addEventListener(type, new EventListener(instance, method), annot.syncToClient());
+                            component.addEventListener(type, new EventListener(instance, method), annotation.syncToClient());
                         }
                     }
                 }

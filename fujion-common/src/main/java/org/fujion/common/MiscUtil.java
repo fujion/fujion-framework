@@ -22,6 +22,7 @@ package org.fujion.common;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.ListIterator;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.UnhandledException;
 
 /**
@@ -138,6 +140,36 @@ public class MiscUtil {
         };
     }
 
+    /**
+     * Returns true if the two arrays overlap (i.e., have at least one element in common).
+     *
+     * @param ary1 The first array.
+     * @param ary2 The second array.
+     * @return True if the two arrays overlap.
+     */
+    public static boolean overlaps(Object[] ary1, Object[] ary2) {
+        return overlaps(Arrays.asList(ary1), Arrays.asList(ary2));
+    }
+    
+    /**
+     * Returns true if the two iterables overlap (i.e., have at least one element in common).
+     *
+     * @param iter1 The first iterable.
+     * @param iter2 The second iterable.
+     * @return True if the two iterables overlap.
+     */
+    public static boolean overlaps(Iterable<?> iter1, Iterable<?> iter2) {
+        for (Object obj1 : iter1) {
+            for (Object obj2 : iter2) {
+                if (ObjectUtils.equals(obj1, obj2)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
     /**
      * Converts a checked exception to unchecked. If the original exception is already unchecked, it
      * is simply returned.

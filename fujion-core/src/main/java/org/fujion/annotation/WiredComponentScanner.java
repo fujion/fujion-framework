@@ -20,7 +20,7 @@
  */
 package org.fujion.annotation;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 
 /**
@@ -35,27 +35,21 @@ public class WiredComponentScanner extends AbstractFieldScanner<Object, WiredCom
         super(Object.class, WiredComponent.class);
     }
 
-    /**
-     * Wire an object instance using the root component to resolve component names.
-     *
-     * @param object The object whose fields are to be scanned.
-     * @param root The root component used to resolve component names.
-     */
-    public static void wire(Object object, BaseComponent root) {
-        wire(object, root, "");
-    }
+    private static final String[] DEFAULT_MODE = { "" };
 
     /**
      * Wire an object instance using the root component to resolve component names.
      *
      * @param object The object whose fields are to be scanned.
      * @param root The root component used to resolve component names.
-     * @param mode The wiring mode.
+     * @param mode The wiring mode(s).
      */
-    public static void wire(Object object, BaseComponent root, String mode) {
+    public static void wire(Object object, BaseComponent root, String... mode) {
+        String[] activeModes = mode == null || mode.length == 0 ? DEFAULT_MODE : mode;
+
         instance.scan(object, (annotation, field) -> {
 
-            if (!ArrayUtils.contains(annotation.mode(), mode)) {
+            if (!MiscUtil.overlaps(annotation.mode(), activeModes)) {
                 return true;
             }
             
