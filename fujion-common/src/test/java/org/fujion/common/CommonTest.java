@@ -508,9 +508,9 @@ public class CommonTest {
 
     @Test
     public void testOverlap() {
-        assertFalse(MiscUtil.overlaps(ary1, ary2));
-        assertTrue(MiscUtil.overlaps(ary1, ary3));
-        assertTrue(MiscUtil.overlaps(ary2, ary3));
+        assertFalse(MiscUtil.intersects(ary1, ary2));
+        assertTrue(MiscUtil.intersects(ary1, ary3));
+        assertTrue(MiscUtil.intersects(ary2, ary3));
     }
     
     private void wait(int ms) {

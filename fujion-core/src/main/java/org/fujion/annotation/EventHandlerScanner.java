@@ -131,7 +131,7 @@ public class EventHandlerScanner {
             EventHandler[] annotations = method.getAnnotationsByType(EventHandler.class);
 
             for (EventHandler annotation : annotations) {
-                if (!MiscUtil.overlaps(annotation.mode(), activeModes)) {
+                if (!MiscUtil.intersects(annotation.mode(), activeModes)) {
                     continue;
                 }
                 

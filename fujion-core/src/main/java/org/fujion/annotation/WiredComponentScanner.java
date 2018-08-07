@@ -49,7 +49,7 @@ public class WiredComponentScanner extends AbstractFieldScanner<Object, WiredCom
 
         instance.scan(object, (annotation, field) -> {
 
-            if (!MiscUtil.overlaps(annotation.mode(), activeModes)) {
+            if (!MiscUtil.intersects(annotation.mode(), activeModes)) {
                 return true;
             }
             
