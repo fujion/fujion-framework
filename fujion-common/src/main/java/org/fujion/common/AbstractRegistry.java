@@ -33,21 +33,21 @@ import org.fujion.common.RegistryMap.DuplicateAction;
  * @param <VALUE> The class of the registered item.
  */
 public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
-    
+
     protected final Map<KEY, VALUE> map;
-    
+
     protected AbstractRegistry() {
         this(null);
     }
-    
+
     protected AbstractRegistry(DuplicateAction duplicateAction) {
         this(null, duplicateAction);
     }
-    
+
     protected AbstractRegistry(Map<KEY, VALUE> map, DuplicateAction duplicateAction) {
         this.map = new RegistryMap<>(map, duplicateAction);
     }
-    
+
     /**
      * Returns the key to use to store the item.
      *
@@ -55,7 +55,7 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
      * @return Key for the item.
      */
     protected abstract KEY getKey(VALUE item);
-    
+
     /**
      * Returns the value associated with the specified key.
      *
@@ -65,7 +65,7 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
     public VALUE get(KEY key) {
         return map.get(key);
     }
-    
+
     /**
      * Returns true if the registry contains the specified item.
      *
@@ -75,7 +75,7 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
     public boolean contains(KEY key) {
         return map.containsKey(key);
     }
-    
+
     /**
      * Returns a read-only collection of all registry entries.
      *
@@ -84,7 +84,7 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
     public Collection<VALUE> getAll() {
         return map.values();
     }
-    
+
     /**
      * Adds an item to the registry.
      *
@@ -95,7 +95,7 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
             map.put(getKey(item), item);
         }
     }
-    
+
     /**
      * Removes an item from the registry.
      *
@@ -105,7 +105,7 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
     public VALUE unregister(VALUE item) {
         return unregisterByKey(getKey(item));
     }
-    
+
     /**
      * Removes an item from the registry using its key value.
      *
@@ -115,14 +115,14 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
     public VALUE unregisterByKey(KEY key) {
         return map.remove(key);
     }
-    
+
     /**
      * Remove all registry entries.
      */
-    public void clear() {
+    protected void clear() {
         map.clear();
     }
-    
+
     /**
      * Return number of entries.
      *
@@ -131,7 +131,7 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
     public int size() {
         return map.size();
     }
-    
+
     /**
      * Iterate over value set.
      */
@@ -139,5 +139,5 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
     public Iterator<VALUE> iterator() {
         return map.values().iterator();
     }
-    
+
 }
