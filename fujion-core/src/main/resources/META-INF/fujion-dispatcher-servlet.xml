@@ -116,7 +116,7 @@
 		class="org.fujion.page.PageParser" />
 	
 	<bean factory-method="getInstance" 
-		class="org.fujion.mbean.Console" />
+		class="org.fujion.jmx.Console" />
 	
 	<bean class="org.fujion.page.PIParserAttribute" />
 	

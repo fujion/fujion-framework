@@ -18,7 +18,7 @@
  *
  * #L%
  */
-package org.fujion.mbean;
+package org.fujion.jmx;
 
 import java.lang.management.ManagementFactory;
 
@@ -38,13 +38,13 @@ import com.udojava.jmx.wrapper.JMXBeanWrapper;
  */
 @JMXBean(resourceBundleName = "org.fujion.common.MessageBundle", descriptionKey = "fujion.console.description")
 public class Console {
-    
-    private static final Console instance = new Console();
 
+    private static final Console instance = new Console();
+    
     public static final Console getInstance() {
         return instance;
     }
-
+    
     private Console() {
         try {
             MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
@@ -54,15 +54,15 @@ public class Console {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     @JMXBeanOperation(nameKey = "fujion.console.clearFSPCache.name", impactType = IMPACT_TYPES.ACTION, descriptionKey = "fujion.console.clearFSPCache.description")
     public void clearFSPCache() {
         PageDefinitionCache.getInstance().clear();
     }
-    
+
     @JMXBeanOperation(nameKey = "fujion.console.refreshFSPCache.name", impactType = IMPACT_TYPES.ACTION, descriptionKey = "fujion.console.refreshFSPCache.description")
     public void refreshFSPCache() {
         PageDefinitionCache.getInstance().refresh();
     }
-    
+
 }
