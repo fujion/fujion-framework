@@ -38,11 +38,11 @@ import org.fujion.component.BaseComponent;
  * Registry of component definitions indexed by their tag name and implementing class.
  */
 public class ComponentRegistry extends AbstractRegistry<String, ComponentDefinition> {
-
+    
     private static final ComponentRegistry instance = new ComponentRegistry();
-
+    
     private final Map<Class<? extends BaseComponent>, ComponentDefinition> classToDefinition = new HashMap<>();
-
+    
     /**
      * Returns the singleton instance of the component registry.
      *
@@ -51,11 +51,11 @@ public class ComponentRegistry extends AbstractRegistry<String, ComponentDefinit
     public static ComponentRegistry getInstance() {
         return instance;
     }
-
+    
     private ComponentRegistry() {
         super(DuplicateAction.ERROR);
     }
-
+    
     /**
      * Adds a component definition to the registry.
      *
@@ -66,10 +66,15 @@ public class ComponentRegistry extends AbstractRegistry<String, ComponentDefinit
         super.register(item);
         classToDefinition.put(item.getComponentClass(), item);
     }
-
+    
     @Override
     protected String getKey(ComponentDefinition item) {
         return item.getTag();
+    }
+    
+    @Override
+    public void clear() {
+        super.clear();
     }
 
     @SuppressWarnings("unlikely-arg-type")
@@ -77,7 +82,7 @@ public class ComponentRegistry extends AbstractRegistry<String, ComponentDefinit
     public ComponentDefinition unregisterByKey(String key) {
         return classToDefinition.remove(super.unregisterByKey(key));
     }
-
+    
     /**
      * Returns a component definition given a component class. If no direct association occurs for
      * the specified class, will check each ancestor class in turn.
@@ -88,14 +93,14 @@ public class ComponentRegistry extends AbstractRegistry<String, ComponentDefinit
     public ComponentDefinition get(Class<? extends BaseComponent> componentClass) {
         ComponentDefinition def = null;
         Class<?> clazz = componentClass;
-
+        
         do {
             def = classToDefinition.get(clazz);
         } while (def == null && BaseComponent.class.isAssignableFrom((clazz = clazz.getSuperclass())));
-
+        
         return def;
     }
-    
+
     /**
      * Returns a list of all component definitions whose tags match the specified pattern.
      *
@@ -106,23 +111,23 @@ public class ComponentRegistry extends AbstractRegistry<String, ComponentDefinit
         if ("*".equals(pattern)) {
             return Collections.unmodifiableCollection(map.values());
         }
-        
+
         ComponentDefinition def = get(pattern);
-        
+
         if (def != null) {
             return Collections.singleton(def);
         }
-        
+
         List<ComponentDefinition> matches = new ArrayList<>();
         Pattern regex = MiscUtil.globToRegex(pattern);
-        
+
         for (String tag : map.keySet()) {
             if (regex.matcher(tag).matches()) {
                 matches.add(map.get(tag));
             }
         }
-        
+
         return matches;
     }
-
+    
 }
