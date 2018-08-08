@@ -36,31 +36,27 @@ import com.udojava.jmx.wrapper.JMXBeanWrapper;
 /**
  * JMX-based management console for Fujion.
  */
-@JMXBean(resourceBundleName = "org.fujion.common.MessageBundle", descriptionKey = "fujion.console.description")
+@JMXBean(resourceBundleName = "org.fujion.common.MessageBundle", descriptionKey = "org.fujion.console.description")
 public class Console {
     
-    private static final Console instance = new Console();
-
-    public static final Console getInstance() {
-        return instance;
-    }
-
-    private Console() {
+    private Console(boolean enabled) {
         try {
-            MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-            ObjectName name = new ObjectName("org.fujion:type=Console");
-            mbs.registerMBean(new JMXBeanWrapper(this), name);
+            if (enabled) {
+                MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+                ObjectName name = new ObjectName("org.fujion:type=Console");
+                mbs.registerMBean(new JMXBeanWrapper(this), name);
+            }
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
     
-    @JMXBeanOperation(nameKey = "fujion.console.clearFSPCache.name", impactType = IMPACT_TYPES.ACTION, descriptionKey = "fujion.console.clearFSPCache.description")
+    @JMXBeanOperation(nameKey = "org.fujion.console.clearFSPCache.name", impactType = IMPACT_TYPES.ACTION, descriptionKey = "org.fujion.console.clearFSPCache.description")
     public void clearFSPCache() {
         PageDefinitionCache.getInstance().clear();
     }
     
-    @JMXBeanOperation(nameKey = "fujion.console.refreshFSPCache.name", impactType = IMPACT_TYPES.ACTION, descriptionKey = "fujion.console.refreshFSPCache.description")
+    @JMXBeanOperation(nameKey = "org.fujion.console.refreshFSPCache.name", impactType = IMPACT_TYPES.ACTION, descriptionKey = "org.fujion.console.refreshFSPCache.description")
     public void refreshFSPCache() {
         PageDefinitionCache.getInstance().refresh();
     }
