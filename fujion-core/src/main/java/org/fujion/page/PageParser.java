@@ -21,7 +21,7 @@
 package org.fujion.page;
 
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -62,9 +62,9 @@ public class PageParser implements BeanPostProcessor {
     
     public static final String NS_CONTROLLER = NS_FSP + "/controller";
     
-    private final Map<String, String> attrNSMap = new HashMap<>();
+    private final Map<String, String> attrNSMap = new RegistryMap<>(DuplicateAction.ERROR);
     
-    private final Map<String, String> tagNSMap = new HashMap<>();
+    private final Map<String, String> tagNSMap = Collections.singletonMap(NS_FSP, "");
     
     private final RegistryMap<String, PIParserBase> piParsers = new RegistryMap<>(DuplicateAction.ERROR);
     
@@ -73,10 +73,9 @@ public class PageParser implements BeanPostProcessor {
     }
     
     private PageParser() {
-        attrNSMap.put(NS_ON, "on");
-        attrNSMap.put(NS_ATTR, "attr");
-        attrNSMap.put(NS_CONTROLLER, "controller");
-        tagNSMap.put(NS_FSP, "");
+        registerAttributeNS(NS_ON, "on");
+        registerAttributeNS(NS_ATTR, "attr");
+        registerAttributeNS(NS_CONTROLLER, "controller");
     }
     
     /**
@@ -132,6 +131,16 @@ public class PageParser implements BeanPostProcessor {
         parseNode(source.getDocument(), parentElement);
     }
 
+    /**
+     * Register an XML namespace for an attribute extension.
+     *
+     * @param url The unique URL of the attribute namespace.
+     * @param prefix The attribute prefix to be used by the parser.
+     */
+    public void registerAttributeNS(String url, String prefix) {
+        attrNSMap.put(url, prefix);
+    }
+    
     private void parseNode(Node node, PageElement parentElement) {
         ComponentDefinition def;
         PageElement childElement;
