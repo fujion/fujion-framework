@@ -211,6 +211,12 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
+		<!-- MBean support -->
+		<dependency>
+			<groupId>com.udojava</groupId>
+			<artifactId>JMXWrapper</artifactId>
+			<version>1.4</version>
+		</dependency>
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
