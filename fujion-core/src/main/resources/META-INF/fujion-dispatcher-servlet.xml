@@ -115,9 +115,11 @@
 	<bean factory-method="getInstance" 
 		class="org.fujion.page.PageParser" />
 	
-	<bean class="org.fujion.jmx.Console">
+	<bean class="org.fujion.jmx.JMXConsole">
 		<constructor-arg value="${org.fujion.console.enabled:false}"/>
 	</bean>
+	
+	<bean class="org.fujion.jmx.CacheManagementConsole" />
 	
 	<bean class="org.fujion.page.PIParserAttribute" />
 	
