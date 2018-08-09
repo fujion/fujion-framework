@@ -30,16 +30,25 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
  * Cache for compiled expressions.
  */
 public class ExpressionCache extends AbstractCache<String, Expression> {
-    
-    private final SpelExpressionParser parser = new SpelExpressionParser();
 
+    private static final ExpressionCache instance = new ExpressionCache();
+
+    public static ExpressionCache getInstance() {
+        return instance;
+    }
+
+    private final SpelExpressionParser parser = new SpelExpressionParser();
+    
     private final ParserContext templateContext = new TemplateParserContext("${", "}");
+    
+    private ExpressionCache() {
+    }
 
     @Override
     protected Expression fetch(String expression) {
         return parser.parseExpression(expression, templateContext);
     }
-
+    
     /**
      * Returns true if the value contains an EL expression.
      *

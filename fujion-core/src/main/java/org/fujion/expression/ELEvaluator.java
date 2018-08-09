@@ -42,7 +42,7 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
 
     private static final ELEvaluator instance = new ELEvaluator();
 
-    private final ExpressionCache cache = new ExpressionCache();
+    private final ExpressionCache cache = ExpressionCache.getInstance();
 
     private final DefaultConversionService conversionService = new DefaultConversionService();
 
