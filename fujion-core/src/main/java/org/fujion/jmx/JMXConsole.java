@@ -30,6 +30,7 @@ import org.fujion.common.MiscUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
 
+import com.udojava.jmx.wrapper.JMXBean;
 import com.udojava.jmx.wrapper.JMXBeanWrapper;
 
 /**
@@ -62,7 +63,8 @@ public class JMXConsole implements DestructionAwareBeanPostProcessor {
     public void registerPlugin(IJMXConsolePlugin plugin) {
         if (mbs != null) {
             try {
-                mbs.registerMBean(new JMXBeanWrapper(plugin), getObjectName(plugin));
+                Object mbean = plugin.getClass().isAnnotationPresent(JMXBean.class) ? new JMXBeanWrapper(plugin) : plugin;
+                mbs.registerMBean(mbean, getObjectName(plugin));
             } catch (Exception e) {
                 throw MiscUtil.toUnchecked(e);
             }
