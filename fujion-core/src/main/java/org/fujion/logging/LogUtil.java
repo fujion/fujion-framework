@@ -36,18 +36,18 @@ import java.util.Map.Entry;
  * at the client.
  */
 public class LogUtil {
-    
+
     /**
      * Supported log levels.
      */
-    public static enum LogLevel {
+    public enum LogLevel {
         UNKNOWN, DEBUG, ERROR, FATAL, INFO, TRACE, WARN
     }
-    
+
     /**
      * Client logging targets.
      */
-    public static enum LogTarget {
+    public enum LogTarget {
         /**
          * No logging should occur.
          */
@@ -65,11 +65,11 @@ public class LogUtil {
          */
         BOTH;
     }
-    
+
     private static Map<LogLevel, LogTarget> settings = new HashMap<>();
-    
+
     private static volatile String clientSettings;
-    
+
     /**
      * Initializes client logging settings. This is called during application startup to inject
      * logging settings specified in an external property file.
@@ -81,7 +81,7 @@ public class LogUtil {
             setTarget(toLevel(entry.getKey()), toTarget(entry.getValue()));
         }
     }
-    
+
     /**
      * Returns the client logging target for the specified logging level.
      *
@@ -92,7 +92,7 @@ public class LogUtil {
         LogTarget target = settings.get(level);
         return target == null ? LogTarget.NONE : target;
     }
-    
+
     /**
      * Sets the client logging target for a given logging level.
      *
@@ -103,15 +103,15 @@ public class LogUtil {
     public static LogTarget setTarget(LogLevel level, LogTarget target) {
         synchronized (settings) {
             clientSettings = null;
-            
+
             if (target == null || target == LogTarget.NONE) {
                 return settings.remove(level);
             }
-            
+
             return settings.put(level, target);
         }
     }
-    
+
     /**
      * Returns a JSON string that will be used by the client to initialize logging settings.
      *
@@ -120,28 +120,28 @@ public class LogUtil {
     public static String getSettingsForClient() {
         return clientSettings == null ? initSettingsForClient() : clientSettings;
     }
-    
+
     private static String initSettingsForClient() {
         synchronized (settings) {
             if (clientSettings == null) {
                 StringBuilder sb = new StringBuilder("{");
                 String delim = "";
-                
+
                 for (Entry<LogLevel, LogTarget> entry : settings.entrySet()) {
                     if (entry.getValue() != null && entry.getValue() != LogTarget.NONE) {
                         sb.append(delim).append(entry.getKey().name().toLowerCase()).append(":")
-                                .append(entry.getValue().ordinal());
+                        .append(entry.getValue().ordinal());
                         delim = ",";
                     }
                 }
-                
+
                 clientSettings = sb.append("}").toString();
             }
         }
-        
+
         return clientSettings;
     }
-    
+
     /**
      * Returns the {@link LogLevel logging level} from its text equivalent.
      *
@@ -155,7 +155,7 @@ public class LogUtil {
             return LogLevel.UNKNOWN;
         }
     }
-    
+
     /**
      * Returns the {@link LogTarget logging target} from its text equivalent.
      *
@@ -169,7 +169,7 @@ public class LogUtil {
             return LogTarget.NONE;
         }
     }
-    
+
     private LogUtil() {
     }
 }
