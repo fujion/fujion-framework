@@ -32,14 +32,20 @@ import org.springframework.web.servlet.resource.ResourceResolverChain;
 
 /**
  * Checks for the presence of a minified version of a resource, returning it instead if found.
- * Enabling debug mode will disable this resolver.
+ * Enabling debug mode essentially reverses this process, looking instead for a source version of
+ * the requested resource. The algorithm assumes certain naming conventions for resources:
+ * <ul>
+ * <li><b>*.min.[ext]</b> for minified resources.</li>
+ * <li><b>*.src.[ext]</b> for source (unminified) resources.</li>
+ * </ul>
+ * where <b>[ext]</b> is one of the supplied file extensions.
  */
 public class MinifiedResourceResolver extends AbstractResourceResolver {
-    
+
     private final boolean debugEnabled;
-    
+
     private final String[] extensions;
-    
+
     /**
      * @param extensions The file extensions to be considered.
      */
@@ -47,30 +53,30 @@ public class MinifiedResourceResolver extends AbstractResourceResolver {
         this.extensions = extensions;
         debugEnabled = WebUtil.isDebugEnabled();
     }
-    
+
     @Override
     protected Resource resolveResourceInternal(HttpServletRequest request, String requestPath,
                                                List<? extends Resource> locations, ResourceResolverChain chain) {
         boolean ignore = !FilenameUtils.isExtension(requestPath, extensions);
-        
+
         if (!ignore) {
             int i = requestPath.lastIndexOf(".");
             String ext = debugEnabled ? ".src" : ".min";
             String path = requestPath.substring(0, i) + ext + requestPath.substring(i);
             Resource resource = chain.resolveResource(request, path, locations);
-            
+
             if (resource != null) {
                 return resource;
             }
         }
-        
+
         return chain.resolveResource(request, requestPath, locations);
     }
-    
+
     @Override
     protected String resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
                                             ResourceResolverChain chain) {
         return chain.resolveUrlPath(resourceUrlPath, locations);
     }
-    
+
 }
