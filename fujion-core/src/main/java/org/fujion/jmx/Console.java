@@ -26,6 +26,7 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
 import org.fujion.common.MiscUtil;
+import org.fujion.common.StrUtil;
 import org.fujion.page.PageDefinitionCache;
 
 import com.udojava.jmx.wrapper.JMXBean;
@@ -38,7 +39,9 @@ import com.udojava.jmx.wrapper.JMXBeanWrapper;
  */
 @JMXBean(resourceBundleName = "org.fujion.common.MessageBundle", descriptionKey = "org.fujion.console.description")
 public class Console {
-    
+
+    private final PageDefinitionCache cache = PageDefinitionCache.getInstance();
+
     private Console(boolean enabled) {
         try {
             if (enabled) {
@@ -50,15 +53,19 @@ public class Console {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     @JMXBeanOperation(nameKey = "org.fujion.console.clearFSPCache.name", impactType = IMPACT_TYPES.ACTION, descriptionKey = "org.fujion.console.clearFSPCache.description")
-    public void clearFSPCache() {
-        PageDefinitionCache.getInstance().clear();
+    public String clearFSPCache() {
+        int size = cache.size();
+        cache.clear();
+        return StrUtil.getLabel("org.fujion.console.clearFSPCache.result", size);
     }
-    
+
     @JMXBeanOperation(nameKey = "org.fujion.console.refreshFSPCache.name", impactType = IMPACT_TYPES.ACTION, descriptionKey = "org.fujion.console.refreshFSPCache.description")
-    public void refreshFSPCache() {
-        PageDefinitionCache.getInstance().refresh();
+    public String refreshFSPCache() {
+        int size = cache.size();
+        cache.refresh();
+        return StrUtil.getLabel("org.fujion.console.refreshFSPCache.result", size);
     }
-    
+
 }

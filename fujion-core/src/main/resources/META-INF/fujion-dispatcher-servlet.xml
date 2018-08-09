@@ -116,7 +116,7 @@
 		class="org.fujion.page.PageParser" />
 	
 	<bean class="org.fujion.jmx.Console">
-		<constructor-arg value="${org.fujion.console.enabled:true}"/>
+		<constructor-arg value="${org.fujion.console.enabled:false}"/>
 	</bean>
 	
 	<bean class="org.fujion.page.PIParserAttribute" />
