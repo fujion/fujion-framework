@@ -20,26 +20,36 @@
  */
 package org.fujion.page;
 
+import javax.servlet.ServletContext;
+
 import org.fujion.common.MiscUtil;
+import org.springframework.web.context.ServletContextAware;
 import org.w3c.dom.ProcessingInstruction;
 
 /**
  * Parser for processing instructions that directly import a FSP.
  */
-public class PIParserImport extends PIParserBase {
-    
+public class PIParserImport extends PIParserBase implements ServletContextAware {
+
+    private ServletContext servletContext;
+
     public PIParserImport() {
         super("import");
     }
-    
+
     @Override
     public void parse(ProcessingInstruction pi, PageElement element) {
         try {
-            PageSource source = new PageSource(getAttribute(pi, "src", true));
+            PageSource source = new PageSource(getAttribute(pi, "src", true), servletContext);
             PageParser.getInstance().parse(source, element);
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
     
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
 }

@@ -23,6 +23,8 @@ package org.fujion.page;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.servlet.ServletContext;
+
 import org.fujion.common.MiscUtil;
 import org.fujion.common.XMLUtil;
 import org.fujion.core.WebUtil;
@@ -33,13 +35,13 @@ import org.w3c.dom.Document;
  * Represents a source for a FSP document.
  */
 public class PageSource {
-
+    
     private final String source;
-    
-    private InputStream stream;
-    
-    private Document document;
 
+    private InputStream stream;
+
+    private Document document;
+    
     /**
      * The source is a web resource.
      *
@@ -48,7 +50,17 @@ public class PageSource {
     public PageSource(String src) {
         this(WebUtil.getResource(src));
     }
-    
+
+    /**
+     * The source is a web resource.
+     *
+     * @param src URL of web resource.
+     * @param ctx The servlet context.
+     */
+    public PageSource(String src, ServletContext ctx) {
+        this(WebUtil.getResource(src, ctx));
+    }
+
     /**
      * The source is a resource.
      *
@@ -63,7 +75,7 @@ public class PageSource {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * The source is an input stream.
      *
@@ -72,7 +84,7 @@ public class PageSource {
     public PageSource(InputStream stream) {
         this(stream, "<unknown>");
     }
-    
+
     /**
      * The source is an input stream.
      *
@@ -83,7 +95,7 @@ public class PageSource {
         this.stream = stream;
         source = src;
     }
-
+    
     /**
      * Returns the FSP as an XML document.
      *
@@ -98,10 +110,10 @@ public class PageSource {
                 throw new ParserException(e, "Exception parsing resource \"%s\"", source);
             }
         }
-
+        
         return document;
     }
-    
+
     /**
      * Returns the source of the FSP.
      *
