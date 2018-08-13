@@ -60,20 +60,21 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 							self._doCallback(action, result);
 							self.processing = false;
 							self.processQueue();
-						}, function(error) {
-							self.processing = false;
-							throw error;
-						})
+						}, _handleError);
 					} else {
 						this._doCallback(action, result);
 					}
 				}
 			} catch (e) {
-				this.processing = false;
-				fujion.fatal(e);
+				_handleError(e);
 			}
 			
 			this.processing = false;
+			
+			function _handleError(error) {
+				self.processing = false;
+				fujion.fatal(error);
+			}
 		},
 		
 		queueAction: function(action) {
