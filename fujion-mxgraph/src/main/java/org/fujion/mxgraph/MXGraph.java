@@ -20,6 +20,7 @@
  */
 package org.fujion.mxgraph;
 
+import org.fujion.ancillary.IResponseCallback;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -76,9 +77,7 @@ public class MXGraph extends BaseUIComponent {
      * @return The newly created vertex.
      */
     public MXVertex insertVertex(String value, int x, int y, int width, int height, String style, boolean relative) {
-        MXVertex vertex = createVertex(value, x, y, width, height, style, relative);
-        vertex.insert();
-        return vertex;
+        return createVertex(value, x, y, width, height, style, relative).insert();
     }
 
     /**
@@ -104,9 +103,33 @@ public class MXGraph extends BaseUIComponent {
      * @return The newly create edge.
      */
     public MXEdge insertEdge(String value, MXVertex source, MXVertex target, String style) {
-        MXEdge edge = createEdge(value, source, target, style);
-        edge.insert();
-        return edge;
+        return createEdge(value, source, target, style).insert();
+    }
+    
+    /**
+     * Clears the graph.
+     */
+    public void clear() {
+        invoke("clear");
+    }
+    
+    /**
+     * Returns the current graph as an XML-formatted string.
+     *
+     * @param pretty If true, return in pretty format.
+     * @param cb The callback to receive the result.
+     */
+    public void getXML(boolean pretty, IResponseCallback<String> cb) {
+        invoke("getGraphXML", cb, pretty);
+    }
+
+    /**
+     * Creates a new graph from an XML string.
+     *
+     * @param xml The XML string.
+     */
+    public void setXML(String xml) {
+        invoke("setGraphXML", xml);
     }
     
     /**

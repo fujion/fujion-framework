@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(fujion, wgt, mxgraph) { 
+define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(fujion, wgt, mx) { 
 	
 	/**
 	 * Wrapper for mxGraph
@@ -20,7 +20,7 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 		},
 		
 		_mxinit: function() {
-			this._graph = new mxgraph.mxGraph(this.widget$[0]);
+			this._graph = new mx.mxGraph(this.widget$[0]);
 		},
 		
 		_mxdestroy: function() {
@@ -34,8 +34,17 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 			this._graph.getModel().beginUpdate();
 		},
 		
+		clear: function() {
+			this._graph.getModel().clear();
+		},
+		
 		endUpdate: function() {
 			this._graph.getModel().endUpdate();
+		},
+		
+		getGraphXML: function(pretty) {
+			var node = new mx.mxCodec().encode(this._graph.getModel());
+			return pretty ? mx.mxUtils.getPrettyXml(node) : mx.mxUtils.getXml(node, '&#xa;');
 		},
 		
 		insertEdge: function(parent, id, value, source, target, style) {
@@ -53,6 +62,24 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 		setCellState: function(cell, method, value) {
 			cell = this._getCell(cell);
 			this._graph.getModel()[method](cell, value);
+		},
+		
+		setGraphXML: function(xml) {
+			this.clear();
+			
+			var doc = mx.mxUtils.parseXml(xml),
+				codec = new mx.mxCodec(doc),
+				ele = doc.getElementsByTagName('root').item(0),
+				cells = [];
+		
+			ele = ele ? ele.firstChild : null;
+			
+			while (ele) {                
+				cells.push(codec.decodeCell(ele));
+				ele = ele.nextSibling;
+			}
+
+			this._graph.addCells(cells);			
 		},
 		
 		_getCell: function(id) {
@@ -99,12 +126,12 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 		/*------------------------------ Lifecycle ------------------------------*/
 
 		_mxinit: function() {
-			this._editor = new mxgraph.mxEditor();
+			this._editor = new mx.mxEditor();
 			this._graph = this._editor.graph;
-			this._toolbar = new mxgraph.mxDefaultToolbar(this.sub$('tbar')[0], this._editor);
+			this._toolbar = new mx.mxDefaultToolbar(this.sub$('tbar')[0], this._editor);
 			this._editor.setGraphContainer(this.sub$('cnt')[0]);
 			this._editor.postDiagram = this._saveDiagram;
-			this._editor.urlPost = "dummy";
+			this._editor.urlPost = 'graph.xml';
 		},
 		
 		_mxdestroy: function() {
@@ -133,8 +160,8 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 			this._editor.resetHistory();
 		},
 		
-		_saveDiagram: function(dummy, data) {
-			fujion.saveToFile(data, "text/xml", "graph.xml");
+		_saveDiagram: function(file, data) {
+			fujion.saveToFile(data, 'text/xml', file);
 		},
 
 		/*------------------------------ Rendering ------------------------------*/

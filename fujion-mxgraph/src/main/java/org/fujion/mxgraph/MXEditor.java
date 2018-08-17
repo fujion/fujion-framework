@@ -27,7 +27,7 @@ import org.fujion.annotation.Component;
  */
 @Component(tag = "mxeditor", widgetModule = "fujion-mxgraph", widgetClass = "MXEditor", parentTag = "*", description = "Fujion wrapper for mxEditor component.")
 public class MXEditor extends MXGraph {
-
+    
     /**
      * Creates a toolbar item. Registered actions include:
      * <ul>
@@ -93,30 +93,30 @@ public class MXEditor extends MXGraph {
     public void addToolbarItem(String label, String action, String image) {
         this.invoke("addToolbarItem", label, action, image);
     }
-
+    
     /**
      * Clears the undo history.
      */
     public void resetHistory() {
         this.invoke("resetHistory");
     }
-    
+
     /**
      * Executes a registered action.
-     * 
+     *
      * @param action A registered action.
      */
     public void execute(String action) {
         execute(action, null);
     }
-
+    
     /**
      * Executes a registered action.
-     * 
+     *
      * @param action A registered action.
      * @param cell Optional target of the action.
      */
-    public void execute(String action, MXCell cell) {
+    public void execute(String action, MXCell<?> cell) {
         this.invoke("execute", action, cell);
     }
 }

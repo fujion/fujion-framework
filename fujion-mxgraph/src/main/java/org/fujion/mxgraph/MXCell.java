@@ -24,8 +24,10 @@ import org.fujion.client.IClientTransform;
 
 /**
  * Abstract base class for edges and vertices.
+ *
+ * @param <T> Type of subclass.
  */
-public abstract class MXCell implements IClientTransform {
+public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     
     private String value;
 
@@ -55,11 +57,14 @@ public abstract class MXCell implements IClientTransform {
      */
     protected abstract void doInsert();
 
-    public void insert() {
+    @SuppressWarnings("unchecked")
+    public T insert() {
         if (!inserted) {
             doInsert();
             inserted = true;
         }
+        
+        return (T) this;
     }
 
     /**

@@ -23,34 +23,34 @@ package org.fujion.mxgraph;
 /**
  * Represents a vertex within a graph.
  */
-public class MXVertex extends MXCell {
-
+public class MXVertex extends MXCell<MXVertex> {
+    
     private MXGeometry geometry;
-
+    
     protected MXVertex(MXGraph graph, int id, String value, int x, int y, int width, int height, String style,
                        boolean relative) {
         super(graph, id, value, style);
         this.geometry = new MXGeometry(x, y, width, height, relative);
     }
-    
+
     @Override
     protected void doInsert() {
         getGraph().invoke("insertVertex", null, null, this, getValue(), geometry.x, geometry.y, geometry.width,
             geometry.height, getStyle(), geometry.relative);
     }
-    
+
     /**
      * Returns the geometry for the vertex.
-     * 
+     *
      * @return The geometry for the vertex.
      */
     public MXGeometry getGeometry() {
         return geometry;
     }
-    
+
     /**
      * Sets the geometry for the vertex.
-     * 
+     *
      * @param geometry The geometry for the vertex.
      */
     public void setGeometry(MXGeometry geometry) {

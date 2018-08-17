@@ -23,12 +23,12 @@ package org.fujion.mxgraph;
 /**
  * Represents an edge within a graph.
  */
-public class MXEdge extends MXCell {
-    
+public class MXEdge extends MXCell<MXEdge> {
+
     private final MXVertex source;
-
+    
     private final MXVertex target;
-
+    
     /**
      * Creates an edge within the specified graph.
      *
@@ -44,12 +44,12 @@ public class MXEdge extends MXCell {
         this.source = source;
         this.target = target;
     }
-    
+
     @Override
     protected void doInsert() {
         getGraph().invoke("insertEdge", null, null, this, getValue(), source, target, getStyle());
     }
-    
+
     /**
      * Returns the source vertex.
      *
@@ -58,7 +58,7 @@ public class MXEdge extends MXCell {
     public MXVertex getSource() {
         return source;
     }
-    
+
     /**
      * Returns the target vertex.
      *
