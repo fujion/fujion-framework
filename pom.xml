@@ -41,6 +41,7 @@
 		<module>fujion-sandbox</module>
 		<module>fujion-canvas</module>
 		<module>fujion-gmaps</module>
+		<module>fujion-mxgraph</module>
 		<module>fujion-testharness</module>
 		<module>fujion-schemas</module>
 		<module>fujion-themes</module>
