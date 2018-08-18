@@ -20,6 +20,7 @@
  */
 package org.fujion.component;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -31,26 +32,26 @@ import org.fujion.event.EventUtil;
  * A single item within a list box.
  */
 @Component(tag = "listitem", widgetClass = "Listitem", parentTag = "listbox", description = "A single item within a list box.")
-public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
-    
+public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> implements Comparable<Listitem> {
+
     private boolean selected;
-    
+
     private String value;
-    
+
     public Listitem() {
         super();
     }
-    
+
     public Listitem(String label) {
         super(label);
     }
-    
+
     public Listitem(String label, String value, Object data) {
         super(label);
         setValue(value);
         setData(data);
     }
-    
+
     /**
      * Sets the selection state.
      *
@@ -65,7 +66,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
             }
         }
     }
-    
+
     /**
      * Returns the list box that is the parent of this list item.
      *
@@ -74,7 +75,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public Listbox getListbox() {
         return (Listbox) getParent();
     }
-    
+
     /**
      * Returns the selection state.
      *
@@ -84,7 +85,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public boolean isSelected() {
         return selected;
     }
-    
+
     /**
      * Sets the selection state.
      *
@@ -94,7 +95,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public void setSelected(boolean selected) {
         _setSelected(selected, true, true);
     }
-    
+
     /**
      * Returns the value associated with the list item.
      *
@@ -104,7 +105,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public String getValue() {
         return value;
     }
-    
+
     /**
      * Sets the value associated with the list item.
      *
@@ -114,7 +115,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     public void setValue(String value) {
         propertyChange("value", this.value, this.value = value, true);
     }
-    
+
     /**
      * Handles change events from the client.
      *
@@ -127,4 +128,16 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
         EventUtil.send(event);
     }
     
+    /**
+     * Compares two list items by comparing the label and value properties, respectively.
+     *
+     * @param o Item to compare.
+     * @return Result of the comparison.
+     */
+    @Override
+    public int compareTo(Listitem o) {
+        int cmp = ObjectUtils.compare(getLabel(), o.getLabel());
+        return cmp != 0 ? cmp : ObjectUtils.compare(value, o.value);
+    }
+
 }

@@ -20,6 +20,7 @@
  */
 package org.fujion.component;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -31,7 +32,7 @@ import org.fujion.event.EventUtil;
  * A single item within a combo box.
  */
 @Component(tag = "comboitem", widgetClass = "Comboitem", parentTag = "combobox", description = "A single item within a combo box.")
-public class Comboitem extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> {
+public class Comboitem extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> implements Comparable<Comboitem> {
 
     private boolean selected;
 
@@ -129,6 +130,18 @@ public class Comboitem extends BaseLabeledImageComponent<BaseLabeledComponent.La
         _setSelected(defaultify(event.getValue(Boolean.class), true), false, true);
         event = new ChangeEvent(this.getParent(), this, event.getData(), getLabel());
         EventUtil.send(event);
+    }
+
+    /**
+     * Compares two combo items by comparing the label and value properties, respectively.
+     *
+     * @param o Item to compare.
+     * @return Result of the comparison.
+     */
+    @Override
+    public int compareTo(Comboitem o) {
+        int cmp = ObjectUtils.compare(getLabel(), o.getLabel());
+        return cmp != 0 ? cmp : ObjectUtils.compare(value, o.value);
     }
     
 }
