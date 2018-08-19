@@ -20,6 +20,9 @@
  */
 package org.fujion.mxgraph;
 
+import java.util.Map;
+
+import org.apache.commons.collections.MapUtils;
 import org.fujion.client.IClientTransform;
 
 /**
@@ -45,11 +48,18 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
 
     private final MXGraph graph;
 
-    protected MXCell(MXGraph graph, int id, String value, String style) {
+    protected MXCell(MXGraph graph, String value, String style) {
         this.graph = graph;
-        this.id = "_fujjion_" + id;
+        this.id = graph.nextId();
         this.value = value;
         this.style = style;
+    }
+
+    protected MXCell(MXGraph graph, Map<String, Object> map) {
+        this.graph = graph;
+        this.id = MapUtils.getString(map, "id");
+        this.value = MapUtils.getString(map, "value");
+        this.style = MapUtils.getString(map, "style");
     }
 
     /**

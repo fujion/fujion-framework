@@ -20,6 +20,10 @@
  */
 package org.fujion.mxgraph;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
@@ -50,6 +54,30 @@ public class MXGraph extends BaseUIComponent {
     
     private final boolean portsEnabled = true;
     
+    private final Map<String, MXEdge> edges = new HashMap<>();
+
+    private final Map<String, MXVertex> vertices = new HashMap<>();
+
+    protected String nextId() {
+        return "_fujion_" + ++nextId;
+    }
+
+    public Map<String, MXVertex> getVertices() {
+        return Collections.unmodifiableMap(vertices);
+    }
+
+    public Map<String, MXEdge> getEdges() {
+        return Collections.unmodifiableMap(edges);
+    }
+
+    public MXVertex getVertex(String id) {
+        return vertices.get(id);
+    }
+
+    public MXEdge getEdge(String id) {
+        return edges.get(id);
+    }
+
     public void beginUpdate() {
         invoke("beginUpdate");
     }
@@ -73,7 +101,9 @@ public class MXGraph extends BaseUIComponent {
      * @return The newly created vertex.
      */
     public MXVertex createVertex(String value, int x, int y, int width, int height, String style, boolean relative) {
-        return new MXVertex(this, ++nextId, value, x, y, width, height, style, relative);
+        MXVertex vertex = new MXVertex(this, value, x, y, width, height, style, relative);
+        vertices.put(vertex.getId(), vertex);
+        return vertex;
     }
     
     /**
@@ -104,7 +134,9 @@ public class MXGraph extends BaseUIComponent {
      * @return The newly create edge.
      */
     public MXEdge createEdge(String value, MXVertex source, MXVertex target, String style) {
-        return new MXEdge(this, ++nextId, value, style, source, target);
+        MXEdge edge = new MXEdge(this, value, style, source, target);
+        edges.put(edge.getId(), edge);
+        return edge;
     }
 
     /**
@@ -145,6 +177,8 @@ public class MXGraph extends BaseUIComponent {
      * Clears the graph.
      */
     public void clear() {
+        vertices.clear();
+        edges.clear();
         invoke("clear");
     }
 

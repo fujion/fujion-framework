@@ -20,6 +20,9 @@
  */
 package org.fujion.mxgraph;
 
+import java.util.Map;
+
+import org.apache.commons.collections.MapUtils;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
@@ -45,6 +48,11 @@ public class MXGeometry extends Options {
 
     public MXGeometry(int x, int y, int width, int height) {
         this(x, y, width, height, false);
+    }
+    
+    public MXGeometry(Map<String, Object> map) {
+        this(MapUtils.getInteger(map, "x"), MapUtils.getInteger(map, "y"), MapUtils.getInteger(map, "width"),
+            MapUtils.getInteger(map, "height"), MapUtils.getBoolean(map, "relative", false));
     }
 
     public MXGeometry(int x, int y, int width, int height, boolean relative) {

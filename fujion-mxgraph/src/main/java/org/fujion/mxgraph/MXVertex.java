@@ -20,6 +20,8 @@
  */
 package org.fujion.mxgraph;
 
+import java.util.Map;
+
 /**
  * Represents a vertex within a graph.
  */
@@ -27,10 +29,15 @@ public class MXVertex extends MXCell<MXVertex> {
     
     private MXGeometry geometry;
     
-    protected MXVertex(MXGraph graph, int id, String value, int x, int y, int width, int height, String style,
+    protected MXVertex(MXGraph graph, String value, int x, int y, int width, int height, String style,
                        boolean relative) {
-        super(graph, id, value, style);
+        super(graph, value, style);
         this.geometry = new MXGeometry(x, y, width, height, relative);
+    }
+    
+    protected MXVertex(MXGraph graph, Map<String, Object> map) {
+        super(graph, map);
+        this.geometry = new MXGeometry(map);
     }
 
     @Override
