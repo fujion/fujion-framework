@@ -31,19 +31,33 @@ import org.fujion.component.BaseUIComponent;
  */
 @Component(tag = "mxgraph", widgetModule = "fujion-mxgraph", widgetClass = "MXGraph", parentTag = "*", description = "Fujion wrapper for mxGraph component.")
 public class MXGraph extends BaseUIComponent {
-
+    
     private int nextId;
-
+    
     private boolean readonly;
+    
+    private boolean tooltips = true;
 
+    private boolean panning = true;
+
+    private boolean allowDanglingEdges;
+
+    private boolean disconnectOnMove;
+
+    private final int gridSize = 10;
+    
+    private final boolean gridEnabled = true;
+    
+    private final boolean portsEnabled = true;
+    
     public void beginUpdate() {
         invoke("beginUpdate");
     }
-
+    
     public void endUpdate() {
         invoke("endUpdate");
     }
-
+    
     /**
      * Creates a new vertex using the given coordinates. When adding new vertices from a mouse
      * event, one should take into account the offset of the graph container and the scale and
@@ -61,7 +75,7 @@ public class MXGraph extends BaseUIComponent {
     public MXVertex createVertex(String value, int x, int y, int width, int height, String style, boolean relative) {
         return new MXVertex(this, ++nextId, value, x, y, width, height, style, relative);
     }
-
+    
     /**
      * Inserts a new vertex using the given coordinates. When adding new vertices from a mouse
      * event, one should take into account the offset of the graph container and the scale and
@@ -79,7 +93,7 @@ public class MXGraph extends BaseUIComponent {
     public MXVertex insertVertex(String value, int x, int y, int width, int height, String style, boolean relative) {
         return createVertex(value, x, y, width, height, style, relative).insert();
     }
-
+    
     /**
      * Creates a new edge using the given source and target as the terminals of the new edge.
      *
@@ -92,7 +106,7 @@ public class MXGraph extends BaseUIComponent {
     public MXEdge createEdge(String value, MXVertex source, MXVertex target, String style) {
         return new MXEdge(this, ++nextId, value, style, source, target);
     }
-    
+
     /**
      * Inserts a new edge using the given source and target as the terminals of the new edge.
      *
@@ -105,6 +119,27 @@ public class MXGraph extends BaseUIComponent {
     public MXEdge insertEdge(String value, MXVertex source, MXVertex target, String style) {
         return createEdge(value, source, target, style).insert();
     }
+
+    /**
+     * Directly invoke a method on the graph object.
+     *
+     * @param functionName Name of function to invoke.
+     * @param args Arguments to pass.
+     */
+    public void mxInvoke(String functionName, Object... args) {
+        invoke("mxInvoke", functionName, args);
+    }
+    
+    /**
+     * Directly invoke a method on the graph object, returning the result.
+     *
+     * @param cb Callback to receive result.
+     * @param functionName Name of function to invoke.
+     * @param args Arguments to pass.
+     */
+    public void mxInvoke(IResponseCallback<?> cb, String functionName, Object... args) {
+        invoke("mxInvoke", cb, functionName, args);
+    }
     
     /**
      * Clears the graph.
@@ -112,7 +147,7 @@ public class MXGraph extends BaseUIComponent {
     public void clear() {
         invoke("clear");
     }
-    
+
     /**
      * Returns the current graph as an XML-formatted string.
      *
@@ -122,7 +157,7 @@ public class MXGraph extends BaseUIComponent {
     public void getXML(boolean pretty, IResponseCallback<String> cb) {
         invoke("getGraphXML", cb, pretty);
     }
-
+    
     /**
      * Creates a new graph from an XML string.
      *
@@ -131,7 +166,7 @@ public class MXGraph extends BaseUIComponent {
     public void setXML(String xml) {
         invoke("setGraphXML", xml);
     }
-    
+
     /**
      * Returns true if the graph is read-only.
      *
@@ -141,7 +176,7 @@ public class MXGraph extends BaseUIComponent {
     public boolean isReadonly() {
         return readonly;
     }
-
+    
     /**
      * Sets the read-only state of the graph.
      *
@@ -151,5 +186,85 @@ public class MXGraph extends BaseUIComponent {
     public void setReadonly(boolean readonly) {
         propertyChange("readonly", this.readonly, this.readonly = readonly, true);
     }
-
+    
+    /**
+     * Returns true if tooltips are enabled.
+     *
+     * @return True if tooltips are enabled.
+     */
+    @PropertyGetter(value = "tooltips", description = "True if tooltips are enabled.")
+    public boolean getTooltips() {
+        return tooltips;
+    }
+    
+    /**
+     * Set to true to enable tooltips.
+     *
+     * @param tooltips If true, tooltips are enabled.
+     */
+    @PropertySetter(value = "tooltips", defaultValue = "true", description = "True if tooltips are enabled.")
+    public void setTooltips(boolean tooltips) {
+        propertyChange("tooltips", this.tooltips, this.tooltips = tooltips, true);
+    }
+    
+    /**
+     * Returns true if panning is enabled.
+     *
+     * @return True if panning is enabled.
+     */
+    @PropertyGetter(value = "panning", description = "True if panning is enabled.")
+    public boolean getPanning() {
+        return panning;
+    }
+    
+    /**
+     * Set to true to enable panning.
+     *
+     * @param panning If true, panning is enabled.
+     */
+    @PropertySetter(value = "panning", defaultValue = "true", description = "True if panning is enabled.")
+    public void setPanning(boolean panning) {
+        propertyChange("panning", this.panning, this.panning = panning, true);
+    }
+    
+    /**
+     * Returns true if dangling edges are allowed.
+     *
+     * @return True if dangling edges are allowed.
+     */
+    @PropertyGetter(value = "allowDanglingEdges", description = "True if dangling edges are allowed.")
+    public boolean getAllowDanglingEdges() {
+        return allowDanglingEdges;
+    }
+    
+    /**
+     * Set to true to enable dangling edges.
+     *
+     * @param allowDanglingEdges If true, dangling edges are enabled.
+     */
+    @PropertySetter(value = "allowDanglingEdges", defaultValue = "false", description = "True if dangling edges are allowed.")
+    public void setAllowDanglingEdges(boolean allowDanglingEdges) {
+        this.allowDanglingEdges = allowDanglingEdges;
+    }
+    
+    /**
+     * Returns true if disconnect on move is allowed.
+     *
+     * @return True if disconnect on move is allowed.
+     */
+    @PropertyGetter(value = "disconnectOnMove", description = "True if disconnect on move is allowed.")
+    public boolean getDisconnectOnMove() {
+        return disconnectOnMove;
+    }
+    
+    /**
+     * Set to true to enable disconnect on move.
+     *
+     * @param disconnectOnMove If true, disconnect on move is enabled.
+     */
+    @PropertySetter(value = "disconnectOnMove", defaultValue = "false", description = "True if disconnect on move is allowed.")
+    public void setDisconnectOnMove(boolean disconnectOnMove) {
+        this.disconnectOnMove = disconnectOnMove;
+    }
+    
 }
