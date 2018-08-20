@@ -20,39 +20,32 @@
  */
 package org.fujion.mxgraph;
 
-import java.util.Map;
-
-import org.apache.commons.collections.MapUtils;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.w3c.dom.Element;
 
 /**
  * Represents the dimensions of a vertex.
  */
 public class MXGeometry extends Options {
-
+    
     @Option
     public final int x;
-
+    
     @Option
     public final int y;
-
+    
     @Option
     public final int height;
-
+    
     @Option
     public final int width;
-
+    
     @Option
     public final boolean relative;
-
+    
     public MXGeometry(int x, int y, int width, int height) {
         this(x, y, width, height, false);
-    }
-    
-    public MXGeometry(Map<String, Object> map) {
-        this(MapUtils.getInteger(map, "x"), MapUtils.getInteger(map, "y"), MapUtils.getInteger(map, "width"),
-            MapUtils.getInteger(map, "height"), MapUtils.getBoolean(map, "relative", false));
     }
 
     public MXGeometry(int x, int y, int width, int height, boolean relative) {
@@ -62,4 +55,11 @@ public class MXGeometry extends Options {
         this.height = height;
         this.relative = relative;
     }
+    
+    protected MXGeometry(Element node) {
+        this(MXUtil.get(node, "x", Integer.class), MXUtil.get(node, "y", Integer.class),
+            MXUtil.get(node, "width", Integer.class), MXUtil.get(node, "height", Integer.class),
+                MXUtil.get(node, "relative", Integer.class, 0) != 0);
+    }
+    
 }

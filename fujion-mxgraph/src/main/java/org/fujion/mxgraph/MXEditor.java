@@ -27,14 +27,15 @@ import org.fujion.annotation.Component;
  */
 @Component(tag = "mxeditor", widgetModule = "fujion-mxgraph", widgetClass = "MXEditor", parentTag = "*", description = "Fujion wrapper for mxEditor component.")
 public class MXEditor extends MXGraph {
-    
+
     /**
      * Creates a toolbar item. Registered actions include:
      * <ul>
      * <li><b>save</b> - Saves the graph using post.</li>
      * <li><b>print</b> - Shows the graph in a new print preview window.</li>
      * <li><b>show</b> - Shows the graph in a new window.</li>
-     * <li><b>exportImage</b> - Shows the graph as a bitmap image using <getUrlImage>.</li>
+     * <li><b>exportImage</b> - Shows the graph as a bitmap image using
+     * <code>getUrlImage</code>.</li>
      * <li><b>refresh</b> - Refreshes the graph's display.</li>
      * <li><b>cut</b> - Copies the current selection into the clipboard and removes it from the
      * graph.</li>
@@ -93,14 +94,14 @@ public class MXEditor extends MXGraph {
     public void addToolbarItem(String label, String action, String image) {
         this.invoke("addToolbarItem", label, action, image);
     }
-    
+
     /**
      * Clears the undo history.
      */
     public void resetHistory() {
         this.invoke("resetHistory");
     }
-
+    
     /**
      * Executes a registered action.
      *
@@ -109,7 +110,7 @@ public class MXEditor extends MXGraph {
     public void execute(String action) {
         execute(action, null);
     }
-    
+
     /**
      * Executes a registered action.
      *

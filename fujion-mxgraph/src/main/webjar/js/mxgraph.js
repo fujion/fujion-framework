@@ -67,16 +67,6 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 			this._graph.getModel()[method](cell, value);
 		},
 		
-		setGraphXML: function(xml) {
-			this.clear();
-			
-			var doc = mx.mxUtils.parseXml(xml),
-				ele = doc.documentElement,
-				dec = new mxCodec(ele.ownerDocument);
-			
-			dec.decode(ele, this._graph.getModel());
-		},
-		
 		_getCell: function(id) {
 			if (_.isNil(id)) {
 				return null;
@@ -122,6 +112,16 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 
 		allowDanglingEdges: function(v) {
 			this._graph.setAllowDanglingEdges(v);
+		},
+		
+		content: function(v) {
+			this.clear();
+			
+			var doc = mx.mxUtils.parseXml(v),
+				ele = doc.documentElement,
+				dec = new mxCodec(ele.ownerDocument);
+			
+			dec.decode(ele, this._graph.getModel());
 		},
 		
 		disconnectOnMove: function(v) {

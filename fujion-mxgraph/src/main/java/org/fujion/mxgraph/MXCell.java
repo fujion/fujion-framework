@@ -20,10 +20,8 @@
  */
 package org.fujion.mxgraph;
 
-import java.util.Map;
-
-import org.apache.commons.collections.MapUtils;
 import org.fujion.client.IClientTransform;
+import org.w3c.dom.Element;
 
 /**
  * Abstract base class for edges and vertices.
@@ -31,52 +29,52 @@ import org.fujion.client.IClientTransform;
  * @param <T> Type of subclass.
  */
 public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
-
+    
     private String value;
-    
+
     private String style;
-    
+
     private boolean visible = true;
-    
+
     private boolean collapsed;
-    
+
     private Object data;
-    
+
     private boolean inserted;
-    
+
     private final String id;
-
+    
     private final MXGraph graph;
-
+    
     protected MXCell(MXGraph graph, String value, String style) {
         this.graph = graph;
         this.id = graph.nextId();
         this.value = value;
         this.style = style;
     }
-
-    protected MXCell(MXGraph graph, Map<String, Object> map) {
+    
+    protected MXCell(MXGraph graph, Element node) {
         this.graph = graph;
-        this.id = MapUtils.getString(map, "id");
-        this.value = MapUtils.getString(map, "value");
-        this.style = MapUtils.getString(map, "style");
+        this.id = node.getAttribute("id");
+        this.value = node.getAttribute("value");
+        this.style = node.getAttribute("style");
     }
-
+    
     /**
      * Insert cell into graph.
      */
     protected abstract void doInsert();
-    
+
     @SuppressWarnings("unchecked")
     public T insert() {
         if (!inserted) {
             doInsert();
             inserted = true;
         }
-
+        
         return (T) this;
     }
-    
+
     /**
      * Transform to use unique id for client invocations.
      */
@@ -84,7 +82,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public Object transformForClient() {
         return id;
     }
-
+    
     /**
      * Returns the containing graph.
      *
@@ -93,7 +91,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public MXGraph getGraph() {
         return graph;
     }
-    
+
     /**
      * Returns the id that is unique across all cells within the containing graph.
      *
@@ -102,7 +100,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public String getId() {
         return id;
     }
-    
+
     /**
      * Returns the label value for the cell.
      *
@@ -111,7 +109,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public String getValue() {
         return value;
     }
-
+    
     /**
      * Sets the label value for the cell.
      *
@@ -120,7 +118,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public void setValue(String value) {
         updateCellState("setValue", this.value = value);
     }
-
+    
     /**
      * Returns the style settings for the cell.
      *
@@ -129,7 +127,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public String getStyle() {
         return style;
     }
-
+    
     /**
      * Sets the style settings for the cell.
      *
@@ -138,7 +136,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public void setStyle(String style) {
         updateCellState("setStyle", this.style = style);
     }
-    
+
     /**
      * Returns the visibility state for the cell.
      *
@@ -147,7 +145,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public boolean isVisible() {
         return visible;
     }
-
+    
     /**
      * Sets the visibility state for the cell.
      *
@@ -156,7 +154,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public void setVisible(boolean visible) {
         updateCellState("setVisible", this.visible = visible);
     }
-    
+
     /**
      * Returns the collapsed state for the cell.
      *
@@ -165,7 +163,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public boolean isCollapsed() {
         return collapsed;
     }
-
+    
     /**
      * Sets the collapsed state for the cell.
      *
@@ -174,7 +172,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public void setCollapsed(boolean collapsed) {
         updateCellState("setCollapsed", this.collapsed = collapsed);
     }
-    
+
     /**
      * Updates the cell's state on the client.
      *
@@ -184,7 +182,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     protected void updateCellState(String method, Object value) {
         this.getGraph().invoke("setCellState", this, method, value);
     }
-
+    
     /**
      * Returns an arbitrary object associated with this cell.
      *
@@ -193,7 +191,7 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public Object getData() {
         return data;
     }
-
+    
     /**
      * Sets an arbitrary object associated with this cell.
      *
@@ -202,5 +200,5 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
     public void setData(Object data) {
         this.data = data;
     }
-
+    
 }

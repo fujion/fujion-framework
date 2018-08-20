@@ -20,19 +20,17 @@
  */
 package org.fujion.mxgraph;
 
-import java.util.Map;
-
-import org.apache.commons.collections.MapUtils;
+import org.w3c.dom.Element;
 
 /**
  * Represents an edge within a graph.
  */
 public class MXEdge extends MXCell<MXEdge> {
-    
+
     private final MXVertex source;
-
+    
     private final MXVertex target;
-
+    
     /**
      * Creates an edge within the specified graph.
      *
@@ -47,18 +45,18 @@ public class MXEdge extends MXCell<MXEdge> {
         this.source = source;
         this.target = target;
     }
-    
-    protected MXEdge(MXGraph graph, Map<String, Object> map) {
-        super(graph, map);
-        this.source = graph.getVertex(MapUtils.getString(map, "source"));
-        this.target = graph.getVertex(MapUtils.getString(map, "target"));
+
+    protected MXEdge(MXGraph graph, Element node) {
+        super(graph, node);
+        this.source = graph.getVertex(node.getAttribute("source"));
+        this.target = graph.getVertex(node.getAttribute("target"));
     }
-    
+
     @Override
     protected void doInsert() {
         getGraph().invoke("insertEdge", null, null, this, getValue(), source, target, getStyle());
     }
-    
+
     /**
      * Returns the source vertex.
      *
@@ -67,7 +65,7 @@ public class MXEdge extends MXCell<MXEdge> {
     public MXVertex getSource() {
         return source;
     }
-    
+
     /**
      * Returns the target vertex.
      *
