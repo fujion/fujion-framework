@@ -378,7 +378,7 @@ public class MXGraph extends BaseUIComponent {
      */
     @PropertySetter(value = "allowDanglingEdges", bindable = false, defaultValue = "false", description = "True if dangling edges are allowed.")
     public void setAllowDanglingEdges(boolean allowDanglingEdges) {
-        this.allowDanglingEdges = allowDanglingEdges;
+        propertyChange("allowDanglingEdges", this.allowDanglingEdges, this.allowDanglingEdges = allowDanglingEdges, true);
     }
 
     /**
@@ -398,15 +398,27 @@ public class MXGraph extends BaseUIComponent {
      */
     @PropertySetter(value = "disconnectOnMove", bindable = false, defaultValue = "false", description = "True if disconnect on move is allowed.")
     public void setDisconnectOnMove(boolean disconnectOnMove) {
-        this.disconnectOnMove = disconnectOnMove;
+        propertyChange("disconnectOnMove", this.disconnectOnMove, this.disconnectOnMove = disconnectOnMove, true);
     }
     
+    /**
+     * Returns true if XML to be returned in pretty format.
+     *
+     * @return True if XML to be returned in pretty format.
+     */
+    @PropertyGetter(value = "prettyXML", bindable = false, description = "True if XML to be returned in pretty format.")
     public boolean isPrettyXML() {
         return prettyXML;
     }
     
+    /**
+     * Set to true if XML to be returned in pretty format.
+     *
+     * @param prettyXML If true, XML to be returned in pretty format.
+     */
+    @PropertySetter(value = "prettyXML", bindable = false, defaultValue = "false", description = "True if XML to be returned in pretty format.")
     public void setPrettyXML(boolean prettyXML) {
-        this.prettyXML = prettyXML;
+        propertyChange("prettyXML", this.prettyXML, this.prettyXML = prettyXML, false);
     }
 
 }
