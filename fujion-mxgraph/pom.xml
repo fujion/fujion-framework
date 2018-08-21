@@ -15,7 +15,8 @@
         <systemjs>
         {
 			'paths': {
-				'fujion-mxgraph': 'js/mxgraph'
+				'fujion-mxgraph': 'js/mxgraph.js',
+				'fujion-mxgraph-css': 'css/mxgraph.css'
 			}
 		}
         </systemjs>

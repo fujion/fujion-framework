@@ -21,13 +21,14 @@
 package org.fujion.mxgraph;
 
 import org.fujion.annotation.Component;
+import org.fujion.annotation.Component.PropertySetter;
 
 /**
  * Fujion wrapper for mxEditor component.
  */
 @Component(tag = "mxeditor", widgetModule = "fujion-mxgraph", widgetClass = "MXEditor", parentTag = "*", description = "Fujion wrapper for mxEditor component.")
 public class MXEditor extends MXGraph {
-
+    
     /**
      * Creates a toolbar item. Registered actions include:
      * <ul>
@@ -94,14 +95,14 @@ public class MXEditor extends MXGraph {
     public void addToolbarItem(String label, String action, String image) {
         this.invoke("addToolbarItem", label, action, image);
     }
-
+    
     /**
      * Clears the undo history.
      */
     public void resetHistory() {
         this.invoke("resetHistory");
     }
-    
+
     /**
      * Executes a registered action.
      *
@@ -110,7 +111,7 @@ public class MXEditor extends MXGraph {
     public void execute(String action) {
         execute(action, null);
     }
-
+    
     /**
      * Executes a registered action.
      *
@@ -119,5 +120,10 @@ public class MXEditor extends MXGraph {
      */
     public void execute(String action, MXCell<?> cell) {
         this.invoke("execute", action, cell);
+    }
+
+    @PropertySetter(value = "status", description = "Message for display on status bar.")
+    public void setStatus(String message) {
+        this.sync("status", message);
     }
 }

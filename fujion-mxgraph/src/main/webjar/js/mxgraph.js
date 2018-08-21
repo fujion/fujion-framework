@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(fujion, wgt, mx) { 
+define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxgraph-css'], function(fujion, wgt, mx) { 
 	
 	/**
 	 * Wrapper for mxGraph
@@ -151,8 +151,9 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 		_mxinit: function() {
 			this._editor = new mx.mxEditor();
 			this._graph = this._editor.graph;
-			this._toolbar = new mx.mxDefaultToolbar(this.sub$('tbar')[0], this._editor);
+			this._editor.setToolbarContainer(this.sub$('tbar')[0]);
 			this._editor.setGraphContainer(this.sub$('cnt')[0]);
+			this._editor.setStatusContainer(this.sub$('sbar')[0]);
 			this._editor.postDiagram = this._saveDiagram;
 			this._editor.urlPost = 'graph.xml';
 		},
@@ -167,9 +168,9 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 
 		addToolbarItem: function(label, action, image) {
 			if (label === '-') {
-				this._toolbar.addSeparator(image);
+				this._editor.toolbar.addSeparator(image);
 			} else {
-				this._toolbar.addItem(label, image, action);
+				this._editor.toolbar.addItem(label, image, action);
 			}
 		},
 		
@@ -198,10 +199,19 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph'], function(f
 		/*------------------------------ Rendering ------------------------------*/
 
 		render$: function() {
-			var dom = '<div><div id="${id}-tbar"/><div id="${id}-cnt"/></div>';
+			var dom = '<div>'
+					+   '<div id="${id}-tbar"/>'
+					+   '<div id="${id}-cnt"/>'
+					+   '<label id="${id}-sbar"/>'
+					+ '</div>';
 			return $(this.resolveEL(dom));
-		}
+		},
 
+		/*------------------------------ State ------------------------------*/
+
+		status: function(v) {
+			this._editor.setStatus(v);
+		}
 		
 	});
 	
