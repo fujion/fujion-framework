@@ -201,4 +201,29 @@ public abstract class MXCell<T extends MXCell<T>> implements IClientTransform {
         this.data = data;
     }
     
+    /**
+     * Adds an overlay to the cell.
+     *
+     * @param overlay Overlay to add.
+     */
+    public void addCellOverlay(MXCellOverlay overlay) {
+        this.getGraph().invoke("addCellOverlay", this, overlay);
+    }
+
+    /**
+     * Resizes this cell and all descendants to just fit around the its label and/or children
+     */
+    public void autoSize() {
+        autoSize(true);
+    }
+    
+    /**
+     * Resizes this cell to just fit around the its label and/or children
+     * 
+     * @param recurse If true, all descendants should be auto-sized.
+     */
+    public void autoSize(boolean recurse) {
+        this.getGraph().invoke("autoSizeCell", this, recurse);
+    }
+    
 }

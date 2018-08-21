@@ -29,6 +29,16 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		
 		/*------------------------------ Other ------------------------------*/
 
+		addCellOverlay: function(cell, overlay) {
+			cell = this._getCell(cell);
+			this._graph.addCellOverlay(cell, overlay);
+		},
+		
+		autoSizeCell: function(cell, recurse) {
+			cell = this._getCell(cell);
+			this._graph.autoSizeCell(cell, recurse);
+		},
+		
 		beginUpdate: function() {
 			this._graph.getModel().beginUpdate();
 		},
