@@ -31,6 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections.IteratorUtils;
@@ -108,14 +109,26 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      *
      * @param <T> The type of the reference component.
      */
-    public static class ComponentReference<T extends BaseComponent> implements IElementIdentifier, IEventListener {
+    public class ComponentReference<T extends BaseComponent> implements IElementIdentifier, IEventListener {
         
         private T component;
 
+        private final Consumer<BaseComponent> onDestroy;
+        
         public ComponentReference() {
+            this(null, null);
         }
         
         public ComponentReference(T component) {
+            this(component, null);
+        }
+        
+        public ComponentReference(Consumer<BaseComponent> onDestroy) {
+            this(null, onDestroy);
+        }
+        
+        public ComponentReference(T component, Consumer<BaseComponent> onDestroy) {
+            this.onDestroy = onDestroy;
             setReference(component);
         }
         
@@ -132,14 +145,21 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
          * Sets the referenced component, removing any previous reference.
          *
          * @param component The referenced component.
+         * @return True if the referenced component changed.
          */
-        public void setReference(T component) {
-            removeReference();
-            this.component = component;
-
-            if (component != null) {
-                component.addEventListener("destroy", this);
+        public boolean setReference(T component) {
+            if (component != this.component) {
+                if (component != null) {
+                    component.validatePage(BaseComponent.this.page);
+                    component.addEventListener("destroy", this);
+                }
+                
+                removeReference();
+                this.component = component;
+                return true;
             }
+
+            return false;
         }
 
         /**
@@ -161,7 +181,8 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             }
 
             if (!component.isDead() && component.getPage() == null) {
-                component._attach(ExecutionContext.getPage());
+                Page page = BaseComponent.this.page;
+                component._attach(page != null ? page : ExecutionContext.getPage());
             }
 
             return IElementIdentifier.super.transformForClient();
@@ -186,6 +207,10 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         public void onEvent(Event event) {
             if (component == event.getTarget()) {
                 removeReference();
+
+                if (onDestroy != null) {
+                    onDestroy.accept(event.getTarget());
+                }
             }
         }
         
@@ -2409,6 +2434,34 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         }
 
         return true;
+    }
+    
+    /**
+     * Handle changes to published properties that are component references. If the old and new
+     * values are the same, no action is taken. Otherwise, the client is notified of the new value
+     * (if syncToClient is true) and a {@link PropertychangeEvent} is fired.
+     *
+     * @param propertyName The property name.
+     * @param reference The property reference object.
+     * @param newValue The new value.
+     * @param syncToClient If true, notify client of change.
+     * @return True if property value changed.
+     */
+    protected <T extends BaseComponent> boolean propertyChange(String propertyName, ComponentReference<T> reference,
+                                                               T newValue, boolean syncToClient) {
+        T oldValue = reference.getReference();
+
+        if (reference.setReference(newValue)) {
+            propertyChange(propertyName, oldValue, newValue, false);
+            
+            if (syncToClient) {
+                sync(propertyName, reference);
+            }
+            
+            return true;
+        }
+        
+        return false;
     }
     
     /**
