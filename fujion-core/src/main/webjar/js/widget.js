@@ -941,21 +941,32 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		hoverPopup: function(ele$, popup) {
-			ele$.off('mouseenter.fujion');
-			ele$.off('mouseleave.fujion');
+			_reset();
 			popup ? ele$.on('mouseenter.fujion', _showHoverPopup) : null;
+			popup ? ele$.on('mousemove.fujion', _moveHoverPopup) : null;
 			popup ? ele$.on('mouseleave.fujion', _hideHoverPopup) : null;
 			
-			function _showHoverPopup(event) {
+			function _reset() {
+				ele$.off('mouseenter.fujion');
+				ele$.off('mousemove.fujion');
+				ele$.off('mouseleave.fujion');
+			}
+			
+			function _moveHoverPopup(event) {
 				var wgt = fujion.wgt(popup);
+				wgt && wgt.isOpen() ? _showHoverPopup(event, wgt) : null;
+				return false;
+			}
+			
+			function _showHoverPopup(event, wgt) {
+				wgt = wgt || fujion.wgt(popup);
 				
 				if (!wgt) {
-					ele$.off('mouseenter.fujion');
-					ele$.off('mouseleave.fujion');
+					_reset();
 				} else {
+					event.pageX += 10;
 					wgt.open({
 						my: 'left top',
-						at: 'right bottom',
 						of: event
 					});
 				}
@@ -1865,6 +1876,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		open: function(options, notself) {
 			var related$;
+			options.collision = options.collision || 'flipfit';
+			this._options = options;
 			
 			if (options.of.currentTarget) {
 				related$ = fujion.$(options.of.currentTarget);
@@ -1878,11 +1891,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				this._related$ = related$;
 				this.real$.css('z-index', this._related$.fujion$zindex() + 1);
 				this.real$.fujion$track(this._related$);
-				options.collision = options.collision || 'flipfit';
-				this._options = options;
 				this.real$.show().position(options);
 				fujion.widget.Popup.registerPopup(this, true);
 				this._trigger('open', notself);
+			} else {
+				this.real$.show().position(options);
 			}
 		},
 		
