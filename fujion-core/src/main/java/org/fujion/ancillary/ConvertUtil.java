@@ -142,6 +142,11 @@ public class ConvertUtil {
         }
 
         String name = convert(value, String.class, instance);
+        
+        if (name.trim().isEmpty()) {
+            return null;
+        }
+        
         BaseComponent container = (BaseComponent) instance;
         BaseComponent target = name.startsWith(Page.ID_PREFIX) ? container.getPage().findById(name)
                 : container.findByName(name);
