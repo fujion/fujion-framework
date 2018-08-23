@@ -1,4 +1,4 @@
-<fsp>
+<page title="Fujion Sandbox ${T(org.fujion.core.WebUtil).FUJION_VERSION}" image="webjars/fujion/img/fujion.png">
 	<paneview height="100%" width="100%" class="fujion-sandbox"
 		controller="${@fujionSandboxController}">
 		<pane width="50%" splittable="true">
@@ -33,4 +33,4 @@
 			<namespace flex="1" width="100%" style="overflow:auto" />
 		</pane>
 	</paneview>
-</fsp>
+</page>
