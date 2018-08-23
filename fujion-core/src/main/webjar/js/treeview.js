@@ -103,6 +103,7 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		/*------------------------------ Rendering ------------------------------*/
 		
 		afterRender: function() {
+			this.widget$.on('mouseenter mousemove mouseleave contextmenu', false);
 			this.widget$.find('>a').on('click', this.handleSelect.bind(this));
 			this.sub$('ctl').on('click', this.handleClick.bind(this));
 			this._updateToggle();
