@@ -169,7 +169,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 					throw new Error('Unknown argument type: ' + value.tp);
 				}
 				
-				return tx(value.vl);
+				return _.isNil(value.vl) ? null : tx(value.vl);
 			}
 		}
 	},
