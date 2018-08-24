@@ -138,8 +138,20 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 			this._graph.setDisconnectOnMove(v);
 		},
 		
+		gridEnabled: function(v) {
+			this._graph.setGridEnabled(v);
+		},
+		
+		gridSize: function(v) {
+			this._graph.setGridSize(v);
+		},
+		
 		panning: function(v) {
 			this._graph.setPanning(v);
+		},
+		
+		portsEnabled: function(v) {
+			this._graph.setPortsEnabled(v);
 		},
 		
 		readonly: function(v) {

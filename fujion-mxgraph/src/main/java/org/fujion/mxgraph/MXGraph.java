@@ -42,59 +42,59 @@ import org.w3c.dom.NodeList;
  */
 @Component(tag = "mxgraph", widgetModule = "fujion-mxgraph", widgetClass = "MXGraph", parentTag = "*", content = ContentHandling.AS_ATTRIBUTE, description = "Fujion wrapper for mxGraph component.")
 public class MXGraph extends BaseUIComponent {
-
+    
     private int nextId;
-
+    
     private boolean readonly;
-
+    
     private boolean prettyXML;
-
+    
     private boolean tooltips = true;
-    
+
     private boolean panning = true;
-    
+
     private boolean allowDanglingEdges;
-    
+
     private boolean disconnectOnMove;
+
+    private int gridSize = 10;
     
-    private final int gridSize = 10;
-
-    private final boolean gridEnabled = true;
-
-    private final boolean portsEnabled = true;
-
+    private boolean gridEnabled = true;
+    
+    private boolean portsEnabled = true;
+    
     private final Map<String, MXEdge> edges = new HashMap<>();
-    
+
     private final Map<String, MXVertex> vertices = new HashMap<>();
-    
+
     protected String nextId() {
         return "_fujion_" + ++nextId;
     }
-    
+
     public Map<String, MXVertex> getVertices() {
         return Collections.unmodifiableMap(vertices);
     }
-    
+
     public Map<String, MXEdge> getEdges() {
         return Collections.unmodifiableMap(edges);
     }
-    
+
     public MXVertex getVertex(String id) {
         return vertices.get(id);
     }
-    
+
     public MXEdge getEdge(String id) {
         return edges.get(id);
     }
-    
+
     public void beginUpdate() {
         invoke("beginUpdate");
     }
-
+    
     public void endUpdate() {
         invoke("endUpdate");
     }
-
+    
     /**
      * Creates a new vertex using the given coordinates. When adding new vertices from a mouse
      * event, one should take into account the offset of the graph container and the scale and
@@ -112,17 +112,17 @@ public class MXGraph extends BaseUIComponent {
     public MXVertex createVertex(String value, int x, int y, int width, int height, String style, boolean relative) {
         return addVertex(new MXVertex(this, value, x, y, width, height, style, relative));
     }
-
+    
     private MXVertex addVertex(MXVertex vertex) {
         String id = vertex.getId();
-
+        
         if (id != null) {
             vertices.put(id, vertex);
         }
-
+        
         return vertex;
     }
-    
+
     /**
      * Inserts a new vertex using the given coordinates. When adding new vertices from a mouse
      * event, one should take into account the offset of the graph container and the scale and
@@ -140,7 +140,7 @@ public class MXGraph extends BaseUIComponent {
     public MXVertex insertVertex(String value, int x, int y, int width, int height, String style, boolean relative) {
         return createVertex(value, x, y, width, height, style, relative).insert();
     }
-
+    
     /**
      * Creates a new edge using the given source and target as the terminals of the new edge.
      *
@@ -153,17 +153,17 @@ public class MXGraph extends BaseUIComponent {
     public MXEdge createEdge(String value, MXVertex source, MXVertex target, String style) {
         return addEdge(new MXEdge(this, value, style, source, target));
     }
-    
+
     private MXEdge addEdge(MXEdge edge) {
         String id = edge.getId();
-
+        
         if (id != null) {
             edges.put(id, edge);
         }
-
+        
         return edge;
     }
-    
+
     /**
      * Inserts a new edge using the given source and target as the terminals of the new edge.
      *
@@ -176,7 +176,7 @@ public class MXGraph extends BaseUIComponent {
     public MXEdge insertEdge(String value, MXVertex source, MXVertex target, String style) {
         return createEdge(value, source, target, style).insert();
     }
-    
+
     /**
      * Directly invoke a method on the graph object.
      *
@@ -186,7 +186,7 @@ public class MXGraph extends BaseUIComponent {
     public void mxInvoke(String functionName, Object... args) {
         invoke("mxInvoke", functionName, args);
     }
-
+    
     /**
      * Directly invoke a method on the graph object, returning the result.
      *
@@ -197,7 +197,7 @@ public class MXGraph extends BaseUIComponent {
     public void mxInvoke(IResponseCallback<?> cb, String functionName, Object... args) {
         invoke("mxInvoke", cb, functionName, args);
     }
-
+    
     /**
      * Clears the graph.
      */
@@ -205,7 +205,7 @@ public class MXGraph extends BaseUIComponent {
         _clear();
         invoke("clear");
     }
-    
+
     /**
      * Clear cached cells.
      */
@@ -213,14 +213,14 @@ public class MXGraph extends BaseUIComponent {
         vertices.clear();
         edges.clear();
     }
-
+    
     /**
      * Synchronizes the XML content and cell caches with the client. This process is asynchronous.
      */
     public void refresh() {
         refresh(null);
     }
-    
+
     /**
      * Synchronizes the XML content and cell caches with the client. This process is asynchronous.
      *
@@ -229,14 +229,14 @@ public class MXGraph extends BaseUIComponent {
     public void refresh(Runnable cb) {
         invoke("getGraphXML", (String xml) -> {
             _refresh(xml);
-            
+
             if (cb != null) {
                 cb.run();
             }
         }, prettyXML);
-
+        
     }
-
+    
     private void _refresh(String content) {
         try {
             build(XMLUtil.parseXMLFromString(content));
@@ -248,7 +248,7 @@ public class MXGraph extends BaseUIComponent {
             setContentSynced(true);
         }
     }
-
+    
     /**
      * Rebuild the cell caches from the graph document.
      *
@@ -262,14 +262,14 @@ public class MXGraph extends BaseUIComponent {
         Assert.notNull(root, "Cannot find root element");
         build(root);
     }
-
+    
     private void build(Element ele) {
         NodeList children = ele.getChildNodes();
         int count = children.getLength();
-        
+
         for (int i = 0; i < count; i++) {
             Element child = (Element) children.item(i);
-            
+
             if (MXUtil.TAG_CELL.equals(child.getTagName())) {
                 if (MXUtil.get(child, "vertex", Integer.class, 0) != 0) {
                     addVertex(new MXVertex(this, child));
@@ -277,11 +277,11 @@ public class MXGraph extends BaseUIComponent {
                     addEdge(new MXEdge(this, child));
                 }
             }
-            
+
             build(child);
         }
     }
-
+    
     /**
      * Returns the graph as an XML-formatted string.
      */
@@ -289,7 +289,7 @@ public class MXGraph extends BaseUIComponent {
     public String getContent() {
         return super.getContent();
     }
-
+    
     /**
      * Creates a new graph from an XML string.
      *
@@ -300,7 +300,7 @@ public class MXGraph extends BaseUIComponent {
         _clear();
         super.setContent(content);
     }
-
+    
     /**
      * Returns true if the graph is read-only.
      *
@@ -310,7 +310,7 @@ public class MXGraph extends BaseUIComponent {
     public boolean isReadonly() {
         return readonly;
     }
-
+    
     /**
      * Sets the read-only state of the graph.
      *
@@ -320,7 +320,7 @@ public class MXGraph extends BaseUIComponent {
     public void setReadonly(boolean readonly) {
         propertyChange("readonly", this.readonly, this.readonly = readonly, true);
     }
-
+    
     /**
      * Returns true if tooltips are enabled.
      *
@@ -330,7 +330,7 @@ public class MXGraph extends BaseUIComponent {
     public boolean getTooltips() {
         return tooltips;
     }
-
+    
     /**
      * Set to true to enable tooltips.
      *
@@ -340,7 +340,7 @@ public class MXGraph extends BaseUIComponent {
     public void setTooltips(boolean tooltips) {
         propertyChange("tooltips", this.tooltips, this.tooltips = tooltips, true);
     }
-
+    
     /**
      * Returns true if panning is enabled.
      *
@@ -350,7 +350,7 @@ public class MXGraph extends BaseUIComponent {
     public boolean getPanning() {
         return panning;
     }
-
+    
     /**
      * Set to true to enable panning.
      *
@@ -360,7 +360,7 @@ public class MXGraph extends BaseUIComponent {
     public void setPanning(boolean panning) {
         propertyChange("panning", this.panning, this.panning = panning, true);
     }
-
+    
     /**
      * Returns true if dangling edges are allowed.
      *
@@ -370,7 +370,7 @@ public class MXGraph extends BaseUIComponent {
     public boolean getAllowDanglingEdges() {
         return allowDanglingEdges;
     }
-
+    
     /**
      * Set to true to enable dangling edges.
      *
@@ -380,7 +380,7 @@ public class MXGraph extends BaseUIComponent {
     public void setAllowDanglingEdges(boolean allowDanglingEdges) {
         propertyChange("allowDanglingEdges", this.allowDanglingEdges, this.allowDanglingEdges = allowDanglingEdges, true);
     }
-
+    
     /**
      * Returns true if disconnect on move is allowed.
      *
@@ -390,7 +390,7 @@ public class MXGraph extends BaseUIComponent {
     public boolean getDisconnectOnMove() {
         return disconnectOnMove;
     }
-
+    
     /**
      * Set to true to enable disconnect on move.
      *
@@ -400,7 +400,7 @@ public class MXGraph extends BaseUIComponent {
     public void setDisconnectOnMove(boolean disconnectOnMove) {
         propertyChange("disconnectOnMove", this.disconnectOnMove, this.disconnectOnMove = disconnectOnMove, true);
     }
-    
+
     /**
      * Returns true if XML to be returned in pretty format.
      *
@@ -410,7 +410,7 @@ public class MXGraph extends BaseUIComponent {
     public boolean isPrettyXML() {
         return prettyXML;
     }
-    
+
     /**
      * Set to true if XML to be returned in pretty format.
      *
@@ -420,5 +420,65 @@ public class MXGraph extends BaseUIComponent {
     public void setPrettyXML(boolean prettyXML) {
         propertyChange("prettyXML", this.prettyXML, this.prettyXML = prettyXML, false);
     }
-
+    
+    /**
+     * Returns the grid size in pixels.
+     *
+     * @return The grid size in pixels.
+     */
+    @PropertyGetter(value = "gridSize", bindable = false, description = "The grid size in pixels.")
+    public int getGridSize() {
+        return gridSize;
+    }
+    
+    /**
+     * Sets the grid size in pixels.
+     *
+     * @param gridSize The grid size in pixels.
+     */
+    @PropertySetter(value = "gridSize", bindable = false, defaultValue = "10", description = "The grid size in pixels.")
+    public void setGridSize(int gridSize) {
+        propertyChange("gridSize", this.gridSize, this.gridSize = gridSize, true);
+    }
+    
+    /**
+     * Returns true if the grid is enabled.
+     *
+     * @return True if the grid is enabled.
+     */
+    @PropertyGetter(value = "gridEnabled", bindable = false, description = "If true, the grid is enabled.")
+    public boolean getGridEnabled() {
+        return gridEnabled;
+    }
+    
+    /**
+     * Set to true to enable the grid.
+     *
+     * @param gridEnabled True to enable the grid.
+     */
+    @PropertySetter(value = "gridEnabled", bindable = false, defaultValue = "true", description = "If true, the grid is enabled.")
+    public void setGridEnabled(boolean gridEnabled) {
+        propertyChange("gridEnabled", this.gridEnabled, this.gridEnabled = gridEnabled, true);
+    }
+    
+    /**
+     * Returns true if ports are enabled.
+     * 
+     * @return True if ports are enabled.
+     */
+    @PropertyGetter(value = "portsEnabled", bindable = false, description = "If true, ports are enabled.")
+    public boolean isPortsEnabled() {
+        return portsEnabled;
+    }
+    
+    /**
+     * Set to true to enable ports.
+     * 
+     * @param portsEnabled True to enable ports.
+     */
+    @PropertySetter(value = "portsEnabled", bindable = false, defaultValue = "true", description = "If true, ports are enabled.")
+    public void setPortsEnabled(boolean portsEnabled) {
+        propertyChange("portsEnabled", this.portsEnabled, this.portsEnabled = portsEnabled, true);
+    }
+    
 }
