@@ -20,8 +20,7 @@
  */
 package org.fujion.ancillary;
 
-import java.util.Collections;
-
+import org.fujion.client.CustomDatatype;
 import org.fujion.client.IClientTransform;
 import org.fujion.common.Logger;
 
@@ -29,25 +28,25 @@ import org.fujion.common.Logger;
  * Interface for classes that assign a unique identifier to an HTML element.
  */
 public interface IElementIdentifier extends IClientTransform {
-
+    
     static final Logger log = Logger.create(IElementIdentifier.class);
-
+    
     /**
      * Returns the unique identifier of the corresponding HTML element.
      *
      * @return HTML element unique identifier.
      */
     String getId();
-
+    
     @Override
     default Object transformForClient() {
         String id = getId();
-
+        
         if (id == null) {
             log.error(() -> "Component is not attached to a page: " + this);
         }
-
-        return id == null ? null : Collections.singletonMap("__fujion_id__", id);
+        
+        return id == null ? null : new CustomDatatype("id", id);
     }
-
+    
 }

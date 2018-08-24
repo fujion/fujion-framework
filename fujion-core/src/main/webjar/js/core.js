@@ -37,6 +37,11 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	
 	/*------------------------------ Request Processing ------------------------------*/
 	
+	transforms: {
+		'id': function(value) { return fujion.widget.find(value); },
+		'js': function(value) { var fnc; eval('fnc=' + value); return fnc; }
+	},
+	
 	action: {
 		_init: function() {
 			this.queue = [];
@@ -150,15 +155,21 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			function _transform(value, key, object) {
 				if (_.isNil(value)) {
 					object[key] = null;
-				} else if (value.__fujion_id__) {
-					object[key] = fujion.widget.find(value.__fujion_id__);
-				} else if (value.__fujion_js__) {
-					var fnc;
-					eval('fnc=' + value.__fujion_js__);
-					object[key] = fnc; 
+				} else if (value.__fujion__) {
+					object[key] = _customTransform(value.__fujion__);
 				} else if (_.isObject(value)) {
 					_.forOwn(value, _transform);
 				}
+			}
+			
+			function _customTransform(value) {
+				var tx = fujion.transforms[value.tp];
+				
+				if (!tx) {
+					throw new Error('Unknown argument type: ' + value.tp);
+				}
+				
+				return tx(value.vl);
 			}
 		}
 	},
