@@ -24,38 +24,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.fujion.annotation.OptionScanner;
-import org.fujion.client.IClientTransform;
-
 /**
  * Subclasses HashMap to suppress serialization of null values or empty collections/maps.
  */
 public class OptionMap extends HashMap<String, Object> {
-
-    /**
-     * Interface for classes capable of generating an option map.
-     */
-    public interface IOptionMapConverter extends IClientTransform {
-
-        /**
-         * Return object as an option map.
-         *
-         * @return Option map derived from object instance.
-         */
-        default OptionMap toMap() {
-            OptionMap map = new OptionMap();
-            OptionScanner.scan(this, map);
-            return map;
-        }
-
-        /**
-         * @see org.fujion.client.IClientTransform#transformForClient()
-         */
-        @Override
-        default Object transformForClient() {
-            return toMap();
-        }
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -76,8 +48,8 @@ public class OptionMap extends HashMap<String, Object> {
      */
     private Object convert(Object value) {
         if (value != null) {
-            if (value instanceof IOptionMapConverter) {
-                value = ((IOptionMapConverter) value).toMap();
+            if (value instanceof IOptionMapTransform) {
+                value = ((IOptionMapTransform) value).toMap();
             } else if (value instanceof Collection) {
                 value = convertCollection((Collection<?>) value);
             }

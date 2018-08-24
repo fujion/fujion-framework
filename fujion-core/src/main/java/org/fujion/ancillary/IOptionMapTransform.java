@@ -18,36 +18,27 @@
  *
  * #L%
  */
-package org.fujion.highcharts;
+package org.fujion.ancillary;
 
-import org.fujion.ancillary.IOptionMapTransform;
-import org.fujion.ancillary.OptionMap;
+import org.fujion.client.IClientTransform;
 
 /**
- * Used to hold style options.
+ * Interface for classes capable of generating an option map.
  */
-public class StyleOptions implements IOptionMapTransform {
-    
-    private final OptionMap styles = new OptionMap();
-    
+public interface IOptionMapTransform extends IClientTransform {
+
     /**
-     * Adds the requested style.
-     * 
-     * @param style A CSS style.
-     * @param value Value to set (or null to remove).
-     * @return The StyleOptions instance (for chaining).
+     * Return object as an option map.
+     *
+     * @return Option map derived from object instance.
      */
-    public StyleOptions addStyle(String style, String value) {
-        styles.put(style, value);
-        return this;
-    }
-    
+    OptionMap toMap();
+
     /**
-     * Returns the underlying map.
+     * @see org.fujion.client.IClientTransform#transformForClient()
      */
     @Override
-    public OptionMap toMap() {
-        return styles;
+    default Object transformForClient() {
+        return toMap();
     }
-    
 }

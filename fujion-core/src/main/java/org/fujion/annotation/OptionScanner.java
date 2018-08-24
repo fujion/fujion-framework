@@ -24,8 +24,8 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.fujion.ancillary.ConvertUtil;
+import org.fujion.ancillary.IOptionMapTransform;
 import org.fujion.ancillary.OptionMap;
-import org.fujion.ancillary.OptionMap.IOptionMapConverter;
 import org.fujion.common.Logger;
 import org.fujion.expression.ELEvaluator;
 
@@ -74,8 +74,8 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
                     name = instance.convertWith(value, name).toString();
                 }
 
-                if (value instanceof IOptionMapConverter) {
-                    value = ((IOptionMapConverter) value).toMap();
+                if (value instanceof IOptionMapTransform) {
+                    value = ((IOptionMapTransform) value).toMap();
                 }
                 
                 if (value instanceof Collection && ((Collection<?>) value).isEmpty()) {

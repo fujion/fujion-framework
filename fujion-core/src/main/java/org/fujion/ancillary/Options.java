@@ -20,11 +20,22 @@
  */
 package org.fujion.ancillary;
 
-import org.fujion.ancillary.OptionMap.IOptionMapConverter;
+import org.fujion.annotation.OptionScanner;
 
 /**
- * Base class for options.
+ * Base class for subclasses that contain {@link org.fujion.annotation.Option @Option} annotations
+ * from which an OptionMap may be produced.
  */
-public abstract class Options implements IOptionMapConverter {
-
+public abstract class Options implements IOptionMapTransform {
+    
+    /**
+     * Convert to an OptionMap instance by processing {@link org.fujion.annotation.Option @Option}
+     * annotations.
+     */
+    @Override
+    public OptionMap toMap() {
+        OptionMap map = new OptionMap();
+        OptionScanner.scan(this, map);
+        return map;
+    }
 }

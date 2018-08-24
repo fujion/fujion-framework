@@ -20,8 +20,8 @@
  */
 package org.fujion.gmaps;
 
+import org.fujion.ancillary.IOptionMapTransform;
 import org.fujion.ancillary.OptionMap;
-import org.fujion.ancillary.OptionMap.IOptionMapConverter;
 import org.springframework.util.Assert;
 
 /**
@@ -29,7 +29,7 @@ import org.springframework.util.Assert;
  * 
  * @param <T> The data type of the option value.
  */
-public class Styler<T> implements IOptionMapConverter {
+public class Styler<T> implements IOptionMapTransform {
 
     private final OptionMap map = new OptionMap();
     
