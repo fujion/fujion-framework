@@ -20,6 +20,7 @@
  */
 package org.fujion.mxgraph;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ContentHandling;
 import org.fujion.annotation.Component.PropertySetter;
@@ -29,7 +30,7 @@ import org.fujion.annotation.Component.PropertySetter;
  */
 @Component(tag = "mxeditor", widgetModule = "fujion-mxgraph", widgetClass = "MXEditor", parentTag = "*", content = ContentHandling.AS_ATTRIBUTE, description = "Fujion wrapper for mxEditor component.")
 public class MXEditor extends MXGraph {
-
+    
     /**
      * Creates a toolbar item. Registered actions include:
      * <ul>
@@ -96,6 +97,29 @@ public class MXEditor extends MXGraph {
     public void addToolbarItem(String label, String action, String image) {
         this.invoke("addToolbarItem", label, action, image);
     }
+    
+    /**
+     * Add an editor action.
+     * 
+     * @param action The action name.
+     * @param code JavaScript code to execute.
+     * @return The JavaScript code.
+     */
+    public JavaScript addAction(String action, String code) {
+        return addAction(action, new JavaScript(code));
+    }
+
+    /**
+     * Add an editor action.
+     * 
+     * @param action The action name.
+     * @param code JavaScript code to execute.
+     * @return The JavaScript code.
+     */
+    public JavaScript addAction(String action, JavaScript code) {
+        this.invoke("addAction", action, code);
+        return code;
+    }
 
     /**
      * Clears the undo history.
@@ -103,7 +127,7 @@ public class MXEditor extends MXGraph {
     public void resetHistory() {
         this.invoke("resetHistory");
     }
-    
+
     /**
      * Executes a registered action.
      *
@@ -112,7 +136,7 @@ public class MXEditor extends MXGraph {
     public void execute(String action) {
         execute(action, null);
     }
-
+    
     /**
      * Executes a registered action.
      *
@@ -122,7 +146,7 @@ public class MXEditor extends MXGraph {
     public void execute(String action, MXCell<?> cell) {
         this.invoke("execute", action, cell);
     }
-    
+
     @PropertySetter(value = "status", description = "Message for display on status bar.")
     public void setStatus(String message) {
         this.sync("status", message);

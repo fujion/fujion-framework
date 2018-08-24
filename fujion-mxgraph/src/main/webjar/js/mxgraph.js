@@ -188,6 +188,10 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		
 		/*------------------------------ Other ------------------------------*/
 
+		addAction: function(action, fnc) {
+			this._editor.addAction(action, fnc);
+		},
+		
 		addToolbarItem: function(label, action, image) {
 			if (label === '-') {
 				this._editor.toolbar.addSeparator(image);
