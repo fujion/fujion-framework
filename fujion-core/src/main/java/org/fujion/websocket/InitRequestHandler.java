@@ -20,6 +20,8 @@
  */
 package org.fujion.websocket;
 
+import org.fujion.ancillary.OptionMap;
+import org.fujion.client.ClientOptions;
 import org.fujion.client.ClientRequest;
 import org.fujion.client.Synchronizer;
 import org.fujion.component.Page;
@@ -32,6 +34,8 @@ import org.fujion.page.PageDefinitionCache;
  */
 public class InitRequestHandler implements IRequestHandler {
 
+    private final OptionMap clientOptionMap = ClientOptions.getInstance().toMap();
+    
     @Override
     public void handleRequest(ClientRequest request) {
         Page page = request.getPage();
@@ -42,6 +46,7 @@ public class InitRequestHandler implements IRequestHandler {
         Sessions.getInstance().notifyLifecycleListeners(request.getSession(), true);
 
         try {
+            page.invoke("beforeInitialize", clientOptionMap);
             pageDefinition.materialize(page);
             page.invoke("afterInitialize");
             page.fireEvent("afterInitialize");

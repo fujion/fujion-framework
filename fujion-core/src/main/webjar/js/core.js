@@ -6,6 +6,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	
 	/*------------------------------ Initialization ------------------------------*/
 			
+	globalOptions: {},
+	
 	init: function(options) {
 		window.onerror = fujion.fatal;
 		

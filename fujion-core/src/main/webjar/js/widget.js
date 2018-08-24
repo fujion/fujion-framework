@@ -1549,6 +1549,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			$('#fujion_root').css('visibility', 'visible');
 		},
 		
+		beforeInitialize: function(globalOptions) {
+			globalOptions ? _.assign(fujion.globalOptions, globalOptions) : null;
+		},
+		
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {

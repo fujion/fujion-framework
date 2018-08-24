@@ -54,10 +54,14 @@
 		factory-method="getInstance"
 		class="org.fujion.webjar.WebJarLocator" />
 	
+	<bean id="fujion_ClientOptions"
+		factory-method="getInstance"
+		class="org.fujion.client.ClientOptions" />
+	
+	<bean class="org.fujion.websocket.InitRequestHandler" depends-on="fujion_ClientOptions" />
+	
 	<bean class="org.fujion.event.EventRequestHandler" />
 
-	<bean class="org.fujion.websocket.InitRequestHandler" />
-	
 	<bean class="org.fujion.client.PingRequestHandler" />
 
 	<bean class="org.fujion.logging.LogRequestHandler" />
