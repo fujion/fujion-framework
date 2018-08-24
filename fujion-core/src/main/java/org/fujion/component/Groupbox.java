@@ -31,8 +31,15 @@ import org.fujion.annotation.Component.PropertySetter;
  */
 @Component(tag = "groupbox", widgetClass = "Groupbox", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A container component with a frame and title for visual grouping of related elements.")
 public class Groupbox extends BaseUIComponent {
-
+    
     private String title;
+    
+    public Groupbox() {
+    }
+
+    public Groupbox(String title) {
+        setTitle(title);
+    }
 
     /**
      * Returns the title text.
@@ -43,7 +50,7 @@ public class Groupbox extends BaseUIComponent {
     public String getTitle() {
         return title;
     }
-    
+
     /**
      * Sets the title text.
      *
@@ -53,5 +60,5 @@ public class Groupbox extends BaseUIComponent {
     public void setTitle(String title) {
         propertyChange("title", this.title, this.title = nullify(title), true);
     }
-
+    
 }
