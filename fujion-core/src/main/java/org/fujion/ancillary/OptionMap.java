@@ -24,10 +24,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.fujion.annotation.OptionScanner;
 import org.fujion.client.IClientTransform;
 
 /**
- * Subclasses HashMap to prevent entry of null values or empty collections/maps.
+ * Subclasses HashMap to suppress serialization of null values or empty collections/maps.
  */
 public class OptionMap extends HashMap<String, Object> {
 
@@ -41,7 +42,11 @@ public class OptionMap extends HashMap<String, Object> {
          *
          * @return Option map derived from object instance.
          */
-        OptionMap toMap();
+        default OptionMap toMap() {
+            OptionMap map = new OptionMap();
+            OptionScanner.scan(this, map);
+            return map;
+        }
 
         /**
          * @see org.fujion.client.IClientTransform#transformForClient()
