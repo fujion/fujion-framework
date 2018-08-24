@@ -35,17 +35,17 @@ import org.springframework.util.StringUtils;
  */
 @Component(tag = "barcode", widgetModule = "fujion-barcode", widgetClass = "BarCode", parentTag = "*", description = "Barcode component.")
 public class BarCode extends BaseUIComponent {
-
+    
     private static final Function<String, Boolean> PHARMACODE_VALIDATOR = value -> {
         int i = NumberUtils.toInt(value);
         return i >= 3 && i <= 131070;
     };
-
+    
     /**
      * Supported barcode formats.
      */
     public enum Format {
-
+        
         // @formatter:off
         CODABAR("^[A-D][0-9\\+$:\\-/.]*[A-D]$"),
         CODE39("^[0-9 a-z A-Z - . $ / + %]*$"),
@@ -69,24 +69,24 @@ public class BarCode extends BaseUIComponent {
         UPC("^\\d{12}$"),
         UPCE("^\\d{6}$");
         // @formatter:on
-
+        
         private final Function<String, Boolean> validator;
-
+        
         Format() {
             validator = null;
         }
-
+        
         Format(String regex) {
             Pattern pattern = Pattern.compile(regex);
             validator = value -> {
                 return pattern.matcher(value).matches();
             };
         }
-
+        
         Format(Function<String, Boolean> validator) {
             this.validator = validator;
         }
-
+        
         /**
          * Determine if value is valid for the corresponding barcode format.
          *
@@ -96,25 +96,24 @@ public class BarCode extends BaseUIComponent {
         public boolean validate(String value) {
             return StringUtils.isEmpty(value) || validator == null || validator.apply(value);
         }
-
+        
     }
-
-    private Format format;
-
+    
+    private Format format = Format.CODE128;
+    
     private boolean displayValue;
-
+    
     private String value;
-
+    
     private boolean flat;
-
+    
     public BarCode() {
-        this(Format.CODE128);
     }
-
+    
     public BarCode(Format format) {
-        this.format = format;
+        setFormat(format);
     }
-
+    
     /**
      * Validate a value, throwing an exception if validation fails.
      *
@@ -126,7 +125,7 @@ public class BarCode extends BaseUIComponent {
                 String.format("Value \"%s\" is not valid for the format type \"%s\"", value, format.name()));
         }
     }
-
+    
     /**
      * Returns the barcode format.
      *
@@ -136,7 +135,7 @@ public class BarCode extends BaseUIComponent {
     public Format getFormat() {
         return format;
     }
-
+    
     /**
      * Sets the barcode format. Resets the value property to null.
      *
@@ -144,13 +143,13 @@ public class BarCode extends BaseUIComponent {
      */
     @PropertySetter(value = "format", defaultValue = "code128", description = "The barcode format.")
     public void setFormat(Format format) {
-        format = format == null ? Format.CODE128 : format;
-
+        format = defaultify(format, Format.CODE128);
+        
         if (propertyChange("format", this.format, this.format = format, true)) {
             setValue(null);
         }
     }
-
+    
     /**
      * Returns true if the value is to be displayed next to the barcode.
      *
@@ -160,7 +159,7 @@ public class BarCode extends BaseUIComponent {
     public boolean getDisplayValue() {
         return displayValue;
     }
-
+    
     /**
      * Set to true if the value is to be displayed next to the barcode.
      *
@@ -170,7 +169,7 @@ public class BarCode extends BaseUIComponent {
     public void setDisplayValue(boolean displayValue) {
         propertyChange("displayValue", this.displayValue, this.displayValue = displayValue, true);
     }
-
+    
     /**
      * Returns the value to be encoded.
      *
@@ -180,7 +179,7 @@ public class BarCode extends BaseUIComponent {
     public String getValue() {
         return value;
     }
-
+    
     /**
      * Sets the value to be encoded. The value is tested for validity for the current barcode
      * format.
@@ -193,7 +192,7 @@ public class BarCode extends BaseUIComponent {
         validateValue(value = trimify(value));
         propertyChange("value", this.value, this.value = value, true);
     }
-
+    
     /**
      * Returns whether or not to render guard bars.
      *
@@ -203,7 +202,7 @@ public class BarCode extends BaseUIComponent {
     public boolean isFlat() {
         return flat;
     }
-
+    
     /**
      * Set to true to suppress rendering of guard bars. For formats that do not use guard bars, this
      * setting has no effect.
@@ -214,5 +213,5 @@ public class BarCode extends BaseUIComponent {
     public void setFlat(boolean flat) {
         propertyChange("flat", this.flat, this.flat = flat, true);
     }
-
+    
 }
