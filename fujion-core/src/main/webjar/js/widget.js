@@ -1231,7 +1231,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		hint: function(v) {
-			this.attr('title', v, this.input$());
+			this.hoverPopup(this.input$(), v ? fujion.widget._hint : null);
 		},
 		
 		keycapture: function(v) {
@@ -1579,6 +1579,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			fujion.widget._page = this;
 			this._super();
 			this.initState({closable: true});
+			fujion.widget._hint = fujion.widget.create(null, {wclass: 'Hint'}, {});
 		},
 			
 		afterInitialize: function() {
@@ -1898,6 +1899,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ Other ------------------------------*/
 		
+		beforeOpen: function() {
+			return true;
+		},
+		
 		close: function(notself, notothers) {
 			if (this.isOpen()) {
 				fujion.widget.Popup.registerPopup(this, false);
@@ -1929,6 +1934,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			if (!this.isOpen() || (related$ && !related$.is(this._related$))) {
 				fujion.widget.Popup.closePopups(related$);
 				this._related$ = related$;
+				
+				if (!this.beforeOpen(related$)) {
+					return;
+				}
+				
 				this.real$.css('z-index', this._related$.fujion$zindex() + 1);
 				this.real$.fujion$track(this._related$);
 				this.real$.show().position(options);
@@ -1991,6 +2001,29 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.body$.on('click', function() {
 		fujion.widget.Popup.closePopups();
+	});
+
+	/******************************************************************************************************************
+	 * A hint widget (used internally for hint popups).
+	 ******************************************************************************************************************/ 
+	
+	fujion.widget.Hint = fujion.widget.Popup.extend({
+
+		/*------------------------------ Other ------------------------------*/
+		
+		beforeOpen: function(tgt$) {
+			var tgt = tgt$ ? fujion.wgt(tgt$) : null;
+			this.real$.text(tgt ? tgt.getState('hint') : null);
+			return this._super();
+		},
+	
+		/*------------------------------ Rendering ------------------------------*/
+		
+		afterRender: function() {
+			this._super();
+			this.real$.addClass('popover');
+		}
+	
 	});
 
 	/******************************************************************************************************************
