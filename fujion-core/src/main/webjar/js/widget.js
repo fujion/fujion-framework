@@ -2009,19 +2009,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.widget.Hint = fujion.widget.Popup.extend({
 
+		/*------------------------------ Lifecycle ------------------------------*/
+		
+		init: function() {
+			this._super();
+			this.wclazz = 'popover';
+		},
+				
 		/*------------------------------ Other ------------------------------*/
 		
 		beforeOpen: function(tgt$) {
 			var tgt = tgt$ ? fujion.wgt(tgt$) : null;
 			this.real$.text(tgt ? tgt.getState('hint') : null);
 			return this._super();
-		},
-	
-		/*------------------------------ Rendering ------------------------------*/
-		
-		afterRender: function() {
-			this._super();
-			this.real$.addClass('popover');
 		}
 	
 	});
