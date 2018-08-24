@@ -941,41 +941,77 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		hoverPopup: function(ele$, popup) {
+			var start, stop, started, last;
 			_reset();
-			popup ? ele$.on('mouseenter.fujion', _showHoverPopup) : null;
-			popup ? ele$.on('mousemove.fujion', _moveHoverPopup) : null;
-			popup ? ele$.on('mouseleave.fujion', _hideHoverPopup) : null;
+			popup ? ele$.on('mouseenter.fujion', _init) : null;
+			popup ? ele$.on('mousemove.fujion', _update) : null;
+			popup ? ele$.on('mouseleave.fujion', _stop) : null;
 			
 			function _reset() {
 				ele$.off('mouseenter.fujion');
 				ele$.off('mousemove.fujion');
 				ele$.off('mouseleave.fujion');
+				_clearTimers();
 			}
 			
-			function _moveHoverPopup(event) {
+			function _clearTimers() {
+				start ? clearTimeout(start) : null;
+				stop ? clearTimeout(stop) : null;
+				start = stop = last = null;
+				started = false;
+			}
+			
+			function _popup() {
 				var wgt = fujion.wgt(popup);
-				wgt && wgt.isOpen() ? _showHoverPopup(event, wgt) : null;
+				return wgt ? wgt : _reset();
+			}
+			
+			function _init(event) {
+				if (_popup()) {
+					_clearTimers();
+					last = event;
+					start = setTimeout(_start, fujion.globalOptions.popupDelay);
+					stop = setTimeout(_stop, fujion.globalOptions.popupDelay + fujion.globalOptions.popupDuration);
+				}
+				
 				return false;
 			}
 			
-			function _showHoverPopup(event, wgt) {
-				wgt = wgt || fujion.wgt(popup);
+			function _start() {
+				start = null;
+				started = true;
+				_show(last);
+			}
+			
+			function _show(event, wgt) {
+				wgt = wgt || _popup();
 				
-				if (!wgt) {
-					_reset();
-				} else {
+				if (wgt) {
 					event.pageX += 10;
 					wgt.open({
 						my: 'left top',
 						of: event
 					});
 				}
-				
+			}
+			
+			function _update(event) {
+				if (started) {
+					var wgt = _popup();
+					
+					if (wgt) {
+						wgt.isOpen() ? _show(event, wgt) : _stop(event, wgt);
+					}
+				} else {
+					last = event;
+				}
+
 				return false;
 			}
 			
-			function _hideHoverPopup() {
-				var wgt = fujion.wgt(popup);
+			function _stop(event, wgt) {
+				_clearTimers();
+				wgt = wgt || _popup();
 				wgt ? wgt.close() : null;
 				return false;
 			}

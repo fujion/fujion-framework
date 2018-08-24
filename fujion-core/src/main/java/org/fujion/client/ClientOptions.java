@@ -32,12 +32,12 @@ public class ClientOptions extends Options {
     private static final ClientOptions instance = new ClientOptions();
     
     @Option
-    @Value("${org.fujion.client.hintDelay}")
-    private int hintDelay;
+    @Value("${org.fujion.client.popupDelay}")
+    private int popupDelay;
 
     @Option
-    @Value("${org.fujion.client.hintDuration}")
-    private int hintDuration;
+    @Value("${org.fujion.client.popupDuration}")
+    private int popupDuration;
 
     public static ClientOptions getInstance() {
         return instance;
@@ -47,20 +47,20 @@ public class ClientOptions extends Options {
     }
 
     /**
-     * Returns the delay (in milliseconds) before a hover hint is displayed.
+     * Returns the delay (in milliseconds) before a hover popup is displayed.
      * 
-     * @return The delay (in milliseconds) before a hover hint is displayed.
+     * @return The delay (in milliseconds) before a hover popup is displayed.
      */
-    public int getHintDelay() {
-        return hintDelay;
+    public int getPopupDelay() {
+        return popupDelay;
     }
 
     /**
-     * Returns the duration (in milliseconds) that a hover hint will be displayed.
+     * Returns the duration (in milliseconds) that a hover popup will be displayed.
      * 
-     * @return The duration (in milliseconds) that a hover hint will be displayed.
+     * @return The duration (in milliseconds) that a hover popup will be displayed.
      */
-    public int getHintDuration() {
-        return hintDuration;
+    public int getPopupDuration() {
+        return popupDuration;
     }
 }
