@@ -28,29 +28,29 @@ import org.fujion.client.IClientTransform;
  * Represents a snippet of JavaScript code.
  */
 public class JavaScript implements IClientTransform {
-
-    private final String snippet;
     
+    private final String snippet;
+
     public JavaScript(String snippet) {
         snippet = StringUtils.trimToNull(snippet);
         this.snippet = snippet == null ? null : snippet.startsWith("function") ? snippet : "function() {" + snippet + "}";
     }
-    
+
     @Override
     public Object transformForClient() {
         return snippet == null ? null : new CustomDatatype("js", snippet);
     }
-    
+
     @Override
     public String toString() {
         return snippet;
     }
-
+    
     @Override
     public boolean equals(Object o) {
-        return o instanceof JavaScript && snippet.equals(o.toString());
+        return o instanceof JavaScript && StringUtils.equals(snippet, o.toString());
     }
-
+    
     @Override
     public int hashCode() {
         return snippet == null ? super.hashCode() : snippet.hashCode();
