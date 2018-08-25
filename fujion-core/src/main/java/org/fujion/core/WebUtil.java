@@ -63,8 +63,8 @@ public class WebUtil {
     public static final String DEFAULT_ETAG = generateETag(FUJION_VERSION);
     
     /**
-     * Returns the debug state of the servlet. When enabled, the debug state can affect various
-     * application behaviors such as disabling javascript minification.
+     * Returns the debug state of the servlet. See additional information
+     * {@link org.fujion.servlet.WebAppConfiguration#isDebugEnabled here}.
      *
      * @return The debug state.
      */
@@ -370,7 +370,7 @@ public class WebUtil {
     
     /**
      * Add headers to suppress browser caching.
-     * 
+     *
      * @param response HTTP response to receive headers.
      */
     public static void disableCache(HttpServletResponse response) {
@@ -382,7 +382,7 @@ public class WebUtil {
     /**
      * Formats an ETag into form suitable for storing in a header. If null or already formatted,
      * returns the original value.
-     * 
+     *
      * @param etag The ETag to format.
      * @param weak If true, mark ETag as weak.
      * @return The formatted ETag.
@@ -399,7 +399,7 @@ public class WebUtil {
     
     /**
      * Add ETag to response.
-     * 
+     *
      * @param response HTTP response to receive ETag.
      * @param etag ETag to add.
      * @param weak If true, mark ETag as weak.
@@ -412,7 +412,7 @@ public class WebUtil {
     
     /**
      * Returns an ETag from an HTTP request.
-     * 
+     *
      * @param request HTTP request.
      * @return The ETag value, or null if none.
      */
@@ -422,7 +422,7 @@ public class WebUtil {
     
     /**
      * Returns an ETag from an HTTP response.
-     * 
+     *
      * @param response HTTP response.
      * @return The ETag value, or null if none.
      */
@@ -432,7 +432,7 @@ public class WebUtil {
     
     /**
      * Returns true if the request and response ETags match.
-     * 
+     *
      * @param request The HTTP request.
      * @param response The HTTP response.
      * @return True if the ETags match.
@@ -443,7 +443,7 @@ public class WebUtil {
     
     /**
      * Returns true if the request and response ETags match.
-     * 
+     *
      * @param requestETag The request ETag.
      * @param responseETag The response ETag.
      * @return True if the ETags match.
@@ -458,7 +458,7 @@ public class WebUtil {
      * Converts a value to an ETag value. If the value is null, empty or contains the text
      * "SNAPSHOT", returns a random ETag. Otherwise, computes an ETag by calculating the MD5
      * checksum on the value.
-     * 
+     *
      * @param value Value from which an ETag will be generated.
      * @return An ETag value (never null).
      */
@@ -469,7 +469,7 @@ public class WebUtil {
     
     /**
      * Returns a random ETag value.
-     * 
+     *
      * @return A random ETag value.
      */
     public static String randomETag() {
