@@ -6,8 +6,13 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	
 	/*------------------------------ Initialization ------------------------------*/
 			
+    // Global options for Fujion client.
+			
 	globalOptions: {},
 	
+	/**
+	 * Initializer for bootstrapping process.
+	 */
 	init: function(options) {
 		window.onerror = fujion.fatal;
 		
@@ -37,12 +42,12 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	
 	/*------------------------------ Request Processing ------------------------------*/
 	
-	transforms: {
-		'id': function(value) { return fujion.widget.find(value); },
-		'js': function(value) { var fnc; eval('fnc=' + value); return fnc; }
-	},
-	
 	action: {
+		transforms: {
+			'id': function(value) { return fujion.widget.find(value); },
+			'js': function(value) { var fnc; eval('fnc=' + value); return fnc; }
+		},
+		
 		_init: function() {
 			this.queue = [];
 			this.processing = false;
@@ -92,6 +97,14 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			}
 			
 			this.processQueue();
+		},
+		
+		registerTransform: function(datatype, transform) {
+			if (fujion.action.transforms[datatype]) {
+				throw new Error('A transform for datatype "' + datatype + '" has already been registered.');
+			}
+			
+			fujion.action.transforms[datatype] = transform;
 		},
 		
 		_doCallback: function(action, result) {
@@ -163,7 +176,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			}
 			
 			function _customTransform(value) {
-				var tx = fujion.transforms[value.tp];
+				var tx = fujion.action.transforms[value.tp];
 				
 				if (!tx) {
 					throw new Error('Unknown argument type: ' + value.tp);
