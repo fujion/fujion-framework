@@ -57,13 +57,13 @@ import org.springframework.util.Assert;
  * Utility methods for accessing and manipulating web resources and settings.
  */
 public class WebUtil {
-    
+
     public static final String FUJION_VERSION = WebUtil.class.getPackage().getImplementationVersion();
-    
+
     public static final String DEFAULT_ETAG = generateETag(FUJION_VERSION);
-    
+
     /**
-     * Returns the debug state of the servlet. See additional information
+     * Returns the debug state of the web application. See additional information
      * {@link org.fujion.servlet.WebAppConfiguration#isDebugEnabled here}.
      *
      * @return The debug state.
@@ -71,7 +71,7 @@ public class WebUtil {
     public static boolean isDebugEnabled() {
         return WebAppConfiguration.isDebugEnabled();
     }
-    
+
     /**
      * Converts the queryString to a map.
      *
@@ -82,7 +82,7 @@ public class WebUtil {
     public static Map<String, String> queryStringToMap(String queryString) {
         return queryStringToMap(queryString, ",");
     }
-    
+
     /**
      * Converts the queryString to a map.
      *
@@ -95,25 +95,25 @@ public class WebUtil {
         if (queryString == null || queryString.isEmpty()) {
             return null;
         }
-        
+
         try {
             valueDelimiter = valueDelimiter == null ? "" : valueDelimiter;
             URI uri = new URI(queryString.startsWith("?") ? queryString : ("?" + queryString));
             List<NameValuePair> params = URLEncodedUtils.parse(uri, StrUtil.UTF8);
-            
+
             Map<String, String> result = new HashMap<>();
-            
+
             for (NameValuePair nvp : params) {
                 String value = result.get(nvp.getName());
                 result.put(nvp.getName(), (value == null ? "" : value + valueDelimiter) + nvp.getValue());
             }
-            
+
             return result;
         } catch (URISyntaxException e) {
             return null;
         }
     }
-    
+
     /**
      * Adds the specified query string to the url.
      *
@@ -124,7 +124,7 @@ public class WebUtil {
      */
     public static String addQueryString(String url, String queryString) {
         Assert.notNull(url, () -> "The url must not be null");
-        
+
         if (!StringUtils.isEmpty(queryString)) {
             if (url.endsWith("?")) {
                 url += queryString;
@@ -134,10 +134,10 @@ public class WebUtil {
                 url += "?" + queryString;
             }
         }
-        
+
         return url;
     }
-    
+
     /**
      * Returns the query parameter string from the request url.
      *
@@ -148,7 +148,7 @@ public class WebUtil {
         int i = requestUrl == null ? -1 : requestUrl.indexOf("?");
         return i == -1 ? "" : requestUrl.substring(i + 1);
     }
-    
+
     /**
      * Returns the original request url from the execution context.
      *
@@ -157,7 +157,7 @@ public class WebUtil {
     public static String getRequestUrl() {
         return ExecutionContext.getPage().getBrowserInfo("requestURL");
     }
-    
+
     /**
      * Returns the base url from the execution context.
      *
@@ -169,7 +169,7 @@ public class WebUtil {
         int i = url.indexOf(path);
         return url.substring(0, i + path.length()) + "/";
     }
-
+    
     /**
      * Returns the named cookie from the current request.
      *
@@ -180,7 +180,7 @@ public class WebUtil {
     public static Cookie getCookie(String cookieName) {
         return getCookie(cookieName, RequestUtil.getRequest());
     }
-    
+
     /**
      * Returns the named cookie from the specified request. When values are retrieved, they should
      * be decoded.
@@ -195,7 +195,7 @@ public class WebUtil {
         Assert.notNull(cookieName, () -> "The cookie name must not be null");
         Assert.notNull(request, () -> "The request must not be null");
         Cookie[] cookies = request.getCookies();
-        
+
         if (cookies != null) {
             for (Cookie cookie : request.getCookies()) {
                 if (cookieName.equals(cookie.getName())) {
@@ -203,10 +203,10 @@ public class WebUtil {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returns the value from the named cookie from the specified request. The value is decoded.
      *
@@ -217,7 +217,7 @@ public class WebUtil {
     public static String getCookieValue(String cookieName) {
         return getCookieValue(cookieName, RequestUtil.getRequest());
     }
-    
+
     /**
      * Returns the value from the named cookie from the specified request. The value is decoded with
      * for security and consistency (Version 0+ of Cookies and web containers)
@@ -232,7 +232,7 @@ public class WebUtil {
         Cookie cookie = getCookie(cookieName, request);
         return cookie == null ? null : decodeCookieValue(cookie.getValue());
     }
-    
+
     /**
      * <p>
      * Encodes a plain text cookie value.
@@ -248,14 +248,14 @@ public class WebUtil {
      */
     public static String encodeCookieValue(String cookieValuePlainText) {
         Assert.notNull(cookieValuePlainText, () -> "The cookieValuePlainText must not be null");
-        
+
         try {
             return URLEncoder.encode(Base64.encodeBase64String(cookieValuePlainText.getBytes()), StrUtil.UTF8_STR);
         } catch (Exception e) {
             throw new RuntimeException("Unexpected exception occurred encoding cookie value", e);
         }
     }
-    
+
     /**
      * <p>
      * Decodes an encoded cookie value
@@ -271,14 +271,14 @@ public class WebUtil {
      */
     public static String decodeCookieValue(String encodedCookieValue) {
         Assert.notNull(encodedCookieValue, () -> "The encodedCookieValue must not be null");
-        
+
         try {
             return new String(Base64.decodeBase64(URLDecoder.decode(encodedCookieValue, StrUtil.UTF8_STR)));
         } catch (Exception e) {
             throw new RuntimeException("Unexpected exception occurred decoding cookie value", e);
         }
     }
-    
+
     /**
      * Sets a cookie into the response. Cookies are URLEncoded for consistency (Version 0+ of
      * Cookies)
@@ -294,11 +294,11 @@ public class WebUtil {
                                    HttpServletRequest request) {
         Assert.notNull(response, () -> "The response must not be null");
         Cookie cookie = getCookie(cookieName, request);
-        
+
         if (value != null) {
             value = encodeCookieValue(value);
         }
-        
+
         if (cookie == null) {
             if (value == null) {
                 return null;
@@ -309,15 +309,15 @@ public class WebUtil {
         } else {
             cookie.setValue(value);
         }
-        
+
         if (request.isSecure()) {
             cookie.setSecure(true);
         }
-        
+
         response.addCookie(cookie);
         return cookie;
     }
-    
+
     /**
      * Returns the resource corresponding to the source URL.
      *
@@ -327,7 +327,7 @@ public class WebUtil {
     public static Resource getResource(String src) {
         return getResource(src, ExecutionContext.getServletContext());
     }
-    
+
     /**
      * Returns the resource corresponding to the source URL.
      *
@@ -338,7 +338,7 @@ public class WebUtil {
     public static Resource getResource(String src, ServletContext ctx) {
         try {
             Resource resource;
-            
+
             if (src.startsWith("dynamic/") || src.startsWith("/dynamic/")) {
                 String path = StringUtils.substringAfter(src, "dynamic/");
                 resource = DynamicResourceRegistry.getInstance().getResource(path);
@@ -348,26 +348,26 @@ public class WebUtil {
                 resource = new UrlResource(src);
             } else {
                 src = src.startsWith("/") ? src : "/" + src;
-                
+
                 if (src.startsWith("/webjars/")) {
                     src = "/webjars/" + WebJarResourceResolver.getResourcePath(src.substring(9));
                 }
-                
+
                 URL url = ctx == null ? null : ctx.getResource(src);
                 resource = url == null ? null : new UrlResource(url);
             }
-            
+
             if (resource == null || !resource.exists()) {
                 throw new FileNotFoundException(src);
             }
-            
+
             return resource;
-            
+
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
-    
+
     /**
      * Add headers to suppress browser caching.
      *
@@ -378,7 +378,7 @@ public class WebUtil {
         response.setHeader(HttpHeaders.PRAGMA, "no-cache");
         response.setDateHeader(HttpHeaders.EXPIRES, 0);
     }
-    
+
     /**
      * Formats an ETag into form suitable for storing in a header. If null or already formatted,
      * returns the original value.
@@ -389,14 +389,14 @@ public class WebUtil {
      */
     public static String formatETag(String etag, boolean weak) {
         etag = StringUtils.trimToNull(etag);
-        
+
         if (etag == null || etag.startsWith(StrUtil.DQT) || etag.startsWith("W/\"")) {
             return etag;
         }
-        
+
         return (weak ? "W/" : "") + StrUtil.enquoteDouble(etag);
     }
-    
+
     /**
      * Add ETag to response.
      *
@@ -409,7 +409,7 @@ public class WebUtil {
         response.setHeader(HttpHeaders.ETAG, formatETag(etag, weak));
         return getETag(response);
     }
-    
+
     /**
      * Returns an ETag from an HTTP request.
      *
@@ -419,7 +419,7 @@ public class WebUtil {
     public static String getETag(HttpServletRequest request) {
         return request.getHeader(HttpHeaders.IF_NONE_MATCH);
     }
-    
+
     /**
      * Returns an ETag from an HTTP response.
      *
@@ -429,7 +429,7 @@ public class WebUtil {
     public static String getETag(HttpServletResponse response) {
         return response.getHeader(HttpHeaders.ETAG);
     }
-    
+
     /**
      * Returns true if the request and response ETags match.
      *
@@ -440,7 +440,7 @@ public class WebUtil {
     public static boolean sameETag(HttpServletRequest request, HttpServletResponse response) {
         return sameETag(getETag(request), getETag(response));
     }
-    
+
     /**
      * Returns true if the request and response ETags match.
      *
@@ -453,7 +453,7 @@ public class WebUtil {
         responseETag = StringUtils.removeStart(responseETag, "W/");
         return requestETag != null && ("*".equals(requestETag) || requestETag.equals(responseETag));
     }
-    
+
     /**
      * Converts a value to an ETag value. If the value is null, empty or contains the text
      * "SNAPSHOT", returns a random ETag. Otherwise, computes an ETag by calculating the MD5
@@ -466,7 +466,7 @@ public class WebUtil {
         value = StringUtils.trimToNull(value);
         return value == null || value.contains("SNAPSHOT") ? randomETag() : DigestUtils.md5Hex(value);
     }
-    
+
     /**
      * Returns a random ETag value.
      *
@@ -475,7 +475,7 @@ public class WebUtil {
     public static String randomETag() {
         return UUID.randomUUID().toString().replace("-", "");
     }
-    
+
     /**
      * Enforce static class.
      */
