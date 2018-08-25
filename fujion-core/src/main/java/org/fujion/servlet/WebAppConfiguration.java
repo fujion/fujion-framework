@@ -31,26 +31,44 @@ import org.springframework.web.WebApplicationInitializer;
  * traditional web.xml configuration.
  */
 public class WebAppConfiguration implements WebApplicationInitializer {
-    
+
+    /**
+     * Name of the debug mode parameter. See {@link #isDebugEnabled}
+     */
+    public static final String DEBUG_PARAM = "fujion.debug";
+
     private static boolean debugEnabled;
-    
+
     /**
      * Returns true if debug mode is enabled.
+     * <p>
+     * The debug mode setting is a Boolean parameter that may be specified either as a system
+     * property (which takes precedence) or as a context parameter. The latter is specified in the
+     * <b>web.xml</b> file; for example:
+     *
+     * <pre>
+     * {@code
+     * <context-param>
+     *  <param-name>fujion.debug</param-name>
+     *  <param-value>true</param-value>
+     * </context-param>
+     * }
+     * </pre>
      *
      * @return True if debug mode is enabled.
      */
     public static boolean isDebugEnabled() {
         return debugEnabled;
     }
-    
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        String debug = System.getProperty("fujion.debug");
-        debug = debug != null ? debug : servletContext.getInitParameter("fujion.debug");
+        String debug = System.getProperty(DEBUG_PARAM);
+        debug = debug != null ? debug : servletContext.getInitParameter(DEBUG_PARAM);
         debugEnabled = debug != null && (debug.isEmpty() || BooleanUtils.toBoolean(debug));
-        
-        servletContext.addFilter("themeFilter", "org.fujion.theme.ThemeServletFilter").addMappingForUrlPatterns(null, false,
-            "/*");
-    }
 
+        servletContext.addFilter("themeFilter", "org.fujion.theme.ThemeServletFilter").addMappingForUrlPatterns(null, false,
+                "/*");
+    }
+    
 }
