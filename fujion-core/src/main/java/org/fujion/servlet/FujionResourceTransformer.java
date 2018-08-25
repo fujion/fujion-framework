@@ -56,15 +56,22 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
     private static class BootstrapperResource extends AbstractFileResolvingResource {
 
         private final Resource resource;
+        
+        private final boolean compress;
 
         private final StringBuffer content = new StringBuffer();
 
-        BootstrapperResource(Resource resource) {
+        BootstrapperResource(Resource resource, boolean compress) {
             this.resource = resource;
+            this.compress = compress;
         }
 
         public void addContent(String data) {
-            content.append(data).append('\n');
+            if (compress) {
+                content.append(data.trim());
+            } else {
+                content.append(data).append('\n');
+            }
         }
 
         @Override
@@ -119,7 +126,7 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
         }
 
         request.getSession(true);
-        BootstrapperResource bootstrapperResource = new BootstrapperResource(resource);
+        BootstrapperResource bootstrapperResource = new BootstrapperResource(resource, !WebUtil.isDebugEnabled());
         Map<String, Object> map = new HashMap<>();
         Page page = Page._create(resource.getURL().toString());
         String baseUrl = RequestUtil.getBaseURL(request);
