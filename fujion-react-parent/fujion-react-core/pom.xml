@@ -11,6 +11,8 @@
 	<artifactId>fujion-react-core</artifactId>
 
 	<properties>
+		<react.version>16.4.2</react.version>
+		
 		<webjar.name>fujion-react</webjar.name>
 		<systemjs>
 			{ 'map': {
@@ -61,12 +63,12 @@
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>react</artifactId>
-			<version>16.4.2</version>
+			<version>${react.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>react-dom</artifactId>
-			<version>16.4.2</version>
+			<version>${react.version}</version>
 		</dependency>
 		<!-- Fujion Framework -->
 		<dependency>
