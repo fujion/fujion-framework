@@ -11,7 +11,10 @@
 			"main": "client/core.js"
 		},
 		"rxjs": {
-			"main": "bundles/Rx.js"
+		    "main": "index.js"
+		},
+		"rxjs/operators": {
+		    "main": "index.js"
 		},
 		"zone.js": {
 			"main": "dist/zone.js"
