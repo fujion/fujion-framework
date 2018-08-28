@@ -29,10 +29,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import org.fujion.common.DateUtil.TimeUnit;
@@ -213,6 +215,27 @@ public class CommonTest {
         @SuppressWarnings("unchecked")
         List<TestPerson> list3 = (List<TestPerson>) JSONUtil.deserialize(typeProperty, s);
         assertEquals(list, list3);
+    }
+    
+    @Test
+    public void testCast() {
+        List<Object> list = new ArrayList<>();
+        list.add("item1");
+        list.add("item2");
+        list.add("item3");
+        int i = 0;
+        
+        for (String item : MiscUtil.castList(list, String.class)) {
+            assertEquals("item" + ++i, item);
+        }
+
+        Set<Object> set = new HashSet<>();
+        Set<String> set2 = MiscUtil.castCollection(set, String.class);
+        set.add("item1");
+        set2.add("item2");
+        set2.add("item3");
+        assertEquals(3, set.size());
+        assertEquals(3, set2.size());
     }
     
     @Test
