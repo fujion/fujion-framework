@@ -1,6 +1,0 @@
-{
-	"paths": {
-		"react": "webjars/fujion-react/js/react-loader.js",
-		"react-dom": "webjars/fujion-react/js/react-dom-loader.js"
-	}
-}

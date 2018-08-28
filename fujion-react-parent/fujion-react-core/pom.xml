@@ -61,13 +61,8 @@
 	<dependencies>
 		<!-- React -->
 		<dependency>
-			<groupId>org.webjars.npm</groupId>
-			<artifactId>react</artifactId>
-			<version>${react.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars.npm</groupId>
-			<artifactId>react-dom</artifactId>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-react</artifactId>
 			<version>${react.version}</version>
 		</dependency>
 		<!-- Fujion Framework -->
