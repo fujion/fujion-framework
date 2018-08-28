@@ -61,17 +61,17 @@ import org.w3c.dom.NodeList;
  * Generate an XML schema from annotations.
  */
 public class SchemaGenerator {
-
+    
     private static final String NS_SCHEMA = "http://www.w3.org/2001/XMLSchema";
-
+    
     private static final String NS_VERSIONING = "http://www.w3.org/2007/XMLSchema-versioning";
-
+    
     private static final String UNBOUNDED = "unbounded";
-    
-    private final Document schema;
-    
-    private final Element root;
 
+    private final Document schema;
+
+    private final Element root;
+    
     /**
      * Main entry point.
      *
@@ -95,28 +95,28 @@ public class SchemaGenerator {
         option = new Option("h", "help", false, "This help message");
         options.addOption(option);
         CommandLine cmd = new DefaultParser().parse(options, args);
-
+        
         if (cmd.hasOption("h")) {
             new HelpFormatter().printHelp("SchemaGenerator [options] ...", options);
             return;
         }
-
+        
         String xml = new SchemaGenerator(cmd.getOptionValues("p"), cmd.getOptionValues("c"), cmd.getOptionValue("v"),
             cmd.getOptionValue("t"), cmd.hasOption("r")).toString();
         String output = cmd.getArgs().length == 0 ? null : cmd.getArgs()[0];
-
+        
         if (output == null) {
             System.out.println(xml);
         } else {
             File file = new File(output);
             FileUtils.forceMkdirParent(file);
-
+            
             try (OutputStream strm = new FileOutputStream(file)) {
                 IOUtils.write(xml, strm, StandardCharsets.UTF_8);
             }
         }
     }
-
+    
     /**
      * Strip version to only major and minor portions.
      *
@@ -128,33 +128,33 @@ public class SchemaGenerator {
             version = new Version(version).toString(VersionPart.MINOR);
             version = StrUtil.piece(version, ".", 1, 2);
         }
-        
+
         return version;
     }
-    
+
     private SchemaGenerator(String[] packages, String[] classes, String version, String title, boolean includeRoot)
             throws Exception {
         ComponentRegistry registry = ComponentRegistry.getInstance();
-        
+
         // Should only be run from command line, never within a server instance.
         Assert.state(registry.size() == 0, () -> "Schema generator may only be run in standalone mode");
-
+        
         try {
             version = formatVersion(version);
             Element ele;
-
+            
             if (packages != null) {
                 for (String pkg : packages) {
                     ComponentScanner.getInstance().scanPackage(pkg);
                 }
             }
-
+            
             if (classes != null) {
                 for (String clazz : classes) {
                     ComponentScanner.getInstance().scanClass(clazz);
                 }
             }
-
+            
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             schema = docBuilder.newDocument();
@@ -166,7 +166,7 @@ public class SchemaGenerator {
             schema.appendChild(root);
             createAnnotation(root,
                 "Fujion Server Page" + formatForTitle(title, ", %s") + formatForTitle(version, ", version %s"));
-
+            
             if (includeRoot) {
                 ele = createElement("simpleType", root, "name", "el");
                 ele = createElement("restriction", ele, "base", "xs:string");
@@ -187,23 +187,23 @@ public class SchemaGenerator {
                 Assert.isTrue(registry.size() > 0, () -> "No component annotations found for " + title);
                 createElement("include", root, "schemaLocation", "./fsp-root.xsd");
             }
-
+            
             for (ComponentDefinition def : registry) {
                 if (def.getTag().startsWith("#")) {
                     continue;
                 }
-
+                
                 ele = createElement("element", root, "name", def.getTag());
                 createAnnotation(ele, def.getDescription());
                 Element ct = createElement("complexType", ele);
-
+                
                 if (def.getParentTags().contains("*")) {
                     ele.setAttribute("substitutionGroup", "fsp:anyParent");
                 }
-
+                
                 boolean childrenAllowed = def.childrenAllowed();
                 boolean contentAllowed = def.contentHandling() != ContentHandling.ERROR;
-
+                
                 if (!childrenAllowed && contentAllowed) {
                     Element sc = createElement("simpleContent", ct);
                     ct = createElement("extension", sc);
@@ -212,23 +212,25 @@ public class SchemaGenerator {
                     if (contentAllowed) {
                         ct.setAttribute("mixed", "true");
                     }
-
+                    
                     Element childAnchor = createElement("all", ct);
-
+                    
                     for (Entry<String, Cardinality> childTag : def.getChildTags().entrySet()) {
                         String tag = childTag.getKey();
                         Cardinality card = childTag.getValue();
-
+                        
                         if ("*".equals(tag)) {
                             ele = createElement("element", childAnchor, "ref", "fsp:anyParent");
                             setCardinality(ele, card);
                         } else {
-                            addChildElement(childAnchor, registry.get(tag), def, card);
+                            ComponentDefinition childDef = registry.get(tag);
+                            Assert.notNull(childDef, "The child tag '" + tag + "' is not recognized");
+                            addChildElement(childAnchor, childDef, def, card);
                         }
-
+                        
                     }
                 }
-
+                
                 processAttributes(def.getSetters(), ct, PropertySetter.class);
                 processAttributes(def.getFactoryParameters(), ct, FactoryParameter.class);
                 createElement("anyAttribute", ct, "namespace", "##other").setAttribute("processContents", "lax");
@@ -237,19 +239,19 @@ public class SchemaGenerator {
             registry.clear();
         }
     }
-
+    
     private String formatForTitle(String value, String format) {
         return StringUtils.isEmpty(value) ? "" : String.format(format, value);
     }
-
+    
     private void processAttributes(Map<String, Method> setters, Element ct, Class<? extends Annotation> type) {
         for (Entry<String, Method> setter : setters.entrySet()) {
             String key = setter.getKey();
-
+            
             if (key.startsWith("#") || key.endsWith(":")) {
                 continue;
             }
-
+            
             Element attr = createElement("attribute", ct, "name", setter.getKey());
             Method method = setter.getValue();
             Class<?> javaType = method.getParameterTypes()[method.getParameterCount() - 1];
@@ -259,11 +261,11 @@ public class SchemaGenerator {
             createAnnotation(attr, description);
             String defaultValue = annot instanceof PropertySetter ? ((PropertySetter) annot).defaultValue()
                     : ((FactoryParameter) annot).defaultValue();
-            
+
             if (!StringUtils.isEmpty(defaultValue)) {
                 attr.setAttribute("default", defaultValue);
             }
-            
+
             if (javaType.isEnum()) {
                 processEnum(attr, javaType);
             } else {
@@ -271,7 +273,7 @@ public class SchemaGenerator {
             }
         }
     }
-
+    
     private void processEnum(Element attr, Class<?> javaType) {
         String name = findElement("element", attr).getAttribute("name") + "_" + attr.getAttribute("name");
         Element root = attr.getOwnerDocument().getDocumentElement();
@@ -281,44 +283,44 @@ public class SchemaGenerator {
         st = createElement("simpleType", union);
         Element res = createElement("restriction", st);
         res.setAttribute("base", "xs:string");
-
+        
         for (Object val : javaType.getEnumConstants()) {
             createElement("enumeration", res, "value", val.toString().toLowerCase());
         }
     }
-
+    
     private void addChildElement(Element seq, ComponentDefinition childDef, ComponentDefinition parentDef,
                                  Cardinality card) {
-
+        
         if (childDef.getTag().startsWith("#")) {
             return;
         }
-
+        
         if (childDef != null && !childDef.isParentTag(parentDef.getTag())) {
             return;
         }
-
+        
         Element child = createElement("element", seq, "ref", "fsp:" + childDef.getTag());
         setCardinality(child, card);
     }
-
+    
     private Element addExtendedType(String type) {
         Element ele = createElement("simpleType", root, "name", type);
         createElement("union", ele, "memberTypes", "xs:" + type + " fsp:el");
         return ele;
     }
-
+    
     private Element setCardinality(Element ele, Cardinality cardinality) {
         return setCardinality(ele, cardinality.getMinimum(),
             cardinality.hasMaximum() ? cardinality.getMaximum() : UNBOUNDED);
     }
-
+    
     private Element setCardinality(Element ele, Object minOccurs, Object maxOccurs) {
         ele.setAttribute("minOccurs", minOccurs.toString());
         ele.setAttribute("maxOccurs", maxOccurs.toString());
         return ele;
     }
-    
+
     private String getType(Class<?> javaType) {
         String type = null;
         type = type != null ? type : getType(javaType, "fsp:boolean", boolean.class, Boolean.class);
@@ -326,58 +328,58 @@ public class SchemaGenerator {
         type = type != null ? type : getType(javaType, "fsp:decimal", float.class, Float.class, double.class, Double.class);
         return type != null ? type : "xs:string";
     }
-
+    
     private String getType(Class<?> javaType, String type, Class<?>... classes) {
         for (Class<?> clazz : classes) {
             if (clazz.isAssignableFrom(javaType)) {
                 return type;
             }
         }
-
+        
         return null;
     }
-
+    
     private Element findElement(String tag, Element ele) {
         tag = "xs:" + tag;
-        
+
         while (ele != null) {
             if (ele.getTagName().equals(tag)) {
                 return ele;
             }
-
+            
             ele = (Element) ele.getParentNode();
         }
-
+        
         return null;
     }
-
+    
     private Element createElement(String tag) {
         return schema.createElement("xs:" + tag);
     }
-    
+
     private Element createElement(String tag, Element parent) {
         return createElement(tag, parent, null, null);
     }
-
+    
     private Element createElement(String tag, Element parent, String keyName, String keyValue) {
         Element element = createElement(tag);
         Element ref = null;
-        
+
         if (keyName != null) {
             element.setAttribute(keyName, keyValue);
         }
-
+        
         NodeList nodes = parent.getChildNodes();
-
+        
         for (int i = 0, j = nodes.getLength(); i < j; i++) {
             Element sib = (Element) nodes.item(i);
-
+            
             if (!sib.getTagName().endsWith(tag)) {
                 continue;
             }
-
+            
             String val = keyName == null ? null : sib.getAttribute(keyName);
-
+            
             if (val != null && val.compareToIgnoreCase(keyValue) >= 0) {
                 ref = sib;
                 break;
@@ -385,11 +387,11 @@ public class SchemaGenerator {
                 ref = (Element) sib.getNextSibling();
             }
         }
-
+        
         parent.insertBefore(element, ref);
         return element;
     }
-    
+
     /**
      * Creates a documentation annotation for the specified element.
      *
@@ -402,7 +404,7 @@ public class SchemaGenerator {
             createElement("documentation", annotation).setTextContent(text);
         }
     }
-    
+
     /**
      * Returns the text representation of the generated schema.
      */
@@ -410,5 +412,5 @@ public class SchemaGenerator {
     public String toString() {
         return XMLUtil.toString(schema);
     }
-
+    
 }
