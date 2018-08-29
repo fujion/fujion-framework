@@ -13,28 +13,30 @@
   	"postinstall" : "tsc"
   },
   "dependencies": {
-    "@angular/common": "4.3.6",
-    "@angular/compiler": "4.3.6",
-    "@angular/core": "4.3.6",
-    "@angular/forms": "4.3.6",
-    "@angular/http": "4.3.6",
-    "@angular/platform-browser": "4.3.6",
-    "@angular/platform-browser-dynamic": "4.3.6",
-    "@angular/router": "4.3.6",
-    "core-js": "2.4.1",
-    "rxjs": "5.4.2",
-    "zone.js": "0.8.14",
-    "bootstrap": "3.3.6",
+    "@angular/animations": "6.1.4",
+    "@angular/common": "6.1.4",
+    "@angular/compiler": "6.1.4",
+    "@angular/core": "6.1.4",
+    "@angular/forms": "6.1.4",
+    "@angular/http": "6.1.4",
+    "@angular/platform-browser": "6.1.4",
+    "@angular/platform-browser-dynamic": "6.1.4",
+    "@angular/router": "6.1.4",
+    "@angular/upgrade": "6.1.4",
+    "core-js": "2.5.7",
+    "rxjs": "6.2.2",
+    "zone.js": "0.8.26",
+    "bootstrap": "3.3.7",
     "font-awesome": "4.7.0",
-    "systemjs": "0.20.14",
+    "systemjs": "0.21.4",
     "jquery": "3.1.1",
-    "lodash": "4.17.3"
+    "lodash": "4.17.10"
   },
   "devDependencies": {
-  	 "typescript": "2.3.2",
+  	 "typescript": "2.9.2",
     "@types/node": "8.0.41",
-    "lite-server": "2.2.2",
-    "concurrently": "3.5.0",
-    "angular-in-memory-web-api": "0.5.1"
+    "lite-server": "2.4.0",
+    "concurrently": "4.0.1",
+    "angular-in-memory-web-api": "0.6.1"
   }
 }

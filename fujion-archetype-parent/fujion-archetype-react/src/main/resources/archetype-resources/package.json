@@ -9,8 +9,8 @@
     "postinstall": "babel --presets es2015 --out-file src/main/webjar/${className}.js src/main/webjar/${className}.es6.js"
   },
   "dependencies": {
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
