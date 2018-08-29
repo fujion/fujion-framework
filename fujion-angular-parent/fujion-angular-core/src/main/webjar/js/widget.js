@@ -77,7 +77,7 @@ define('fujion-angular-widget', ['fujion-core', 'fujion-widget', '@angular/core'
 		
 		/*------------------------------ State ------------------------------*/
 		
-		src: function(v) {
+		s_src: function(v) {
 			this.rerender();
 		}
 	

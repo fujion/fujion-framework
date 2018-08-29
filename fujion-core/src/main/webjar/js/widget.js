@@ -690,43 +690,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @param {*} old The previous value of the state.
 		 */
 		applyState: function(key, old) {
-			if (!key.startsWith('_')) {
-				var fn = this[key],
-					value = this._state[key];
-				
-				if (!fn || !_.isFunction(fn)) {
-					throw new Error('Unrecognized state for ' + this.wclass + ': ' + key);
-				}
-
-				fn.call(this, value, old);
-			}
-		},
-		
-		/**
-		 * Add / remove text content to / from widget.
-		 * 
-		 * @param {string} Text content to add (or nil to remove).
-		 */
-		content: function(v) {
-			var span$ = this.sub$('content');
+			var fn = this['s_' + key],
+				value = this._state[key];
 			
-			if (!v) {
-				span$.remove();
-			} else {
-				if (span$.length === 0) {
-					var dom = this.resolveEL('<span id="${id}-content"/>');
-					span$ = $(dom).appendTo(this.widget$);
-				}
-				
-				span$.text(v);
-			}
-		},
-
-		/**
-		 * Restore all server forwards.
-		 */
-		forwarding: function(v) {
-			this.widget$.on(fujion.setToString(v, ' '), fujion.event.sendToServer);
+			fn ? fn.call(this, value, old) : null;
 		},
 		
 		/**
@@ -764,15 +731,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			if (state) {
 				return overwrite ? _.assign(this._state, state) : _.defaults(this._state, state);
 			}
-		},
-		
-		/**
-		 * Assign name associated with the widget.
-		 * 
-		 * @param {string] v Name value.
-		 */
-		name: function(v) {
-			this.attr('data-fujion-name', v);
 		},
 		
 		/**
@@ -829,6 +787,42 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			return changed;
+		},
+		
+		/**
+		 * Add / remove text content to / from widget.
+		 * 
+		 * @param {string} Text content to add (or nil to remove).
+		 */
+		s_content: function(v) {
+			var span$ = this.sub$('content');
+			
+			if (!v) {
+				span$.remove();
+			} else {
+				if (span$.length === 0) {
+					var dom = this.resolveEL('<span id="${id}-content"/>');
+					span$ = $(dom).appendTo(this.widget$);
+				}
+				
+				span$.text(v);
+			}
+		},
+
+		/**
+		 * Restore all server forwards.
+		 */
+		s_forwarding: function(v) {
+			this.widget$.on(fujion.setToString(v, ' '), fujion.event.sendToServer);
+		},
+		
+		/**
+		 * Assign name associated with the widget.
+		 * 
+		 * @param {string] v Name value.
+		 */
+		s_name: function(v) {
+			this.attr('data-fujion-name', v);
 		}
 
 	});
@@ -1017,6 +1011,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
+		focus: function(focus) {
+			var sel = ':input:enabled:visible:not([readonly]):first',
+				tgt$ = this.widget$.is(sel) ? this.widget$ : this.widget$.find(sel);
+			
+			focus ? tgt$.focus().select() : tgt$.blur();
+		},
+		
 		input$: function() {
 			var input$ = this.sub$('inp');
 			return input$.length ? input$ : this.widget$;
@@ -1093,11 +1094,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		badge: function(v) {
+		s_badge: function(v) {
 			this.sub$('badge').text(v).fujion$swapClasses('badge-pos', 'badge-neg', v > 0).fujion$show(v);
 		},
 		
-		balloon: function(v) {
+		s_balloon: function(v) {
 			if (v) {
 				this.widget$.attr('data-balloon', v)
 					.attr('data-balloon-pos', 'right')
@@ -1108,16 +1109,16 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		clazz: function(v) {
+		s_clazz: function(v) {
 			var clazz = this.getState('_clazz') + (v ? ' ' + v : '');
 			this.attr('class', clazz);
 		},
 		
-		context: function(v) {
+		s_context: function(v) {
 			this.contextMenu(this.widget$, v);
 		},
 		
-		css: function(v) {
+		s_css: function(v) {
 			var inline$ = this._ancillaries.inline$;
 			
 			if (v) {
@@ -1132,12 +1133,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		disabled: function(v) {
+		s_disabled: function(v) {
 			this.attr('disabled', v, this.input$());
 			this.attr('disabled', v, this.sub$('btn'));
 		},
 		
-		dragid: function(v) {
+		s_dragid: function(v) {
 			var self = this,
 				active = !!this.widget$.draggable('instance'),
 				newactive = !_.isNil(v);
@@ -1178,7 +1179,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		dropid: function(v) {
+		s_dropid: function(v) {
 			var self = this,
 				active = !!this.widget$.droppable('instance'),
 				newactive = !_.isNil(v);
@@ -1223,18 +1224,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			
 		},
 		
-		focus: function(v) {
-			var sel = ':input:enabled:visible:not([readonly]):first',
-				tgt$ = this.widget$.is(sel) ? this.widget$ : this.widget$.find(sel);
-			
-			v ? tgt$.focus().select() : tgt$.blur();
-		},
-		
-		hint: function(v) {
+		s_hint: function(v) {
 			this.hoverPopup(this.input$(), v ? fujion.widget._hint : null);
 		},
 		
-		keycapture: function(v) {
+		s_keycapture: function(v) {
 			var	self = this;
 			
 			if (v) {
@@ -1256,19 +1250,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		popup: function(v) {
+		s_popup: function(v) {
 			this.hoverPopup(this.widget$, v);
 		},
 		
-		style: function(v) {
+		s_style: function(v) {
 			this.attr('style', v);
 		},
 		
-		tabindex: function(v) {
+		s_tabindex: function(v) {
 			this.attr('tabindex', v, this.input$());
 		},
 		
-		visible: function(v) {
+		s_visible: function(v) {
 			this.toggleClass('hidden', !v);
 		}
 				
@@ -1338,35 +1332,35 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		maxlength: function(v) {
+		s_maxlength: function(v) {
 			this.attr('maxlength', v, this.input$());
 		},
 		
-		maxvalue: function(v) {
+		s_maxvalue: function(v) {
 			this.attr('max', v, this.input$());
 		},
 		
-		minvalue: function(v) {
+		s_minvalue: function(v) {
 			this.attr('min', v, this.input$());
 		},
 		
-		pattern: function(v) {
+		s_pattern: function(v) {
 			this.attr('pattern', v, this.input$());
 		},
 		
-		placeholder: function(v) {
+		s_placeholder: function(v) {
 			this.attr('placeholder', v, this.input$());
 		},
 		
-		readonly: function(v) {
+		s_readonly: function(v) {
 			this.attr('readonly', v, this.input$());
 		},
 		
-		required: function(v) {
+		s_required: function(v) {
 			this.attr('required', v, this.input$());
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			this.input$().val(v);
 		}
 		
@@ -1549,15 +1543,15 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		minvalue: function(v) {
+		s_minvalue: function(v) {
 			this.attr('min', v, this.input$());
 		},
 		
-		maxvalue: function(v) {
+		s_maxvalue: function(v) {
 			this.attr('max', v, this.input$());
 		},
 		
-		step: function(v) {
+		s_step: function(v) {
 			var spn$ = this.sub$('spn');
 			v ? spn$.show() : spn$.hide();
 		}
@@ -1598,11 +1592,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		closable: function(v) {
+		s_closable: function(v) {
 			fujion._canClose = v;
 		},
 		
-		image: function(v) {
+		s_image: function(v) {
 			this.sub$('img').remove();
 			
 			if (v) {
@@ -1611,7 +1605,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		title: function(v) {
+		s_title: function(v) {
 			fujion.head$.find('>title').text(v);
 		}
 		
@@ -1633,12 +1627,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		content: function(v) {
+		s_content: function(v) {
 			this.rerender();
 			this.real$.text(v);
 		},
 		
-		src: function(v) {
+		s_src: function(v) {
 			this.rerender();
 			this.attr('href', v, this.real$);
 		}
@@ -1671,11 +1665,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		content: function(v) {
+		s_content: function(v) {
 			this.compile(v);
 		},
 		
-		src: function(v) {
+		s_src: function(v) {
 			this.compile();
 			
 			if (v) {
@@ -1762,7 +1756,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		interval: function(v) {
+		s_interval: function(v) {
 			if (v !== this._interval) {
 				this._interval = v;
 				
@@ -1772,11 +1766,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		repeat: function(v) {
+		s_repeat: function(v) {
 			this._repeat = v;
 		},
 		
-		running: function(v) {
+		s_running: function(v) {
 			this[v ? 'start' : 'stop']();
 		}
 		
@@ -1796,7 +1790,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		content: function(v) {
+		s_content: function(v) {
 			this.widget$.text(v);
 		}
 		
@@ -1823,12 +1817,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		content: function(v) {
+		s_content: function(v) {
 			this._content(v);
 			this.setState('src', null);
 		},
 		
-		src: function(v) {
+		s_src: function(v) {
 			var self = this;
 			this.widget$.empty();
 			this.setState('content', null);
@@ -2047,13 +2041,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		alignment: function(v, old) {
+		s_alignment: function(v, old) {
 			v = this.subclazz(v ? v : 'start');
 			old = old ? this.subclazz(old) : null;
 			this.replaceClass(old, v);
 		},
 		
-		orientation: function(v, old) {
+		s_orientation: function(v, old) {
 			v = this.subclazz(v ? v : 'horizontal');
 			old = old ? this.subclazz(old) : null;
 			this.replaceClass(old, v);
@@ -2069,12 +2063,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		label: function(v) {
+		s_label: function(v) {
 			var lbl$ = this.sub$('lbl');
 			(lbl$.length ? lbl$ : this.widget$).text(v);
 		},
 	
-		position: function(v) {
+		s_position: function(v) {
 			this.toggleClass('fujion_labeled-left', v === 'LEFT');
 			this.toggleClass('fujion_labeled-right', v === 'RIGHT');
 			this.toggleClass('fujion_labeled-top', v === 'TOP');
@@ -2091,7 +2085,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		image: function(v) {
+		s_image: function(v) {
 			this.rerender();
 		}
 		
@@ -2140,11 +2134,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		href: function(v) {
+		s_href: function(v) {
 			this.attr('href', v);
 		},
 		
-		target: function(v) {
+		s_target: function(v) {
 			this.attr('target', v);
 		}
 		
@@ -2204,19 +2198,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 		/*------------------------------ State ------------------------------*/
 		
-		alignment: function(v, old) {
+		s_alignment: function(v, old) {
 			this._updateClass(old || '', v || 'start');
 		},
 		
-		labelClass: function(v) {
+		s_labelClass: function(v) {
 			this.attr('class', v, this.sub$('lbl'));
 		},
 		
-		labelStyle: function(v) {
+		s_labelStyle: function(v) {
 			this.attr('style', v, this.sub$('lbl'));
 		},
 		
-		position: function(v, old) {
+		s_position: function(v, old) {
 			this._updateClass(old || '', v || 'left');
 		}
 	});
@@ -2307,19 +2301,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 		/*------------------------------ State ------------------------------*/
 		
-		currentPage: function(v) {
+		s_currentPage: function(v) {
 			this._update();
 		},
 		
-		label: function(v) {
+		s_label: function(v) {
 			this._update();
 		},
 		
-		maxPage: function(v) {
+		s_maxPage: function(v) {
 			this._update();
 		},
 		
-		pageSize: function(v) {
+		s_pageSize: function(v) {
 			this._update();
 		}
 	
@@ -2344,7 +2338,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		label: function(v, old) {
+		s_label: function(v, old) {
 			if (!!old !== !!v) {
 				this.rerender();
 			}
@@ -2395,7 +2389,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 		/*------------------------------ State ------------------------------*/
 		
-		checked: function(v) {
+		s_checked: function(v) {
 			this.sub$('real').prop('checked', v);
 			this._syncChecked(v);
 		},
@@ -2474,7 +2468,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		orientation: function(v) {
+		s_orientation: function(v) {
 			this.toggleClass(this.subclazz(v.toLowerCase()), true);
 			this.toggleClass(this.subclazz(v === 'VERTICAL' ? 'horizontal' : 'vertical'), false);
 		}
@@ -2609,7 +2603,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		clazz: function(v) {
+		s_clazz: function(v) {
 			this._super();
 			this.attr('class', v, this.sub$('btn'));
 		}
@@ -2681,11 +2675,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		checkable: function(v) {
+		s_checkable: function(v) {
 			this.rerender();
 		},
 		
-		checked: function(v) {
+		s_checked: function(v) {
 			this.sub$('chk').fujion$swapClasses('glyphicon-check', 'glyphicon-unchecked', v);
 		}
 		
@@ -2752,11 +2746,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		alt: function(v) {
+		s_alt: function(v) {
 			this.attr('alt', v);
 		},
 		
-		src: function(v) {
+		s_src: function(v) {
 			this.attr('src', v);
 		}
 		
@@ -2777,7 +2771,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		masked: function(v) {
+		s_masked: function(v) {
 			this.attr('type', v ? 'password' : this._type, this.input$());
 		}
 		
@@ -2861,21 +2855,21 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		autoScroll: function(v) {
+		s_autoScroll: function(v) {
 			if (v) {
 				this.scrollToBottom();
 			}
 		},
 		
-		cols: function(v) {
+		s_cols: function(v) {
 			this.attr('cols', v, this.input$());
 		},
 		
-		rows: function(v) {
+		s_rows: function(v) {
 			this.attr('rows', v, this.input$());
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			this._super();
 			
 			if (this.getState('autoScroll')) {
@@ -2883,7 +2877,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		wrap: function(v) {
+		s_wrap: function(v) {
 			this.attr('wrap', v ? v.toLowerCase() : 'soft', this.input$());
 		}
 		
@@ -2954,11 +2948,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		popup: function(v) {
+		s_popup: function(v) {
 			this.close();
 		},
 		
-		readonly: function(v) {
+		s_readonly: function(v) {
 			this._super();
 			var inp$ = this.input$();
 			inp$.off('click.fujion');
@@ -3029,11 +3023,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		multiple: function(v) {
+		s_multiple: function(v) {
 			this.attr('multiple', v);
 		},
 		
-		size: function(v) {
+		s_size: function(v) {
 			this.attr('size', v);
 		}
 		
@@ -3090,7 +3084,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		dragid: function(v) {
+		s_dragid: function(v) {
 			this._super();
 			this.widget$.off('mouseup.fujion');
 			
@@ -3099,11 +3093,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		selected: function(v) {
+		s_selected: function(v) {
 			this.prop('selected', v);
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			this.attr('value', v);
 		}
 		
@@ -3250,17 +3244,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 
-		autoFilter: function(v) {
-			// NOP
-		},
-		
-		readonly: function(v) {
-			this._super();
-			var mdn = 'mousedown.fujion';
-			this.widget$.off(mdn);
-			v ? this.widget$.on(mdn, this.handleClick.bind(this)) : null;
-		},
-		
 		setOpen: function(open) {
 			this.setState('_open', open);
 			var inp$ = this.input$();
@@ -3271,7 +3254,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			} else {
 				inp$.autocomplete('close');
 			}
-		}	
+		},	
+		
+		s_readonly: function(v) {
+			this._super();
+			var mdn = 'mousedown.fujion';
+			this.widget$.off(mdn);
+			v ? this.widget$.on(mdn, this.handleClick.bind(this)) : null;
+		}
 		
 	});
 	
@@ -3297,11 +3287,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		selected: function(v) {
+		s_selected: function(v) {
 			this.attr('selected', v);
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			this.attr('value', v);
 		}
 		
@@ -3344,11 +3334,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		sandbox: function(v) {
+		s_sandbox: function(v) {
 			this.attr('sandbox', v);
 		},
 		
-		src: function(v) {
+		s_src: function(v) {
 			this.attr('src', v);
 		}	
 		
@@ -3381,7 +3371,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		title: function(v) {
+		s_title: function(v) {
 			this.sub$('title').text(v);
 		}
 		
@@ -3428,15 +3418,15 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			v.children().last().width(this._pct() + '%');
 		},
 		
-		label: function(v) {
+		s_label: function(v) {
 			this.widget$.children().first().text(v);
 		},
 		
-		maxvalue: function(v) {
+		s_maxvalue: function(v) {
 			this._adjust();
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			this._adjust();
 		}		
 		
@@ -3485,28 +3475,28 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		maxvalue: function(v) {
+		s_maxvalue: function(v) {
 			this._slider('max', v);
 		},
 		
-		minvalue: function(v) {
+		s_minvalue: function(v) {
 			this._slider('min', v);
 		},
 		
-		orientation: function(v) {
+		s_orientation: function(v) {
 			this._slider('orientation', v.toLowerCase());
 		},
 		
-		step: function(v) {
+		s_step: function(v) {
 			this._slider('step', v);
 		},
 		
-		synced: function(v) {
+		s_synced: function(v) {
 			this.widget$.off('slidechange slide');
 			this.widget$.on(v ? 'slide' : 'slidechange', this.handleChange.bind(this));
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			this._slider('value', v);
 		}
 		
@@ -3615,11 +3605,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		actionable: function(v) {
+		s_actionable: function(v) {
 			v ? this._buttonAdd('flash', 'action') : null;
 		},
 		
-		duration: function(v) {
+		s_duration: function(v) {
 			var self = this;
 			this._clearTimeout();
 			
@@ -3635,7 +3625,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		title: function(v) {
+		s_title: function(v) {
 			this.sub$('title').text(v);
 		}
 		
@@ -3805,29 +3795,29 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 
 		/*------------------------------ State ------------------------------*/
 		
-		closable: function(v) {
+		s_closable: function(v) {
 			this[v ? '_buttonAdd' : '_buttonRemove']('close', 'remove', 9999);
 		},
 		
-		dragid: function(v) {
+		s_dragid: function(v) {
 			if (this.getState('mode') === 'INLINE') {
 				this._super();
 			}
 		},		
 		
-		image: function(v) {
+		s_image: function(v) {
 			this.sub$('image').attr('src', v);
 		},
 		
-		maximizable: function(v) {
+		s_maximizable: function(v) {
 			this[v ? '_buttonAdd' : '_buttonRemove']('maximize', 'resize-full resize-small', 10);
 		},
 		
-		minimizable: function(v) {
+		s_minimizable: function(v) {
 			this[v ? '_buttonAdd' : '_buttonRemove']('minimize', 'chevron-down chevron-up', 20);
 		},
 		
-		mode: function(v, oldmode) {
+		s_mode: function(v, oldmode) {
 			var self = this,
 				mask$ = this._ancillaries.mask$;
 			
@@ -3859,19 +3849,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		movable: function(v) {
+		s_movable: function(v) {
 			this._updateDraggable();
 		},
 		
-		position: function(v) {
+		s_position: function(v) {
 			this._updatePosition();
 		},
 		
-		sizable: function(v) {
+		s_sizable: function(v) {
 			this._updateSizable();
 		},
 		
-		size: function(v)	 {
+		s_size: function(v)	 {
 			var inline = 'INLINE' === this.getState('mode'),
 				saved = this.getState('_savedState'),
 				self = this,
@@ -3956,11 +3946,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 		},
 		
-		title: function(v) {
+		s_title: function(v) {
 			this.sub$('title').text(v);
 		},
 		
-		visible: function(v) {
+		s_visible: function(v) {
 			this._super();
 			v ? this._updatePosition() : null;
 			var mask$ = this._ancillaries.mask$;
@@ -4004,7 +3994,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
-		text: function(v) {
+		s_text: function(v) {
 			this.widget$.find('.panel-body').text(v);
 		}
 		

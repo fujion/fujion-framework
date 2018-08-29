@@ -22,11 +22,11 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		
 		/*------------------------------ State ------------------------------*/
 		
-		autoSize: function(v) {
+		s_autoSize: function(v) {
 			this.toggleClass('fujion_grid-fixed', !v);
 		},
 		
-		title: function(v) {
+		s_title: function(v) {
 			this.widget$.children('caption').text(v);
 		}
 	
@@ -81,11 +81,11 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		
 		/*------------------------------ State ------------------------------*/
 		
-		label: function(v) {
+		s_label: function(v) {
 			this.sub$('lbl').text(v);
 		},
 		
-		sizable: function(v) {
+		s_sizable: function(v) {
 			var active = !!this.widget$.resizable('instance'),
 				newactive = !_.isNil(v);
 			
@@ -94,7 +94,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 			}
 		}, 
 		
-		sortOrder: function(v, old) {
+		s_sortOrder: function(v, old) {
 			var self = this;
 			
 			if (!v !== !old) {
@@ -118,6 +118,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 	fujion.widget.Rows = fujion.widget.UIWidget.extend({
 		
 		/*------------------------------ Lifecycle ------------------------------*/
+		
 		init: function() {
 			this._super();
 			this.initState({selectable: 'NO'});
@@ -131,7 +132,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 	
 		/*------------------------------ State ------------------------------*/
 		
-		selectable: function(v) {
+		s_selectable: function(v) {
 			var self = this,
 				active = !!this.widget$.selectable('instance');
 			
@@ -202,7 +203,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		
 		/*------------------------------ State ------------------------------*/
 		
-		selected: function(v) {
+		s_selected: function(v) {
 			this.toggleClass('ui-selected', v);
 		}
 		
@@ -227,12 +228,12 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		
 		/*------------------------------ State ------------------------------*/
 		
-		colspan: function(v) {
+		s_colspan: function(v) {
 			this.attr('colspan', v);
 		},
 		
 		
-		label: function(v, old) {
+		s_label: function(v, old) {
 			if (!!old !== !!v) {
 				this.rerender();
 			}
@@ -240,7 +241,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 			this._super();
 		},
 		
-		rowspan: function(v) {
+		s_rowspan: function(v) {
 			this.attr('rowspan', v);
 		}
 		

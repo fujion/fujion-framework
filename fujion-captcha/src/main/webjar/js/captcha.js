@@ -67,19 +67,19 @@ define('fujion-captcha', [
 		
 		/*------------------------------ State ------------------------------*/
 		
-		siteKey: function(v) {
+		s_siteKey: function(v) {
 			this.rerender();
 		},
 		
-		theme: function(v) {
+		s_theme: function(v) {
 			this.rerender();
 		},
 		
-		size: function(v) {
+		s_size: function(v) {
 			this.rerender();
 		},
 		
-		type: function(v) {
+		s_type: function(v) {
 			this.rerender();
 		}
 		

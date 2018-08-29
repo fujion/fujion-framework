@@ -114,22 +114,22 @@ define('fujion-ckeditor', [
 		
 		/*------------------------------ State ------------------------------*/
 		
-		focus: function(v) {
+		s_focus: function(v) {
 			!this._ready ? this._focus = v : v ? this._editor.focus() : this._super();
 		},
 		
-		readonly: function(v) {
+		s_readonly: function(v) {
 			this._ready ? this._editor.setReadOnly(v) : null;
 		},
 		
-		sizable: function(v) {
+		s_sizable: function(v) {
 			this.rerender();
 		},
 		
-		synced: function(v) {			
+		s_synced: function(v) {			
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			if (this._ready) {
 				delete this._hash;
 				this._editor.setData(v);

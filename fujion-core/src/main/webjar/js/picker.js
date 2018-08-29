@@ -59,18 +59,18 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		
 		/*------------------------------ State ------------------------------*/
 
-		showHints: function(v) {
+		s_showHints: function(v) {
 			this.forEachChild(function(child) {
 				child.applyState('hint');
 			});
 		},
 		
-		showText: function(v) {
+		s_showText: function(v) {
 			this.toggleClass('fujion_picker-hidetext', !v);
 			this._updateSelection();
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			this._super();
 			this._updateSelection();
 		}
@@ -105,7 +105,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		
 		/*------------------------------ State ------------------------------*/
 		
-		hint: function(v) {
+		s_hint: function(v) {
 			v = this._parent.getState('showHints') ? v : null;
 			this._super();
 		}
@@ -142,6 +142,14 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		
 		/*------------------------------ Other ------------------------------*/
 		
+		open: function() {
+			if (!this.getChildCount()) {
+				this.useDefaults();
+			}
+			
+			this._super();
+		},
+		
 		updateSelection: function(color, showText) {
 			this.input$().css('background', 'inherit');
 			
@@ -152,16 +160,6 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 					this.input$().css('background-color', color);
 				}
 			}
-		},
-		
-		/*------------------------------ State ------------------------------*/
-		
-		open: function() {
-			if (!this.getChildCount()) {
-				this.useDefaults();
-			}
-			
-			this._super();
 		}
 		
 	});
@@ -180,7 +178,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		
 		/*------------------------------ State ------------------------------*/
 		
-		value: function(v) {
+		s_value: function(v) {
 			this.widget$.css('background-color', v ? v : 'none');
 			this.toggleClass('glyphicon glyphicon-remove', !v);
 			this.updateState('hint', v, true);
@@ -317,7 +315,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		
 		/*------------------------------ State ------------------------------*/
 		
-		value: function(v) {
+		s_value: function(v) {
 			this.attr('src', v);
 			this.toggleClass('glyphicon glyphicon-remove', !v);
 			this.updateState('hint', v ? v.substring(v.lastIndexOf('/') + 1) : v, true);

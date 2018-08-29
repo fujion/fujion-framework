@@ -29,15 +29,15 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		
 		/*------------------------------ State ------------------------------*/
 		
-		showLines: function(v) {
+		s_showLines: function(v) {
 			this.toggleClass('fujion_treeview-nolines', !v);
 		},
 		
-		showRoot: function(v) {
+		s_showRoot: function(v) {
 			this.toggleClass('fujion_treeview-noroot', !v);
 		},
 		
-		showToggles: function(v) {
+		s_showToggles: function(v) {
 			this.toggleClass('fujion_treeview-notoggles', !v);
 		}
 		
@@ -131,13 +131,13 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		
 		/*------------------------------ State ------------------------------*/
 		
-		collapsed: function(v) {
+		s_collapsed: function(v) {
 			this.sub$('ctl').toggleClass('glyphicon-expand', v)
 				.toggleClass('glyphicon-collapse-down', !v);
 			this.toggleClass('fujion_treenode-collapsed', v);
 		},
 		
-		selected: function(v) {
+		s_selected: function(v) {
 			this.toggleClass('fujion_treenode-selected', v);
 		}
 

@@ -105,27 +105,27 @@ define('fujion-codemirror', [
 		
 		/*------------------------------ State ------------------------------*/
 		
-		focus: function(v) {
+		s_focus: function(v) {
 			v ? this._cm.focus() : null;    
 		},
 		
-		lineNumbers: function(v) {
+		s_lineNumbers: function(v) {
 			this.setOption('lineNumbers', v);
 		},
 		
-		options: function(v) {
+		s_options: function(v) {
 			this.rerender();
 		},
 		
-		placeholder: function(v) {
+		s_placeholder: function(v) {
 			this.setOption('placeholder', v);
 		},
 		
-		readonly: function(v) {
+		s_readonly: function(v) {
 			this.setOption('readOnly', v);
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			this._cm.setValue(v || '');
 		}
 	});

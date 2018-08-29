@@ -77,7 +77,7 @@ define('fujion-react-widget', ['fujion-core', 'fujion-widget', 'react', 'react-d
 		
 		/*------------------------------ State ------------------------------*/
 		
-		src: function(v) {
+		s_src: function(v) {
 			this.rerender();
 		}
 	

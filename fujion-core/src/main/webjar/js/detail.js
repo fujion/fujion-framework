@@ -46,7 +46,7 @@ define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], f
 	
 		/*------------------------------ State ------------------------------*/
 		
-		open: function(v) {
+		s_open: function(v) {
 			this.attr('open', v);
 		}
 	});

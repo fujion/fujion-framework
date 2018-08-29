@@ -34,7 +34,7 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 		
 		/*------------------------------ State ------------------------------*/
 		
-		tabPosition: function(v, old) {
+		s_tabPosition: function(v, old) {
 			v = 'fujion_tabview-' + (v ? v.toLowerCase() : 'top');
 			old = old ? 'fujion_tabview-' + old : null;
 			this.replaceClass(old, v);
@@ -101,7 +101,7 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 		
 		/*------------------------------ State ------------------------------*/		
 		
-		closable: function(v) {
+		s_closable: function(v) {
 			this.rerender();
 			this.toggleClass('fujion_tab-closable', v);
 			
@@ -110,17 +110,17 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 			}
 		},
 		
-		context: function(v) {
+		s_context: function(v) {
 			this._super();
 			this.contextMenu(this._ancillaries.pane$, v);
 		},
 		
-		popup: function(v) {
+		s_popup: function(v) {
 			this._super();
 			this.hoverPopup(this._ancillaries.pane$, v);
 		},
 		
-		selected: function(v) {
+		s_selected: function(v) {
 			this.toggleClass('fujion_tab-selected', v);
 			this.sub$('pane').toggleClass('hidden', !v);
 			this.widget$.children().blur();

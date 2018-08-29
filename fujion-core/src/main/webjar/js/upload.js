@@ -124,11 +124,11 @@ define('fujion-upload', ['fujion-core', 'fujion-widget'], function(fujion) {
 		
 		/*------------------------------ State ------------------------------*/
 
-		accept: function(v) {
+		s_accept: function(v) {
 			this.attr('accept', v);
 		},
 		
-		multiple: function(v) {
+		s_multiple: function(v) {
 			this.attr('multiple', v);
 		}
 		

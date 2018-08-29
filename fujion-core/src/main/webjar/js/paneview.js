@@ -29,7 +29,7 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 		
 		/*------------------------------ State ------------------------------*/
 		
-		orientation: function(v, old) {
+		s_orientation: function(v, old) {
 			old ? this.toggleClass('fujion_paneview-' + old.toLowerCase(), false) : null;
 			this.toggleClass('fujion_paneview-' + v.toLowerCase(), true);
 			this.forEachChild(function(child) {
@@ -110,11 +110,11 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 		
 		/*------------------------------ State ------------------------------*/
 		
-		splittable: function(v) {
+		s_splittable: function(v) {
 			this._updateSplitter();
 		},
 		
-		title: function(v) {
+		s_title: function(v) {
 			this.sub$('title').text(v);
 		}
 		

@@ -64,19 +64,19 @@ define('fujion-barcode', [
 		
 		/*------------------------------ State ------------------------------*/
 		
-		displayValue: function(v) {
+		s_displayValue: function(v) {
 			this.rerender();
 		},
 		
-		flat: function(v) {
+		s_flat: function(v) {
 			this.rerender();
 		},
 		
-		format: function(v) {
+		s_format: function(v) {
 			this.rerender();
 		},
 		
-		value: function(v) {
+		s_value: function(v) {
 			this.rerender();
 		}
 		

@@ -110,12 +110,12 @@ define('fujion-gmaps', [
 		
 		/*------------------------------ State ------------------------------*/
 		
-		tilt: function(v) {
+		s_tilt: function(v) {
 			this._options ? this._options.tilt = v : null;
 			this._rendering || !this._map ? null : this._map.setTilt(v);
 		},
 		
-		zoom: function(v) {
+		s_zoom: function(v) {
 			this._options ? this._options.zoom = v : null;
 			this._rendering || !this._map ? null : this._map.setZoom(v);
 		} 
