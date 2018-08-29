@@ -10,18 +10,18 @@ define('fujion-plotly', ['fujion-core', 'fujion-widget', 'plotly-js'], function(
 		/*------------------------------ Lifecycle ------------------------------*/
 
 		destroy: function() {
-			this._reset();
+			this.reset();
 			this._super();
 		},
 		
 		init: function() {
 			this._super();
-			this._onresize = this._resize.bind(this);
+			this._onresize = this.resize.bind(this);
 		},
 		
 		/*------------------------------ Other ------------------------------*/
 
-		_reset: function() {
+		reset: function() {
 			if (this._loaded) {
 				$(window).off('resize', this._onresize);
 				Plotly.purge(this.id);
@@ -29,13 +29,13 @@ define('fujion-plotly', ['fujion-core', 'fujion-widget', 'plotly-js'], function(
 			}
 		},
 		
-		_resize: function() {
+		resize: function() {
 			Plotly.Plots.resize(this.id);
 		},
 		
-		_run: function(params) {
+		run: function(params) {
 			var self = this;
-			this._reset();
+			this.reset();
 			Plotly.newPlot(self.id, params).then(function() {
 				self._loaded = true;
 				

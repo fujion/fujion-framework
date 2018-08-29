@@ -26,43 +26,43 @@ define('fujion-hchart', ['fujion-core', 'fujion-widget', 'highcharts'], function
 		
 		/*------------------------------ Other ------------------------------*/
 
-		_export : function(func) {
+		export : function(func) {
 			if (this._chart) {
 				func ? func.call(this._chart) : this._chart.exportChart();
 			}
 		},
 	
-		_global : function(options) {
+		global : function(options) {
 			if (options)
 				Highcharts.setOptions(options);
 		},
 		
-		_print : function(func) {
+		print : function(func) {
 			if (this._chart)
 				func ? func.call(this._chart) : this._chart.print();
 		},
 	
-		_redraw : function() {
+		redraw : function() {
 			if (this._chart)
 				this._chart.redraw();
 		},
 	
-		_reset : function() {
+		reset : function() {
 			if (this._chart) {
 				this._chart.destroy();
 				this._chart = null;
 			}
 		},
 		
-		_run : function(options) {
+		run : function(options) {
 			options.chart.renderTo = this.id;
 			this._resizing = true;
-			this._reset();
+			this.reset();
 			this._chart = new Highcharts.Chart(options);
 			this._resizing = false;
 		},
 	
-		_title : function(options) {
+		title : function(options) {
 			if (this._chart) {
 				this._chart.setTitle(options.title, options.subtitle);
 			}

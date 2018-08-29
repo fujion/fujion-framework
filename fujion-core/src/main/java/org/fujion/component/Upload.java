@@ -30,19 +30,19 @@ import org.springframework.util.Assert;
  */
 @Component(tag = "upload", widgetModule = "fujion-upload", widgetClass = "Upload", parentTag = "*", description = "A component for uploading files to the server.")
 public class Upload extends BaseUIComponent {
-
+    
     private boolean multiple;
-
+    
     private boolean progress;
-
+    
     private String accept;
-
+    
     private int maxsize = 1024 * 1024 * 100;
-
+    
     public Upload() {
         super();
     }
-
+    
     /**
      * Returns true if multiple file uploads are allowed.
      *
@@ -52,7 +52,7 @@ public class Upload extends BaseUIComponent {
     public boolean isMultiple() {
         return multiple;
     }
-
+    
     /**
      * Set to true if multiple file uploads are allowed.
      *
@@ -62,7 +62,7 @@ public class Upload extends BaseUIComponent {
     public void setMultiple(boolean multiple) {
         propertyChange("multiple", this.multiple, this.multiple = multiple, true);
     }
-
+    
     /**
      * Returns the specifier reflecting the type of files the server expects.
      *
@@ -72,7 +72,7 @@ public class Upload extends BaseUIComponent {
     public String getAccept() {
         return accept;
     }
-
+    
     /**
      * Sets the specifier reflecting the type of files the server expects.
      *
@@ -89,7 +89,7 @@ public class Upload extends BaseUIComponent {
     public void setAccept(String accept) {
         propertyChange("accept", this.accept, this.accept = nullify(accept), true);
     }
-
+    
     /**
      * Returns the maximum allowable file size, in bytes. Any attempt to upload a file larger than
      * this size will produce an exception.
@@ -100,7 +100,7 @@ public class Upload extends BaseUIComponent {
     public int getMaxsize() {
         return maxsize;
     }
-
+    
     /**
      * Sets the maximum allowable file size, in bytes.
      *
@@ -110,9 +110,9 @@ public class Upload extends BaseUIComponent {
     @PropertySetter(value = "maxsize", defaultValue = "104857600", description = "The maximum allowable file size, in bytes.")
     public void setMaxsize(int maxsize) {
         Assert.isTrue(maxsize >= 0, () -> "maxsize must be >= 0");
-        propertyChange("_maxsize", this.maxsize, this.maxsize = maxsize, true);
+        propertyChange("maxsize", this.maxsize, this.maxsize = maxsize, true);
     }
-
+    
     /**
      * If true, the uploader will fire UploadEvent events to report progress.
      *
@@ -123,7 +123,7 @@ public class Upload extends BaseUIComponent {
     public boolean getProgress() {
         return progress;
     }
-
+    
     /**
      * Set to true to receive upload progress events.
      *
@@ -132,16 +132,16 @@ public class Upload extends BaseUIComponent {
      */
     @PropertySetter(value = "progress", defaultValue = "false", description = "If true, the uploader will fire UploadEvent events to report progress.")
     public void setProgress(boolean progress) {
-        propertyChange("_progress", this.progress, this.progress = progress, true);
+        propertyChange("progress", this.progress, this.progress = progress, true);
     }
-
+    
     /**
      * Abort all file uploads in progress.
      */
     public void abortAll() {
         invokeIfAttached("abortAll");
     }
-
+    
     /**
      * Abort an upload for a specific file.
      *
@@ -150,7 +150,7 @@ public class Upload extends BaseUIComponent {
     public void abort(String filename) {
         invokeIfAttached("abort", filename);
     }
-
+    
     /**
      * Bind uploader to another component. A click event on that component will then trigger an
      * upload.
@@ -160,7 +160,7 @@ public class Upload extends BaseUIComponent {
     public void bind(BaseUIComponent comp) {
         invoke("bind", comp);
     }
-
+    
     /**
      * Unbind a previously bound component.
      *
@@ -169,7 +169,7 @@ public class Upload extends BaseUIComponent {
     public void unbind(BaseUIComponent comp) {
         invoke("unbind", comp);
     }
-
+    
     /**
      * Resets to baseline state.
      */

@@ -13,14 +13,14 @@ define('fujion-upload', ['fujion-core', 'fujion-widget'], function(fujion) {
 		changeHandler: function(event) {
 			var files = event.target.files,
 				wgt = this._requestor,
-				progress = this.getState('_progress'),
+				progress = this.getState('progress'),
 				self = this;
 			
 			delete this._requestor;
 			
 			if (files) {
 				_.forEach(files, function(file) {
-					if (file.size > self.getState('_maxsize')) {
+					if (file.size > self.getState('maxsize')) {
 						_fire(-2);
 						return;
 					}
@@ -70,7 +70,7 @@ define('fujion-upload', ['fujion-core', 'fujion-widget'], function(fujion) {
 		
 		init: function() {
 			this._super();
-			this.initState({multiple: false, accept: null, _progress: false, _maxsize: 1024*1024*100});
+			this.initState({multiple: false, accept: null, progress: false, maxsize: 1024*1024*100});
 			this._readers = {};
 		},
 		

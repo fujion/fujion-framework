@@ -20,15 +20,15 @@ define('fujion-chartjs', ['fujion-core', 'fujion-widget', 'chart-js'], function(
 		
 		/*------------------------------ Other ------------------------------*/
 
-		_reset : function() {
+		reset : function() {
 			if (this._chart) {
 				this._chart.destroy()
 				delete this._chart;
 			}
 		},
 		
-		_run : function(params) {
-			this._reset();
+		run : function(params) {
+			this.reset();
 			this._chart = new Chart(this.widget$.find('canvas')[0], params);
 		},
 		

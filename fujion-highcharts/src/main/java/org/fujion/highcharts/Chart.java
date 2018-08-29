@@ -155,7 +155,7 @@ public class Chart extends BaseUIComponent {
      */
     public void run() {
         init();
-        invoke("_run", instance);
+        invoke("run", instance);
         running = true;
     }
     
@@ -174,7 +174,7 @@ public class Chart extends BaseUIComponent {
     public void clear() {
         running = false;
         instance.getSeries().clear();
-        invoke("_reset");
+        invoke("reset");
     }
     
     /**
@@ -182,7 +182,7 @@ public class Chart extends BaseUIComponent {
      */
     public void redraw() {
         if (running) {
-            invoke("_redraw");
+            invoke("redraw");
         } else {
             run();
         }
@@ -193,7 +193,7 @@ public class Chart extends BaseUIComponent {
      */
     private void init() {
         if (shouldInitialize()) {
-            invoke("_global", new GlobalSettings());
+            invoke("global", new GlobalSettings());
         }
     }
     
@@ -260,7 +260,7 @@ public class Chart extends BaseUIComponent {
      */
     public void export() {
         ensureRunning("Exporting");
-        invokeJS("_export", instance.getExporting().buttons_exportButton.onclick);
+        invokeJS("export", instance.getExporting().buttons_exportButton.onclick);
     }
     
     /**
@@ -268,7 +268,7 @@ public class Chart extends BaseUIComponent {
      */
     public void print() {
         ensureRunning("Printing");
-        invokeJS("_print", instance.getExporting().buttons_printButton.onclick);
+        invokeJS("print", instance.getExporting().buttons_printButton.onclick);
     }
     
     /**
@@ -289,7 +289,7 @@ public class Chart extends BaseUIComponent {
             OptionMap map = new OptionMap();
             map.put("title", instance.getTitle());
             map.put("subtitle", instance.getSubtitle());
-            invoke("_title", map);
+            invoke("title", map);
         }
     }
     

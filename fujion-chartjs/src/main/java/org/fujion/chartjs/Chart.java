@@ -62,14 +62,14 @@ public class Chart extends BaseUIComponent {
     public void clear() {
         running = false;
         colorIterator.reset();
-        invoke("_reset");
+        invoke("reset");
     }
     
     /**
      * Build the graph on the client.
      */
     public void run() {
-        invoke("_run", instance);
+        invoke("run", instance);
         running = true;
     }
     
@@ -80,17 +80,6 @@ public class Chart extends BaseUIComponent {
      */
     public boolean isRunning() {
         return running;
-    }
-    
-    /**
-     * Force a redraw of the chart.
-     */
-    public void redraw() {
-        if (running) {
-            invoke("_redraw");
-        } else {
-            run();
-        }
     }
     
     /**

@@ -56,14 +56,14 @@ public class Chart extends BaseUIComponent {
     public void clear() {
         running = false;
         instance.data.clear();
-        invoke("_reset");
+        invoke("reset");
     }
 
     /**
      * Build the graph on the client.
      */
     public void run() {
-        invoke("_run", instance);
+        invoke("run", instance);
         running = true;
     }
 

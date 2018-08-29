@@ -29,25 +29,25 @@ import org.fujion.component.BaseComponent;
  */
 @EventType(PropertychangeEvent.TYPE)
 public class PropertychangeEvent extends Event {
-    
+
     /**
      * The event type.
      */
     public static final String TYPE = "propertychange";
-    
-    private final String propertyName;
-    
-    private final Object oldValue;
-    
-    private final Object newValue;
 
+    private final String propertyName;
+
+    private final Object oldValue;
+
+    private final Object newValue;
+    
     public PropertychangeEvent(BaseComponent target, String propertyName, Object oldValue, Object newValue) {
         super(TYPE, target);
-        this.propertyName = propertyName.startsWith("_") ? propertyName.substring(1) : propertyName;
+        this.propertyName = propertyName;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
-    
+
     /**
      * Returns the name of the property that changed.
      *
@@ -56,7 +56,7 @@ public class PropertychangeEvent extends Event {
     public String getPropertyName() {
         return propertyName;
     }
-    
+
     /**
      * Returns the new value of the property.
      *
@@ -65,7 +65,7 @@ public class PropertychangeEvent extends Event {
     public Object getNewValue() {
         return newValue;
     }
-
+    
     /**
      * Returns the old value of the property.
      *
