@@ -120,12 +120,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
-			<artifactId>fujion-mxgraph</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
 			<artifactId>fujion-angular-core</artifactId>
 			<version>${project.parent.version}</version>
 			<scope>provided</scope>
