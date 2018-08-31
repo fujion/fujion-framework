@@ -549,17 +549,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * Called after rendering is complete, including attachment to DOM.
 		 * Override to apply event handlers, etc.
 		 */
-		afterRender: function() {
-			// NOP
-		},
+		afterRender: _.noop,
 		
 		/**
 		 * Called after the widget's DOM elements are constructed, but before
 		 * applying state values or attaching to DOM.
 		 */
-		beforeRender: function() {
-			// NOP
-		},
+		beforeRender: _.noop,
 		
 		rerender: function() {
 			if (this._rendering) {
@@ -690,10 +686,16 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @param {*} old The previous value of the state.
 		 */
 		applyState: function(key, old) {
-			var fn = this['s_' + key],
-				value = this._state[key];
-			
-			fn ? fn.call(this, value, old) : null;
+			if (!key.startsWith('_')) {
+				var fn = this['s_' + key],
+					value = this._state[key];
+				
+				if (!fn || !_.isFunction(fn)) {
+					throw new Error('Unrecognized state for ' + this.wclass + ': ' + key);
+				}
+
+				fn.call(this, value, old);
+			}
 		},
 		
 		/**
@@ -1426,10 +1428,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this.toggleClass('fujion_inputbox', true);
 		},
 		
-		synced: function(v) {
-			this._synchronized = v;
-		},
-		
 		/*------------------------------ Other ------------------------------*/
 		
 		clear: function() {
@@ -1454,6 +1452,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		render$: function() {
 			return $(this.resolveEL('<span><input id="${id}-inp" type="${_type}"></span>'));
+		},
+		
+		/*------------------------------ State ------------------------------*/
+		
+		s_synced: function(v) {
+			this._synchronized = v;
 		}
 		
 	});
@@ -2394,9 +2398,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this._syncChecked(v);
 		},
 		
-		_syncChecked: function(checked) {
-			// NOP
-		}
+		_syncChecked: _.noop
 		
 	});
 	
@@ -2526,14 +2528,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		handleOpenClose: function(event) {
-			this.setState('open', event.type === 'open');
+			this.setState('_open', event.type === 'open');
 		},
 		
 		/*------------------------------ Lifecycle ------------------------------*/
 		
 		init: function() {
 			this._super();
-			this.initState({open: false});
+			this.initState({_open: false});
 			this.forwardToServer('open close');
 		},
 		
@@ -2549,14 +2551,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 					of: this.widget$
 				});
 				
-				this.setState('open', true);
+				this.setState('_open', true);
 			}
 		},
 		
 		close: function() {
 			if (this._ancillaries.popup) {
 				this._ancillaries.popup.close();
-				this.setState('open', false);
+				this.setState('_open', false);
 			}
 		},
 		
@@ -2583,7 +2585,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			if (!this._ancillaries.popup) {
 				this._ancillaries.popup = fujion.widget.create(null, {wclass: 'Menupopup'});
 				this.widget$.append(this._ancillaries.popup.widget$);
-			} else if (this.getState('open')) {
+			} else if (this.getState('_open')) {
 				this.open();
 			}
 		},
@@ -2641,14 +2643,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		init: function() {
 			this._super();
-			this.initState({submenu: false, checked: false, checkable: false});
+			this.initState({_submenu: false, checked: false, checkable: false});
 		},
 		
 		
 		/*------------------------------ Other ------------------------------*/
 		
 		_childrenUpdated: function() {
-			if (this.setState('submenu', !!this._children.length)) {
+			if (this.setState('_submenu', !!this._children.length)) {
 				this.rerender();
 			}
 		},
@@ -2660,7 +2662,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var submenu = this.getState('submenu'),
+			var submenu = this.getState('_submenu'),
 				dom = '<li>'
 					+   '<a id="${id}-btn">'
 					+ this.getDOMTemplate(':image', ':checkable', 'label')
@@ -3129,7 +3131,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			fujion.event.stop(event);
-			this.setOpen(!this.getState('open'));
+			this.setOpen(!this.getState('_open'));
 		},
 		
 		handleMove: function(event) {
@@ -3174,12 +3176,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			function _close(event, ui) {
-				self.setState('open', false);
+				self.setState('_open', false);
 				self.widget$.fujion$track(self.widget$, true);
 			}
 			
 			function _open(event, ui) {
-				self.setState('open', true);
+				self.setState('_open', true);
 				self.widget$.fujion$track(self.widget$);
 			}
 			
@@ -3245,7 +3247,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ State ------------------------------*/
 
 		setOpen: function(open) {
-			this.setState('open', open);
+			this.setState('_open', open);
 			var inp$ = this.input$();
 			
 			if (open) {

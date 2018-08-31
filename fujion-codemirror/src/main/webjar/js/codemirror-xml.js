@@ -85,9 +85,7 @@ define('fujion-codemirror-xml', [
 		
 		/*------------------------------ Lifecycle ------------------------------*/
 		
-		autoComplete: function(v) {
-			// NOP
-		}
+		s_autoComplete: _.noop
 		
 	});
 

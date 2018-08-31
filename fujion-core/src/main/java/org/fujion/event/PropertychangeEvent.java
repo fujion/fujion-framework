@@ -43,7 +43,7 @@ public class PropertychangeEvent extends Event {
     
     public PropertychangeEvent(BaseComponent target, String propertyName, Object oldValue, Object newValue) {
         super(TYPE, target);
-        this.propertyName = propertyName;
+        this.propertyName = propertyName.startsWith("_") ? propertyName.substring(1) : propertyName;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }

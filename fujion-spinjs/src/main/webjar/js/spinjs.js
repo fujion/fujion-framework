@@ -21,7 +21,7 @@ define('fujion-spinjs', [
 		
 		start: function(options) {
 			this.stop();
-			this.setState('options', options);
+			this.setState('_options', options);
 			this.rerender();
 		},
 		
@@ -29,7 +29,7 @@ define('fujion-spinjs', [
 			if (this._spinner) {
 				this._spinner.stop();
 				delete this._spinner;
-				this.setState('options', null);
+				this.setState('_options', null);
 			}
 		},
 		
@@ -37,7 +37,7 @@ define('fujion-spinjs', [
 		
 		afterRender: function() {
 			this._super();
-			var options = this.getState('options');
+			var options = this.getState('_options');
 			
 			if (options) {
 				this._spinner = new Spinner(options);

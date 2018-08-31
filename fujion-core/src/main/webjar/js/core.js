@@ -2,6 +2,7 @@
 
 define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	var fujion;
+	
 	return fujion = {
 	
 	/*------------------------------ Initialization ------------------------------*/

@@ -128,9 +128,13 @@ define('fujion-upload', ['fujion-core', 'fujion-widget'], function(fujion) {
 			this.attr('accept', v);
 		},
 		
+		s_maxsize: _.noop,
+		
 		s_multiple: function(v) {
 			this.attr('multiple', v);
-		}
+		},
+		
+		s_progress: _.noop
 		
 	});
 		
