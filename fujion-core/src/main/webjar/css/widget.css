@@ -703,10 +703,11 @@ iframe.fujion-resizer {
     font-size: 80%;
 }
 
-.fujion_messagepane > div:first-child > .fujion_titled-icons {
+.fujion_messagepane > div:first-child > .fujion_titled-icons > span {
     font-size: 70%;
+    height: auto;
+    width: auto;
 }
-
 .fujion_messagepane > div:first-child .fa {
     padding-top: 3px;
 }
