@@ -29,19 +29,20 @@ import org.fujion.webjar.WebJarLocator;
  * Verifies that a compatible version of Bootstrap is in place.
  */
 public class VersionCheck {
-
+    
     private static final Logger log = Logger.create(VersionCheck.class);
-
+    
     public VersionCheck(WebJarLocator webjarLocator) {
         Version bsVersion = new Version(webjarLocator.getWebJar("webjar-bootstrap").getVersion());
         String bwVersionStr = webjarLocator.getWebJar("webjar-bootswatch-cerulean").getVersion();
         Version bwVersion = new Version(bwVersionStr);
-        
+
         if (bsVersion.compareTo(bwVersion, VersionPart.MINOR) != 0) {
-            throw new RuntimeException("Incompatible Bootswatch theme version " + bwVersionStr);
+            throw new RuntimeException(String.format("Incompatible Bootswatch theme version %s (expected %s.*)",
+                bwVersionStr, bsVersion.toString(VersionPart.MINOR)));
         } else {
             log.info(() -> String.format("Installed Bootswatch themes version %s.", bwVersionStr));
         }
-        
+
     }
 }
