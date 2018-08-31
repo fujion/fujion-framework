@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.fujion.common.Logger;
+import org.fujion.common.MiscUtil;
 import org.fujion.core.WebUtil;
 
 /**
@@ -59,50 +60,7 @@ public class Theme {
          * @return A regular expression pattern.
          */
         Pattern toRegEx(String pattern) {
-            if (pattern.startsWith("^")) {
-                return Pattern.compile(pattern);
-            }
-
-            StringBuilder regex = new StringBuilder("^");
-            int last = pattern.length() - 1;
-            String literal = "";
-            
-            for (int i = 0; i <= last; i++) {
-                char c = pattern.charAt(i);
-                String token = "";
-                
-                switch (c) {
-                    case '*':
-                        if (i < last && pattern.charAt(i + 1) == '*') {
-                            i++;
-                            token = "(.*)";
-                        } else {
-                            token = "([^\\/]*)";
-                        }
-                        
-                        break;
-                    
-                    case '?':
-                        token = "(.)";
-                        break;
-                    
-                    default:
-                        literal += c;
-                        
-                        if (i < last) {
-                            continue;
-                        }
-                }
-                
-                if (!literal.isEmpty()) {
-                    regex.append("\\Q").append(literal).append("\\E");
-                    literal = "";
-                }
-                
-                regex.append(token);
-            }
-            
-            return Pattern.compile(regex.append('$').toString());
+            return pattern.startsWith("^") ? Pattern.compile(pattern) : MiscUtil.globToRegex(pattern);
         }
         
         /**
@@ -214,7 +172,7 @@ public class Theme {
     /**
      * Returns the ETag for this theme. ETags are used to ensure theme resources are re-fetched when
      * a theme change occurs.
-     * 
+     *
      * @return The theme's ETag.
      */
     public String getEtag() {
