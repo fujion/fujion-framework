@@ -47,7 +47,7 @@ public class WebJarResourceResolver extends AbstractResourceResolver {
         String name = path.substring(0, i);
         int j = path.indexOf("/", i + 1);
         String version = j < 0 ? "" : path.substring(i + 1, j);
-        WebJar webjar = WebJarLocator.getInstance().getWebjar(name);
+        WebJar webjar = WebJarLocator.getInstance().getWebJar(name);
         
         if (webjar != null && !version.equals(webjar.getVersion())) {
             path = name + "/" + webjar.getVersion() + path.substring(i);
