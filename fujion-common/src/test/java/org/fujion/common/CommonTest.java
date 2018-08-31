@@ -22,6 +22,7 @@ package org.fujion.common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
@@ -42,9 +43,9 @@ import org.fujion.common.Version.VersionPart;
 import org.junit.Test;
 
 public class CommonTest {
-    
+
     private static final String DATE = "21-Nov-1978"; // Reference date
-    
+
     @Test
     public void testPiece() {
         String text = "pc1^pc2^pc3^^pc5^pc6^^^";
@@ -57,7 +58,7 @@ public class CommonTest {
         assertEquals("", StrUtil.piece(text, delm, 0, 0));
         assertEquals("pc1^pc2^pc3^^pc5", StrUtil.piece(text, delm, 0, 5));
     }
-    
+
     @Test
     public void testNumUtil() {
         assertEquals("0", NumUtil.toString(0.0));
@@ -73,7 +74,7 @@ public class CommonTest {
         assertEquals(10, NumUtil.enforceRange(10, 1, 20));
         assertEquals(5, NumUtil.enforceRange(1, 5, 20));
     }
-    
+
     @Test
     public void testBooleanUtil() {
         assertTrue(StrUtil.toBoolean("YES"));
@@ -90,7 +91,7 @@ public class CommonTest {
         assertFalse(StrUtil.toBoolean("0"));
         assertFalse(StrUtil.toBoolean("any old string"));
     }
-    
+
     @Test
     public void testDateUtil() {
         testDate(now());
@@ -107,29 +108,29 @@ public class CommonTest {
         Date date = DateUtil.parseDate("19880302");
         testDate(date.toString(), date, 0);
     }
-    
+
     private Date now() {
         return new Date();
     }
-    
+
     private Date today() {
         return DateUtil.stripTime(now());
     }
-    
+
     private void testDate(String value, Date expected, int threshold) {
         Date actual = DateUtil.parseDate(value);
         testDate(actual);
         long diff = Math.abs(expected.getTime() - actual.getTime());
         assertTrue("Difference exceeded threshold " + diff + " (" + threshold + ")", diff <= threshold);
     }
-    
+
     private void testDate(Date date) {
         testDate(date, true, true);
         testDate(date, false, false);
         testDate(date, true, false);
         testDate(date, false, true);
     }
-    
+
     private void testDate(Date date, boolean showTimezone, boolean ignoreTime) {
         String text = DateUtil.formatDate(date, showTimezone, ignoreTime);
         print(text);
@@ -137,14 +138,14 @@ public class CommonTest {
         String text2 = DateUtil.formatDate(date2, showTimezone, ignoreTime);
         assertEquals(text, text2);
     }
-    
+
     @Test
     public void testDefaultTimeZone() throws Exception {
         testDateFormat("EST", "13:04");
         testDateFormat("GMT", "18:04");
         testDateFormat("CST", "12:04");
     }
-    
+
     @Test
     public void testFormatting() throws Exception {
         doTestFormatting("", "");
@@ -152,13 +153,13 @@ public class CommonTest {
         doTestFormatting(" 13:24", " 13:24");
         doTestFormatting(" 00:39", " 00:39");
     }
-    
+
     private void doTestFormatting(String time, String expected) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy" + (time.length() == 0 ? "" : " HH:mm"));
         Date date = formatter.parse(DATE + time);
         assertEquals(DateUtil.formatDate(date), DATE + expected);
     }
-    
+
     private void testDateFormat(String tz, String time) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm zzz");
         Date date = formatter.parse(DATE + " 13:04 EST"); // Reference date/time is 21-Nov-1978 13:04 EST
@@ -170,7 +171,7 @@ public class CommonTest {
         assertEquals(DATE, DateUtil.formatDate(date, true, true));
         assertEquals(DATE_TIME_NOTZ, DateUtil.formatDate(date, false));
         assertEquals(DATE_TIME_NOTZ, DateUtil.formatDate(date, false, false));
-        
+
         formatter = new SimpleDateFormat("dd-MMM-yyyy");
         date = formatter.parse(DATE);
         assertEquals(DATE, DateUtil.formatDate(date, true));
@@ -179,7 +180,7 @@ public class CommonTest {
         assertEquals(DATE, DateUtil.formatDate(date, false));
         assertEquals(DATE, DateUtil.formatDate(date, false, false));
     }
-    
+
     @Test
     public void testDateRange() {
         DateRange dr = new DateRange("test|12-Jul-2010|15-Aug-2010");
@@ -191,14 +192,14 @@ public class CommonTest {
         assertFalse(dr.inRange(DateUtil.toDate(15, 8, 2010, 13, 30, 0), true, true));
         assertFalse(dr.inRange(DateUtil.toDate(16, 8, 2010), true, true));
     }
-    
+
     @Test
     public void testSerializer() {
         JSONUtil.registerAlias("TestPerson", TestPerson.class);
         testSerializer(null);
         testSerializer("resourceType");
     }
-    
+
     private void testSerializer(String typeProperty) {
         TestPerson obj = new TestPerson();
         String s = JSONUtil.serialize(typeProperty, obj);
@@ -216,7 +217,7 @@ public class CommonTest {
         List<TestPerson> list3 = (List<TestPerson>) JSONUtil.deserialize(typeProperty, s);
         assertEquals(list, list3);
     }
-    
+
     @Test
     public void testCast() {
         List<Object> list = new ArrayList<>();
@@ -224,11 +225,11 @@ public class CommonTest {
         list.add("item2");
         list.add("item3");
         int i = 0;
-        
+
         for (String item : MiscUtil.castList(list, String.class)) {
             assertEquals("item" + ++i, item);
         }
-
+        
         Set<Object> set = new HashSet<>();
         Set<String> set2 = MiscUtil.castCollection(set, String.class);
         set.add("item1");
@@ -237,7 +238,7 @@ public class CommonTest {
         assertEquals(3, set.size());
         assertEquals(3, set2.size());
     }
-    
+
     @Test
     public void testElapsed() {
         assertEquals("0.1 seconds", DateUtil.formatElapsed(100.0, TimeUnit.SECONDS));
@@ -246,7 +247,7 @@ public class CommonTest {
         assertEquals("3.59 days", DateUtil.formatElapsed(309898934.0));
         assertEquals("98.2 years", DateUtil.formatElapsed(3098989343984.0));
         assertEquals("-98.2 years", DateUtil.formatElapsed(-3098989343984.0));
-        
+
         assertEquals(100.0, DateUtil.parseElapsed("0.1 seconds"), 0.0);
         assertEquals(1000.0, DateUtil.parseElapsed("1 second"), 0.0);
         assertEquals(60000.0, DateUtil.parseElapsed("1 minute"), 0.0);
@@ -255,7 +256,7 @@ public class CommonTest {
         assertEquals(-3098956320000.0, DateUtil.parseElapsed("-98.2 years"), 0.0);
         assertEquals(98.2, DateUtil.parseElapsed("98.2 years", TimeUnit.YEARS), 0.0);
     }
-    
+
     @Test
     public void testDuration() {
         assertEquals("0 seconds", DateUtil.formatDuration(100, TimeUnit.SECONDS));
@@ -270,7 +271,7 @@ public class CommonTest {
         assertEquals("-98 years 2 months 1 week 6 days 10 hours 22 minutes 23 seconds",
             DateUtil.formatDuration(-3098989343984L, TimeUnit.SECONDS));
     }
-    
+
     @Test
     public void testAge() {
         Date dob = DateUtil.toDate(27, 7, 1958);
@@ -282,19 +283,19 @@ public class CommonTest {
         dob = DateUtil.toDate(30, 10, 2012);
         assertEquals("2 mos", DateUtil.formatAge(dob, true, ref));
     }
-    
+
     private static final String QT_NONE = "This is a test.";
-
+    
     private static final String QT_DOUBLE = "\"This is a test.\"";
-
+    
     private static final String QT_SINGLE = "'This is a test.'";
-
+    
     private static final String QT_OTHER1 = "\"This is a test.'";
-
+    
     private static final String QT_OTHER2 = "\"This is a test.";
-
+    
     private static final String QT_OTHER3 = "This is a test.'";
-
+    
     @Test
     public void testStripQuotes() {
         testStripQuotes(QT_NONE, QT_NONE);
@@ -304,11 +305,11 @@ public class CommonTest {
         testStripQuotes(QT_OTHER2, QT_OTHER2);
         testStripQuotes(QT_OTHER3, QT_OTHER3);
     }
-
+    
     private void testStripQuotes(String expected, String value) {
         assertEquals(expected, StrUtil.stripQuotes(value));
     }
-
+    
     @Test
     public void testEnquote() {
         testEnquote(QT_DOUBLE, QT_NONE, false);
@@ -316,17 +317,17 @@ public class CommonTest {
         testEnquote(QT_DOUBLE, QT_DOUBLE, false);
         testEnquote(QT_SINGLE, QT_SINGLE, true);
     }
-
+    
     public void testEnquote(String expected, String value, boolean single) {
         assertEquals(expected, single ? StrUtil.enquoteSingle(value) : StrUtil.enquoteDouble(value));
     }
-
+    
     @Test
     public void testColorUtil() {
         testColorUtil("darkorchid", "#9932CC");
         testColorUtil("azure", "#F0FFFF");
     }
-    
+
     public void testColorUtil(String testColor, String testRGB) {
         Color refColor = Color.magenta;
         String rgb = ColorUtil.getRGBFromName(testColor);
@@ -339,7 +340,7 @@ public class CommonTest {
         Color color3 = ColorUtil.toColor("badvalue", refColor);
         assertEquals(refColor, color3);
     }
-    
+
     @Test
     public void testQueryStringBuilder() {
         QueryStringBuilder sb = new QueryStringBuilder();
@@ -358,7 +359,7 @@ public class CommonTest {
         sb.clear();
         assertTrue(sb.toString().isEmpty());
     }
-    
+
     @Test
     public void testListMethods() {
         String original = "1,2,3,4,5";
@@ -396,35 +397,35 @@ public class CommonTest {
         assertFalse(iter.hasNext());
         assertEquals(4, iterList.size());
         int strCount = 0;
-        
+
         for (String ele : MiscUtil.iterableForType(iterList, String.class)) {
             strCount++;
             assertTrue(ele.equals("string #" + strCount));
         }
-        
+
         assertEquals(2, strCount);
     }
-    
+
     @Test
     public void testObservedList() {
         List<String> list = new ArrayList<>();
         final int[] ops = { 0, 0 };
-        
+
         ObservedCollection<String> col = new ObservedCollection<>(list,
                 new ObservedCollection.IObservedCollectionListener<String>() {
-
+            
             @Override
             public void onAddElement(String element) {
                 ops[0]++;
             }
-
+            
             @Override
             public void onRemoveElement(String element) {
                 ops[1]++;
             }
-
+            
         });
-        
+
         col.add("ele1"); // ele1
         col.add("ele2"); // ele1, ele2
         col.remove("ele1"); // ele2
@@ -437,12 +438,18 @@ public class CommonTest {
         assertEquals("Add count does not match.", 5, ops[0]);
         assertEquals("Remove count does not match.", 5, ops[1]);
     }
-    
+
     @Test
     public void testVersion() {
         Version v1 = new Version(1, 2, 3, 4);
         Version v2 = new Version("1.2.3.4");
+        Version v3 = new Version("1.2.4.5");
         assertEquals(v1, v2);
+        assertNotEquals(v1, v3);
+        assertEquals(-1, v1.compareTo(v3));
+        assertEquals(-1, v1.compareTo(v3, VersionPart.RELEASE));
+        assertEquals(0, v1.compareTo(v3, VersionPart.MINOR));
+        assertEquals(0, v1.compareTo(v3, VersionPart.MAJOR));
         v1 = new Version("1.2.3");
         assertTrue(v1.compareTo(v2) < 0);
         assertEquals("1.2.3", v1.toString());
@@ -462,7 +469,7 @@ public class CommonTest {
         v2 = new Version(null);
         assertEquals(v1, v2);
     }
-    
+
     @Test
     public void testBundle() {
         Localizer.registerMessageSource(new BundleMessageSource());
@@ -471,12 +478,12 @@ public class CommonTest {
         assertEquals("keyboard", StrUtil.getLabel("message.test1", locale1));
         assertEquals("clavier", StrUtil.getLabel("message.test1", locale2));
     }
-    
+
     @Test
     public void testWeakCollections() {
         List<Object> list = new WeakList<>();
         Map<String, Object> map = new WeakMap<>();
-        
+
         Object o1 = new Object();
         Object o2 = new Object();
         list.add(o1);
@@ -491,11 +498,11 @@ public class CommonTest {
         assertEquals(1, list.size());
         assertEquals(1, map.size());
     }
-    
+
     private static final String CAMEL_UCASE_RESULT = "TestOfCamelCase";
-
+    
     private static final String CAMEL_LCASE_RESULT = "testOfCamelCase";
-
+    
     @Test
     public void testCamelCase() {
         testCamelCase(" test of _camel_case  ");
@@ -504,46 +511,46 @@ public class CommonTest {
         testCamelCase("test__of_ camel\t\ncase");
         testCamelCase("test of camel case");
     }
-
+    
     private void testCamelCase(String text) {
         assertEquals(CAMEL_UCASE_RESULT, StrUtil.toCamelCaseUpper(text));
         assertEquals(CAMEL_LCASE_RESULT, StrUtil.toCamelCaseLower(text));
     }
-    
-    private static final Integer[] CYCLIC_COLLECTION = { 0, 1, 2 };
 
+    private static final Integer[] CYCLIC_COLLECTION = { 0, 1, 2 };
+    
     @Test
     public void testCyclicIterator() {
         Iterator<Integer> iter = new CyclicIterator<>(CYCLIC_COLLECTION);
-        
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 assertEquals(j, iter.next().intValue());
             }
         }
     }
-
+    
     private static final String[] ary1 = { "item1", "item2", "item3" };
-
+    
     private static final String[] ary2 = { "item4", "item5", "item6" };
-
+    
     private static final String[] ary3 = { "item3", "item6", "item7" };
-
+    
     @Test
     public void testOverlap() {
         assertFalse(MiscUtil.intersects(ary1, ary2));
         assertTrue(MiscUtil.intersects(ary1, ary3));
         assertTrue(MiscUtil.intersects(ary2, ary3));
     }
-    
+
     private void wait(int ms) {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {}
     }
-    
+
     private void print(Object object) {
         System.out.println(object);
     }
-    
+
 }

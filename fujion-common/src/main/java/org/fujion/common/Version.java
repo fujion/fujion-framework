@@ -79,10 +79,25 @@ public class Version implements Comparable<Version> {
     }
 
     @Override
+    /**
+     * Does a full comparison of all version parts.
+     */
     public int compareTo(Version v) {
-        int diff = 0;
+        return compareTo(v, VersionPart.BUILD);
+    }
 
-        for (int i = 0; i < 4; i++) {
+    /**
+     * Compare two versions up to and including the specified version part.
+     *
+     * @param v The version to compare.
+     * @param part Compare up to and including this version part.
+     * @return Result of the comparison.
+     */
+    public int compareTo(Version v, VersionPart part) {
+        int diff = 0;
+        int max = part.ordinal();
+
+        for (int i = 0; i <= max; i++) {
             diff = seq[i] - v.seq[i];
 
             if (diff != 0) {
