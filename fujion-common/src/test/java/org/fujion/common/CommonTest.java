@@ -23,6 +23,7 @@ package org.fujion.common;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
@@ -450,24 +451,29 @@ public class CommonTest {
         assertEquals(-1, v1.compareTo(v3, VersionPart.RELEASE));
         assertEquals(0, v1.compareTo(v3, VersionPart.MINOR));
         assertEquals(0, v1.compareTo(v3, VersionPart.MAJOR));
+        assertEquals(VersionPart.BUILD, v1.getSpecificity());
         v1 = new Version("1.2.3");
         assertTrue(v1.compareTo(v2) < 0);
         assertEquals("1.2.3", v1.toString());
         assertEquals("1.2.3", v1.toString(VersionPart.RELEASE));
         assertEquals("1.2.3.0", v1.toString(VersionPart.BUILD));
+        assertEquals(VersionPart.RELEASE, v1.getSpecificity());
         v1 = new Version("1.0.3");
         assertEquals("1.0.3", v1.toString());
         assertEquals("1.0.3.0", v1.toString(VersionPart.BUILD));
-        assertEquals("1.0.3", v1.toString(VersionPart.MINOR));
+        assertEquals("1.0", v1.toString(VersionPart.MINOR));
         assertEquals("1.0.3", v1.toString(VersionPart.RELEASE));
         v2 = new Version("1.0.3b");
         assertEquals(v1, v2);
         v1 = new Version(".5");
         assertEquals("0.5", v1.toString());
+        assertEquals(VersionPart.MINOR, v1.getSpecificity());
         v1 = new Version("");
         assertEquals("", v1.toString());
+        assertNull(v1.getSpecificity());
         v2 = new Version(null);
         assertEquals(v1, v2);
+        assertNull(v2.getSpecificity());
     }
 
     @Test
