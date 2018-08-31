@@ -37,7 +37,7 @@ import org.apache.commons.lang.UnhandledException;
  * Miscellaneous utility methods.
  */
 public class MiscUtil {
-
+    
     /**
      * Returns true if the specified file exists.
      *
@@ -47,7 +47,7 @@ public class MiscUtil {
     public static boolean fileExists(String fileName) {
         return new File(fileName).exists();
     }
-
+    
     /**
      * Returns true if the list contains the exact instance of the specified object.
      *
@@ -58,7 +58,7 @@ public class MiscUtil {
     public static boolean containsInstance(List<?> list, Object object) {
         return indexOfInstance(list, object) > -1;
     }
-
+    
     /**
      * Performs a lookup for the exact instance of an object in the list and returns its index, or
      * -1 if not found. This is different from the usual implementation of a list search that uses
@@ -74,10 +74,10 @@ public class MiscUtil {
                 return i;
             }
         }
-
+        
         return -1;
     }
-
+    
     /**
      * Casts a list containing elements of class T to a list containing elements of a class S where
      * S must be assignment-compatible with T.
@@ -91,7 +91,7 @@ public class MiscUtil {
     public static <T, S> List<S> castList(List<T> list, Class<S> clazz) {
         return castCollection(list, clazz);
     }
-
+    
     /**
      * Casts a collection containing elements of class T to a collection containing elements of a
      * class S where S must be assignment-compatible with T.
@@ -107,7 +107,7 @@ public class MiscUtil {
                                                                                                Class<S> clazz) {
         return (CS) collection;
     }
-
+    
     /**
      * Returns a list iterator that produces only collection elements of the specified type.
      *
@@ -120,7 +120,7 @@ public class MiscUtil {
     public static <T, S extends T> Iterator<S> iteratorForType(Collection<T> collection, Class<S> type) {
         return iteratorForType(collection.iterator(), type);
     }
-
+    
     /**
      * Returns an iterator that returns only elements of the specified type.
      *
@@ -140,7 +140,7 @@ public class MiscUtil {
                             return type.isInstance(element);
                         });
     }
-
+    
     /**
      * Returns an iterable that produces only collection members of the specified type.
      *
@@ -155,7 +155,7 @@ public class MiscUtil {
             return iteratorForType(collection, type);
         };
     }
-
+    
     /**
      * Returns true if the two arrays intersect (i.e., have at least one element in common).
      *
@@ -166,7 +166,7 @@ public class MiscUtil {
     public static boolean intersects(Object[] ary1, Object[] ary2) {
         return intersects(Arrays.asList(ary1), Arrays.asList(ary2));
     }
-    
+
     /**
      * Returns true if the two iterables intersect (i.e., have at least one element in common).
      *
@@ -182,10 +182,10 @@ public class MiscUtil {
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * Converts a checked exception to unchecked. If the original exception is already unchecked, it
      * is simply returned.
@@ -197,14 +197,14 @@ public class MiscUtil {
         if (e instanceof InvocationTargetException) {
             e = ((InvocationTargetException) e).getTargetException();
         }
-
+        
         if (e instanceof RuntimeException) {
             return (RuntimeException) e;
         }
-
+        
         return new UnhandledException(e);
     }
-
+    
     /**
      * Returns an array of parameter types given an array of parameters. Unlike other libraries,
      * this allows null parameter values.
@@ -215,14 +215,14 @@ public class MiscUtil {
     public static Class<?>[] getParameterTypes(Object... parameters) {
         int len = parameters == null ? 0 : parameters.length;
         Class<?>[] parameterTypes = new Class[len];
-
+        
         for (int i = 0; i < len; i++) {
             parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
         }
-        
+
         return parameterTypes;
     }
-
+    
     /**
      * Converts a glob search pattern to a regular expression.
      *
@@ -230,12 +230,12 @@ public class MiscUtil {
      * @return Regular expression.
      */
     public static Pattern globToRegex(String glob) {
-        StringBuilder sb = new StringBuilder(glob.length());
+        StringBuilder sb = new StringBuilder(glob.length()).append('^');
         int inGroup = 0;
         int inClass = 0;
         int firstIndexInClass = -1;
         char[] arr = glob.toCharArray();
-        
+
         for (int i = 0; i < arr.length; i++) {
             char ch = arr[i];
             switch (ch) {
@@ -258,7 +258,7 @@ public class MiscUtil {
                         sb.append(next);
                     }
                     break;
-
+                    
                 case '*':
                     if (inClass == 0) {
                         sb.append("[^/]*");
@@ -266,7 +266,7 @@ public class MiscUtil {
                         sb.append('*');
                     }
                     break;
-
+                    
                 case '?':
                     if (inClass == 0) {
                         sb.append("[^/]");
@@ -274,18 +274,18 @@ public class MiscUtil {
                         sb.append('?');
                     }
                     break;
-
+                    
                 case '[':
                     inClass++;
                     firstIndexInClass = i + 1;
                     sb.append('[');
                     break;
-
+                    
                 case ']':
                     inClass--;
                     sb.append(']');
                     break;
-
+                    
                 case '.':
                 case '(':
                 case ')':
@@ -300,7 +300,7 @@ public class MiscUtil {
                     }
                     sb.append(ch);
                     break;
-
+                    
                 case '!':
                     if (firstIndexInClass == i) {
                         sb.append('^');
@@ -308,17 +308,17 @@ public class MiscUtil {
                         sb.append('!');
                     }
                     break;
-
+                    
                 case '{':
                     inGroup++;
                     sb.append('(');
                     break;
-
+                    
                 case '}':
                     inGroup--;
                     sb.append(')');
                     break;
-
+                    
                 case ',':
                     if (inGroup > 0) {
                         sb.append('|');
@@ -326,15 +326,15 @@ public class MiscUtil {
                         sb.append(',');
                     }
                     break;
-
+                    
                 default:
                     sb.append(ch);
             }
         }
-        
-        return Pattern.compile(sb.toString());
+
+        return Pattern.compile(sb.append('$').toString());
     }
-    
+
     /**
      * Enforce static class.
      */
