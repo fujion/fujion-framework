@@ -5,7 +5,10 @@
 	http://www.springframework.org/schema/beans 
 		 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
+	<bean class="org.fujion.theme.bootswatch.VersionCheck">
+		<constructor-arg ref="fujion_WebJarLocator" />
+	</bean>
+	
 	<bean id="fujion-bootswatch" abstract="true" class="org.fujion.theme.Theme">
 		<property name="mappings">
 			<map>
