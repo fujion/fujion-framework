@@ -145,7 +145,7 @@
 	margin-right: 5px;
 }
 
-.fujion_tab > a > .glyphicon-remove {
+.fujion_tab > a > .fa-remove {
 	font-size: 70%;
 	position: absolute;
 	margin-top: 2px;
@@ -153,7 +153,7 @@
 	opacity: .6;
 }
 
-.fujion_tab > a > .glyphicon-remove:hover {
+.fujion_tab > a > .fa-remove:hover {
 	opacity: 1;
 }
 

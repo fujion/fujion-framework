@@ -36,7 +36,7 @@
 	position: relative;
 }
 
-.fujion_column > .glyphicon {
+.fujion_column > .fa {
 	margin-left: 5px;
 	padding: 2px;
 	font-size: 60%;
@@ -44,7 +44,7 @@
 	opacity: .5
 }
 
-.fujion_column > .glyphicon:hover {
+.fujion_column > .fa:hover {
 	text-decoration: underline;
 	opacity: 1;
 }

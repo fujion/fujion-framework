@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scrollTo', 'jquery-print','balloon-css', 'jquery-ui-css', 'bootstrap-css', 'fujion-widget-css'], function(fujion) { 
+define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scrollTo', 'jquery-print','balloon-css', 'jquery-ui-css', 'bootstrap-css', 'fontawesome-css', 'fujion-widget-css'], function(fujion) { 
 	/* Widget support.  In the documentation, when we refer to 'widget' we mean an instance of the Widget
 	 * class.  When we refer to 'widget$' (following the convention that a variable name ending in '$'
 	 * is always a jquery object), we mean the jquery object managed by the widget.
@@ -10,11 +10,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.widget._domTemplates = {
 			badge: '<span id="${id}-badge" class="badge" />',
-			checkable: '<span id="${id}-chk" class="glyphicon"/>',
-			closable: '<span id="${id}-cls" class="glyphicon glyphicon-remove"/>',
+			checkable: '<span id="${id}-chk" class="fa"/>',
+			closable: '<span id="${id}-cls" class="fa fa-remove"/>',
 			image: '<img id="${id}-img" src="${_state.image}"/>',
 			label: '<span id="${id}-lbl"/>',
-			sortOrder: '<span id="${id}-dir" class="glyphicon"/>'
+			sortOrder: '<span id="${id}-dir" class="fa"/>'
 	};
 	
 	fujion.widget._zmodal = 999;
@@ -1522,10 +1522,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		afterRender: function() {
 			this._super();
-			this.widget$.find('.glyphicon-chevron-up')
+			this.widget$.find('.fa-chevron-up')
 				.on('mousedown', this.handleSpinStart.bind(this, true))
 				.on('mouseup', this.handleSpinStop.bind(this));
-			this.widget$.find('.glyphicon-chevron-down')
+			this.widget$.find('.fa-chevron-down')
 				.on('mousedown', this.handleSpinStart.bind(this, false))
 				.on('mouseup', this.handleSpinStop.bind(this));
 		},
@@ -1534,8 +1534,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var dom =  '<span>'
 					 +   '<input id="${id}-inp" type="${_type}">'
 					 +   '<span id="${id}-spn">'
-					 +     '<span class="glyphicon glyphicon-chevron-up"/>'
-					 +     '<span class="glyphicon glyphicon-chevron-down"/>'
+					 +     '<span class="fa fa-chevron-up"/>'
+					 +     '<span class="fa fa-chevron-down"/>'
 					 +   '</span>'
 					 + '</span>';
 			return $(this.resolveEL(dom));
@@ -2290,11 +2290,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom = 
 				  '<span>'
-				+   '<a data-fujion-pg="-2" class="glyphicon glyphicon-chevron-left-double"></a>'
-				+   '<a data-fujion-pg="-1" class="glyphicon glyphicon-chevron-left"></a>'
+				+   '<a data-fujion-pg="-2" class="fa fa-angle-double-left"></a>'
+				+   '<a data-fujion-pg="-1" class="fa fa-angle-left"></a>'
 				+ 	this.getDOMTemplate('label')
-				+   '<a data-fujion-pg="1" class="glyphicon glyphicon-chevron-right"></a>'
-				+   '<a data-fujion-pg="2" class="glyphicon glyphicon-chevron-right-double"></a>'
+				+   '<a data-fujion-pg="1" class="fa fa-angle-right"></a>'
+				+   '<a data-fujion-pg="2" class="fa fa-angle-double-right"></a>'
 				+ '</span>'
 			return $(this.resolveEL(dom));
 		},
@@ -2680,7 +2680,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_checked: function(v) {
-			this.sub$('chk').fujion$swapClasses('glyphicon-check', 'glyphicon-unchecked', v);
+			this.sub$('chk').fujion$swapClasses('fa-check', 'fa-square-o', v);
 		}
 		
 	});
@@ -2940,7 +2940,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var dom =
 				'<span>'
 			  +   '<input id="${id}-inp" type="text">'
-			  +   '<span id="${id}-btn" class="glyphicon glyphicon-triangle-bottom" />'
+			  +   '<span id="${id}-btn" class="fa fa-caret-down" />'
 			  + '</span>';
 			
 			return $(this.resolveEL(dom));
@@ -3211,7 +3211,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var dom =
 				'<span>'
 			  +   '<input id="${id}-inp" type="text">'
-			  +   '<span id="${id}-btn" class="glyphicon glyphicon-triangle-bottom" />'
+			  +   '<span id="${id}-btn" class="fa fa-caret-down" />'
 			  +   '<select id="${id}-inner" class="hidden" />'
 			  + '</span>';
 			
@@ -3599,7 +3599,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		_buttonAdd: function(type, forward) {
-			var btn$ = $('<span>').addClass('glyphicon glyphicon-' + type).appendTo(this.sub$('icons'));
+			var btn$ = $('<span>').addClass('fa fa-' + type).appendTo(this.sub$('icons'));
 			this.forward(btn$, 'click', forward);
 		},
 		
@@ -3751,7 +3751,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			icons = icons.split(' ');
-			btn = $('<span class="glyphicon glyphicon-' + icons[0] + '"/>')
+			btn = $('<span class="fa fa-' + icons[0] + '"/>')
 				.attr('id', id)
 				.data('position', position)
 				.data('icons', icons)
@@ -3787,7 +3787,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			} else if (_.isNil(newState)) {
 				newState = oldState;
 			} else if (newState !== oldState) {
-				btn.data('state', newState).removeClass('glyphicon-' + icons[oldState]).addClass('glyphicon-' + icons[newState]);
+				btn.data('state', newState).removeClass('fa-' + icons[oldState]).addClass('fa-' + icons[newState]);
 			}
 			
 			return newState;
@@ -3796,7 +3796,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ State ------------------------------*/
 		
 		s_closable: function(v) {
-			this[v ? '_buttonAdd' : '_buttonRemove']('close', 'remove', 9999);
+			this[v ? '_buttonAdd' : '_buttonRemove']('close', 'close', 9999);
 		},
 		
 		s_dragid: function(v) {
@@ -3810,11 +3810,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_maximizable: function(v) {
-			this[v ? '_buttonAdd' : '_buttonRemove']('maximize', 'resize-full resize-small', 10);
+			this[v ? '_buttonAdd' : '_buttonRemove']('maximize', 'expand compress', 10);
 		},
 		
 		s_minimizable: function(v) {
-			this[v ? '_buttonAdd' : '_buttonRemove']('minimize', 'chevron-down chevron-up', 20);
+			this[v ? '_buttonAdd' : '_buttonRemove']('minimize', 'window-minimize window-maximize', 20);
 		},
 		
 		s_mode: function(v, oldmode) {
@@ -3984,7 +3984,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		afterRender: function() {
 			this._super();
-			this.widget$.find('.glyphicon-remove').on('click', this.destroy.bind(this));
+			this.widget$.find('.fa-remove').on('click', this.destroy.bind(this));
 		},
 
 		beforeRender: function() {

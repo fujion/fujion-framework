@@ -25,7 +25,7 @@
     background-image: none!important;
 }
    
-.fujion_treeview-notoggles li > .glyphicon {
+.fujion_treeview-notoggles li > .fa {
     display: none;    
 }
 

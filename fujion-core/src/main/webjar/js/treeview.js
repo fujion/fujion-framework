@@ -116,7 +116,7 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		render$: function() {
 			var dom = 
 				  '<li>'
-				+ ' <span id="${id}-ctl" class="glyphicon"/>'
+				+ ' <span id="${id}-ctl" class="fa"/>'
 				+ ' <a>'
 				+ this.getDOMTemplate(':image', 'badge', 'label')
 				+ ' </a>'
@@ -132,8 +132,8 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		/*------------------------------ State ------------------------------*/
 		
 		s_collapsed: function(v) {
-			this.sub$('ctl').toggleClass('glyphicon-expand', v)
-				.toggleClass('glyphicon-collapse-down', !v);
+			this.sub$('ctl').toggleClass('fa-caret-square-o-right', v)
+				.toggleClass('fa-caret-square-o-down', !v);
 			this.toggleClass('fujion_treenode-collapsed', v);
 		},
 		

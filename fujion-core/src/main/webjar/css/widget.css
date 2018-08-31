@@ -127,25 +127,9 @@ caption:empty {
 	background-color: #d9534f;
 }
 
-.glyphicon[disabled] {
+.fa[disabled] {
     opacity: .4;
     text-decoration: none;
-}
-
-.glyphicon-chevron-left-double:before {
- 	content: "\e079\e079";
-}
-
-.glyphicon-chevron-left-double:first-letter {
- 	letter-spacing: -8px;
-}
-
-.glyphicon-chevron-right-double:before {
-	content: "\e080\e080";
-}
-
-.glyphicon-chevron-right-double:first-letter {
- 	letter-spacing: -8px;
 }
 
 /* Miscellaneous */
@@ -303,7 +287,7 @@ iframe.fujion-resizer {
 	position: absolute;
 }
 
-.fujion_menuitem > a > span.glyphicon {
+.fujion_menuitem > a > span.fa {
     margin-left: -14px;    
     margin-right: 2px; 
 }
@@ -372,10 +356,13 @@ iframe.fujion-resizer {
 .fujion_titled-icons span {
 	border-radius: 8px;
 	border: 1px solid;
-	padding: 4px 3px 2px 4px;	
+	padding: 3px;	
 	margin-left: 2px;
 	color: inherit;	
 	opacity: .6;
+	width: 24px;
+	height: 24px;
+	text-align: center;
 }
 
 .fujion_titled-icons span:hover {
@@ -542,12 +529,20 @@ iframe.fujion-resizer {
 
 /* Paging */
 
+.fujion_paging > * {
+	vertical-align: middle;
+}
+
 .fujion_paging > span {
-    padding: 4px;
+    border: 1px solid lightgray;
+    padding: 6px;
+    border-radius: 15px;
 }
 
 .fujion_paging a {
-    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 0 4px 0 4px;
 }
 
 /* Cell */
@@ -594,19 +589,20 @@ iframe.fujion-resizer {
     position: relative;
 }
 
-.fujion_inputbox .glyphicon {
+.fujion_inputbox .fa {
 	background-color: inherit;
     margin-top: auto;
     margin-bottom: auto;
+    font-size: 20px;
 }
 
-.fujion_inputbox .glyphicon-chevron-up,
-.fujion_inputbox .glyphicon-chevron-down {
+.fujion_inputbox .fa-chevron-up,
+.fujion_inputbox .fa-chevron-down {
 	display: block;
 	font-size: .5em;
 }
 
-.fujion_inputbox .glyphicon:hover {
+.fujion_inputbox .fa:hover {
 	outline: 1px groove lightgray;
 }
 
@@ -622,7 +618,7 @@ iframe.fujion-resizer {
 	cursor: default;
 }
 
-.fujion_inputbox > input:disabled + .glyphicon {
+.fujion_inputbox > input:disabled + .fa {
 	opacity: .5;
 }
 
@@ -711,7 +707,7 @@ iframe.fujion-resizer {
     font-size: 70%;
 }
 
-.fujion_messagepane > div:first-child .glyphicon {
+.fujion_messagepane > div:first-child .fa {
     padding-top: 3px;
 }
 

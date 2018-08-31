@@ -180,7 +180,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		
 		s_value: function(v) {
 			this.widget$.css('background-color', v ? v : 'none');
-			this.toggleClass('glyphicon glyphicon-remove', !v);
+			this.toggleClass('fa fa-remove', !v);
 			this.updateState('hint', v, true);
 		}
 		
@@ -317,7 +317,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		
 		s_value: function(v) {
 			this.attr('src', v);
-			this.toggleClass('glyphicon glyphicon-remove', !v);
+			this.toggleClass('fa fa-remove', !v);
 			this.updateState('hint', v ? v.substring(v.lastIndexOf('/') + 1) : v, true);
 		}
 		

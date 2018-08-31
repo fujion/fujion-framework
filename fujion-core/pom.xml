@@ -177,6 +177,11 @@
 			<version>3.3.7</version>
 		</dependency>
 		<dependency>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-fontawesome</artifactId>
+			<version>4.7.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-lodash</artifactId>
 		    <version>4.17.10</version>

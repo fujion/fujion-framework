@@ -103,9 +103,9 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 			
 			if (v) {
 				this.sub$('dir')
-					.toggleClass('glyphicon-chevron-up', v === 'ASCENDING')
-					.toggleClass('glyphicon-chevron-down', v === 'DESCENDING')
-					.toggleClass('glyphicon-sort', v === 'UNSORTED' || v === 'NATIVE');
+					.toggleClass('fa-chevron-up', v === 'ASCENDING')
+					.toggleClass('fa-chevron-down', v === 'DESCENDING')
+					.toggleClass('fa-sort', v === 'UNSORTED' || v === 'NATIVE');
 			}
 		}
 	
@@ -143,7 +143,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 					self.widget$.selectable({
 						appendTo: '#fujion_root',
 						filter: 'tr',
-			            cancel: 'input,textarea,button,select,option,.glyphicon',
+			            cancel: 'input,textarea,button,select,option,.fa',
 						selected: _select,
 						unselected: _unselect
 					})
