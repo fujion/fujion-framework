@@ -8,24 +8,24 @@
 				<combobox name="cboFujion" readonly="true" width="200px"
 					placeholder="${@msg.fujion.sandbox.combobox.placeholder}" />
 				<div flex="10" />
-				<button name="btnFormatContent" class="size:btn-xs flavor:btn-info"
+				<button name="btnFormatContent" class="size:btn-sm flavor:btn-info"
 					label="${@msg.fujion.sandbox.btn.format.label}" />
 				<div flex="10" />
-				<button name="btnClearContent" class="size:btn-xs flavor:btn-danger"
+				<button name="btnClearContent" class="size:btn-sm flavor:btn-danger"
 					label="${@msg.fujion.sandbox.btn.clear.label}" />
 				<div flex="1" />
 				<button name="btnRenderContent"
-					class="size:btn-xs flavor:btn-success" label="${@msg.fujion.sandbox.btn.view.label}" />
+					class="size:btn-sm flavor:btn-success" label="${@msg.fujion.sandbox.btn.view.label}" />
 			</toolbar>
 			<codemirror_xml name="editor" flex="1" width="100%"
 				placeholder="${@msg.fujion.sandbox.textbox.placeholder}"/>
 		</pane>
 		<pane name="contentParent" flex="1">
 			<toolbar width="100%">
-				<button name="btnClearView" class="size:btn-xs flavor:btn-danger"
+				<button name="btnClearView" class="size:btn-sm flavor:btn-danger"
 					label="${@msg.fujion.sandbox.btn.clear.label}" />
 				<div flex="1" />
-				<button name="btnRefreshView" class="size:btn-xs flavor:btn-success"
+				<button name="btnRefreshView" class="size:btn-sm flavor:btn-success"
 					label="${@msg.fujion.sandbox.btn.refresh.label}" />
 				<div flex="10" />
 				<label label="${@msg.fujion.sandbox.title.right}" />

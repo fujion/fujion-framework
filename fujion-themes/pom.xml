@@ -14,7 +14,7 @@
 	</description>
 	
 	<properties>
-		<bootswatch.version>3.3.7</bootswatch.version>
+		<bootswatch.version>4.1.3-SNAPSHOT</bootswatch.version>
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 	
@@ -56,17 +56,32 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-litera</artifactId>
+			<version>${bootswatch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-bootswatch-lumen</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-bootswatch-paper</artifactId>
+			<artifactId>webjar-bootswatch-lux</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-bootswatch-readable</artifactId>
+			<artifactId>webjar-bootswatch-materia</artifactId>
+			<version>${bootswatch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-minty</artifactId>
+			<version>${bootswatch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-pulse</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>
@@ -81,7 +96,17 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-sketchy</artifactId>
+			<version>${bootswatch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-bootswatch-slate</artifactId>
+			<version>${bootswatch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-bootswatch-solar</artifactId>
 			<version>${bootswatch.version}</version>
 		</dependency>
 		<dependency>

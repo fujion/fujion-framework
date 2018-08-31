@@ -49,25 +49,25 @@ caption:empty {
 
 /* bootstrap mods */
 
-.panel {
+.card {
 	display: flex;
 	flex-flow: column;
 }
 
-.panel-heading {
+.card-header {
 	flex: none;
 	padding: 5px;
 	overflow: visible!important;
 }
 
-.panel-body {
+.card-body {
     display: flex;
     flex-direction: column;
     flex: auto;
     overflow: auto;
 }
 
-.label-default {
+.badge-secondary {
     background-color: transparent;
 }
 

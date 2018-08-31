@@ -1265,7 +1265,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_visible: function(v) {
-			this.toggleClass('hidden', !v);
+			this.toggleClass('d-none', !v);
 		}
 				
 	});
@@ -3247,7 +3247,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				'<span>'
 			  +   '<input id="${id}-inp" type="text">'
 			  +   '<span id="${id}-btn" class="fa fa-caret-down" />'
-			  +   '<select id="${id}-inner" class="hidden" />'
+			  +   '<select id="${id}-inner" class="d-none" />'
 			  + '</span>';
 			
 			return $(this.resolveEL(dom));
@@ -3695,7 +3695,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		init: function() {
 			this._super();
 			this.initState({mode: 'INLINE', size: 'NORMAL', position: 'CENTER', movable: true});
-			this.toggleClass('fujion_titled panel', true);
+			this.toggleClass('fujion_titled card bg-primary text-white', true);
 			this.forwardToServer('close');
 		},
 		
@@ -3765,14 +3765,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom =
 				  '<div>'
-				+   '<div class="panel-heading">'
-				+     '<div id="${id}-titlebar" class="panel-title">'
+				+   '<div class="card-header">'
+				+     '<div id="${id}-titlebar" class="card-title">'
 				+       '<img id="${id}-image"/>'
 				+       '<span id="${id}-title"/>'
 				+       '<span id="${id}-icons" class="fujion_titled-icons"/>'
 				+     '</div>'
 				+   '</div>'
-				+   '<div id="${id}-inner" class="panel-body"/>'
+				+   '<div id="${id}-inner" class="card-body"/>'
 				+ '</div>';
 			return $(this.resolveEL(dom));
 		},
@@ -4030,7 +4030,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ State ------------------------------*/
 		
 		s_text: function(v) {
-			this.widget$.find('.panel-body').text(v);
+			this.widget$.find('.card-body').text(v);
 		}
 		
 	});

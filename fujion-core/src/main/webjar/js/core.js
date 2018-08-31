@@ -743,10 +743,12 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 * Display an alert dialog.
 	 */
 	alert: function(message, title, flavor) {
+		flavor = flavor || 'primary';
+		
 		var props = {
 				wclass: 'Alert'},
 			state = {
-				_clazz: 'panel-' + (flavor || 'primary'),
+				_clazz: 'bg-' + flavor + ' text-white' + flavor,
 				title: title || 'Alert',
 				text: message};
 		

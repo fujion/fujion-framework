@@ -63,7 +63,7 @@
 						</row>
 						<row>
 							<toolbar> 
-								<button class="flavor:btn-default" label="default" />
+								<button class="flavor:btn-secondary" label="default" />
 								<button class="flavor:btn-primary" label="primary" />
 								<button class="flavor:btn-info" label="info" />
 								<button class="flavor:btn-danger" label="danger" />

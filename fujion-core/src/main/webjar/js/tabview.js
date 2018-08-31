@@ -84,7 +84,7 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 				self = this;
 				
 			if (!this._ancillaries.pane$) {
-				var pane = '<div id="${id}-pane" class="fujion_tab-pane hidden"/>',
+				var pane = '<div id="${id}-pane" class="fujion_tab-pane d-none"/>',
 					pane$ = $(this.resolveEL(pane));
 				this._ancillaries.pane$ = pane$;
 				pane$.data('attach', _attachPane);
@@ -122,7 +122,7 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 		
 		s_selected: function(v) {
 			this.toggleClass('fujion_tab-selected', v);
-			this.sub$('pane').toggleClass('hidden', !v);
+			this.sub$('pane').toggleClass('d-none', !v);
 			this.widget$.children().blur();
 		}
 		
