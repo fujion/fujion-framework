@@ -21,7 +21,6 @@
 package org.fujion.page;
 
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -66,7 +65,7 @@ public class PageParser implements BeanPostProcessor {
     
     private final Map<String, String> attrNSMap = new RegistryMap<>(DuplicateAction.ERROR);
     
-    private final Map<String, String> tagNSMap = Collections.singletonMap(NS_FSP, "");
+    private final Map<String, String> tagNSMap = new RegistryMap<>(DuplicateAction.ERROR);
     
     private final RegistryMap<String, PIParserBase> piParsers = new RegistryMap<>(DuplicateAction.ERROR);
     
@@ -79,6 +78,8 @@ public class PageParser implements BeanPostProcessor {
         registerAttributeNS(NS_ATTR, "attr");
         registerAttributeNS(NS_HTML, "html");
         registerAttributeNS(NS_CONTROLLER, "controller");
+        registerTagNS(NS_FSP, "");
+        registerTagNS(NS_HTML, "html");
     }
     
     /**
@@ -142,6 +143,16 @@ public class PageParser implements BeanPostProcessor {
      */
     public void registerAttributeNS(String url, String prefix) {
         attrNSMap.put(url, prefix);
+    }
+    
+    /**
+     * Register an XML namespace for a tag extension.
+     *
+     * @param url The unique URL of the tag namespace.
+     * @param prefix The tag prefix to be used by the parser.
+     */
+    public void registerTagNS(String url, String prefix) {
+        tagNSMap.put(url, prefix);
     }
     
     private void parseNode(Node node, PageElement parentElement) {

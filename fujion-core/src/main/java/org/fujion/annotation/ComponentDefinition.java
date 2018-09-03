@@ -34,6 +34,7 @@ import org.fujion.ancillary.ComponentException;
 import org.fujion.ancillary.ComponentFactory;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.DeferredInvocation;
+import org.fujion.ancillary.QualifiedName;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.ContentHandling;
 import org.fujion.annotation.Component.FactoryParameter;
@@ -111,30 +112,6 @@ public class ComponentDefinition {
         }
     }
 
-    private static class PropertyName {
-
-        private final String name;
-
-        private final String qualifier;
-
-        /**
-         * Parses property name into 2 components, name and qualifier.
-         *
-         * @param value Property name to parse.
-         */
-        PropertyName(String value) {
-            if (!value.contains(":")) {
-                name = value;
-                qualifier = value;
-            } else {
-                String[] pcs = value.split("\\:", 2);
-                name = pcs[0] + ":";
-                qualifier = pcs[1];
-            }
-
-        }
-    }
-    
     private final ContentHandling contentHandling;
     
     private final String tag;
@@ -193,14 +170,14 @@ public class ComponentDefinition {
      * @return The property value.
      */
     public Object getProperty(BaseComponent instance, String name) {
-        PropertyName pname = new PropertyName(name);
-        Method setter = setters.get(pname.name);
-        Method getter = getters.get(pname.name);
+        QualifiedName pname = new QualifiedName(name);
+        Method setter = setters.get(pname.getName());
+        Method getter = getters.get(pname.getName());
         assertTrue(getter != null, setter != null ? "Property \"%s\" is write-only" : "Property \"%s\" is not recognized",
                 name);
         
         try {
-            return getter.invoke(instance, getter.getParameterCount() == 1 ? new Object[] { pname.qualifier } : null);
+            return getter.invoke(instance, getter.getParameterCount() == 1 ? new Object[] { pname.getQualifier() } : null);
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
@@ -213,8 +190,8 @@ public class ComponentDefinition {
      * @return True if valid.
      */
     public boolean validateAttribute(String name) {
-        PropertyName pname = new PropertyName(name);
-        return setters.get(pname.name) != null || getters.get(pname.name) != null || parameters.containsKey(name);
+        QualifiedName pname = new QualifiedName(name);
+        return setters.get(pname.getName()) != null || getters.get(pname.getName()) != null || parameters.containsKey(name);
     }
     
     /**
@@ -226,9 +203,9 @@ public class ComponentDefinition {
      * @return Null if the operation occurred, or a DeferredInvocation object if deferred.
      */
     public DeferredInvocation<?> setProperty(BaseComponent instance, String name, Object value) {
-        PropertyName pname = new PropertyName(name);
-        Method setter = setters.get(pname.name);
-        Method getter = getters.get(pname.name);
+        QualifiedName pname = new QualifiedName(name);
+        Method setter = setters.get(pname.getName());
+        Method getter = getters.get(pname.getName());
         
         if (value instanceof IBinding) {
             assertTrue(
@@ -247,7 +224,8 @@ public class ComponentDefinition {
             return null;
         }
         
-        Object[] args = setter.getParameterCount() == 1 ? new Object[] { value } : new Object[] { pname.qualifier, value };
+        Object[] args = setter.getParameterCount() == 1 ? new Object[] { value }
+                : new Object[] { pname.getQualifier(), value };
         
         if (setter.getAnnotation(PropertySetter.class).defer()) {
             return new DeferredInvocation<>(instance, setter, args);
