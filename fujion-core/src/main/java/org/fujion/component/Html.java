@@ -21,6 +21,7 @@
 package org.fujion.component;
 
 import org.fujion.annotation.Component;
+import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.ContentHandling;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -28,7 +29,7 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component that allows embedding native HTML within a page.
  */
-@Component(tag = "html", widgetClass = "Html", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", description = "A component that allows embedding native HTML within a page.")
+@Component(tag = "html", widgetClass = "Html", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", childTag = @ChildTag("htmlElement"), description = "A component that allows embedding native HTML within a page.")
 public class Html extends BaseUIComponent {
     
     private String src;
@@ -53,6 +54,7 @@ public class Html extends BaseUIComponent {
         content = nullify(content);
 
         if (content != null) {
+            destroyChildren();
             setSrc(null);
         }
 
@@ -79,10 +81,17 @@ public class Html extends BaseUIComponent {
         src = nullify(src);
 
         if (src != null) {
+            destroyChildren();
             super.setContent(null);
         }
         
         propertyChange("src", this.src, this.src = src, isContentSynced());
     }
     
+    @Override
+    protected void beforeAddChild(BaseComponent child) {
+        super.beforeAddChild(child);
+        setSrc(null);
+        setContent(null);
+    }
 }
