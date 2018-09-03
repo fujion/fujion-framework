@@ -34,15 +34,19 @@ public class QualifiedName {
 
     private final String qualifier;
 
+    private final String unparsed;
+    
     /**
      * Parses a qualified name into 2 components, name and qualifier.
      *
      * @param value Qualified name to parse.
      */
     public QualifiedName(String value) {
+        this.unparsed = value;
+        
         if (!value.contains(":")) {
             name = value;
-            qualifier = value;
+            qualifier = null;
         } else {
             String[] pcs = value.split("\\:", 2);
             name = pcs[0] + ":";
@@ -62,12 +66,26 @@ public class QualifiedName {
     }
 
     /**
-     * Returns the qualifier component. If no qualifier was specified, the qualifier will be the
-     * same as the name component.
+     * Returns the qualifier component. If no qualifier was specified, returns null.
      *
      * @return The qualifier component.
      */
     public String getQualifier() {
         return qualifier;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof QualifiedName && ((QualifiedName) o).unparsed.equals(unparsed);
+    }
+    
+    @Override
+    public int hashCode() {
+        return unparsed.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+        return unparsed;
     }
 }

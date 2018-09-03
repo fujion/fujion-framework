@@ -20,6 +20,7 @@
  */
 package org.fujion.ancillary;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,6 +32,7 @@ import java.util.Set;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.fujion.common.DateUtil.Format;
+import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
@@ -205,25 +207,13 @@ public class ConvertUtil {
      * @param instance Instance that is the target of the invocation (may be null for static
      *            methods).
      * @param method The method to invoke.
-     * @param args Arguments to be passed to method (may be null if no arguments). Argument values
-     *            will be coerced to the expected type if possible.
+     * @param args Arguments to be passed to the method (may be null if no arguments). Argument
+     *            values will be coerced to the expected type if possible.
      * @return Return value of the method, if any.
      */
     public static Object invokeMethod(Object instance, Method method, Object... args) {
         try {
-            Class<?>[] parameterTypes = method.getParameterTypes();
-            args = args == null ? new Object[0] : args;
-            
-            if (args.length != parameterTypes.length) {
-                throw new IllegalArgumentException(StrUtil.formatMessage(
-                    "Attempted to invoke method \"%s\" with the incorrect number of arguments (provided %d but expected %d)",
-                    method.getName(), args.length, parameterTypes.length));
-            }
-
-            for (int i = 0; i < parameterTypes.length; i++) {
-                args[i] = convert(args[i], parameterTypes[i], instance);
-            }
-
+            args = convertArgs(instance, method.getParameterTypes(), args);
             return method.invoke(instance, args);
         } catch (Exception e) {
             throw new ComponentException(e, "Exception invoking method \"%s\" on component \"%s\"", method.getName(),
@@ -231,6 +221,64 @@ public class ConvertUtil {
         }
     }
 
+    /**
+     * Invokes a compatible constructor with the provided value(s), performing type conversion as
+     * necessary.
+     *
+     * @param clazz The class whose constructor is to be invoked.
+     * @param args Arguments to be passed to the constructor (may be null if no arguments). Argument
+     *            values will be coerced to the expected type if possible.
+     * @return The newly created instance.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T invokeConstructor(Class<T> clazz, Object... args) {
+        int arglen = args == null ? 0 : args.length;
+        
+        if (arglen == 0) {
+            try {
+                return clazz.newInstance();
+            } catch (Exception e) {
+                throw MiscUtil.toUnchecked(e);
+            }
+        }
+        
+        RuntimeException lastException = null;
+        
+        for (Constructor<?> ctor : clazz.getDeclaredConstructors()) {
+            if (ctor.getParameterCount() == arglen) {
+                try {
+                    Object[] newArgs = convertArgs(null, ctor.getParameterTypes(), args);
+                    return (T) ctor.newInstance(newArgs);
+                } catch (Exception e) {
+                    lastException = MiscUtil.toUnchecked(e);
+                }
+            }
+        }
+
+        Assert.notNull(lastException, () -> {
+            return "No suitable constructor found for class " + clazz;
+        });
+
+        throw lastException;
+    }
+    
+    private static Object[] convertArgs(Object instance, Class<?>[] parameterTypes, Object... args) {
+        int arglen = args == null ? 0 : args.length;
+        
+        Assert.isTrue(args.length == parameterTypes.length, () -> {
+            return StrUtil.formatMessage("Incorrect number of arguments (provided %d but expected %d)", arglen,
+                parameterTypes.length);
+        });
+
+        Object[] out = new Object[arglen];
+
+        for (int i = 0; i < arglen; i++) {
+            out[i] = convert(args[i], parameterTypes[i], instance);
+        }
+
+        return out;
+    }
+    
     /**
      * Returns an attribute value from an XML element, coercing it to the requested type.
      *

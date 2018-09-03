@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 import org.fujion.ancillary.ComponentRegistry;
+import org.fujion.ancillary.QualifiedName;
 import org.fujion.annotation.Component.ContentHandling;
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.common.Logger;
@@ -78,7 +79,7 @@ public class PageParser implements BeanPostProcessor {
         registerAttributeNS(NS_ATTR, "attr");
         registerAttributeNS(NS_HTML, "html");
         registerAttributeNS(NS_CONTROLLER, "controller");
-        registerTagNS(NS_FSP, "");
+        registerTagNS(NS_FSP, "fsp");
         registerTagNS(NS_HTML, "html");
     }
     
@@ -142,7 +143,7 @@ public class PageParser implements BeanPostProcessor {
      * @param prefix The attribute prefix to be used by the parser.
      */
     public void registerAttributeNS(String url, String prefix) {
-        attrNSMap.put(url, prefix);
+        registerNS(url, prefix, attrNSMap);
     }
     
     /**
@@ -152,9 +153,14 @@ public class PageParser implements BeanPostProcessor {
      * @param prefix The tag prefix to be used by the parser.
      */
     public void registerTagNS(String url, String prefix) {
-        tagNSMap.put(url, prefix);
+        registerNS(url, prefix, tagNSMap);
     }
     
+    private void registerNS(String url, String prefix, Map<String, String> map) {
+        map.put(url, prefix);
+        map.put(prefix, prefix);
+    }
+
     private void parseNode(Node node, PageElement parentElement) {
         ComponentDefinition def;
         PageElement childElement;
@@ -175,13 +181,16 @@ public class PageParser implements BeanPostProcessor {
                     return;
                 }
 
-                def = ComponentRegistry.getInstance().get(tag);
+                QualifiedName qTag = new QualifiedName(tag);
+                def = ComponentRegistry.getInstance().get(qTag.getName());
                 
                 if (def == null) {
                     throw new ParserException("Unrecognized tag  '<%s>'", tag);
                 }
                 
-                childElement = new PageElement(def, parentElement);
+                String qualifier = qTag.getQualifier();
+                Object[] ctorArgs = qualifier == null ? null : new Object[] { qualifier };
+                childElement = new PageElement(def, parentElement, ctorArgs);
                 processAttributes(node, (name, value) -> {
                     if (!def.validateAttribute(name)) {
                         badAttribute(tag, name);
@@ -301,17 +310,20 @@ public class PageParser implements BeanPostProcessor {
      */
     private String normalizeNodeName(Node node, Map<String, String> nsMap) {
         String name = node.getNodeName();
+        String pfx;
         int i = name.indexOf(":");
         
         if (i > 0) {
-            String pfx = name.substring(0, i);
+            pfx = name.substring(0, i);
             name = name.substring(i + 1);
             String uri = node.lookupNamespaceURI(pfx);
             pfx = uri == null ? null : nsMap.get(uri);
-            name = pfx == null ? null : pfx.isEmpty() ? name : pfx + ":" + name;
+        } else {
+            String uri = node.getNamespaceURI();
+            pfx = uri == null ? "fsp" : nsMap.get(uri);
         }
         
-        return name;
+        return pfx == null ? null : "fsp".equals(pfx) ? name : pfx + ":" + name;
     }
 
     private void parseChildren(Node node, PageElement parentElement) {

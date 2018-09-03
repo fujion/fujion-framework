@@ -144,7 +144,7 @@ public class PageDefinition {
             parent = null;
         } else {
             ELContext elContext = attributes.isEmpty() ? null : new ELContext(null, parent, element, args);
-            components = def.getFactory().create(attributes, elContext);
+            components = def.getFactory().create(attributes, elContext, element.getConstructorArgs());
         }
 
         for (BaseComponent component : components) {
