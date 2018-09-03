@@ -29,20 +29,20 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component that allows embedding native HTML within a page.
  */
-@Component(tag = "html", widgetClass = "Html", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", childTag = @ChildTag("htmlElement"), description = "A component that allows embedding native HTML within a page.")
+@Component(tag = "html", widgetClass = "Html", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", childTag = @ChildTag("html:"), description = "A component that allows embedding native HTML within a page.")
 public class Html extends BaseUIComponent {
-    
-    private String src;
 
+    private String src;
+    
     public Html() {
         super();
     }
-    
+
     public Html(String content) {
         super();
         setContent(content);
     }
-    
+
     /**
      * Sets the HTML content.
      *
@@ -52,15 +52,15 @@ public class Html extends BaseUIComponent {
     @Override
     public void setContent(String content) {
         content = nullify(content);
-
+        
         if (content != null) {
             destroyChildren();
             setSrc(null);
         }
-
+        
         super.setContent(content);
     }
-    
+
     /**
      * Returns the URL of external HTML content.
      *
@@ -70,7 +70,7 @@ public class Html extends BaseUIComponent {
     public String getSrc() {
         return src;
     }
-
+    
     /**
      * Sets the URL of external HTML content.
      *
@@ -79,15 +79,15 @@ public class Html extends BaseUIComponent {
     @PropertySetter(value = "src", description = "The URL of external HTML content.")
     public void setSrc(String src) {
         src = nullify(src);
-
+        
         if (src != null) {
             destroyChildren();
             super.setContent(null);
         }
-        
+
         propertyChange("src", this.src, this.src = src, isContentSynced());
     }
-    
+
     @Override
     protected void beforeAddChild(BaseComponent child) {
         super.beforeAddChild(child);
