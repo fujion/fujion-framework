@@ -524,17 +524,30 @@ public class CommonTest {
         assertEquals(CAMEL_LCASE_RESULT, StrUtil.toCamelCaseLower(text));
     }
     
-    private static final Integer[] CYCLIC_COLLECTION = { 0, 1, 2 };
+    private static final Integer[] CYCLIC_TEST1 = { 0, 1, 2 };
+
+    private static final Integer[] CYCLIC_TEST2 = {};
 
     @Test
     public void testCyclicIterator() {
-        Iterator<Integer> iter = new CyclicIterator<>(CYCLIC_COLLECTION);
+        CyclicIterator<Integer> iter = new CyclicIterator<>(CYCLIC_TEST1);
         
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 assertEquals(j, iter.next().intValue());
             }
         }
+
+        iter.reset();
+        assertEquals(0, iter.next().intValue());
+        assertEquals(1, iter.next().intValue());
+        iter.reset();
+        assertEquals(0, iter.next().intValue());
+        assertEquals(1, iter.next().intValue());
+        iter = new CyclicIterator<>((Iterable<Integer>) null);
+        assertFalse(iter.hasNext());
+        iter = new CyclicIterator<>(CYCLIC_TEST2);
+        assertFalse(iter.hasNext());
     }
 
     @Test

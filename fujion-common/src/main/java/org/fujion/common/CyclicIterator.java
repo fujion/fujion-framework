@@ -21,48 +21,64 @@
 package org.fujion.common;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
- * Generates an iterator that cycles over an underlying collection (i.e., when it has reached the
- * end of the collection, it starts over at the beginning).
+ * Generates an iterator that cycles over an underlying iterable (i.e., when it has reached the end
+ * of the iteration, it starts over at the beginning).
  *
  * @param <T> The element type.
  */
 public class CyclicIterator<T> implements Iterator<T> {
+
+    private final Iterable<T> iterable;
     
-    private final Collection<T> collection;
-
-    private Iterator<T> iterator;
-
     private final boolean hasNext;
-
-    public CyclicIterator(Collection<T> collection) {
-        this.collection = collection;
-        hasNext = collection != null && !collection.isEmpty();
+    
+    private Iterator<T> iterator;
+    
+    public CyclicIterator(Iterable<T> iterable) {
+        this.iterable = iterable;
+        reset();
+        hasNext = iterator != null && iterator.hasNext();
     }
-
+    
     public CyclicIterator(T[] array) {
-        this.collection = array == null ? null : Arrays.asList(array);
-        hasNext = collection != null && !collection.isEmpty();
+        this(array == null ? null : Arrays.asList(array));
     }
-
+    
+    /**
+     * This will always return true unless the wrapped iterable was null or empty.
+     *
+     * @return True unless the wrapped iterable was null or empty.
+     */
     @Override
     public boolean hasNext() {
         return hasNext;
     }
-    
+
+    /**
+     * Returns the next element in the underlying iteration, cycling to the first element if at the
+     * end.
+     */
     @Override
     public T next() {
-        iterator = iterator == null || !iterator.hasNext() ? collection.iterator() : iterator;
+        if (!hasNext) {
+            throw new NoSuchElementException();
+        }
+
+        if (!iterator.hasNext()) {
+            reset();
+        }
+
         return iterator.next();
     }
-
+    
     /**
      * Resets the iterator to the first element.
      */
     public void reset() {
-        iterator = null;
+        iterator = iterable == null ? null : iterable.iterator();
     }
 }
