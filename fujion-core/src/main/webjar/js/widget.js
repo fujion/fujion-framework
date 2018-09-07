@@ -2106,10 +2106,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 	
 		s_position: function(v) {
-			this.toggleClass('fujion_labeled-left', v === 'LEFT');
-			this.toggleClass('fujion_labeled-right', v === 'RIGHT');
-			this.toggleClass('fujion_labeled-top', v === 'TOP');
-			this.toggleClass('fujion_labeled-bottom', v === 'BOTTOM');
+			this.toggleClass('fujion-labeled-left', v === 'LEFT');
+			this.toggleClass('fujion-labeled-right', v === 'RIGHT');
+			this.toggleClass('fujion-labeled-top', v === 'TOP');
+			this.toggleClass('fujion-labeled-bottom', v === 'BOTTOM');
 		}
 
 	});
@@ -2138,7 +2138,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		init: function() {
 			this._super();
-			this.toggleClass('btn', true);
+			this.toggleClass('btn fujion-labeled', true);
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
@@ -2158,6 +2158,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	 ******************************************************************************************************************/ 
 	
 	fujion.widget.Hyperlink = fujion.widget.Button.extend({
+		
+		/*------------------------------ Lifecycle ------------------------------*/
+		
+		init: function() {
+			this._super();
+			this.toggleClass('fujion-labeled', true);
+		},
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
@@ -2190,7 +2197,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $('<label class="label-default">');
+			return $('<label/>');
 		}
 	
 	});
@@ -2211,7 +2218,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		init: function() {
 			this._super();
-			this.initState({position: 'left', alignment: 'start', labelClass: 'label-default'})
+			this.initState({position: 'left', alignment: 'start', labelClass: 'badge-default'})
 		},
 		
 		/*------------------------------ Other ------------------------------*/
@@ -2395,7 +2402,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		init: function() {
 			this._super();
-			this.toggleClass('form-check', true);
+			this.toggleClass('fujion-labeled', true);
 		},
 		
 		/*------------------------------ Events ------------------------------*/
@@ -2417,8 +2424,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom =
 				'<div>'
-			  +   '<input id="${id}-real" class="form-check-input" type="checkbox">'
-			  +   '<label id="${id}-lbl" class="form-check-label" for="${id}-real"/>'
+			  +   '<input id="${id}-real" type="checkbox">'
+			  +   '<label id="${id}-lbl" for="${id}-real"/>'
 			  + '</div>';
 			
 			return $(this.resolveEL(dom));
@@ -2450,7 +2457,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				wgt = wgt._parent;
 			}
 			
-			return wgt ? wgt.id : null;
+			return wgt ? wgt.id : "";
 		},
 				
 		/*------------------------------ Rendering ------------------------------*/
@@ -2458,8 +2465,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom =
 				'<div>'
-			  +   '<input id="${id}-real" class="form-check-input" type="radio" name="${getGroup}">'
-			  +   '<label id="${id}-lbl" class="form-check-label" for="${id}-real"/>'
+			  +   '<input id="${id}-real" type="radio" name="${getGroup}">'
+			  +   '<label id="${id}-lbl" for="${id}-real"/>'
 			  + '</div>';
 			
 			return $(this.resolveEL(dom));
@@ -2627,9 +2634,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var dom = 
 				  '<span>'
 				+   '<div class="dropdown" style="display: inline-block" role="presentation">'
-				+     '<a id="${id}-btn" role="button" aria-haspopup="true" aria-expanded="false">'
+				+     '<a id="${id}-btn" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-menu">'
 				+ 		 this.getDOMTemplate(':image', 'label')
-				+       '<span class="caret"></span>'
+				+       '<span class="dropdown-toggle"/>'
 				+     '</a>'
 				+   '</div>'
 				+ '</span>';
@@ -2697,7 +2704,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var submenu = this.getState('_submenu'),
 				dom = '<li>'
-					+   '<a id="${id}-btn">'
+					+   '<a id="${id}-btn" class="dropdown-item">'
 					+ this.getDOMTemplate(':image', ':checkable', 'label')
 					+   '</a>'
 					+ (submenu ? '<ul id="${id}-inner" class="dropdown-menu">' : '')

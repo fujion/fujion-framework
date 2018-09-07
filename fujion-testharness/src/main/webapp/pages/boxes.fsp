@@ -55,7 +55,7 @@
 			<row>
 				<popupbox name="popupbox1" placeholder="popupbox">
 					<popup name="popupboxpopup1">
-						<label class="flavor:label-success" label="Simple popup #1" />
+						<label class="flavor:badge-success" label="Simple popup #1" />
 					</popup>
 				</popupbox>
 				popupbox with popup as a child
@@ -136,7 +136,7 @@
 		</rows>
 	</grid>
 	<popup name="popupboxpopup2">
-		<label class="flavor:label-success" label="Simple popup #2" />
+		<label class="flavor:badge-success" label="Simple popup #2" />
 	</popup>
 	
 </fsp>

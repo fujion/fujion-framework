@@ -49,6 +49,11 @@ caption:empty {
 
 /* bootstrap extensions */
 
+.badge-default {
+  color: black;
+  background-color: transparent;
+}
+
 .dropdown-submenu {
     position: relative;
 }
@@ -125,6 +130,47 @@ iframe.fujion-resizer {
 
 .fujion-disabled {
     pointer-events: none;    
+}
+
+/* Labeled elements */
+
+.fujion-labeled {
+	display: inline-flex;
+	align-items: center;
+}
+
+.fujion-labeled-right {
+	flex-direction: row;
+}
+.fujion-labeled-right > label,
+.fujion-labeled-right > span {
+	margin-left: 5px;	
+}
+
+.fujion-labeled-left {
+	flex-direction: row-reverse;
+}
+
+.fujion-labeled-left > label,
+.fujion-labeled-left > span {
+	margin-right: 5px;	
+}
+.fujion-labeled-top {
+	flex-direction: column;
+}
+
+.fujion-labeled-top > label,
+.fujion-labeled-top > span {
+	margin-bottom: 5px;	
+}
+
+.fujion-labeled-bottom {
+	flex-direction: row;
+}
+
+.fujion-labeled-bottom > label,
+.fujion-labeled-bottom > span {
+	margin-top: 5px;	
 }
 
 /* Layouts */
@@ -262,6 +308,7 @@ iframe.fujion-resizer {
 .fujion_menuitem img,
 .fujion_menuheader img {
 	margin-left: -18px;
+	margin-top: 5px;
 	position: absolute;
 }
 
@@ -459,20 +506,6 @@ iframe.fujion-resizer {
 	margin: 2px;
 }
 
-/* Labeled elements */
-
-.fujion_labeled-right > label,
-.fujion_labeled-right > span {
-	float: right;	
-	margin-left: 5px;	
-}
-
-.fujion_labeled-left > label,
-.fujion_labeled-left > span {
-	float: left;
-	margin-right: 5px;	
-}
-
 /* Caption */
 
 .fujion_caption {
@@ -555,8 +588,11 @@ iframe.fujion-resizer {
 /* Checkbox */
 
 .fujion_checkbox {
-	display: inline-flex;
 	margin: 0 5px 0 5px;
+}
+
+.fujion_checkbox label {
+	margin-bottom: 0;
 }
 
 /* Radiogroup */
@@ -568,16 +604,11 @@ iframe.fujion-resizer {
 /* Radiobutton */
 
 .fujion_radiobutton {
-	display: inline-block;
 	margin: 0 5px 0 5px;
 }
 
 .fujion_radiobutton label {
-	margin-top: 4px;
-}
-
-.fujion_radiobutton.fujion_labeled-left > label {
-	order: -1;
+	margin-bottom: 0;
 }
 
 /* Input box components */

@@ -147,7 +147,7 @@
 						<row>
 							<popupbox name="popupbox" placeholder="popupbox">
 								<popup>
-									<label class="flavor:label-success" label="Simple popup" />	
+									<label class="flavor:badge-success" label="Simple popup" />	
 								</popup>
 							</popupbox>
 							popupbox name="popupbox" placeholder="popupbox"

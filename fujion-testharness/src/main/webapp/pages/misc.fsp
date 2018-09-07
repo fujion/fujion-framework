@@ -67,7 +67,7 @@
 			</row>
 			<row>
 				<toolbar>
-					<div name="divMaskTest" height="50px" width="100px" style="display:inline-block; border: 1px solid black">
+					<div name="divMaskTest" style="display:inline-block; border: 1px solid black">
 						<button label="behind mask" />
 					</div>
 					<button name="btnMaskTest" label="Click to toggle mask"/>
@@ -94,6 +94,18 @@
 			<row>
 				<slider synchronized="true"/>
 				Slider control.
+			</row>
+			<row>
+				<div>
+					<button name="btnRL" label="label" image="images/fujion.png" />
+					<link name="lnkRL" label="label" image="images/fujion.png" />
+					<checkbox name="chkRL" label="label" />
+					<radiobutton name="rbRL" label="label" />
+				</div>
+				<radiogroup name="rgPositionRL">
+					<radiobutton label="left" />
+					<radiobutton label="right" checked="true" />
+				</radiogroup>
 			</row>
 			<row>
 				<caption name="caption" label="caption" alignment="start" position="left">

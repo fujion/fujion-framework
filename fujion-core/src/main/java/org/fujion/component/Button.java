@@ -29,16 +29,16 @@ import org.fujion.annotation.Component.PropertySetter;
  */
 @Component(tag = "button", widgetClass = "Button", parentTag = "*", description = "A simple button component.")
 public class Button extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionHorz> {
-
+    
     public Button() {
         this(null);
     }
-
+    
     public Button(String label) {
         super(label);
-        addClass("flavor:btn-secondary size:btn-sm");
+        addClass("flavor:btn-info size:btn-sm");
     }
-
+    
     /**
      * Returns the position of the label relative to the image. Defaults to 'left'.
      *
@@ -49,16 +49,16 @@ public class Button extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     public LabelPositionHorz getPosition() {
         return super.getPosition();
     }
-
+    
     /**
      * Sets the position of the label relative to the image.
      *
      * @param position May be one of: left, right.
      */
     @Override
-    @PropertySetter(value = "position", defaultValue = "left", description = "The position of the label relative to the image.")
+    @PropertySetter(value = "position", defaultValue = "right", description = "The position of the label relative to the image.")
     public void setPosition(LabelPositionHorz position) {
         super.setPosition(position);
     }
-
+    
 }
