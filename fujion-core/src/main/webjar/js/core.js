@@ -748,7 +748,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		var props = {
 				wclass: 'Alert'},
 			state = {
-				_clazz: 'bg-' + flavor + ' text-white' + flavor,
+				clazz: 'alert-' + flavor,
 				title: title || 'Alert',
 				text: message};
 		

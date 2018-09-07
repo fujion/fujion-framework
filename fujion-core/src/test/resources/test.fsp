@@ -1,6 +1,6 @@
  
 <page name="page" title="The Page Title"> 
-	<window title="Fujion Component Tests" class="flavor:panel-primary">
+	<window title="Fujion Component Tests" class="flavor:alert-primary">
 		<tabview name="tabview" height="500px" tabPosition="left">
 			
 			<tab label="Styles" selected="true">
@@ -63,8 +63,8 @@
 						</row>
 						<row>
 							<toolbar> 
-								<button class="flavor:btn-secondary" label="default" />
 								<button class="flavor:btn-primary" label="primary" />
+								<button class="flavor:btn-secondary" label="secondary" />
 								<button class="flavor:btn-info" label="info" />
 								<button class="flavor:btn-danger" label="danger" />
 								<button class="flavor:btn-success" label="success" />
@@ -237,20 +237,20 @@
 			
 			
 			<tab label="Window">
-				<window name="window1" class="flavor:panel-success" title="Test Window" height="100px">
-					window name="window1" class="flavor:panel-success" title="Test Window" height="100px"
+				<window name="window1" class="flavor:alert-success" title="Test Window" height="100px">
+					window name="window1" class="flavor:alert-success" title="Test Window" height="100px"
 					<div name="window_div" />
 				</window>
 				
-				<window name="window2" class="flavor:panel-danger" title="Test Window #2" 
+				<window name="window2" class="flavor:alert-danger" title="Test Window #2" 
 					image="images/house.png" height="100px" closable="true">
-					window name="window2" class="flavor:panel-danger" title="Test Window #2" image="images/house.png" height="100px" closable="true"
+					window name="window2" class="flavor:alert-danger" title="Test Window #2" image="images/house.png" height="100px" closable="true"
 					<div name="window_div" />
 				</window>
 				
-				<window name="window3" class="flavor:panel-warning" title="Test Window #3" 
+				<window name="window3" class="flavor:alert-warning" title="Test Window #3" 
 					height="100px" closable="true" dragid="test" sizable="true" minimizable="true" maximizable="true" >
-					window name="window3" class="flavor:panel-warning" title="Test Window #3" height="100px" closable="true"
+					window name="window3" class="flavor:alert-warning" title="Test Window #3" height="100px" closable="true"
 					<div>
 						<button name="btnModal" label="Make modal" class="flavor:btn-success" />
 						<button name="btnAlert" label="Show alert" class="flavor:btn-warning" />

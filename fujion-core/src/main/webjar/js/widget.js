@@ -2043,8 +2043,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Lifecycle ------------------------------*/
 		
 		init: function() {
-			this._super();
 			this.wclazz = 'popover';
+			this._super();
 		},
 				
 		/*------------------------------ Other ------------------------------*/
@@ -2395,7 +2395,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		init: function() {
 			this._super();
-			this.toggleClass('label-default', true);
+			this.toggleClass('form-check', true);
 		},
 		
 		/*------------------------------ Events ------------------------------*/
@@ -2417,8 +2417,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom =
 				'<div>'
-			  +   '<input id="${id}-real" type="checkbox">'
-			  +   '<label id="${id}-lbl" for="${id}-real"/>'
+			  +   '<input id="${id}-real" class="form-check-input" type="checkbox">'
+			  +   '<label id="${id}-lbl" class="form-check-label" for="${id}-real"/>'
 			  + '</div>';
 			
 			return $(this.resolveEL(dom));
@@ -2458,8 +2458,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom =
 				'<div>'
-			  +   '<input id="${id}-real" type="radio" name="${getGroup}">'
-			  +   '<label id="${id}-lbl" for="${id}-real"/>'
+			  +   '<input id="${id}-real" class="form-check-input" type="radio" name="${getGroup}">'
+			  +   '<label id="${id}-lbl" class="form-check-label" for="${id}-real"/>'
 			  + '</div>';
 			
 			return $(this.resolveEL(dom));
@@ -3695,7 +3695,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		init: function() {
 			this._super();
 			this.initState({mode: 'INLINE', size: 'NORMAL', position: 'CENTER', movable: true});
-			this.toggleClass('fujion_titled card bg-primary text-white', true);
+			this.toggleClass('fujion_titled card', true);
 			this.forwardToServer('close');
 		},
 		
@@ -4010,16 +4010,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Lifecycle ------------------------------*/
 		
 		init: function() {
-			this._super();
 			this.wclazz = 'fujion_window';
+			this._super();
 			this.initState({mode: 'MODAL', closable: true, sizable: true}, true);
+			this.toggleClass('fujion_alert', true);
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
 		afterRender: function() {
 			this._super();
-			this.widget$.find('.fa-remove').on('click', this.destroy.bind(this));
+			this.widget$.find('.fa-close').on('click', this.destroy.bind(this));
 		},
 
 		beforeRender: function() {

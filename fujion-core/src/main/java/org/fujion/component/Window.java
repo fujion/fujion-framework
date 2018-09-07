@@ -133,7 +133,7 @@ public class Window extends BaseUIComponent implements INamespace {
     public Window() {
         super();
         setMode(Mode.INLINE);
-        addClass("flavor:panel-default");
+        addClass("flavor:alert-primary");
     }
 
     /**
