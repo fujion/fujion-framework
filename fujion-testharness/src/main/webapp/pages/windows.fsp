@@ -5,19 +5,23 @@
 	</toolbar>
 	
 	<window name="window1" class="flavor:alert-success" title="Test Window" height="100px">
-		window name="window1" class="flavor:alert-success" title="Test Window" height="100px"
-		<div name="window_div" />
+		<div name="window_div">
+			flavor: alert-success
+		</div>
 	</window>
 	
 	<window name="window2" class="flavor:alert-danger" title="Test Window #2" 
 		image="images/house.png" height="100px" closable="true">
-		window name="window2" class="flavor:alert-danger" title="Test Window #2" image="images/house.png" height="100px" closable="true"
-		<div name="window_div" />
+		<div name="window_div">
+			flavor: alert-danger, closable
+		</div>
 	</window>
 	
 	<window name="window3" class="flavor:alert-warning" title="Test Window #3" 
 		height="100px" closable="true" dragid="test" sizable="true" minimizable="true" maximizable="true" >
-		window name="window3" class="flavor:alert-warning" title="Test Window #3" height="100px" closable="true"
+		<div>
+			flavor: alert-warning, closable, sizable, minimizable, maximizable
+		</div>
 		<toolbar alignment="center">
 			<radiogroup name="rgMode">
 				<radiobutton label="inline" checked="true"/>

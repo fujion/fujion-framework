@@ -21,9 +21,11 @@
 package org.fujion.testharness;
 
 import org.fujion.annotation.EventHandler;
+import org.fujion.annotation.OnFailure;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.client.ClientUtil;
 import org.fujion.component.BaseComponent;
+import org.fujion.component.Button;
 import org.fujion.component.Div;
 import org.fujion.component.Label;
 import org.fujion.component.MessagePane;
@@ -38,7 +40,7 @@ import org.fujion.event.ResizeEvent;
  */
 public class WindowsController extends BaseController {
     
-    @WiredComponent("^/messagewindow")
+    @WiredComponent(value = "^/messagewindow", onFailure = OnFailure.LOG)
     private MessageWindow messagewindow;
     
     @WiredComponent("window1/window_div")
@@ -52,16 +54,20 @@ public class WindowsController extends BaseController {
     
     @WiredComponent("window3/rgMode")
     private Radiogroup rgMode;
+
+    @WiredComponent
+    private Button btnMessage;
     
     private int messageClass = -1;
     
     @Override
     public void afterInitialized(BaseComponent root) {
         super.afterInitialized(root);
+        btnMessage.setVisible(messagewindow != null);
         log(windowdiv1 == null, "Component window1/window_div was NOT autowired.",
-            "Component window1/window_div was autowired.");
+                "Component window1/window_div was autowired.");
         log(windowdiv2 == null, "Component window2/window_div was NOT autowired.",
-            "Component window2/window_div was autowired.");
+                "Component window2/window_div was autowired.");
         log(windowdiv1 == windowdiv2, "window1/window_div and window2/window_div should not be the same.", null);
     }
     
@@ -78,7 +84,7 @@ public class WindowsController extends BaseController {
     
     private static final String[] MSG_CLASS = { "success", "warning", "danger", "info" };
     
-    @EventHandler(value = "click", target = "btnMessage")
+    @EventHandler(value = "click", target = "@btnMessage")
     private void btnMessageHandler() {
         MessagePane pane = new MessagePane("Message Title", "category", 8000, false);
         messageClass++;

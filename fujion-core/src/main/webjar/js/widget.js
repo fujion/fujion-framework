@@ -3701,6 +3701,28 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ Other ------------------------------*/
 		
+		_modifyStyles: function(styles) {
+			if (styles) {
+				var s = this.widget$[0].style;
+				
+				_.forOwn(styles, function(value, key) {
+					s[key] = value;
+				});
+			}
+		},
+		
+		_restoreStyles: function() {
+			this._modifyStyles(this.getState('_savedStyles'));
+			this.setState('_savedStyles', null);
+		},
+		
+		_saveStyles: function() {
+			if (!this.getState('_savedStyles')) {
+				var saved = _.pick(this.widget$[0].style, fujion.widget.Window._saveStyles);
+				this.setState('_savedStyles', saved);
+			}
+		},
+		
 		_updateDraggable: function() {
 			this.widget$.draggable('instance') ? this.widget$.draggable('destroy') : null;
 			
@@ -3856,6 +3878,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var self = this,
 				mask$ = this._ancillaries.mask$;
 			
+			if (oldmode === 'INLINE') {
+				this._saveStyles();
+			}
+			
 			v = v || 'INLINE';
 			_mode(oldmode, true);
 			_mode(v, false);
@@ -3879,6 +3905,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				this.widget$.css('z-index', v === 'POPUP' ? ++fujion.widget._zmodal : null);
 			}
 			
+			if (v === 'INLINE') {
+				this._restoreStyles();
+			}
+			
 			function _mode(mode, remove) {
 				mode ? self.toggleClass(self.subclazz(mode), !remove) : null;
 			}
@@ -3897,11 +3927,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_size: function(v)	 {
-			var inline = 'INLINE' === this.getState('mode'),
-				saved = this.getState('_savedState'),
-				self = this,
-				w$ = this.widget$;
-			
+			var inline = 'INLINE' === this.getState('mode');
 			this._updateSizable();
 			
 			switch (v) {
@@ -3909,18 +3935,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 					this._buttonState('minimize', 0);
 					this._buttonState('maximize', 0);
 					this.sub$('inner').hide();
-					_modifyState(saved);
-					this.setState('_savedState', null);
+					this._restoreStyles();
 					this.sub$('inner').show();
 					break;
 					
 				case 'MAXIMIZED':
-					_saveState();
 					this._buttonState('minimize', 0);
 					this._buttonState('maximize', 1);
 					
 					if (!inline) {
-						_modifyState({
+						this._saveStyles();
+						this._modifyStyles({
 							left: 0,
 							right: 0,
 							top: 0,
@@ -3936,18 +3961,18 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 					break;
 				
 				case 'MINIMIZED':
-					_saveState();
+					this._saveStyles();
 					this.sub$('inner').hide();
 					this._buttonState('minimize', 1);
 					this._buttonState('maximize', 0);
 					var tbheight = this.widget$.children().first().css('height');
 					
 					if (inline) {
-						_modifyState({
+						this._modifyStyles({
 							height: tbheight
 						});
 					} else {
-						_modifyState({
+						this._modifyStyles({
 							left: 0,
 							right: 'auto',
 							top: null,
@@ -3962,23 +3987,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 					break;
 			}
 			
-			function _modifyState(state) {
-				if (state) {
-					var s = w$[0].style;
-					
-					_.forOwn(state, function(value, key) {
-						s[key] = value;
-					});
-				}
-			}
-			
-			function _saveState() {
-				if (!saved) {
-					var s = w$[0].style;
-					saved = _.pick(s, fujion.widget.Window._saveStyles);
-					self.setState('_savedState', saved);
-				}
-			}
 		},
 		
 		s_title: function(v) {
