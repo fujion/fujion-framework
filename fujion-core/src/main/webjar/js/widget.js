@@ -9,7 +9,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	fujion.widget._fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
 	
 	fujion.widget._domTemplates = {
-			badge: '<span id="${id}-badge" class="badge" />',
+			badge: '<span id="${id}-badge" class="badge badge-pill" />',
 			checkable: '<span id="${id}-chk" class="fa"/>',
 			closable: '<span id="${id}-cls" class="fa fa-remove"/>',
 			image: '<img id="${id}-img" src="${_state.image}"/>',

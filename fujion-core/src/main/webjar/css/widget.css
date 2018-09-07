@@ -97,10 +97,12 @@ caption:empty {
 
 .badge-pos {
 	background-color: #5cb85c;
+	color: white;
 }
 
 .badge-neg {
 	background-color: #d9534f;
+	color: white;
 }
 
 .fa[disabled] {
