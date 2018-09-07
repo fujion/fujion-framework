@@ -21,6 +21,7 @@
 package org.fujion.common;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -32,62 +33,100 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * where any missing components are assumed to be 0.
  */
 public class Version implements Comparable<Version> {
-    
+
     public static final int NOVAL = -1;
-    
+
     /**
      * Specifies a version part.
      */
     public enum VersionPart {
         MAJOR, MINOR, RELEASE, BUILD
     }
-    
+
     private final int seq[] = new int[] { NOVAL, NOVAL, NOVAL, NOVAL };
-    
+
+    private final String classifier;
+
     public Version() {
+        classifier = null;
     }
-    
+
     public Version(String value) {
+        String classifier = null;
         value = StringUtils.trimToNull(value);
-        
+
         if (value != null) {
             String[] pcs = value.split("\\.", 4);
-            
+
             for (int i = 0; i < pcs.length; i++) {
-                setPart(VersionPart.values()[i], StrUtil.extractInt(pcs[i].trim()));
+                String pc = pcs[i].trim();
+                pc = pc.isEmpty() ? "0" : pc;
+
+                if (classifier != null) {
+                    classifier += "." + pc;
+                } else {
+                    String vpart = StrUtil.extractIntPrefix(pc);
+                    pc = StringUtils.substring(pc, vpart.length());
+
+                    if (!vpart.isEmpty()) {
+                        setPart(VersionPart.values()[i], Integer.parseInt(vpart));
+                    }
+
+                    if (!pc.isEmpty()) {
+                        classifier = (i > 0 && vpart.isEmpty() ? "." : "") + pc;
+                    }
+                }
             }
         }
+
+        this.classifier = classifier;
     }
-    
+
     public Version(int major) {
-        this(major, NOVAL, NOVAL, NOVAL);
+        this(major, NOVAL, NOVAL, NOVAL, null);
     }
-    
+
     public Version(int major, int minor) {
-        this(major, minor, NOVAL, NOVAL);
+        this(major, minor, NOVAL, NOVAL, null);
     }
-    
+
     public Version(int major, int minor, int release) {
-        this(major, minor, release, NOVAL);
+        this(major, minor, release, NOVAL, null);
     }
-    
+
     public Version(int major, int minor, int release, int build) {
+        this(major, minor, release, build, null);
+    }
+
+    public Version(int major, int minor, int release, int build, String classifier) {
         setPart(VersionPart.MAJOR, major);
         setPart(VersionPart.MINOR, minor);
         setPart(VersionPart.RELEASE, release);
         setPart(VersionPart.BUILD, build);
+        this.classifier = classifier;
     }
-    
+
     /**
      * Returns the value of the specified part.
      *
      * @param part The part whose value is sought.
-     * @return The value of the specified part, or -1 if no value.
+     * @return The value of the specified part, or -1 if no value. Note that the classifier version
+     *         part will always return -1. To retrieve the classifier part, use
+     *         {@link #getClassifier()}.
      */
     public int getPart(VersionPart part) {
         return seq[part.ordinal()];
     }
-
+    
+    /**
+     * Returns the version classifier, if any.
+     *
+     * @return The version classifier, if any.
+     */
+    public String getClassifier() {
+        return classifier;
+    }
+    
     /**
      * Sets the value of the specified version part.
      *
@@ -97,7 +136,7 @@ public class Version implements Comparable<Version> {
     private void setPart(VersionPart part, int value) {
         seq[part.ordinal()] = Math.max(NOVAL, value);
     }
-    
+
     /**
      * Returns the level of specificity for the version.
      *
@@ -107,62 +146,109 @@ public class Version implements Comparable<Version> {
         int i = ArrayUtils.indexOf(seq, NOVAL);
         return i == -1 ? VersionPart.BUILD : i == 0 ? null : VersionPart.values()[i - 1];
     }
-    
+
+    /**
+     * Two version are considered equal if all their respective parts are equal and their
+     * classifiers are equal.
+     */
     @Override
     public boolean equals(Object v) {
         return v instanceof Version && compareTo((Version) v) == 0;
     }
-    
+
+    /**
+     * Does a full comparison of all version parts. Classifiers are used in the comparison.
+     */
     @Override
+    public int compareTo(Version v) {
+        return compareTo(v, VersionPart.BUILD, true);
+    }
+
     /**
      * Does a full comparison of all version parts.
+     *
+     * @param v The version to compare
+     * @param includeClassifier If true, include classifiers in the comparison.
+     * @return Result of the comparison.
      */
-    public int compareTo(Version v) {
-        return compareTo(v, VersionPart.BUILD);
+    public int compareTo(Version v, boolean includeClassifier) {
+        return compareTo(v, VersionPart.BUILD, includeClassifier);
     }
-    
+
     /**
-     * Compare two versions up to and including the specified version part.
+     * Compare two versions up to and including the specified version part. Classifiers are not used
+     * in the comparison.
      *
      * @param v The version to compare.
      * @param part Compare up to and including this version part.
      * @return Result of the comparison.
      */
     public int compareTo(Version v, VersionPart part) {
+        return compareTo(v, part, false);
+    }
+
+    /**
+     * Compare two versions up to and including the specified version part.
+     *
+     * @param v The version to compare.
+     * @param part Compare up to and including this version part.
+     * @param includeClassifier If true, a case-sensitive string comparison of the classifiers will
+     *            be used in the event that all parts are equal.
+     * @return Result of the comparison.
+     */
+    public int compareTo(Version v, VersionPart part, boolean includeClassifier) {
         int diff = 0;
         int max = part.ordinal();
-        
+
         for (int i = 0; i <= max; i++) {
             diff = seq[i] - v.seq[i];
-            
+
             if (diff != 0) {
                 break;
             }
         }
+
+        if (diff == 0 && includeClassifier) {
+            diff = ObjectUtils.compare(classifier, v.classifier);
+        }
         
         return diff;
     }
-    
+
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(seq).hashCode();
+        return new HashCodeBuilder().append(seq).append(classifier).hashCode();
     }
-    
+
+    /**
+     * Returns the text representation of the version up to and including the specified version
+     * part. If the version part exceeds the specificity of the version, the result will be padded
+     * with zero values. If a classifier is present and the specified part is null, it will be
+     * appended to the end of the returned value.
+     *
+     * @param part Pad up to and including this version part. Null means no padding.
+     * @return The text representation.
+     */
+    public String toString(VersionPart part) {
+        return toString(part, part == null);
+    }
+
     /**
      * Returns the text representation of the version up to and including the specified version
      * part. If the version part exceeds the specificity of the version, the result will be padded
      * with zero values.
      *
      * @param part Pad up to and including this version part. Null means no padding.
+     * @param includeClassifier If true, include the classifier, if any.
      * @return The text representation.
      */
-    public String toString(VersionPart part) {
+    public String toString(VersionPart part, boolean includeClassifier) {
         StringBuilder sb = new StringBuilder();
         int max = part == null ? VersionPart.BUILD.ordinal() : part.ordinal();
-        
+
         for (int i = 0; i <= max; i++) {
             int j = seq[i];
-            
+
             if (j < 0) {
                 if (part == null) {
                     break;
@@ -170,16 +256,20 @@ public class Version implements Comparable<Version> {
                     j = 0;
                 }
             }
-
+            
             sb.append(i == 0 ? "" : ".").append(j);
+        }
+
+        if (includeClassifier && classifier != null) {
+            sb.append(classifier);
         }
         
         return sb.toString();
     }
-    
+
     @Override
     public String toString() {
         return toString(null);
     }
-    
+
 }

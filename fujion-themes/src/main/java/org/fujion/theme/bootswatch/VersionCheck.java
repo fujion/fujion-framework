@@ -26,7 +26,8 @@ import org.fujion.common.Version.VersionPart;
 import org.fujion.webjar.WebJarLocator;
 
 /**
- * Verifies that a compatible version of Bootstrap is in place.
+ * Verifies that a compatible version of Bootstrap is in place. Compatibility requires a matching
+ * major and minor version. If this is not the case, an exception is thrown.
  */
 public class VersionCheck {
     
