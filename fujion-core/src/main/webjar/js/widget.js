@@ -2099,6 +2099,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
+		s_alignment: function(v) {
+			this.toggleClass('fujion-labeled-start', v === 'START');
+			this.toggleClass('fujion-labeled-center', v === 'CENTER');
+			this.toggleClass('fujion-labeled-end', v === 'END');
+		},
+
 		s_label: function(v) {
 			var lbl$ = this.sub$('lbl');
 			(lbl$.length ? lbl$ : this.widget$).text(v);
@@ -2217,23 +2223,16 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		init: function() {
 			this._super();
-			this.initState({position: 'left', alignment: 'start', labelClass: 'badge-default'})
-		},
-		
-		/*------------------------------ Other ------------------------------*/
-		
-		_updateClass: function(oldc, newc) {
-			oldc = this.subclazz(oldc.toLowerCase());
-			newc = this.subclazz(newc.toLowerCase());
-			this.replaceClass(oldc, newc);
+			this.initState({position: 'LEFT', alignment: 'CENTER'});
+			this.toggleClass('fujion-labeled', true);
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
 			 var dom = '<span>'
-				    + 	this.getDOMTemplate('label')
 				    + 	'<span id="${id}-inner"/>'
+				    + 	this.getDOMTemplate('label')
 					+ '</span>';
  
 			return $(this.resolveEL(dom));
@@ -2241,21 +2240,15 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 		/*------------------------------ State ------------------------------*/
 		
-		s_alignment: function(v, old) {
-			this._updateClass(old || '', v || 'start');
-		},
-		
 		s_labelClass: function(v) {
-			this.attr('class', v, this.sub$('lbl'));
+			v = v ? v + ' ' : '';
+			this.attr('class', v + 'fujion-labeled-label', this.sub$('lbl'));
 		},
 		
 		s_labelStyle: function(v) {
 			this.attr('style', v, this.sub$('lbl'));
-		},
-		
-		s_position: function(v, old) {
-			this._updateClass(old || '', v || 'left');
 		}
+		
 	});
 	
 	/******************************************************************************************************************
@@ -3216,7 +3209,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				close: _close,
 				open: _open,
 				select: _change,
-	            source: _source
+	            source: _source,
+	            classes: {
+	            	'ui-autocomplete': 'fujion_combobox-ddn'
+	            }
 			});
 			
 			inp$.data('ui-autocomplete')._renderItem = this.renderItem$.bind(this);

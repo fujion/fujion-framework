@@ -1,5 +1,6 @@
 <span xmlns="http://www.fujion.org/schema/fsp"
 	xmlns:attr="http://www.fujion.org/schema/fsp/attr"
+	xmlns:html="http://www.fujion.org/schema/fsp/html"
 	controller="org.fujion.testharness.MiscController">
 	<popup name="hoverPopup">
 		<label label="This is a test of a hover popup." />
@@ -96,33 +97,32 @@
 				Slider control.
 			</row>
 			<row>
-				<div>
-					<button name="btnRL" label="label" image="images/fujion.png" />
-					<link name="lnkRL" label="label" image="images/fujion.png" />
-					<checkbox name="chkRL" label="label" />
-					<radiobutton name="rbRL" label="label" />
+				<div class="fujion-layout-vertical">
+					<button name="btnRL" label="label" position="right" image="images/fujion.png" />
+					<html:hr html:style="width:100%"/>
+					<link name="lnkRL" label="label" position="right" image="images/fujion.png" />
+					<html:hr html:style="width:100%"/>
+					<checkbox name="chkRL" label="label" position="right" />
+					<html:hr html:style="width:100%"/>
+					<radiobutton name="rbRL" label="label" position="right" />
+					<html:hr html:style="width:100%"/>
+					<caption name="caption" label="caption" alignment="center" position="right">
+						<textbox height="40px" width="100%"/>
+					</caption>
 				</div>
-				<radiogroup name="rgPositionRL">
-					<radiobutton label="left" />
-					<radiobutton label="right" checked="true" />
-				</radiogroup>
-			</row>
-			<row>
-				<caption name="caption" label="caption" alignment="start" position="left">
-					<textbox height="40px" width="100%"/>
-				</caption>
 				<div class="fujion-layout-vertical">
 					<radiogroup name="rgPosition">
 						<radiobutton label="top" />
 						<radiobutton label="bottom" />
-						<radiobutton label="left" checked="true" />
-						<radiobutton label="right" />
+						<radiobutton label="left" />
+						<radiobutton label="right" checked="true" />
 					</radiogroup>
 					<radiogroup name="rgAlignment">
-						<radiobutton label="start" checked="true" />
-						<radiobutton label="center" />
+						<radiobutton label="start" />
+						<radiobutton label="center" checked="true" />
 						<radiobutton label="end" />
 					</radiogroup>
+					<div flex="1"/>
 				</div>	
 			</row>
 			<row>

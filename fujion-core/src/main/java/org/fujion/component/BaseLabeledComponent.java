@@ -30,52 +30,86 @@ import org.fujion.annotation.Component.PropertySetter;
  * @param <P> The type of label positioning that is supported.
  */
 public abstract class BaseLabeledComponent<P extends BaseLabeledComponent.ILabelPosition> extends BaseUIComponent implements ILabeled {
-
+    
     /**
      * Position specifier for label.
      */
     public interface ILabelPosition {};
-
+    
     /**
      * Horizontal position specifier.
      */
     public enum LabelPositionHorz implements ILabelPosition {
         RIGHT, LEFT
     }
-
+    
+    /**
+     * Vertical position specifier.
+     */
+    public enum LabelPositionVert implements ILabelPosition {
+        TOP, BOTTOM
+    }
+    
     /**
      * Specifier for all label positions.
      */
     public enum LabelPositionAll implements ILabelPosition {
         RIGHT, LEFT, TOP, BOTTOM
     }
-
+    
     /**
      * Specifier for fixed label position.
      */
     public enum LabelPositionNone implements ILabelPosition {}
+    
+    /**
+     * Alignment of label relative to child component(s).
+     */
+    public enum LabelAlignment {
+        START, CENTER, END
+    }
 
     private String label;
-
+    
     private P position;
+    
+    private LabelAlignment alignment = LabelAlignment.CENTER;
 
     protected BaseLabeledComponent() {
     }
-
+    
     protected BaseLabeledComponent(String label) {
         setLabel(label);
     }
-
+    
     @Override
     @PropertyGetter(value = "label", description = "The text label.")
     public String getLabel() {
         return label;
     }
-
+    
     @Override
     @PropertySetter(value = "label", description = "The text label.")
     public void setLabel(String label) {
         propertyChange("label", this.label, this.label = nullify(label), true);
+    }
+    
+    /**
+     * Returns the alignment of the label. Defaults to 'center'.
+     *
+     * @return May be one of start, center, end.
+     */
+    protected LabelAlignment getAlignment() {
+        return alignment;
+    }
+
+    /**
+     * Sets the alignment of the label.
+     *
+     * @param alignment May be one of: start, center, end.
+     */
+    protected void setAlignment(LabelAlignment alignment) {
+        propertyChange("alignment", this.alignment, this.alignment = defaultify(alignment, LabelAlignment.CENTER), true);
     }
 
     /**
@@ -86,7 +120,7 @@ public abstract class BaseLabeledComponent<P extends BaseLabeledComponent.ILabel
     protected P getPosition() {
         return position;
     }
-
+    
     /**
      * Sets the label position.
      *
@@ -95,5 +129,5 @@ public abstract class BaseLabeledComponent<P extends BaseLabeledComponent.ILabel
     protected void setPosition(P position) {
         propertyChange("position", this.position, this.position = position, true);
     }
-
+    
 }

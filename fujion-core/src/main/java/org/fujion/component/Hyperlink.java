@@ -28,43 +28,43 @@ import org.fujion.annotation.Component.PropertySetter;
  * A simple hyperlink (anchor) component.
  */
 @Component(tag = "link", widgetClass = "Hyperlink", parentTag = "*", description = "A simple hyperlink (anchor) component.")
-public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionHorz> {
-
+public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionAll> {
+    
     private String href;
-
+    
     private String target;
-
+    
     public Hyperlink() {
         this(null);
     }
-
+    
     public Hyperlink(String label) {
         super(label);
         addClass("flavor:btn-link size:btn-sm");
     }
-
+    
     /**
      * Returns the position of the label relative to the contained elements. Defaults to 'left'.
      *
-     * @return May be one of: left, right.
+     * @return May be one of: left, right, top, bottom.
      */
     @Override
     @PropertyGetter(value = "position", description = "The position of the label relative to the contained elements.")
-    public LabelPositionHorz getPosition() {
+    public LabelPositionAll getPosition() {
         return super.getPosition();
     }
-
+    
     /**
      * Sets the position of the label relative to the contained elements.
      *
-     * @param position May be one of: left, right.
+     * @param position May be one of: left, right, top, bottom.
      */
     @Override
     @PropertySetter(value = "position", defaultValue = "right", description = "The position of the label relative to the contained elements.")
-    public void setPosition(LabelPositionHorz position) {
+    public void setPosition(LabelPositionAll position) {
         super.setPosition(position);
     }
-
+    
     /**
      * Returns the URL of the link destination.
      *
@@ -74,7 +74,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
     public String getHref() {
         return href;
     }
-
+    
     /**
      * Sets the URL of the link destination.
      *
@@ -84,7 +84,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
     public void setHref(String href) {
         propertyChange("href", this.href, this.href = nullify(href), true);
     }
-
+    
     /**
      * Returns the target where the linked document will be opened.
      *
@@ -94,7 +94,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
     public String getTarget() {
         return target;
     }
-
+    
     /**
      * Sets the target where the linked document will be opened.
      *
@@ -104,5 +104,5 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
     public void setTarget(String target) {
         propertyChange("target", this.target, this.target = nullify(target), true);
     }
-
+    
 }

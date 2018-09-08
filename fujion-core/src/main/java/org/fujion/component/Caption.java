@@ -30,29 +30,20 @@ import org.fujion.annotation.Component.PropertySetter;
  */
 @Component(tag = "caption", widgetClass = "Caption", parentTag = "*", childTag = @ChildTag("*"), description = "Associates a label with another component.")
 public class Caption extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionAll> {
-    
-    /**
-     * Alignment of label relative to child component(s).
-     */
-    public enum LabelAlignment {
-        START, CENTER, END
-    }
-    
-    private LabelAlignment alignment = LabelAlignment.START;
-    
+
     private String labelStyle;
-    
-    private String labelClass = "badge-default";
-    
+
+    private String labelClass;
+
     public Caption() {
         this(null);
     }
-    
+
     public Caption(String label) {
         super(label);
         setPosition(LabelPositionAll.LEFT);
     }
-
+    
     /**
      * Returns the position of the label relative to its associated component. Defaults to 'left'.
      *
@@ -63,7 +54,7 @@ public class Caption extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     public LabelPositionAll getPosition() {
         return super.getPosition();
     }
-    
+
     /**
      * Sets the position of the label relative to its associated component.
      *
@@ -74,27 +65,29 @@ public class Caption extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     public void setPosition(LabelPositionAll position) {
         super.setPosition(position);
     }
-    
+
     /**
      * Returns the alignment of the label. Defaults to 'start'.
      *
      * @return May be one of start, center, end.
      */
+    @Override
     @PropertyGetter(value = "alignment", description = "The alignment of the label.")
     public LabelAlignment getAlignment() {
-        return alignment;
+        return super.getAlignment();
     }
-    
+
     /**
      * Sets the alignment of the label.
      *
      * @param alignment May be one of: start, center, end.
      */
-    @PropertySetter(value = "alignment", defaultValue = "start", description = "The alignment of the label.")
+    @Override
+    @PropertySetter(value = "alignment", defaultValue = "center", description = "The alignment of the label.")
     public void setAlignment(LabelAlignment alignment) {
-        propertyChange("alignment", this.alignment, this.alignment = defaultify(alignment, LabelAlignment.START), true);
+        super.setAlignment(alignment);
     }
-    
+
     /**
      * Returns the style(s) associated with the label.
      *
@@ -104,7 +97,7 @@ public class Caption extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     public String getLabelStyle() {
         return labelStyle;
     }
-    
+
     /**
      * Sets the style(s) of the label.
      *
@@ -114,7 +107,7 @@ public class Caption extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     public void setLabelStyle(String labelStyle) {
         propertyChange("labelStyle", this.labelStyle, this.labelStyle = trimify(labelStyle), true);
     }
-    
+
     /**
      * Returns the CSS class(es) associated with the label.
      *
@@ -124,15 +117,15 @@ public class Caption extends BaseLabeledComponent<BaseLabeledComponent.LabelPosi
     public String getLabelClass() {
         return labelClass;
     }
-    
+
     /**
      * Sets the CSS class(es) of the label.
      *
      * @param labelClass The label CSS class(es).
      */
-    @PropertySetter(value = "labelClass", defaultValue = "badge-default", description = "The CSS class(es) associated with the label.")
+    @PropertySetter(value = "labelClass", description = "The CSS class(es) associated with the label.")
     public void setLabelClass(String labelClass) {
         propertyChange("labelClass", this.labelClass, this.labelClass = trimify(labelClass), true);
     }
-    
+
 }

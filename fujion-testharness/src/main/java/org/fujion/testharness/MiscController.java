@@ -25,11 +25,10 @@ import org.fujion.annotation.OnFailure;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.client.ClientUtil;
 import org.fujion.component.BaseComponent;
+import org.fujion.component.BaseLabeledComponent.LabelAlignment;
 import org.fujion.component.BaseLabeledComponent.LabelPositionAll;
-import org.fujion.component.BaseLabeledComponent.LabelPositionHorz;
 import org.fujion.component.Button;
 import org.fujion.component.Caption;
-import org.fujion.component.Caption.LabelAlignment;
 import org.fujion.component.Checkbox;
 import org.fujion.component.Detail;
 import org.fujion.component.Div;
@@ -145,19 +144,6 @@ public class MiscController extends BaseController {
     private Checkbox chkRL;
 
     @WiredComponent
-    private Radiogroup rgPositionRL;
-
-    @EventHandler(value = "change", target = "@rgPositionRL")
-    private void positionRLChangeHandler() {
-        String value = rgPositionRL.getSelected().getLabel();
-        LabelPositionHorz position = LabelPositionHorz.valueOf(value.toUpperCase());
-        btnRL.setPosition(position);
-        lnkRL.setPosition(position);
-        rbRL.setPosition(position);
-        chkRL.setPosition(position);
-    }
-
-    @WiredComponent
     private Caption caption;
 
     @WiredComponent
@@ -168,6 +154,10 @@ public class MiscController extends BaseController {
         String value = rgPosition.getSelected().getLabel();
         LabelPositionAll position = LabelPositionAll.valueOf(value.toUpperCase());
         caption.setPosition(position);
+        btnRL.setPosition(position);
+        lnkRL.setPosition(position);
+        rbRL.setPosition(position);
+        chkRL.setPosition(position);
     }
 
     @WiredComponent
