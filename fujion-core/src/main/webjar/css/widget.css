@@ -139,11 +139,14 @@ iframe.fujion-resizer {
 	align-items: center;
 }
 
+.fujion-labeled-label {
+    margin: 0;
+}
+
 .fujion-labeled-right {
 	flex-direction: row;
 }
-.fujion-labeled-right > label,
-.fujion-labeled-right > span {
+.fujion-labeled-right > .fujion-labeled-label {
 	margin-left: 5px;	
 }
 
@@ -151,16 +154,14 @@ iframe.fujion-resizer {
 	flex-direction: row-reverse;
 }
 
-.fujion-labeled-left > label,
-.fujion-labeled-left > span {
+.fujion-labeled-left > .fujion-labeled-label {
 	margin-right: 5px;	
 }
 .fujion-labeled-top {
 	flex-direction: column;
 }
 
-.fujion-labeled-top > label,
-.fujion-labeled-top > span {
+.fujion-labeled-top > .fujion-labeled-label {
 	margin-bottom: 5px;	
 }
 
@@ -168,8 +169,7 @@ iframe.fujion-resizer {
 	flex-direction: row;
 }
 
-.fujion-labeled-bottom > label,
-.fujion-labeled-bottom > span {
+.fujion-labeled-bottom > .fujion-labeled-label {
 	margin-top: 5px;	
 }
 
@@ -591,10 +591,6 @@ iframe.fujion-resizer {
 	margin: 0 5px 0 5px;
 }
 
-.fujion_checkbox label {
-	margin-bottom: 0;
-}
-
 /* Radiogroup */
 
 .fujion_radiogroup-vertical > .fujion_radiobutton {
@@ -605,10 +601,6 @@ iframe.fujion-resizer {
 
 .fujion_radiobutton {
 	margin: 0 5px 0 5px;
-}
-
-.fujion_radiobutton label {
-	margin-bottom: 0;
 }
 
 /* Input box components */

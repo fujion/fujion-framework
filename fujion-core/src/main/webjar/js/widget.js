@@ -13,15 +13,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			checkable: '<span id="${id}-chk" class="fa"/>',
 			closable: '<span id="${id}-cls" class="fa fa-remove"/>',
 			image: '<img id="${id}-img" src="${_state.image}"/>',
-			label: '<span id="${id}-lbl"/>',
+			label: '<span id="${id}-lbl" class="fujion-labeled-label"/>',
+			labelfor: '<label id="${id}-lbl" for="${id}-inp" class="fujion-labeled-label"/>',
 			sortOrder: '<span id="${id}-dir" class="fa"/>'
 	};
 	
 	fujion.widget._zmodal = 999;
 	
 	fujion.widget._popup = {};
-	
-	fujion.widget._radio = {};
 	
 	/******************************************************************************************************************
 	 * Base class providing simulated inheritance.
@@ -2424,8 +2423,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom =
 				'<div>'
-			  +   '<input id="${id}-real" type="checkbox">'
-			  +   '<label id="${id}-lbl" for="${id}-real"/>'
+			  +   '<input id="${id}-inp" type="checkbox">'
+			  +   this.getDOMTemplate('labelfor')
 			  + '</div>';
 			
 			return $(this.resolveEL(dom));
@@ -2434,10 +2433,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ State ------------------------------*/
 		
 		s_checked: function(v) {
-			this.sub$('real').prop('checked', v);
+			this.sub$('inp').prop('checked', v);
 			this._syncChecked(v);
 		},
 		
+		/**
+		 * Sync checked state with other elements.  Does nothing by default.
+		 */
 		_syncChecked: _.noop
 		
 	});
@@ -2450,6 +2452,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 		/*------------------------------ Other ------------------------------*/
 		
+		/**
+		 * Returns the enclosing radio group, or null if there is none.
+		 */
 		getGroup: function() {
 			var wgt = this._parent;
 			
@@ -2457,16 +2462,25 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				wgt = wgt._parent;
 			}
 			
-			return wgt ? wgt.id : "";
+			return wgt;
 		},
 				
+		/**
+		 * Returns the id of the enclosing radio group.  If there is no enclosing
+		 * radio group, returns an empty string.
+		 */
+		getGroupId: function() {
+			var group = this.getGroup();
+			return group ? group.id : "";
+		},
+		
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
 			var dom =
 				'<div>'
-			  +   '<input id="${id}-real" type="radio" name="${getGroup}">'
-			  +   '<label id="${id}-lbl" for="${id}-real"/>'
+			  +   '<input id="${id}-inp" type="radio" name="${getGroupId}">'
+			  +   this.getDOMTemplate('labelfor')
 			  + '</div>';
 			
 			return $(this.resolveEL(dom));
@@ -2474,11 +2488,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		/*------------------------------ State ------------------------------*/
 		
+		/**
+		 * Update the checked button associated with the enclosing radio group.
+		 */
 		_syncChecked: function(checked) {
 			var group = this.getGroup();
 			
 			if (group) {
-				var previous = fujion.widget._radio[group];
+				var previous = group.getState('_checked');
 				previous = previous ? fujion.widget.find(previous) : null;
 				
 				if (checked) {
@@ -2486,9 +2503,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 						previous.trigger('change', {value: false});
 					}
 					
-					fujion.widget._radio[group] = this.id;
+					group.setState('_checked', this.id);
 				} else if (previous === this) {
-					delete fujion.widget._radio[group];
+					group.setState('_checked', null);
 				}
 			}
 		}
