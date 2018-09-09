@@ -1392,12 +1392,34 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     }
 
     /**
+     * Return the next sibling of the requested type.
+     *
+     * @param <T> The type of sibling sought.
+     * @param type The type of sibling sought.
+     * @return The requested sibling, or null if none exist of the requested type.
+     */
+    public <T extends BaseComponent> T getNextSibling(Class<T> type) {
+        return getRelativeSibling(type, false);
+    }
+
+    /**
      * Return the previous sibling for this component.
      *
      * @return The requested sibling, or null if not found.
      */
     public BaseComponent getPreviousSibling() {
         return getRelativeSibling(-1);
+    }
+
+    /**
+     * Return the previous sibling of the requested type.
+     *
+     * @param <T> The type of sibling sought.
+     * @param type The type of sibling sought.
+     * @return The requested sibling, or null if none exist of the requested type.
+     */
+    public <T extends BaseComponent> T getPreviousSibling(Class<T> type) {
+        return getRelativeSibling(type, true);
     }
 
     /**
@@ -1411,6 +1433,28 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         int i = getIndex();
         i = i == -1 ? -1 : i + offset;
         return i < 0 || i >= getParent().getChildCount() ? null : getParent().getChildAt(i);
+    }
+
+    /**
+     * Return the next/previous sibling of the requested type.
+     *
+     * @param <T> The type of sibling sought.
+     * @param type The type of sibling sought.
+     * @param previous If true, search for a previous sibling. Otherwise, search for next.
+     * @return The requested sibling, or null if none exist of the requested type.
+     */
+    @SuppressWarnings("unchecked")
+    private <T> T getRelativeSibling(Class<T> type, boolean previous) {
+        BaseComponent sib = this;
+        int offset = previous ? -1 : 1;
+        
+        while ((sib = sib.getRelativeSibling(offset)) != null) {
+            if (type.isInstance(sib)) {
+                return (T) sib;
+            }
+        }
+
+        return null;
     }
 
     /**
