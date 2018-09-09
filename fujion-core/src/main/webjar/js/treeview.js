@@ -51,20 +51,16 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		
 		/*------------------------------ Containment ------------------------------*/
 		
-		anchor$: function() {
-			return this.sub$('inner');
+		anchor$: function(child$) {
+			return child$.fujion$widget().wclass === 'Treenode' ? this.sub$('inner') : this.sub$('cnt');
 		},
 		
-		onAddChild: function() {
-			if (this.getChildCount() === 1) {
-				this._updateToggle();
-			}
+		onAddChild: function(child) {
+			this._updateCount(child, 1);
 		},
 		
-		onRemoveChild: function() {
-			if (!this.getChildCount()) {
-				this._updateToggle();
-			}
+		onRemoveChild: function(child) {
+			this._updateCount(child, -1);
 		},
 		
 		/*------------------------------ Events ------------------------------*/
@@ -90,13 +86,15 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 			if (this.updateState('selected', true, true)) {
 				this.trigger('change', {value: true});
 			}
+			
+			return false;
 		},
 		
 		/*------------------------------ Lifecycle ------------------------------*/
 		
 		init: function() {
 			this._super();
-			this.initState({collapsed: false});
+			this.initState({collapsed: false, chnodes: 0});
 			this.forwardToServer('change toggle');
 		},
 				
@@ -104,8 +102,8 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		
 		afterRender: function() {
 			this.widget$.on('mouseenter mousemove mouseleave contextmenu', false);
-			this.widget$.find('>a').on('click', this.handleSelect.bind(this));
-			this.sub$('ctl').on('click', this.handleClick.bind(this));
+			this.sub$('cnt').on('click', this.handleSelect.bind(this));
+			this.sub$('btn').on('click', this.handleClick.bind(this));
 			this._updateToggle();
 		},
 		
@@ -116,25 +114,44 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		render$: function() {
 			var dom = 
 				  '<li>'
-				+ ' <span id="${id}-ctl" class="fa"/>'
-				+ ' <a>'
-				+ this.getDOMTemplate(':image', 'badge', 'label')
-				+ ' </a>'
-				+ ' <ul id="${id}-inner"/>'
+				+   '<span id="${id}-btn" />'
+				+   '<span id="${id}-cnt">'
+				+     this.getDOMTemplate(':image', 'badge', 'label')
+				+   '</span>'
+				+   '<ul id="${id}-inner"/>'
 				+ '</li>';
 			return $(this.resolveEL(dom));
 		},
 		
+		_updateCount(child, inc) {
+			if (child.wclass === 'Treenode') {
+				var chnodes = this.getState('chnodes'),
+					newval = chnodes + inc;
+				this.setState('chnodes', newval);
+				
+				if (!chnodes !== !newval) {
+					this._updateToggle();
+				}
+			}
+		},
+		
 		_updateToggle: function() {
-			this.sub$('ctl').toggleClass('fujion_treenode-nochildren', !this.getChildCount());
+			var chnodes = this.getState('chnodes'),
+				collapsed = chnodes && this.getState('collapsed'),
+				clazz = !chnodes ? 'fujion_treenode-nochildren' : collapsed ? 'fa fa-caret-square-o-right' : 'fa fa-caret-square-o-down';
+			
+			this.attr('class', clazz, this.sub$('btn'));
 		},
 		
 		/*------------------------------ State ------------------------------*/
 		
+		s_chnodes: function(v) {
+			this._updateToggle();
+		},
+		
 		s_collapsed: function(v) {
-			this.sub$('ctl').toggleClass('fa-caret-square-o-right', v)
-				.toggleClass('fa-caret-square-o-down', !v);
-			this.toggleClass('fujion_treenode-collapsed', v);
+			this.sub$('inner').toggleClass('d-none', v);
+			this._updateToggle();
 		},
 		
 		s_selected: function(v) {
