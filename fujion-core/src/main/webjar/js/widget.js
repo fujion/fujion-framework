@@ -2263,7 +2263,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var page = this.getState('currentPage'),
 				max = this.getState('maxPage');
 			
-			switch ($(event.target).data('fujion-pg')) {
+			switch ($(event.currentTarget).data('fujion-pg')) {
 				case -2: // Start
 					page = 0;
 					break;
@@ -2294,9 +2294,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		init: function() {
 			this._super();
-			this.initState({currentPage: 0, maxPage: 0, pageSize: 0});
+			this.initState({currentPage: 0, maxPage: 0, pageSize: 0, nav: {}});
 			this.forwardToServer('change');
-			this.toggleClass('btn-toolbar', true);
 		},
 		
 		/*------------------------------ Other ------------------------------*/
@@ -2304,16 +2303,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		_update: function() {
 			var label = this.getState('label') || '%c / %m',
 				page = this.getState('currentPage'),
-				max = this.getState('maxPage');
+				max = this.getState('maxPage'),
+				self = this;
 			
 			label = label.replace('%c', page + 1).replace('%m', max + 1);
 			this.sub$('lbl').text(label);
 			this.widget$.find('a').each(function() {
 				var a$ = $(this),
-					i = a$.data('fujion-pg'),
-					disabled = (i < 0 && page < 1) || (i > 0 && page >= max);
-				
-				a$.attr('disabled', disabled);
+					pg = a$.data('fujion-pg'),
+					disabled = !pg || (pg < 0 && page < 1) || (pg > 0 && page >= max);
+				a$.parent().toggleClass('disabled', disabled);
+				self.attr('tabindex', disabled ? -1 : null, a$);
 			});
 		},
 		
@@ -2325,13 +2325,37 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		render$: function() {
 			var dom = 
-				  '<span>'
-				+   '<a data-fujion-pg="-2" class="fa fa-angle-double-left"></a>'
-				+   '<a data-fujion-pg="-1" class="fa fa-angle-left"></a>'
-				+ 	this.getDOMTemplate('label')
-				+   '<a data-fujion-pg="1" class="fa fa-angle-right"></a>'
-				+   '<a data-fujion-pg="2" class="fa fa-angle-double-right"></a>'
-				+ '</span>'
+				  '<nav aria-label="pagination">'
+				+   '<ul class="pagination">'
+				+     '<li class="page-item">'
+				+       '<a class="page-link" data-fujion-pg="-2">'
+				+         '<span class="fa fa-angle-double-left" aria-hidden="true"/>'
+				+         '<span class="sr-only">${_state.nav.start}</span>'
+				+       '</a>'				
+				+     '</li>'
+				+     '<li class="page-item">'
+				+       '<a class="page-link" data-fujion-pg="-1">'
+				+         '<span class="fa fa-angle-left" aria-hidden="true"/>'
+				+         '<span class="sr-only">${_state.nav.previous}</span>'
+				+       '</a>'				
+				+     '</li>'
+				+     '<li class="page-item">'
+				+       '<span id="${id}-lbl" class="fujion-labeled-label page-link disabled"/>'
+				+     '</li>'
+				+     '<li class="page-item">'
+				+       '<a class="page-link" data-fujion-pg="1">'
+				+         '<span class="fa fa-angle-right" aria-hidden="true"/>'
+				+         '<span class="sr-only">${_state.nav.next}</span>'
+				+       '</a>'				
+				+     '</li>'
+				+     '<li class="page-item">'
+				+       '<a class="page-link" data-fujion-pg="2">'
+				+         '<span class="fa fa-angle-double-right" aria-hidden="true"/>'
+				+         '<span class="sr-only">${_state.nav.end}</span>'
+				+       '</a>'				
+				+     '</li>'
+				+   '</ul>'
+				+ '</nav>'
 			return $(this.resolveEL(dom));
 		},
 	
@@ -2347,6 +2371,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		s_maxPage: function(v) {
 			this._update();
+		},
+		
+		s_nav: function(v) {
+			this.rerender();
 		},
 		
 		s_pageSize: function(v) {

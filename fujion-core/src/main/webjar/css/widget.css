@@ -548,20 +548,13 @@ iframe.fujion-resizer {
 
 /* Paging */
 
-.fujion_paging > * {
-	vertical-align: middle;
+.fujion_paging > .pagination {
+    align-items: center;
 }
 
-.fujion_paging > span {
-    border: 1px solid lightgray;
-    padding: 6px;
-    border-radius: 15px;
-}
-
-.fujion_paging a {
+.fujion_paging .fujion-labeled-label {
     font-weight: bold;
-    font-size: 18px;
-    padding: 0 4px 0 4px;
+    margin: 6px;
 }
 
 /* Cell */
