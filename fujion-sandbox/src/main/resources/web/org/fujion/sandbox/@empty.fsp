@@ -2,7 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:attr="http://www.fujion.org/schema/fsp/attr"
     xmlns:controller="http://www.fujion.org/schema/fsp/controller"
-    xmlns:html="http://www.fujion.org/schema/fsp/htmp"
+    xmlns:html="http://www.fujion.org/schema/fsp/html"
     xmlns:on="http://www.fujion.org/schema/fsp/on"
     xsi:schemaLocation="
         http://www.fujion.org/schema/fsp 
