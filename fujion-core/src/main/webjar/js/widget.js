@@ -2340,7 +2340,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				+       '</a>'				
 				+     '</li>'
 				+     '<li class="page-item">'
-				+       '<span id="${id}-lbl" class="fujion-labeled-label page-link disabled"/>'
+				+       '<span id="${id}-lbl" class="fujion-labeled-label page-link disabled rounded-circle"/>'
 				+     '</li>'
 				+     '<li class="page-item">'
 				+       '<a class="page-link" data-fujion-pg="1">'
