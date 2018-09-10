@@ -1256,24 +1256,6 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     }
 
     /**
-     * Return the first child of the requested type.
-     *
-     * @param <T> The type of child sought.
-     * @param type The type of child sought.
-     * @return The requested child, or null if none exist of the requested type.
-     */
-    @SuppressWarnings("unchecked")
-    public <T extends BaseComponent> T getChild(Class<T> type) {
-        for (BaseComponent child : children) {
-            if (type.isInstance(child)) {
-                return (T) child;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Returns the child at the specified index. If the index is out of bounds, returns null.
      *
      * @param index The index of the child sought.
@@ -1290,6 +1272,24 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     public BaseComponent getFirstChild() {
         return getChildAt(0);
+    }
+
+    /**
+     * Return the first child of the requested type.
+     *
+     * @param <T> The type of child sought.
+     * @param type The type of child sought.
+     * @return The requested child, or null if none exist of the requested type.
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends BaseComponent> T getFirstChild(Class<T> type) {
+        for (BaseComponent child : children) {
+            if (type.isInstance(child)) {
+                return (T) child;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -2157,7 +2157,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
 
             Map<String, Object> variables = new HashMap<>();
             variables.put(script.getSelfName(), this);
-            variables.put("controller", findAttribute(ATTR_CONTROLLER));
+            variables.put("controller", getLastController());
             variables.put("event", event);
             script.execute(variables);
         });
@@ -2285,17 +2285,6 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     public List<Object> getControllers() {
         return controllers == null ? Collections.emptyList() : Collections.unmodifiableList(controllers);
-    }
-
-    /**
-     * Returns a reference to the last controller wired to this component.
-     *
-     * @return The last controller wired to this component, or null if none.
-     * @deprecated Use getLastController.
-     */
-    @Deprecated
-    public Object getController() {
-        return getLastController();
     }
 
     /**
