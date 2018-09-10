@@ -442,7 +442,8 @@ iframe.fujion-resizer {
 }
 
 .fujion_window > .card-body {
-    flex: auto;
+    display: flex;
+    flex-direction: column;
     overflow: auto;
     background-color: white;
     padding: 0;
