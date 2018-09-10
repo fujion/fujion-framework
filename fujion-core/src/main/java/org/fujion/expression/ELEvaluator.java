@@ -36,20 +36,21 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.expression.spel.support.StandardTypeConverter;
 
 /**
- * An extension of Spring's EL evaluator that supports plugin accessors, resolvers, and converters..
+ * An extension of Spring's EL evaluation context that supports plugin accessors, resolvers, and
+ * converters..
  */
 public class ELEvaluator extends StandardEvaluationContext implements BeanPostProcessor, ApplicationContextAware {
-
+    
     private static final ELEvaluator instance = new ELEvaluator();
-
+    
     private final ExpressionCache cache = ExpressionCache.getInstance();
-
+    
     private final DefaultConversionService conversionService = new DefaultConversionService();
-
+    
     public static ELEvaluator getInstance() {
         return instance;
     }
-
+    
     private ELEvaluator() {
         addPropertyAccessor(new EnvironmentAccessor());
         addPropertyAccessor(new MessageAccessor());
@@ -58,7 +59,7 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
         conversionService.addConverter(new MessageAccessor.MessageContextConverter());
         setTypeConverter(new StandardTypeConverter(conversionService));
     }
-
+    
     /**
      * Evaluate an EL expression against the specified root object.
      *
@@ -70,7 +71,7 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
         Object value = cache.hasExpression(expression) ? cache.get(expression).getValue(this, root) : expression;
         return value instanceof MessageContext ? value.toString() : value;
     }
-
+    
     /**
      * Evaluate an EL expression.
      *
@@ -80,12 +81,12 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
     public Object evaluate(String expression) {
         return cache.hasExpression(expression) ? cache.get(expression).getValue(this) : expression;
     }
-
+    
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
-
+    
     /**
      * Discover and register plugin resolvers, accessors, and converters.
      */
@@ -94,26 +95,26 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
         if (bean instanceof ConstructorResolver) {
             addConstructorResolver((ConstructorResolver) bean);
         }
-        
+
         if (bean instanceof MethodResolver) {
             addMethodResolver((MethodResolver) bean);
         }
-        
+
         if (bean instanceof PropertyAccessor) {
             addPropertyAccessor((PropertyAccessor) bean);
         }
-        
+
         if (bean instanceof Converter) {
             conversionService.addConverter((Converter<?, ?>) bean);
         }
-        
+
         if (bean instanceof BeanResolver) {
             setBeanResolver((BeanResolver) bean);
         }
-
+        
         return bean;
     }
-
+    
     /**
      * Register the application context as a bean resolver and its environment as the default root
      * object.
@@ -123,10 +124,10 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         setRootObject(applicationContext.getEnvironment());
-
+        
         setBeanResolver((context, beanName) -> {
             return applicationContext.getBean(beanName);
         });
     }
-
+    
 }
