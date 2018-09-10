@@ -54,9 +54,13 @@ public class ELContext {
     }
 
     /**
-     * Returns a value for the named object. If the name is "self", the component itself is
-     * returned. If the name is "parent" the component's parent is returned. Otherwise, name
-     * resolution is attempted from several sources in the following order:
+     * Returns a value for the named object. The following reserved names have special significance:
+     * <ul>
+     * <li><b>self</b> - Represents the component itself</li>
+     * <li><b>parent</b> - Represents the component's parent</li>
+     * </ul>
+     * If the name is not one of the reserved names, name resolution is attempted from several
+     * sources in the following order:
      * <ol>
      * <li>Tag library prefixes</li>
      * <li>The argument map passed to the materializer</li>
