@@ -23,6 +23,7 @@ package org.fujion.script.jython;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.fujion.script.IScriptLanguage;
 import org.python.core.PyCode;
 import org.python.util.PythonInterpreter;
@@ -31,24 +32,26 @@ import org.python.util.PythonInterpreter;
  * Support for embedding Jython scripts.
  */
 public class JythonScript implements IScriptLanguage {
-    
+
     /**
      * Wrapper for a parsed Jython script
      */
     public static class ParsedScript implements IParsedScript {
-        
+
         private final PyCode script;
-        
+
         public ParsedScript(String source) {
+            source = StringUtils.trimToEmpty(source);
+
             try (PythonInterpreter interp = new PythonInterpreter()) {
                 script = interp.compile(source);
             }
         }
-        
+
         @Override
         public Object run(Map<String, Object> variables) {
             try (PythonInterpreter interp = new PythonInterpreter()) {
-
+                
                 if (variables != null) {
                     for (Entry<String, Object> entry : variables.entrySet()) {
                         interp.set(entry.getKey(), entry.getValue());
@@ -58,7 +61,7 @@ public class JythonScript implements IScriptLanguage {
             }
         }
     }
-    
+
     /**
      * @see org.fujion.script.IScriptLanguage#getType()
      */
@@ -66,7 +69,7 @@ public class JythonScript implements IScriptLanguage {
     public String getType() {
         return "jython";
     }
-    
+
     /**
      * @see org.fujion.script.IScriptLanguage#parse(java.lang.String)
      */
@@ -74,5 +77,5 @@ public class JythonScript implements IScriptLanguage {
     public IParsedScript parse(String source) {
         return new ParsedScript(source);
     }
-    
+
 }

@@ -22,6 +22,7 @@ package org.fujion.script.clojure;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.fujion.script.IScriptLanguage;
 
 import clojure.lang.IFn;
@@ -32,34 +33,35 @@ import clojure.lang.Var;
  * Support for embedding Clojure scripts.
  */
 public class ClojureScript implements IScriptLanguage {
-
+    
     private static volatile Var compiler;
-
+    
     /**
      * Wrapper for a parsed Clojure script
      */
     public static class ParsedScript implements IParsedScript {
-
+        
         private final IFn script;
-
+        
         public ParsedScript(String source) {
+            source = StringUtils.trimToEmpty(source);
             this.script = (IFn) getCompiler().invoke("(fn [args] " + source + ")");
         }
-
+        
         @Override
         public Object run(Map<String, Object> variables) {
             return script.invoke(variables);
         }
     }
-
+    
     private static synchronized Var getCompiler() {
         if (compiler == null) {
             compiler = RT.var("clojure.core", "load-string");
         }
-
+        
         return compiler;
     }
-
+    
     /**
      * @see org.fujion.script.IScriptLanguage#getType()
      */
@@ -67,7 +69,7 @@ public class ClojureScript implements IScriptLanguage {
     public String getType() {
         return "clojure";
     }
-
+    
     /**
      * @see org.fujion.script.IScriptLanguage#parse(java.lang.String)
      */
@@ -75,5 +77,5 @@ public class ClojureScript implements IScriptLanguage {
     public IParsedScript parse(String source) {
         return new ParsedScript(source);
     }
-
+    
 }
