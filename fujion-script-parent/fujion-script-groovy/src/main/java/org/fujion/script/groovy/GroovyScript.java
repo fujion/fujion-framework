@@ -32,9 +32,9 @@ import groovy.lang.Script;
  * Support for embedding Groovy scripts.
  */
 public class GroovyScript implements IScriptLanguage {
-
+    
     private static volatile GroovyShell shell;
-
+    
     /**
      * Utility method for accessing the Groovy shell, instantiating it on first invocation.
      *
@@ -44,29 +44,29 @@ public class GroovyScript implements IScriptLanguage {
         if (shell == null) {
             shell = new GroovyShell();
         }
-
+        
         return shell;
     }
-
+    
     /**
      * Wrapper for a parsed Groovy script.
      */
     public static class ParsedScript implements IParsedScript {
-
+        
         private final Script script;
-
+        
         public ParsedScript(String source) {
-            script = getGroovyShell().parse(source);
+            script = getGroovyShell().parse(source == null ? "" : source);
         }
-
+        
         @Override
         public Object run(Map<String, Object> variables) {
             script.setBinding(variables == null ? null : new Binding(variables));
             return script.run();
         }
-
+        
     }
-
+    
     /**
      * @see org.fujion.script.IScriptLanguage#getType()
      */
@@ -74,7 +74,7 @@ public class GroovyScript implements IScriptLanguage {
     public String getType() {
         return "groovy";
     }
-
+    
     /**
      * @see org.fujion.script.IScriptLanguage#parse(java.lang.String)
      */
@@ -82,5 +82,5 @@ public class GroovyScript implements IScriptLanguage {
     public IParsedScript parse(String source) {
         return new ParsedScript(source);
     }
-
+    
 }
