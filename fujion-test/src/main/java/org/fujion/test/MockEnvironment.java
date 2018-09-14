@@ -38,27 +38,27 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
  * application context.
  */
 public class MockEnvironment {
-    
+
     private MockSession session;
-    
+
     private MockClientRequest clientRequest;
-    
+
     private MockServletContext servletContext;
-    
+
     private XmlWebApplicationContext rootContext;
-    
+
     private XmlWebApplicationContext childContext;
-    
+
     private final Map<String, Object> browserInfo = new HashMap<>();
-    
+
     private final Map<String, Object> clientRequestMap = new HashMap<>();
-    
+
     /**
      * Creates a mock environment for unit testing.
      */
     public MockEnvironment() {
     }
-    
+
     /**
      * Initializes the mock environment.
      *
@@ -75,7 +75,7 @@ public class MockEnvironment {
         rootContext.refresh();
         // Create mock session
         MockWebSocketSession socket = new MockWebSocketSession();
-        session = new MockSession(servletContext, socket);
+        session = new MockSession(rootContext, servletContext, socket);
         // Create the mock request
         initBrowserInfoMap(browserInfo);
         clientRequestMap.put("data", browserInfo);
@@ -93,7 +93,7 @@ public class MockEnvironment {
             childContext.refresh();
         }
     }
-    
+
     /**
      * Cleans up all application contexts and invalidates the session.
      */
@@ -101,11 +101,11 @@ public class MockEnvironment {
         session.destroy();
         rootContext.close();
     }
-    
+
     protected XmlWebApplicationContext createApplicationContext() {
         return new XmlWebApplicationContext();
     }
-    
+
     /**
      * Initialize the mock servlet context.
      *
@@ -115,16 +115,16 @@ public class MockEnvironment {
     protected MockServletContext initServletContext(MockServletContext servletContext) {
         return servletContext;
     }
-    
+
     protected void initExecutionContext() {
         ExecutionContext.put(ExecutionContext.ATTR_REQUEST, clientRequest);
     }
-    
+
     protected void initClientRequestMap(Map<String, Object> map) {
         map.put("pid", session.getPage().getId());
         map.put("type", "mock");
     }
-    
+
     /**
      * Initialize the app context.
      *
@@ -135,26 +135,26 @@ public class MockEnvironment {
     protected XmlWebApplicationContext initAppContext(MockConfig config, ApplicationContext parent) {
         XmlWebApplicationContext appContext = createApplicationContext();
         appContext.setServletContext(servletContext);
-
+        
         if (parent == null) {
             ClasspathMessageSource.getInstance().setResourceLoader(appContext);
         } else {
             appContext.setParent(parent);
         }
-        
+
         if (config.configLocations != null) {
             appContext.setConfigLocations(config.configLocations);
         }
-        
+
         if (config.profiles != null && config.profiles.length > 0) {
             ConfigurableEnvironment env = appContext.getEnvironment();
             env.setDefaultProfiles(parent == null ? config.profiles[0] : "dummy");
             env.setActiveProfiles(config.profiles);
         }
-        
+
         return appContext;
     }
-    
+
     /**
      * Initialize browserInfo map.
      *
@@ -163,7 +163,7 @@ public class MockEnvironment {
     protected void initBrowserInfoMap(Map<String, Object> browserInfo) {
         browserInfo.put("requestURL", "http://mock.org/mock.fsp");
     }
-    
+
     /**
      * Initialize the page.
      *
@@ -173,19 +173,19 @@ public class MockEnvironment {
     protected Page initPage(Page page) {
         return page;
     }
-    
+
     public ApplicationContext getRootContext() {
         return rootContext;
     }
-
+    
     public ApplicationContext getChildContext() {
         return childContext;
     }
-    
+
     public MockSession getSession() {
         return session;
     }
-    
+
     /**
      * Flushes and processes any event on the event queue.
      *
@@ -197,5 +197,5 @@ public class MockEnvironment {
         queue.processAll();
         return flushed;
     }
-    
+
 }

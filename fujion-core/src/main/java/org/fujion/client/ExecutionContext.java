@@ -29,6 +29,7 @@ import javax.servlet.ServletContext;
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
 import org.fujion.websocket.Session;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
 /**
@@ -177,6 +178,16 @@ public class ExecutionContext {
         }
     }
 
+    /**
+     * Returns the application context associated with the session.
+     *
+     * @return The application context associated with the session.
+     */
+    public static ApplicationContext getApplicationContext() {
+        Session session = getSession();
+        return session == null ? null : session.getApplicationContext();
+    }
+    
     private ExecutionContext() {
     }
 }

@@ -28,8 +28,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.fujion.client.ClientInvocation;
@@ -41,7 +39,6 @@ import org.fujion.component.Page;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.Assert;
-import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -55,7 +52,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 /**
  * Handler for all web socket communications.
  */
-public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPostProcessor, ServletContextAware {
+public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPostProcessor {
 
     private static final Logger log = Logger.create(WebSocketHandler.class);
 
@@ -71,8 +68,6 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
 
     private static final Sessions sessions = Sessions.getInstance();
 
-    private ServletContext servletContext;
-    
     /**
      * Register a request handler.
      *
@@ -343,7 +338,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
 
     @Override
     public void afterConnectionEstablished(WebSocketSession socket) throws Exception {
-        sessions.createSession(servletContext, socket);
+        sessions.createSession(socket);
     }
 
     @Override
@@ -374,11 +369,6 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
         }
 
         return bean;
-    }
-
-    @Override
-    public void setServletContext(ServletContext servletContext) {
-        this.servletContext = servletContext;
     }
 
 }

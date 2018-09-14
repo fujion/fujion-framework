@@ -22,18 +22,20 @@ package org.fujion.test;
 
 import org.fujion.component.Page;
 import org.fujion.websocket.Session;
+import org.springframework.context.ApplicationContext;
 
 /**
  * A mock session.
  */
 public class MockSession extends Session {
-
-    public MockSession(MockServletContext servletContext, MockWebSocketSession socket) {
-        super(servletContext, socket);
+    
+    public MockSession(ApplicationContext applicationContext, MockServletContext servletContext,
+        MockWebSocketSession socket) {
+        super(applicationContext, servletContext, socket);
         Page page = Page._create("mockpage");
         _init(page.getId());
     }
-
+    
     @Override
     protected void destroy() {
         super.destroy();

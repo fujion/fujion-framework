@@ -33,6 +33,7 @@ import org.fujion.common.IAttributeMap;
 import org.fujion.common.Logger;
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -40,36 +41,40 @@ import org.springframework.web.socket.WebSocketSession;
  * Container for core resources for a single client session (i.e., web socket connection).
  */
 public class Session implements IAttributeMap<String, Object> {
-
+    
     private static final Logger log = Logger.create(Session.class);
-
+    
     public static final String ATTR_SESSION = "fujion_session";
-
+    
     private enum EventType {
         DESTROY, REQUEST, INVOCATION
     }
-
+    
     private final ServletContext servletContext;
 
-    private final WebSocketSession socket;
-
-    private final Synchronizer synchronizer;
-
-    private Set<ISessionListener> sessionListeners;
+    private final ApplicationContext applicationContext;
     
+    private final WebSocketSession socket;
+    
+    private final Synchronizer synchronizer;
+    
+    private Set<ISessionListener> sessionListeners;
+
     private final long creationTime;
-
+    
     private long lastActivity;
-
+    
     private Page page;
-
+    
     /**
      * Create a session, with references to its servlet context and web socket.
-     *
+     * 
+     * @param applicationContext The servlet's application context.
      * @param servletContext The servlet context.
      * @param socket The web socket.
      */
-    protected Session(ServletContext servletContext, WebSocketSession socket) {
+    protected Session(ApplicationContext applicationContext, ServletContext servletContext, WebSocketSession socket) {
+        this.applicationContext = applicationContext;
         this.servletContext = servletContext;
         this.socket = socket;
         socket.getAttributes().put(ATTR_SESSION, this);
@@ -77,7 +82,7 @@ public class Session implements IAttributeMap<String, Object> {
         creationTime = System.currentTimeMillis();
         lastActivity = creationTime;
     }
-
+    
     /**
      * Destroy the session. This destroys the associated page.
      */
@@ -91,10 +96,10 @@ public class Session implements IAttributeMap<String, Object> {
                 page = null;
             }
         }
-
+        
         notifySessionListeners(EventType.DESTROY, null);
     }
-
+    
     /**
      * Returns the session's id, which is the same as the underlying web socket id.
      *
@@ -103,7 +108,7 @@ public class Session implements IAttributeMap<String, Object> {
     public String getId() {
         return socket.getId();
     }
-
+    
     /**
      * Returns the session's time of creation.
      *
@@ -112,7 +117,7 @@ public class Session implements IAttributeMap<String, Object> {
     public long getCreationTime() {
         return creationTime;
     }
-
+    
     /**
      * Returns the time of last activity for the session.
      *
@@ -121,12 +126,21 @@ public class Session implements IAttributeMap<String, Object> {
     public long getLastActivity() {
         return lastActivity;
     }
-
+    
     /**
      * Updates the session's last activity.
      */
     public void updateLastActivity() {
         this.lastActivity = System.currentTimeMillis();
+    }
+    
+    /**
+     * Returns the application context associated with the session.
+     *
+     * @return The application context.
+     */
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 
     /**
@@ -137,7 +151,7 @@ public class Session implements IAttributeMap<String, Object> {
     public ServletContext getServletContext() {
         return servletContext;
     }
-
+    
     /**
      * Returns the web socket associated with the session.
      *
@@ -146,7 +160,7 @@ public class Session implements IAttributeMap<String, Object> {
     public WebSocketSession getSocket() {
         return socket;
     }
-
+    
     /**
      * Returns the synchronizer associated with the session.
      *
@@ -155,7 +169,7 @@ public class Session implements IAttributeMap<String, Object> {
     public Synchronizer getSynchronizer() {
         return synchronizer;
     }
-
+    
     /**
      * Returns the page associated with the session.
      *
@@ -164,7 +178,7 @@ public class Session implements IAttributeMap<String, Object> {
     public Page getPage() {
         return page;
     }
-
+    
     /**
      * Returns the attribute map associated with the session. This is a convenience method for
      * accessing the attribute map of the underlying web socket session.
@@ -175,7 +189,7 @@ public class Session implements IAttributeMap<String, Object> {
     public Map<String, Object> getAttributes() {
         return socket.getAttributes();
     }
-
+    
     /**
      * Register a session listener.
      *
@@ -186,10 +200,10 @@ public class Session implements IAttributeMap<String, Object> {
         if (sessionListeners == null) {
             sessionListeners = new LinkedHashSet<>();
         }
-        
+
         return sessionListeners.add(listener);
     }
-    
+
     /**
      * Unregister a session listener.
      *
@@ -199,7 +213,7 @@ public class Session implements IAttributeMap<String, Object> {
     public boolean removeSessionListener(ISessionListener listener) {
         return sessionListeners != null && sessionListeners.remove(listener);
     }
-    
+
     /**
      * Notify all session listeners of a client request event.
      *
@@ -208,7 +222,7 @@ public class Session implements IAttributeMap<String, Object> {
     protected void notifySessionListeners(ClientRequest request) {
         notifySessionListeners(EventType.REQUEST, request);
     }
-
+    
     /**
      * Notify all session listeners of a client invocation event.
      *
@@ -217,7 +231,7 @@ public class Session implements IAttributeMap<String, Object> {
     protected void notifySessionListeners(ClientInvocation invocation) {
         notifySessionListeners(EventType.INVOCATION, invocation);
     }
-
+    
     /**
      * Notify all session listeners of an event.
      *
@@ -232,11 +246,11 @@ public class Session implements IAttributeMap<String, Object> {
                         case DESTROY:
                             sessionListener.onDestroy();
                             break;
-
+                            
                         case REQUEST:
                             sessionListener.onClientRequest((ClientRequest) argument);
                             break;
-
+                            
                         case INVOCATION:
                             sessionListener.onClientInvocation((ClientInvocation) argument);
                             break;
@@ -247,7 +261,7 @@ public class Session implements IAttributeMap<String, Object> {
             }
         }
     }
-
+    
     /**
      * Send a ping to the client.
      *
@@ -256,7 +270,7 @@ public class Session implements IAttributeMap<String, Object> {
     public void ping(String data) {
         WebSocketHandler.send(socket, new ClientInvocation("fujion.ws.ping", null, data));
     }
-
+    
     /**
      * Initialize the session. If already initialized, this only validates that the page id matches
      * that of the associated page. Otherwise, it associates the session with the page specified by
