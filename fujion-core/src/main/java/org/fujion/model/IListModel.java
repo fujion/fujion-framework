@@ -29,22 +29,22 @@ import java.util.List;
  * @param <M> The type of the model object.
  */
 public interface IListModel<M> extends List<M> {
-    
+
     /**
      * Interface for listeners receiving events when the list is modified.
      */
     interface IListModelListener {
-        
+
         void onListChange(ListEventType type, int startIndex, int endIndex);
     }
-    
+
     /**
      * Types of list mutation operations.
      */
     enum ListEventType {
         ADD, DELETE, REPLACE, SWAP, CHANGE, SORT
     }
-    
+
     /**
      * Register a listener to receive events when the list is modified.
      *
@@ -52,12 +52,12 @@ public interface IListModel<M> extends List<M> {
      * @return True if the listener was registered. False if already registered.
      */
     boolean addEventListener(IListModelListener listener);
-    
+
     /**
      * Removes all listeners.
      */
     void removeAllListeners();
-    
+
     /**
      * Removes a single event listener.
      *
@@ -65,7 +65,7 @@ public interface IListModel<M> extends List<M> {
      * @return True if the listener was removed. False if it was not registered.
      */
     boolean removeEventListener(IListModelListener listener);
-    
+
     /**
      * Removes a range of elements by index.
      *
@@ -73,7 +73,7 @@ public interface IListModel<M> extends List<M> {
      * @param end End of range (inclusive).
      * @return True if the model changed as a result of the operation.
      */
-    public boolean removeRange(int start, int end);
+    boolean removeRange(int start, int end);
     
     /**
      * Swap two list entries by index.
@@ -82,7 +82,7 @@ public interface IListModel<M> extends List<M> {
      * @param index2 Index of second entry.
      */
     void swap(int index1, int index2);
-    
+
     /**
      * Swap two list entries.
      *
@@ -90,7 +90,7 @@ public interface IListModel<M> extends List<M> {
      * @param value2 The second entry.
      */
     void swap(M value1, M value2);
-    
+
     /**
      * Sorts the list given the comparator and the sort direction.
      *
@@ -99,7 +99,7 @@ public interface IListModel<M> extends List<M> {
      * @param ascending If true, sort list in ascending order; otherwise, in descending order.
      */
     void sort(Comparator<? super M> comparator, boolean ascending);
-    
+
     /**
      * Sorts the list in ascending order given the comparator.
      *
