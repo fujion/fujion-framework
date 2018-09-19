@@ -2429,7 +2429,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		handleChange: function(event, params) {
 			var target = event.target,
-				checked = event.checked;
+				checked = target.checked;
 			this.setState('checked', checked);
 			this._syncChecked(checked);
 			target.value = checked;
