@@ -2428,9 +2428,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Events ------------------------------*/
 		
 		handleChange: function(event, params) {
-			this._syncChecked(true);
-			var target = event.target;
-			target.value = target.checked;
+			var target = event.target,
+				checked = event.checked;
+			this.setState('checked', checked);
+			this._syncChecked(checked);
+			target.value = checked;
 			fujion.event.sendToServer(event, params);
 		},
 		
