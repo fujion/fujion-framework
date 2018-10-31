@@ -635,6 +635,7 @@ public class CommonTest {
 
     private void print(Object object) {
         System.out.println(object);
+        System.out.println("------------------------");
     }
 
 }

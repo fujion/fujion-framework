@@ -34,7 +34,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.type.WritableTypeId;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.DatabindContext;
 import com.fasterxml.jackson.databind.DeserializationConfig;
@@ -72,8 +74,9 @@ public class JSONUtil {
         @Override
         public TypeDeserializer buildTypeDeserializer(DeserializationConfig config, JavaType baseType,
                                                       Collection<NamedType> subtypes) {
-            return noTypeInfo(baseType) ? null
-                    : new AsPropertyTypeDeserializer(baseType, _customIdResolver, _typeProperty, _typeIdVisible, baseType);
+            return noTypeInfo(baseType) ?
+                    null :
+                    new AsPropertyTypeDeserializer(baseType, _customIdResolver, _typeProperty, _typeIdVisible, baseType);
         }
 
         @Override
@@ -89,8 +92,8 @@ public class JSONUtil {
          * @return True to suppress writing of type information.
          */
         private boolean noTypeInfo(JavaType baseType) {
-            return baseType.isPrimitive() || baseType.isArrayType() || baseType.isCollectionLikeType()
-                    || Date.class.isAssignableFrom(baseType.getRawClass());
+            return baseType.isPrimitive() || baseType.isArrayType() || baseType.isCollectionLikeType() || Date.class
+                    .isAssignableFrom(baseType.getRawClass());
         }
     }
 
@@ -133,7 +136,7 @@ public class JSONUtil {
          * Returns a type token given its alias or class name.
          *
          * @param typeFactory The type factory.
-         * @param id Alias or class name.
+         * @param id          Alias or class name.
          * @return A type token.
          */
         private JavaType typeFromId(TypeFactory typeFactory, String id) {
@@ -150,7 +153,7 @@ public class JSONUtil {
         public Id getMechanism() {
             return Id.CUSTOM;
         }
-        
+
         @Override
         public String getDescForKnownTypeIds() {
             return "CWTypeResolverBuilder";
@@ -166,14 +169,13 @@ public class JSONUtil {
             super(idRes, property, propName);
         }
 
-        @Override
-        public void writeTypePrefixForObject(Object value, JsonGenerator jgen) throws IOException, JsonProcessingException {
-            boolean needTypeId = jgen.getOutputContext().inRoot() || jgen.getOutputContext().inArray();
-            jgen.writeStartObject();
-
-            if (needTypeId) {
-                jgen.writeStringField(_typePropertyName, idFromValue(value));
+        public WritableTypeId writeTypePrefix(JsonGenerator jgen, WritableTypeId typeId) throws IOException {
+            if (typeId.valueShape == JsonToken.START_OBJECT && !jgen.getOutputContext().inRoot() && !jgen.getOutputContext()
+                    .inArray()) {
+                typeId.include = WritableTypeId.Inclusion.PAYLOAD_PROPERTY;
             }
+
+            return super.writeTypePrefix(jgen, typeId);
         }
 
     }
@@ -291,7 +293,7 @@ public class JSONUtil {
      * Sets the date format to be used when serializing dates.
      *
      * @param typeProperty The name of the property signifying the data type.
-     * @param dateFormat Date format to use.
+     * @param dateFormat   Date format to use.
      */
     public static void setDateFormat(String typeProperty, DateFormat dateFormat) {
         getMapper(typeProperty).setDateFormat(dateFormat);
@@ -310,7 +312,7 @@ public class JSONUtil {
     /**
      * Serializes an object to JSON format.
      *
-     * @param object Object to be serialized.
+     * @param object      Object to be serialized.
      * @param prettyPrint If true, format output for display.
      * @return Serialized form of the object in JSON format.
      */
@@ -322,7 +324,7 @@ public class JSONUtil {
      * Serializes an object to JSON format.
      *
      * @param typeProperty The name of the property signifying the data type.
-     * @param object Object to be serialized.
+     * @param object       Object to be serialized.
      * @return Serialized form of the object in JSON format.
      */
     public static String serialize(String typeProperty, Object object) {
@@ -333,15 +335,16 @@ public class JSONUtil {
      * Serializes an object to JSON format.
      *
      * @param typeProperty The name of the property signifying the data type.
-     * @param object Object to be serialized.
-     * @param prettyPrint If true, format output for display.
+     * @param object       Object to be serialized.
+     * @param prettyPrint  If true, format output for display.
      * @return Serialized form of the object in JSON format.
      */
     public static String serialize(String typeProperty, Object object, boolean prettyPrint) {
         try {
             ObjectMapper mapper = getMapper(typeProperty);
-            return prettyPrint ? mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object)
-                    : mapper.writeValueAsString(object);
+            return prettyPrint ?
+                    mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object) :
+                    mapper.writeValueAsString(object);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -361,7 +364,7 @@ public class JSONUtil {
      * Deserializes an object from JSON format.
      *
      * @param typeProperty The name of the property signifying the data type.
-     * @param data Serialized form of the object.
+     * @param data         Serialized form of the object.
      * @return An instance of the deserialized object.
      */
     public static Object deserialize(String typeProperty, String data) {
@@ -383,8 +386,8 @@ public class JSONUtil {
     /**
      * Deserializes a list of objects.
      *
-     * @param <T> The list elements' class.
-     * @param data Serialized form of the list in JSON format.
+     * @param <T>   The list elements' class.
+     * @param data  Serialized form of the list in JSON format.
      * @param clazz The class of objects found in the list.
      * @return A list of objects of the specified type.
      */
@@ -395,15 +398,17 @@ public class JSONUtil {
     /**
      * Deserializes a list of objects.
      *
-     * @param <T> The list elements' class.
+     * @param <T>          The list elements' class.
      * @param typeProperty The name of the property signifying the data type.
-     * @param data Serialized form of the list in JSON format.
-     * @param clazz The class of objects found in the list.
+     * @param data         Serialized form of the list in JSON format.
+     * @param clazz        The class of objects found in the list.
      * @return A list of objects of the specified type.
      */
     public static <T> List<T> deserializeList(String typeProperty, String data, Class<T> clazz) {
         try {
-            return getMapper(typeProperty).readValue(data, new TypeReference<List<T>>() {});
+            return getMapper(typeProperty).readValue(data, new TypeReference<List<T>>() {
+
+            });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -413,21 +418,21 @@ public class JSONUtil {
      * Merges one JSON tree (srcNode) into another (destNode).
      *
      * @param destNode The tree receiving the merged node.
-     * @param srcNode The tree supplying the nodes to merge.
+     * @param srcNode  The tree supplying the nodes to merge.
      * @return The destination node post merging.
      */
     public static JsonNode merge(JsonNode destNode, JsonNode srcNode) {
         return merge(destNode, srcNode, false);
     }
-    
+
     /**
      * Merges one JSON tree (srcNode) into another (destNode).
      *
-     * @param destNode The tree receiving the merged node.
-     * @param srcNode The tree supplying the nodes to merge.
+     * @param destNode     The tree receiving the merged node.
+     * @param srcNode      The tree supplying the nodes to merge.
      * @param deleteOnNull If true and a null value is encountered in the source, delete the
-     *            corresponding node in the destination. If false, null values are treated like any
-     *            other value.
+     *                     corresponding node in the destination. If false, null values are treated like any
+     *                     other value.
      * @return The destination node post merging.
      */
     public static JsonNode merge(JsonNode destNode, JsonNode srcNode, boolean deleteOnNull) {
@@ -450,7 +455,7 @@ public class JSONUtil {
                 }
             }
         }
-        
+
         return destNode;
     }
 
