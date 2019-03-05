@@ -11,7 +11,7 @@
 	<artifactId>fujion-react-core</artifactId>
 
 	<properties>
-		<react.version>16.4.2</react.version>
+		<react.version>16.8.3</react.version>
 		
 		<webjar.name>fujion-react</webjar.name>
 		<systemjs>

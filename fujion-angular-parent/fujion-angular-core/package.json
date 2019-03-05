@@ -1,7 +1,7 @@
 {
   "name": "fujion-angular",
-  "version": "1.2.0",
-  "description": "Angular 5 libraries",
+  "version": "3.0.0",
+  "description": "Angular 7 libraries",
   "main": "",
   "keywords": [
     "fujion",
@@ -16,21 +16,21 @@
     "postinstall": "tsc"
   },
   "dependencies": {
-    "@angular/animations": "6.1.4",
-    "@angular/common": "6.1.4",
-    "@angular/compiler": "6.1.4",
-    "@angular/core": "6.1.4",
-    "@angular/forms": "6.1.4",
-    "@angular/http": "6.1.4",
-    "@angular/platform-browser": "6.1.4",
-    "@angular/platform-browser-dynamic": "6.1.4",
-    "@angular/router": "6.1.4",
-    "@angular/upgrade": "6.1.4",
-    "core-js": "2.5.7",
-    "rxjs": "6.2.2",
-    "zone.js": "0.8.26"
+    "@angular/animations": "7.2.4",
+    "@angular/common": "7.2.4",
+    "@angular/compiler": "7.2.4",
+    "@angular/core": "7.2.4",
+    "@angular/forms": "7.2.4",
+    "@angular/http": "7.2.4",
+    "@angular/platform-browser": "7.2.4",
+    "@angular/platform-browser-dynamic": "7.2.4",
+    "@angular/router": "7.2.4",
+    "@angular/upgrade": "7.2.4",
+    "core-js": "2.6.4",
+    "rxjs": "6.4.0",
+    "zone.js": "0.8.29"
   },
   "devDependencies": {
-    "typescript": "2.7.2"
+    "typescript": "3.2.4"
   }
 }

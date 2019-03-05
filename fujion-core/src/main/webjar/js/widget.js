@@ -369,7 +369,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				event.fujion_nosend = true;
 			}
 			
-			this.widget$.triggerHandler(event, params);
+			this.widget$ ? this.widget$.triggerHandler(event, params) : null;
 		},
 		
 		/*------------------------------ Lifecycle ------------------------------*/
@@ -3603,7 +3603,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		onAddChild: function(child) {
 			this.widget$.show();
 			child._slide(true, 'fast', function() {
-				child.widget$.height('auto');
+				child.widget$ ? child.widget$.height('auto') : null;
 			});
 		},
 		

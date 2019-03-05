@@ -42,7 +42,7 @@ public class LoaderOptions extends Options {
     private String apiKey;
     
     @Option("VERSION")
-    @Value("${org.fujion.gmaps.version:3.31}")
+    @Value("${org.fujion.gmaps.version:3.34}")
     private String apiVersion;
 
     @Option(value = "LIBRARIES", convertUsing = "value.split('\\,')")

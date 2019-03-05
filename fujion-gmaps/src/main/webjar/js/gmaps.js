@@ -6,8 +6,8 @@ define('fujion-gmaps', [
 	'google-maps',
 	'fujion-gmaps-css'], 
 	
-	function(fujion, Widget, GoogleMapsLoader) { 
-	
+	function(fujion, Widget, GoogleMapsLoader) {
+
 	/**
 	 * Google Maps widget
 	 */

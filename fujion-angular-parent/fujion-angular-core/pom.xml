@@ -1,99 +1,99 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.fujion</groupId>
-		<artifactId>fujion-angular-parent</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.fujion</groupId>
+        <artifactId>fujion-angular-parent</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+    </parent>
 
-	<name>Fujion Angular Integration</name>
-	<artifactId>fujion-angular-core</artifactId>
+    <name>Fujion Angular Integration</name>
+    <artifactId>fujion-angular-core</artifactId>
 
-	<properties>
-		<angular.version>6.1.4</angular.version>
-    	<corejs.version>2.5.7</corejs.version>
-    	<rxjs.version>6.2.2</rxjs.version>
-    	<zonejs.version>0.8.26</zonejs.version>
-    	
-		<webjar.name>fujion-angular</webjar.name>
+    <properties>
+        <angular.version>7.2.4</angular.version>
+        <corejs.version>2.6.4</corejs.version>
+        <rxjs.version>6.4.0</rxjs.version>
+        <zonejs.version>0.8.26</zonejs.version>
+
+        <webjar.name>fujion-angular</webjar.name>
         <systemjs>
-        {'map': {
-			'fujion-angular-widget': 'js/widget.js',
-			'fujion-angular-bootstrap': 'js/bootstrap.js'
-			}
-		}
+            {'map': {
+            'fujion-angular-widget': 'js/widget.js',
+            'fujion-angular-bootstrap': 'js/bootstrap.js'
+            }
+            }
         </systemjs>
-	</properties>
+    </properties>
 
-	<build>
-		<plugins>
-			<plugin>
-			    <groupId>com.github.eirslett</groupId>
-			    <artifactId>frontend-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.samaxes.maven</groupId>
-				<artifactId>minify-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>generate-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<mainClass>org.fujion.schema.SchemaGenerator</mainClass>
-							<classpathScope>compile</classpathScope>
-							<arguments>
-								<argument>-v=${project.version}</argument>
-								<argument>-t=AngularJS Extension</argument>
-								<argument>-c=org.fujion.angular.AngularComponent</argument>
-								<argument>${webjar.schemadir}fsp-angular.xsd</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-	
-	<dependencies>
-		<!-- Fujion Framework -->
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-core</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<!-- AngularJS -->
-		<dependency>
-			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-angular</artifactId>
-			<version>${angular.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-corejs</artifactId>
-			<version>${corejs.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-rxjs</artifactId>
-			<version>${rxjs.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-zonejs</artifactId>
-			<version>${zonejs.version}</version>
-		</dependency>
-		<!-- Testing -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-	</dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-schema</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>org.fujion.schema.SchemaGenerator</mainClass>
+                            <classpathScope>compile</classpathScope>
+                            <arguments>
+                                <argument>-v=${project.version}</argument>
+                                <argument>-t=AngularJS Extension</argument>
+                                <argument>-c=org.fujion.angular.AngularComponent</argument>
+                                <argument>${webjar.schemadir}fsp-angular.xsd</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Fujion Framework -->
+        <dependency>
+            <groupId>org.fujion</groupId>
+            <artifactId>fujion-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- AngularJS -->
+        <dependency>
+            <groupId>org.fujion.webjars</groupId>
+            <artifactId>webjar-angular</artifactId>
+            <version>${angular.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujion.webjars</groupId>
+            <artifactId>webjar-corejs</artifactId>
+            <version>${corejs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujion.webjars</groupId>
+            <artifactId>webjar-rxjs</artifactId>
+            <version>${rxjs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujion.webjars</groupId>
+            <artifactId>webjar-zonejs</artifactId>
+            <version>${zonejs.version}</version>
+        </dependency>
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
 </project>
