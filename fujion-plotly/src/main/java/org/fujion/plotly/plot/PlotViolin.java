@@ -55,7 +55,7 @@ public class PlotViolin extends PlotOptions {
      */
     public enum SideEnum {
 
-        BOTH, NEGATIVE, POSITIVE;
+        BOTH, NEGATIVE, POSITIVE
         
     }
     

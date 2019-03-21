@@ -65,14 +65,14 @@ public class PlotTreeMap extends PlotOptions {
      * Which algorithm is used for setting position and dimensions of the points.
      */
     public enum LayoutAlgorithm {
-        SliceAndDice, Stripes, Squarified, Strip;
+        SliceAndDice, Stripes, Squarified, Strip
     }
     
     /**
      * Direction the layout algorithm will start drawing.
      */
     public enum LayoutStartingDirection {
-        horizontal, vertical;
+        horizontal, vertical
     }
     
     /**

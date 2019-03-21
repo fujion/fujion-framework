@@ -24,5 +24,5 @@ package org.fujion.highcharts;
  * Supported zoom types.
  */
 public enum ZoomType {
-    x, y, xy;
+    x, y, xy
 }
