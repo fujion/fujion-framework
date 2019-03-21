@@ -63,7 +63,7 @@ public class GroovyScript implements IScriptLanguage {
 
         @Override
         public Object run(Map<String, Object> variables) {
-            script.setBinding(variables == null ? null : new Binding(variables));
+            script.setBinding(new Binding(variables));
             return script.run();
         }
 
