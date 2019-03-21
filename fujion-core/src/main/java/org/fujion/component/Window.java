@@ -56,7 +56,7 @@ public class Window extends BaseUIComponent implements INamespace {
         /**
          * The window floats, but interaction with other components is allowed.
          */
-        POPUP;
+        POPUP
     }
 
     /**
@@ -74,7 +74,7 @@ public class Window extends BaseUIComponent implements INamespace {
         /**
          * Only the title bar is visible; moved to the bottom of the view port.
          */
-        MINIMIZED;
+        MINIMIZED
     }
 
     /**
