@@ -194,18 +194,10 @@ iframe.fujion-resizer {
 	align-items: flex-start;
 }
 
-.fujion-layout-vertical > * {
-	width: 100%;
-}
-
 .fujion-layout-horizontal {
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
-}
-
-.fujion-layout-horizontal > * {
-	height: 100%;
 }
 
 /* Dividers */
