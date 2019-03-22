@@ -92,7 +92,7 @@ public class CacheManagementConsole implements IJMXConsolePlugin {
     }
     
     /**
-     * Refreshes the expression cache.
+     * Clears the expression cache.
      *
      * @return The result of the operation.
      */
