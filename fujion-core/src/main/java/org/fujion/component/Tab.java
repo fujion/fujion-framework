@@ -122,7 +122,7 @@ public class Tab extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPos
     }
 
     /**
-     * Sets the tabs selected status.
+     * Sets the tab's selected status.
      *
      * @param selected The new selected status.
      * @param notifyParent If true, notify the parent tab view of the status change.

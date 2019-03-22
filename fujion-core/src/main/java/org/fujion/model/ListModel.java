@@ -48,6 +48,7 @@ public class ListModel<M> implements IListModel<M> {
      * model, it is returned as is. Otherwise, a list model is created and populated with the
      * contents of the list. This method is null safe, so a null input will return a null output.
      *
+     * @param <M> The class of the model object.
      * @param list The list to check.
      * @return A list model from the original list.
      */

@@ -1,0 +1,16 @@
+<fsp>
+    <carousel interval="0">
+        <carouselitem selected="true">
+            <image src="https://www.w3schools.com/bootstrap/img_chania.jpg"/>
+        </carouselitem>
+        <carouselitem>
+            <image src="https://www.w3schools.com/bootstrap/img_chania2.jpg"/>
+        </carouselitem>
+        <carouselitem>
+            <image src="https://www.w3schools.com/bootstrap/img_flower.jpg"/>
+        </carouselitem>
+        <carouselitem>
+            <image src="https://www.w3schools.com/bootstrap/img_flower2.jpg"/>
+        </carouselitem>
+    </carousel>
+</fsp>

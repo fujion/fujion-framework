@@ -23,6 +23,8 @@
 				'fujion-core': 'js/core',
 				'fujion-widget': 'js/widget',
 				'fujion-widget-css': 'css/widget',
+				'fujion-carousel': 'js/carousel',
+				'fujion-carousel-css': 'css/carousel',
 				'fujion-detail': 'js/detail',
 				'fujion-detail-css': 'css/detail',
 				'fujion-grid': 'js/grid',

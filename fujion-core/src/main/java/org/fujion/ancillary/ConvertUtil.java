@@ -225,6 +225,7 @@ public class ConvertUtil {
      * Invokes a compatible constructor with the provided value(s), performing type conversion as
      * necessary.
      *
+     * @param <T> The expected return type.
      * @param clazz The class whose constructor is to be invoked.
      * @param args Arguments to be passed to the constructor (may be null if no arguments). Argument
      *            values will be coerced to the expected type if possible.
@@ -255,10 +256,7 @@ public class ConvertUtil {
             }
         }
 
-        Assert.notNull(lastException, () -> {
-            return "No suitable constructor found for class " + clazz;
-        });
-
+        Assert.notNull(lastException, () -> "No suitable constructor found for class " + clazz);
         throw lastException;
     }
     
