@@ -358,8 +358,6 @@ iframe.fujion-resizer {
 /* Div */
 
 .fujion_div {
-	height: auto;
-	width: auto;
 	overflow: auto;
 }
 
