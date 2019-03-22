@@ -22,7 +22,7 @@ define('fujion-chartjs', ['fujion-core', 'fujion-widget', 'chart-js'], function(
 
 		reset : function() {
 			if (this._chart) {
-				this._chart.destroy()
+				this._chart.destroy();
 				delete this._chart;
 			}
 		},

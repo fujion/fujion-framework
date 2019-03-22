@@ -42,7 +42,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.resource.AppCacheManifestTransformer;
-import org.springframework.web.servlet.resource.GzipResourceResolver;
+import org.springframework.web.servlet.resource.EncodedResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolver;
 
 /**
@@ -54,7 +54,7 @@ public class ServletConfiguration implements WebMvcConfigurer, ApplicationContex
 
     private static final Logger log = Logger.create(ServletConfiguration.class);
 
-    private final GzipResourceResolver gzipResourceResolver = new GzipResourceResolver();
+    private final EncodedResourceResolver encodedResourceResolver = new EncodedResourceResolver();
 
     private final ResourceResolver webjarResourceResolver = new WebJarResourceResolver();
 
@@ -132,7 +132,7 @@ public class ServletConfiguration implements WebMvcConfigurer, ApplicationContex
 
         chain
         .addResolver(minifiedResourceResolver)
-        .addResolver(gzipResourceResolver)
+        .addResolver(encodedResourceResolver)
         .addTransformer(fujionResourceTransformer)
         .addTransformer(appCacheManifestTransformer);
         //@formatter:on

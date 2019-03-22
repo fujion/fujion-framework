@@ -31,7 +31,7 @@ public class DateRange {
 
     private static final String REGEX_DELIM = "\\" + DELIM;
 
-    private String label = "";
+    private String label;
 
     private String rawStartDate;
 
@@ -49,7 +49,7 @@ public class DateRange {
      * @param data Format is label|start date|end date|default Only label is required.
      */
     public DateRange(String data) {
-        String pcs[] = data.split(REGEX_DELIM);
+        String[] pcs = data.split(REGEX_DELIM);
         label = pcs[0];
         setStartDate(fromArray(pcs, 1));
         setEndDate(fromArray(pcs, 2));
@@ -294,12 +294,7 @@ public class DateRange {
         }
 
         cmp = endDate == null ? -1 : refDate.compareTo(endDate);
-
-        if (cmp > 0 || (!inclusiveEnd && cmp == 0)) {
-            return false;
-        }
-
-        return true;
+        return cmp <= 0 && (inclusiveEnd || cmp != 0);
     }
 
     /**

@@ -138,7 +138,7 @@ public class ConvertUtil {
      * @return The component whose name matches the input value.
      */
     private static BaseComponent convertToComponent(Object value, Class<?> componentType, Object instance) {
-        if (!BaseComponent.class.isInstance(instance)) {
+        if (!(instance instanceof BaseComponent)) {
             StrUtil.formatMessage("The property owner is not of the expected type (was %s but expected %s)",
                 instance.getClass().getName(), BaseComponent.class.getName());
         }
@@ -263,10 +263,8 @@ public class ConvertUtil {
     private static Object[] convertArgs(Object instance, Class<?>[] parameterTypes, Object... args) {
         int arglen = args == null ? 0 : args.length;
         
-        Assert.isTrue(args.length == parameterTypes.length, () -> {
-            return StrUtil.formatMessage("Incorrect number of arguments (provided %d but expected %d)", arglen,
-                parameterTypes.length);
-        });
+        Assert.isTrue(args.length == parameterTypes.length, () -> StrUtil.formatMessage("Incorrect number of arguments (provided %d but expected %d)", arglen,
+            parameterTypes.length));
 
         Object[] out = new Object[arglen];
 

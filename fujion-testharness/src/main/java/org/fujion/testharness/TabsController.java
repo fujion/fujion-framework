@@ -42,7 +42,7 @@ public class TabsController extends BaseController {
     @Override
     public void afterInitialized(BaseComponent root) {
         super.afterInitialized(root);
-        tabNoClose.setOnCanClose(() -> canCloseTab());
+        tabNoClose.setOnCanClose(this::canCloseTab);
         badge = new Badge(tabWithBadge);
     }
 

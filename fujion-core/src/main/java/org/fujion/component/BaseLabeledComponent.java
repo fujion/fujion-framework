@@ -34,8 +34,8 @@ public abstract class BaseLabeledComponent<P extends BaseLabeledComponent.ILabel
     /**
      * Position specifier for label.
      */
-    public interface ILabelPosition {};
-    
+    public interface ILabelPosition {}
+
     /**
      * Horizontal position specifier.
      */

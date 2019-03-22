@@ -28,7 +28,7 @@ public enum ExportType {
     
     private final String mimetype;
     
-    private ExportType(String mimetype) {
+    ExportType(String mimetype) {
         this.mimetype = mimetype;
     }
     

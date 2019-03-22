@@ -210,7 +210,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *            {@link org.fujion.ancillary.CssClasses});
      */
     public void setClasses(String classes) {
-        String oldClasses = classes.toString();
+        String oldClasses = classes;
         this.classes.parse(classes);
         _syncClasses(oldClasses);
     }
@@ -681,7 +681,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
 
         if (recurse) {
             for (T child : getChildren(clazz)) {
-                T comp = child.getFirstVisibleChild(clazz, recurse);
+                T comp = child.getFirstVisibleChild(clazz, true);
 
                 if (comp != null) {
                     return comp;

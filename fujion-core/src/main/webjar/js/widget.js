@@ -332,7 +332,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * Turns on/off server forwarding of one or more event types.
 		 * 
 		 * @param {string} eventTypes Space-delimited list of event types.
-		 * @param {boolean} noforward If true, forwarding is enabled; if false, disabled.
+		 * @param {boolean} [noforward] If false, forwarding is enabled; if true, disabled.
 		 */ 
 		forwardToServer: function(eventTypes, noforward) {
 			var fwd = this.getState('forwarding'),
@@ -780,7 +780,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				changed = this.setState(key, value);
 			
 			if (changed || this._rendering) {
-				this.applyState(key, old)
+				this.applyState(key, old);
 				
 				if (changed && !fromServer) {
 					this.stateChanged(key, value);
@@ -793,7 +793,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/**
 		 * Add / remove text content to / from widget.
 		 * 
-		 * @param {string} Text content to add (or nil to remove).
+		 * @param {string} v Text content to add (or nil to remove).
 		 */
 		s_content: function(v) {
 			var span$ = this.sub$('content');
@@ -820,7 +820,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/**
 		 * Assign name associated with the widget.
 		 * 
-		 * @param {string] v Name value.
+		 * @param {string} v Name value.
 		 */
 		s_name: function(v) {
 			this.attr('data-fujion-name', v);
@@ -3397,7 +3397,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				var src = event.target.contentWindow.location.href;
 				this.setState('src', src);
 				event.src = src;
-			} catch(e) {};
+			} catch (e) {
+			}
 		},
 		
 		/*------------------------------ Lifecycle ------------------------------*/
@@ -3866,7 +3867,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var icons = this.sub$('icons');
 			icons.append(btn);
 			icons.children().sort(function(a, b) {
-				a = $(a), b = $(b);
+				a = $(a);
+				b = $(b);
 				var x = a.data('position') - b.data('position');
 				
 				if (x > 0) {

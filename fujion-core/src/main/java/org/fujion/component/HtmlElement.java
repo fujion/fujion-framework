@@ -54,9 +54,7 @@ public class HtmlElement extends BaseComponent {
     
     public void setTag(String tag) {
         String tagName = defaultify(nullify(tag), "span");
-        Assert.isTrue(validateName(tagName), () -> {
-            return "Invalid tag: " + tagName;
-        });
+        Assert.isTrue(validateName(tagName), () -> "Invalid tag: " + tagName);
         propertyChange("tag", this.tag, this.tag = tagName, true);
     }
     

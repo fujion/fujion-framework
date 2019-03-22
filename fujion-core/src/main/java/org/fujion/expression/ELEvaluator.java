@@ -125,9 +125,7 @@ public class ELEvaluator extends StandardEvaluationContext implements BeanPostPr
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         setRootObject(applicationContext.getEnvironment());
         
-        setBeanResolver((context, beanName) -> {
-            return applicationContext.getBean(beanName);
-        });
+        setBeanResolver((context, beanName) -> applicationContext.getBean(beanName));
     }
     
 }

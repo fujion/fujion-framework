@@ -296,7 +296,7 @@ public class SchemaGenerator {
             return;
         }
         
-        if (childDef != null && !childDef.isParentTag(parentDef.getTag())) {
+        if (!childDef.isParentTag(parentDef.getTag())) {
             return;
         }
         
@@ -322,8 +322,7 @@ public class SchemaGenerator {
     }
 
     private String getType(Class<?> javaType) {
-        String type = null;
-        type = type != null ? type : getType(javaType, "fsp:boolean", boolean.class, Boolean.class);
+        String type = getType(javaType, "fsp:boolean", boolean.class, Boolean.class);
         type = type != null ? type : getType(javaType, "fsp:integer", int.class, Integer.class);
         type = type != null ? type : getType(javaType, "fsp:decimal", float.class, Float.class, double.class, Double.class);
         return type != null ? type : "xs:string";

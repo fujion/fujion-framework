@@ -25,5 +25,4 @@ package org.fujion.plotly.common;
  */
 public enum PolarUnitsEnum {
 
-    RADIANS, DEGREES, GRADIANS;
-}
+    RADIANS, DEGREES, GRADIANS}

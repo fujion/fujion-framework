@@ -30,7 +30,7 @@ public interface IScriptLanguage {
     /**
      * Interface for executing a parsed script.
      */
-    public interface IParsedScript {
+    interface IParsedScript {
 
         /**
          * Executes the compiled script with optional variables.

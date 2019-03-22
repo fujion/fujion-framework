@@ -38,7 +38,7 @@ public interface IBinding {
     /**
      * Read from model, write to target.
      */
-    public interface IReadBinding extends IBinding {
+    interface IReadBinding extends IBinding {
 
         void read();
     }
@@ -46,7 +46,7 @@ public interface IBinding {
     /**
      * Read from target, write to model.
      */
-    public interface IWriteBinding extends IBinding {
+    interface IWriteBinding extends IBinding {
 
         void write();
     }

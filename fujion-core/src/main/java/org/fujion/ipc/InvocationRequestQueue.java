@@ -51,9 +51,7 @@ public class InvocationRequestQueue {
     /**
      * Invokes the method on the target as specified by the event.
      */
-    private final IEventListener invocationListener = (event) -> {
-        invokeRequest((InvocationRequest) event.getData());
-    };
+    private final IEventListener invocationListener = (event) -> invokeRequest((InvocationRequest) event.getData());
 
     /**
      * Create an invocation request queue for the specified target.

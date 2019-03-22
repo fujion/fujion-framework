@@ -61,9 +61,7 @@ public class ComponentScanner extends AbstractClassScanner<BaseComponent, Compon
             def._addSetter(method);
             def._addGetter(method);
         });
-        MethodScanner.scan(def.getFactoryClass(), method -> {
-            def._addFactoryParameter(method);
-        });
+        MethodScanner.scan(def.getFactoryClass(), def::_addFactoryParameter);
         ComponentRegistry.getInstance().register(def);
     }
 

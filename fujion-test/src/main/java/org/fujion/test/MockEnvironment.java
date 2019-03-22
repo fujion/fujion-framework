@@ -86,7 +86,7 @@ public class MockEnvironment {
         // Initialize the page
         Page page = session.getPage();
         Page._init(page, clientRequest, session.getSynchronizer());
-        page = initPage(page);
+        initPage(page);
         // Create child Spring context
         if (childConfig != null) {
             childContext = initAppContext(childConfig, rootContext);

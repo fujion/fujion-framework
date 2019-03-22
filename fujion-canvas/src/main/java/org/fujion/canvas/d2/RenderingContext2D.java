@@ -632,7 +632,7 @@ public class RenderingContext2D extends RenderingContextBase {
      *            cleared and line strokes return to being solid.
      */
     public void setLineDash(double[] segments) {
-        invoke("setLineDash", segments);
+        invoke("setLineDash", (Object) segments);
     }
 
     /**

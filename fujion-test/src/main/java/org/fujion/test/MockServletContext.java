@@ -38,7 +38,7 @@ public class MockServletContext extends org.springframework.mock.web.MockServlet
 
         @Override
         public Resource getResource(String location) {
-            if (location != null && location.startsWith("/web") || location.startsWith("web")) {
+            if (location != null && (location.startsWith("/web") || location.startsWith("web"))) {
                 location = "classpath:" + location;
             }
             

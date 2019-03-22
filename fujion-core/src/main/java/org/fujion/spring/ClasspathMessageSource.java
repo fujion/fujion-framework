@@ -62,9 +62,7 @@ public class ClasspathMessageSource extends ReloadableResourceBundleMessageSourc
         super();
         setBasenames("WEB-INF/messages", "classpath*:/**/messages");
         setDefaultEncoding(StandardCharsets.UTF_8.name());
-        Localizer.registerMessageSource((id, locale, args) -> {
-            return getMessage(id, args, locale);
-        });
+        Localizer.registerMessageSource((id, locale, args) -> getMessage(id, args, locale));
     }
 
     /**

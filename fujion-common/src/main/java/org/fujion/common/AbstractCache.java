@@ -134,7 +134,7 @@ public abstract class AbstractCache<KEY, VALUE> implements Iterable<VALUE> {
             needsFetch = !map.containsKey(key);
 
             if (needsFetch) {
-                cachedObject = new CachedObject<VALUE>();
+                cachedObject = new CachedObject<>();
                 map.put(key, cachedObject);
             } else {
                 cachedObject = map.get(key);

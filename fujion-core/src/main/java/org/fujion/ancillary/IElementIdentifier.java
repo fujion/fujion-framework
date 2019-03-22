@@ -29,7 +29,7 @@ import org.fujion.common.Logger;
  */
 public interface IElementIdentifier extends IClientTransform {
     
-    static final Logger log = Logger.create(IElementIdentifier.class);
+    Logger log = Logger.create(IElementIdentifier.class);
     
     /**
      * Returns the unique identifier of the corresponding HTML element.

@@ -132,6 +132,6 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
             }
         }
 
-        return results == null ? Collections.<String> emptyList() : results;
+        return results == null ? Collections.emptyList() : results;
     }
 }

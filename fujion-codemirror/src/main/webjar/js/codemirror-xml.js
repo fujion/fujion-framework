@@ -50,7 +50,7 @@ define('fujion-codemirror-xml', [
 		completeIfAfterLt: function(cm) {
 			return this.completeAfter(cm, function() {
 				var cur = cm.getCursor();
-				return cm.getRange(CodeMirror.Pos(cur.line, cur.ch - 1), cur) == '<';
+				return cm.getRange(CodeMirror.Pos(cur.line, cur.ch - 1), cur) === '<';
 			});
 		},
 

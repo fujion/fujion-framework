@@ -52,7 +52,7 @@ public class EmptyResourceResolver extends AbstractResourceResolver {
         }
 
         @Override
-        public InputStream getInputStream() throws IOException {
+        public InputStream getInputStream() {
             return StreamUtils.emptyInput();
         }
 
@@ -62,32 +62,32 @@ public class EmptyResourceResolver extends AbstractResourceResolver {
         }
 
         @Override
-        public URL getURL() throws IOException {
+        public URL getURL() {
             return null;
         }
 
         @Override
-        public URI getURI() throws IOException {
+        public URI getURI() {
             return null;
         }
 
         @Override
-        public File getFile() throws IOException {
+        public File getFile() {
             return new File(path);
         }
 
         @Override
-        public long contentLength() throws IOException {
+        public long contentLength() {
             return 0;
         }
 
         @Override
-        public long lastModified() throws IOException {
+        public long lastModified() {
             return -1;
         }
 
         @Override
-        public Resource createRelative(String relativePath) throws IOException {
+        public Resource createRelative(String relativePath) {
             return null;
         }
 

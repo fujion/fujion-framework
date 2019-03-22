@@ -57,14 +57,12 @@ public class BindingController extends BaseController {
 
     }
     
-    private MyBinder binder;
-
     private MyModel model;
     
     @Override
     public void afterInitialized(BaseComponent comp) {
         super.afterInitialized(comp);
-        binder = (MyBinder) comp.getAttribute("binder");
+        MyBinder binder = (MyBinder) comp.getAttribute("binder");
         model = new MyModel();
         binder.setModel(model);
     }

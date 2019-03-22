@@ -27,10 +27,7 @@ import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
 import org.fujion.event.ChangeEvent;
-import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
-
-import java.util.function.BooleanSupplier;
 
 /**
  * A single item in a carousel.

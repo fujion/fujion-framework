@@ -89,7 +89,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 			var active = !!this.widget$.resizable('instance'),
 				newactive = !_.isNil(v);
 			
-			if (active != newactive) {
+			if (active !== newactive) {
 				newactive ? this.widget$.resizable({handles: 'e'}) : this.widget$.resizable('destroy');
 			}
 		}, 
@@ -150,8 +150,8 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 				} else if (!selectable && active){
 					self.widget$.selectable('destroy');
 				}
-			};
-			
+			}
+
 			function _select(event, ui) {
 				_doSelect(ui.selected, true);
 			}

@@ -121,7 +121,7 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
      */
     private void setValue(String name, Object value, Map<String, Object> map) {
         if (name.contains(".")) {
-            String pcs[] = name.split("\\.", 2);
+            String[] pcs = name.split("\\.", 2);
             name = pcs[0];
             String rest = pcs[1];
 

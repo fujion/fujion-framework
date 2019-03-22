@@ -78,13 +78,9 @@ public class Localizer {
     
     private static final List<IMessageSource> messageSources = new ArrayList<>();
     
-    private static ILocaleResolver localeResolver = () -> {
-        return Locale.getDefault();
-    };
+    private static ILocaleResolver localeResolver = Locale::getDefault;
     
-    private static ITimeZoneResolver timeZoneResolver = () -> {
-        return TimeZone.getDefault();
-    };
+    private static ITimeZoneResolver timeZoneResolver = TimeZone::getDefault;
     
     /**
      * Registers a message source for resolving messages.

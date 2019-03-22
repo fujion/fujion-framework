@@ -39,7 +39,7 @@ public abstract class WeakCollectionBase<E> {
      * Remove any garbage-collected entries.
      */
     public void compact() {
-        Reference<? extends E> ref = null;
+        Reference<? extends E> ref;
         
         while ((ref = referenceQueue.poll()) != null) {
             removeReference(ref);

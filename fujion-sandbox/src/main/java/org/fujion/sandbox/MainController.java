@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -62,9 +63,7 @@ public class MainController implements IAutoWired, ApplicationContextAware {
 
     private static final Mode[] REPLACE_MODES = { Mode.MODAL, Mode.POPUP };
 
-    private static final Comparator<Resource> resourceComparator = (r1, r2) -> {
-        return r1.getFilename().compareToIgnoreCase(r2.getFilename());
-    };
+    private static final Comparator<Resource> resourceComparator = (r1, r2) -> r1.getFilename().compareToIgnoreCase(r2.getFilename());
 
     private static final IComponentRenderer<Comboitem, Resource> fujionRenderer = new IComponentRenderer<Comboitem, Resource>() {
 
@@ -316,10 +315,8 @@ public class MainController implements IAutoWired, ApplicationContextAware {
 
     private void findResources(ApplicationContext applicationContext, String pattern) {
         try {
-            for (Resource resource : applicationContext.getResources(pattern)) {
-                model.add(resource);
-            }
-        } catch (Exception e) {
+            model.addAll(Arrays.asList(applicationContext.getResources(pattern)));
+        } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
         }
     }

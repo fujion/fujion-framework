@@ -51,11 +51,8 @@ public class CallbackRegistry {
     private final AtomicInteger callbackId = new AtomicInteger();
     
     private final long evictionInterval;
-    
-    private final ITypedEventListener<CallbackEvent> callbackListener = (event) -> {
-        invokeCallback(event.getHandle(), event.getData());
-    };
-    
+
+
     /**
      * Creates a callback registry for the specified page using the default eviction interval (30
      * minutes).
@@ -74,6 +71,8 @@ public class CallbackRegistry {
      */
     public CallbackRegistry(Page page, long evictionInterval) {
         this.evictionInterval = evictionInterval;
+        ITypedEventListener<CallbackEvent> callbackListener = event ->
+            invokeCallback(event.getHandle(), event.getData());
         page.addEventListener(CallbackEvent.class, callbackListener);
     }
     

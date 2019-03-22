@@ -33,7 +33,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.type.WritableTypeId;
@@ -264,7 +263,7 @@ public class JSONUtil {
      * @param clazz The class whose alias is sought.
      * @return The alias associated with the specified class, or null if one does not exist.
      */
-    public static final String getAlias(Class<?> clazz) {
+    public static String getAlias(Class<?> clazz) {
         return classToAlias.get(clazz);
     }
 

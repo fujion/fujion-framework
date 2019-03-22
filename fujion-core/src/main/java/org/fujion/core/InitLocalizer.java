@@ -36,9 +36,7 @@ public class InitLocalizer {
      * Initialize the Localizer.
      */
     public static void init() {
-        Localizer.setLocaleResolver(() -> {
-            return LocaleContextHolder.getLocale();
-        });
+        Localizer.setLocaleResolver(LocaleContextHolder::getLocale);
 
         Localizer.setTimeZoneResolver(() -> {
             TimeZone tz = null;

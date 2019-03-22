@@ -1,1 +1,1 @@
-return self.getName() + " is groovy!";
+return self.getName() + " is groovy!"

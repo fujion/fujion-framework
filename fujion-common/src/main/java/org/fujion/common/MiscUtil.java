@@ -133,12 +133,8 @@ public class MiscUtil {
     @SuppressWarnings("unchecked")
     public static <T, S extends T> Iterator<S> iteratorForType(Iterator<T> iterator, Class<S> type) {
         return iterator instanceof ListIterator
-                ? IteratorUtils.filteredListIterator((ListIterator<T>) iterator, (element) -> {
-                    return type.isInstance(element);
-                })
-                        : IteratorUtils.filteredIterator(iterator, (element) -> {
-                            return type.isInstance(element);
-                        });
+                ? IteratorUtils.filteredListIterator((ListIterator<T>) iterator, type::isInstance)
+                        : IteratorUtils.filteredIterator(iterator, type::isInstance);
     }
 
     /**
@@ -151,9 +147,7 @@ public class MiscUtil {
      * @return An iterable.
      */
     public static <T, S extends T> Iterable<S> iterableForType(Collection<T> collection, Class<S> type) {
-        return () -> {
-            return iteratorForType(collection, type);
-        };
+        return () -> iteratorForType(collection, type);
     }
 
     /**

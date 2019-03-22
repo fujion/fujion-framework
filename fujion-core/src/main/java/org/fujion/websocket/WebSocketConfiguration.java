@@ -38,7 +38,6 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     
     private static long keepaliveInterval;
 
-    @Autowired
     private WebSocketHandler fujion_WebSocketHandler;
 
     /**
@@ -50,7 +49,12 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     public static long getKeepaliveInterval() {
         return keepaliveInterval;
     }
-    
+
+    @Autowired
+    public WebSocketConfiguration(WebSocketHandler fujion_WebSocketHandler) {
+        this.fujion_WebSocketHandler = fujion_WebSocketHandler;
+    }
+
     /**
      * Register the web socket handler and add a handshake interceptor to copy attributes from the
      * http session to the web socket.

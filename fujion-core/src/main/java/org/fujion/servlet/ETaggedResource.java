@@ -109,7 +109,7 @@ public class ETaggedResource implements HttpResource {
      * Last-Modified header in the response.
      */
     @Override
-    public long lastModified() throws IOException {
+    public long lastModified() {
         if (match) {
             throw new ResourceNotModifiedException(headers.getETag());
         }

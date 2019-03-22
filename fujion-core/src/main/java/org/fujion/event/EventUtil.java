@@ -91,9 +91,7 @@ public class EventUtil {
      *            to the page in the current execution context.
      */
     public static void echo(Event event) {
-        event.getPage().invoke("id", (response) -> {
-            send(event);
-        });
+        event.getPage().invoke("id", (response) -> send(event));
     }
 
     /**

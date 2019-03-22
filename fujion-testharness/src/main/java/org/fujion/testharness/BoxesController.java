@@ -32,6 +32,7 @@ import org.fujion.component.Popupbox;
 import org.fujion.component.Textbox;
 import org.fujion.event.Event;
 import org.fujion.event.KeycaptureEvent;
+import org.fujion.model.IComponentRenderer;
 import org.fujion.model.ListModel;
 
 /**
@@ -68,14 +69,8 @@ public class BoxesController extends BaseController {
         
         lboxRender.setModel(model);
         cboxRender.setModel(model);
-        
-        lboxRender.setRenderer((String label) -> {
-            return new Listitem(label);
-        });
-        
-        cboxRender.setRenderer((String label) -> {
-            return new Comboitem(label);
-        });
+        lboxRender.setRenderer((IComponentRenderer<Listitem, String>) Listitem::new);
+        cboxRender.setRenderer((IComponentRenderer<Comboitem, String>) Comboitem::new);
     }
     
     @EventHandler(value = "change", target = "tabInputBoxes", onFailure = OnFailure.LOG)

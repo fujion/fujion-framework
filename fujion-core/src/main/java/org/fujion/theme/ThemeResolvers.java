@@ -46,9 +46,7 @@ public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
     
     private static final ThemeResolvers instance = new ThemeResolvers();
     
-    private final Set<ThemeResolver> themeResolvers = new TreeSet<>((tr1, tr2) -> {
-        return getOrder(tr1) - getOrder(tr2);
-    });
+    private final Set<ThemeResolver> themeResolvers = new TreeSet<>((tr1, tr2) -> getOrder(tr1) - getOrder(tr2));
     
     private String defaultTheme = "default";
     

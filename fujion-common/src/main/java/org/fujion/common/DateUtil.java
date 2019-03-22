@@ -37,13 +37,7 @@ import org.apache.commons.lang.time.FastDateFormat;
  */
 public class DateUtil {
     
-    private static ThreadLocal<DecimalFormat> decimalFormat = new ThreadLocal<DecimalFormat>() {
-        
-        @Override
-        protected DecimalFormat initialValue() {
-            return new DecimalFormat("##0.##");
-        }
-    };
+    private static ThreadLocal<DecimalFormat> decimalFormat = ThreadLocal.withInitial(() -> new DecimalFormat("##0.##"));
     
     private static final String HL7_DATE_ONLY_PATTERN = "yyyyMMdd";
     
@@ -111,7 +105,7 @@ public class DateUtil {
         
         private String pattern;
         
-        private Format(String pattern) {
+        Format(String pattern) {
             this.pattern = pattern;
         }
         

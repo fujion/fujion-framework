@@ -77,6 +77,6 @@ public abstract class AbstractXmlParser extends AbstractSingleBeanDefinitionPars
     }
     
     private void error(String message) {
-        throw new ParseException(0, message + ".\n" + "Must be one of: " + ATTRIBUTES);
+        throw new ParseException(0, message + ".\n" + "Must be one of: " + ATTRIBUTES.toString());
     }
 }

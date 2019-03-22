@@ -238,9 +238,7 @@ public class ClientInvocation {
     private Object transformMap(Map<Object, Object> source) {
         Map<Object, Object> dest = new HashMap<>();
 
-        source.forEach((key, value) -> {
-            dest.put(key, transform(value));
-        });
+        source.forEach((key, value) -> dest.put(key, transform(value)));
 
         return dest;
     }

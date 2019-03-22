@@ -174,9 +174,7 @@ public class PageParser implements BeanPostProcessor {
                 }
                 
                 if (tag.equals("fsp") && node.getParentNode() instanceof Document) {
-                    processAttributes(node, (name, value) -> {
-                        badAttribute(tag, name);
-                    });
+                    processAttributes(node, (name, value) -> badAttribute(tag, name));
                     parseChildren(node, parentElement);
                     return;
                 }

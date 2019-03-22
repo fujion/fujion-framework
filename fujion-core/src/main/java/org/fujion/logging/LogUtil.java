@@ -63,10 +63,9 @@ public class LogUtil {
         /**
          * Logs on both client and server.
          */
-        BOTH;
-    }
+        BOTH}
 
-    private static Map<LogLevel, LogTarget> settings = new HashMap<>();
+    private static final Map<LogLevel, LogTarget> settings = new HashMap<>();
 
     private static volatile String clientSettings;
 

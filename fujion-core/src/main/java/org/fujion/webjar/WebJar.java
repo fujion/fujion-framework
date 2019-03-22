@@ -225,7 +225,7 @@ public class WebJar {
      */
     private void fixPackage(JsonNode entry, ObjectNode pkgs) {
         String name;
-        String main = null;
+        String main;
         ObjectNode pkg = pkgs.objectNode();
 
         if (entry.isTextual()) {

@@ -434,8 +434,8 @@ public class Window extends BaseUIComponent implements INamespace {
 
     /**
      * Sets whether window closure is permitted using a simple Boolean value. This is a shortcut for
-     * calling {@link #setOnCanClose} with a functional interface that returns a fixed Boolean
-     * value.
+     * calling {@link #setOnCanClose(BooleanSupplier)} with a functional interface that returns a
+     * fixed Boolean value.
      *
      * @param canClose If true, the tab may be closed.
      */

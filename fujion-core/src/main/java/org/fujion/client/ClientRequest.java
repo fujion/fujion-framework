@@ -133,7 +133,7 @@ public class ClientRequest {
     @SuppressWarnings("unchecked")
     private <T> T convertValue(Object value, Class<T> type) {
         try {
-            return type == Page.class ? (T) getPage() : (T) ConvertUtil.convert(value, type, getPage());
+            return type == Page.class ? (T) getPage() : ConvertUtil.convert(value, type, getPage());
         } catch (Exception e) {
             return null;
         }

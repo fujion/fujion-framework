@@ -25,7 +25,7 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 
 		init: function() {
 			this._super();
-			this.initState({interval: 0, keyboard: true, ride: false, wrap: true})
+			this.initState({interval: 0, keyboard: true, ride: false, wrap: true});
 			this.toggleClass('carousel slide', true);
 		},
 		

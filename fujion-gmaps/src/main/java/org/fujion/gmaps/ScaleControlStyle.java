@@ -28,5 +28,4 @@ public enum ScaleControlStyle {
     /**
      * The standard scale control.
      */
-    DEFAULT;
-}
+    DEFAULT}

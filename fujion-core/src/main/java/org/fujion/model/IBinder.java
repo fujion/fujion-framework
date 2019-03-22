@@ -62,7 +62,7 @@ public interface IBinder<T> {
     /**
      * Shorthand for Value.NONE.
      */
-    static final Value NOVALUE = Value.NONE;
+    Value NOVALUE = Value.NONE;
     
     /**
      * Returns the bound model.

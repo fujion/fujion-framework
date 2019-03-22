@@ -95,9 +95,7 @@ public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
          * @return The original tag (for chaining).
          */
         public Tag addChildren(String... children) {
-            for (String child : children) {
-                this.children.add(child);
-            }
+            this.children.addAll(Arrays.asList(children));
             return this;
         }
         

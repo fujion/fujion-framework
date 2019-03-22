@@ -76,7 +76,7 @@ public class SchemaAssembler {
         CommandLine cmd = new DefaultParser().parse(options, args);
 
         if (cmd.hasOption("h")) {
-            new HelpFormatter().printHelp("SchemaGenerator [options] ...", options);
+            new HelpFormatter().printHelp("SchemaAssembler [options] ...", options);
             return;
         }
 
@@ -161,17 +161,11 @@ public class SchemaAssembler {
             }
         });
 
-        tokens.put("${schema-version}", (token, value) -> {
-            write(value.replace(token, SchemaGenerator.formatVersion(version)));
-        });
+        tokens.put("${schema-version}", (token, value) -> write(value.replace(token, SchemaGenerator.formatVersion(version))));
 
-        tokens.put("${app-version}", (token, value) -> {
-            write(value.replace(token, version));
-        });
+        tokens.put("${app-version}", (token, value) -> write(value.replace(token, version)));
 
-        tokens.put("${generated-on}", (token, value) -> {
-            write(value.replace(token, DateUtil.formatDate(new Date())));
-        });
+        tokens.put("${generated-on}", (token, value) -> write(value.replace(token, DateUtil.formatDate(new Date()))));
     }
     
     /**

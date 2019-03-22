@@ -57,24 +57,24 @@ public class MockServerContainer implements ServerContainer {
     }
 
     @Override
-    public Session connectToServer(Object endpoint, URI path) throws DeploymentException, IOException {
+    public Session connectToServer(Object endpoint, URI path) {
         return null;
     }
 
     @Override
-    public Session connectToServer(Class<?> annotatedEndpointClass, URI path) throws DeploymentException, IOException {
+    public Session connectToServer(Class<?> annotatedEndpointClass, URI path) {
         return null;
     }
 
     @Override
     public Session connectToServer(Endpoint endpoint, ClientEndpointConfig clientEndpointConfiguration,
-                                   URI path) throws DeploymentException, IOException {
+                                   URI path) {
         return null;
     }
 
     @Override
     public Session connectToServer(Class<? extends Endpoint> endpoint, ClientEndpointConfig clientEndpointConfiguration,
-                                   URI path) throws DeploymentException, IOException {
+                                   URI path) {
         return null;
     }
 
@@ -114,11 +114,11 @@ public class MockServerContainer implements ServerContainer {
     }
 
     @Override
-    public void addEndpoint(Class<?> clazz) throws DeploymentException {
+    public void addEndpoint(Class<?> clazz) {
     }
 
     @Override
-    public void addEndpoint(ServerEndpointConfig sec) throws DeploymentException {
+    public void addEndpoint(ServerEndpointConfig sec) {
     }
     
 }

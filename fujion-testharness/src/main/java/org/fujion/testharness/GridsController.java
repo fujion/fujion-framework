@@ -64,35 +64,16 @@ public class GridsController extends BaseController {
 
     }
 
-    private final IComponentRenderer<Row, RowModelObject> renderer = new IComponentRenderer<Row, RowModelObject>() {
-
-        @Override
-        public Row render(RowModelObject model) {
-            Row row = new Row();
-            row.addChild(new Cell(model.label));
-            row.addChild(new Cell(Integer.toString(model.value)));
-            return row;
-        }
-
+    private final IComponentRenderer<Row, RowModelObject> renderer = model -> {
+        Row row = new Row();
+        row.addChild(new Cell(model.label));
+        row.addChild(new Cell(Integer.toString(model.value)));
+        return row;
     };
 
-    private final Comparator<RowModelObject> comp1 = new Comparator<RowModelObject>() {
+    private final Comparator<RowModelObject> comp1 = (o1, o2) -> o1.label.compareToIgnoreCase(o2.label);
 
-        @Override
-        public int compare(RowModelObject o1, RowModelObject o2) {
-            return o1.label.compareToIgnoreCase(o2.label);
-        }
-
-    };
-
-    private final Comparator<RowModelObject> comp2 = new Comparator<RowModelObject>() {
-
-        @Override
-        public int compare(RowModelObject o1, RowModelObject o2) {
-            return o1.value - o2.value;
-        }
-
-    };
+    private final Comparator<RowModelObject> comp2 = (o1, o2) -> o1.value - o2.value;
 
     @WiredComponent
     private Grid grid;

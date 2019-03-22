@@ -53,7 +53,7 @@ public interface IEnumWithValue extends IClientTransform {
      * @param value The numeric value to find.
      * @return The enumeration constant sought, or null if none found.
      */
-    public static <T extends Enum<T>> T fromValue(Class<T> enm, int value) {
+    static <T extends Enum<T>> T fromValue(Class<T> enm, int value) {
         for (T mbr : enm.getEnumConstants()) {
             if (value == ((IEnumWithValue) mbr).value()) {
                 return mbr;

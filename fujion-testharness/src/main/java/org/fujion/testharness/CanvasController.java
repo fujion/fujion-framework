@@ -180,7 +180,11 @@ public class CanvasController extends BaseController {
     }
 
     /******************* WebGL Rendering *****************/
-    
+
+    private static final int VIEWPORT_WIDTH = 500;
+
+    private static final int VIEWPORT_HEIGHT = 500;
+
     @WiredComponent
     private CanvasWebGL canvasWebGL;
     
@@ -216,17 +220,11 @@ public class CanvasController extends BaseController {
     private double centerOffsetY = 0;
     
     private WebGLBuffer vertexPositionBuffer;
-    
-    private WebGLProgram shaderProgram;
-    
+
     private int aVertexPosition;
     
     private int aPlotPosition;
 
-    private final int viewportWidth = 500;
-
-    private final int viewportHeight = 500;
-    
     private RenderingContextWebGL gl;
     
     @EventHandler(value = "click", target = "@btnRenderWebGL")
@@ -263,7 +261,7 @@ public class CanvasController extends BaseController {
     }
     
     private WebGLShader getShader(ShaderType type, String id) {
-        try (InputStream is = getClass().getResourceAsStream("/" + id + ".webgl");) {
+        try (InputStream is = getClass().getResourceAsStream("/" + id + ".webgl")) {
             String src = StrUtil.fromList(IOUtils.readLines(is, StrUtil.UTF8));
             WebGLShader shader = gl.createShader(type);
             gl.shaderSource(shader, src);
@@ -277,8 +275,8 @@ public class CanvasController extends BaseController {
     private void initShaders() {
         WebGLShader fragmentShader = getShader(ShaderType.FRAGMENT_SHADER, "shader-fs");
         WebGLShader vertexShader = getShader(ShaderType.VERTEX_SHADER, "shader-vs");
-        
-        shaderProgram = gl.createProgram();
+
+        WebGLProgram shaderProgram = gl.createProgram();
         gl.attachShader(shaderProgram, vertexShader);
         gl.attachShader(shaderProgram, fragmentShader);
         gl.linkProgram(shaderProgram);
@@ -308,7 +306,7 @@ public class CanvasController extends BaseController {
     double[][] baseCorners = { { 0.7, 1.2 }, { -2.2, 1.2 }, { 0.7, -1.2 }, { -2.2, -1.2 } };
     
     private void drawScene() {
-        gl.viewport(0, 0, viewportWidth, viewportHeight);
+        gl.viewport(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         gl.clear(BufferBitMask.COLOR_BUFFER_BIT, BufferBitMask.DEPTH_BUFFER_BIT);
         gl.bindBuffer(BufferBinding.ARRAY_BUFFER, vertexPositionBuffer);
         gl.vertexAttribPointer(aVertexPosition, 2, ValueType.FLOAT, false, 0, 0);

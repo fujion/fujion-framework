@@ -39,13 +39,13 @@ public class ContextAccessor implements PropertyAccessor {
     }
     
     @Override
-    public boolean canRead(EvaluationContext context, Object target, String name) throws AccessException {
+    public boolean canRead(EvaluationContext context, Object target, String name) {
         return (target instanceof ELContext)
                 || (target instanceof BaseComponent && ((BaseComponent) target).hasAttribute(name));
     }
     
     @Override
-    public TypedValue read(EvaluationContext context, Object target, String name) throws AccessException {
+    public TypedValue read(EvaluationContext context, Object target, String name) {
         Object result = null;
         
         if (target instanceof ELContext) {
@@ -58,7 +58,7 @@ public class ContextAccessor implements PropertyAccessor {
     }
     
     @Override
-    public boolean canWrite(EvaluationContext context, Object target, String name) throws AccessException {
+    public boolean canWrite(EvaluationContext context, Object target, String name) {
         return false;
     }
     

@@ -22,6 +22,7 @@ package org.fujion.testharness;
 
 import java.io.FileOutputStream;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
@@ -76,8 +77,8 @@ public class ButtonsController extends BaseController {
         
         switch (event.getState()) {
             case DONE:
-                String tmpdir = System.getProperty("java.io.tmpdir");
-                file = tmpdir + file;
+                String tmpdir = FileUtils.getTempDirectoryPath();
+                file = tmpdir + "/" + file;
                 FileOutputStream out = new FileOutputStream(file);
                 IOUtils.copy(event.getBlob(), out);
                 out.close();

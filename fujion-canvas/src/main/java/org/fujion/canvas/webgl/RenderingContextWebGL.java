@@ -32,8 +32,8 @@ import org.springframework.util.Assert;
 
 public class RenderingContextWebGL extends RenderingContextBase {
     
-    public interface IWebGLInfoCallback extends IResponseCallback<WebGLActiveInfo> {};
-    
+    public interface IWebGLInfoCallback extends IResponseCallback<WebGLActiveInfo> {}
+
     protected RenderingContextWebGL(BaseCanvasComponent<?, ?> canvas) {
         super(canvas, "webgl");
     }
@@ -237,9 +237,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
      * @param callback Call back to receive result.
      */
     public void checkFramebufferStatus(FrameBufferBinding target, IResponseCallback<FrameBufferStatus> callback) {
-        invoke((response) -> {
-            IResponseCallback.invoke(callback, IEnumWithValue.fromValue(FrameBufferStatus.class, (Integer) response));
-        }, "checkFramebufferStatus", target);
+        invoke((response) -> IResponseCallback.invoke(callback, IEnumWithValue.fromValue(FrameBufferStatus.class, (Integer) response)), "checkFramebufferStatus", target);
     }
 
     /**
@@ -754,9 +752,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
      * @param callback Callback to receive result.
      */
     public void getError(IResponseCallback<ErrorType> callback) {
-        invoke((response) -> {
-            IResponseCallback.invoke(callback, IEnumWithValue.fromValue(ErrorType.class, (Integer) response));
-        }, "getError");
+        invoke((response) -> IResponseCallback.invoke(callback, IEnumWithValue.fromValue(ErrorType.class, (Integer) response)), "getError");
     }
     
     /**
@@ -1223,8 +1219,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
     
     /**
      * Controls enabling and disabling of the front and/or back writing of individual bits in the
-     * stencil planes. The {@link #stencilMaskSeparate} method can set front and back stencil
-     * writemasks to different values.
+     * stencil planes. This method can set front and back stencil writemasks to different values.
      *
      * @param face Whether the front and/or back stencil writemask is updated.
      * @param mask a bit mask to enable or disable writing of individual bits in the stencil planes.

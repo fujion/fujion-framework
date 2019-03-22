@@ -100,9 +100,7 @@ public class MiscController extends BaseController {
     public void btnTestCallbackHandler() {
         log("You should see \"The document url is:...\"");
 
-        ClientUtil.invoke("window.location.href", (response) -> {
-            log("The document url is: " + response);
-        });
+        ClientUtil.invoke("window.location.href", response -> log("The document url is: " + response));
     }
     
     @WiredComponent

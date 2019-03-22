@@ -75,7 +75,7 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
         }
 
         @Override
-        public long contentLength() throws IOException {
+        public long contentLength() {
             return content.length();
         }
 
@@ -95,7 +95,7 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
         }
 
         @Override
-        public InputStream getInputStream() throws IOException {
+        public InputStream getInputStream() {
             return IOUtils.toInputStream(content.toString(), StandardCharsets.UTF_8);
         }
 

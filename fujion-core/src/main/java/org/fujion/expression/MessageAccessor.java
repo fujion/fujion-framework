@@ -99,7 +99,7 @@ public class MessageAccessor implements PropertyAccessor {
          */
         @Override
         public String toString() {
-            return getMessage(name, new HashSet<String>());
+            return getMessage(name, new HashSet<>());
         }
 
         /**
@@ -119,7 +119,7 @@ public class MessageAccessor implements PropertyAccessor {
                 } else {
                     resolved.add(name);
                     message = messageSource.getMessage(name, null, LocaleContextHolder.getLocale());
-                    int i = 0;
+                    int i;
                     
                     while ((i = message.indexOf("${")) > -1) {
                         int j = message.indexOf("}", i);
@@ -143,12 +143,12 @@ public class MessageAccessor implements PropertyAccessor {
     }
 
     @Override
-    public boolean canRead(EvaluationContext context, Object target, String name) throws AccessException {
+    public boolean canRead(EvaluationContext context, Object target, String name) {
         return true;
     }
 
     @Override
-    public TypedValue read(EvaluationContext context, Object target, String name) throws AccessException {
+    public TypedValue read(EvaluationContext context, Object target, String name) {
         MessageContext result = null;
 
         if (target instanceof MessageSource) {
@@ -161,7 +161,7 @@ public class MessageAccessor implements PropertyAccessor {
     }
 
     @Override
-    public boolean canWrite(EvaluationContext context, Object target, String name) throws AccessException {
+    public boolean canWrite(EvaluationContext context, Object target, String name) {
         return false;
     }
 

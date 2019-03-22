@@ -55,18 +55,18 @@ export function AppContext(aModule: any, selector?: string) {
 
     AppContext.prototype.isLoaded = function(): boolean {
         return !!this.moduleRef;
-    }
+    };
 
     AppContext.prototype.bootstrap = function(compilerOptions?): Promise<NgModuleRef<AppModule>> {
         const platform = platformBrowserDynamic();
         return platform.bootstrapModule(AppModule, compilerOptions).then(
             ref => this.moduleRef = ref);
-    }
+    };
 
     AppContext.prototype.destroy = function(): void {
         this.moduleRef ? this.moduleRef.destroy() : null;
         this.moduleRef = null;
-    }
+    };
 
     AppContext.prototype.invoke = function(functionName: string, args: any[]): any {
         return this.zone.run(() => {

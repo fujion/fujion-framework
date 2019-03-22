@@ -143,7 +143,7 @@ public class ComponentException extends UnhandledException {
     private static void assertTrue(boolean condition, Class<? extends BaseComponent> componentClass, BaseComponent component,
                                    String message, Object... args) {
         if (!condition) {
-            throw new ComponentException((Throwable) null, componentClass, component, message, args);
+            throw new ComponentException(null, componentClass, component, message, args);
         }
     }
 

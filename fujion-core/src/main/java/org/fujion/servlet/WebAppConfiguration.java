@@ -63,7 +63,7 @@ public class WebAppConfiguration implements WebApplicationInitializer {
     }
     
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
         String debug = System.getProperty(DEBUG_PARAM);
         debug = debug != null ? debug : servletContext.getInitParameter(DEBUG_PARAM);
         debugEnabled = debug != null && (debug.isEmpty() || BooleanUtils.toBoolean(debug));

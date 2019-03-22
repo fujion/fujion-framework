@@ -55,7 +55,7 @@ public class MockTest {
     private static int initCount;
     
     @BeforeClass
-    public static void beforeClass() throws Exception {
+    public static void beforeClass() {
         initCount++;
         getMockEnvironment();
     }
@@ -120,19 +120,17 @@ public class MockTest {
      */
     public static String getTextFromResource(String resourceName) throws IOException {
         Resource resource = getMockEnvironment().getRootContext().getResource("classpath:" + resourceName);
-        InputStream is = resource.getInputStream();
         Writer writer = new StringWriter();
         char[] buffer = new char[1024];
-        
-        try {
+
+        try (InputStream is = resource.getInputStream()) {
             Reader reader = new BufferedReader(new InputStreamReader(is, StrUtil.UTF8));
             int n;
             while ((n = reader.read(buffer)) != -1) {
                 writer.write(buffer, 0, n);
             }
-        } finally {
-            is.close();
         }
+
         return writer.toString();
     }
 }

@@ -47,7 +47,7 @@ public @interface EventType {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
-    public @interface EventParameter {
+    @interface EventParameter {
 
         /**
          * The parameter name. If not specified, defaults to the name of the annotated field.

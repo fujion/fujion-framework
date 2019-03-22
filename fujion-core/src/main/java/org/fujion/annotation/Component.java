@@ -42,7 +42,7 @@ public @interface Component {
     /**
      * Methods of handling text content nodes.
      */
-    public enum ContentHandling {
+    enum ContentHandling {
         /**
          * Text content throws an exception.
          */
@@ -67,7 +67,7 @@ public @interface Component {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface PropertyGetter {
+    @interface PropertyGetter {
         
         /**
          * The property name.
@@ -107,7 +107,7 @@ public @interface Component {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface PropertySetter {
+    @interface PropertySetter {
         
         /**
          * The property name.
@@ -160,7 +160,7 @@ public @interface Component {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface FactoryParameter {
+    @interface FactoryParameter {
         
         /**
          * The attribute name.
@@ -190,7 +190,7 @@ public @interface Component {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.ANNOTATION_TYPE)
-    public @interface ChildTag {
+    @interface ChildTag {
         
         /**
          * The child tag.

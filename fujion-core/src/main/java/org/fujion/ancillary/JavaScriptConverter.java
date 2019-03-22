@@ -29,7 +29,7 @@ import org.apache.commons.beanutils.converters.AbstractConverter;
 public class JavaScriptConverter extends AbstractConverter {
     
     @Override
-    protected <T> T convertToType(Class<T> type, Object value) throws Throwable {
+    protected <T> T convertToType(Class<T> type, Object value) {
         if (type != getDefaultType() || !(value instanceof String)) {
             throw new ConversionException("Cannot convert object of type " + value.getClass() + " to " + getDefaultType());
         }

@@ -129,7 +129,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 				}
 				
 				var i = tgt.indexOf('-'),
-					sub = i == -1 ? null : tgt.substring(i + 1);
+					sub = i === -1 ? null : tgt.substring(i + 1);
 				
 				tgt = fujion.widget.find(i > 0 ? tgt.substring(0, i) : tgt);
 			
@@ -484,7 +484,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		},
 		
 		stop: function(event, immediate) {
-			immediate ? fujion.event.stopImmediatePropagation(event) : fujion.event.stopPropagation(event)
+			immediate ? fujion.event.stopImmediatePropagation(event) : fujion.event.stopPropagation(event);
 			fujion.event.preventDefault(event);
 		},
 		
@@ -991,7 +991,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 * 
 	 * @param {array} array The array to be modified.
 	 * @param {object} element The element to be inserted.
-	 * @param {integer} position The position within the array where the
+	 * @param {number} position The position within the array where the
 	 * 		element will be inserted or moved.
 	 */
 	insertIntoArray: function(array, element, position) {

@@ -131,23 +131,26 @@ public class RequestUtil {
     public static String getRemoteAddress() {
         HttpServletRequest request = getRequest();
         String ipAddress = null;
+
         if (request != null) {
             ipAddress = request.getHeader("x-forwarded-for");
             boolean ipFromHeader = true;
 
             if (isEmpty(ipAddress)) {
                 ipAddress = request.getHeader("X_FORWARDED_FOR");
+
                 if (isEmpty(ipAddress)) {
                     ipFromHeader = false;
                     ipAddress = request.getRemoteAddr();
                 }
+
                 logHeaderNames();
             }
             //log headers in case we find a case where above logic doesn't return correct ip
             if (log.isTraceEnabled()) {
                 logHeaderNames();
                 log.trace(
-                    String.format("Remote address: %s , obtained from X-FORWARDED_FOR header?", ipAddress, ipFromHeader));
+                    String.format("Remote address: %s; obtained from X-FORWARDED_FOR header: %b", ipAddress, ipFromHeader));
             }
         }
         return ipAddress;

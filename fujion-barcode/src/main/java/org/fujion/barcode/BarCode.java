@@ -78,9 +78,7 @@ public class BarCode extends BaseUIComponent {
         
         Format(String regex) {
             Pattern pattern = Pattern.compile(regex);
-            validator = value -> {
-                return pattern.matcher(value).matches();
-            };
+            validator = value -> pattern.matcher(value).matches();
         }
         
         Format(Function<String, Boolean> validator) {

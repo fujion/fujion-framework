@@ -43,7 +43,7 @@ public class Version implements Comparable<Version> {
         MAJOR, MINOR, RELEASE, BUILD
     }
 
-    private final int seq[] = new int[] { NOVAL, NOVAL, NOVAL, NOVAL };
+    private final int[] seq = new int[] { NOVAL, NOVAL, NOVAL, NOVAL };
 
     private final String classifier;
 

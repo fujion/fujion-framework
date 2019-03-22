@@ -246,7 +246,7 @@ public class WebJarLocator implements ApplicationContextAware {
      * @throws Exception Unspecified exception.
      */
     private boolean extractConfig(Resource pomResource, WebJar webjar, ObjectMapper parser) throws Exception {
-        try (InputStream is = pomResource.getInputStream();) {
+        try (InputStream is = pomResource.getInputStream()) {
             Iterator<String> iter = IOUtils.lineIterator(is, StandardCharsets.UTF_8);
             StringBuilder sb = null;
             int tag = -1;
@@ -273,7 +273,7 @@ public class WebJarLocator implements ApplicationContextAware {
                 int pos = line.indexOf(CLOSE_TAGS[tag]);
                 
                 if (pos >= 0) {
-                    sb.append(line.substring(0, pos + CLOSE_TAGS[tag].length()));
+                    sb.append(line, 0, pos + CLOSE_TAGS[tag].length());
                     break;
                 }
                 
@@ -333,7 +333,7 @@ public class WebJarLocator implements ApplicationContextAware {
             Resource configResource = webjar.createRelative(packageFile);
 
             if (configResource.exists()) {
-                try (InputStream is = configResource.getInputStream();) {
+                try (InputStream is = configResource.getInputStream()) {
                     JsonNode cfg = parser.readTree(is);
                     String name = cfg.get("name").asText();
                     String main = getMain(cfg.get("main"));

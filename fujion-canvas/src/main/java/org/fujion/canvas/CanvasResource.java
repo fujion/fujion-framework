@@ -35,10 +35,6 @@ public abstract class CanvasResource implements IClientTransform {
     
     private final int handle;
 
-    private final IResponseCallback<?> callback = (response) -> {
-        callback(response);
-    };
-
     protected CanvasResource(BaseCanvasComponent<?, ?> canvas, String factory, Object... args) {
         this(canvas, false, factory, args);
     }
@@ -46,6 +42,7 @@ public abstract class CanvasResource implements IClientTransform {
     protected CanvasResource(BaseCanvasComponent<?, ?> canvas, boolean requestResponse, String factory, Object... args) {
         this.canvas = canvas;
         handle = canvas.nextResourceId();
+        IResponseCallback<?> callback = response -> callback(response);
         initResource(requestResponse ? callback : null, factory, args);
     }
     

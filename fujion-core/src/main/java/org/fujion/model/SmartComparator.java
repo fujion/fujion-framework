@@ -99,30 +99,6 @@ public class SmartComparator implements Comparator<Object> {
             return ((Comparable<Object>) value1).compareTo(value2);
         }
         
-        if (value1 instanceof Integer) {
-            return ((Integer) value1).compareTo((Integer) value2);
-        }
-        
-        if (value1 instanceof Long) {
-            return ((Long) value1).compareTo((Long) value2);
-        }
-        
-        if (value1 instanceof Short) {
-            return ((Short) value1).compareTo((Short) value2);
-        }
-        
-        if (value1 instanceof Byte) {
-            return ((Byte) value1).compareTo((Byte) value2);
-        }
-        
-        if (value1 instanceof Float) {
-            return ((Float) value1).compareTo((Float) value2);
-        }
-        
-        if (value1 instanceof Double) {
-            return ((Double) value1).compareTo((Double) value2);
-        }
-        
         return value1.hashCode() - value2.hashCode();
     }
     

@@ -44,8 +44,7 @@ public class LayerOptions extends Options {
      * Layer types.
      */
     public enum TypeEnum {
-        CIRCLE, FILL, LINE, SYMBOL;
-    }
+        CIRCLE, FILL, LINE, SYMBOL}
     
     /**
      * Determines if the layer will be inserted before the layer with the specified ID. If omitted

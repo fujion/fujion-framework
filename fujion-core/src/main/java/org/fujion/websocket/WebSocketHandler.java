@@ -178,7 +178,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
         Throwable cause = ExceptionUtils.getRootCause(exception);
         cause = cause == null ? exception : cause;
         
-        try (StringWriter writer = new StringWriter(); PrintWriter print = new PrintWriter(writer);) {
+        try (StringWriter writer = new StringWriter(); PrintWriter print = new PrintWriter(writer)) {
             cause.printStackTrace(print);
             ClientInvocation invocation = new ClientInvocation("fujion.alert", null, writer.toString(), "Error", "danger");
             send(socket, invocation);
@@ -222,7 +222,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
 
             if (!message.isLast()) {
                 if (buffer == null) {
-                    attribs.put(ATTR_BUFFER, buffer = new StringBuilder(payload));
+                    attribs.put(ATTR_BUFFER, new StringBuilder(payload));
                 } else {
                     buffer.append(payload);
                 }
@@ -233,7 +233,6 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
             if (buffer != null) {
                 payload = buffer.append(payload).toString();
                 int len = payload.length();
-                buffer = null;
                 attribs.remove(ATTR_BUFFER);
                 log.warn(() -> "Large payload received from client (" + len + " bytes).");
             }
@@ -258,7 +257,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
      * @param message The message containing the client request.
      */
     @Override
-    protected void handleBinaryMessage(WebSocketSession socket, BinaryMessage message) throws Exception {
+    protected void handleBinaryMessage(WebSocketSession socket, BinaryMessage message) {
         Session session = resolveSession(socket);
         Map<String, Object> attribs = socket.getAttributes();
 
@@ -309,7 +308,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
         }
     }
 
-    private void processRequest(Session session, Map<String, Object> map) throws Exception {
+    private void processRequest(Session session, Map<String, Object> map) {
         session._init((String) map.get("pid"));
         session.updateLastActivity();
         ClientRequest request = new ClientRequest(session, map);
@@ -337,12 +336,12 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
     }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession socket) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession socket) {
         sessions.createSession(socket);
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession socket, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(WebSocketSession socket, CloseStatus status) {
         sessions.destroySession(socket, status);
     }
 

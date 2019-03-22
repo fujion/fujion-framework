@@ -57,15 +57,7 @@ public class MockWebSocketSession implements WebSocketSession {
 
     public MockWebSocketSession(String uri) throws Exception {
         this.uri = new URI(uri);
-
-        principal = new Principal() {
-
-            @Override
-            public String getName() {
-                return "mock-principal";
-            }
-
-        };
+        principal = () -> "mock-principal";
     }
 
     @Override
@@ -134,7 +126,7 @@ public class MockWebSocketSession implements WebSocketSession {
     }
 
     @Override
-    public void sendMessage(WebSocketMessage<?> message) throws IOException {
+    public void sendMessage(WebSocketMessage<?> message) {
     }
 
     @Override
@@ -143,12 +135,12 @@ public class MockWebSocketSession implements WebSocketSession {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         open = false;
     }
 
     @Override
-    public void close(CloseStatus status) throws IOException {
+    public void close(CloseStatus status) {
         open = false;
     }
 

@@ -91,7 +91,7 @@ public class ComponentRegistry extends AbstractRegistry<String, ComponentDefinit
      * @return The associated component definition, or null if none found.
      */
     public ComponentDefinition get(Class<? extends BaseComponent> componentClass) {
-        ComponentDefinition def = null;
+        ComponentDefinition def;
         Class<?> clazz = componentClass;
         
         do {

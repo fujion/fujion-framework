@@ -79,7 +79,7 @@ public enum OnFailure {
                 throw MiscUtil.toUnchecked(e);
                 
             case LOG:
-                log.error(() -> e.getMessage(), e);
+                log.error(e::getMessage, e);
                 return;
         }
     }

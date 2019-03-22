@@ -44,8 +44,7 @@ public class Sorting {
         /**
          * Indeterminate order.
          */
-        UNSORTED;
-    }
+        UNSORTED}
     
     /**
      * Type of sort toggle.
@@ -60,8 +59,7 @@ public class Sorting {
          * Toggle between {@link SortOrder#ASCENDING ascending}, {@link SortOrder#DESCENDING
          * descending} and {@link SortOrder#NATIVE native} sort order.
          */
-        TRISTATE;
-    }
+        TRISTATE}
     
     private Sorting() {
     }
