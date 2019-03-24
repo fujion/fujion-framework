@@ -638,4 +638,26 @@ public class CommonTest {
         System.out.println("------------------------");
     }
 
+    private static final String cmp1 = "ABC";
+
+    private static final String cmp2 = "abc";
+
+    private static final String cmp3 = "ABC";
+
+    @Test
+    public void testStringComparison() {
+        assertTrue(StrUtil.compareTo(cmp1, cmp2) < 0);
+        assertTrue(StrUtil.compareTo(cmp2, cmp2) == 0);
+        assertTrue(StrUtil.compareTo(cmp2, cmp1) > 0);
+        assertTrue(StrUtil.compareTo(null, cmp2) < 0);
+        assertTrue(StrUtil.compareTo(cmp1, null) > 0);
+        assertTrue(StrUtil.compareTo(cmp1, cmp3) == 0);
+        assertTrue(StrUtil.compareTo(null, null) == 0);
+
+        assertTrue(StrUtil.compareToIgnoreCase(cmp1, cmp2) == 0);
+        assertTrue(StrUtil.compareToIgnoreCase(cmp2, cmp1) == 0);
+        assertTrue(StrUtil.compareToIgnoreCase(null, cmp2) < 0);
+        assertTrue(StrUtil.compareToIgnoreCase(cmp1, null) > 0);
+        assertTrue(StrUtil.compareToIgnoreCase(null, null) == 0);
+    }
 }

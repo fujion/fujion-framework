@@ -354,7 +354,29 @@ public class StrUtil {
         
         return value;
     }
-    
+
+    /**
+     * Null-safe, case-sensitive comparison of two strings.
+     *
+     * @param s1 First string to compare.
+     * @param s2 Second string to compare.
+     * @return Result of comparison.
+     */
+    public static int compareTo(String s1, String s2) {
+        return s1 == s2 ? 0 : s1 == null ? -1 : s2 == null ? 1 : s1.compareTo(s2);
+    }
+
+    /**
+     * Null-safe, case-insensitive comparison of two strings.
+     *
+     * @param s1 First string to compare.
+     * @param s2 Second string to compare.
+     * @return Result of comparison.
+     */
+    public static int compareToIgnoreCase(String s1, String s2) {
+        return s1 == s2 ? 0 : s1 == null ? -1 : s2 == null ? 1 : s1.compareToIgnoreCase(s2);
+    }
+
     /**
      * Converts a text value to a boolean result.
      *
