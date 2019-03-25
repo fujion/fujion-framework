@@ -39,6 +39,26 @@ public class ClientOptions extends Options {
     @Value("${org.fujion.client.popupDuration}")
     private int popupDuration;
 
+    @Option
+    @Value("${org.fujion.client.hintDelay}")
+    private int hintDelay;
+
+    @Option
+    @Value("${org.fujion.client.hintDuration}")
+    private int hintDuration;
+
+    @Option
+    @Value("${org.fujion.client.hintTransition}")
+    private int hintTransition;
+
+    @Option
+    @Value("${org.fujion.client.hintEffect}")
+    private String hintEffect;
+
+    @Option
+    @Value("${org.fujion.client.hintTrack}")
+    private String hintTrack;
+
     public static ClientOptions getInstance() {
         return instance;
     }

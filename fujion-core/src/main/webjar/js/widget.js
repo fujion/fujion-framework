@@ -1226,7 +1226,51 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_hint: function(v) {
-			this.hoverPopup(this.input$(), v ? fujion.widget._hint : null);
+		    var self = this,
+				active = this.widget$.uitooltip('instance');
+			this.attr('data-fujion-hint', !!v);
+			_cancelClose();
+
+		    if (v && !active) {
+		    	var opt = fujion.globalOptions;
+
+				this.widget$.uitooltip({
+					content: _tt,
+					items: '[data-fujion-hint]',
+					track: opt.hintTrack,
+					open: _autoClose,
+					close: _cancelClose,
+					show: {
+						effect: opt.hintEffect,
+						delay: opt.hintDelay,
+						duration: opt.hintTransition
+					}
+				}).on('click.hint', _clickClose);
+            } else if (!v && active) {
+		        this.widget$.uitooltip('destroy').off('click.hint');
+            }
+
+			function _tt() {
+		        return self.getState('hint');
+            }
+
+		    function _autoClose(event, ui) {
+				self._hintTimeout = setTimeout(function() {
+					delete self._hintTimeout;
+					$(ui.tooltip).hide();
+				}, opt.hintDuration)
+			}
+
+		    function _cancelClose() {
+		    	if (self._hintTimeout) {
+		    		clearTimeout(self._hintTimeout);
+		    		delete self._hintTimeout;
+				}
+			}
+
+		    function _clickClose() {
+		    	self.widget$.uitooltip('close');
+			}
 		},
 		
 		s_keycapture: function(v) {
@@ -1576,7 +1620,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			fujion.widget._page = this;
 			this._super();
 			this.initState({closable: true});
-			fujion.widget._hint = fujion.widget.create(null, {wclass: 'Hint'}, {});
 		},
 			
 		afterInitialize: function() {
@@ -2031,29 +2074,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.body$.on('click', function() {
 		fujion.widget.Popup.closePopups();
-	});
-
-	/******************************************************************************************************************
-	 * A hint widget (used internally for hint popups).
-	 ******************************************************************************************************************/
-
-	fujion.widget.Hint = fujion.widget.Popup.extend({
-
-		/*------------------------------ Lifecycle ------------------------------*/
-
-		init: function() {
-			this.wclazz = 'popover';
-			this._super();
-		},
-
-		/*------------------------------ Other ------------------------------*/
-
-		beforeOpen: function(tgt$) {
-			var tgt = tgt$ ? fujion.wgt(tgt$) : null;
-			this.real$.text(tgt ? tgt.getState('hint') : null);
-			return this._super();
-		}
-
 	});
 
 	/******************************************************************************************************************
