@@ -33,6 +33,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		this._canClose = true;
 		this.body$ = $('body');
 		this.head$ = $('head');
+		this.root$ = $('#fujion_root');
 		this.log._init(options);
 		this.action._init();
 		this.jquery._init();

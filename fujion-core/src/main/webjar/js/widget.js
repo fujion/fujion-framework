@@ -1155,7 +1155,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 						helper: _helper,
 						start: _start,
 						stop: _stop,
-						appendTo: '#fujion_root',
+						appendTo: fujion.root$,
 						iframeFix: true
 					});
 				}
@@ -1574,7 +1574,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			fujion.widget._page = this;
-			fujion.root$ = $('#fujion_root');
 			this._super();
 			this.initState({closable: true});
 		},
