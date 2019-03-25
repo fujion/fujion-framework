@@ -1574,13 +1574,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			fujion.widget._page = this;
+			fujion.root$ = $('#fujion_root');
 			this._super();
 			this.initState({closable: true});
-			fujion.widget._hint = fujion.widget.create(null, {wclass: 'Hint'}, {});
 		},
 			
 		afterInitialize: function() {
-			$('#fujion_root').css('visibility', 'visible');
+			fujion.root$.css('visibility', 'visible');
 		},
 		
 		beforeInitialize: function(globalOptions) {
@@ -1588,9 +1588,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
-		
+
 		render$: function() {
-			return $('<div class="fujion_page">').appendTo('#fujion_root');
+			return $('<div class="fujion_page">').appendTo(fujion.root$);
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -1990,7 +1990,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			if (!this.real$) {
 				this.real$ = this.renderReal$()
-					.appendTo('#fujion_root')
+					.appendTo(fujion.root$)
 					.attr('id', this.subId('real'))
 					.attr('data-fujion-popup', true)
 					.hide()
@@ -3234,7 +3234,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	            delay: 50,
 	            minLength: 0,
 	            autoFocus: false,
-	            appendTo: '#fujion_root',
+	            appendTo: fujion.root$,
 				change: _change,
 				close: _close,
 				open: _open,
@@ -3781,7 +3781,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				this.applyState('dragid');
 			} else if (this.getState('movable')) {
 				this.widget$.draggable({
-					containment: '#fujion_root',
+					containment: fujion.root$,
 					handle: '#' + this.subId('titlebar')});
 			}
 		},
@@ -3799,7 +3799,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 					this.widget$.position({
 						my: pos,
 						at: pos,
-						of: '#fujion_root'
+						of: fujion.root$
 					});
 				}
 			}
