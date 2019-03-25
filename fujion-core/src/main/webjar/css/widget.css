@@ -136,6 +136,7 @@ iframe.fujion-resizer {
 
 .fujion-labeled {
 	display: inline-flex;
+	flex-direction: column;
 	align-items: center;
 }
 
