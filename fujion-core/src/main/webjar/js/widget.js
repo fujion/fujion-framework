@@ -1576,6 +1576,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			fujion.widget._page = this;
 			this._super();
 			this.initState({closable: true});
+			fujion.widget._hint = fujion.widget.create(null, {wclass: 'Hint'}, {});
 		},
 			
 		afterInitialize: function() {
@@ -2030,29 +2031,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	
 	fujion.body$.on('click', function() {
 		fujion.widget.Popup.closePopups();
-	});
-
-	/******************************************************************************************************************
-	 * A hint widget (used internally for hint popups).
-	 ******************************************************************************************************************/ 
-	
-	fujion.widget.Hint = fujion.widget.Popup.extend({
-
-		/*------------------------------ Lifecycle ------------------------------*/
-		
-		init: function() {
-			this.wclazz = 'popover';
-			this._super();
-		},
-				
-		/*------------------------------ Other ------------------------------*/
-		
-		beforeOpen: function(tgt$) {
-			var tgt = tgt$ ? fujion.wgt(tgt$) : null;
-			this.real$.text(tgt ? tgt.getState('hint') : null);
-			return this._super();
-		}
-	
 	});
 
 	/******************************************************************************************************************
