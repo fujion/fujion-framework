@@ -35,8 +35,13 @@ public class Button extends BaseLabeledImageComponent<BaseLabeledComponent.Label
     }
 
     public Button(String label) {
+        this(label, "flavor:btn-info size:btn-sm");
+    }
+
+    protected Button(String label, String clazz) {
         super(label);
-        addClass("flavor:btn-info size:btn-sm");
+        addClass(clazz);
+        initialize(() -> setPosition(LabelPositionAll.BOTTOM));
     }
 
     /**
@@ -56,7 +61,7 @@ public class Button extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      * @param position May be one of: left, right, top, bottom.
      */
     @Override
-    @PropertySetter(value = "position", defaultValue = "right", description = "The position of the label relative to the image.")
+    @PropertySetter(value = "position", defaultValue = "bottom", description = "The position of the label relative to the image.")
     public void setPosition(LabelPositionAll position) {
         super.setPosition(position);
     }

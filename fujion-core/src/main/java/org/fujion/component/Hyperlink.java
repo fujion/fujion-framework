@@ -28,7 +28,7 @@ import org.fujion.annotation.Component.PropertySetter;
  * A simple hyperlink (anchor) component.
  */
 @Component(tag = "link", widgetClass = "Hyperlink", parentTag = "*", description = "A simple hyperlink (anchor) component.")
-public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionAll> {
+public class Hyperlink extends Button {
     
     private String href;
     
@@ -39,30 +39,7 @@ public class Hyperlink extends BaseLabeledImageComponent<BaseLabeledComponent.La
     }
     
     public Hyperlink(String label) {
-        super(label);
-        addClass("flavor:btn-link size:btn-sm");
-    }
-    
-    /**
-     * Returns the position of the label relative to the contained elements. Defaults to 'left'.
-     *
-     * @return May be one of: left, right, top, bottom.
-     */
-    @Override
-    @PropertyGetter(value = "position", description = "The position of the label relative to the contained elements.")
-    public LabelPositionAll getPosition() {
-        return super.getPosition();
-    }
-    
-    /**
-     * Sets the position of the label relative to the contained elements.
-     *
-     * @param position May be one of: left, right, top, bottom.
-     */
-    @Override
-    @PropertySetter(value = "position", defaultValue = "right", description = "The position of the label relative to the contained elements.")
-    public void setPosition(LabelPositionAll position) {
-        super.setPosition(position);
+        super(label, "flavor:btn-link size:btn-sm");
     }
     
     /**

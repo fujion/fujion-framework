@@ -681,6 +681,8 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     
     private boolean namespace;
 
+    private int initializing;
+
     private List<Object> controllers;
 
     private final ChildList children = new ChildList(this);
@@ -721,6 +723,32 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         componentDefinition = ComponentRegistry.getInstance().get(getClass());
         namespace = this instanceof INamespace;
         EventHandlerScanner.wire(this, this, "init");
+    }
+
+    /**
+     * Executes code in an initialization context.  When an initialization context is active,
+     * certain behaviors may change.  For example, property synchronization to the client is
+     * suppressed.  Initialization contexts are nestable, so an initializer may invoke another
+     * initializer.
+     *
+     * @param initializer The initialization code.
+     */
+    protected void initialize(Runnable initializer) {
+        try {
+            initializing++;
+            initializer.run();
+        } finally {
+            initializing--;
+        }
+    }
+
+    /**
+     * Returns true if an initialization context is active.
+     *
+     * @return True if an initialization context is active.
+     */
+    protected boolean isInitializing() {
+        return initializing != 0;
     }
 
     /**
@@ -2053,7 +2081,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
                 eventListeners.remove(eventType, eventListener);
             }
 
-            if (syncToClient && before != eventListeners.hasListeners(eventType)) {
+            if (!isInitializing() && syncToClient && before != eventListeners.hasListeners(eventType)) {
                 syncEventListeners(eventType, before);
             }
         }
@@ -2458,7 +2486,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             return false;
         }
 
-        if (syncToClient) {
+        if (!isInitializing() && syncToClient) {
             sync(propertyName, newValue);
         }
         
@@ -2488,7 +2516,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         if (reference.setReference(newValue)) {
             propertyChange(propertyName, oldValue, newValue, false);
             
-            if (syncToClient) {
+            if (!isInitializing() && syncToClient) {
                 sync(propertyName, reference);
             }
             

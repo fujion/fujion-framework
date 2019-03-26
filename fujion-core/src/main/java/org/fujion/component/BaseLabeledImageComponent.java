@@ -36,11 +36,11 @@ public abstract class BaseLabeledImageComponent<P extends BaseLabeledComponent.I
     }
 
     protected BaseLabeledImageComponent(String label) {
-        setLabel(label);
+        super(label);
     }
 
     protected BaseLabeledImageComponent(String label, String image) {
-        setLabel(label);
+        super(label);
         setImage(image);
     }
 

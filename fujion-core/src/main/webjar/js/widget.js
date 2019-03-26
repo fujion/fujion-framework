@@ -2163,6 +2163,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		init: function() {
 			this._super();
+			this.initState({position: 'BOTTOM'})
 			this.toggleClass('btn fujion-labeled', true);
 		},
 		
@@ -2183,13 +2184,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	 ******************************************************************************************************************/ 
 	
 	fujion.widget.Hyperlink = fujion.widget.Button.extend({
-		
-		/*------------------------------ Lifecycle ------------------------------*/
-		
-		init: function() {
-			this._super();
-			this.toggleClass('fujion-labeled', true);
-		},
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
@@ -2251,7 +2245,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		render$: function() {
 			 var dom = '<span>'
-				    + 	'<span id="${id}-inner"/>'
+				    + 	'<span id="${id}-inner" class="fujion-labeled-rel"/>'
 				    + 	this.getDOMTemplate('label')
 					+ '</span>';
  
@@ -2466,7 +2460,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom =
 				'<div>'
-			  +   '<input id="${id}-inp" type="checkbox">'
+			  +   '<input id="${id}-inp" type="checkbox" class="fujion-labeled-rel">'
 			  +   this.getDOMTemplate('labelfor')
 			  + '</div>';
 			
@@ -2522,7 +2516,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom =
 				'<div>'
-			  +   '<input id="${id}-inp" type="radio" name="${getGroupId}">'
+			  +   '<input id="${id}-inp" type="radio" name="${getGroupId}" class="fujion-labeled-rel">'
 			  +   this.getDOMTemplate('labelfor')
 			  + '</div>';
 			
@@ -3860,7 +3854,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				  '<div>'
 				+   '<div class="card-header">'
 				+     '<div id="${id}-titlebar" class="card-title">'
-				+       '<img id="${id}-image"/>'
+				+       '<img id="${id}-image" class="fujion_window-image"/>'
 				+       '<span id="${id}-title"/>'
 				+       '<span id="${id}-icons" class="fujion_titled-icons"/>'
 				+     '</div>'
