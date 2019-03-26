@@ -1251,7 +1251,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
             }
 
 			function _tt() {
-		        return self.getState('hint');
+		        return fujion._disableHints ? null : self.getState('hint');
             }
 
 		    function _autoClose(event, ui) {
@@ -1641,7 +1641,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		s_closable: function(v) {
 			fujion._canClose = v;
 		},
-		
+
+		s_disableHints: function(v) {
+			fujion._disableHints = v;
+		},
+
 		s_image: function(v) {
 			this.sub$('img').remove();
 			

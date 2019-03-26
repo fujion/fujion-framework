@@ -20,6 +20,7 @@
  */
 package org.fujion.client;
 
+import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,28 +60,25 @@ public class ClientOptions extends Options {
     @Value("${org.fujion.client.hintTrack}")
     private String hintTrack;
 
+    @Option
+    private final OptionMap custom = new OptionMap();
+
     public static ClientOptions getInstance() {
         return instance;
+    }
+
+    /**
+     * Set a custom global setting.  Custom settings will appear under <code>globalOptions.custom</code>
+     * on the client.  Only pages created subsequent to the change will receive the updated value.
+     *
+     * @param name Name of setting.
+     * @param value Setting value.
+     */
+    public static void setCustomSetting(String name, Object value) {
+        instance.custom.put(name, value);
     }
 
     private ClientOptions() {
     }
 
-    /**
-     * Returns the delay (in milliseconds) before a hover popup is displayed.
-     * 
-     * @return The delay (in milliseconds) before a hover popup is displayed.
-     */
-    public int getPopupDelay() {
-        return popupDelay;
-    }
-
-    /**
-     * Returns the duration (in milliseconds) that a hover popup will be displayed.
-     * 
-     * @return The duration (in milliseconds) that a hover popup will be displayed.
-     */
-    public int getPopupDuration() {
-        return popupDuration;
-    }
 }

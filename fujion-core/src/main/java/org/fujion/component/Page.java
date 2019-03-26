@@ -77,6 +77,8 @@ public final class Page extends BaseComponent implements INamespace {
 
     private boolean closable = true;
 
+    private boolean disableHints;
+
     private final String src;
     
     /**
@@ -335,7 +337,27 @@ public final class Page extends BaseComponent implements INamespace {
     public void setClosable(boolean closable) {
         propertyChange("closable", this.closable, this.closable = closable, true);
     }
-    
+
+    /**
+     * Returns true if popup hints are globally disabled.
+     *
+     * @return True if popup hints are globally disabled.
+     */
+    @PropertyGetter(value = "disableHints", description = "True if hints are globally disabled.")
+    public boolean getDisableHints() {
+        return disableHints;
+    }
+
+    /**
+     * Set to true to globally disable popup hints.
+     *
+     * @param disableHints Set to true to globally disable popup hints.
+     */
+    @PropertySetter(value = "disableHints", defaultValue = "false", description = "True if hints are globally disabled.")
+    public void setHintsDisabled(boolean disableHints) {
+        propertyChange("disableHints", this.disableHints, this.disableHints = disableHints, true);
+    }
+
     /**
      * Returns the page title.
      *
