@@ -99,8 +99,8 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.samaxes.maven</groupId>
-				<artifactId>minify-maven-plugin</artifactId>
+				<groupId>com.github.blutorange</groupId>
+				<artifactId>closure-compiler-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

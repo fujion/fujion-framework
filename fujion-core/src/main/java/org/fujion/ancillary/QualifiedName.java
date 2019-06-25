@@ -22,7 +22,7 @@ package org.fujion.ancillary;
 
 /**
  * Represents a name that has an optional qualifier. A qualified name has one of two formats:
- * <p>
+ *
  * <ul>
  * <li>&lt;name&gt;</li>
  * <li>&lt;name&gt;:&lt;qualifier&gt;</li>
