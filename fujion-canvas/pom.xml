@@ -11,7 +11,7 @@
 	<artifactId>fujion-canvas</artifactId>
 
 	<properties>
-        <systemjs>
+         <systemjs>
         {
 			'paths': {
 				'fujion-canvas': 'js/canvas',
@@ -26,6 +26,10 @@
 			<plugin>
 				<groupId>com.github.blutorange</groupId>
 				<artifactId>closure-compiler-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

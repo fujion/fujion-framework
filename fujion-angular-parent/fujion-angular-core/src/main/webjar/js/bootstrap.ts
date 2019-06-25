@@ -1,7 +1,6 @@
-import {NgModule} from '@angular/core';
+import {ApplicationRef, ComponentFactoryResolver, NgModule, NgModuleRef, NgZone} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {ApplicationRef, ComponentFactory, ComponentFactoryResolver, NgModuleRef, NgZone, ComponentRef} from '@angular/core';
 
 export function AppContext(aModule: any, selector?: string) {
 

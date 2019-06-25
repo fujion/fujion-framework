@@ -11,10 +11,10 @@
     <artifactId>fujion-angular-core</artifactId>
 
     <properties>
-        <angular.version>7.2.4</angular.version>
-        <corejs.version>2.6.4</corejs.version>
-        <rxjs.version>6.4.0</rxjs.version>
-        <zonejs.version>0.8.29</zonejs.version>
+        <angular.version>8.0.2-SNAPSHOT</angular.version>
+        <corejs.version>3.1.4-SNAPSHOT</corejs.version>
+        <rxjs.version>6.5.2-SNAPSHOT</rxjs.version>
+        <zonejs.version>0.9.1-SNAPSHOT</zonejs.version>
 
         <webjar.name>fujion-angular</webjar.name>
         <systemjs>
@@ -29,12 +29,16 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>com.github.blutorange</groupId>
                 <artifactId>closure-compiler-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -51,7 +55,7 @@
                             <classpathScope>compile</classpathScope>
                             <arguments>
                                 <argument>-v=${project.version}</argument>
-                                <argument>-t=AngularJS Extension</argument>
+                                <argument>-t=Angular Extension</argument>
                                 <argument>-c=org.fujion.angular.AngularComponent</argument>
                                 <argument>${webjar.schemadir}fsp-angular.xsd</argument>
                             </arguments>

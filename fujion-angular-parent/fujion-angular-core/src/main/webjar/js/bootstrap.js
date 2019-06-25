@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
-var core_2 = require("@angular/core");
 function AppContext(aModule, selector) {
     var appContext = this;
     var ngModule = {};
@@ -53,8 +52,8 @@ function AppContext(aModule, selector) {
         };
         AppModule = __decorate([
             core_1.NgModule(ngModule),
-            __metadata("design:paramtypes", [core_2.ComponentFactoryResolver,
-                core_2.NgZone])
+            __metadata("design:paramtypes", [core_1.ComponentFactoryResolver,
+                core_1.NgZone])
         ], AppModule);
         return AppModule;
     }());

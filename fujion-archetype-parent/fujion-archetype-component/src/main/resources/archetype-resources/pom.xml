@@ -22,7 +22,7 @@
 	<name>${displayName}</name>
 	
 	<properties>
-		<webjar.name>${artifactId}</webjar.name>
+        <webjar.name>${artifactId}</webjar.name>
 		<systemjs>
 		{
 			'paths': {
@@ -38,6 +38,10 @@
 			<plugin>
 				<groupId>com.github.blutorange</groupId>
 				<artifactId>closure-compiler-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
