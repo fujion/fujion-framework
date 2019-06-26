@@ -12,6 +12,7 @@
 
 	<properties>
 		<webjar.name>fujion-codemirror</webjar.name>
+		<skip.minification>false</skip.minification>
         <systemjs>
         {
 			'paths': {
@@ -25,14 +26,6 @@
 	
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>com.github.blutorange</groupId>
-				<artifactId>closure-compiler-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>yuicompressor-maven-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -68,7 +61,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-codemirror</artifactId>
-			<version>5.44.0</version>
+			<version>5.48.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

@@ -17,6 +17,7 @@
         <zonejs.version>0.9.1-SNAPSHOT</zonejs.version>
 
         <webjar.name>fujion-angular</webjar.name>
+        <skip.minification>false</skip.minification>
         <systemjs>
             {'map': {
             'fujion-angular-widget': 'js/widget.js',
@@ -28,14 +29,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>com.github.blutorange</groupId>
-                <artifactId>closure-compiler-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>yuicompressor-maven-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>

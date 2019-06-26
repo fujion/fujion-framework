@@ -12,6 +12,7 @@
 
 	<properties>
 		<webjar.name>fujion-hchart</webjar.name>
+		<skip.minification>false</skip.minification>
         <systemjs>
         {
 			'paths': {
@@ -34,14 +35,6 @@
 	
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>com.github.blutorange</groupId>
-				<artifactId>closure-compiler-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>yuicompressor-maven-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -77,7 +70,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-highcharts</artifactId>
-			<version>7.0.3</version>
+			<version>7.1.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

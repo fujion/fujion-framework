@@ -12,6 +12,7 @@
 
 	<properties>
 		<webjar.name>fujion-ckeditor</webjar.name>
+		<skip.minification>false</skip.minification>
         <systemjs>
         {
 			'paths': {
@@ -31,14 +32,6 @@
 	
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>com.github.blutorange</groupId>
-				<artifactId>closure-compiler-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>yuicompressor-maven-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -74,7 +67,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-ckeditor-full</artifactId>
-			<version>4.11.3</version>
+			<version>4.11.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
