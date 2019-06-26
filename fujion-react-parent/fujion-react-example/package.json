@@ -1,6 +1,6 @@
 {
   "name": "fujion-react-example",
-  "version": "1.2.0",
+  "version": "16.8.6",
   "description": "React example",
   "main": "",
   "keywords": [
@@ -16,8 +16,8 @@
     "postinstall": "babel --presets es2015 --out-file src/main/webjar/pomodoro.js src/main/webjar/pomodoro.es6.js"
   },
   "dependencies": {
-    "react": "16.4.2",
-    "react-dom": "16.4.2"
+    "react": "16.8.6",
+    "react-dom": "16.8.6"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
