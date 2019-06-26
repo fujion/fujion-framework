@@ -12,7 +12,7 @@
 
     <properties>
         <angular.version>8.0.2-SNAPSHOT</angular.version>
-        <corejs.version>2.6.4</corejs.version>
+        <corejs.version>2.6.9-SNAPSHOT</corejs.version>
         <rxjs.version>6.5.2-SNAPSHOT</rxjs.version>
         <zonejs.version>0.9.1-SNAPSHOT</zonejs.version>
 
@@ -28,7 +28,6 @@
 
     <build>
         <plugins>
-            <!--
             <plugin>
                 <groupId>com.github.blutorange</groupId>
                 <artifactId>closure-compiler-maven-plugin</artifactId>
@@ -37,7 +36,6 @@
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>yuicompressor-maven-plugin</artifactId>
             </plugin>
-            -->
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
