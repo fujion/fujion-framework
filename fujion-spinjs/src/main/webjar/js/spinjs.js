@@ -3,7 +3,8 @@
 define('fujion-spinjs', [
 	'fujion-core', 
 	'fujion-widget',
-	'spin-js'], function(fujion, Widget, Spinner) { 
+	'spin-js',
+	'spin-js-css'], function(fujion, Widget, Spinner) {
 	
 	/******************************************************************************************************************
 	 * A spin.js widget
@@ -40,7 +41,7 @@ define('fujion-spinjs', [
 			var options = this.getState('_options');
 			
 			if (options) {
-				this._spinner = new Spinner(options);
+				this._spinner = new Spinner.Spinner(options);
 				this._spinner.spin(this.widget$[0]);
 			}
 		},
