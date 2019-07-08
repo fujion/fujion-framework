@@ -52,6 +52,7 @@ class DynamicResource extends AbstractResource {
             description = resource.getDescription();
             contentLength = resource.contentLength();
             file = File.createTempFile("fujion_", "." + FilenameUtils.getExtension(filename));
+            file.deleteOnExit();
             FileUtils.copyInputStreamToFile(resource.getInputStream(), file);
         } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
