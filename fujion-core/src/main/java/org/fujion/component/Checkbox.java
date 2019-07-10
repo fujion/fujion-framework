@@ -29,7 +29,11 @@ import org.fujion.event.ChangeEvent;
 /**
  * A component representing a simple check box with an associated label.
  */
-@Component(tag = "checkbox", widgetClass = "Checkbox", parentTag = "*", description = "A simple check box with an associated label.")
+@Component(
+        tag = "checkbox",
+        widgetClass = "Checkbox",
+        parentTag = "*",
+        description = "A simple check box with an associated label.")
 public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionAll> {
 
     private boolean checked;

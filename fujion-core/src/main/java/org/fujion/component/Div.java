@@ -27,7 +27,13 @@ import org.fujion.annotation.Component.ContentHandling;
 /**
  * A simple div component.
  */
-@Component(tag = "div", widgetClass = "Div", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A simple div component.")
+@Component(
+        tag = "div",
+        widgetClass = "Div",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "A simple div component.")
 public class Div extends BaseUIComponent {
 
 }

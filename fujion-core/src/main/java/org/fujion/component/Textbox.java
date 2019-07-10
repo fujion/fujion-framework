@@ -27,7 +27,11 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component for entering a single line of text.
  */
-@Component(tag = "textbox", widgetClass = "Textbox", parentTag = "*", description = "A component for entering a single line of text.")
+@Component(
+        tag = "textbox",
+        widgetClass = "Textbox",
+        parentTag = "*",
+        description = "A component for entering a single line of text.")
 public class Textbox extends BaseInputboxComponent<String> {
 
     private boolean masked;

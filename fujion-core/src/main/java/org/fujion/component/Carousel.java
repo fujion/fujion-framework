@@ -32,7 +32,13 @@ import org.springframework.util.Assert;
 /**
  * A component supporting a carousel view.
  */
-@Component(tag = "carousel", widgetModule = "fujion-carousel", widgetClass = "Carousel", parentTag = "*", childTag = @ChildTag("carouselitem"), description = "A component supporting a carousel view.")
+@Component(
+        tag = "carousel",
+        widgetModule = "fujion-carousel",
+        widgetClass = "Carousel",
+        parentTag = "*",
+        childTag = @ChildTag("carouselitem"),
+        description = "A component supporting a carousel view.")
 public class Carousel extends BaseUIComponent implements ISupportsModel<Carouselitem> {
 
     private final ModelAndView<Carouselitem, Object> modelAndView = new ModelAndView<>(this);

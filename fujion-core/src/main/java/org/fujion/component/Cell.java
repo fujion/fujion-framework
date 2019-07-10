@@ -27,7 +27,13 @@ import org.fujion.annotation.Component.ContentHandling;
 /**
  * A simple cell component with an optional label.
  */
-@Component(tag = "cell", widgetClass = "Cell", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A simple cell component with an optional label.")
+@Component(
+        tag = "cell",
+        widgetClass = "Cell",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "A simple cell component with an optional label.")
 public class Cell extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
 
     public Cell() {

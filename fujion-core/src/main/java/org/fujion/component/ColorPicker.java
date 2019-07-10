@@ -29,13 +29,24 @@ import org.fujion.common.ColorUtil;
 /**
  * A component for selecting a color from a palette of colors.
  */
-@Component(tag = "colorpicker", widgetModule = "fujion-picker", widgetClass = "Colorpicker", parentTag = "*", childTag = @ChildTag("colorpickeritem"), description = "A component for selecting a color from a palette of colors.")
+@Component(
+        tag = "colorpicker",
+        widgetModule = "fujion-picker",
+        widgetClass = "Colorpicker",
+        parentTag = "*",
+        childTag = @ChildTag("colorpickeritem"),
+        description = "A component for selecting a color from a palette of colors.")
 public class ColorPicker extends BasePickerComponent<Color, ColorPicker.ColorPickeritem> {
 
     /**
      * A color selection for color picker.
      */
-    @Component(tag = "colorpickeritem", widgetModule = "fujion-picker", widgetClass = "Colorpickeritem", parentTag = "colorpicker", description = "A color choice.")
+    @Component(
+            tag = "colorpickeritem",
+            widgetModule = "fujion-picker",
+            widgetClass = "Colorpickeritem",
+            parentTag = "colorpicker",
+            description = "A color choice.")
     public static class ColorPickeritem extends BasePickerItem<Color> {
 
         public ColorPickeritem() {

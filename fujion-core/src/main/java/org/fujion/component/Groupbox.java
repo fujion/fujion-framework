@@ -29,7 +29,13 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A container component with a frame and title for visual grouping of related elements.
  */
-@Component(tag = "groupbox", widgetClass = "Groupbox", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A container component with a frame and title for visual grouping of related elements.")
+@Component(
+        tag = "groupbox",
+        widgetClass = "Groupbox",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "A container component with a frame and title for visual grouping of related elements.")
 public class Groupbox extends BaseUIComponent {
     
     private String title;

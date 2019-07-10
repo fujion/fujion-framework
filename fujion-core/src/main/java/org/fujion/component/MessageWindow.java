@@ -30,7 +30,12 @@ import org.fujion.event.IEventListener;
  * A component supporting a window that slides down from the top center of the viewport and can
  * display multiple messages (see {@link MessagePane}).
  */
-@Component(tag = "messagewindow", widgetClass = "Messagewindow", parentTag = "page", childTag = @ChildTag("messagepane"), description = "A window that slides down from the top center of the viewport")
+@Component(
+        tag = "messagewindow",
+        widgetClass = "Messagewindow",
+        parentTag = "page",
+        childTag = @ChildTag("messagepane"),
+        description = "A window that slides down from the top center of the viewport")
 public class MessageWindow extends BaseUIComponent {
 
     /**

@@ -28,7 +28,12 @@ import org.fujion.component.BaseUIComponent;
 /**
  * Container for an Angular component.
  */
-@Component(tag = "angular", widgetModule = "fujion-angular-widget", widgetClass = "AngularWidget", parentTag = "*", description = "Container for an Angular component.")
+@Component(
+        tag = "angular",
+        widgetModule = "fujion-angular-widget",
+        widgetClass = "AngularWidget",
+        parentTag = "*",
+        description = "Container for an Angular component.")
 public class AngularComponent extends BaseUIComponent {
 
     private String src;

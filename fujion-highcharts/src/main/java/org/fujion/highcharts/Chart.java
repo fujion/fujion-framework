@@ -35,7 +35,12 @@ import org.springframework.util.Assert;
 /**
  * Fujion wrapper for HighCharts component.
  */
-@Component(tag = "hchart", widgetModule = "fujion-hchart", widgetClass = "HChart", parentTag = "*", description = "Fujion wrapper for HighCharts component.")
+@Component(
+        tag = "hchart",
+        widgetModule = "fujion-hchart",
+        widgetClass = "HChart",
+        parentTag = "*",
+        description = "Fujion wrapper for HighCharts component.")
 public class Chart extends BaseUIComponent {
     
     private static final String GLOBAL_SETTINGS = Chart.class.getName() + ".global";

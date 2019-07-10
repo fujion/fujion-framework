@@ -34,8 +34,12 @@ import org.fujion.model.ModelAndView;
 /**
  * A component representing a drop down menu.
  */
-@Component(tag = "menu", widgetClass = "Menu", parentTag = "*", childTag = { @ChildTag("menuitem"), @ChildTag("menuheader"),
-        @ChildTag("menuseparator") }, description = "A drop down menu.")
+@Component(
+        tag = "menu",
+        widgetClass = "Menu",
+        parentTag = "*",
+        childTag = { @ChildTag("menuitem"), @ChildTag("menuheader"), @ChildTag("menuseparator") },
+        description = "A drop down menu.")
 public class Menu extends BaseMenuComponent implements ISupportsModel<BaseMenuComponent> {
     
     private final ModelAndView<BaseMenuComponent, Object> modelAndView = new ModelAndView<>(this);

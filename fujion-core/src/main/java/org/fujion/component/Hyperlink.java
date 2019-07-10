@@ -27,7 +27,11 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A simple hyperlink (anchor) component.
  */
-@Component(tag = "link", widgetClass = "Hyperlink", parentTag = "*", description = "A simple hyperlink (anchor) component.")
+@Component(
+        tag = "link",
+        widgetClass = "Hyperlink",
+        parentTag = "*",
+        description = "A simple hyperlink (anchor) component.")
 public class Hyperlink extends Button {
     
     private String href;

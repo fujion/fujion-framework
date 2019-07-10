@@ -36,7 +36,13 @@ import org.fujion.model.ModelAndView;
 /**
  * A component serving as a container for a grid's rows.
  */
-@Component(tag = "rows", widgetModule = "fujion-grid", widgetClass = "Rows", parentTag = "grid", childTag = @ChildTag("row"), description = "A container for a grid's rows.")
+@Component(
+        tag = "rows",
+        widgetModule = "fujion-grid",
+        widgetClass = "Rows",
+        parentTag = "grid",
+        childTag = @ChildTag("row"),
+        description = "A container for a grid's rows.")
 public class Rows extends BaseUIComponent implements ISupportsModel<Row> {
     
     /**

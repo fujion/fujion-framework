@@ -48,7 +48,12 @@ import org.springframework.core.io.Resource;
 /**
  * This is the root component of a Fujion Server Page.
  */
-@Component(tag = "page", widgetClass = "Page", content = ContentHandling.AS_CHILD, childTag = @ChildTag("*"), description = "The root component of a Fujion Server Page.")
+@Component(
+        tag = "page",
+        widgetClass = "Page",
+        content = ContentHandling.AS_CHILD,
+        childTag = @ChildTag("*"),
+        description = "The root component of a Fujion Server Page.")
 public final class Page extends BaseComponent implements INamespace {
     
     public static final String ID_PREFIX = "_fujion_";

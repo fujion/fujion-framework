@@ -26,7 +26,13 @@ import org.fujion.annotation.Component.ChildTag;
 /**
  * A tree cell component. This acts as a container for additional UI elements within a tree node.
  */
-@Component(tag = "treecell", widgetModule = "fujion-treeview", widgetClass = "Treecell", parentTag = "treenode", childTag = @ChildTag("*"), description = "A simple container for a tree node.")
+@Component(
+        tag = "treecell",
+        widgetModule = "fujion-treeview",
+        widgetClass = "Treecell",
+        parentTag = "treenode",
+        childTag = @ChildTag("*"),
+        description = "A simple container for a tree node.")
 public class Treecell extends BaseUIComponent {
 
 }

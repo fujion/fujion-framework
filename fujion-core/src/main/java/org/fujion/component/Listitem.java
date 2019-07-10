@@ -31,7 +31,11 @@ import org.fujion.event.EventUtil;
 /**
  * A single item within a list box.
  */
-@Component(tag = "listitem", widgetClass = "Listitem", parentTag = "listbox", description = "A single item within a list box.")
+@Component(
+        tag = "listitem",
+        widgetClass = "Listitem",
+        parentTag = "listbox",
+        description = "A single item within a list box.")
 public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> implements Comparable<Listitem> {
 
     private boolean selected;

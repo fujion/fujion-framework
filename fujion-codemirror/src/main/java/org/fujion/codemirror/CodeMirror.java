@@ -27,7 +27,12 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * Fujion wrapper for CodeMirror JavaScript editor.
  */
-@Component(tag = "codemirror", widgetModule = "fujion-codemirror", widgetClass = "CodeMirrorBase", parentTag = "*", description = "Fujion wrapper for CodeMirror JavaScript editor.")
+@Component(
+        tag = "codemirror",
+        widgetModule = "fujion-codemirror",
+        widgetClass = "CodeMirrorBase",
+        parentTag = "*",
+        description = "Fujion wrapper for CodeMirror JavaScript editor.")
 public class CodeMirror extends CodeMirrorBase<CodeMirrorOptions> {
     
     public CodeMirror() {

@@ -31,7 +31,13 @@ import org.fujion.annotation.Component.ContentHandling;
 /**
  * A container component that be displayed at a selected location.
  */
-@Component(tag = "popup", widgetClass = "Popup", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A container component that be displayed at a selected location.")
+@Component(
+        tag = "popup",
+        widgetClass = "Popup",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "A container component that be displayed at a selected location.")
 public class Popup extends BaseComponent implements INamespace {
     
     /**

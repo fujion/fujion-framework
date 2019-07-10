@@ -31,7 +31,13 @@ import org.fujion.model.ModelAndView;
 /**
  * A component supporting a tab-based view.
  */
-@Component(tag = "tabview", widgetModule = "fujion-tabview", widgetClass = "Tabview", parentTag = "*", childTag = @ChildTag("tab"), description = "A component supporting a tab-based view.")
+@Component(
+        tag = "tabview",
+        widgetModule = "fujion-tabview",
+        widgetClass = "Tabview",
+        parentTag = "*",
+        childTag = @ChildTag("tab"),
+        description = "A component supporting a tab-based view.")
 public class Tabview extends BaseUIComponent implements ISupportsModel<Tab> {
 
     /**

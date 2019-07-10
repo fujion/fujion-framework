@@ -35,7 +35,12 @@ import org.fujion.model.ModelAndView;
 /**
  * A component representing a simple list box control.
  */
-@Component(tag = "listbox", widgetClass = "Listbox", parentTag = "*", childTag = @ChildTag("listitem"), description = "A simple list box control.")
+@Component(
+        tag = "listbox",
+        widgetClass = "Listbox",
+        parentTag = "*",
+        childTag = @ChildTag("listitem"),
+        description = "A simple list box control.")
 public class Listbox extends BaseUIComponent implements ISupportsModel<Listitem> {
     
     private boolean multiple;

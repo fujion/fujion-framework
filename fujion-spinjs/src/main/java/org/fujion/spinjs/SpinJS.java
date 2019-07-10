@@ -32,7 +32,12 @@ import org.springframework.util.Assert;
 /**
  * Fujion wrapper for jquery.sparkline component.
  */
-@Component(tag = "spinjs", widgetModule = "fujion-spinjs", widgetClass = "SpinJS", parentTag = "*", description = "Spin-js component.")
+@Component(
+        tag = "spinjs",
+        widgetModule = "fujion-spinjs",
+        widgetClass = "SpinJS",
+        parentTag = "*",
+        description = "Spin-js component.")
 public class SpinJS extends BaseUIComponent {
 
     private final SpinJSOptions options = new SpinJSOptions();

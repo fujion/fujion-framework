@@ -29,7 +29,13 @@ import org.fujion.model.ModelAndView;
 /**
  * Component serving as a container for a grid's columns.
  */
-@Component(tag = "columns", widgetModule = "fujion-grid", widgetClass = "Columns", parentTag = "grid", childTag = @ChildTag("column"), description = "A container for a grid's columns.")
+@Component(
+        tag = "columns",
+        widgetModule = "fujion-grid",
+        widgetClass = "Columns",
+        parentTag = "grid",
+        childTag = @ChildTag("column"),
+        description = "A container for a grid's columns.")
 public class Columns extends BaseUIComponent implements ISupportsModel<Column> {
 
     private Column sortColumn;

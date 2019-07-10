@@ -31,7 +31,13 @@ import org.fujion.annotation.Component.PropertySetter;
  * under the same radio group is mutually exclusive. Note that radio buttons do not have to be a
  * direct child of their group.
  */
-@Component(tag = "radiogroup", widgetClass = "Radiogroup", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "Logically groups together multiple radio buttons.")
+@Component(
+        tag = "radiogroup",
+        widgetClass = "Radiogroup",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "Logically groups together multiple radio buttons.")
 public class Radiogroup extends BaseUIComponent {
     
     /**

@@ -28,7 +28,11 @@ import org.springframework.util.Assert;
 /**
  * Component for entering multiple lines of text.
  */
-@Component(tag = "memobox", widgetClass = "Memobox", parentTag = "*", description = "Component for entering multiple lines of text.")
+@Component(
+        tag = "memobox",
+        widgetClass = "Memobox",
+        parentTag = "*",
+        description = "Component for entering multiple lines of text.")
 public class Memobox extends BaseInputboxComponent<String> {
     
     /**

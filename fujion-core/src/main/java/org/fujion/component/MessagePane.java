@@ -32,7 +32,13 @@ import org.fujion.annotation.EventHandler;
  *
  * @see org.fujion.component.MessageWindow
  */
-@Component(tag = "messagepane", widgetClass = "Messagepane", content = ContentHandling.AS_CHILD, parentTag = "messagewindow", childTag = @ChildTag("*"), description = "A pane holding a single message in a message window.")
+@Component(
+        tag = "messagepane",
+        widgetClass = "Messagepane",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "messagewindow",
+        childTag = @ChildTag("*"),
+        description = "A pane holding a single message in a message window.")
 public class MessagePane extends BaseUIComponent {
     
     private String title;

@@ -27,7 +27,13 @@ import org.fujion.annotation.Component.ContentHandling;
 /**
  * A simple span component.
  */
-@Component(tag = "span", widgetClass = "Span", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A simple span component.")
+@Component(
+        tag = "span",
+        widgetClass = "Span",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "A simple span component.")
 public class Span extends BaseUIComponent {
 
 }

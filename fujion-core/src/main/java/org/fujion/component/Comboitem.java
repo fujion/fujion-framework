@@ -31,7 +31,11 @@ import org.fujion.event.EventUtil;
 /**
  * A single item within a combo box.
  */
-@Component(tag = "comboitem", widgetClass = "Comboitem", parentTag = "combobox", description = "A single item within a combo box.")
+@Component(
+        tag = "comboitem",
+        widgetClass = "Comboitem",
+        parentTag = "combobox",
+        description = "A single item within a combo box.")
 public class Comboitem extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> implements Comparable<Comboitem> {
 
     private boolean selected;

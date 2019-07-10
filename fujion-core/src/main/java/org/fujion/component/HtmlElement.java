@@ -29,7 +29,13 @@ import org.springframework.util.Assert;
 /**
  * A component that allows embedding native HTML within a page.
  */
-@Component(tag = "html:", widgetClass = "HtmlElement", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", childTag = @ChildTag("*"), description = "A native HTML element.")
+@Component(
+        tag = "html:",
+        widgetClass = "HtmlElement",
+        content = ContentHandling.AS_ATTRIBUTE,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "A native HTML element.")
 public class HtmlElement extends BaseComponent {
     
     private String tag = "span";

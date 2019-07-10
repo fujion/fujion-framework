@@ -36,7 +36,11 @@ import org.fujion.model.ISupportsModel;
 /**
  * A page navigation component.
  */
-@Component(tag = "paging", widgetClass = "Paging", parentTag = "*", description = "A page navigation component.")
+@Component(
+        tag = "paging",
+        widgetClass = "Paging",
+        parentTag = "*",
+        description = "A page navigation component.")
 public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
     
     private final Options navigationLabels = new Options() {

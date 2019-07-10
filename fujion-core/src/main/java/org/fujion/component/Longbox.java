@@ -25,7 +25,11 @@ import org.fujion.annotation.Component;
 /**
  * An input box for entering long integers.
  */
-@Component(tag = "longbox", widgetClass = "Longbox", parentTag = "*", description = "An input box for entering long integers.")
+@Component(
+        tag = "longbox",
+        widgetClass = "Longbox",
+        parentTag = "*",
+        description = "An input box for entering long integers.")
 public class Longbox extends BaseNumberboxComponent<Long> {
 
     public Longbox() {

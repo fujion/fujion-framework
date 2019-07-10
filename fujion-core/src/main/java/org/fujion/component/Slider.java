@@ -30,7 +30,11 @@ import org.springframework.util.Assert;
 /**
  * A slider component.
  */
-@Component(tag = "slider", widgetClass = "Slider", parentTag = "*", description = "A slider component.")
+@Component(
+        tag = "slider",
+        widgetClass = "Slider",
+        parentTag = "*",
+        description = "A slider component.")
 public class Slider extends BaseUIComponent {
 
     /**

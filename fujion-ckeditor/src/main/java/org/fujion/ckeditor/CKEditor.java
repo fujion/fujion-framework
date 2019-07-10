@@ -28,7 +28,12 @@ import org.fujion.component.BaseInputComponent;
 /**
  * Fujion wrapper for CKEditor component.
  */
-@Component(tag = "ckeditor", widgetModule = "fujion-ckeditor", widgetClass = "CKEditor", parentTag = "*", description = "CKEditor component.")
+@Component(
+        tag = "ckeditor",
+        widgetModule = "fujion-ckeditor",
+        widgetClass = "CKEditor",
+        parentTag = "*",
+        description = "CKEditor component.")
 public class CKEditor extends BaseInputComponent<String> {
 
     private boolean readonly;

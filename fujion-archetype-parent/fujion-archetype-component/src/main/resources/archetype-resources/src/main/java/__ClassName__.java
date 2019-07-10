@@ -8,7 +8,12 @@ import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.common.Logger;
 import org.fujion.component.BaseUIComponent;
 
-@Component(tag = "${classname}", widgetModule = "${artifactId}", widgetClass = "${ClassName}", parentTag = "*", description="${displayName}")
+@Component(
+		tag = "${classname}",
+		widgetModule = "${artifactId}",
+		widgetClass = "${ClassName}",
+		parentTag = "*",
+		description="${displayName}")
 public class ${ClassName} extends BaseUIComponent {
 
 	private static final Logger log = Logger.create(${ClassName}.class);

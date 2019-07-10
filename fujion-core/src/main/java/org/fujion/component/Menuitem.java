@@ -28,8 +28,12 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component representing a single menu item.
  */
-@Component(tag = "menuitem", widgetClass = "Menuitem", parentTag = { "menu", "menupopup", "menuitem" }, childTag = {
-        @ChildTag("menuitem"), @ChildTag("menuheader"), @ChildTag("menuseparator") }, description = "A single menu item.")
+@Component(
+        tag = "menuitem",
+        widgetClass = "Menuitem",
+        parentTag = { "menu", "menupopup", "menuitem" },
+        childTag = { @ChildTag("menuitem"), @ChildTag("menuheader"), @ChildTag("menuseparator") },
+        description = "A single menu item.")
 public class Menuitem extends BaseMenuComponent {
 
     private boolean checkable;

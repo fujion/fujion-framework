@@ -27,7 +27,11 @@ import org.fujion.event.EventUtil;
 /**
  * A component representing a single radio button.
  */
-@Component(tag = "radiobutton", widgetClass = "Radiobutton", parentTag = "*", description = "A single radio button.")
+@Component(
+        tag = "radiobutton",
+        widgetClass = "Radiobutton",
+        parentTag = "*",
+        description = "A single radio button.")
 public class Radiobutton extends Checkbox {
     
     /**

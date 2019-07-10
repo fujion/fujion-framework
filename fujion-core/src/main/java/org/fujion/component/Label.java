@@ -25,7 +25,11 @@ import org.fujion.annotation.Component;
 /**
  * A simple label component.
  */
-@Component(tag = "label", widgetClass = "Label", parentTag = "*", description = "A simple label component.")
+@Component(
+        tag = "label",
+        widgetClass = "Label",
+        parentTag = "*",
+        description = "A simple label component.")
 public class Label extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
     
     public Label() {

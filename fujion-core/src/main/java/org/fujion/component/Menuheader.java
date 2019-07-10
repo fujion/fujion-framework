@@ -25,8 +25,11 @@ import org.fujion.annotation.Component;
 /**
  * A component that presents a visual header within a menu.
  */
-@Component(tag = "menuheader", widgetClass = "Menuheader", parentTag = { "menu", "menupopup",
-        "menuitem" }, description = "A visual header within a menu.")
+@Component(
+        tag = "menuheader",
+        widgetClass = "Menuheader",
+        parentTag = { "menu", "menupopup", "menuitem" },
+        description = "A visual header within a menu.")
 public class Menuheader extends BaseMenuComponent {
 
 }

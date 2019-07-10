@@ -27,7 +27,11 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component for loading a module via the SystemJS module loader.
  */
-@Component(tag = "module", widgetClass = "NullWidget", parentTag = "*", description = "A component for loading a module via the SystemJS module loader.")
+@Component(
+        tag = "module",
+        widgetClass = "NullWidget",
+        parentTag = "*",
+        description = "A component for loading a module via the SystemJS module loader.")
 public class Module extends BaseComponent {
     
     private String src;

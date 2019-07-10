@@ -32,7 +32,14 @@ import org.fujion.event.OpenEvent;
 /**
  * A collapsible detail component.
  */
-@Component(tag = "detail", widgetModule = "fujion-detail", widgetClass = "Detail", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A collapsible detail component.")
+@Component(
+        tag = "detail",
+        widgetModule = "fujion-detail",
+        widgetClass = "Detail",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "A collapsible detail component.")
 public class Detail extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
     
     private boolean open;

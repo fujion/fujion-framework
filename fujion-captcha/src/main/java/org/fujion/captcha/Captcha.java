@@ -28,7 +28,12 @@ import org.fujion.component.BaseUIComponent;
 /**
  * Fujion wrapper for Google reCAPTCHA library.
  */
-@Component(tag = "captcha", widgetModule = "fujion-captcha", widgetClass = "Captcha", parentTag = "*", description = "Captcha component.")
+@Component(
+        tag = "captcha",
+        widgetModule = "fujion-captcha",
+        widgetClass = "Captcha",
+        parentTag = "*",
+        description = "Captcha component.")
 public class Captcha extends BaseUIComponent {
     
     public enum CaptchaTheme {

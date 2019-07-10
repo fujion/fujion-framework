@@ -32,7 +32,11 @@ import org.fujion.page.PageUtil;
  * prohibits child tags, it does allow the addition of child components either programmatically or
  * via the specified source page.
  */
-@Component(tag = "import", widgetClass = "Span", parentTag = "*", description = "A component that permits importing another page into the referencing page.")
+@Component(
+        tag = "import",
+        widgetClass = "Span",
+        parentTag = "*",
+        description = "A component that permits importing another page into the referencing page.")
 public class Import extends BaseUIComponent {
     
     private String src;

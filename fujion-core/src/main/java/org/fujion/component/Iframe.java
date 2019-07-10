@@ -30,7 +30,11 @@ import org.fujion.event.LoadEvent;
 /**
  * An iframe component.
  */
-@Component(tag = "iframe", widgetClass = "Iframe", parentTag = "*", description = "An iframe component.")
+@Component(
+        tag = "iframe",
+        widgetClass = "Iframe",
+        parentTag = "*",
+        description = "An iframe component.")
 public class Iframe extends BaseUIComponent {
 
     private String src;

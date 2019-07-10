@@ -28,7 +28,12 @@ import org.fujion.annotation.Component.ContentHandling;
 /**
  * Component wrapping JavaScript source code for client-side invocation.
  */
-@Component(tag = "cscript", widgetClass = "Script", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", description = "JavaScript source code for client-side invocation.")
+@Component(
+        tag = "cscript",
+        widgetClass = "Script",
+        content = ContentHandling.AS_ATTRIBUTE,
+        parentTag = "*",
+        description = "JavaScript source code for client-side invocation.")
 public class ClientScript extends BaseScriptComponent {
 
     public ClientScript() {

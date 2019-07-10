@@ -31,7 +31,12 @@ import org.fujion.page.PageUtil;
  *
  * @see Snippet
  */
-@Component(tag = "template", widgetClass = "Span", parentTag = "*", childTag = @ChildTag("snippet"), description = "A component that merges a source page with zero or more snippets.")
+@Component(
+        tag = "template",
+        widgetClass = "Span",
+        parentTag = "*",
+        childTag = @ChildTag("snippet"),
+        description = "A component that merges a source page with zero or more snippets.")
 public class Template extends BaseComponent implements INamespace {
 
     public Template() {

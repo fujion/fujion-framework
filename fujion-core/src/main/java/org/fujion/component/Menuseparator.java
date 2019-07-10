@@ -25,8 +25,11 @@ import org.fujion.annotation.Component;
 /**
  * A component that visually separates items within a menu.
  */
-@Component(tag = "menuseparator", widgetClass = "Menuseparator", parentTag = { "menu", "menupopup",
-        "menuitem" }, description = "Visually separates items within a menu.")
+@Component(
+        tag = "menuseparator",
+        widgetClass = "Menuseparator",
+        parentTag = { "menu", "menupopup", "menuitem" },
+        description = "Visually separates items within a menu.")
 public class Menuseparator extends BaseUIComponent {
 
 }

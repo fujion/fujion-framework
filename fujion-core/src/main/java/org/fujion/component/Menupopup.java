@@ -29,9 +29,12 @@ import org.fujion.model.ModelAndView;
 /**
  * An extension of the Popup component designed for use with popup context menus.
  */
-@Component(tag = "menupopup", widgetClass = "Menupopup", parentTag = "*", childTag = { @ChildTag("menuitem"),
-        @ChildTag("menuheader"),
-        @ChildTag("menuseparator") }, description = "An extension of the Popup component designed for use with popup context menus.")
+@Component(
+        tag = "menupopup",
+        widgetClass = "Menupopup",
+        parentTag = "*",
+        childTag = { @ChildTag("menuitem"), @ChildTag("menuheader"), @ChildTag("menuseparator") },
+        description = "An extension of the Popup component designed for use with popup context menus.")
 public class Menupopup extends Popup implements ISupportsModel<BaseMenuComponent> {
 
     private final ModelAndView<BaseMenuComponent, Object> modelAndView = new ModelAndView<>(this);

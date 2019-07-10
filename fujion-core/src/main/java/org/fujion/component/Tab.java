@@ -35,7 +35,14 @@ import org.fujion.event.EventUtil;
 /**
  * A single tab in a tab view.
  */
-@Component(tag = "tab", widgetModule = "fujion-tabview", widgetClass = "Tab", content = ContentHandling.AS_CHILD, parentTag = "tabview", childTag = @ChildTag("*"), description = "A single tab in a tab view.")
+@Component(
+        tag = "tab",
+        widgetModule = "fujion-tabview",
+        widgetClass = "Tab",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "tabview",
+        childTag = @ChildTag("*"),
+        description = "A single tab in a tab view.")
 public class Tab extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> {
 
     private boolean closable;

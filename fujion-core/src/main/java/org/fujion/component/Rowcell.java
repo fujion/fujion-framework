@@ -29,7 +29,14 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component representing a single cell within a grid row.
  */
-@Component(tag = "rowcell", widgetModule = "fujion-grid", widgetClass = "Rowcell", content = ContentHandling.AS_CHILD, parentTag = "row", childTag = @ChildTag("*"), description = "A single cell within a grid row.")
+@Component(
+        tag = "rowcell",
+        widgetModule = "fujion-grid",
+        widgetClass = "Rowcell",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "row",
+        childTag = @ChildTag("*"),
+        description = "A single cell within a grid row.")
 public class Rowcell extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
     
     private int colspan = 1;

@@ -31,7 +31,11 @@ import org.fujion.common.DateUtil;
 /**
  * An input box for entering a time value.
  */
-@Component(tag = "timebox", widgetClass = "Timebox", parentTag = "*", description = "An input box for entering a time value.")
+@Component(
+        tag = "timebox",
+        widgetClass = "Timebox",
+        parentTag = "*",
+        description = "An input box for entering a time value.")
 public class Timebox extends BaseInputboxComponent<Date> {
 
     private static final FastDateFormat serializer = FastDateFormat.getInstance("HH:mm:ss");

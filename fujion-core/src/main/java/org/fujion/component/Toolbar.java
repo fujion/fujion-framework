@@ -29,7 +29,13 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A toolbar component.
  */
-@Component(tag = "toolbar", widgetClass = "Toolbar", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A toolbar component.")
+@Component(
+        tag = "toolbar",
+        widgetClass = "Toolbar",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "A toolbar component.")
 public class Toolbar extends BaseUIComponent {
     
     /**

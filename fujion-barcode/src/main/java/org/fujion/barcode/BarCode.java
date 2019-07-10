@@ -33,7 +33,12 @@ import org.springframework.util.StringUtils;
 /**
  * Fujion wrapper for JsBarcode library.
  */
-@Component(tag = "barcode", widgetModule = "fujion-barcode", widgetClass = "BarCode", parentTag = "*", description = "Barcode component.")
+@Component(
+        tag = "barcode",
+        widgetModule = "fujion-barcode",
+        widgetClass = "BarCode",
+        parentTag = "*",
+        description = "Barcode component.")
 public class BarCode extends BaseUIComponent {
     
     private static final Function<String, Boolean> PHARMACODE_VALIDATOR = value -> {

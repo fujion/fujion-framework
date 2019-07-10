@@ -29,7 +29,13 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component that allows embedding native HTML within a page.
  */
-@Component(tag = "html", widgetClass = "Html", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", childTag = @ChildTag("html:"), description = "A component that allows embedding native HTML within a page.")
+@Component(
+        tag = "html",
+        widgetClass = "Html",
+        content = ContentHandling.AS_ATTRIBUTE,
+        parentTag = "*",
+        childTag = @ChildTag("html:"),
+        description = "A component that allows embedding native HTML within a page.")
 public class Html extends BaseUIComponent {
 
     private String src;

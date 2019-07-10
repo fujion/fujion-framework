@@ -28,7 +28,12 @@ import org.springframework.util.Assert;
 /**
  * A component for uploading files to the server.
  */
-@Component(tag = "upload", widgetModule = "fujion-upload", widgetClass = "Upload", parentTag = "*", description = "A component for uploading files to the server.")
+@Component(
+        tag = "upload",
+        widgetModule = "fujion-upload",
+        widgetClass = "Upload",
+        parentTag = "*",
+        description = "A component for uploading files to the server.")
 public class Upload extends BaseUIComponent {
     
     private boolean multiple;

@@ -37,7 +37,12 @@ import org.springframework.util.Assert;
 /**
  * Fujion wrapper for Chart.js component.
  */
-@Component(tag = "chartjs", widgetModule = "fujion-chartjs", widgetClass = "ChartJS", parentTag = "*", description = "Fujion wrapper for chart.js component.")
+@Component(
+        tag = "chartjs",
+        widgetModule = "fujion-chartjs",
+        widgetClass = "ChartJS",
+        parentTag = "*",
+        description = "Fujion wrapper for chart.js component.")
 public class Chart extends BaseUIComponent {
     
     private static final String[] DEFAULT_COLORS = new String[] { "#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9",

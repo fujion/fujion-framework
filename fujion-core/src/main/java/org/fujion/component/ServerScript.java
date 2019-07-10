@@ -43,7 +43,12 @@ import org.springframework.util.Assert;
 /**
  * A component wrapping script source code for server-side invocation.
  */
-@Component(tag = "sscript", widgetClass = "MetaWidget", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", description = "Script source code for server-side invocation.")
+@Component(
+        tag = "sscript",
+        widgetClass = "MetaWidget",
+        content = ContentHandling.AS_ATTRIBUTE,
+        parentTag = "*",
+        description = "Script source code for server-side invocation.")
 public class ServerScript extends BaseScriptComponent {
     
     public static final String EVENT_EXECUTED = "scriptExecution";

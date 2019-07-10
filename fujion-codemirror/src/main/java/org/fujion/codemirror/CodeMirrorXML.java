@@ -36,7 +36,12 @@ import org.fujion.annotation.Option;
 /**
  * CodeMirror editor configured for XML support.
  */
-@Component(tag = "codemirror_xml", widgetModule = "fujion-codemirror-xml", widgetClass = "CodeMirrorXML", parentTag = "*", description = "XML Extensions CodeMirror JavaScript editor.")
+@Component(
+        tag = "codemirror_xml",
+        widgetModule = "fujion-codemirror-xml",
+        widgetClass = "CodeMirrorXML",
+        parentTag = "*",
+        description = "XML Extensions CodeMirror JavaScript editor.")
 public class CodeMirrorXML extends CodeMirrorBase<CodeMirrorXML.XMLOptions> {
     
     protected static class XMLOptions extends CodeMirrorOptions {

@@ -28,7 +28,12 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * Associates a label with another component.
  */
-@Component(tag = "caption", widgetClass = "Caption", parentTag = "*", childTag = @ChildTag("*"), description = "Associates a label with another component.")
+@Component(
+        tag = "caption",
+        widgetClass = "Caption",
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "Associates a label with another component.")
 public class Caption extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionAll> {
 
     private String labelStyle;

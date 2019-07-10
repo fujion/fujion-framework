@@ -25,7 +25,11 @@ import org.fujion.annotation.Component;
 /**
  * An input box for entering floating point values.
  */
-@Component(tag = "doublebox", widgetClass = "Doublebox", parentTag = "*", description = "An input box for entering floating point values.")
+@Component(
+        tag = "doublebox",
+        widgetClass = "Doublebox",
+        parentTag = "*",
+        description = "An input box for entering floating point values.")
 public class Doublebox extends BaseNumberboxComponent<Double> {
 
     public Doublebox() {

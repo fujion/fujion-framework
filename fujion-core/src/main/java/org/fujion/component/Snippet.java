@@ -31,8 +31,12 @@ import org.fujion.annotation.Component.PropertySetter;
  *
  * @see Template
  */
-@Component(tag = "snippet", widgetClass = "MetaWidget", parentTag = { "template",
-        "snippet" }, childTag = @ChildTag("snippet"), description = "A Fujion resource that can be inserted into a template.")
+@Component(
+        tag = "snippet",
+        widgetClass = "MetaWidget",
+        parentTag = { "template", "snippet" },
+        childTag = @ChildTag("snippet"),
+        description = "A Fujion resource that can be inserted into a template.")
 public class Snippet extends BaseCompositeComponent implements INamespace {
 
     public Snippet() {

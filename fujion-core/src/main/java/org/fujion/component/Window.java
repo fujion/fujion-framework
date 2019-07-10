@@ -38,7 +38,13 @@ import org.springframework.util.Assert;
  * A window component with a title bar and maximize/minimize/close buttons. May be used in modal,
  * popup, or inline modes.
  */
-@Component(tag = "window", widgetClass = "Window", content = ContentHandling.AS_CHILD, parentTag = "*", childTag = @ChildTag("*"), description = "A window component with a title bar and maximize/minimize/close buttons.")
+@Component(
+        tag = "window",
+        widgetClass = "Window",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "*",
+        childTag = @ChildTag("*"),
+        description = "A window component with a title bar and maximize/minimize/close buttons.")
 public class Window extends BaseUIComponent implements INamespace {
 
     /**

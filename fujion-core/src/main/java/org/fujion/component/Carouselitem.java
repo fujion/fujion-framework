@@ -32,7 +32,14 @@ import org.fujion.event.EventUtil;
 /**
  * A single item in a carousel.
  */
-@Component(tag = "carouselitem", widgetModule = "fujion-carousel", widgetClass = "Carouselitem", content = ContentHandling.AS_CHILD, parentTag = "carousel", childTag = @ChildTag("*"), description = "A single item in a carousel.")
+@Component(
+        tag = "carouselitem",
+        widgetModule = "fujion-carousel",
+        widgetClass = "Carouselitem",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "carousel",
+        childTag = @ChildTag("*"),
+        description = "A single item in a carousel.")
 public class Carouselitem extends BaseUIComponent {
 
     private boolean selected;

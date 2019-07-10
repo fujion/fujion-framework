@@ -31,7 +31,12 @@ import org.fujion.model.ModelAndView;
 /**
  * A component representing a combo box control.
  */
-@Component(tag = "combobox", widgetClass = "Combobox", parentTag = "*", childTag = @ChildTag("comboitem"), description = "A combo box control.")
+@Component(
+        tag = "combobox",
+        widgetClass = "Combobox",
+        parentTag = "*",
+        childTag = @ChildTag("comboitem"),
+        description = "A combo box control.")
 public class Combobox extends BaseInputboxComponent<String> implements ISupportsModel<Comboitem> {
 
     private Comboitem selected;

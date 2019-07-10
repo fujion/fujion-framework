@@ -31,7 +31,12 @@ import org.fujion.component.BaseUIComponent;
 /**
  * Fujion wrapper for jquery.sparkline component.
  */
-@Component(tag = "sparkline", widgetModule = "fujion-sparkline", widgetClass = "Sparkline", parentTag = "*", description = "Sparkline component.")
+@Component(
+        tag = "sparkline",
+        widgetModule = "fujion-sparkline",
+        widgetClass = "Sparkline",
+        parentTag = "*",
+        description = "Sparkline component.")
 public class Sparkline extends BaseUIComponent {
 
     private final CommonOptions commonOptions = new CommonOptions();

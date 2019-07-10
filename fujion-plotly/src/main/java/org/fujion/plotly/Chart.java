@@ -34,7 +34,12 @@ import org.springframework.util.Assert;
 /**
  * Fujion wrapper for Plotly component.
  */
-@Component(tag = "plotly", widgetModule = "fujion-plotly", widgetClass = "Plotly", parentTag = "*", description = "Fujion wrapper for Plotly component.")
+@Component(
+        tag = "plotly",
+        widgetModule = "fujion-plotly",
+        widgetClass = "Plotly",
+        parentTag = "*",
+        description = "Fujion wrapper for Plotly component.")
 public class Chart extends BaseUIComponent {
 
     private final ChartInstance instance = new ChartInstance();

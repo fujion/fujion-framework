@@ -28,7 +28,13 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component containing visually separate panes with optional splitter controls.
  */
-@Component(tag = "paneview", widgetModule = "fujion-paneview", widgetClass = "Paneview", parentTag = "*", childTag = @ChildTag("pane"), description = "A container that visually separate panes with optional splitter controls.")
+@Component(
+        tag = "paneview",
+        widgetModule = "fujion-paneview",
+        widgetClass = "Paneview",
+        parentTag = "*",
+        childTag = @ChildTag("pane"),
+        description = "A container that visually separate panes with optional splitter controls.")
 public class Paneview extends BaseUIComponent {
 
     /**

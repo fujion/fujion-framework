@@ -28,7 +28,11 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A component representing an embedded image.
  */
-@Component(tag = "image", widgetClass = "Image", parentTag = "*", description = "A component representing an embedded image.")
+@Component(
+        tag = "image",
+        widgetClass = "Image",
+        parentTag = "*",
+        description = "A component representing an embedded image.")
 public class Image extends BaseUIComponent {
 
     private String src;

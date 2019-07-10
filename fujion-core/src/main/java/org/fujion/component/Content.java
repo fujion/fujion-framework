@@ -26,7 +26,11 @@ import org.fujion.annotation.Component;
  * A simple container for holding text content. It is created implicitly during parsing of
  * components that support text content.
  */
-@Component(tag = "#text", widgetClass = "Content", parentTag = "*", description = "A simple container for holding text content.")
+@Component(
+        tag = "#text",
+        widgetClass = "Content",
+        parentTag = "*",
+        description = "A simple container for holding text content.")
 public class Content extends BaseComponent {
 
 }

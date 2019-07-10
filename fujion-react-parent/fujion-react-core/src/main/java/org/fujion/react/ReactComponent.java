@@ -28,7 +28,12 @@ import org.fujion.component.BaseUIComponent;
 /**
  * Container for a React component.
  */
-@Component(tag = "react", widgetModule = "fujion-react-widget", widgetClass = "ReactWidget", parentTag = "*", description = "Container for a React component.")
+@Component(
+        tag = "react",
+        widgetModule = "fujion-react-widget",
+        widgetClass = "ReactWidget",
+        parentTag = "*",
+        description = "Container for a React component.")
 public class ReactComponent extends BaseUIComponent {
     
     private String src;

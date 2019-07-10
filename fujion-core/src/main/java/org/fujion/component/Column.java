@@ -35,7 +35,13 @@ import org.fujion.model.Sorting.SortToggle;
 /**
  * A component representing a single column within a grid.
  */
-@Component(tag = "column", widgetClass = "Column", widgetModule = "fujion-grid", parentTag = "columns", childTag = @ChildTag("*"), description = "A single column within a grid.")
+@Component(
+        tag = "column",
+        widgetClass = "Column",
+        widgetModule = "fujion-grid",
+        parentTag = "columns",
+        childTag = @ChildTag("*"),
+        description = "A single column within a grid.")
 public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> {
 
     private Comparator<?> sortComparator;

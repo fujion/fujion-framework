@@ -29,7 +29,14 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A single pane within a pane view.
  */
-@Component(tag = "pane", widgetModule = "fujion-paneview", widgetClass = "Pane", content = ContentHandling.AS_CHILD, parentTag = "paneview", childTag = @ChildTag("*"), description = "A single pane within a pane view.")
+@Component(
+        tag = "pane",
+        widgetModule = "fujion-paneview",
+        widgetClass = "Pane",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "paneview",
+        childTag = @ChildTag("*"),
+        description = "A single pane within a pane view.")
 public class Pane extends BaseUIComponent {
     
     private boolean splittable;

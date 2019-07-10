@@ -28,9 +28,13 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A grid component.
  */
-@Component(tag = "grid", widgetModule = "fujion-grid", widgetClass = "Grid", parentTag = "*", childTag = {
-        @ChildTag(value = "rows", maximum = 1),
-        @ChildTag(value = "columns", maximum = 1) }, description = "A grid component.")
+@Component(
+        tag = "grid",
+        widgetModule = "fujion-grid",
+        widgetClass = "Grid",
+        parentTag = "*",
+        childTag = { @ChildTag(value = "rows", maximum = 1), @ChildTag(value = "columns", maximum = 1) },
+        description = "A grid component.")
 public class Grid extends BaseUIComponent {
 
     private Columns columns;

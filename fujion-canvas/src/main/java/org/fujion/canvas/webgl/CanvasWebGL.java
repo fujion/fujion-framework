@@ -26,7 +26,12 @@ import org.fujion.canvas.BaseCanvasComponent;
 /**
  * Canvas component for 3D rendering.
  */
-@Component(tag = "canvasWebGL", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element using WebGL rendering.")
+@Component(
+        tag = "canvasWebGL",
+        widgetModule = "fujion-canvas",
+        widgetClass = "Canvas",
+        parentTag = "*",
+        description = "Fujion wrapper for HTML5 canvas element using WebGL rendering.")
 public class CanvasWebGL extends BaseCanvasComponent<RenderingContextWebGL, ContextOptionsWebGL> {
 
     public CanvasWebGL() {

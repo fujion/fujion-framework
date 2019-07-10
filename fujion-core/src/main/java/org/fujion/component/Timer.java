@@ -28,7 +28,11 @@ import org.fujion.annotation.Component.PropertySetter;
  * A timer component. Once started, fires a timer event at the specified interval and repeating for
  * the specified number of repetitions.
  */
-@Component(tag = "timer", widgetClass = "Timer", parentTag = "*", description = "A timer component.")
+@Component(
+        tag = "timer",
+        widgetClass = "Timer",
+        parentTag = "*",
+        description = "A timer component.")
 public class Timer extends BaseComponent {
 
     private long interval;

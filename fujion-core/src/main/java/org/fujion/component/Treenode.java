@@ -34,9 +34,13 @@ import org.fujion.event.EventUtil;
 /**
  * A single node in a tree view.
  */
-@Component(tag = "treenode", widgetModule = "fujion-treeview", widgetClass = "Treenode", parentTag = { "treeview",
-"treenode" }, childTag = { @ChildTag("treenode"),
-        @ChildTag("treecell") }, description = "A single node in a tree view.")
+@Component(
+        tag = "treenode",
+        widgetModule = "fujion-treeview",
+        widgetClass = "Treenode",
+        parentTag = { "treeview", "treenode" },
+        childTag = { @ChildTag("treenode"), @ChildTag("treecell") },
+        description = "A single node in a tree view.")
 public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionNone> implements Iterable<Treenode> {
     
     /**

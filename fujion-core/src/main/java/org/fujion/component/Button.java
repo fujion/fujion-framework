@@ -27,7 +27,11 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A simple button component.
  */
-@Component(tag = "button", widgetClass = "Button", parentTag = "*", description = "A simple button component.")
+@Component(
+        tag = "button",
+        widgetClass = "Button",
+        parentTag = "*",
+        description = "A simple button component.")
 public class Button extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPositionAll> {
 
     public Button() {

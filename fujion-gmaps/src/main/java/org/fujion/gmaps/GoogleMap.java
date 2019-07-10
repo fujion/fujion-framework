@@ -35,7 +35,12 @@ import org.springframework.util.Assert;
 /**
  * Fujion wrapper for Google Maps library.
  */
-@Component(tag = "gmap", widgetModule = "fujion-gmaps", widgetClass = "GMap", parentTag = "*", description = "Google Maps component.")
+@Component(
+        tag = "gmap",
+        widgetModule = "fujion-gmaps",
+        widgetClass = "GMap",
+        parentTag = "*",
+        description = "Google Maps component.")
 public class GoogleMap extends BaseUIComponent {
     
     private boolean running;

@@ -34,7 +34,13 @@ import org.fujion.model.ModelAndView;
 /**
  * A component acting as a root for a hierarchical collection of nodes.
  */
-@Component(tag = "treeview", widgetModule = "fujion-treeview", widgetClass = "Treeview", parentTag = "*", childTag = @ChildTag("treenode"), description = "A component acting as a root for a hierarchical collection of nodes.")
+@Component(
+        tag = "treeview",
+        widgetModule = "fujion-treeview",
+        widgetClass = "Treeview",
+        parentTag = "*",
+        childTag = @ChildTag("treenode"),
+        description = "A component acting as a root for a hierarchical collection of nodes.")
 public class Treeview extends BaseUIComponent implements Iterable<Treenode>, ISupportsModel<Treenode> {
 
     private boolean showRoot;

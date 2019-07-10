@@ -26,7 +26,12 @@ import org.fujion.canvas.BaseCanvasComponent;
 /**
  * Canvas component for 2D rendering.
  */
-@Component(tag = "canvas2D", widgetModule = "fujion-canvas", widgetClass = "Canvas", parentTag = "*", description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
+@Component(
+        tag = "canvas2D",
+        widgetModule = "fujion-canvas",
+        widgetClass = "Canvas",
+        parentTag = "*",
+        description = "Fujion wrapper for HTML5 canvas element, using 2D rendering.")
 public class Canvas2D extends BaseCanvasComponent<RenderingContext2D, ContextOptions2D> {
     
     public Canvas2D() {

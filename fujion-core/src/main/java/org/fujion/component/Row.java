@@ -32,7 +32,14 @@ import org.fujion.event.EventUtil;
 /**
  * A component representing a single row within a grid.
  */
-@Component(tag = "row", widgetModule = "fujion-grid", widgetClass = "Row", content = ContentHandling.AS_CHILD, parentTag = "rows", childTag = @ChildTag("*"), description = "A single row within a grid.")
+@Component(
+        tag = "row",
+        widgetModule = "fujion-grid",
+        widgetClass = "Row",
+        content = ContentHandling.AS_CHILD,
+        parentTag = "rows",
+        childTag = @ChildTag("*"),
+        description = "A single row within a grid.")
 public class Row extends BaseUIComponent {
 
     private boolean selected;

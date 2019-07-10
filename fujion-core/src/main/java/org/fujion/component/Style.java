@@ -26,7 +26,12 @@ import org.fujion.annotation.Component.ContentHandling;
 /**
  * A component for inserting an embedded style sheet or linking to an external style sheet.
  */
-@Component(tag = "style", widgetClass = "Style", content = ContentHandling.AS_ATTRIBUTE, parentTag = "*", description = "A component for inserting an embedded style sheet or linking to an external style sheet.")
+@Component(
+        tag = "style",
+        widgetClass = "Style",
+        content = ContentHandling.AS_ATTRIBUTE,
+        parentTag = "*",
+        description = "A component for inserting an embedded style sheet or linking to an external style sheet.")
 public class Style extends BaseSourcedComponent {
 
     public Style() {

@@ -25,7 +25,11 @@ import org.fujion.annotation.Component;
 /**
  * An input box for entering integers.
  */
-@Component(tag = "integerbox", widgetClass = "Integerbox", parentTag = "*", description = "An input box for entering integers.")
+@Component(
+        tag = "integerbox",
+        widgetClass = "Integerbox",
+        parentTag = "*",
+        description = "An input box for entering integers.")
 public class Integerbox extends BaseNumberboxComponent<Integer> {
 
     public Integerbox() {

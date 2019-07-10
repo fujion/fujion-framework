@@ -31,7 +31,11 @@ import org.fujion.common.DateUtil;
 /**
  * An input box for entering dates.
  */
-@Component(tag = "datebox", widgetClass = "Datebox", parentTag = "*", description = "An input box for entering dates.")
+@Component(
+        tag = "datebox",
+        widgetClass = "Datebox",
+        parentTag = "*",
+        description = "An input box for entering dates.")
 public class Datebox extends BaseInputboxComponent<Date> {
     
     private static final FastDateFormat serializer = FastDateFormat.getInstance("yyyy-MM-dd");

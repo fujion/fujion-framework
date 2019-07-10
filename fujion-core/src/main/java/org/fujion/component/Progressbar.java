@@ -27,7 +27,11 @@ import org.fujion.annotation.Component.PropertySetter;
 /**
  * A progress bar component.
  */
-@Component(tag = "progressbar", widgetClass = "Progressbar", parentTag = "*", description = "A progress bar.")
+@Component(
+        tag = "progressbar",
+        widgetClass = "Progressbar",
+        parentTag = "*",
+        description = "A progress bar.")
 public class Progressbar extends BaseLabeledComponent<BaseLabeledComponent.LabelPositionNone> {
 
     private int value;
