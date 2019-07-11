@@ -734,3 +734,9 @@ iframe.fujion-resizer {
 .fujion_messagepane-title {
 	padding-left: 4px;
 }
+
+/* Hyperlink */
+
+.fujion_hyperlink:hover {
+	text-decoration: underline!important;
+}
