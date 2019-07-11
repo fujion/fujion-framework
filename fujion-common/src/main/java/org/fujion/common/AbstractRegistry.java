@@ -92,8 +92,19 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
      */
     public void register(VALUE item) {
         if (item != null) {
-            map.put(getKey(item), item);
+            KEY key = getKey(item);
+            map.put(key, item);
+            onRegister(key, item);
         }
+    }
+
+    /**
+     * Called when a registry entry is added.  Default implementation does nothing.
+     *
+     * @param key The key of the item added.
+     * @param value The item that was added.
+     */
+    protected void onRegister(KEY key, VALUE value) {
     }
 
     /**
@@ -113,7 +124,22 @@ public abstract class AbstractRegistry<KEY, VALUE> implements Iterable<VALUE> {
      * @return The item that was removed, or null if not found.
      */
     public VALUE unregisterByKey(KEY key) {
-        return map.remove(key);
+        VALUE value = map.remove(key);
+
+        if (value != null) {
+            onUnregister(key, value);
+        }
+
+        return value;
+    }
+
+    /**
+     * Called when a registry entry is removed.  Default implementation does nothing.
+     *
+     * @param key The key of the item removed.
+     * @param value The item that was removed.
+     */
+    protected void onUnregister(KEY key, VALUE value) {
     }
 
     /**
