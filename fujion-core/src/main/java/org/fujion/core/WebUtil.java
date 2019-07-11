@@ -155,7 +155,7 @@ public class WebUtil {
      * @return The request url of the browser document.
      */
     public static String getRequestUrl() {
-        return ExecutionContext.getPage().getBrowserInfo("requestURL");
+        return ExecutionContext.getPage().getRequestUrl();
     }
 
     /**

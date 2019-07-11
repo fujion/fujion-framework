@@ -194,7 +194,16 @@ public final class Page extends BaseComponent implements INamespace {
     public String getQueryParam(String param) {
         return getQueryParams().get(param);
     }
-    
+
+    /**
+     * Returns the original request URL.
+     *
+     * @return The original request URL.
+     */
+    public String getRequestUrl() {
+        return (String) browserInfo.get("requestURL");
+    }
+
     /**
      * Returns an immutable map containing all query parameters from the original request URL.
      *
@@ -202,7 +211,7 @@ public final class Page extends BaseComponent implements INamespace {
      */
     public Map<String, String> getQueryParams() {
         if (queryParams == null) {
-            String requestUrl = (String) browserInfo.get("requestURL");
+            String requestUrl = getRequestUrl();
             int i = requestUrl == null ? -1 : requestUrl.indexOf("?");
             
             if (i >= 0) {
