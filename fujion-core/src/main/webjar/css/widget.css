@@ -444,7 +444,6 @@ iframe.fujion-resizer {
 }
 
 .fujion_window > .card-body {
-    overflow: auto;
     background-color: white;
     padding: 0;
 }
