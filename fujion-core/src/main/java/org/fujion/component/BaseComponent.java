@@ -2141,12 +2141,12 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      *
      * @param eventType The event type.
      * @param target The event target.
-     * @param data The event payload.
+     * @param payload The event payload.
      */
-    public void fireEventToClient(String eventType, IElementIdentifier target, Object data) {
+    public void fireEventToClient(String eventType, IElementIdentifier target, Object payload) {
         OptionMap event = new OptionMap();
         event.put("type", eventType);
-        event.put("data", data);
+        event.put("payload", payload);
         event.put("target", target);
         invoke("trigger", event, null, true);
     }
