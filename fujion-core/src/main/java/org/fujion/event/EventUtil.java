@@ -77,7 +77,7 @@ public class EventUtil {
      * @return The newly created event.
      */
     public static Event send(String eventName, BaseComponent target, Object data) {
-        Event event = new Event(eventName, target, data);
+        Event event = toEvent(eventName, target, data);
         send(event);
         return event;
     }
@@ -123,7 +123,7 @@ public class EventUtil {
      * @return The newly created event.
      */
     public static Event post(String eventName, BaseComponent target, Object data) {
-        Event event = new Event(eventName, target, data);
+        Event event = toEvent(eventName, target, data);
         post(event);
         return event;
     }
@@ -138,7 +138,7 @@ public class EventUtil {
      * @return The newly created event.
      */
     public static Event post(Page page, String eventName, BaseComponent target, Object data) {
-        Event event = new Event(eventName, target, data);
+        Event event = toEvent(eventName, target, data);
         post(page, event);
         return event;
     }
