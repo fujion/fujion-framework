@@ -37,17 +37,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.fujion.ancillary.ComponentException;
-import org.fujion.ancillary.ComponentRegistry;
-import org.fujion.ancillary.ConvertUtil;
-import org.fujion.ancillary.IAutoWired;
-import org.fujion.ancillary.IComposite;
+import org.fujion.ancillary.*;
 import org.fujion.ancillary.IComposite.CompositePosition;
-import org.fujion.ancillary.IElementIdentifier;
-import org.fujion.ancillary.ILabeled;
-import org.fujion.ancillary.INamespace;
-import org.fujion.ancillary.IResponseCallback;
-import org.fujion.ancillary.OptionMap;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.ComponentDefinition;
@@ -875,6 +866,34 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     public void destroyChildren() {
         children.clear(true);
+    }
+
+    /**
+     * Set the disable state for all immediate children.  Affects only children implementing the IDisable interface.
+     *
+     * @param disable The disable state.
+     */
+    public void disableChildren(boolean disable) {
+        disableChildren(disable, false);
+    }
+
+    /**
+     * Set the disable state for all immediate children, optionally recursing through descendants.
+     * Affects only children implementing the IDisable interface.
+     *
+     * @param disable The disable state.
+     * @param recurse If true recurse through all descendants.
+     */
+    public void disableChildren(boolean disable, boolean recurse) {
+        for (BaseComponent child : getChildren()) {
+            if (child instanceof IDisable) {
+                ((IDisable) child).setDisabled(disable);
+            }
+
+            if (recurse) {
+                child.disableChildren(disable, recurse);
+            }
+        }
     }
 
     /**
