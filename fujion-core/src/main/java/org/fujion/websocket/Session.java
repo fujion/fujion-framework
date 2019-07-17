@@ -26,6 +26,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import com.sun.corba.se.spi.orbutil.threadpool.ThreadPoolManager;
 import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientRequest;
 import org.fujion.client.Synchronizer;
@@ -33,6 +34,8 @@ import org.fujion.common.IAttributeMap;
 import org.fujion.common.Logger;
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
+import org.fujion.thread.ThreadPool;
+import org.fujion.thread.ThreadPoolFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.web.socket.WebSocketSession;
@@ -57,7 +60,9 @@ public class Session implements IAttributeMap<String, Object> {
     private final WebSocketSession socket;
     
     private final Synchronizer synchronizer;
-    
+
+    private final ThreadPool threadPool;
+
     private Set<ISessionListener> sessionListeners;
 
     private final long creationTime;
@@ -79,6 +84,7 @@ public class Session implements IAttributeMap<String, Object> {
         this.socket = socket;
         socket.getAttributes().put(ATTR_SESSION, this);
         this.synchronizer = new Synchronizer(socket);
+        this.threadPool = ThreadPoolFactory.getInstance().createSessionThreadPool();
         creationTime = System.currentTimeMillis();
         lastActivity = creationTime;
     }
@@ -92,6 +98,7 @@ public class Session implements IAttributeMap<String, Object> {
                 synchronizer.startQueueing();
                 page.destroy();
                 socket.getAttributes().remove(ATTR_SESSION);
+                threadPool.shutdownNow();
             } finally {
                 page = null;
             }
@@ -169,7 +176,16 @@ public class Session implements IAttributeMap<String, Object> {
     public Synchronizer getSynchronizer() {
         return synchronizer;
     }
-    
+
+    /**
+     * Returns the thread pool associated with the session.
+     *
+     * @return The thread pool.
+     */
+    public ThreadPool getThreadPool() {
+        return threadPool;
+    }
+
     /**
      * Returns the page associated with the session.
      *

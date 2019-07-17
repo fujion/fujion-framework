@@ -66,6 +66,12 @@
 
 	<bean class="org.fujion.logging.LogRequestHandler" />
 
+	<bean id="fujion_ThreadPoolFactory"
+		  factory-method="getInstance"
+		  init-method="init"
+		  destroy-method="destroy"
+		  class="org.fujion.thread.ThreadPoolFactory" />
+
 	<bean id="fujion_ComponentScanner" 
 		factory-method="getInstance"
 		class="org.fujion.annotation.ComponentScanner" />
