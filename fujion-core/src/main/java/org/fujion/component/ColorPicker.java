@@ -20,11 +20,11 @@
  */
 package org.fujion.component;
 
-import java.awt.Color;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.common.ColorUtil;
+
+import java.awt.*;
 
 /**
  * A component for selecting a color from a palette of colors.

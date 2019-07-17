@@ -20,12 +20,19 @@
  */
 package org.fujion.core.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.fujion.ancillary.*;
+import org.fujion.annotation.ComponentDefinition;
+import org.fujion.annotation.ComponentScanner;
+import org.fujion.common.MiscUtil;
+import org.fujion.component.*;
+import org.fujion.core.test.TestBinder.TestModel;
+import org.fujion.event.KeyCode;
+import org.fujion.page.*;
+import org.fujion.theme.Theme;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.util.Base64Utils;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -34,40 +41,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.fujion.ancillary.ConvertUtil;
-import org.fujion.ancillary.CssClasses;
-import org.fujion.ancillary.CssStyles;
-import org.fujion.ancillary.DeferredInvocation;
-import org.fujion.ancillary.JavaScript;
-import org.fujion.ancillary.MimeContent;
-import org.fujion.annotation.ComponentDefinition;
-import org.fujion.annotation.ComponentScanner;
-import org.fujion.common.MiscUtil;
-import org.fujion.component.BaseComponent;
-import org.fujion.component.Button;
-import org.fujion.component.Combobox;
-import org.fujion.component.Comboitem;
-import org.fujion.component.Div;
-import org.fujion.component.Label;
-import org.fujion.component.Page;
-import org.fujion.component.Radiobutton;
-import org.fujion.component.Radiogroup;
-import org.fujion.component.Textbox;
-import org.fujion.component.Toolbar;
-import org.fujion.component.Treenode;
-import org.fujion.component.Treeview;
-import org.fujion.core.test.TestBinder.TestModel;
-import org.fujion.event.KeyCode;
-import org.fujion.page.PageDefinition;
-import org.fujion.page.PageElement;
-import org.fujion.page.PageParser;
-import org.fujion.page.PageSource;
-import org.fujion.page.PageUtil;
-import org.fujion.theme.Theme;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.springframework.util.Base64Utils;
+import static org.junit.Assert.*;
 
 /**
  * Unit test for core functionality. More units tests are in the fujion-test package to avoid

@@ -20,14 +20,14 @@
  */
 package org.fujion.annotation;
 
-import java.util.Collection;
-import java.util.Map;
-
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.IOptionMapTransform;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.common.Logger;
 import org.fujion.expression.ELEvaluator;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Builds an OptionMap from Option annotations.

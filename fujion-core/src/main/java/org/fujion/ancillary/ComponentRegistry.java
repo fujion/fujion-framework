@@ -20,19 +20,14 @@
  */
 package org.fujion.ancillary;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.common.AbstractRegistry;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.RegistryMap.DuplicateAction;
 import org.fujion.component.BaseComponent;
+
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Registry of component definitions indexed by their tag name and implementing class.

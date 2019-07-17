@@ -20,8 +20,6 @@
  */
 package org.fujion.component;
 
-import java.util.Comparator;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.PropertyGetter;
@@ -31,6 +29,8 @@ import org.fujion.model.IListModel;
 import org.fujion.model.SmartComparator;
 import org.fujion.model.Sorting.SortOrder;
 import org.fujion.model.Sorting.SortToggle;
+
+import java.util.Comparator;
 
 /**
  * A component representing a single column within a grid.

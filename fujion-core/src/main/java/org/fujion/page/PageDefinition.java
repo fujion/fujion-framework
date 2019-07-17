@@ -20,12 +20,6 @@
  */
 package org.fujion.page;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.fujion.ancillary.ComponentException;
 import org.fujion.ancillary.DeferredInvocation;
 import org.fujion.annotation.ComponentDefinition;
@@ -33,6 +27,12 @@ import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
 import org.fujion.expression.ELContext;
 import org.fujion.expression.ELEvaluator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * This represents the compiled form of a single Fujion server page. It is a simple wrapper of a

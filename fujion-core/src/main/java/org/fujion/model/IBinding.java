@@ -20,9 +20,9 @@
  */
 package org.fujion.model;
 
-import java.lang.reflect.Method;
-
 import org.fujion.component.BaseComponent;
+
+import java.lang.reflect.Method;
 
 /**
  * Represents a binding between a property on a model object and one on a component. Naming

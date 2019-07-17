@@ -20,8 +20,8 @@
  */
 package org.fujion.taglib;
 
-import org.fujion.common.Logger;
 import org.fujion.common.AbstractRegistry;
+import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

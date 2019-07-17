@@ -20,16 +20,15 @@
  */
 package org.fujion.page;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.servlet.ServletContext;
-
 import org.fujion.common.MiscUtil;
 import org.fujion.common.XMLUtil;
 import org.fujion.core.WebUtil;
 import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
+
+import javax.servlet.ServletContext;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Represents a source for a FSP document.

@@ -20,10 +20,10 @@
  */
 package org.fujion.component;
 
-import java.util.Map;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ContentHandling;
+
+import java.util.Map;
 
 /**
  * Component wrapping JavaScript source code for client-side invocation.

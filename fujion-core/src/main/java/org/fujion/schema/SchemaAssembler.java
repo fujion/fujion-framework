@@ -20,27 +20,15 @@
  */
 package org.fujion.schema;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
+import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
 import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
+
+import java.io.*;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 /**
  * Assemble a compound schema from individual schemas.

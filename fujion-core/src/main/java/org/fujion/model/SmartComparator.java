@@ -20,11 +20,11 @@
  */
 package org.fujion.model;
 
-import java.util.Comparator;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.fujion.common.MiscUtil;
+
+import java.util.Comparator;
 
 /**
  * General purpose comparator that will compare two objects using a specified property or field

@@ -20,13 +20,6 @@
  */
 package org.fujion.websocket;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.ServletContext;
-
-import com.sun.corba.se.spi.orbutil.threadpool.ThreadPoolManager;
 import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientRequest;
 import org.fujion.client.Synchronizer;
@@ -39,6 +32,11 @@ import org.fujion.thread.ThreadPoolFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.web.socket.WebSocketSession;
+
+import javax.servlet.ServletContext;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Container for core resources for a single client session (i.e., web socket connection).

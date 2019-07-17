@@ -20,14 +20,14 @@
  */
 package org.fujion.servlet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.http.HttpHeaders;
 import org.fujion.servlet.ETaggedResource.ResourceNotModifiedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Handles ResourceNotModifiedException by setting ETag header and 304 status code in response.

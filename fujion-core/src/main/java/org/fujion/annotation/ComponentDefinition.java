@@ -20,31 +20,19 @@
  */
 package org.fujion.annotation;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.IntSupplier;
-
 import org.apache.commons.beanutils.ConstructorUtils;
-import org.fujion.ancillary.ComponentException;
-import org.fujion.ancillary.ComponentFactory;
-import org.fujion.ancillary.ConvertUtil;
-import org.fujion.ancillary.DeferredInvocation;
-import org.fujion.ancillary.QualifiedName;
-import org.fujion.annotation.Component.ChildTag;
-import org.fujion.annotation.Component.ContentHandling;
-import org.fujion.annotation.Component.FactoryParameter;
-import org.fujion.annotation.Component.PropertyGetter;
-import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.ancillary.*;
+import org.fujion.annotation.Component.*;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.model.IBinding;
 import org.fujion.model.IBinding.IReadBinding;
 import org.fujion.model.IBinding.IWriteBinding;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.*;
+import java.util.function.IntSupplier;
 
 /**
  * Stores metadata about a component, as derived from component annotations.

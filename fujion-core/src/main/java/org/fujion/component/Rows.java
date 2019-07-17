@@ -20,11 +20,6 @@
  */
 package org.fujion.component;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.PropertyGetter;
@@ -32,6 +27,11 @@ import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.model.IModelAndView;
 import org.fujion.model.ISupportsModel;
 import org.fujion.model.ModelAndView;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * A component serving as a container for a grid's rows.

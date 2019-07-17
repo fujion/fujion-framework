@@ -20,20 +20,6 @@
  */
 package org.fujion.component;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
-
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
@@ -52,15 +38,14 @@ import org.fujion.client.ExecutionContext;
 import org.fujion.common.IAttributeMap;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseScriptComponent.ExecutionMode;
-import org.fujion.event.Event;
-import org.fujion.event.EventListeners;
-import org.fujion.event.EventUtil;
-import org.fujion.event.ForwardListener;
-import org.fujion.event.IEventListener;
-import org.fujion.event.PropertychangeEvent;
-import org.fujion.event.StatechangeEvent;
+import org.fujion.event.*;
 import org.fujion.model.IBinding;
 import org.springframework.util.Assert;
+
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 /**
  * The abstract base class for all components.

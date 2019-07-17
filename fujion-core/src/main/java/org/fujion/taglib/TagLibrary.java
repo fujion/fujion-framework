@@ -20,10 +20,10 @@
  */
 package org.fujion.taglib;
 
+import org.springframework.util.Assert;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.util.Assert;
 
 /**
  * Represents a single tag library. We only expose function definitions since custom tags are not

@@ -20,11 +20,11 @@
  */
 package org.fujion.logging;
 
-import java.util.Map;
-
-import org.fujion.common.Logger;
 import org.fujion.client.ClientRequest;
+import org.fujion.common.Logger;
 import org.fujion.websocket.IRequestHandler;
+
+import java.util.Map;
 
 /**
  * Handles a logging request from the client. This is effectively a bridge between the client's

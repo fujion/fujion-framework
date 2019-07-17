@@ -20,9 +20,6 @@
  */
 package org.fujion.taglib;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.fujion.common.MiscUtil;
 import org.fujion.common.XMLUtil;
 import org.fujion.core.WebUtil;
@@ -30,6 +27,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Parses a tag library definition file.

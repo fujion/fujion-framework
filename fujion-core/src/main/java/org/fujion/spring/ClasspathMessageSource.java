@@ -20,14 +20,14 @@
  */
 package org.fujion.spring;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Properties;
-
 import org.fujion.common.Localizer;
 import org.fujion.common.Logger;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 
 /**
  * Adds support for "classpath*:" syntax to Spring's resource bundle message source. Note that

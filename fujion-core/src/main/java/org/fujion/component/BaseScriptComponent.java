@@ -20,13 +20,13 @@
  */
 package org.fujion.component;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
 import org.fujion.event.EventUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Base for components that implement scripting support.

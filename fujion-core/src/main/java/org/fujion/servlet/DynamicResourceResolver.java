@@ -20,13 +20,12 @@
  */
 package org.fujion.servlet;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.AbstractResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Resolves references to dynamic resources.

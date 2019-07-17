@@ -20,10 +20,10 @@
  */
 package org.fujion.model;
 
+import org.springframework.util.Assert;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.util.Assert;
 
 /**
  * Simple implementation of a paginator that can notify subscribers when a property value has

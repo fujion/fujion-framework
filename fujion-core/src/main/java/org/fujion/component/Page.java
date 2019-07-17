@@ -20,11 +20,6 @@
  */
 package org.fujion.component;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.fujion.ancillary.ComponentException;
 import org.fujion.ancillary.INamespace;
 import org.fujion.ancillary.IResponseCallback;
@@ -44,6 +39,11 @@ import org.fujion.page.PageRegistry;
 import org.fujion.servlet.DynamicResourceRegistry;
 import org.fujion.websocket.Session;
 import org.springframework.core.io.Resource;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This is the root component of a Fujion Server Page.

@@ -20,13 +20,13 @@
  */
 package org.fujion.annotation;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-
 import org.fujion.common.RegistryMap;
 import org.fujion.common.RegistryMap.DuplicateAction;
 import org.fujion.event.Event;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Builds a map of event types to implementation classes by scanning class annotations.

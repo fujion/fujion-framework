@@ -20,15 +20,14 @@
  */
 package org.fujion.webjar;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.fujion.core.WebUtil;
 import org.fujion.servlet.ETaggedResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.AbstractResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Inserts web jar version into request path. Converts

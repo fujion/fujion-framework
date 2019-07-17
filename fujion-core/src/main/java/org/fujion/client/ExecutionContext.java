@@ -20,17 +20,16 @@
  */
 package org.fujion.client;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
 import org.fujion.websocket.Session;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
+
+import javax.servlet.ServletContext;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Static helper class for threads to determine the current execution context. An execution context

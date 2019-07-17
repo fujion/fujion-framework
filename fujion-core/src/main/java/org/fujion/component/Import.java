@@ -20,12 +20,12 @@
  */
 package org.fujion.component;
 
-import java.util.Map;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.page.PageUtil;
+
+import java.util.Map;
 
 /**
  * A component that permits importing another page into the referencing page. Note that while it

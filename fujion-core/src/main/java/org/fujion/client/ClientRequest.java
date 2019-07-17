@@ -20,11 +20,11 @@
  */
 package org.fujion.client;
 
-import java.util.Map;
-
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.component.Page;
 import org.fujion.websocket.Session;
+
+import java.util.Map;
 
 /**
  * Represents a request from the client. At a minimum, a request must have a type that dictates

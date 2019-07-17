@@ -20,13 +20,13 @@
  */
 package org.fujion.component;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.fujion.ancillary.INamespace;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.ContentHandling;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A container component that be displayed at a selected location.

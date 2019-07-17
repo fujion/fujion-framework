@@ -20,11 +20,11 @@
  */
 package org.fujion.component;
 
-import java.util.List;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.event.IEventListener;
+
+import java.util.List;
 
 /**
  * A component supporting a window that slides down from the top center of the viewport and can

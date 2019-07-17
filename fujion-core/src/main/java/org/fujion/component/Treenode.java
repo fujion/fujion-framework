@@ -20,8 +20,6 @@
  */
 package org.fujion.component;
 
-import java.util.Iterator;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.PropertyGetter;
@@ -30,6 +28,8 @@ import org.fujion.annotation.EventHandler;
 import org.fujion.event.ChangeEvent;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
+
+import java.util.Iterator;
 
 /**
  * A single node in a tree view.

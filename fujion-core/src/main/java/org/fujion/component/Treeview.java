@@ -20,8 +20,6 @@
  */
 package org.fujion.component;
 
-import java.util.Iterator;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.PropertyGetter;
@@ -30,6 +28,8 @@ import org.fujion.component.Treenode.TreenodeIterator;
 import org.fujion.model.IModelAndView;
 import org.fujion.model.ISupportsModel;
 import org.fujion.model.ModelAndView;
+
+import java.util.Iterator;
 
 /**
  * A component acting as a root for a hierarchical collection of nodes.

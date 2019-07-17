@@ -20,16 +20,12 @@
  */
 package org.fujion.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import org.fujion.ancillary.ComponentFactory;
 import org.fujion.event.PropertychangeEvent;
 import org.fujion.model.IBinding.IReadBinding;
 import org.fujion.model.IBinding.IWriteBinding;
+
+import java.lang.annotation.*;
 
 /**
  * Class annotation to control deserialization of a Fujion resource.

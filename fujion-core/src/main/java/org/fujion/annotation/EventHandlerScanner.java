@@ -20,12 +20,6 @@
  */
 package org.fujion.annotation;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.fujion.ancillary.ComponentException;
@@ -36,6 +30,12 @@ import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
 import org.fujion.event.IEventListener;
 import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Wires {@literal @EventHandler}-annotated methods.

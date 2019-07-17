@@ -20,11 +20,11 @@
  */
 package org.fujion.event;
 
-import java.io.InputStream;
-
 import org.fujion.annotation.EventType;
 import org.fujion.annotation.EventType.EventParameter;
 import org.fujion.component.BaseComponent;
+
+import java.io.InputStream;
 
 /**
  * An upload event.

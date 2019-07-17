@@ -20,18 +20,17 @@
  */
 package org.fujion.servlet;
 
+import org.fujion.core.WebUtil;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.servlet.resource.HttpResource;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.fujion.core.WebUtil;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.servlet.resource.HttpResource;
 
 /**
  * Wraps a resource that has an associated ETag. See {@link #lastModified()} for more information.

@@ -20,8 +20,8 @@
  */
 package org.fujion.annotation;
 
-import org.fujion.common.Logger;
 import org.fujion.ancillary.ComponentRegistry;
+import org.fujion.common.Logger;
 import org.fujion.component.BaseComponent;
 
 /**

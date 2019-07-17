@@ -20,17 +20,16 @@
  */
 package org.fujion.webjar;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.fujion.common.MiscUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  * Information describing a single web jar resource.

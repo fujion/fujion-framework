@@ -20,14 +20,14 @@
  */
 package org.fujion.client;
 
-import java.util.Collection;
-
 import org.fujion.ancillary.IElementIdentifier;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.component.BaseComponent;
 import org.fujion.websocket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
+
+import java.util.Collection;
 
 /**
  * Synchronizes state changes from the server to the client.

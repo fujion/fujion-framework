@@ -20,16 +20,16 @@
  */
 package org.fujion.client;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.fujion.ancillary.IElementIdentifier;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.component.Page;
 import org.springframework.util.ClassUtils;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a function invocation request to be sent to the client.

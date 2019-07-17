@@ -20,8 +20,6 @@
  */
 package org.fujion.component;
 
-import java.util.function.BooleanSupplier;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.ContentHandling;
@@ -31,6 +29,8 @@ import org.fujion.annotation.EventHandler;
 import org.fujion.event.ChangeEvent;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
+
+import java.util.function.BooleanSupplier;
 
 /**
  * A single tab in a tab view.

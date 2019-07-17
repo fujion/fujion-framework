@@ -20,12 +20,12 @@
  */
 package org.fujion.ancillary;
 
+import org.springframework.util.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-
-import org.springframework.util.StringUtils;
 
 /**
  * Manages CSS classes for a component. There are two semantic extensions to CSS class names:

@@ -20,15 +20,15 @@
  */
 package org.fujion.theme;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.fujion.core.WebUtil;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Theme implementation that specifies URL rewrites for theme resources.

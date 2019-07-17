@@ -20,8 +20,8 @@
  */
 package org.fujion.theme;
 
-import org.fujion.common.Logger;
 import org.fujion.common.AbstractRegistry;
+import org.fujion.common.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 

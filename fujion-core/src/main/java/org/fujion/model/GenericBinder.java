@@ -20,14 +20,6 @@
  */
 package org.fujion.model;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.function.Function;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
@@ -39,6 +31,10 @@ import org.fujion.event.PropertychangeEvent;
 import org.fujion.model.IBinding.IReadBinding;
 import org.fujion.model.IBinding.IWriteBinding;
 import org.springframework.util.Assert;
+
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * Generic data binder.

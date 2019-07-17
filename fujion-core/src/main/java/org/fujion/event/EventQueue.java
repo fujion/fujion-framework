@@ -20,12 +20,12 @@
  */
 package org.fujion.event;
 
-import java.util.LinkedList;
-
 import org.fujion.client.ExecutionContext;
 import org.fujion.component.Page;
 import org.fujion.websocket.Session;
 import org.springframework.util.Assert;
+
+import java.util.LinkedList;
 
 /**
  * A page's queue for posted events. Queued (posted) events are delivered at the end of an execution

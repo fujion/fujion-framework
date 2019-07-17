@@ -20,10 +20,6 @@
  */
 package org.fujion.core.test;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.Map;
-
 import org.apache.commons.io.FileUtils;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.OptionMap;
@@ -33,6 +29,10 @@ import org.fujion.common.JSONUtil;
 import org.fujion.common.StrUtil;
 import org.junit.Test;
 import org.springframework.util.ResourceUtils;
+
+import java.util.Map;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for Option class functionality.

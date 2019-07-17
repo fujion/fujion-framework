@@ -20,9 +20,9 @@
  */
 package org.fujion.component;
 
-import java.math.BigDecimal;
-
 import org.fujion.annotation.Component;
+
+import java.math.BigDecimal;
 
 /**
  * An input box for entering big decimal values.

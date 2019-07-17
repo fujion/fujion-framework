@@ -20,11 +20,11 @@
  */
 package org.fujion.page;
 
-import java.util.Collection;
-
 import org.fujion.common.AbstractRegistry;
 import org.fujion.component.Page;
 import org.springframework.util.Assert;
+
+import java.util.Collection;
 
 /**
  * A registry of all active pages, indexed by their page id.

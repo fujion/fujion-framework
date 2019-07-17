@@ -20,16 +20,6 @@
  */
 package org.fujion.servlet;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.fujion.common.MiscUtil;
@@ -43,6 +33,15 @@ import org.springframework.core.io.AbstractFileResolvingResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.ResourceTransformerChain;
 import org.springframework.web.servlet.resource.ResourceTransformerSupport;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Replaces the top-level Fujion resource with the bootstrapper template that is responsible for

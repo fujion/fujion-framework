@@ -20,18 +20,16 @@
  */
 package org.fujion.jmx;
 
-import java.lang.management.ManagementFactory;
-
-import javax.management.MBeanServer;
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
-
+import com.udojava.jmx.wrapper.JMXBean;
+import com.udojava.jmx.wrapper.JMXBeanWrapper;
 import org.fujion.common.MiscUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
 
-import com.udojava.jmx.wrapper.JMXBean;
-import com.udojava.jmx.wrapper.JMXBeanWrapper;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 
 /**
  * JMX-based management console for Fujion.

@@ -20,15 +20,6 @@
  */
 package org.fujion.core;
 
-import java.io.FileNotFoundException;
-import java.net.InetAddress;
-import java.net.URL;
-import java.util.Enumeration;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang.StringUtils;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
@@ -36,6 +27,14 @@ import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.FileNotFoundException;
+import java.net.InetAddress;
+import java.net.URL;
+import java.util.Enumeration;
 
 /**
  * Utility methods for dealing with servlet requests.

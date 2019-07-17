@@ -20,12 +20,12 @@
  */
 package org.fujion.ancillary;
 
+import org.springframework.util.StringUtils;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.springframework.util.StringUtils;
 
 /**
  * Manages CSS styles for a component.

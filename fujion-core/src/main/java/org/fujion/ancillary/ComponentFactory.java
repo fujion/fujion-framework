@@ -20,13 +20,6 @@
  */
 package org.fujion.ancillary;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.fujion.annotation.Component.FactoryParameter;
@@ -34,6 +27,13 @@ import org.fujion.annotation.ComponentDefinition;
 import org.fujion.component.BaseComponent;
 import org.fujion.expression.ELContext;
 import org.fujion.expression.ELEvaluator;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Factory used during component deserialization. Factory parameters may be modified during

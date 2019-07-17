@@ -20,17 +20,10 @@
  */
 package org.fujion.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-
 import org.apache.commons.collections.ComparatorUtils;
 import org.apache.commons.collections.IteratorUtils;
+
+import java.util.*;
 
 /**
  * Implementation of a list model.

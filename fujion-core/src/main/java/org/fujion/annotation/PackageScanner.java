@@ -20,14 +20,14 @@
  */
 package org.fujion.annotation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Scans packages for member classes.

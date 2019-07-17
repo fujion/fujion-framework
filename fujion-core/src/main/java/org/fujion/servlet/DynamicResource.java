@@ -20,20 +20,16 @@
  */
 package org.fujion.servlet;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.fujion.common.MiscUtil;
 import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.Resource;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 
 /**
  * Wrapper for non-file based resource. This allows the server to expose such resources to the

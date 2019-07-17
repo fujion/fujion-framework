@@ -20,13 +20,13 @@
  */
 package org.fujion.component;
 
-import java.util.Date;
-
 import org.apache.commons.lang.time.FastDateFormat;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.common.DateUtil;
+
+import java.util.Date;
 
 /**
  * An input box for entering a time value.

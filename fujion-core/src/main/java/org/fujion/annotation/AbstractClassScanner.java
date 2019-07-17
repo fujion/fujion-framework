@@ -20,10 +20,10 @@
  */
 package org.fujion.annotation;
 
-import java.lang.annotation.Annotation;
-
 import org.fujion.common.MiscUtil;
 import org.springframework.util.Assert;
+
+import java.lang.annotation.Annotation;
 
 /**
  * Abstract base class for scanning class-level annotations.

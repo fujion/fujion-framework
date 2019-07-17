@@ -20,10 +20,6 @@
  */
 package org.fujion.event;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Map;
-
 import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -36,6 +32,10 @@ import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
 import org.springframework.util.Assert;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * Static methods for manipulating events.

@@ -20,12 +20,12 @@
  */
 package org.fujion.core;
 
-import java.util.TimeZone;
-
 import org.fujion.client.ExecutionContext;
 import org.fujion.common.Localizer;
 import org.fujion.component.Page;
 import org.springframework.context.i18n.LocaleContextHolder;
+
+import java.util.TimeZone;
 
 /**
  * Initializes the Localizer class with the locale and time zone resolvers.

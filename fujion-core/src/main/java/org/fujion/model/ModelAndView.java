@@ -20,9 +20,6 @@
  */
 package org.fujion.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.fujion.client.Synchronizer;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
@@ -30,6 +27,9 @@ import org.fujion.model.IListModel.IListModelListener;
 import org.fujion.model.IListModel.ListEventType;
 import org.fujion.model.IPaginator.IPagingListener;
 import org.fujion.model.IPaginator.PagingEventType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Associates a model with a view renderer.

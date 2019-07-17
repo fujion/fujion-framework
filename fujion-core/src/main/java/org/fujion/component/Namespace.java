@@ -20,12 +20,12 @@
  */
 package org.fujion.component;
 
-import java.util.Map;
-
 import org.fujion.ancillary.INamespace;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.ContentHandling;
+
+import java.util.Map;
 
 /**
  * This is an extension of a Span component that implements its own namespace.

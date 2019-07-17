@@ -20,9 +20,6 @@
  */
 package org.fujion.expression;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.fujion.common.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -32,6 +29,9 @@ import org.springframework.expression.AccessException;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.PropertyAccessor;
 import org.springframework.expression.TypedValue;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Allows SPEL to evaluate message references that have periods in the key name. It does this by

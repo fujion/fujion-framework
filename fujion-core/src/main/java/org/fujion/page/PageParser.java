@@ -20,10 +20,6 @@
  */
 package org.fujion.page;
 
-import java.io.InputStream;
-import java.util.Map;
-import java.util.function.BiConsumer;
-
 import org.fujion.ancillary.ComponentRegistry;
 import org.fujion.ancillary.QualifiedName;
 import org.fujion.annotation.Component.ContentHandling;
@@ -36,12 +32,11 @@ import org.fujion.core.WebUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.io.Resource;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
-import org.w3c.dom.Text;
+import org.w3c.dom.*;
+
+import java.io.InputStream;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * Parses a Fujion server page into a page definition.

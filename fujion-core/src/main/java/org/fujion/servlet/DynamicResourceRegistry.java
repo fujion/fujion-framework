@@ -20,10 +20,6 @@
  */
 package org.fujion.servlet;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
@@ -31,6 +27,10 @@ import org.fujion.websocket.ISessionLifecycle;
 import org.fujion.websocket.Session;
 import org.fujion.websocket.Sessions;
 import org.springframework.core.io.Resource;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 /**
  * Allows registration of resources that may be retrieved via the url path '.../dynamic/**'. Paths

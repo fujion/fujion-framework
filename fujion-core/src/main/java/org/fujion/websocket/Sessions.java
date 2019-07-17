@@ -20,16 +20,6 @@
  */
 package org.fujion.websocket;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.servlet.ServletContext;
-
 import org.fujion.common.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -38,6 +28,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
+
+import javax.servlet.ServletContext;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Keeps track of active sessions.

@@ -20,10 +20,6 @@
  */
 package org.fujion.component;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
 import org.apache.commons.io.IOUtils;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ContentHandling;
@@ -39,6 +35,10 @@ import org.fujion.script.IScriptLanguage.IParsedScript;
 import org.fujion.script.ScriptRegistry;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * A component wrapping script source code for server-side invocation.

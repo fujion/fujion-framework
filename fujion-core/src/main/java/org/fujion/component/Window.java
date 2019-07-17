@@ -20,8 +20,6 @@
  */
 package org.fujion.component;
 
-import java.util.function.BooleanSupplier;
-
 import org.fujion.ancillary.INamespace;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
@@ -33,6 +31,8 @@ import org.fujion.client.ExecutionContext;
 import org.fujion.event.Event;
 import org.fujion.event.IEventListener;
 import org.springframework.util.Assert;
+
+import java.util.function.BooleanSupplier;
 
 /**
  * A window component with a title bar and maximize/minimize/close buttons. May be used in modal,

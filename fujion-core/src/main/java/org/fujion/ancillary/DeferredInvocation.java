@@ -20,13 +20,13 @@
  */
 package org.fujion.ancillary;
 
+import org.fujion.common.MiscUtil;
+import org.springframework.util.Assert;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.fujion.common.MiscUtil;
-import org.springframework.util.Assert;
 
 /**
  * Stores a method invocation to be executed at a later time. Supports currying of arguments.

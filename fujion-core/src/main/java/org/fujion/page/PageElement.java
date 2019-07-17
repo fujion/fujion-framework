@@ -20,17 +20,13 @@
  */
 package org.fujion.page;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.annotation.ComponentDefinition.Cardinality;
 import org.fujion.taglib.TagLibrary;
 import org.springframework.util.Assert;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * A single page element, roughly equivalent to a single tag in a Fujion server page.
