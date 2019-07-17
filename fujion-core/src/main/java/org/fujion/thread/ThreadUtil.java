@@ -21,6 +21,13 @@
 package org.fujion.thread;
 
 import org.fujion.client.ExecutionContext;
+import org.fujion.websocket.Session;
+import org.springframework.util.Assert;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Static thread-related utility methods.
@@ -28,21 +35,74 @@ import org.fujion.client.ExecutionContext;
 public class ThreadUtil {
 
     /**
-     * Executes a task using the application's thread pool.
+     * Returns the thread pool for the active session.
      *
-     * @param task Task to execute.
+     * @return The session's thread pool.
      */
-    public static void executeApplicationTask(Runnable task) {
-        ThreadPoolFactory.getInstance().executeApplicationTask(task);
+    private static ThreadPool getThreadPool() {
+        Session session = ExecutionContext.getSession();
+        Assert.notNull(session, "Cannot access thread service outside execution context.");
+        return session.getThreadPool();
     }
 
     /**
      * Executes a task using the session's thread pool.
      *
      * @param task Task to execute.
+     * @return Future for monitoring progress of the task.
      */
-    public static void executeSessionTask(Runnable task) {
-        ExecutionContext.getSession().getThreadPool().execute(task);
+    public static Future<?> execute(Runnable task) {
+        return getThreadPool().submit(task);
+    }
+
+    /**
+     * Schedule a task to run after the given delay.
+     *
+     * @param task Task to execute.
+     * @param delay Delay before the task is executed.
+     * @param unit Time unit for the delay.
+     * @return Future for monitoring progress of the task.
+     */
+    public static ScheduledFuture<?> schedule(Runnable task, long delay, TimeUnit unit) {
+        return getThreadPool().schedule(task, delay, unit);
+    }
+
+    /**
+     * Schedule a task to run after the given delay.
+     *
+     * @param task Task to execute.
+     * @param delay Delay before the task is executed.
+     * @param unit Time unit for the delay.
+     * @return Future for monitoring progress of the task.
+     */
+    public static <V> ScheduledFuture<V> schedule(Callable<V> task, long delay, TimeUnit unit) {
+        return getThreadPool().schedule(task, delay, unit);
+    }
+
+    /**
+     * Schedule a task to run repeatedly after the an initial delay.
+     *
+     * @param task Task to execute.
+     * @param initialDelay Delay before the task is first executed.
+     * @param period Interval between initiation of tasks.
+     * @param unit Time unit for initial delay and period.
+     * @return Future for monitoring progress of the task.
+     */
+    public static ScheduledFuture<?> scheduleAtFixedRate(Runnable task, long initialDelay, long period, TimeUnit unit) {
+        return getThreadPool().scheduleAtFixedRate(task, initialDelay, period, unit);
+    }
+
+    /**
+     * Schedule a task to run repeatedly after an initial delay.
+     *
+     * @param task Task to execute.
+     * @param initialDelay Delay before the task is first executed.
+     * @param delay Delay between completion of a task and initiation of its successor.
+     * @param unit Time unit for initial delay and delay.
+     * @return Future for monitoring progress of the task.
+     */
+    public static ScheduledFuture<?> scheduleWithFixedDelay(Runnable task, long initialDelay, long delay, TimeUnit unit) {
+        return getThreadPool().scheduleWithFixedDelay(task, initialDelay, delay, unit);
     }
 
     private ThreadUtil() {}

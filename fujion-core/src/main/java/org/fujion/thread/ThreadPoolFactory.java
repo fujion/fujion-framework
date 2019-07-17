@@ -35,9 +35,6 @@ public class ThreadPoolFactory {
     @Value("${org.fujion.thread.sessionMaxPoolSize:5}")
     private int sessionMaxPoolSize;
 
-    @Value("${org.fujion.thread.sessionMaxQueueSize:100}")
-    private int sessionMaxQueueSize;
-
     @Value("${org.fujion.thread.sessionKeepAlive:3}")
     private long sessionKeepalive;
 
@@ -49,9 +46,6 @@ public class ThreadPoolFactory {
 
     @Value("${org.fujion.thread.appKeepAlive:60}")
     private long appKeepalive;
-
-    @Value("${org.fujion.thread.appMaxQueueSize:10000}")
-    private int appMaxQueueSize;
 
     public static ThreadPoolFactory getInstance() {
         return instance;
@@ -66,7 +60,7 @@ public class ThreadPoolFactory {
      * Creates the application's thread pool.
      */
     private void init() {
-        appThreadPool = new ThreadPool(appMinPoolSize, appMaxPoolSize, appMaxQueueSize, appKeepalive);
+        appThreadPool = new ThreadPool(appMinPoolSize, appMaxPoolSize, appKeepalive);
     }
 
     /**
@@ -82,15 +76,13 @@ public class ThreadPoolFactory {
      * @return A new thread pool.
      */
     public ThreadPool createSessionThreadPool() {
-        return new ThreadPool(sessionMinPoolSize, sessionMaxPoolSize, sessionMaxQueueSize, sessionKeepalive);
+        return new ThreadPool(sessionMinPoolSize, sessionMaxPoolSize, sessionKeepalive);
     }
 
     /**
-     * Executes a task using the application's thread pool.
-     *
-     * @param task Task to execute.
+     * Returns the application's thread pool.
      */
-    void executeApplicationTask(Runnable task) {
-        appThreadPool.execute(task);
+    public ThreadPool getApplicationThreadPool() {
+        return appThreadPool;
     }
 }

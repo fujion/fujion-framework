@@ -20,16 +20,17 @@
  */
 package org.fujion.thread;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Thread pool executor that uses a bounded linked blocking queue.
+ * Scheduled thread pool executor.
  */
-public class ThreadPool extends ThreadPoolExecutor {
+public class ThreadPool extends ScheduledThreadPoolExecutor {
 
-    ThreadPool(int minPoolSize, int maxPoolSize, int maxQueueSize, long keepAlive) {
-        super(minPoolSize, maxPoolSize, keepAlive, TimeUnit.MINUTES, new LinkedBlockingQueue<>(maxQueueSize));
+    ThreadPool(int minPoolSize, int maxPoolSize, long keepAlive) {
+        super(minPoolSize);
+        setMaximumPoolSize(maxPoolSize);
+        setKeepAliveTime(keepAlive, TimeUnit.MINUTES);
     }
 }
