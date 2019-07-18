@@ -35,11 +35,20 @@ import java.util.concurrent.TimeUnit;
 public class ThreadUtil {
 
     /**
+     * Returns the thread pool for the application.
+     *
+     * @return The application's thread pool.
+     */
+    public static ThreadPool getApplicationThreadPool() {
+        return ThreadPoolFactory.getInstance().getApplicationThreadPool();
+    }
+
+    /**
      * Returns the thread pool for the active session.
      *
      * @return The session's thread pool.
      */
-    private static ThreadPool getThreadPool() {
+    private static ThreadPool getSessionThreadPool() {
         Session session = ExecutionContext.getSession();
         Assert.notNull(session, "Cannot access thread service outside execution context.");
         return session.getThreadPool();
@@ -52,7 +61,7 @@ public class ThreadUtil {
      * @return Future for monitoring progress of the task.
      */
     public static Future<?> execute(Runnable task) {
-        return getThreadPool().submit(task);
+        return getSessionThreadPool().submit(task);
     }
 
     /**
@@ -64,7 +73,7 @@ public class ThreadUtil {
      * @return Future for monitoring progress of the task.
      */
     public static ScheduledFuture<?> schedule(Runnable task, long delay, TimeUnit unit) {
-        return getThreadPool().schedule(task, delay, unit);
+        return getSessionThreadPool().schedule(task, delay, unit);
     }
 
     /**
@@ -76,7 +85,7 @@ public class ThreadUtil {
      * @return Future for monitoring progress of the task.
      */
     public static <V> ScheduledFuture<V> schedule(Callable<V> task, long delay, TimeUnit unit) {
-        return getThreadPool().schedule(task, delay, unit);
+        return getSessionThreadPool().schedule(task, delay, unit);
     }
 
     /**
@@ -89,7 +98,7 @@ public class ThreadUtil {
      * @return Future for monitoring progress of the task.
      */
     public static ScheduledFuture<?> scheduleAtFixedRate(Runnable task, long initialDelay, long period, TimeUnit unit) {
-        return getThreadPool().scheduleAtFixedRate(task, initialDelay, period, unit);
+        return getSessionThreadPool().scheduleAtFixedRate(task, initialDelay, period, unit);
     }
 
     /**
@@ -102,7 +111,7 @@ public class ThreadUtil {
      * @return Future for monitoring progress of the task.
      */
     public static ScheduledFuture<?> scheduleWithFixedDelay(Runnable task, long initialDelay, long delay, TimeUnit unit) {
-        return getThreadPool().scheduleWithFixedDelay(task, initialDelay, delay, unit);
+        return getSessionThreadPool().scheduleWithFixedDelay(task, initialDelay, delay, unit);
     }
 
     private ThreadUtil() {}
