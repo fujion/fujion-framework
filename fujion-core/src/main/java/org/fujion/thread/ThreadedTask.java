@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 /**
  * Used to run long operations in the background. Uses events to notify the requester of completion.
@@ -44,7 +43,14 @@ import java.util.function.Consumer;
  * ensure that the task successfully completed.</i>
  * </p>
  */
-public class ThreadedTask implements Runnable, Future<ThreadedTask> {
+public class ThreadedTask implements Runnable, ICancellable, Future<ThreadedTask> {
+
+    @FunctionalInterface
+    public interface TaskExecutor {
+
+        void execute(Map<String, Object> result);
+
+    }
 
     private static final Logger log = Logger.create(ThreadedTask.class);
 
@@ -60,7 +66,7 @@ public class ThreadedTask implements Runnable, Future<ThreadedTask> {
 
     private final StopWatch stopWatch = new StopWatch();
 
-    private final Consumer<Map<String, Object>> task;
+    private final TaskExecutor task;
 
     private final Event event;
 
@@ -76,7 +82,7 @@ public class ThreadedTask implements Runnable, Future<ThreadedTask> {
      * @param task The task to be performed in the background thread..
      * @param requester The component requesting the operation.
      */
-    public ThreadedTask(Consumer<Map<String, Object>> task, BaseComponent requester) {
+    public ThreadedTask(TaskExecutor task, BaseComponent requester) {
         this(task, requester, DEFAULT_EVENT_NAME);
     }
 
@@ -91,7 +97,7 @@ public class ThreadedTask implements Runnable, Future<ThreadedTask> {
      *            data associated with the event will be a reference to this instance and may be
      *            interrogated to determine the outcome of the operation.
      */
-    public ThreadedTask(Consumer<Map<String, Object>> task, BaseComponent requester, String eventName) {
+    public ThreadedTask(TaskExecutor task, BaseComponent requester, String eventName) {
         this.task = task;
         this.pid = requester.getPage().getId();
         this.event = new Event(eventName, requester, this);
@@ -114,7 +120,7 @@ public class ThreadedTask implements Runnable, Future<ThreadedTask> {
             stopWatch.start();
 
             try {
-                task.accept(result);
+                task.execute(result);
             } catch (Exception e) {
                 this.exception = e;
             }
