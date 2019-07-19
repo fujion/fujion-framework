@@ -4016,9 +4016,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				addModal(this);
 			} else {
 				removeModal(this);
-			}
-			
-			if (v !== 'MODAL') {
 				this.widget$.css('z-index', v === 'POPUP' ? ++fujion.widget._zmodal : null);
 			}
 			
