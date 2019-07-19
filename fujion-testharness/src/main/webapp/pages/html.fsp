@@ -1,11 +1,20 @@
-<fsp>
+<fsp xmlns="http://www.fujion.org/schema/fsp"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:html="http://www.fujion.org/schema/fsp/html"
+	 xsi:schemaLocation="
+        http://www.fujion.org/schema/fsp
+        http://www.fujion.org/schema/fsp.xsd">
 	<html>
 		<![CDATA[
-		<div style="background:red;height:50px;width:150px">
+		<div style="background:pink;height:50px;width:150px">
 			This is an example of embedded HTML.
 		</div>
 		]]>
 	</html>
-	
+
+	<html:div html:style="background:lightgreen;height:50px;width:150px">
+		This is an example of native HTML.
+	</html:div>
+
 	<html src="html/import.html" />
 </fsp>
