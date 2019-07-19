@@ -4010,12 +4010,24 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this._updateSizable();
 			this._updatePosition();
 			this.widget$.removeAttr('data-fujion-popup');
-			
+
+			if (oldmode === 'MODAL') {
+			    removeModal(this);
+			    this.widget$.detach();
+                var index = this._parent ? this._parent.getChildIndex(this) : -1;
+
+                if (index >= 0) {
+                    this._attach(index + 1);
+                }
+            }
+
 			if (v === 'MODAL') {
-				this.widget$.attr('data-fujion-popup', true);
+				this.widget$
+                    .attr('data-fujion-popup', true)
+                    .detach()
+                    .appendTo(fujion.body$);
 				addModal(this);
 			} else {
-				removeModal(this);
 				this.widget$.css('z-index', v === 'POPUP' ? ++fujion.widget._zmodal : null);
 			}
 			

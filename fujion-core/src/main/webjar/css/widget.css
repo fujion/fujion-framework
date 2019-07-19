@@ -453,9 +453,13 @@ iframe.fujion-resizer {
 	cursor: move;
 }
 
+.fujion_window-inline {
+	position: static;
+}
+
 .fujion_window-modal,
 .fujion_window-popup {
-    position: absolute!important;
+    position: fixed!important;
     max-height: 100%;
     max-width: 100%;
 }
