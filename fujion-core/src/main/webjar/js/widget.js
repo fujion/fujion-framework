@@ -116,6 +116,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			child._attach(index);
 			index < 0 ? this._children.push(child) : this._children.splice(index, 0, child);
 			this.onAddChild(child);
+			child.onParentChange(this);
 		},
 		
 		anchor$: function() {
@@ -230,7 +231,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		onRemoveChild: function(child, destroyed, anchor$) {
 			// Does nothing by default
 		},
-		
+
+		onParentChange: function(parent) {
+			// Does nothing by default
+		},
+
 		removeChild: function(child, destroy) {
 			var currentIndex = this.getChildIndex(child);
 			
@@ -240,6 +245,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				child._parent = null;
 				destroy ? child.destroy() : child.detach();
 				this.onRemoveChild(child, destroy, anchor$);
+				child.onParentChange(null);
 				return true;
 			}
 		},
@@ -3738,7 +3744,43 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	/******************************************************************************************************************
 	 * A window widget
 	 ******************************************************************************************************************/ 
-	
+
+	var modalMask$ = fujion.body$.fujion$mask(fujion.widget._zmodal).hide();
+
+	var modals = [];
+
+	function addModal(w) {
+		var zindex = ++fujion.widget._zmodal;
+		modals.push({w: w, zindex: zindex, previous: w.widget$.css('z-index')});
+		w.widget$.css('z-index', zindex);
+		updateMask();
+		return zindex;
+	}
+
+	function removeModal(w) {
+		var i = _.findIndex(modals, function(v) {return v.w === w});
+
+		if (i === -1) {
+			return;
+		}
+
+		w.widget$.css('z-index', modals[i].previous);
+		modals.splice(i, 1);
+		updateMask();
+	}
+
+	function updateMask() {
+		var i = _.findLastIndex(modals, function(v) {
+			return v.w.widget$.get(0).parentElement && v.w.getState('visible');
+		});
+
+		if (i < 0) {
+			modalMask$.hide();
+		} else {
+			modalMask$.css('z-index', modals[i].zindex).show();
+		}
+	}
+
 	fujion.widget.Window = fujion.widget.UIWidget.extend({
 
 		/*------------------------------ Containment ------------------------------*/
@@ -3758,6 +3800,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var size = this._buttonState('minimize') ? 'NORMAL' : 'MINIMIZED';
 			this.updateState('size', size);
 		},
+
+		onParentChange: function() {
+			this._super();
+			updateMask();
+		},
 		
 		/*------------------------------ Lifecycle ------------------------------*/
 		
@@ -3766,6 +3813,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this.initState({mode: 'INLINE', size: 'NORMAL', position: 'CENTER', movable: true});
 			this.toggleClass('fujion_titled card', true);
 			this.forwardToServer('close');
+		},
+
+		destroy: function() {
+			removeModal(this);
+			this._super();
 		},
 		
 		/*------------------------------ Other ------------------------------*/
@@ -3945,8 +3997,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_mode: function(v, oldmode) {
-			var self = this,
-				mask$ = this._ancillaries.mask$;
+			var self = this;
 			
 			if (oldmode === 'INLINE') {
 				this._saveStyles();
@@ -3962,13 +4013,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			
 			if (v === 'MODAL') {
 				this.widget$.attr('data-fujion-popup', true);
-				mask$ = mask$ || fujion.body$.fujion$mask(++fujion.widget._zmodal);
-				mask$.fujion$show(this.getState('visible'));
-				this.widget$.css('z-index', mask$.css('z-index'));
-				this._ancillaries.mask$ = mask$;
-			} else if (mask$) {
-				mask$.remove();
-				delete this._ancillaries.mask$;
+				addModal(this);
+			} else {
+				removeModal(this);
 			}
 			
 			if (v !== 'MODAL') {
@@ -4066,12 +4113,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		s_visible: function(v) {
 			this._super();
 			v ? this._updatePosition() : null;
-			var mask$ = this._ancillaries.mask$;
-			
-			if (mask$) {
-				mask$.fujion$show(v);
-				v ? this.widget$.css('z-index', mask$.css('z-index')) : null;
-			}
+			updateMask();
 		}
 		
 	});
