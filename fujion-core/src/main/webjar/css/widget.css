@@ -309,7 +309,6 @@ iframe.fujion-resizer {
 }
 
 .fujion_menupopup .dropdown-header {
-	padding: 0;
 	font-size: inherit;
 	border-top: 1px solid gray;
 	border-bottom: 1px solid gray;
@@ -444,6 +443,8 @@ iframe.fujion-resizer {
 }
 
 .fujion_window > .card-body {
+	display: flex;
+	flex-direction: column;
     background-color: white;
     padding: 0;
 }
