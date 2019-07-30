@@ -329,6 +329,11 @@ iframe.fujion-resizer {
 	margin-right: 5px;
 }
 
+.fujion_menu .dropdown-toggle {
+	padding-left: 2px;
+	vertical-align: middle;
+}
+
 .fujion_menu.fujion_menu-nochildren .caret {
     visibility: hidden;
 }
@@ -446,7 +451,6 @@ iframe.fujion-resizer {
 	display: flex;
 	flex-direction: column;
     background-color: white;
-    padding: 0;
 }
 
 .fujion_window-popup > .card-header,
