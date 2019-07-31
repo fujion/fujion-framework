@@ -357,6 +357,12 @@ iframe.fujion-resizer {
     margin-right: 2px; 
 }
 
+/* Label */
+
+.fujion_label {
+	margin: 0;
+}
+
 /* Div */
 
 .fujion_div {
