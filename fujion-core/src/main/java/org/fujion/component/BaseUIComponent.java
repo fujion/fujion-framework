@@ -210,7 +210,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      *            {@link org.fujion.ancillary.CssClasses});
      */
     public void setClasses(String classes) {
-        String oldClasses = classes;
+        String oldClasses = this.classes.toString();
         this.classes.parse(classes);
         _syncClasses(oldClasses);
     }
