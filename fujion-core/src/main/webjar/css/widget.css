@@ -141,6 +141,7 @@ iframe.fujion-resizer {
 
 .fujion-labeled-label {
     margin: 0;
+	word-break: break-word;
 }
 
 .fujion-labeled-right {
