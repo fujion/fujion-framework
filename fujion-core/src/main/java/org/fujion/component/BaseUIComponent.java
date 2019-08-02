@@ -52,7 +52,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
 
     private boolean visible = true;
 
-    private int tabindex;
+    private int tabindex = -1;
 
     private String css;
 
@@ -509,7 +509,7 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
      */
     @PropertySetter(value = "tabindex", defaultValue = "0", description = "The tab index for the component.")
     public void setTabindex(int tabindex) {
-        propertyChange("tabindex", this.tabindex, this.tabindex = tabindex < 0 ? 0 : tabindex, true);
+        propertyChange("tabindex", this.tabindex, this.tabindex = tabindex, true);
     }
 
     /**

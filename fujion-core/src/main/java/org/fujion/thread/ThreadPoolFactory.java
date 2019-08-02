@@ -81,6 +81,8 @@ public class ThreadPoolFactory {
 
     /**
      * Returns the application's thread pool.
+     *
+     * @return The application thread pool.
      */
     public ThreadPool getApplicationThreadPool() {
         return appThreadPool;

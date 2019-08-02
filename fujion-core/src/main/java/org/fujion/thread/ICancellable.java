@@ -6,15 +6,23 @@ package org.fujion.thread;
 public interface ICancellable {
 
     /**
-     * True if the operation has been cancelled.
+     * @return True if the operation has been cancelled.
      */
     boolean isCancelled();
 
     /**
      * Cancels a background operation.
+     *
+     * @param mayInterrupt If true, interrupt execution immediately if possible.
+     * @return True if the operation was successfully cancelled.
      */
     boolean cancel(boolean mayInterrupt);
 
+    /**
+     * Cancels a background operation, interrupting execution immediately if possible.
+     *
+     * @return True if the operation was successfully cancelled.
+     */
     default boolean cancel() {
         return cancel(true);
     }

@@ -1310,7 +1310,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_tabindex: function(v) {
-			this.attr('tabindex', v, this.input$());
+			this.attr('tabindex', v < 0 ? null : v, this.input$());
 		},
 		
 		s_visible: function(v) {
