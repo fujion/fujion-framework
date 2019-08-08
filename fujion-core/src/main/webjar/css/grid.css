@@ -14,7 +14,7 @@
 /* Row */
 
 .fujion_row {
-    cursor:default
+    cursor: default;
 }
 
 .fujion_row.ui-selectee:hover:not(.ui-selected) {
@@ -24,6 +24,8 @@
 .fujion_row > td {
 	vertical-align: middle!important;
 	word-wrap: break-word;
+	border: none;
+	border-bottom: 1px solid lightgray;
 }
 
 .fujion_row > td > * {
