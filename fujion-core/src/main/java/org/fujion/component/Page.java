@@ -20,6 +20,7 @@
  */
 package org.fujion.component;
 
+import org.apache.commons.io.FilenameUtils;
 import org.fujion.ancillary.ComponentException;
 import org.fujion.ancillary.INamespace;
 import org.fujion.ancillary.IResponseCallback;
@@ -303,9 +304,12 @@ public final class Page extends BaseComponent implements INamespace {
      * @param path The virtual path of the resource.
      * @param resource The resource. If null, any existing resource associated with the virtual page
      *            is removed.
+     * @return The full path to the resource.
      */
-    public void registerResource(String path, Resource resource) {
-        DynamicResourceRegistry.getInstance().registerResource(getId() + "/" + path, resource);
+    public String registerResource(String path, Resource resource) {
+        path = FilenameUtils.concat(getId(), path);
+        DynamicResourceRegistry.getInstance().registerResource(path, resource);
+        return FilenameUtils.concat("dynamic", path);
     }
 
     /**
