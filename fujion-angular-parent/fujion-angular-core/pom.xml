@@ -20,9 +20,9 @@
         <skip.minification>false</skip.minification>
         <systemjs>
             {'map': {
-            'fujion-angular-widget': 'js/widget.js',
-            'fujion-angular-bootstrap': 'js/bootstrap.js'
-            }
+                'fujion-angular-widget': 'js/widget.js',
+                'fujion-angular-bootstrap': 'js/bootstrap.js'
+                }
             }
         </systemjs>
     </properties>
