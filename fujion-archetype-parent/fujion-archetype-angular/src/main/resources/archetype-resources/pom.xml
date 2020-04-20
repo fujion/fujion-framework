@@ -35,13 +35,12 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
+					<execution>
+						<id>npm-install</id>
+					</execution>
 					<execution>
 						<id>generate-schema</id>
 						<phase>prepare-package</phase>
