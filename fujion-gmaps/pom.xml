@@ -31,13 +31,8 @@
 				<executions>
 					<execution>
 						<id>generate-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
 						<configuration>
-							<mainClass>org.fujion.schema.SchemaGenerator</mainClass>
-							<classpathScope>compile</classpathScope>
+							<skip>false</skip>
 							<arguments>
 								<argument>-v=${project.version}</argument>
 								<argument>-t=Google Maps Extension</argument>

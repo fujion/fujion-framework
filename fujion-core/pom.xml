@@ -68,12 +68,9 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>generate-root-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
+						<id>generate-schema</id>
 						<configuration>
+							<skip>false</skip>
 							<arguments>
 								<argument>-v=${project.version}</argument>
 								<argument>-r</argument>
