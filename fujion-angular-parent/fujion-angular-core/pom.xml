@@ -12,6 +12,7 @@
 
     <properties>
         <angular.version>8.0.2-SNAPSHOT</angular.version>
+        <corejs.version>2.6.9-SNAPSHOT</corejs.version>
         <rxjs.version>6.5.2-SNAPSHOT</rxjs.version>
         <zonejs.version>0.9.1-SNAPSHOT</zonejs.version>
 
@@ -67,6 +68,11 @@
             <groupId>org.fujion.webjars</groupId>
             <artifactId>webjar-angular</artifactId>
             <version>${angular.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujion.webjars</groupId>
+            <artifactId>webjar-corejs</artifactId>
+            <version>${corejs.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fujion.webjars</groupId>
