@@ -2189,7 +2189,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
 
             Map<String, Object> variables = new HashMap<>();
             variables.put(script.getSelfName(), this);
-            variables.put("controller", getLastController());
+            variables.put("controller", getLastController(true));
             variables.put("event", event);
             script.execute(variables);
         });
@@ -2326,6 +2326,24 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     public Object getLastController() {
         return controllers == null ? null : controllers.get(controllers.size() - 1);
+    }
+
+    /**
+     * Returns a reference to the last controller wired to this component.
+     *
+     * @param recurse If true, recurse up component tree until a controller is found.
+     * @return The last controller wired to this component, or null if none.
+     */
+    public Object getLastController(boolean recurse) {
+        BaseComponent cmp = this;
+        Object controller = null;
+
+        while (controller == null && cmp != null) {
+            controller = cmp.getLastController();
+            cmp = recurse ? cmp.getParent() : null;
+        }
+
+        return controller;
     }
 
     /**
