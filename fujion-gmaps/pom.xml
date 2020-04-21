@@ -55,7 +55,7 @@
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-google-maps</artifactId>
-		    <version>3.3.0</version>
+		    <version>4.2.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

@@ -6,7 +6,7 @@ define('fujion-gmaps', [
 	'google-maps',
 	'fujion-gmaps-css'], 
 	
-	function(fujion, Widget, GoogleMapsLoader) {
+	function(fujion, Widget, Loader) {
 
 	/**
 	 * Google Maps widget
@@ -17,7 +17,12 @@ define('fujion-gmaps', [
 		
 		_eventsToForward: ['bounds_changed', 'center_changed', 'click', 'heading_changed', 'idle', 
 			'maptypeid_changed', 'tilesloaded', 'tilt_changed', 'zoom_changed'],
-		
+
+		_gapi: {
+			google: null,
+			loading: false
+		},
+
 		bounds_changedHandler: function(event) {
 			this.triggerMapEvent(event, this._map.getBounds(), true);
 		},
@@ -52,47 +57,57 @@ define('fujion-gmaps', [
 				this.trigger('gmap_' + event, {value: data});
 			}
 		},
-		
+
 		/*------------------------------ Other ------------------------------*/
 
 		clear: function() {
 			delete this._map;
-			delete this._options;
 			this.widget$.empty();
 		},
 		
 		invoke: function(fnc, args) {
-			return this._map ? this._map[fnc].apply(this._map, args) : null;
+			const map = this._map;
+			return map ? map[fnc].apply(map, args) : null;
 		},
 		
 		run: function(options, loaderOptions) {
-			this._options = options || this._options;
-			this._load(this._run.bind(this), loaderOptions);
-		},
-		
-		_load: function(cb, loaderOptions) {
-			delete this._map;
-			GoogleMapsLoader.KEY ? null : loaderOptions ? _.assign(GoogleMapsLoader, loaderOptions) : null;
-			GoogleMapsLoader.KEY ? GoogleMapsLoader.load(cb) : null;
-		},
-		
-		_run: function(google) {
-			var options = this._options;
+			this._options = options;
+
+			if (this._gapi.loading) {
+				return;
+			}
 			
-			if (options) {				
+			if (!this._gapi.google) {
+				const key = loaderOptions.key;
+				delete loaderOptions.key;
+				const loader = new Loader.Loader(key, loaderOptions);
+				this._gapi.loading = true;
+				loader.load().then(google => {
+					this._gapi.loading = false;
+					this._gapi.google = google;
+					this._draw();
+				});
+			} else {
+				this._draw();
+			}
+		},
+
+		_draw: function() {
+			const options = this._options;
+			const anchor = this.widget$ && this.widget$[0];
+			const google = this._gapi.google;
+
+			if (options && google && anchor) {
+
 				if (options.streetViewOptions) {
-					options.streetView = new google.maps.StreetViewPanorama(this.widget$[0], options.streetView);
+					options.streetView = new google.maps.StreetViewPanorama(anchor, options.streetView);
 				}
 				
-				this._map = new google.maps.Map(this.widget$[0], options);
-
-				var map = this._map,
-					self = this;
-				
-				_.forEach(this._eventsToForward, function(eventName) {
-					var handler = self[eventName + 'Handler'];
-					handler = handler ? handler : self.triggerMapEvent;
-					map.addListener(eventName, handler.bind(self, eventName));
+				this._map = new google.maps.Map(anchor, options);
+				_.forEach(this._eventsToForward, eventName => {
+					var handler = this[eventName + 'Handler'];
+					handler = handler ? handler : this.triggerMapEvent;
+					this._map.addListener(eventName, handler.bind(this, eventName));
 				});
 			}
 		},
@@ -101,7 +116,7 @@ define('fujion-gmaps', [
 		
 		afterRender: function() {
 			this._super();
-			this.run();
+			this._draw();
 		},
 		
 		render$: function() {
@@ -112,12 +127,14 @@ define('fujion-gmaps', [
 		
 		s_tilt: function(v) {
 			this._options ? this._options.tilt = v : null;
-			this._rendering || !this._map ? null : this._map.setTilt(v);
+			const map = this._map;
+			this._rendering || !map ? null : map.setTilt(v);
 		},
 		
 		s_zoom: function(v) {
 			this._options ? this._options.zoom = v : null;
-			this._rendering || !this._map ? null : this._map.setZoom(v);
+			const map = this._map;
+			this._rendering || !map ? null : map.setZoom(v);
 		} 
 		
 	});

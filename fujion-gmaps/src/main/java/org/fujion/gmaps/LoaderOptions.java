@@ -31,41 +31,50 @@ import org.springframework.util.StringUtils;
  */
 public class LoaderOptions extends Options {
 
+    public enum Channel {
+        WEEKLY, QUARTERLY;
+
+        @Override
+        public String toString() {
+            return name().toLowerCase();
+        }
+    };
+
     public static final LoaderOptions instance = new LoaderOptions();
     
     public static LoaderOptions getInstance() {
         return instance;
     }
     
-    @Option("KEY")
-    @Value("${org.fujion.gmaps.key:}")
+    @Option("key")
+    @Value("${org.fujion.gmaps.key:#{null}}")
     private String apiKey;
     
-    @Option("VERSION")
-    @Value("${org.fujion.gmaps.version:3.34}")
+    @Option("version")
+    @Value("${org.fujion.gmaps.version:#{null}}")
     private String apiVersion;
 
-    @Option(value = "LIBRARIES", convertUsing = "value.split('\\,')")
+    @Option(value = "libraries", convertUsing = "value.split('\\,')")
     @Value("${org.fujion.gmaps.libraries:#{null}}")
     private String libraries;
 
-    @Option("CLIENT")
+    @Option("client")
     @Value("${org.fujion.gmaps.client:#{null}}")
     private String client;
 
-    @Option("CHANNEL")
-    @Value("${org.fujion.gmaps.channel:#{null}}")
-    private String channel;
+    @Option("channel")
+    @Value("${org.fujion.gmaps.channel:QUARTERLY}")
+    private Channel channel;
 
-    @Option("LANGUAGE")
+    @Option("language")
     @Value("${org.fujion.gmaps.language:#{null}}")
     private String language;
 
-    @Option("REGION")
+    @Option("region")
     @Value("${org.fujion.gmaps.region:#{null}}")
     private String region;
 
-    @Option("URL")
+    @Option("url")
     @Value("${org.fujion.gmaps.url:#{null}}")
     private String url;
 
