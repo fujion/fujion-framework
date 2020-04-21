@@ -28,20 +28,25 @@ import org.fujion.common.StrUtil;
 import org.fujion.expression.ExpressionCache;
 import org.fujion.jmx.JMXConsole.IJMXConsolePlugin;
 import org.fujion.page.PageDefinitionCache;
+import org.springframework.web.context.ServletContextAware;
+
+import javax.servlet.ServletContext;
 
 /**
  * JMX console plugin for cache management.
  */
 @JMXBean(resourceBundleName = "org.fujion.common.MessageBundle", descriptionKey = "org.fujion.console.cache.description", sorted = true)
-public class CacheManagementConsole implements IJMXConsolePlugin {
+public class CacheManagementConsole implements IJMXConsolePlugin, ServletContextAware {
     
     private final PageDefinitionCache fspCache = PageDefinitionCache.getInstance();
     
     private final ExpressionCache elCache = ExpressionCache.getInstance();
-    
+
+    private String type;
+
     @Override
     public String getType() {
-        return "Cache Manager";
+        return type;
     }
     
     /**
@@ -105,5 +110,9 @@ public class CacheManagementConsole implements IJMXConsolePlugin {
     private String formatResult(String id, Object... args) {
         return StrUtil.getLabel("org.fujion.console.cache." + id + ".result", args);
     }
-    
+
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        type = "Cache Manager [" + servletContext.getContextPath().replace("/", "") + "]";
+    }
 }
