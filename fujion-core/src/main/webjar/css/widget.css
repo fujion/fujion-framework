@@ -543,7 +543,6 @@ iframe.fujion-resizer {
 
 .fujion_toolbar-vertical {
 	flex-direction: column;
-    flex: 0;
 }
 
 .fujion_toolbar-start {

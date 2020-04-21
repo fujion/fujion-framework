@@ -35,7 +35,7 @@
 							<arguments>
 								<argument>-v=${project.version}</argument>
 								<argument>-c=${basedir}/src/main/assembly/schemas.config</argument>
-								<argument>-t=${basedir}/src/main/assembly/fsp-template.xsd</argument>
+								<argument>-t=${basedir}/src/main/assembly/fsp.xsd_template</argument>
 								<argument>-o=${basedir}/target/classes/</argument>
 							</arguments>
 						</configuration>
