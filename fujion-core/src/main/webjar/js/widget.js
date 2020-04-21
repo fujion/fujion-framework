@@ -1107,12 +1107,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		s_balloon: function(v) {
 			if (v) {
-				this.widget$.attr('data-balloon', v)
+				this.widget$.attr('aria-label', v)
 					.attr('data-balloon-pos', 'right')
 					.attr('data-balloon-visible', true)
 					.attr('data-balloon-length', 'fit');
 			} else {
-				this.widget$.removeAttr('data-balloon data-balloon-pos data-balloon-visible data-balloon-length');
+				this.widget$.removeAttr('aria-label data-balloon-pos data-balloon-visible data-balloon-length');
 			}
 		},
 		

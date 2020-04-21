@@ -195,7 +195,7 @@
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-balloon-css</artifactId>
-		    <version>1.0.0-SNAPSHOT</version>
+		    <version>1.0.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
