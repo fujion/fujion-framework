@@ -1,0 +1,25 @@
+.fujion_mxeditor {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid lightgray;
+}
+
+.fujion_mxeditor > *:first-child {
+	padding: 2px;
+	border-bottom: 1px solid gray;
+}
+
+.fujion_mxeditor > *:nth-child(2) {
+	flex: 1;
+}
+
+.fujion_mxeditor > *:last-child {
+	background-color: lightcyan;
+	padding: 2px;
+	border-top: 1px solid gray;
+}
+
+.fujion_mxeditor > *:empty {
+	display: none;
+}
+
