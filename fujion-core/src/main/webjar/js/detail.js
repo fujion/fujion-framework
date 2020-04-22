@@ -38,7 +38,7 @@ define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], f
 		
 		render$: function() {
 			 var dom = '<details>'
-				    + 	'<summary id="${id}-lbl"/>'
+				    + 	'<summary id="${id}-lbl"></summary>'
 					+ '</details>';
 
 			return $(this.resolveEL(dom));

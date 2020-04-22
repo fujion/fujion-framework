@@ -125,7 +125,7 @@ define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], f
 		},
 		
 		render$: function() {
-			return $('<div><canvas/></div>')
+			return $('<div><canvas></canvas></div>')
 		}
 	});
 

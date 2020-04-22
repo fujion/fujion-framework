@@ -17,7 +17,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $('<table><caption/></table>');
+			return $('<table><caption></caption></table>');
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -47,7 +47,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $(this.resolveEL('<thead><tr id="${id}-inner"/></thead>'));
+			return $(this.resolveEL('<thead><tr id="${id}-inner"></tr></thead>'));
 		}
 		
 	});

@@ -62,7 +62,7 @@ define('fujion-captcha', [
 		},
 		
 		render$: function() {
-			return $('<span/>');
+			return $('<span></span>');
 		},
 		
 		/*------------------------------ State ------------------------------*/

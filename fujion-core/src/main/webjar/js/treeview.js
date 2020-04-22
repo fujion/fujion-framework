@@ -114,11 +114,11 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		render$: function() {
 			var dom = 
 				  '<li>'
-				+   '<span id="${id}-btn" />'
+				+   '<span id="${id}-btn"></span>'
 				+   '<span id="${id}-cnt">'
 				+     this.getDOMTemplate(':image', 'badge', 'label')
 				+   '</span>'
-				+   '<ul id="${id}-inner"/>'
+				+   '<ul id="${id}-inner"></ul>'
 				+ '</li>';
 			return $(this.resolveEL(dom));
 		},

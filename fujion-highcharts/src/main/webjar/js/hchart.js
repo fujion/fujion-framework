@@ -76,7 +76,7 @@ define('fujion-hchart', ['fujion-core', 'fujion-widget', 'highcharts'], function
 		},
 		
 		render$: function() {
-			return $('<div/>')
+			return $('<div></div>')
 		}
 	});
 

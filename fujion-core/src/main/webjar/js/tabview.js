@@ -26,8 +26,8 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 		render$: function() {
 			var dom = 
 				  '<div>'
-				+   '<ul id="${id}-tabs" class="fujion_tabview-tabs"/>'
-				+   '<div id ="${id}-panes" class="fujion_tabview-panes"/>'
+				+   '<ul id="${id}-tabs" class="fujion_tabview-tabs"></ul>'
+				+   '<div id ="${id}-panes" class="fujion_tabview-panes"></div>'
 				+ '</div>';
 			return $(this.resolveEL(dom));
 		},
@@ -84,7 +84,7 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 				self = this;
 				
 			if (!this._ancillaries.pane$) {
-				var pane = '<div id="${id}-pane" class="fujion_tab-pane d-none"/>',
+				var pane = '<div id="${id}-pane" class="fujion_tab-pane d-none"></div>',
 					pane$ = $(this.resolveEL(pane));
 				this._ancillaries.pane$ = pane$;
 				pane$.data('attach', _attachPane);

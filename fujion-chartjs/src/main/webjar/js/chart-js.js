@@ -35,7 +35,7 @@ define('fujion-chartjs', ['fujion-core', 'fujion-widget', 'chart-js'], function(
 		/*------------------------------ Rendering ------------------------------*/
 
 		render$: function() {
-			return $('<div><canvas/></div>')
+			return $('<div><canvas></canvas></div>')
 		}
 	});
 

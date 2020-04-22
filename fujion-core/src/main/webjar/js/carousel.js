@@ -97,7 +97,7 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $('<div/>');
+			return $('<div></div>');
 		},
 
 		/*------------------------------ State ------------------------------*/

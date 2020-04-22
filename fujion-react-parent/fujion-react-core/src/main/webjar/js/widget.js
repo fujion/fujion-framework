@@ -72,7 +72,7 @@ define('fujion-react-widget', ['fujion-core', 'fujion-widget', 'react', 'react-d
 		},
 		
 		render$: function() {
-			return $('<div />');
+			return $('<div></div>');
 		},
 		
 		/*------------------------------ State ------------------------------*/

@@ -53,7 +53,7 @@ define('fujion-plotly', ['fujion-core', 'fujion-widget', 'plotly-js'], function(
 		},
 		
 		render$: function() {
-			return $('<div/>')
+			return $('<div></div>')
 		}
 	});
 

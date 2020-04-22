@@ -24,7 +24,7 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $('<div/>');
+			return $('<div></div>');
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -73,7 +73,7 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 		
 		render$: function() {
 			var dom = '<div>'
-					+    '<span id="${id}-title" class="${wclazz}-title" />'
+					+    '<span id="${id}-title" class="${wclazz}-title"></span>'
 					+ '</div>';
 			return $(this.resolveEL(dom));
 		},

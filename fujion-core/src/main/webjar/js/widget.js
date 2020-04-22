@@ -9,13 +9,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	fujion.widget._fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
 	
 	fujion.widget._domTemplates = {
-			badge: '<span id="${id}-badge" class="badge badge-pill" />',
-			checkable: '<span id="${id}-chk" class="fa"/>',
-			closable: '<span id="${id}-cls" class="fa fa-remove"/>',
-			image: '<img id="${id}-img" src="${_state.image}"/>',
-			label: '<span id="${id}-lbl" class="fujion-labeled-label"/>',
-			labelfor: '<label id="${id}-lbl" for="${id}-inp" class="fujion-labeled-label"/>',
-			sortOrder: '<span id="${id}-dir" class="fa"/>'
+			badge: '<span id="${id}-badge" class="badge badge-pill"></span>',
+			checkable: '<span id="${id}-chk" class="fa"></span>',
+			closable: '<span id="${id}-cls" class="fa fa-remove"></span>',
+			image: '<img id="${id}-img" src="${_state.image}">',
+			label: '<span id="${id}-lbl" class="fujion-labeled-label"></span>',
+			labelfor: '<label id="${id}-lbl" for="${id}-inp" class="fujion-labeled-label"></label>',
+			sortOrder: '<span id="${id}-dir" class="fa"></span>'
 	};
 	
 	fujion.widget._zmodal = 999;
@@ -808,7 +808,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				span$.remove();
 			} else {
 				if (span$.length === 0) {
-					var dom = this.resolveEL('<span id="${id}-content"/>');
+					var dom = this.resolveEL('<span id="${id}-content"></span>');
 					span$ = $(dom).appendTo(this.widget$);
 				}
 				
@@ -1587,8 +1587,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var dom =  '<span>'
 					 +   '<input id="${id}-inp" type="${_type}">'
 					 +   '<span id="${id}-spn">'
-					 +     '<span class="fa fa-chevron-up"/>'
-					 +     '<span class="fa fa-chevron-down"/>'
+					 +     '<span class="fa fa-chevron-up"></span>'
+					 +     '<span class="fa fa-chevron-down"></span>'
 					 +   '</span>'
 					 + '</span>';
 			return $(this.resolveEL(dom));
@@ -1656,7 +1656,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this.sub$('img').remove();
 			
 			if (v) {
-				var img$ = $(this.resolveEL('<link id="${id}-img" rel="shortcut icon"/>')).appendTo(fujion.head$);
+				var img$ = $(this.resolveEL('<link id="${id}-img" rel="shortcut icon">')).appendTo(fujion.head$);
 				img$.attr('href', v);
 			}
 		},
@@ -2102,7 +2102,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $('<div/>');
+			return $('<div></div>');
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -2226,7 +2226,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $('<label/>');
+			return $('<label></label>');
 		}
 	
 	});
@@ -2255,7 +2255,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		render$: function() {
 			 var dom = '<span>'
-				    + 	'<span id="${id}-inner" class="fujion-labeled-rel"/>'
+				    + 	'<span id="${id}-inner" class="fujion-labeled-rel"></span>'
 				    + 	this.getDOMTemplate('label')
 					+ '</span>';
  
@@ -2353,28 +2353,28 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				+   '<ul class="pagination">'
 				+     '<li class="page-item">'
 				+       '<a class="page-link" data-fujion-pg="-2">'
-				+         '<span class="fa fa-angle-double-left" aria-hidden="true"/>'
+				+         '<span class="fa fa-angle-double-left" aria-hidden="true"></span>'
 				+         '<span class="sr-only">${_state.nav.start}</span>'
 				+       '</a>'				
 				+     '</li>'
 				+     '<li class="page-item">'
 				+       '<a class="page-link" data-fujion-pg="-1">'
-				+         '<span class="fa fa-angle-left" aria-hidden="true"/>'
+				+         '<span class="fa fa-angle-left" aria-hidden="true"></span>'
 				+         '<span class="sr-only">${_state.nav.previous}</span>'
 				+       '</a>'				
 				+     '</li>'
 				+     '<li class="page-item">'
-				+       '<span id="${id}-lbl" class="fujion-labeled-label page-link disabled rounded-circle"/>'
+				+       '<span id="${id}-lbl" class="fujion-labeled-label page-link disabled rounded-circle"></span>'
 				+     '</li>'
 				+     '<li class="page-item">'
 				+       '<a class="page-link" data-fujion-pg="1">'
-				+         '<span class="fa fa-angle-right" aria-hidden="true"/>'
+				+         '<span class="fa fa-angle-right" aria-hidden="true"></span>'
 				+         '<span class="sr-only">${_state.nav.next}</span>'
 				+       '</a>'				
 				+     '</li>'
 				+     '<li class="page-item">'
 				+       '<a class="page-link" data-fujion-pg="2">'
-				+         '<span class="fa fa-angle-double-right" aria-hidden="true"/>'
+				+         '<span class="fa fa-angle-double-right" aria-hidden="true"></span>'
 				+         '<span class="sr-only">${_state.nav.end}</span>'
 				+       '</a>'				
 				+     '</li>'
@@ -2596,7 +2596,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		renderReal$: function() {
-			return $('<ul role="menu" class="dropdown-menu multi-level" />');
+			return $('<ul role="menu" class="dropdown-menu multi-level"></ul>');
 		}
 		
 	});
@@ -2700,7 +2700,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				+   '<div class="dropdown" style="display: inline-block" role="presentation">'
 				+     '<a id="${id}-btn" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-menu">'
 				+ 		 this.getDOMTemplate(':image', 'label')
-				+       '<span class="dropdown-toggle"/>'
+				+       '<span class="dropdown-toggle"></span>'
 				+     '</a>'
 				+   '</div>'
 				+ '</span>';
@@ -2956,7 +2956,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $(this.resolveEL('<span><textarea id="${id}-inp"/></span>'));
+			return $(this.resolveEL('<span><textarea id="${id}-inp"></textarea></span>'));
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -3046,7 +3046,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var dom =
 				'<span>'
 			  +   '<input id="${id}-inp" type="text">'
-			  +   '<span id="${id}-btn" class="fa fa-caret-down" />'
+			  +   '<span id="${id}-btn" class="fa fa-caret-down"></span>'
 			  + '</span>';
 			
 			return $(this.resolveEL(dom));
@@ -3320,8 +3320,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var dom =
 				'<span>'
 			  +   '<input id="${id}-inp" type="text">'
-			  +   '<span id="${id}-btn" class="fa fa-caret-down" />'
-			  +   '<select id="${id}-inner" class="d-none" />'
+			  +   '<span id="${id}-btn" class="fa fa-caret-down"></span>'
+			  +   '<select id="${id}-inner" class="d-none"></select>'
 			  + '</span>';
 			
 			return $(this.resolveEL(dom));
@@ -3472,8 +3472,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			var dom = 
 				'<div>'
 			  +   '<fieldset>'
-			  +     '<legend id="${id}-title"/>'
-			  +     '<span id="${id}-inner"/>'
+			  +     '<legend id="${id}-title"></legend>'
+			  +     '<span id="${id}-inner"></span>'
 			  +   '</fieldset>'
 			  + '</div>';
 			return $(this.resolveEL(dom));
@@ -3518,7 +3518,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			return $('<div><div/><div/></div>');
+			return $('<div><div></div><div></div></div>');
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -3580,7 +3580,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			return $(this.resolveEL('<span><div id="${id}-slider"/></span>'));
+			return $(this.resolveEL('<span><div id="${id}-slider"></div></span>'));
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -3640,7 +3640,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		render$: function() {
 			var dom = '<div>'
-					+   '<div id="${id}-inner"/>'
+					+   '<div id="${id}-inner"></div>'
 					+ '</div>';
 			return $(this.resolveEL(dom));
 		}
@@ -3700,10 +3700,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		render$: function() {
 			var dom = '<div>'
 				    +   '<div>'
-				    +     '<span id="${id}-title" class="${wclazz}-title"/>'
-				    +     '<span id="${id}-icons" class="fujion_titled-icons"/>'
+				    +     '<span id="${id}-title" class="${wclazz}-title"></span>'
+				    +     '<span id="${id}-icons" class="fujion_titled-icons"></span>'
 				    +   '</div>'
-				    +	'<div id="${id}-inner"/>'
+				    +	'<div id="${id}-inner"></div>'
 				    + '</div>';
 			return $(this.resolveEL(dom));
 		},
@@ -3910,12 +3910,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				  '<div>'
 				+   '<div class="card-header">'
 				+     '<div id="${id}-titlebar" class="card-title">'
-				+       '<img id="${id}-image" class="fujion_window-image"/>'
-				+       '<span id="${id}-title"/>'
-				+       '<span id="${id}-icons" class="fujion_titled-icons"/>'
+				+       '<img id="${id}-image" class="fujion_window-image">'
+				+       '<span id="${id}-title"></span>'
+				+       '<span id="${id}-icons" class="fujion_titled-icons"></span>'
 				+     '</div>'
 				+   '</div>'
-				+   '<div id="${id}-inner" class="card-body"/>'
+				+   '<div id="${id}-inner" class="card-body"></div>'
 				+ '</div>';
 			return $(this.resolveEL(dom));
 		},
@@ -3929,7 +3929,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			icons = icons.split(' ');
-			btn = $('<span class="fa fa-' + icons[0] + '"/>')
+			btn = $('<span class="fa fa-' + icons[0] + '"></span>')
 				.attr('id', id)
 				.data('position', position)
 				.data('icons', icons)

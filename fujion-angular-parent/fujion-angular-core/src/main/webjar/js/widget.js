@@ -72,7 +72,7 @@ define('fujion-angular-widget', ['fujion-core', 'fujion-widget', '@angular/core'
 		},
 		
 		render$: function() {
-			return $('<div />');
+			return $('<div></div>');
 		},
 		
 		/*------------------------------ State ------------------------------*/

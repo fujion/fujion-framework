@@ -120,7 +120,7 @@ define('fujion-gmaps', [
 		},
 		
 		render$: function() {
-			return $('<div/>');
+			return $('<div></div>');
 		},
 		
 		/*------------------------------ State ------------------------------*/

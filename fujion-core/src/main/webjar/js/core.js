@@ -305,7 +305,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		fujion$mask: function(zindex) {
 			this.css('position', 'relative');
 			
-			return $('<div class="fujion-mask"/>')
+			return $('<div class="fujion-mask"></div>')
 				.css('z-index', zindex)
 				.prependTo(this);
 		},

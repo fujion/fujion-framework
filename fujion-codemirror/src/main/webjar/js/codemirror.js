@@ -100,7 +100,7 @@ define('fujion-codemirror', [
 		},
 		
 		render$: function() {
-			return $('<div/>');
+			return $('<div></div>');
 		},
 		
 		/*------------------------------ State ------------------------------*/

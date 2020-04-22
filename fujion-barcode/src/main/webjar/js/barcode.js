@@ -58,7 +58,7 @@ define('fujion-barcode', [
 		},
 		
 		render$: function() {
-			var dom = '<div><canvas id="${id}-cnt"/><span id="${id}-lbl"/></div>';
+			var dom = '<div><canvas id="${id}-cnt"></canvas><span id="${id}-lbl"></span></div>';
 			return $(this.resolveEL(dom));
 		},
 		

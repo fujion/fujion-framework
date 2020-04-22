@@ -108,7 +108,7 @@ define('fujion-ckeditor', [
 		},
 		
 		render$: function() {
-			var dom = this.getState('sizable') ? '<div><textarea/></div>' : '<div><textarea/><iframe class="fujion-resizer"/></div>';
+			var dom = this.getState('sizable') ? '<div><textarea></textarea></div>' : '<div><textarea></textarea><iframe class="fujion-resizer"></iframe></div>';
 			return $(dom);
 		},
 		
