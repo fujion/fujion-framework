@@ -21,28 +21,29 @@
 	</scm>
 
 	<modules>
-		<module>fujion-common</module>
-		<module>fujion-core</module>
-		<module>fujion-test</module>
-		<module>fujion-archetype-parent</module>
-		<module>fujion-icons-parent</module>
-		<module>fujion-script-parent</module>
 		<module>fujion-angular-parent</module>
-		<module>fujion-react-parent</module>
-		<module>fujion-highcharts</module>
+		<module>fujion-archetype-parent</module>
+		<module>fujion-barcode</module>
+		<module>fujion-canvas</module>
+		<module>fujion-captcha</module>
 		<module>fujion-chartjs</module>
-		<module>fujion-plotly</module>
-		<module>fujion-sparkline</module>
-		<module>fujion-spinjs</module>
 		<module>fujion-ckeditor</module>
 		<module>fujion-codemirror</module>
-		<module>fujion-barcode</module>
-		<module>fujion-captcha</module>
-		<module>fujion-sandbox</module>
-		<module>fujion-canvas</module>
+		<module>fujion-common</module>
+		<module>fujion-core</module>
 		<module>fujion-gmaps</module>
-		<module>fujion-testharness</module>
+		<module>fujion-highcharts</module>
+		<module>fujion-icons-parent</module>
+		<module>fujion-mxgraph</module>
+		<module>fujion-plotly</module>
+		<module>fujion-react-parent</module>
+		<module>fujion-sandbox</module>
 		<module>fujion-schemas</module>
+		<module>fujion-script-parent</module>
+		<module>fujion-sparkline</module>
+		<module>fujion-spinjs</module>
+		<module>fujion-test</module>
+		<module>fujion-testharness</module>
 		<module>fujion-themes</module>
 	</modules>
 	
