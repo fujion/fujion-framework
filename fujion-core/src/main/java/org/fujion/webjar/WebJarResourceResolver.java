@@ -30,13 +30,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Inserts web jar version into request path. Converts
+ * Inserts web jar version into request path and appends a "js" extension
+ * if no extension is provided. For example, converts
  * <p>
- * <code>webjars/{webjar-name}/**</code>
+ * <code>webjars/{webjar-name}/path/xyz</code>
  * </p>
  * to
  * <p>
- * <code>webjars/{webjar-name}/{webjar-version}/**</code>
+ * <code>webjars/{webjar-name}/{webjar-version}/path/xyz.js</code>
  * </p>
  */
 public class WebJarResourceResolver extends AbstractResourceResolver {
@@ -51,7 +52,13 @@ public class WebJarResourceResolver extends AbstractResourceResolver {
         if (webjar != null && !version.equals(webjar.getVersion())) {
             path = name + "/" + webjar.getVersion() + path.substring(i);
         }
-        
+
+        i = path.lastIndexOf("/");
+
+        if (i >=0 && path.indexOf(".", i) == -1) {
+            path += ".js";
+        }
+
         return path;
     }
     

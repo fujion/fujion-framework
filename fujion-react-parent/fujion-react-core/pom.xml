@@ -11,16 +11,16 @@
 	<artifactId>fujion-react-core</artifactId>
 
 	<properties>
-		<react.version>16.8.6-SNAPSHOT</react.version>
+		<react.version>16.13.1-SNAPSHOT</react.version>
 		
 		<webjar.name>fujion-react</webjar.name>
 		<skip.minification>false</skip.minification>
-		<systemjs>
-			{ 'map': {
-				'fujion-react-widget': 'js/widget.js'
+		<importmap>
+			{ imports: {
+				"fujion-react-widget": "js/widget.js"
 				}
 			}
-		</systemjs>
+		</importmap>
 	</properties>
 
 	<build>
@@ -29,9 +29,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
-					<execution>
-						<id>npm-install</id>
-					</execution>
 					<execution>
 						<id>generate-schema</id>
 						<configuration>

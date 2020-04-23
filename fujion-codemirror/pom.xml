@@ -13,15 +13,15 @@
 	<properties>
 		<webjar.name>fujion-codemirror</webjar.name>
 		<skip.minification>false</skip.minification>
-        <systemjs>
+        <importmap>
         {
-			'paths': {
-				'fujion-codemirror': 'js/codemirror',
-				'fujion-codemirror-css': 'css/codemirror',
-				'fujion-codemirror-xml': 'js/codemirror-xml'
+			imports: {
+				"fujion-codemirror": "js/codemirror.js",
+				"fujion-codemirror-css": "css/codemirror.css",
+				"fujion-codemirror-xml": "js/codemirror-xml.js"
 			}
 		}
-        </systemjs>
+        </importmap>
 	</properties>
 	
 	<build>

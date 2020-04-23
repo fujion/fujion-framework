@@ -123,9 +123,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			if (tgt) {
 				if (tgt.startsWith('@')) {
 					return System.import(tgt.substring(1)).then(
-						function(module) {
-							return _invokeAction(module, action);
-						}
+						module => _invokeAction(module, action)
 					)
 				}
 				
@@ -1017,18 +1015,20 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	},
 	
 	load: function(pkgname, callback) {			
-		var path = System.resolveSync(pkgname),
-			nmsp = System.registry.get(path),
+		var path = System.resolve(pkgname),
+			nmsp = System.get(path),
 			pkg = nmsp ? nmsp.default : null;
 		
 		if (!pkg) {
-			return System.import(path).then(
-				function(pkg) {
-					return callback ? callback(pkg) : pkg;
-				});
+			return System.import(path).then(pkg => _callback(pkg));
 		}
 		
-		return callback ? callback(pkg) : pkg;
+		return _callback(pkg);
+
+		function _callback(pkg) {
+			pkg = pkg.default ? pkg.default : pkg;
+			return callback ? callback(pkg) : pkg;
+		}
 	},
 	
 	saveToFile: function(content, mimetype, filename) {

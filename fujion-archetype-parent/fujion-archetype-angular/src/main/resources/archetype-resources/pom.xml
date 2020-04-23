@@ -23,13 +23,13 @@
 	
 	<properties>
 		<webjar.name>${artifactId}</webjar.name>
-		<systemjs>
+		<importmap>
 		{
-			'map': {
-				'${artifactId}': 'app/app.module'
+			imports: {
+				"${artifactId}": "app/app.module"
 			}
 		}
-		</systemjs>
+		</importmap>
 	</properties>
 	
 	<build>

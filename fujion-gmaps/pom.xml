@@ -13,14 +13,14 @@
 	<properties>
 		<webjar.name>fujion-gmaps</webjar.name>
 		<skip.minification>false</skip.minification>
-        <systemjs>
+        <importmap>
         {
-			'paths': {
-				'fujion-gmaps': 'js/gmaps',
-				'fujion-gmaps-css': 'css/gmaps'
+			imports: {
+				"fujion-gmaps": "js/gmaps.js",
+				"fujion-gmaps-css": "css/gmaps.css"
 			}
 		}
-        </systemjs>
+        </importmap>
 	</properties>
 	
 	<build>
@@ -51,11 +51,6 @@
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-core</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.fujion.webjars</groupId>
-		    <artifactId>webjar-google-maps</artifactId>
-		    <version>4.2.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

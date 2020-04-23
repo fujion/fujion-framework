@@ -1729,15 +1729,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this.compile();
 			
 			if (v) {
-				var self = this;
-				
 				$.ajax({
 					url: v,
 					async: true,
 					dataType: 'text'
-				}).done(function (script) {
-					self.compile(script);
-				});
+				}).done(script => this.compile(script));
 			}
 		}
 	});

@@ -12,9 +12,9 @@
 
 	<properties>
 		<webjar.name>fujion-angular-example</webjar.name>
-        <systemjs>
-			'map': {'fujion-angular-pomodoro': 'pomodoro.module.js'}
-        </systemjs>
+        <importmap>
+			imports: {"fujion-angular-pomodoro": "pomodoro.module.js"}
+        </importmap>
         <maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 

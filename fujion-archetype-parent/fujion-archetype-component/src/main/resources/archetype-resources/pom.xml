@@ -24,14 +24,14 @@
 	<properties>
         <webjar.name>${artifactId}</webjar.name>
 		<skip.minification>false</skip.minification>
-		<systemjs>
+		<importmap>
 		{
-			'paths': {
-				'${artifactId}': 'js/${classname}',
-				'${artifactId}-css': 'css/${classname}'
+			imports: {
+				"${artifactId}": "js/${classname}.js",
+				"${artifactId}-css": "css/${classname}.css"
 			}
 		}
-		</systemjs>
+		</importmap>
 	</properties>
 	
 	<build>

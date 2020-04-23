@@ -3,10 +3,33 @@
 define('fujion-gmaps', [
 	'fujion-core', 
 	'fujion-widget',
-	'google-maps',
-	'fujion-gmaps-css'], 
+	'fujion-gmaps-css'],
 	
-	function(fujion, Widget, Loader) {
+	function(fujion, Widget) {
+
+	const CALLBACK_NAME = 'fujion_gmap_callback';
+	const API_URL = 'https://maps.googleapis.com/maps/api/js?';
+	let loading = false;
+
+	function loadGMap(options, callback) {
+		if (loading) {
+			return;
+		}
+
+		if (!window.google) {
+			loading = true;
+			options.callback = CALLBACK_NAME;
+			const URL = API_URL + $.param(options);
+			window[CALLBACK_NAME] = () => {
+				loading = false;
+				delete window[CALLBACK_NAME];
+				callback(window.google);
+			};
+			$.getScript(URL);
+		} else {
+			callback(window.google);
+		}
+	}
 
 	/**
 	 * Google Maps widget
@@ -17,11 +40,6 @@ define('fujion-gmaps', [
 		
 		_eventsToForward: ['bounds_changed', 'center_changed', 'click', 'heading_changed', 'idle', 
 			'maptypeid_changed', 'tilesloaded', 'tilt_changed', 'zoom_changed'],
-
-		_gapi: {
-			google: null,
-			loading: false
-		},
 
 		bounds_changedHandler: function(event) {
 			this.triggerMapEvent(event, this._map.getBounds(), true);
@@ -73,20 +91,11 @@ define('fujion-gmaps', [
 		run: function(options, loaderOptions) {
 			this._options = options;
 
-			if (this._gapi.loading) {
-				return;
-			}
-			
-			if (!this._gapi.google) {
-				const key = loaderOptions.key;
-				delete loaderOptions.key;
-				const loader = new Loader.Loader(key, loaderOptions);
-				this._gapi.loading = true;
-				loader.load().then(google => {
-					this._gapi.loading = false;
-					this._gapi.google = google;
+			if (!this.google) {
+				loadGMap(loaderOptions, google => {
+					this.google = google;
 					this._draw();
-				});
+				})
 			} else {
 				this._draw();
 			}
@@ -95,15 +104,14 @@ define('fujion-gmaps', [
 		_draw: function() {
 			const options = this._options;
 			const anchor = this.widget$ && this.widget$[0];
-			const google = this._gapi.google;
 
-			if (options && google && anchor) {
+			if (options && this.google && anchor) {
 
 				if (options.streetViewOptions) {
-					options.streetView = new google.maps.StreetViewPanorama(anchor, options.streetView);
+					options.streetView = new this.google.maps.StreetViewPanorama(anchor, options.streetView);
 				}
 				
-				this._map = new google.maps.Map(anchor, options);
+				this._map = new this.google.maps.Map(anchor, options);
 				_.forEach(this._eventsToForward, eventName => {
 					var handler = this[eventName + 'Handler'];
 					handler = handler ? handler : this.triggerMapEvent;

@@ -13,18 +13,18 @@
     <properties>
         <angular.version>8.0.2-SNAPSHOT</angular.version>
         <corejs.version>2.6.9-SNAPSHOT</corejs.version>
-        <rxjs.version>6.5.2-SNAPSHOT</rxjs.version>
+        <rxjs.version>6.5.5-SNAPSHOT</rxjs.version>
         <zonejs.version>0.9.1-SNAPSHOT</zonejs.version>
 
         <webjar.name>fujion-angular</webjar.name>
         <skip.minification>false</skip.minification>
-        <systemjs>
-            {'map': {
-                'fujion-angular-widget': 'js/widget.js',
-                'fujion-angular-bootstrap': 'js/bootstrap.js'
+        <importmap>
+            {imports: {
+                "fujion-angular-widget": "js/widget.js",
+                "fujion-angular-bootstrap": "js/bootstrap.js"
                 }
             }
-        </systemjs>
+        </importmap>
     </properties>
 
     <build>
@@ -33,13 +33,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <executions>
-                    <execution>
-                        <id>npm-install</id>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </execution>
-                    <execution>
+                   <execution>
                         <id>generate-schema</id>
                         <configuration>
                             <skip>false</skip>

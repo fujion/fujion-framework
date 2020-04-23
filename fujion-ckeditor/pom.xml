@@ -13,14 +13,14 @@
 	<properties>
 		<webjar.name>fujion-ckeditor</webjar.name>
 		<skip.minification>false</skip.minification>
-        <systemjs>
+        <importmap>
         {
-			'paths': {
-				'fujion-ckeditor': 'js/ckeditor',
-				'fujion-ckeditor-css': 'css/ckeditor'
+			imports: {
+				"fujion-ckeditor": "js/ckeditor.js",
+				"fujion-ckeditor-css": "css/ckeditor.css"
 			}
 		}
-        </systemjs>
+        </importmap>
 	</properties>
 	
 	<licenses>

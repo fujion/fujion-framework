@@ -21,6 +21,7 @@
 package org.fujion.webjar;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeCreator;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import org.fujion.common.MiscUtil;
@@ -35,19 +36,17 @@ import java.util.Map.Entry;
  * Information describing a single web jar resource.
  */
 public class WebJar {
-    
-    private static final String[] EXTENSIONS = { "", ".js", ".css" };
-    
+
     private final Resource resource;
-    
+
     private final String name;
 
     private final String version;
 
     private final String absolutePath;
-    
+
     private ObjectNode config;
-    
+
     public WebJar(Resource resource) {
         try {
             this.resource = resource;
@@ -63,28 +62,25 @@ public class WebJar {
     }
 
     /**
-     * Returns the configuration for this webjar, after normalization.
+     * Returns the configuration for this web jar.
      *
      * @return The normalized configuration.
      */
     protected ObjectNode getConfig() {
-        if (config != null) {
-            normalizePaths();
-            normalizePackages();
-        }
-
         return config;
     }
 
     /**
-     * Sets the configuration for this web jar.
+     * Sets and normalizes the configuration for this web jar.
      *
-     * @param config The root node of the configuration.
+     * @param config The incoming configuration data.
      */
     protected void setConfig(ObjectNode config) {
-        this.config = config;
+        this.config = config.objectNode();
+        addNormalizedNode("imports", config);
+        addNormalizedNode("scopes", config);
     }
-    
+
     /**
      * Returns the absolute path of this web jar.
      *
@@ -100,7 +96,7 @@ public class WebJar {
      * @return The relative root path.
      */
     public String getRootPath() {
-        return "webjars/" + name + "/";
+        return "./webjars/" + name + "/";
     }
 
     /**
@@ -153,130 +149,75 @@ public class WebJar {
                     return resources[0];
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         return null;
     }
-    
+
+    /**
+     * Extracts the named node from the incoming configuration data, normalizes
+     * it by converting relative paths to root-based paths, and adds it to
+     * this web jar's configuration.
+     *
+     * @param name One of: "imports", "scopes"
+     * @param config The incoming configuration data.
+     */
+    private void addNormalizedNode(String name, ObjectNode config) {
+        ObjectNode paths = (ObjectNode) config.get(name);
+
+        if (paths == null) {
+            return;
+        }
+
+        this.config.set(name, paths);
+        Iterator<Entry<String, JsonNode>> it = paths.fields();
+
+        while (it.hasNext()) {
+            Entry<String, JsonNode> entry = it.next();
+            JsonNode child = entry.getValue();
+
+            if (child.isTextual()) {
+                String value = child.asText();
+
+                if (!value.startsWith("//") && !value.contains("webjars/")) {
+                    entry.setValue(createPathNode(value));
+                }
+            } else {
+                it.remove();
+            }
+        }
+    }
+
+    /**
+     * Returns the named node for the configuration, creating one if it does not exist.
+     *
+     * @param name The node name.
+     * @return The named node.
+     */
+    private ObjectNode getOrCreateNode(String name, ObjectNode config) {
+        ObjectNode node = (ObjectNode) config.get(name);
+
+        if (node == null) {
+            config.set(name, node = config.objectNode());
+        }
+
+        return node;
+    }
+
+    /**
+     * Creates an absolute path node.
+     *
+     * @param path A relative path.
+     * @return The new path node containing an absolute path.
+     */
+    private TextNode createPathNode(String path) {
+        return new TextNode(getRootPath() + path);
+    }
+
     @Override
     public String toString() {
         return "webjar:" + name + ":" + version;
-    }
-    
-    /**
-     * Add root path to the map and path entries of the parsed requirejs/systemjs config.
-     */
-    private void normalizePaths() {
-        normalizePaths("paths");
-        normalizePaths("map");
-    }
-    
-    /**
-     * Add root path to the map and path entries of the parsed requirejs/systemjs config.
-     *
-     * @param node One of: "paths", "map"
-     */
-    private void normalizePaths(String node) {
-        ObjectNode paths = (ObjectNode) config.get(node);
-        
-        if (paths != null) {
-            Iterator<Entry<String, JsonNode>> iter = paths.fields();
-            
-            while (iter.hasNext()) {
-                Entry<String, JsonNode> entry = iter.next();
-                JsonNode child = entry.getValue();
-                
-                if (child.isTextual()) {
-                    String value = child.asText();
-
-                    if (!value.startsWith("//") && !value.contains("webjars/")) {
-                        entry.setValue(createPathNode(value));
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
-     * Fix any package entries found in the config.
-     */
-    private void normalizePackages() {
-        JsonNode packages = config.get("packages");
-        
-        if (packages != null) {
-            if (packages.isArray()) {
-                config.remove("packages");
-                ObjectNode pkgs = config.objectNode();
-                config.set("packages", pkgs);
-
-                for (int i = 0; i < packages.size(); i++) {
-                    fixPackage(packages.get(i), pkgs);
-                }
-            }
-        }
-    }
-    
-    /**
-     * Fix a package entry, if necessary.
-     *
-     * @param entry The package entry.
-     * @param pkgs The packages node to receive the parsed package.
-     */
-    private void fixPackage(JsonNode entry, ObjectNode pkgs) {
-        String name;
-        String main;
-        ObjectNode pkg = pkgs.objectNode();
-
-        if (entry.isTextual()) {
-            name = entry.asText();
-            main = "main";
-        } else {
-            JsonNode mainNode = entry.get("main");
-            main = mainNode == null ? null : mainNode.asText();
-            JsonNode nameNode = entry.get("name");
-            name = nameNode == null ? null : nameNode.asText();
-        }
-        
-        if (name != null) {
-            pkg.set("main", new TextNode(main == null ? "main" : main));
-            pkg.set("defaultExtension", new TextNode("js"));
-            pkgs.set(name, pkg);
-            getOrCreateMapNode().set(name, createPathNode(""));
-        }
-    }
-    
-    /**
-     * Returns the map node for the configuration, creating one if it does not exist.
-     *
-     * @return The map node.
-     */
-    private ObjectNode getOrCreateMapNode() {
-        ObjectNode map = (ObjectNode) config.get("map");
-
-        if (map == null) {
-            config.set("map", map = config.objectNode());
-        }
-
-        return map;
-    }
-
-    /**
-     * Creates a path node.
-     *
-     * @param file The name of the file referenced in this path node.
-     * @return The new path node.
-     */
-    private TextNode createPathNode(String file) {
-        for (String ext : EXTENSIONS) {
-            Resource resource = createRelative(file + ext);
-            
-            if (resource.exists() && resource.isReadable()) {
-                file += ext;
-                break;
-            }
-        }
-        
-        return new TextNode(getRootPath() + file);
     }
 
 }

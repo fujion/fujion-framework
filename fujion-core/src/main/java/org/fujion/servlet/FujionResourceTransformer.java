@@ -130,11 +130,11 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
         Page page = Page._create(resource.getURL().toString());
         String baseUrl = RequestUtil.getBaseURL(request);
         String wsUrl = "ws" + baseUrl.substring(4) + "ws";
-        String webJarInit = WebJarLocator.getInstance().getWebJarInit();
+        String importMap = WebJarLocator.getInstance().getImportMap();
         map.put("pid", page.getId());
         map.put("baseUrl", baseUrl);
         map.put("wsUrl", wsUrl);
-        map.put("webjarInit", webJarInit);
+        map.put("importMap", importMap);
         map.put("debug", WebUtil.isDebugEnabled());
         map.put("logging", LogUtil.getSettingsForClient());
         map.put("keepalive", WebSocketConfiguration.getKeepaliveInterval());

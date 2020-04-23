@@ -13,35 +13,29 @@
 	<properties>
 		<webjar.name>fujion</webjar.name>
 		<skip.minification>false</skip.minification>
-        <systemjs>
-        {	'packages': {
-        		'': {
-        			'defaultExtension': 'js'
-        		}
-        	},
-        	
-			'map': {
-				'fujion-core': 'js/core',
-				'fujion-widget': 'js/widget',
-				'fujion-widget-css': 'css/widget',
-				'fujion-carousel': 'js/carousel',
-				'fujion-carousel-css': 'css/carousel',
-				'fujion-detail': 'js/detail',
-				'fujion-detail-css': 'css/detail',
-				'fujion-grid': 'js/grid',
-				'fujion-grid-css': 'css/grid',
-				'fujion-tabview': 'js/tabview',
-				'fujion-tabview-css': 'css/tabview',
-				'fujion-treeview': 'js/treeview',
-				'fujion-treeview-css': 'css/treeview',
-				'fujion-paneview': 'js/paneview',
-				'fujion-paneview-css': 'css/paneview',
-				'fujion-picker': 'js/picker',
-				'fujion-picker-css': 'css/picker',
-				'fujion-upload': 'js/upload'
+        <importmap>
+        {	imports: {
+				"fujion-core": "js/core.js",
+				"fujion-widget": "js/widget.js",
+				"fujion-widget-css": "css/widget.css",
+				"fujion-carousel": "js/carousel.js",
+				"fujion-carousel-css": "css/carousel.css",
+				"fujion-detail": "js/detail.js",
+				"fujion-detail-css": "css/detail.css",
+				"fujion-grid": "js/grid.js",
+				"fujion-grid-css": "css/grid.css",
+				"fujion-tabview": "js/tabview.js",
+				"fujion-tabview-css": "css/tabview.css",
+				"fujion-treeview": "js/treeview.js",
+				"fujion-treeview-css": "css/treeview.css",
+				"fujion-paneview": "js/paneview.js",
+				"fujion-paneview-css": "css/paneview.css",
+				"fujion-picker": "js/picker.js",
+				"fujion-picker-css": "css/picker.css",
+				"fujion-upload": "js/upload.js"
 			}
 		}
-        </systemjs>
+        </importmap>
 	</properties>
 
 	<build>
@@ -143,14 +137,14 @@
 		</dependency>		
 		<!-- Web Jars -->
 		<dependency>
-		    <groupId>org.fujion.webjars</groupId>
-		    <artifactId>webjar-systemjs</artifactId>
-		    <version>0.21.6</version>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-systemjs</artifactId>
+			<version>6.3.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.fujion.webjars</groupId>
-		    <artifactId>webjar-systemjs-plugin-css</artifactId>
-		    <version>0.1.37</version>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-systemjs-css-extra</artifactId>
+			<version>1.0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
@@ -165,7 +159,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-jquery-ui</artifactId>
-			<version>1.12.1</version>
+			<version>1.12.1-1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
@@ -175,7 +169,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-fontawesome</artifactId>
-			<version>4.7.0</version>
+			<version>4.7.0-1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
