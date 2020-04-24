@@ -12,12 +12,6 @@
 
 	<properties>
 		<webjar.name>fujion-react-example</webjar.name>
-        <importmap>
-        {	imports: {
-        		"fujion-react-pomodoro": "pomodoro.js"
-        	}
-		}
-        </importmap>
         <maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 

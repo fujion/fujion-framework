@@ -13,13 +13,6 @@
 	<properties>
 		<webjar.name>fujion-plotly</webjar.name>
 		<skip.minification>false</skip.minification>
-        <importmap>
-        {
-			imports: {
-				"fujion-plotly": "js/plotly.js"
-			}
-		}
-        </importmap>
 	</properties>
 	
 	<build>

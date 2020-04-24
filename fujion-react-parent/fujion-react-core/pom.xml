@@ -15,12 +15,6 @@
 		
 		<webjar.name>fujion-react</webjar.name>
 		<skip.minification>false</skip.minification>
-		<importmap>
-			{ imports: {
-				"fujion-react-widget": "js/widget.js"
-				}
-			}
-		</importmap>
 	</properties>
 
 	<build>

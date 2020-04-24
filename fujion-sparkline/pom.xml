@@ -13,13 +13,6 @@
 	<properties>
 		<webjar.name>fujion-sparkline</webjar.name>
 		<skip.minification>false</skip.minification>
-        <importmap>
-        {
-			imports: {
-				"fujion-sparkline": "js/sparkline.js"
-			}
-		}
-        </importmap>
 	</properties>
 	
 	<build>

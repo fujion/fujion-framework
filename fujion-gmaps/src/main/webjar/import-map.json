@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "fujion-gmaps": "js/gmaps.js",
+    "fujion-gmaps-css": "css/gmaps.css"
+  }
+}

@@ -13,15 +13,6 @@
 	<properties>
 		<webjar.name>fujion-captcha</webjar.name>
 		<skip.minification>false</skip.minification>
-		<importmap>
-        {
-			imports: {
-				"fujion-captcha": "js/captcha.js",
-				"fujion-captcha-css": "css/captcha.css",
-        		"recaptcha": "//www.google.com/recaptcha/api.js?onload=recaptcha_onload&amp;render=explicit"
-			}
-		}
-        </importmap>
 	</properties>
 	
 	<build>

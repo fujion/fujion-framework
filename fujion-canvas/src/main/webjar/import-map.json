@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "fujion-canvas": "js/canvas.js",
+    "fujion-canvas-css": "css/canvas.css"
+  }
+}

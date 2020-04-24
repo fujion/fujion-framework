@@ -13,13 +13,6 @@
 	<properties>
 		<webjar.name>fujion-hchart</webjar.name>
 		<skip.minification>false</skip.minification>
-        <importmap>
-        {
-			imports: {
-				"fujion-hchart": "js/hchart.js"
-			}
-		}
-        </importmap>
 	</properties>
 	
 	<licenses>

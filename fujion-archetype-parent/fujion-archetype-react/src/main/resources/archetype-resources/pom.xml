@@ -23,14 +23,6 @@
 	
 	<properties>
 		<webjar.name>${artifactId}</webjar.name>
-		<importmap>
-		{
-			imports: {
-				"${artifactId}": "${className}.js",
-				"${artifactId}-css": "${className}.css"
-			}
-		}
-		</importmap>
 	</properties>
 	
 	<build>

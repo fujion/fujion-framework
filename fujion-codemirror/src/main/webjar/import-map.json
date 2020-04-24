@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "fujion-codemirror": "js/codemirror.js",
+    "fujion-codemirror-css": "css/codemirror.css",
+    "fujion-codemirror-xml": "js/codemirror-xml.js"
+  }
+}

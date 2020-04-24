@@ -13,29 +13,6 @@
 	<properties>
 		<webjar.name>fujion</webjar.name>
 		<skip.minification>false</skip.minification>
-        <importmap>
-        {	imports: {
-				"fujion-core": "js/core.js",
-				"fujion-widget": "js/widget.js",
-				"fujion-widget-css": "css/widget.css",
-				"fujion-carousel": "js/carousel.js",
-				"fujion-carousel-css": "css/carousel.css",
-				"fujion-detail": "js/detail.js",
-				"fujion-detail-css": "css/detail.css",
-				"fujion-grid": "js/grid.js",
-				"fujion-grid-css": "css/grid.css",
-				"fujion-tabview": "js/tabview.js",
-				"fujion-tabview-css": "css/tabview.css",
-				"fujion-treeview": "js/treeview.js",
-				"fujion-treeview-css": "css/treeview.css",
-				"fujion-paneview": "js/paneview.js",
-				"fujion-paneview-css": "css/paneview.css",
-				"fujion-picker": "js/picker.js",
-				"fujion-picker-css": "css/picker.css",
-				"fujion-upload": "js/upload.js"
-			}
-		}
-        </importmap>
 	</properties>
 
 	<build>

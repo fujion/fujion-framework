@@ -13,14 +13,6 @@
 	<properties>
 		<webjar.name>fujion-barcode</webjar.name>
 		<skip.minification>false</skip.minification>
-		<importmap>
-			{
-				imports: {
-					"fujion-barcode": "js/barcode.js",
-					"fujion-barcode-css": "css/barcode.css"
-					}
-			}
-		</importmap>
 	</properties>
 
 	<build>

@@ -13,13 +13,6 @@
 	<properties>
 		<webjar.name>fujion-spinjs</webjar.name>
 		<skip.minification>false</skip.minification>
-        <importmap>
-        {
-			imports: {
-				"fujion-spinjs": "js/spinjs.js"
-			}
-		}
-        </importmap>
 	</properties>
 	
 	<build>

@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "fujion-angular-widget": "js/widget.js",
+    "fujion-angular-bootstrap": "js/bootstrap.js"
+  }
+}

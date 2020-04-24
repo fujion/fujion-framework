@@ -13,14 +13,6 @@
 	<properties>
 		<webjar.name>fujion-canvas</webjar.name>
 		<skip.minification>false</skip.minification>
-         <importmap>
-        {
-			imports: {
-				"fujion-canvas": "js/canvas.js",
-				"fujion-canvas-css": "css/canvas.css"
-			}
-		}
-        </importmap>
 	</properties>
 	
 	<build>

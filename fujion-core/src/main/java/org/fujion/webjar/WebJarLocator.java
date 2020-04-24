@@ -22,12 +22,9 @@ package org.fujion.webjar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.fujion.common.JSONUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
-import org.fujion.common.XMLUtil;
 import org.fujion.core.WebUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -35,8 +32,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -55,15 +50,12 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
 
     private static final WebJarLocator instance = new WebJarLocator();
 
-    private static final String OPEN_TAG = "<importmap>";
+    static ObjectMapper parser = new ObjectMapper()
+            .configure(ALLOW_UNQUOTED_FIELD_NAMES, true)
+            .configure(ALLOW_SINGLE_QUOTES, true)
+            .configure(ORDER_MAP_ENTRIES_BY_KEYS, true);
 
-    private static final String CLOSE_TAG = "</importmap>";
-
-    private ObjectNode config;
-
-    private String importMap;
-
-    private ApplicationContext applicationContext;
+    private String importMapStr;
 
     private final Map<String, WebJar> webjars = new HashMap<>();
 
@@ -85,18 +77,9 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
      * @return The merged import map for SystemJS.
      */
     public String getImportMap() {
-        return importMap;
+        return importMapStr;
     }
     
-    /**
-     * Returns a copy of the configuration.
-     *
-     * @return Copy of the configuration.
-     */
-    public ObjectNode getConfig() {
-        return config.deepCopy();
-    }
-
     /**
      * Finds a web jar given its unique name.
      *
@@ -112,15 +95,11 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-        
         try {
             Resource[] resources = applicationContext.getResources("classpath*:/**/META-INF/resources/webjars/?*/?*/");
-            ObjectMapper parser = new ObjectMapper()
-                    .configure(ALLOW_UNQUOTED_FIELD_NAMES, true)
-                    .configure(ALLOW_SINGLE_QUOTES, true)
-                    .configure(ORDER_MAP_ENTRIES_BY_KEYS, true);
-            config = createConfig(parser);
+            ObjectNode importMap = parser.createObjectNode();
+            importMap.set("imports", parser.createObjectNode());
+            importMap.set("scopes", parser.createObjectNode());
 
             for (Resource resource : resources) {
                 try {
@@ -128,128 +107,29 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
                         continue;
                     }
 
-                    log.debug(() -> "Extracting configuration data for web jar: " + resource);
+                    log.debug(() -> "Processing import map for web jar: " + resource);
                     WebJar webjar = new WebJar(resource);
                     String name = webjar.getName();
-                    
+
                     if (webjars.containsKey(name)) {
                         log.warn("Duplicate webjar was ignored: " + webjar);
                         continue;
                     }
-                    
+
                     webjars.put(name, webjar);
-                    boolean success = extractConfig(webjar, parser);
-                    
-                    if (success) {
-                        JSONUtil.merge(config, webjar.getConfig(), true);
-                    } else {
-                        log.warn(() -> "No import map found for web jar: " + webjar.getName());
-                    }
+                    JSONUtil.merge(importMap, webjar.getImportMap(), true);
                 } catch (Exception e) {
                     log.error(() -> "Error extracting import map from web jar: " + resource, e);
                 }
             }
             
             if (WebUtil.isDebugEnabled()) {
-                importMap = parser.writerWithDefaultPrettyPrinter().writeValueAsString(config);
+                importMapStr = parser.writerWithDefaultPrettyPrinter().writeValueAsString(importMap);
             } else {
-                importMap = config.toString();
+                importMapStr = importMap.toString();
             }
         } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
-        }
-    }
-
-    /**
-     * Creates a configuration with empty imports and scopes nodes.
-     *
-     * @param parser The JSON parser.
-     * @return The newly created configuration.
-     */
-    private ObjectNode createConfig(ObjectMapper parser) {
-        ObjectNode config = parser.createObjectNode();
-        config.set("imports", parser.createObjectNode());
-        config.set("scopes", parser.createObjectNode());
-        return config;
-    }
-
-    /**
-     * Locate the pom.xml within the web jar and pass it to the configuration parser.
-     *
-     * @param webjar The web jar.
-     * @param parser The JSON parser.
-     * @return True if the configuration data was successfully parsed.
-     */
-    private boolean extractConfig(
-            WebJar webjar,
-            ObjectMapper parser) {
-        try {
-            String pomPath = webjar.getAbsolutePath();
-            int i = pomPath.lastIndexOf("/META-INF/") + 10;
-            pomPath = pomPath.substring(0, i) + "maven/**/pom.xml";
-            Resource[] poms = applicationContext.getResources(pomPath);
-            return poms.length > 0 && parseConfig(poms[0], webjar, parser);
-        } catch (Exception e) {
-            log.error(() -> "Error processing configuration data from " + webjar, e);
-            return false;
-        }
-    }
-
-    /**
-     * Scans the pom.xml for a property declaration called "importmap".  If found, the value of the property
-     * is parsed and the result is merged into the global import map that we are building.
-     *
-     * @param pomResource The pom.xml resource.
-     * @param webjar      The web jar.
-     * @param parser      The JSON parser.
-     * @return True if configuration data was found and successfully parsed.
-     * @throws Exception Unspecified exception.
-     */
-    private boolean parseConfig(
-            Resource pomResource,
-            WebJar webjar,
-            ObjectMapper parser) throws Exception {
-        try (InputStream is = pomResource.getInputStream()) {
-            Iterator<String> iter = IOUtils.lineIterator(is, StandardCharsets.UTF_8);
-            StringBuilder sb = null;
-
-            while (iter.hasNext()) {
-                String line = iter.next();
-
-                if (sb == null) {
-                    int pos = line.indexOf(OPEN_TAG);
-
-                    if (pos >= 0) {
-                        sb = new StringBuilder();
-                        line = line.substring(pos);
-                    } else {
-                        continue;
-                    }
-                }
-
-                int pos = line.indexOf(CLOSE_TAG);
-
-                if (pos >= 0) {
-                    sb.append(line, 0, pos + CLOSE_TAG.length());
-                    break;
-                }
-
-                sb.append(line);
-            }
-
-            String json = sb == null ? null :
-                    StringUtils.trimToNull(XMLUtil.parseXMLFromString(sb.toString()).getDocumentElement().getTextContent());
-
-            if (json == null) {
-                return false;
-            }
-
-            if (!json.startsWith("{")) {
-                json = "{" + json + "}";
-            }
-
-            webjar.setConfig((ObjectNode) parser.readTree(json));
-            return true;
         }
     }
 

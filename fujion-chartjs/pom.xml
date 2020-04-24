@@ -13,13 +13,6 @@
 	<properties>
 		<webjar.name>fujion-chartjs</webjar.name>
 		<skip.minification>false</skip.minification>
-        <importmap>
-        {
-			imports: {
-				"fujion-chartjs": "js/chart-js.js"
-			}
-		}
-        </importmap>
 	</properties>
 	
 	<build>

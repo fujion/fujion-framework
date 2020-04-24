@@ -18,13 +18,6 @@
 
         <webjar.name>fujion-angular</webjar.name>
         <skip.minification>false</skip.minification>
-        <importmap>
-            {imports: {
-                "fujion-angular-widget": "js/widget.js",
-                "fujion-angular-bootstrap": "js/bootstrap.js"
-                }
-            }
-        </importmap>
     </properties>
 
     <build>

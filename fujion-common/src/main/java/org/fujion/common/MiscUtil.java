@@ -97,7 +97,9 @@ public class MiscUtil {
      * class S where S must be assignment-compatible with T.
      *
      * @param <T> Class of collection elements.
+     * @param <CT> Class of Collection of T elements.
      * @param <S> Target class for cast.
+     * @param <CS> Class of Collection of S elements.
      * @param collection Collection to be recast.
      * @param clazz Class to which to cast collection elements.
      * @return The recast collection.

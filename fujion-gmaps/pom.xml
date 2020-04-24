@@ -13,14 +13,6 @@
 	<properties>
 		<webjar.name>fujion-gmaps</webjar.name>
 		<skip.minification>false</skip.minification>
-        <importmap>
-        {
-			imports: {
-				"fujion-gmaps": "js/gmaps.js",
-				"fujion-gmaps-css": "css/gmaps.css"
-			}
-		}
-        </importmap>
 	</properties>
 	
 	<build>

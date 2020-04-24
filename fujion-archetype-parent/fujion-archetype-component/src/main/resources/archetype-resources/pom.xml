@@ -24,14 +24,6 @@
 	<properties>
         <webjar.name>${artifactId}</webjar.name>
 		<skip.minification>false</skip.minification>
-		<importmap>
-		{
-			imports: {
-				"${artifactId}": "js/${classname}.js",
-				"${artifactId}-css": "css/${classname}.css"
-			}
-		}
-		</importmap>
 	</properties>
 	
 	<build>
