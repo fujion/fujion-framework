@@ -88,7 +88,7 @@ public class RequestUtil {
             
             while (enumeration.hasMoreElements()) {
                 String headerName = (String) enumeration.nextElement();
-                log.trace(String.format("HeaderName: %s", headerName));
+                log.trace(() -> String.format("HeaderName: %s", headerName));
             }
         }
     }

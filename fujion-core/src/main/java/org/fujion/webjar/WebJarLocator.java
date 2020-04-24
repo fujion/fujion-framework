@@ -114,7 +114,7 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
                     String name = webjar.getName();
 
                     if (webjars.containsKey(name)) {
-                        log.warn("Duplicate webjar was ignored: " + webjar);
+                        log.warn(() ->"Duplicate webjar was ignored: " + webjar);
                         continue;
                     }
 
