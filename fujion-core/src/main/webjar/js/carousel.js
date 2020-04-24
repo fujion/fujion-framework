@@ -33,11 +33,11 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 
 		afterRender: function() {
 			this.widget$.carousel();
-			this.widget$.on('slid.bs.carousel', this.handleSlide.bind(this));
+			this.widget$.on('slid.bs.carousel', event => this.handleSlide(event));
 		},
 
 		render$: function() {
-			var dom =
+			const dom =
 				'<div data-ride="carousel">'
 				+	'<ol id="${id}-ind" class="carousel-indicators"></ol>'
 				+ 	'<div id="${id}-inner" class="carousel-inner"></div>'

@@ -24,7 +24,7 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			var dom = 
+			const dom =
 				  '<div>'
 				+   '<ul id="${id}-tabs" class="fujion_tabview-tabs"></ul>'
 				+   '<div id ="${id}-panes" class="fujion_tabview-panes"></div>'
@@ -56,7 +56,7 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 		
 		/*------------------------------ Events ------------------------------*/
 		
-		handleSelect: function(event) {
+		handleSelect: function() {
 			this.trigger('change', {value: true});
 		},
 		
@@ -75,28 +75,27 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 		},
 				
 		render$: function() {
-			var dom = 
+			const dom =
 				  '<li role="presentation">'
 				+   '<a id="${id}-tab">'
 				+ this.getDOMTemplate(':image', 'badge', 'label', ':closable')
 				+   '</a>'
-				+ '</li>',
-				self = this;
-				
+				+ '</li>';
+
 			if (!this._ancillaries.pane$) {
-				var pane = '<div id="${id}-pane" class="fujion_tab-pane d-none"></div>',
-					pane$ = $(this.resolveEL(pane));
+				const pane = '<div id="${id}-pane" class="fujion_tab-pane d-none"></div>';
+				const pane$ = $(this.resolveEL(pane));
 				this._ancillaries.pane$ = pane$;
-				pane$.data('attach', _attachPane);
+				pane$.data('attach', () => this._attachPane());
 				pane$.data('fujion_widget', this);
-				_attachPane();
+				this._attachPane();
 			}
 			
 			return $(this.resolveEL(dom));
-			
-			function _attachPane() {
-				self._ancillaries.pane$.appendTo(self._parent.sub$('panes'));
-			}
+		},
+
+		_attachPane: function() {
+			this._ancillaries.pane$.appendTo(this._parent.sub$('panes'));
 		},
 		
 		/*------------------------------ State ------------------------------*/		

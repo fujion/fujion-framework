@@ -47,7 +47,7 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		
 		afterRender: function() {
 			this._super();
-			var popup = this.getState('popup');
+			let popup = this.getState('popup');
 			
 			if (!popup) {
 				popup = fujion.widget.create(null, {wclass: 'Popup', cntr: true});
@@ -132,12 +132,11 @@ define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], f
 		},
 		
 		useDefaults: function() {
-			var self = this;
 			this._usingDefaults = true;
 			
-			_.forEach(fujion.widget.DEFAULT_PALETTE, function(value) {
-				fujion.widget.create(self, {wclass: 'Colorpickeritem'}, {value: value});
-			});
+			_.forEach(fujion.widget.DEFAULT_PALETTE, value =>
+				fujion.widget.create(this, {wclass: 'Colorpickeritem'}, {value: value})
+			);
 		},
 		
 		/*------------------------------ Other ------------------------------*/

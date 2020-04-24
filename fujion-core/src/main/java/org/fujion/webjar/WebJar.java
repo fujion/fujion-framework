@@ -154,6 +154,9 @@ public class WebJar {
         return new TextNode(getRootPath() + path);
     }
 
+    /**
+     * Retrieves and parses the import map if one is present.
+     */
     private void parseImportMap() {
         Resource importMapResource = getImportMapResource();
 
@@ -168,6 +171,11 @@ public class WebJar {
         }
     }
 
+    /**
+     * Retrieve the import map resource if one exists.
+     *
+     * @return The import map resource, or null if it does not exist.
+     */
     private Resource getImportMapResource() {
         try {
             Resource importMapResource = resource.createRelative("import-map.json");

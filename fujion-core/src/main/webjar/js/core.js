@@ -1,56 +1,53 @@
 'use strict';
 
 define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
-	var fujion;
-	
+	let fujion;
+
 	return fujion = {
-	
-	/*------------------------------ Initialization ------------------------------*/
-			
-    // Global options for Fujion client.
-			
-	globalOptions: {},
-	
-	/**
-	 * Initializer for bootstrapping process.
-	 */
-	init: function(options) {
-		window.onerror = fujion.fatal;
-		
-		window.onbeforeunload = function(event) {
-			return fujion._canClose ? undefined : event.returnValue = true;
-		};
-		
-		window.onunload = function(event) {
-			fujion.ws.setKeepalive(0);
-		};
-		
-		window.fujion = fujion;
-		
-		this.debug = options.debug;
-		this.pid = options.pid;
-		this.baseurl = options.baseurl;
-		this._canClose = true;
-		this.body$ = $('body');
-		this.head$ = $('head');
-		this.root$ = $('#fujion_root');
-		this.log._init(options);
-		this.action._init();
-		this.jquery._init();
-		this.event._init();
-		this.widget._init();
-		this.ws._init(options);
-	},
-	
-	/*------------------------------ Request Processing ------------------------------*/
-	
-	action: {
-		transforms: {
-			'id': function(value) { return fujion.widget.find(value); },
-			'js': function(value) { var fnc; eval('fnc=' + value); return fnc; }
+
+		/*------------------------------ Initialization ------------------------------*/
+
+		// Global options for Fujion client.
+
+		globalOptions: {},
+
+		/**
+		 * Initializer for bootstrapping process.
+		 */
+		init: function (options) {
+			window.onerror = fujion.fatal;
+			window.onbeforeunload = event => fujion._canClose ? undefined : event.returnValue = true;
+			window.onunload = () => fujion.ws.setKeepalive(0);
+			window.fujion = fujion;
+
+			this.debug = options.debug;
+			this.pid = options.pid;
+			this.baseurl = options.baseurl;
+			this._canClose = true;
+			this.body$ = $('body');
+			this.head$ = $('head');
+			this.root$ = $('#fujion_root');
+			this.log._init(options);
+			this.action._init();
+			this.jquery._init();
+			this.event._init();
+			this.widget._init();
+			this.ws._init(options);
 		},
-		
-		_init: function() {
+
+		/*------------------------------ Request Processing ------------------------------*/
+
+		action: {
+			transforms: {
+				'id': value => fujion.widget.find(value),
+				'js': value => {
+					let fnc;
+					eval('fnc=' + value);
+					return fnc;
+				}
+			},
+
+			_init: function () {
 			this.queue = [];
 			this.processing = false;
 		},
@@ -59,36 +56,34 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			if (this.processing) {
 				return;
 			}
-		
-			var action,
-				self = this;
-			
+
+			let action;
 			this.processing = true;
-			
+
 			try {
 				while (action = this.queue.shift()) {
-					var result = this._processAction(action);
-					
+					const result = this._processAction(action);
+
 					if (result && _.isFunction(result.then)) {
-						return result.then(function(result) {
-							self._doCallback(action, result);
-							self.processing = false;
-							self.processQueue();
-						}, _handleError);
+						return result.then(
+							result => {
+								this._doCallback(action, result);
+								this.processing = false;
+								this.processQueue();
+							}, error => {
+								this.processing = false;
+								fujion.fatal(error);
+							});
 					} else {
 						this._doCallback(action, result);
 					}
 				}
-			} catch (e) {
-				_handleError(e);
+			} catch (error) {
+				this.processing = false;
+				fujion.fatal(error);
 			}
 			
 			this.processing = false;
-			
-			function _handleError(error) {
-				self.processing = false;
-				fujion.fatal(error);
-			}
 		},
 		
 		queueAction: function(action) {
@@ -117,25 +112,24 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		
 		_processAction: function(action) {
 			fujion.log.debug('Processing: ', action);
-			
-			var tgt = action.tgt;
-		
+
+			let tgt = action.tgt;
+
 			if (tgt) {
 				if (tgt.startsWith('@')) {
 					return System.import(tgt.substring(1)).then(
 						module => _invokeAction(module, action)
 					)
 				}
-				
-				var i = tgt.indexOf('-'),
-					sub = i === -1 ? null : tgt.substring(i + 1);
-				
+
+				const i = tgt.indexOf('-');
+				const sub = i === -1 ? null : tgt.substring(i + 1);
 				tgt = fujion.widget.find(i > 0 ? tgt.substring(0, i) : tgt);
-			
+
 				if (!tgt) {
 					throw new Error('No target matching ' + action.tgt);
 				}
-				
+
 				tgt = sub ? tgt.sub$(sub) : tgt;
 			}
 			
@@ -145,13 +139,13 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 				if (!action.fcn) {
 					return;
 				}
-				
-				var fcn = fujion.resolveReference(tgt, action.fcn);
-			
+
+				const fcn = fujion.resolveReference(tgt, action.fcn);
+
 				if (!fcn) {
 					throw new Error('Unknown action (' + action.tgt + ').' + action.fcn);
 				}
-			
+
 				return _.isFunction(fcn.ref) ? fcn.ref.apply(fcn.base, _processArgs(action.arg)) : fcn.ref;
 			}
 		
@@ -176,12 +170,12 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			}
 			
 			function _customTransform(value) {
-				var tx = fujion.action.transforms[value.tp];
-				
+				const tx = fujion.action.transforms[value.tp];
+
 				if (!tx) {
 					throw new Error('Unknown argument type: ' + value.tp);
 				}
-				
+
 				return _.isNil(value.vl) ? null : tx(value.vl);
 			}
 		}
@@ -191,7 +185,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	
 	jquery: {
 		_init: function() {
-			for (var fn in this) {
+			for (const fn in this) {
 				if (fn != '_init') {
 					$.fn[fn] = this[fn];
 				}
@@ -199,14 +193,14 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		},
 		
 		fujion$widget: function() {
-			var ele$ = this,
-				wgt;
+			let ele$ = this;
+			let wgt;
 
 			while (!wgt && ele$.length) {
-				wgt = ele$.data('fujion_widget');	
+				wgt = ele$.data('fujion_widget');
 				ele$ = wgt ? null : ele$.parent();
 			}
-			 
+
 			return wgt;
 		},
 		
@@ -215,19 +209,19 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		 * Note this uses background polling, so should be used sparingly.
 		 */
 		fujion$track: function(src$, untrack) {
-			var data = src$._fujion$track || {},
-				lst = data.lst || [];
-			
-			this.each(function() {
-				var i = lst.indexOf(this);
-				
+			const data = src$._fujion$track || {};
+			const lst = data.lst || [];
+
+			this.each(function () {
+				const i = lst.indexOf(this);
+
 				if (i === -1) {
 					untrack ? null : lst.push(this);
 				} else {
 					untrack ? lst.splice(i, 1) : null;
 				}
 			});
-			
+
 			if (!lst.length) {
 				_untrack();
 			} else if (!data.poll) {
@@ -245,20 +239,21 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			}
 			
 			function _poll() {
-				var lastpos = data.pos,
-					currpos = src$.offset();
-				
+				const lastpos = data.pos;
+				const currpos = src$.offset();
+
 				if (!currpos) {
 					_untrack();
 				} else if (lastpos.left !== currpos.left || lastpos.top !== currpos.top) {
 					lastpos.left = currpos.left;
 					lastpos.top = currpos.top;
-					
-					var event = $.Event('move', {
-						relatedTarget: src$, 
+
+					const event = $.Event('move', {
+						relatedTarget: src$,
 						position: currpos,
 						pageX: currpos.left,
-						pageY: currpos.top});
+						pageY: currpos.top
+					});
 					$(data.lst).trigger(event);
 				}
 			}
@@ -284,13 +279,13 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			if (_.isArray(sub)) {
 				sub = sub.join(' ');
 			}
-			
+
 			sub = sub.split(' ');
-			
-			for (var i in sub) {
+
+			for (const i in sub) {
 				this.removeClass(base + sub[i]);
 			}
-			
+
 			return this;
 		},
 		
@@ -309,14 +304,14 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		},
 		
 		fujion$zindex: function(dflt) {
-			var ele = this[0],
-				zindex = null;
-			
+			let ele = this[0];
+			let zindex = null;
+
 			while (ele && !_.isFinite(zindex)) {
 				zindex = +getComputedStyle(ele).zIndex;
 				ele = ele.parentElement;
 			}
-			
+
 			return _.isFinite(zindex) ? zindex : dflt || 0;
 		}
 	},
@@ -335,14 +330,14 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			this.setKeepalive(options.keepalive);
 		
 			function _onopen() {
-				var data = {
+				const data = {
 					requestURL: window.location.href,
 					baseURL: options.baseurl,
 					viewportHeight: $(window).height(),
 					viewportWidth: $(window).width(),
 					timezoneOffset: new Date().getTimezoneOffset()
 				};
-				
+
 				fujion.flatten(screen, data, 'screen', 1);
 				fujion.flatten(navigator, data, 'browser', 1);
 				this.sendData('init', data);
@@ -350,7 +345,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		
 			function _onmessage(message) {
 				this.lastReceive = Date.now();
-				var action = JSON.parse(message.data);
+				const action = JSON.parse(message.data);
 				fujion.log.debug('Received: ', action);
 				fujion.action.queueAction(action);
 			}
@@ -360,8 +355,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			}
 		
 			function _onkeepalive() {
-				var elapsed = Date.now() - this.lastSend;
-				
+				const elapsed = Date.now() - this.lastSend;
+
 				if (elapsed >= this.keepalive) {
 					this.ping('keepalive');
 				}
@@ -395,21 +390,21 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 				this.setKeepalive(0);
 				fujion.debug ? null : $('html').empty();
 
-				return setTimeout(function() {
+				return setTimeout(() => {
 					throw new Error('Communication with the server has been interrupted.');
 				}, 1);
 			}
-			
-			var pkt = {type: type, pid: fujion.pid, data: data};
-			
+
+			const pkt = {type: type, pid: fujion.pid, data: data};
+
 			if (data && data.blob) {
-				var blob = data.blob;
+				const blob = data.blob;
 				delete data.blob;
 				this.socket.send(new Blob([JSON.stringify(pkt, _replacer), '\n', blob]));
 			} else {
 				this.socket.send(JSON.stringify(pkt, _replacer));
 			}
-			
+
 			this.lastSend = Date.now();
 				
 			if (!nolog) {
@@ -450,12 +445,12 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		    
 		    fujion.body$.on('keydown', function(event) {
 		    	if (event.keyCode === 8) {
-		    		var tp = event.srcElement || event.target;
-		    		tp = tp.tagName.toLowerCase();
+					let tp = event.srcElement || event.target;
+					tp = tp.tagName.toLowerCase();
 
-		    		if (tp !== 'input' && tp !== 'textarea')
-		    			event.preventDefault();
-		    	}
+					if (tp !== 'input' && tp !== 'textarea')
+						event.preventDefault();
+				}
 		    });
 			
 			this.registerPostProcessor('change', _ppChangeInput);
@@ -468,12 +463,12 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		},
 		
 		_postprocess: function(event, data) {
-			var fn = this.postProcessors[event.type];
+			const fn = this.postProcessors[event.type];
 			fn ? fn.apply(this, arguments) : null;
 		},
 		
 		forward: function(event, type, target) {
-			var target$ = fujion.$(target || event.target);
+			const target$ = fujion.$(target || event.target);
 			event.type = type || event.type;
 			target$ ? target$.triggerHandler(event) : null;
 		},
@@ -508,7 +503,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		},
 
 		toKeyCapture: function(event) {
-			var value = '';
+			let value = '';
 			value += event.ctrlKey ? '^' : '';
 			value += event.altKey ? '@' : '';
 			value += event.metaKey ? '~' : '';
@@ -521,21 +516,20 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		 * Event handler for constraining input.
 		 */
 		constrainInput: function(constraint, keyPressEvent) {
-			var key = String.fromCharCode(keyPressEvent.which),
-				test = constraint.test ? constraint.test(key) : constraint(key);
-			
+			const key = String.fromCharCode(keyPressEvent.which);
+			const test = constraint.test ? constraint.test(key) : constraint(key);
 			test ? null : fujion.event.stop(keyPressEvent);
 		},
 		
 		sendToServer: function(event, params) {
-			var orig = event.originalEvent || event;
-			
+			const orig = event.originalEvent || event;
+
 			if (orig.fujion_nosend || event.fujion_nosend) {
 				return;
 			}
-			
+
 			event.id = ++fujion.event.eventId;
-			var pkt = _.assignIn({}, event, params || {});
+			const pkt = _.assignIn({}, event, params || {});
 			delete pkt.originalEvent;
 			orig.fujion_nosend = true;
 			fujion.event._postprocess(event, pkt);
@@ -564,34 +558,33 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		 * @return {object} The module object.
 		 */
 		addon: function(moduleName, className, classObject) {
-			var addon = fujion.widget._addon;
+			const addon = fujion.widget._addon;
 			addon[moduleName] = addon[moduleName] || {};
 			addon[moduleName][className] = classObject;
 			return addon[moduleName];
 		},
-		
+
 		/**
 		 * Create a widget instance
-		 * 
+		 *
 		 * @param {Widget} parent The parent widget
 		 * @param {object} props Immutable widget properties.
 		 * @param {object} [state] Initial state values.
 		 * @return {Widget} The newly created widget.
 		 */
-		create: function(parent, props, state) {			
-			var pkg;
-			
+		create: function (parent, props, state) {
+			let pkg;
 			props.id = props.id || fujion.uniqueId();
 			props.wmodule = props.wmodule || 'fujion-widget';
 			return fujion.load(props.wmodule, _create);
 
 			function _create(pkg) {
-				var clazz = pkg[props.wclass];
-				
-				if (!clazz) { 
+				const clazz = pkg[props.wclass];
+
+				if (!clazz) {
 					throw new Error('Unrecognized widget class: ' + props.wmodule + '.' + props.wclass);
 				}
-				
+
 				return fujion.widget.register(props.id, new clazz(parent, props, state));
 			}
 		},
@@ -652,8 +645,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		 * Send log message to console and/or to server.
 		 */
 		_log: function(level, con, args) {
-			var setting = fujion.log.level[level];
-			
+			let setting = fujion.log.level[level];
+
 			if (setting & 2) {
 				if (fujion.ws.isConnected()) {
 					fujion.ws.sendData('log', {level: level, message: args}, true);
@@ -661,7 +654,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 					setting = 1;
 				}
 			}
-			
+
 			if (setting & 1) {
 				console[con].apply(this, _.concat([level + ':'], args));
 			}
@@ -704,7 +697,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	ele: function(object) {
 		return _.isNil(object) ? null 
 			: _.isElement(object) ? object 
-			: fujion.$(object)[0];
+			: fujion.$(object).get(0);
 	},
 	
 	/**
@@ -713,12 +706,10 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	swap: function(ele1, ele2) {
 		ele1 = fujion.ele(ele1);
 		ele2 = fujion.ele(ele2);
-		
-		var parent1 = ele1.parentNode,
-			next1 = ele1.nextSibling,
-			parent2 = ele2.parentNode,
-			next2 = ele2.nextSibling;
-
+		const parent1 = ele1.parentNode;
+		const next1 = ele1.nextSibling;
+		const parent2 = ele2.parentNode;
+		const next2 = ele2.nextSibling;
 		parent1.insertBefore(ele2, next1);
 		parent2.insertBefore(ele1, next2);
 	},
@@ -730,11 +721,9 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		if (!(error instanceof Error)) {
 			error = new Error(error);
 		}
-		
-		var err = error.toString(),
-			message = error.stack || err;
-		
-			
+
+		const err = error.toString();
+		const message = error.stack || err;
 		alert('Fatal error:\n\n' + (message.startsWith(err) ? message : err + '\n' + message));
 	},
 	
@@ -743,14 +732,16 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 */
 	alert: function(message, title, flavor) {
 		flavor = flavor || 'primary';
-		
-		var props = {
-				wclass: 'Alert'},
-			state = {
-				clazz: 'alert-' + flavor,
-				title: title || 'Alert',
-				text: message};
-		
+
+		const props = {
+			wclass: 'Alert'
+		};
+		const state = {
+			clazz: 'alert-' + flavor,
+			title: title || 'Alert',
+			text: message
+		};
+
 		return fujion.widget.create(null, props, state);
 	},
 	
@@ -791,18 +782,18 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 * Resolve a hierarchical reference relative to the specified base.
 	 */
 	resolveReference: function(base, path) {
-		var i = 0;
+		let i = 0;
 		path = path === null ? [] : path.split('.');
 		
 		if (!base) {
 			base = eval(path[i++]);
 		}
 		
-		var ref = base;
+		let ref = base;
 		
 		while (i < path.length && ref) {
 			base = ref;
-			var name = path[i++];
+			const name = path[i++];
 			ref = ref[name];
 		}
 		
@@ -813,15 +804,15 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 * Resolve embedded Expression Language references.
 	 */
 	resolveEL: function(base, text, pfx) {
-		var i = 0;
+		let i = 0;
 		base = base || this;
 		pfx = (pfx || '$').charAt(0) + '{';
 		
 		while ((i = text.indexOf(pfx, i)) >= 0) {
-			var j = text.indexOf('}', i + 2);
+			let j = text.indexOf('}', i + 2);
 			j = j == -1 ? text.length : j;
-			var exp = text.substring(i + 2, j);
-			var ref = exp.length === 0 ? null : this.resolveReference(base, exp);
+			const exp = text.substring(i + 2, j);
+			let ref = exp.length === 0 ? null : this.resolveReference(base, exp);
 			ref = ref === null ? '' 
 				: _.isFunction(ref.ref) ? ref.ref.apply(base)
 				: _.isObject(ref.ref) ? ''
@@ -837,7 +828,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 * Escape reserved characters in text. 
 	 */
 	escapeHtml: function(text) {
-		var div = document.createElement('div');
+		const div = document.createElement('div');
 		div.appendChild(document.createTextNode(text));
 		return div.innerHTML;
 	},
@@ -864,9 +855,9 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 * 		objects.
 	 */
 	combine: function(sources, filter) {
-		var target = {};
+		const target = {};
 		
-		for (var i = 0; i < sources.length; i++) {
+		for (let i = 0; i < sources.length; i++) {
 			if (sources[i]) {
 				_.forOwn(sources[i], function(value, key, object) {
 					if (!filter || filter.apply(object, arguments)) {
@@ -915,7 +906,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 */
 	clone: function(element, depth, parent) {
 		element = fujion.ele(element);
-		var clone = element.cloneNode(false);
+		const clone = element.cloneNode(false);
 		clone.id ? clone.removeAttribute('id') : null;
 		depth = depth || 0;
 		
@@ -924,9 +915,9 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 		}
 		
 		if (depth--) {
-			var childNodes = element.childNodes;
+			const childNodes = element.childNodes;
 			
-			for (var i = 0, j = childNodes.length; i < j; i++) {
+			for (let i = 0, j = childNodes.length; i < j; i++) {
 				fujion.clone(childNodes.item(i), depth, clone);
 			}
 		}
@@ -947,7 +938,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 			value = value.split(dlm);
 		}
 		
-		var result = {};
+		const result = {};
 		
 		_.forEach(value, function(entry) {
 			if (entry) {
@@ -994,8 +985,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	 * 		element will be inserted or moved.
 	 */
 	insertIntoArray: function(array, element, position) {
-		var i = array.indexOf(element),
-			changed = false;
+		const i = array.indexOf(element);
+		let changed = false;
 	
 		if (i >= 0 && i === position) {
 			return;
@@ -1015,9 +1006,9 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	},
 	
 	load: function(pkgname, callback) {			
-		var path = System.resolve(pkgname),
-			nmsp = System.get(path),
-			pkg = nmsp ? nmsp.default : null;
+		const path = System.resolve(pkgname);
+		const nmsp = System.get(path);
+		const pkg = nmsp ? nmsp.default : null;
 		
 		if (!pkg) {
 			return System.import(path).then(pkg => _callback(pkg));
@@ -1034,7 +1025,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
 	saveToFile: function(content, mimetype, filename) {
 		mimetype = !mimetype || navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? 'application/octet-stream' : mimetype;
 		System.import('file-saver').then(function(fileSaver) {
-			var blob = new Blob([content], {type: mimetype});
+			const blob = new Blob([content], {type: mimetype});
 			fileSaver.saveAs(blob, filename);
 		});
 	},

@@ -75,14 +75,12 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 				}
 				
 				if (cascade) {
-					node.forEachChild(function(child) {
-						_toggle(child, collapsed, cascade);
-					});
+					node.forEachChild(child => _toggle(child, collapsed, cascade));
 				}
 			}
 		},
 		
-		handleSelect: function(event) {
+		handleSelect: function() {
 			if (this.updateState('selected', true, true)) {
 				this.trigger('change', {value: true});
 			}
@@ -112,7 +110,7 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		},
 		
 		render$: function() {
-			var dom = 
+			const dom =
 				  '<li>'
 				+   '<span id="${id}-btn"></span>'
 				+   '<span id="${id}-cnt">'
@@ -125,8 +123,8 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		
 		_updateCount(child, inc) {
 			if (child.wclass === 'Treenode') {
-				var chnodes = this.getState('_chnodes'),
-					newval = chnodes + inc;
+				const chnodes = this.getState('_chnodes');
+				const newval = chnodes + inc;
 				this.setState('_chnodes', newval);
 				
 				if (!chnodes !== !newval) {
@@ -136,10 +134,9 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		},
 		
 		_updateToggle: function() {
-			var chnodes = this.getState('_chnodes'),
-				collapsed = chnodes && this.getState('collapsed'),
-				clazz = !chnodes ? 'fujion_treenode-nochildren' : collapsed ? 'fa fa-caret-square-o-right' : 'fa fa-caret-square-o-down';
-			
+			const chnodes = this.getState('_chnodes');
+			const collapsed = chnodes && this.getState('collapsed');
+			const clazz = !chnodes ? 'fujion_treenode-nochildren' : collapsed ? 'fa fa-caret-square-o-right' : 'fa fa-caret-square-o-down';
 			this.attr('class', clazz, this.sub$('btn'));
 		},
 		

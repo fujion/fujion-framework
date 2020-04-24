@@ -11,37 +11,36 @@ define('fujion-upload', ['fujion-core', 'fujion-widget'], function(fujion) {
 		/*------------------------------ Events ------------------------------*/
 		
 		changeHandler: function(event) {
-			var files = event.target.files,
-				wgt = this._requestor,
-				progress = this.getState('progress'),
-				self = this;
-			
+			const files = event.target.files;
+			const wgt = this._requestor;
+			const progress = this.getState('progress');
+			const self = this;
 			delete this._requestor;
-			
+
 			if (files) {
-				_.forEach(files, function(file) {
-					if (file.size > self.getState('maxsize')) {
+				_.forEach(files, file => {
+					if (file.size > this.getState('maxsize')) {
 						_fire(-2);
 						return;
 					}
-					
-					var reader = new FileReader();
-					self._readers[file.name] = reader;
-					
-					reader.onload = function(event) {
-						delete self._readers[file.name];
-						var blob = reader.result,
-							size = blob.byteLength;
+
+					const reader = new FileReader();
+					this._readers[file.name] = reader;
+
+					reader.onload = () => {
+						delete this._readers[file.name];
+						const blob = reader.result;
+						const size = blob.byteLength;
 						_fire(size, blob);
 					};
-					
-					reader.onabort = function(event) {
-						delete self._readers[file.name];
+
+					reader.onabort = () => {
+						delete this._readers[file.name];
 						_fire(-1);
 					};
-					
+
 					if (progress) {
-						reader.onprogress = function(event) {
+						reader.onprogress = event => {
 							if (event.lengthComputable && event.loaded !== event.total) {
 								_fire(event.loaded);
 							}
@@ -51,8 +50,14 @@ define('fujion-upload', ['fujion-core', 'fujion-widget'], function(fujion) {
 					reader.readAsArrayBuffer(file);
 					
 					function _fire(loaded, blob) {
-						var state = loaded < 0 ? loaded : reader.readyState,
-							params = {file: file.name, blob: blob || null, state: state, loaded: loaded < 0 ? 0 : loaded, total: file.size};
+						const state = loaded < 0 ? loaded : reader.readyState;
+						const params = {
+							file: file.name,
+							blob: blob || null,
+							state: state,
+							loaded: loaded < 0 ? 0 : loaded,
+							total: file.size
+						};
 						wgt ? wgt.trigger('upload', params) : null;
 						wgt !== self ? self.trigger('upload', params) : null;
 					}
@@ -77,26 +82,20 @@ define('fujion-upload', ['fujion-core', 'fujion-widget'], function(fujion) {
 		/*------------------------------ Other ------------------------------*/
 		
 		abort: function(file) {
-			var reader = this._readers[file];
+			const reader = this._readers[file];
 			reader ? reader.abort() : null;
 		},
 		
 		abortAll: function() {
-			_.forOwn(this._readers, function(reader) {
-				reader.abort();
-			});
+			_.forOwn(this._readers, reader => reader.abort());
 		},
 		
 		bind: function(wgt) {
-			var self = this,
-				wgt$ = fujion.$(wgt);
+			const wgt$ = fujion.$(wgt);
 			
 			if (wgt$) {
 				this.unbind(wgt);
-				
-				wgt$.on('click.fujion.upload', function() {
-					self.widget$.trigger('click', wgt);
-				});
+				wgt$.on('click.fujion.upload', () => this.widget$.trigger('click', wgt));
 			}
 		},
 		
@@ -106,7 +105,7 @@ define('fujion-upload', ['fujion-core', 'fujion-widget'], function(fujion) {
 		},
 		
 		unbind: function(wgt) {
-			var wgt$ = fujion.$(wgt);
+			const wgt$ = fujion.$(wgt);
 			wgt$ ? wgt$.off('click.fujion.upload') : null;
 		},
 		

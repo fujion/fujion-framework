@@ -73,7 +73,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		},
 		
 		render$: function() {
-			var dom = '<th>' 
+			const dom = '<th>'
 				+ this.getDOMTemplate(':image', 'label', ':sortOrder') 
 				+ '</th>';
 			return $(this.resolveEL(dom));
@@ -86,8 +86,8 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		},
 		
 		s_sizable: function(v) {
-			var active = !!this.widget$.resizable('instance'),
-				newactive = !_.isNil(v);
+			const active = !!this.widget$.resizable('instance');
+			const newactive = !_.isNil(v);
 			
 			if (active !== newactive) {
 				newactive ? this.widget$.resizable({handles: 'e'}) : this.widget$.resizable('destroy');
@@ -95,8 +95,6 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		}, 
 		
 		s_sortOrder: function(v, old) {
-			var self = this;
-			
 			if (!v !== !old) {
 				this.rerender();
 			}
@@ -133,8 +131,8 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		/*------------------------------ State ------------------------------*/
 		
 		s_selectable: function(v) {
-			var self = this,
-				active = !!this.widget$.selectable('instance');
+			const self = this;
+			const active = !!this.widget$.selectable('instance');
 			
 			_selectable(v !== 'NO');
 			
@@ -161,7 +159,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 			}
 			
 			function _doSelect(target, selected) {
-				var w = fujion.wgt(target);
+				const w = fujion.wgt(target);
 				
 				if (w.updateState('selected', selected, true)) {
 					w.trigger('change', {value: selected});
@@ -218,7 +216,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], funct
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			var dom = 
+			const dom =
 				'<td>'
 			  + this.getDOMTemplate(':label')
 			  + '</td>';

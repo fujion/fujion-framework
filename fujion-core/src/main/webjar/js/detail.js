@@ -14,7 +14,7 @@ define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], f
 		/*------------------------------ Events ------------------------------*/
 		
 		handleToggle: function(event) {
-			var open = this.widget$.attr('open');
+			const open = this.widget$.attr('open');
 			
 			if (this.setState('open', open)) {
 				this.trigger(open ? 'open' : 'close');
@@ -37,7 +37,7 @@ define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], f
 		},
 		
 		render$: function() {
-			 var dom = '<details>'
+			 const dom = '<details>'
 				    + 	'<summary id="${id}-lbl"></summary>'
 					+ '</details>';
 
@@ -61,7 +61,7 @@ define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], f
 	 */
 	function clickHandler(e) {
 		if (e.target.nodeName.toLowerCase() === 'summary') {
-			var details = e.target.parentNode;
+			const details = e.target.parentNode;
 
 			if (details) {
 				if (details.getAttribute('open')) {
@@ -79,7 +79,7 @@ define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], f
 	 * Check for native `<details>` support.
 	 */
 	function hasSupport() {
-		var el = document.createElement('details');
+		const el = document.createElement('details');
 
 		if (!('open' in el)) {
 			return false;
@@ -87,9 +87,9 @@ define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], f
 
 		el.innerHTML = '<summary>a</summary>b';
 		document.body.appendChild(el);
-		var diff = el.offsetHeight;
+		const diff = el.offsetHeight;
 		el.open = true;
-		var result = (diff !== el.offsetHeight);
+		const result = (diff !== el.offsetHeight);
 		document.body.removeChild(el);
 		return result;
 	}

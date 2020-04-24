@@ -72,16 +72,16 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 		},
 		
 		render$: function() {
-			var dom = '<div>'
+			const dom = '<div>'
 					+    '<span id="${id}-title" class="${wclazz}-title"></span>'
 					+ '</div>';
 			return $(this.resolveEL(dom));
 		},
 		
 		_updateSplitter: function() {
-			var spl$ = this.widget$,
-				active = !!spl$.resizable('instance'),
-				splittable = this.getState('splittable');
+			const spl$ = this.widget$;
+			const active = !!spl$.resizable('instance');
+			const splittable = this.getState('splittable');
 			
 			if (active === !splittable) {
 				if (active) {

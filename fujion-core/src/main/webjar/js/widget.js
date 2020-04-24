@@ -35,60 +35,59 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	 * @param {object} subclass The subclass.
 	 */
 	fujion.widget.Widget.extend = function(subclass) {
-	    var _super = this.prototype,
-	    		prototype = new this(),
-	    		log = fujion.log.warn;
-	    
-	    subclass = subclass || {};
-	    
-	    for (var name in subclass) {
-		    	if (!name.endsWith('_')) {
-		    		var subvalue = subclass[name],
-		    			supervalue = _super[name],
-		    			subfn = _.isFunction(subvalue),
-		    			superfn = _.isFunction(supervalue),
-		    			hasSuper = subfn && fujion.widget._fnTest.test(subvalue);
-		    		
-		    		if (subfn) {
-		    			if (!hasSuper) {
-		    				superfn ? log('_super method not called for', name) : null;
-		    				prototype[name] = subvalue;
-		    			} else {
-		    				!superfn ? log('_super method call without ancestor method for', name) : null;
-		    				prototype[name] = 
-		    			    		(function(sp, fn) {
-		    			    			return function() {
-		    			    				var tmp = this._super, 
-		    			    					args = arguments,
-		    			    					self = this,
-		    			    					ret;
-		    			    				this._super = function() {return sp ? sp.apply(self, arguments.length ? arguments : args) : undefined};
-		    			    				try {
-		    			    					ret = fn.apply(this, arguments);       
-		    			    				} finally {
-		    			    					this._super = tmp;
-		    			    				}
-		    			    				return ret;
-		    			    			};
-		    			    		})(superfn ? supervalue : null, subvalue);
-		    			}
-		    		} else {
-		    			superfn ? log('Member declaration hides ancestor method', name) : null;
-		    			prototype[name] = subvalue;
-		    		}
-		    	}
-	    }
+		const _super = this.prototype;
+		const prototype = new this();
+		const log = fujion.log.warn;
+		subclass = subclass || {};
 
-	    function Widget() {
-		    	if (arguments.length && this._init) {
-		    		this._init.apply(this, arguments);
-		    	}
-	    }
-	   
-	    Widget.prototype = prototype;
-	    Widget.prototype.constructor = Widget;
-	    Widget.extend = this.extend;
-	    return Widget;
+		for (const name in subclass) {
+			if (!name.endsWith('_')) {
+				const subvalue = subclass[name];
+				const supervalue = _super[name];
+				const subfn = _.isFunction(subvalue);
+				const superfn = _.isFunction(supervalue);
+				const hasSuper = subfn && fujion.widget._fnTest.test(subvalue);
+
+				if (subfn) {
+					if (!hasSuper) {
+						superfn ? log('_super method not called for', name) : null;
+						prototype[name] = subvalue;
+					} else {
+						!superfn ? log('_super method call without ancestor method for', name) : null;
+						prototype[name] =
+							(function (sp, fn) {
+		    			    			return function() {
+		    			    				const tmp = this._super;
+		    			    				const args = arguments;
+		    			    				const self = this;
+		    			    				let ret;
+		    			    				this._super = function() {return sp ? sp.apply(self, arguments.length ? arguments : args) : undefined};
+									try {
+										ret = fn.apply(this, arguments);
+									} finally {
+										this._super = tmp;
+									}
+									return ret;
+								};
+							})(superfn ? supervalue : null, subvalue);
+					}
+				} else {
+					superfn ? log('Member declaration hides ancestor method', name) : null;
+					prototype[name] = subvalue;
+				}
+			}
+		}
+
+		function Widget() {
+			if (arguments.length && this._init) {
+				this._init.apply(this, arguments);
+			}
+		}
+
+		Widget.prototype = prototype;
+		Widget.prototype.constructor = Widget;
+		Widget.extend = this.extend;
+		return Widget;
 	};
 			
 	/******************************************************************************************************************
@@ -142,16 +141,16 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @return {Widget} The ancestor of the desired type, or null if none found.
 		 */
 		getAncestor: function(wclass, includeSelf) {
-			var wgt = includeSelf ? this : this._parent,
-				byctor = _.isFunction(wclass), 
-				wmodule;
-			
+			let wgt = includeSelf ? this : this._parent;
+			const byctor = _.isFunction(wclass);
+			let wmodule = null;
+
 			if (!byctor) {
-				var pcs = wclass ? wclass.split('.', 2) : [],
+				const pcs = wclass ? wclass.split('.', 2) : [];
 				wmodule = pcs.length === 2 ? pcs[0] : this.wmodule;
 				wclass = pcs.length === 2 ? pcs[1] : wclass;
 			}
-			
+
 			while (wgt && (byctor ? wgt.constructor !== wclass : wgt.wclass !== wclass || wgt.wmodule !== wmodule)) {
 				wgt = wgt._parent;
 			}
@@ -184,14 +183,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * 		the parameter is considered.  Otherwise, this widget is used.
 		 */
 		getLevel: function(wgt) {
-			var level = 0;
+			let level = 0;
 			wgt = wgt ? fujion.wgt(wgt) : this;
-			
+
 			while (wgt && wgt !== fujion.widget._page) {
 				level++;
 				wgt = wgt._parent;
 			}
-			
+
 			return wgt ? level : -1;
 		},
 		
@@ -237,10 +236,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 
 		removeChild: function(child, destroy) {
-			var currentIndex = this.getChildIndex(child);
-			
+			const currentIndex = this.getChildIndex(child);
+
 			if (currentIndex >= 0) {
-				var anchor$ = child.widget$.parent();
+				const anchor$ = child.widget$.parent();
 				this._children.splice(currentIndex, 1);
 				child._parent = null;
 				destroy ? child.destroy() : child.detach();
@@ -251,9 +250,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		swapChildren: function(index1, index2) {
-			var child1 = this._children[index1],
-				child2 = this._children[index2];
-			
+			const child1 = this._children[index1];
+			const child2 = this._children[index2];
 			this._children[index1] = child2;
 			this._children[index2] = child1;
 			fujion.swap(child1.widget$, child2.widget$);
@@ -265,21 +263,20 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @param {number} [index] Position of the widget relative to its siblings.
 		 */
 		_attach: function(index) {
-			var ref = _.isNil(index) || index < 0 ? null : this._parent._children[index];
+			const ref = _.isNil(index) || index < 0 ? null : this._parent._children[index];
 			this._attachWidgetAt(this.widget$, this._parent.anchor$(this.widget$), fujion.$(ref));
 			this._attachAncillaries();
 		},
 		
 		_attachAncillaries: function() {
-			_.forOwn(this._ancillaries, function(ancillary) {
-				var ancillary$ = fujion.$(ancillary),
-					attach = ancillary$.data('attach') || _attach;
-				
+			_.forOwn(this._ancillaries, ancillary => {
+				const ancillary$ = fujion.$(ancillary);
+				const attach = ancillary$.data('attach') || _attach;
 				attach(ancillary$);
 			});
-			
+
 			function _attach(ancillary$) {
-				var oldparent$ = ancillary$.data('oldparent');
+				const oldparent$ = ancillary$.data('oldparent');
 				oldparent$ ? oldparent$.append(ancillary$) : null;
 			}
 		},
@@ -300,10 +297,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		_detachAncillaries: function(destroy) {
-			_.forOwn(this._ancillaries, function(ancillary, key, map) {
-				var ancillary$ = fujion.$(ancillary),
-					wgt = fujion.widget.isWidget(ancillary) ? ancillary : null;
-				
+			_.forOwn(this._ancillaries, (ancillary, key, map) => {
+				const ancillary$ = fujion.$(ancillary);
+				const wgt = fujion.widget.isWidget(ancillary) ? ancillary : null;
+
 				if (destroy) {
 					delete map[key];
 					wgt ? wgt.destroy() : ancillary$.remove();
@@ -325,12 +322,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * 	(defaults to same as sourceEvent).
 		 */
 		forward: function(source$, sourceEvent, forwardEvent) {
-			var widget$ = this.widget$;
-			
-			source$.on(sourceEvent, function (event) {
-				var forward = $.extend({}, event);
+			source$.on(sourceEvent, event => {
+				const forward = $.extend({}, event);
 				forward.type = forwardEvent || sourceEvent;
-				widget$.triggerHandler(forward);
+				this.widget$.triggerHandler(forward);
 			})
 		},
 		
@@ -341,11 +336,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @param {boolean} [noforward] If false, forwarding is enabled; if true, disabled.
 		 */ 
 		forwardToServer: function(eventTypes, noforward) {
-			var fwd = this.getState('forwarding'),
-				types = fujion.stringToSet(eventTypes, ' ');
-			
+			const fwd = this.getState('forwarding');
+			const types = fujion.stringToSet(eventTypes, ' ');
 			noforward ? fujion.removeFromSet(fwd, types) : _.assign(fwd, types);
-			
+
 			if (this.widget$) {
 				this.widget$[noforward ? 'off' : 'on'](eventTypes, fujion.event.sendToServer);
 			}
@@ -421,9 +415,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 */
 		addMask: function(label, popup) {
 			this.removeMask();
-			var zindex = this.widget$.fujion$zindex() + 1;
+			const zindex = this.widget$.fujion$zindex() + 1;
 			this._mask$ = this.widget$.fujion$mask(zindex).append('<span>').css('display', 'flex');
-			var span$ = this._mask$.children().first();
+			const span$ = this._mask$.children().first();
 			span$.text(label).css('display', label ? '' : 'none');
 			popup ? this.contextMenu(this._mask$, popup) : null;
 		},
@@ -452,9 +446,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			
 			function _find(wgt) {
 				if (wgt && wgt.getState('name') !== name) {
-					wgt.forEachChild(function (child) {
-						var wgt2 = _find(child);
-						
+					wgt.forEachChild(child => {
+						const wgt2 = _find(child);
+
 						if (wgt2) {
 							wgt = wgt2;
 							return false;
@@ -481,14 +475,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @return {Widget} The widget representing the enclosing namespace.
 		 */
 		getNamespace: function() {
-			var wgt = this.nmsp ? this._parent : this,
-				last = wgt;
-			
+			let wgt = this.nmsp ? this._parent : this;
+			let last = wgt;
+
 			while (wgt && !wgt.nmsp) {
 				last = wgt;
 				wgt = wgt._parent;
 			}
-			
+
 			return last;
 		},
 		
@@ -543,7 +537,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @return {jquery} The subcomponent (never null).
 		 */
 		sub$: function(sub) {
-			var id = '#' + this.subId(sub);
+			const id = '#' + this.subId(sub);
 			sub = this.widget$ ? this.widget$.find(id) : null;
 			return sub && sub.length > 0 ? sub : $(id);
 		},
@@ -570,19 +564,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			try {
 				this._rendering = true;
 				this._untrackRender();
-				
+
 				if (this.isContainer()) {
-					this.forEachChild(function(child){child.detach();});
+					this.forEachChild(child => child.detach());
 				}
-				
-				var old$ = this.widget$;
-				
+
+				const old$ = this.widget$;
+
 				this.widget$ = this.render$()
 					.data('fujion_widget', this)
 					.data('fujion_wclass', this.wclass)
 					.first()
 					.attr('id', this.id);
-				
+
 				this.beforeRender();
 				this.syncState();
 				
@@ -612,19 +606,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		_trackRender: function() {
-			var self = this;
+			const self = this;
 			this._untrackRender();
-			
+
 			if (!_hasRendered()) {
 				if (window.IntersectionObserver) {
 					this._renderobserver = new IntersectionObserver(_hasRendered, {root: fujion.widget._page.widget$[0]});
 					this._renderobserver.observe(this.widget$[0]);
 				} else {
-					var intrvl = setInterval(_hasRendered, 1000);
+					const intrvl = setInterval(_hasRendered, 1000);
 					this._renderobserver = {
-							disconnect: function() {
-								clearInterval(intrvl);
-							}
+						disconnect: function () {
+							clearInterval(intrvl);
+						}
 					};
 				}
 			}
@@ -657,23 +651,23 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * 		with the specified keys.
 		 */
 		getDOMTemplate: function() {
-			var result = '';
-			
-			for (var i = 0; i < arguments.length; i++) {
-				var key = arguments[i],
-					j = key.indexOf(':');
-				
+			let result = '';
+
+			for (let i = 0; i < arguments.length; i++) {
+				let key = arguments[i];
+				const j = key.indexOf(':');
+
 				if (j >= 0) {
-					var state = key.substring(0, j);
+					const state = key.substring(0, j);
 					key = key.substring(j + 1);
-					
+
 					if (!this.getState(state.length ? state : key)) {
 						continue;
 					}
 				}
-				
-				var tmpl = fujion.widget._domTemplates[key];
-				
+
+				const tmpl = fujion.widget._domTemplates[key];
+
 				if (!_.isNil(tmpl)) {
 					result += tmpl;
 				}
@@ -692,9 +686,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 */
 		applyState: function(key, old) {
 			if (!key.startsWith('_')) {
-				var fn = this['s_' + key],
-					value = this._state[key];
-				
+				const fn = this['s_' + key];
+				const value = this._state[key];
+
 				if (!fn || !_.isFunction(fn)) {
 					throw new Error('Unrecognized state for ' + this.wclass + ': ' + key);
 				}
@@ -720,7 +714,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @return {boolean} True if a state is present for the key.
 		 */
 		hasState: function(key) {
-			var value = this._state[key];
+			const value = this._state[key];
 			return !_.isNil(value) && value !== '';
 		},
 		
@@ -748,8 +742,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @return {boolean} True if the state changed.
 		 */
 		setState: function(key, value) {
-			var oldValue = this._state[key];
-			
+			const oldValue = this._state[key];
+
 			if (!_.isEqual(value, oldValue)) {
 				delete this._state[key];
 				this._state[key] = value;
@@ -763,12 +757,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * are synchronized.
 		 */
 		syncState: function() {
-			var self = this,
-				states = arguments.length ? _.pick(this._state, arguments) : this._state;
-			
-			_.forOwn(states, function(value, key) {
-				self.applyState(key);
-			});
+			const states = arguments.length ? _.pick(this._state, arguments) : this._state;
+			_.forOwn(states, (value, key) => this.applyState(key));
 		},
 		
 		/**
@@ -782,17 +772,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @return {boolean} True if the state value changed.
 		 */
 		updateState: function(key, value, fromServer) {
-			var old = this._state[key],
-				changed = this.setState(key, value);
-			
+			const old = this._state[key];
+			const changed = this.setState(key, value);
+
 			if (changed || this._rendering) {
 				this.applyState(key, old);
-				
+
 				if (changed && !fromServer) {
 					this.stateChanged(key, value);
 				}
 			}
-			
+
 			return changed;
 		},
 		
@@ -802,16 +792,16 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @param {string} v Text content to add (or nil to remove).
 		 */
 		s_content: function(v) {
-			var span$ = this.sub$('content');
-			
+			let span$ = this.sub$('content');
+
 			if (!v) {
 				span$.remove();
 			} else {
 				if (span$.length === 0) {
-					var dom = this.resolveEL('<span id="${id}-content"></span>');
+					const dom = this.resolveEL('<span id="${id}-content"></span>');
 					span$ = $(dom).appendTo(this.widget$);
 				}
-				
+
 				span$.text(v);
 			}
 		},
@@ -896,17 +886,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Events ------------------------------*/
 
 		reportSize : function() {
-			var self = this;
+			const self = this;
 			requestAnimationFrame ? requestAnimationFrame(_reportSize) : setTimeout(_reportSize, 100);
-			
+
 			function _reportSize() {
-				var p = self.widget$.position();
-	
+				const p = self.widget$.position();
+
 				self.trigger('resize', {
-					left : p.left,
-					top : p.top,
-					width : self.widget$.outerWidth(),
-					height : self.widget$.outerHeight()
+					left: p.left,
+					top: p.top,
+					width: self.widget$.outerWidth(),
+					height: self.widget$.outerHeight()
 				});
 			}
 		},
@@ -925,8 +915,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			popup ? ele$.on('contextmenu.fujion', _showContextPopup) : null;
 			
 			function _showContextPopup(event) {
-				var wgt = fujion.wgt(popup);
-				
+				const wgt = fujion.wgt(popup);
+
 				if (!wgt) {
 					ele$.off('contextmenu.fujion');
 				} else {
@@ -942,12 +932,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		hoverPopup: function(ele$, popup) {
-			var start, stop, started, last;
+			let start, stop, started, last;
 			_reset();
 			popup ? ele$.on('mouseenter.fujion', _init) : null;
 			popup ? ele$.on('mousemove.fujion', _update) : null;
 			popup ? ele$.on('mouseleave.fujion', _stop) : null;
-			
+
 			function _reset() {
 				ele$.off('mouseenter.fujion');
 				ele$.off('mousemove.fujion');
@@ -963,7 +953,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			function _popup() {
-				var wgt = fujion.wgt(popup);
+				const wgt = fujion.wgt(popup);
 				return wgt ? wgt : _reset();
 			}
 			
@@ -998,8 +988,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			
 			function _update(event) {
 				if (started) {
-					var wgt = _popup();
-					
+					const wgt = _popup();
+
 					if (wgt) {
 						wgt.isOpen() ? _show(event, wgt) : _stop(event, wgt);
 					}
@@ -1019,19 +1009,18 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		focus: function(focus) {
-			var sel = ':input:enabled:visible:not([readonly]):first',
-				tgt$ = this.widget$.is(sel) ? this.widget$ : this.widget$.find(sel);
-			
+			const sel = ':input:enabled:visible:not([readonly]):first';
+			const tgt$ = this.widget$.is(sel) ? this.widget$ : this.widget$.find(sel);
 			focus ? tgt$.focus().select() : tgt$.blur();
 		},
 		
 		input$: function() {
-			var input$ = this.sub$('inp');
+			const input$ = this.sub$('inp');
 			return input$.length ? input$ : this.widget$;
 		},
 		
 		print: function(options) {
-			var ele$ = options && options.selector ? $(options.selector) : this.anchor$();
+			const ele$ = options && options.selector ? $(options.selector) : this.anchor$();
 			ele$.print(options);
 		},
 		
@@ -1044,13 +1033,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @return {boolean} True if a class was added or removed.
 		 */
 		replaceClass: function(class1, class2, flip) {
-			var result = class1 && this.toggleClass(class1, flip);
+			let result = class1 && this.toggleClass(class1, flip);
 			result |= class2 && this.toggleClass(class2, !flip);
 			return result;
 		},
 		
 		scrollIntoView: function() {
-			var sp$ = this.widget$.scrollParent();
+			const sp$ = this.widget$.scrollParent();
 			sp$ ? sp$.scrollTo(this.widget$) : null;
 		},
 		
@@ -1067,24 +1056,23 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * @return {boolean} True if any class was added or removed.
 		 */
 		toggleClass: function(cls, add) {
-			var _clazz = this.getState('_clazz').split(' '),
-				cls = cls.split(' '),
-				w$ = this.widget$,
-				changed = false;
-			
+			const _clazz = this.getState('_clazz').split(' ');
+			const w$ = this.widget$;
+			let changed = false;
+			cls = cls.split(' ');
 			_.forEach(cls, _toggle);
-			
+
 			if (changed) {
 				this.setState('_clazz', _clazz.join(' '));
 			}
-			
+
 			return changed;
-			
+
 			function _toggle(cls) {
-				var i = _clazz.indexOf(cls),
-					exists = i !== -1,
-					remove = _.isNil(add) ? exists : !add;
-				
+				const i = _clazz.indexOf(cls);
+				const exists = i !== -1;
+				const remove = _.isNil(add) ? exists : !add;
+
 				if (exists === remove) {
 					w$ ? w$.toggleClass(cls, !remove) : null;
 					remove ? _clazz.splice(i, 1) : _clazz.push(cls);
@@ -1117,7 +1105,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_clazz: function(v) {
-			var clazz = this.getState('_clazz') + (v ? ' ' + v : '');
+			const clazz = this.getState('_clazz') + (v ? ' ' + v : '');
 			this.attr('class', clazz);
 		},
 		
@@ -1126,11 +1114,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_css: function(v) {
-			var inline$ = this._ancillaries.inline$;
-			
+			let inline$ = this._ancillaries.inline$;
+
 			if (v) {
 				if (!inline$) {
-					this._ancillaries.inline$ = inline$ = 
+					this._ancillaries.inline$ = inline$ =
 						$('<style>').appendTo(fujion.head$).attr('id', this.subId('inline'));
 				}
 				inline$.text(this.resolveEL(v, '#'));
@@ -1146,12 +1134,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_dragid: function(v) {
-			var self = this,
-				active = !!this.widget$.draggable('instance'),
-				newactive = !_.isNil(v);
-			
+			const self = this;
+			const active = !!this.widget$.draggable('instance');
+			const newactive = !_.isNil(v);
 			this._dragids = newactive ? fujion.stringToSet(v, ' ') : null;
-			
+
 			if (newactive !== active) {
 				if (active) {
 					this.widget$.draggable('destroy');
@@ -1168,7 +1155,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			function _helper() {
-				var ele = self.getDragHelper();
+				const ele = self.getDragHelper();
 				ele.className += ' fujion-dragging';
 				return ele;
 			}
@@ -1187,12 +1174,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_dropid: function(v) {
-			var self = this,
-				active = !!this.widget$.droppable('instance'),
-				newactive = !_.isNil(v);
-			
+			const self = this;
+			const active = !!this.widget$.droppable('instance');
+			const newactive = !_.isNil(v);
 			this._dropids = newactive ? fujion.stringToSet(v, ' ') : null;
-			
+
 			if (newactive !== active) {
 				if (active) {
 					this.widget$.droppable('destroy');
@@ -1208,17 +1194,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			function _canDrop(draggable$) {
-				var wgt = fujion.wgt(draggable$),
-					dragids = wgt ? wgt._dragids : null,
-					dropids = self._dropids,
-					result = false;
-				
+				const wgt = fujion.wgt(draggable$);
+				const dragids = wgt ? wgt._dragids : null;
+				const dropids = self._dropids;
+				let result = false;
+
 				if (dragids && dropids) {
 					if (dragids['*'] || dropids['*']) {
 						return true;
 					}
-					
-					_.forOwn(dropids, function(x, dropid) {
+
+					_.forOwn(dropids, (x, dropid) => {
 						if (dragids[dropid]) {
 							result = true;
 							return false;
@@ -1232,14 +1218,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_hint: function(v) {
-		    var self = this,
-				active = this.widget$.uitooltip('instance');
+			const self = this;
+			const active = this.widget$.uitooltip('instance');
+			const opt = fujion.globalOptions;
 			this.attr('data-fujion-hint', !!v);
 			_cancelClose();
 
-		    if (v && !active) {
-		    	var opt = fujion.globalOptions;
-
+			if (v && !active) {
 				this.widget$.uitooltip({
 					content: _tt,
 					items: '[data-fujion-hint]',
@@ -1261,7 +1246,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
             }
 
 		    function _autoClose(event, ui) {
-				self._hintTimeout = setTimeout(function() {
+				self._hintTimeout = setTimeout(() => {
 					delete self._hintTimeout;
 					$(ui.tooltip).hide();
 				}, opt.hintDuration)
@@ -1280,8 +1265,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_keycapture: function(v) {
-			var	self = this;
-			
+			const self = this;
+
 			if (v) {
 				this._keycapture = v.split(' ');
 				this.widget$.on('keydown.fujion', _keyevent);
@@ -1289,10 +1274,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 				this._keycapture = null;
 				this.widget$.off('keydown.fujion');
 			}
-			
+
 			function _keyevent(event) {
-				var val = fujion.event.toKeyCapture(event);
-				
+				const val = fujion.event.toKeyCapture(event);
+
 				if (self._keycapture.indexOf(val) >= 0) {
 					fujion.event.stop(event);
 					event.type = 'keycapture';
@@ -1350,7 +1335,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	});
 	
 	fujion.widget.Connector.create = function(dom, child) {
-		var wgt = fujion.widget.create(null, {wclass: 'Connector', id: child.subId('cnc'), cntr: true, _dom: dom});
+		const wgt = fujion.widget.create(null, {wclass: 'Connector', id: child.subId('cnc'), cntr: true, _dom: dom});
 		wgt.addChild(child);
 		return wgt;
 	};
@@ -1376,7 +1361,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		selectRange: function(start, end) {
 			try {
-				this.input$()[0].setSelectionRange(start, end);
+				this.input$().get(0).setSelectionRange(start, end);
 			} catch (e) {
 			}
 		},
@@ -1431,34 +1416,34 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 				
 		handleBlur: function(event) {
-			var msg = event.target.validationMessage;
+			const msg = event.target.validationMessage;
 			fujion.wgt(event.target).updateState('balloon', msg ? msg : null);
-			
+
 			if (this._changed && !msg) {
 				this.fireChanged();
 			}
 		},
 		
 		handleInput: function(event) {
-			var ele = this.input$()[0],
-				value = ele.value;
-			
+			const ele = this.input$().get(0);
+			const value = ele.value;
+
 			if (value.length && this.validate && !this.validate(value)) {
 				event ? fujion.event.stop(event) : null;
-				var cpos = ele.selectionStart - 1;
+				const cpos = ele.selectionStart - 1;
 				ele.value = this.getState('value');
 				ele.selectionStart = cpos;
 				ele.selectionEnd = cpos;
 				return;
 			}
-		    
+
 			this.setState('value', value);
-			
-		    if (this._synchronized) {
-		    		this.fireChanged();
-		    } else {
-		    		this._changed = true;
-		    }
+
+			if (this._synchronized) {
+				this.fireChanged();
+			} else {
+				this._changed = true;
+			}
 		},
 		
 		handleKeyup: function(event) {
@@ -1484,14 +1469,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		_value: function() {
-			return this.input$()[0].value;
+			return this.input$().get(0).value;
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
 		afterRender: function() {
 			this._super();
-			var input$ = this.input$();
+			const input$ = this.input$();
 			input$.on('input propertychange', this.handleInput.bind(this));
 			input$.on('blur', this.handleBlur.bind(this));
 			input$.on('keyup', this.handleKeyup.bind(this));
@@ -1548,23 +1533,22 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		validate: function(value) {
-			var partial = this._partial.test(value);
+			const partial = this._partial.test(value);
 			value = partial ? 0 : _.toNumber(value);
-			return partial || (!_.isNaN(value) && this.validateRange(value)); 
+			return partial || (!_.isNaN(value) && this.validateRange(value));
 		},
 		
 		validateRange: function(value) {
-			var min = _.defaultTo(this.getState('minvalue'), this._min),
-				max = _.defaultTo(this.getState('maxvalue'), this._max);
-			
+			const min = _.defaultTo(this.getState('minvalue'), this._min);
+			const max = _.defaultTo(this.getState('maxvalue'), this._max);
 			value = value === undefined ? +this.input$().val() : +value;
 			return value >= min && value <= max;
 		},
 		
 		_spin: function(up, intrvl) {
 			if (this._spinning) {
-				var step = +this.getState('step'),
-					val = +this._value() + (up ? step : -step);
+				const step = +this.getState('step');
+				const val = +this._value() + (up ? step : -step);
 				this.input$().val(val);
 				this.handleInput();
 				this._spinning = setTimeout(this._spin.bind(this, up, 100), intrvl);
@@ -1584,13 +1568,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var dom =  '<span>'
-					 +   '<input id="${id}-inp" type="${_type}">'
-					 +   '<span id="${id}-spn">'
-					 +     '<span class="fa fa-chevron-up"></span>'
-					 +     '<span class="fa fa-chevron-down"></span>'
-					 +   '</span>'
-					 + '</span>';
+			const dom = '<span>'
+				+ '<input id="${id}-inp" type="${_type}">'
+				+ '<span id="${id}-spn">'
+				+ '<span class="fa fa-chevron-up"></span>'
+				+ '<span class="fa fa-chevron-down"></span>'
+				+ '</span>'
+				+ '</span>';
 			return $(this.resolveEL(dom));
 		},
 		
@@ -1605,7 +1589,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_step: function(v) {
-			var spn$ = this.sub$('spn');
+			const spn$ = this.sub$('spn');
 			v ? spn$.show() : spn$.hide();
 		}
 	});
@@ -1656,7 +1640,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this.sub$('img').remove();
 			
 			if (v) {
-				var img$ = $(this.resolveEL('<link id="${id}-img" rel="shortcut icon">')).appendTo(fujion.head$);
+				const img$ = $(this.resolveEL('<link id="${id}-img" rel="shortcut icon">')).appendTo(fujion.head$);
 				img$.attr('href', v);
 			}
 		},
@@ -1768,14 +1752,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		start: function() {
-			var self = this,
-				count = 0;
-			
+			const self = this;
+			let count = 0;
+
 			if (!this.timer && this._interval > 0) {
 				this.timer = setInterval(_trigger, this._interval);
 				return true;
 			}
-			
+
 			function _trigger() {
 				if (!fujion.ws.isConnected()) {
 					self.stop();
@@ -1875,7 +1859,6 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_src: function(v) {
-			var self = this;
 			this.widget$.empty();
 			this.setState('content', null);
 			v ? this.widget$.load(v) : null;
@@ -1964,7 +1947,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		_trigger: function(which, notself) {
-			var relatedTarget = this._related$ ? this._related$.fujion$widget() : null;
+			const relatedTarget = this._related$ ? this._related$.fujion$widget() : null;
 			notself ? null : this.trigger($.Event(which, {relatedTarget: relatedTarget}));
 			relatedTarget ? relatedTarget.trigger($.Event('popup' + which, {relatedTarget: this})) : null;
 		},
@@ -1999,10 +1982,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		open: function(options, notself) {
-			var related$;
+			let related$;
 			options.collision = options.collision || 'flipfit';
 			this._options = options;
-			
+
 			if (options.of.currentTarget) {
 				related$ = fujion.$(options.of.currentTarget);
 			} else {
@@ -2069,9 +2052,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	};
 	
 	fujion.widget.Popup.closePopups = function(parent$) {
-		var parent = parent$ ? parent$.closest('*[data-fujion-popup]')[0] : null;
-		
-		_.forOwn(fujion.widget._popup, function(popup) {
+		const parent = parent$ ? parent$.closest('*[data-fujion-popup]')[0] : null;
+
+		_.forOwn(fujion.widget._popup, popup => {
 			if (!parent || $.contains(parent, popup._related$[0])) {
 				popup.close(false, true);
 			}
@@ -2132,7 +2115,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 
 		s_label: function(v) {
-			var lbl$ = this.sub$('lbl');
+			const lbl$ = this.sub$('lbl');
 			(lbl$.length ? lbl$ : this.widget$).text(v);
 		},
 	
@@ -2176,10 +2159,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			var dom = '<button>'
-				    + this.getDOMTemplate(':image', 'label')
-					+ '</button>';
-			
+			const dom = '<button>'
+				+ this.getDOMTemplate(':image', 'label')
+				+ '</button>';
+
 			return $(this.resolveEL(dom));
 		}
 	
@@ -2194,10 +2177,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			 var dom = '<a>'
-				    + this.getDOMTemplate(':image', 'label')
-					+ '</a>';
-			 
+			const dom = '<a>'
+				+ this.getDOMTemplate(':image', 'label')
+				+ '</a>';
+
 			return $(this.resolveEL(dom));
 		},
 		
@@ -2250,11 +2233,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			 var dom = '<span>'
-				    + 	'<span id="${id}-inner" class="fujion-labeled-rel"></span>'
-				    + 	this.getDOMTemplate('label')
-					+ '</span>';
- 
+			const dom = '<span>'
+				+ '<span id="${id}-inner" class="fujion-labeled-rel"></span>'
+				+ this.getDOMTemplate('label')
+				+ '</span>';
+
 			return $(this.resolveEL(dom));
 		},
 	
@@ -2280,14 +2263,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Events ------------------------------*/
 		
 		handleClick: function(event) {
-			var page = this.getState('currentPage'),
-				max = this.getState('maxPage');
-			
+			let page = this.getState('currentPage');
+			const max = this.getState('maxPage');
+
 			switch ($(event.currentTarget).data('fujion-pg')) {
 				case -2: // Start
 					page = 0;
 					break;
-					
+
 				case -1: // Previous
 					page = page - 1;
 					break;
@@ -2321,19 +2304,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		_update: function() {
-			var label = this.getState('label') || '%c / %m',
-				page = this.getState('currentPage'),
-				max = this.getState('maxPage'),
-				self = this;
-			
+			let label = this.getState('label') || '%c / %m';
+			const page = this.getState('currentPage');
+			const max = this.getState('maxPage');
 			label = label.replace('%c', page + 1).replace('%m', max + 1);
 			this.sub$('lbl').text(label);
-			this.widget$.find('a').each(function() {
-				var a$ = $(this),
-					pg = a$.data('fujion-pg'),
-					disabled = !pg || (pg < 0 && page < 1) || (pg > 0 && page >= max);
+			this.widget$.find('a').each((idx, ele) => {
+				const a$ = $(ele);
+				const pg = a$.data('fujion-pg');
+				const disabled = !pg || (pg < 0 && page < 1) || (pg > 0 && page >= max);
 				a$.parent().toggleClass('disabled', disabled);
-				self.attr('tabindex', disabled ? -1 : null, a$);
+				this.attr('tabindex', disabled ? -1 : null, a$);
 			});
 		},
 		
@@ -2344,37 +2325,37 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var dom = 
-				  '<nav aria-label="pagination">'
-				+   '<ul class="pagination">'
-				+     '<li class="page-item">'
-				+       '<a class="page-link" data-fujion-pg="-2">'
-				+         '<span class="fa fa-angle-double-left" aria-hidden="true"></span>'
-				+         '<span class="sr-only">${_state.nav.start}</span>'
-				+       '</a>'				
-				+     '</li>'
-				+     '<li class="page-item">'
-				+       '<a class="page-link" data-fujion-pg="-1">'
-				+         '<span class="fa fa-angle-left" aria-hidden="true"></span>'
-				+         '<span class="sr-only">${_state.nav.previous}</span>'
-				+       '</a>'				
-				+     '</li>'
-				+     '<li class="page-item">'
-				+       '<span id="${id}-lbl" class="fujion-labeled-label page-link disabled rounded-circle"></span>'
-				+     '</li>'
-				+     '<li class="page-item">'
-				+       '<a class="page-link" data-fujion-pg="1">'
-				+         '<span class="fa fa-angle-right" aria-hidden="true"></span>'
-				+         '<span class="sr-only">${_state.nav.next}</span>'
-				+       '</a>'				
-				+     '</li>'
-				+     '<li class="page-item">'
-				+       '<a class="page-link" data-fujion-pg="2">'
-				+         '<span class="fa fa-angle-double-right" aria-hidden="true"></span>'
-				+         '<span class="sr-only">${_state.nav.end}</span>'
-				+       '</a>'				
-				+     '</li>'
-				+   '</ul>'
+			const dom =
+				'<nav aria-label="pagination">'
+				+ '<ul class="pagination">'
+				+ '<li class="page-item">'
+				+ '<a class="page-link" data-fujion-pg="-2">'
+				+ '<span class="fa fa-angle-double-left" aria-hidden="true"></span>'
+				+ '<span class="sr-only">${_state.nav.start}</span>'
+				+ '</a>'
+				+ '</li>'
+				+ '<li class="page-item">'
+				+ '<a class="page-link" data-fujion-pg="-1">'
+				+ '<span class="fa fa-angle-left" aria-hidden="true"></span>'
+				+ '<span class="sr-only">${_state.nav.previous}</span>'
+				+ '</a>'
+				+ '</li>'
+				+ '<li class="page-item">'
+				+ '<span id="${id}-lbl" class="fujion-labeled-label page-link disabled rounded-circle"></span>'
+				+ '</li>'
+				+ '<li class="page-item">'
+				+ '<a class="page-link" data-fujion-pg="1">'
+				+ '<span class="fa fa-angle-right" aria-hidden="true"></span>'
+				+ '<span class="sr-only">${_state.nav.next}</span>'
+				+ '</a>'
+				+ '</li>'
+				+ '<li class="page-item">'
+				+ '<a class="page-link" data-fujion-pg="2">'
+				+ '<span class="fa fa-angle-double-right" aria-hidden="true"></span>'
+				+ '<span class="sr-only">${_state.nav.end}</span>'
+				+ '</a>'
+				+ '</li>'
+				+ '</ul>'
 				+ '</nav>'
 			return $(this.resolveEL(dom));
 		},
@@ -2412,11 +2393,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			var dom = 
+			const dom =
 				'<div>'
-			  + this.getDOMTemplate(':label')
-			  + '</div>';
-			
+				+ this.getDOMTemplate(':label')
+				+ '</div>';
+
 			return $(this.resolveEL(dom));
 		},
 		
@@ -2448,8 +2429,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Events ------------------------------*/
 		
 		handleChange: function(event, params) {
-			var target = event.target,
-				checked = target.checked;
+			const target = event.target;
+			const checked = target.checked;
 			this.setState('checked', checked);
 			this._syncChecked(checked);
 			target.value = checked;
@@ -2464,12 +2445,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var dom =
+			const dom =
 				'<div>'
-			  +   '<input id="${id}-inp" type="checkbox" class="fujion-labeled-rel">'
-			  +   this.getDOMTemplate('labelfor')
-			  + '</div>';
-			
+				+ '<input id="${id}-inp" type="checkbox" class="fujion-labeled-rel">'
+				+ this.getDOMTemplate('labelfor')
+				+ '</div>';
+
 			return $(this.resolveEL(dom));
 		},
 	
@@ -2499,12 +2480,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * Returns the enclosing radio group, or null if there is none.
 		 */
 		getGroup: function() {
-			var wgt = this._parent;
-			
+			let wgt = this._parent;
+
 			while (wgt && wgt.wclass !== 'Radiogroup') {
 				wgt = wgt._parent;
 			}
-			
+
 			return wgt;
 		},
 				
@@ -2513,19 +2494,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * radio group, returns an empty string.
 		 */
 		getGroupId: function() {
-			var group = this.getGroup();
+			const group = this.getGroup();
 			return group ? group.id : "";
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			var dom =
+			const dom =
 				'<div>'
-			  +   '<input id="${id}-inp" type="radio" name="${getGroupId}" class="fujion-labeled-rel">'
-			  +   this.getDOMTemplate('labelfor')
-			  + '</div>';
-			
+				+ '<input id="${id}-inp" type="radio" name="${getGroupId}" class="fujion-labeled-rel">'
+				+ this.getDOMTemplate('labelfor')
+				+ '</div>';
+
 			return $(this.resolveEL(dom));
 		},
 		
@@ -2535,17 +2516,17 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		 * Update the checked button associated with the enclosing radio group.
 		 */
 		_syncChecked: function(checked) {
-			var group = this.getGroup();
-			
+			const group = this.getGroup();
+
 			if (group) {
-				var previous = group.getState('_checked');
+				let previous = group.getState('_checked');
 				previous = previous ? fujion.widget.find(previous) : null;
-				
+
 				if (checked) {
 					if (previous && previous !== this) {
 						previous.trigger('change', {value: false});
 					}
-					
+
 					group.setState('_checked', this.id);
 				} else if (previous === this) {
 					group.setState('_checked', null);
@@ -2691,14 +2672,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var dom = 
-				  '<span>'
-				+   '<div class="dropdown" style="display: inline-block" role="presentation">'
-				+     '<a id="${id}-btn" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-menu">'
-				+ 		 this.getDOMTemplate(':image', 'label')
-				+       '<span class="dropdown-toggle"></span>'
-				+     '</a>'
-				+   '</div>'
+			const dom =
+				'<span>'
+				+ '<div class="dropdown" style="display: inline-block" role="presentation">'
+				+ '<a id="${id}-btn" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-menu">'
+				+ this.getDOMTemplate(':image', 'label')
+				+ '<span class="dropdown-toggle"></span>'
+				+ '</a>'
+				+ '</div>'
 				+ '</span>';
 			return $(this.resolveEL(dom));
 		},
@@ -2762,14 +2743,14 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var submenu = this.getState('_submenu'),
-				dom = '<li>'
-					+   '<a id="${id}-btn" class="dropdown-item">'
-					+ this.getDOMTemplate(':image', ':checkable', 'label')
-					+   '</a>'
-					+ (submenu ? '<ul id="${id}-inner" class="dropdown-menu">' : '')
-					+ '</li>';
-			
+			const submenu = this.getState('_submenu');
+			const dom = '<li>'
+				+ '<a id="${id}-btn" class="dropdown-item">'
+				+ this.getDOMTemplate(':image', ':checkable', 'label')
+				+ '</a>'
+				+ (submenu ? '<ul id="${id}-inner" class="dropdown-menu">' : '')
+				+ '</li>';
+
 			this.toggleClass('dropdown', !submenu);
 			this.toggleClass('dropdown-submenu', submenu);
 			return $(this.resolveEL(dom));
@@ -2803,11 +2784,11 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			var dom = 
-				  '<li>'
-			    + this.getDOMTemplate(':image', 'label')
+			const dom =
+				'<li>'
+				+ this.getDOMTemplate(':image', 'label')
 				+ '</li>';
-					
+
 			return $(this.resolveEL(dom));
 		}
 
@@ -2945,8 +2926,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		scrollToBottom: function() {
-			var input$ = this.input$();
-			input$.scrollTop(input$[0].scrollHeight);
+			const input$ = this.input$();
+			input$.scrollTop(input$.get(0).scrollHeight);
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
@@ -3001,19 +2982,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		close: function() {
-			var popup = this._popup();
+			const popup = this._popup();
 			popup ? popup.close() : null;
 		},
 		
 		isOpen: function() {
-			var popup = this._popup();
+			const popup = this._popup();
 			return popup && popup.isOpen();
 		},
 		
 		open: function() {
 			this.close();
-			var popup = this._popup();
-			
+			const popup = this._popup();
+
 			if (popup) {
 				popup.open({
 					my: 'left top',
@@ -3039,12 +3020,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var dom =
+			const dom =
 				'<span>'
-			  +   '<input id="${id}-inp" type="text">'
-			  +   '<span id="${id}-btn" class="fa fa-caret-down"></span>'
-			  + '</span>';
-			
+				+ '<input id="${id}-inp" type="text">'
+				+ '<span id="${id}-btn" class="fa fa-caret-down"></span>'
+				+ '</span>';
+
 			return $(this.resolveEL(dom));
 		},
 		
@@ -3056,10 +3037,10 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		s_readonly: function(v) {
 			this._super();
-			var inp$ = this.input$();
+			const inp$ = this.input$();
 			inp$.off('click.fujion');
 			v ? inp$.on('click.fujion', this.handleClick.bind(this)) : null;
-			
+
 		}
 		
 	});
@@ -3104,10 +3085,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Events ------------------------------*/
 
 		handleChange: function(event) {
-			this.forEachChild(function(child) {
-				child.syncSelected();
-			});
-			
+			this.forEachChild(child => child.syncSelected());
 			event.fujion_nosend = true;
 			return false;
 		},
@@ -3166,8 +3144,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		syncSelected: function(noevent) {
-			var selected = this.widget$.is(':selected');
-			
+			const selected = this.widget$.is(':selected');
+
 			if (this.setState('selected', selected) && !noevent) {
 				this.trigger('change', {value: selected});
 			}
@@ -3223,21 +3201,20 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			if (event.target.tagName === 'LI') {
 				return;
 			}
-			
-			var inp$ = this.input$();
-			
+
+			const inp$ = this.input$();
+
 			if (inp$.is(':disabled')) {
 				return;
 			}
-			
+
 			fujion.event.stop(event);
 			this.setOpen(!this.getState('_open'));
 		},
 		
 		handleMove: function(event) {
-			var inp$ = this.input$(),
-				position = inp$.autocomplete('option', 'position');
-			
+			const inp$ = this.input$();
+			const position = inp$.autocomplete('option', 'position');
 			position.of = inp$;
 			this._ul.position(position);
 		},
@@ -3246,23 +3223,21 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		afterRender: function() {
 			this._super();
-			
-			var self = this,
-				inp$ = this.input$();
-			
+			const self = this;
+			const inp$ = this.input$();
 			inp$.autocomplete({
-	            delay: 50,
-	            minLength: 0,
-	            autoFocus: false,
-	            appendTo: fujion.root$,
+				delay: 50,
+				minLength: 0,
+				autoFocus: false,
+				appendTo: fujion.root$,
 				change: _change,
 				close: _close,
 				open: _open,
 				select: _change,
-	            source: _source,
-	            classes: {
-	            	'ui-autocomplete': 'fujion_combobox-ddn'
-	            }
+				source: _source,
+				classes: {
+					'ui-autocomplete': 'fujion_combobox-ddn'
+				}
 			});
 			
 			inp$.data('ui-autocomplete')._renderItem = this.renderItem$.bind(this);
@@ -3271,8 +3246,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			this.sub$('btn').on('mousedown', this.handleClick.bind(this));
 			
 			function _change(event, ui) {
-				var wgt = ui.item ? ui.item.wgt : null;
-				
+				const wgt = ui.item ? ui.item.wgt : null;
+
 				if (wgt && wgt.setState('selected', true)) {
 					wgt.trigger('change', {value: true});
 				}
@@ -3289,19 +3264,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			}
 			
 			function _source(request, response) {
-				var term = request.term.toLowerCase(),
-					len = term.length,
-					items = [],
-					filter = self.getState('autoFilter');
-				
-				self.forEachChild(function(child) {
-					var label = child.getState('label') || '',
-						matched = len > 0 && label.substring(0, len).toLowerCase() === term;
-					
+				const term = request.term.toLowerCase();
+				const len = term.length;
+				const items = [];
+				const filter = self.getState('autoFilter');
+
+				self.forEachChild(child => {
+					const label = child.getState('label') || '';
+					const matched = len > 0 && label.substring(0, len).toLowerCase() === term;
+
 					if (!len || !filter || matched) {
 						items.push({
 							wgt: child,
-							label: label, 
+							label: label,
 							matched: matched
 						});
 					}
@@ -3313,25 +3288,24 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var dom =
+			const dom =
 				'<span>'
-			  +   '<input id="${id}-inp" type="text">'
-			  +   '<span id="${id}-btn" class="fa fa-caret-down"></span>'
-			  +   '<select id="${id}-inner" class="d-none"></select>'
-			  + '</span>';
-			
+				+ '<input id="${id}-inp" type="text">'
+				+ '<span id="${id}-btn" class="fa fa-caret-down"></span>'
+				+ '<select id="${id}-inner" class="d-none"></select>'
+				+ '</span>';
+
 			return $(this.resolveEL(dom));
 		},
 		
 		renderItem$: function(ul, item) {
-			var wgt = item.wgt,
-				image = wgt.getState('image'),
-				item$ = $('<li>')
-					.toggleClass(this.subclazz('matched'), item.matched)
-					.toggleClass(this.subclazz('selected'), wgt.getState('selected'))
-					.appendTo(ul),
-				cnt$ = $('<span>').appendTo(item$);
-			
+			const wgt = item.wgt;
+			const image = wgt.getState('image');
+			const item$ = $('<li>')
+				.toggleClass(this.subclazz('matched'), item.matched)
+				.toggleClass(this.subclazz('selected'), wgt.getState('selected'))
+				.appendTo(ul);
+			const cnt$ = $('<span>').appendTo(item$);
 			image ? $('<img>').attr('src', image).appendTo(cnt$) : null;
 			$('<span>').text(item.label).appendTo(cnt$);
 			return item$;
@@ -3340,19 +3314,16 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		renderMenu: function(ul, items) {
 			this._ul = ul;
 			ul.css('z-index', fujion.widget._zmodal + 1);
-			var ac = this.input$().autocomplete('instance');
-			
-			_.forEach(items, function(item) {
-				ac._renderItemData(ul, item);
-			});
+			const ac = this.input$().autocomplete('instance');
+			_.forEach(items, item => ac._renderItemData(ul, item));
 		},
 		
 		/*------------------------------ State ------------------------------*/
 
 		setOpen: function(open) {
 			this.setState('_open', open);
-			var inp$ = this.input$();
-			
+			const inp$ = this.input$();
+
 			if (open) {
 				inp$.autocomplete('search', inp$.attr('value'));
 				inp$.focus();
@@ -3363,7 +3334,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		s_readonly: function(v) {
 			this._super();
-			var mdn = 'mousedown.fujion';
+			const mdn = 'mousedown.fujion';
 			this.widget$.off(mdn);
 			v ? this.widget$.on(mdn, this.handleClick.bind(this)) : null;
 		}
@@ -3414,7 +3385,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			event.src = '';
 			
 			try {
-				var src = event.target.contentWindow.location.href;
+				const src = event.target.contentWindow.location.href;
 				this.setState('src', src);
 				event.src = src;
 			} catch (e) {
@@ -3465,13 +3436,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			var dom = 
+			const dom =
 				'<div>'
-			  +   '<fieldset>'
-			  +     '<legend id="${id}-title"></legend>'
-			  +     '<span id="${id}-inner"></span>'
-			  +   '</fieldset>'
-			  + '</div>';
+				+ '<fieldset>'
+				+ '<legend id="${id}-title"></legend>'
+				+ '<span id="${id}-inner"></span>'
+				+ '</fieldset>'
+				+ '</div>';
 			return $(this.resolveEL(dom));
 		},
 		
@@ -3499,10 +3470,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		_pct: function() {
-			var value = this.getState('value'),
-				max = this.getState('maxvalue'),
-				pct = max <= 0 ? 0 : value / max * 100;
-			
+			const value = this.getState('value');
+			const max = this.getState('maxvalue');
+			const pct = max <= 0 ? 0 : value / max * 100;
 			return pct > 100 ? 100 : pct;
 		},
 		
@@ -3547,8 +3517,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Events ------------------------------*/
 		
 		handleChange: function(event, ui) {
-			var value = ui.value;
-			
+			const value = ui.value;
+
 			if (this.setState('value', value)) {
 				this.trigger('change', {value: value});
 			}
@@ -3635,9 +3605,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			var dom = '<div>'
-					+   '<div id="${id}-inner"></div>'
-					+ '</div>';
+			const dom = '<div>'
+				+ '<div id="${id}-inner"></div>'
+				+ '</div>';
 			return $(this.resolveEL(dom));
 		}
 		
@@ -3672,9 +3642,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 		
 		_slide : function(down, duration, complete) {
-			var w$ = this.widget$,
-				start = down ? 0 : w$.outerHeight(),
-				end = down ? w$.outerHeight() : 0;
+			const w$ = this.widget$;
+			const start = down ? 0 : w$.outerHeight();
+			const end = down ? w$.outerHeight() : 0;
 			w$.outerHeight(start);
 			w$.animate({height: end}, duration || 'slow', complete);
 		},
@@ -3694,18 +3664,18 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var dom = '<div>'
-				    +   '<div>'
-				    +     '<span id="${id}-title" class="${wclazz}-title"></span>'
-				    +     '<span id="${id}-icons" class="fujion_titled-icons"></span>'
-				    +   '</div>'
-				    +	'<div id="${id}-inner"></div>'
-				    + '</div>';
+			const dom = '<div>'
+				+ '<div>'
+				+ '<span id="${id}-title" class="${wclazz}-title"></span>'
+				+ '<span id="${id}-icons" class="fujion_titled-icons"></span>'
+				+ '</div>'
+				+ '<div id="${id}-inner"></div>'
+				+ '</div>';
 			return $(this.resolveEL(dom));
 		},
 		
 		_buttonAdd: function(type, forward) {
-			var btn$ = $('<span>').addClass('fa fa-' + type).appendTo(this.sub$('icons'));
+			const btn$ = $('<span>').addClass('fa fa-' + type).appendTo(this.sub$('icons'));
 			this.forward(btn$, 'click', forward);
 		},
 		
@@ -3716,16 +3686,16 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_duration: function(v) {
-			var self = this;
+			const self = this;
 			this._clearTimeout();
-			
+
 			if (v > 0) {
 				this._timeout = setTimeout(_timeout, v);
 			}
-			
+
 			function _timeout() {
 				delete self._timeout;
-				self._slide(false, null, function() {
+				self._slide(false, null, function () {
 					self.trigger('close');
 				});
 			}
@@ -3734,19 +3704,19 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		s_title: function(v) {
 			this.sub$('title').text(v);
 		}
-		
+
 	});
-	
+
 	/******************************************************************************************************************
 	 * A window widget
-	 ******************************************************************************************************************/ 
+	 ******************************************************************************************************************/
 
-	var modalMask$ = fujion.body$.fujion$mask(fujion.widget._zmodal).hide();
+	const modalMask$ = fujion.body$.fujion$mask(fujion.widget._zmodal).hide();
 
-	var modals = [];
+	const modals = [];
 
 	function addModal(w) {
-		var zindex = ++fujion.widget._zmodal;
+		const zindex = ++fujion.widget._zmodal;
 		modals.push({w: w, zindex: zindex, previous: w.widget$.css('z-index')});
 		w.widget$.css('z-index', zindex);
 		updateMask();
@@ -3754,7 +3724,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	}
 
 	function removeModal(w) {
-		var i = _.findIndex(modals, function(v) {return v.w === w});
+		const i = _.findIndex(modals, v => v.w === w);
 
 		if (i === -1) {
 			return;
@@ -3766,9 +3736,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 	}
 
 	function updateMask() {
-		var i = _.findLastIndex(modals, function(v) {
-			return v.w.widget$.get(0).parentElement && v.w.getState('visible');
-		});
+		const i = _.findLastIndex(modals, v => v.w.widget$.get(0).parentElement && v.w.getState('visible'));
 
 		if (i < 0) {
 			modalMask$.hide();
@@ -3788,12 +3756,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Events ------------------------------*/
 		
 		handleMaximize: function(event) {
-			var size = this._buttonState('maximize') ? 'NORMAL' : 'MAXIMIZED';
+			const size = this._buttonState('maximize') ? 'NORMAL' : 'MAXIMIZED';
 			this.updateState('size', size);
 		}, 
 		
 		handleMinimize: function(event) {
-			var size = this._buttonState('minimize') ? 'NORMAL' : 'MINIMIZED';
+			const size = this._buttonState('minimize') ? 'NORMAL' : 'MINIMIZED';
 			this.updateState('size', size);
 		},
 
@@ -3820,11 +3788,8 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		_modifyStyles: function(styles) {
 			if (styles) {
-				var s = this.widget$[0].style;
-				
-				_.forOwn(styles, function(value, key) {
-					s[key] = value;
-				});
+				const s = this.widget$[0].style;
+				_.forOwn(styles, (value, key) => s[key] = value);
 			}
 		},
 		
@@ -3835,7 +3800,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		_saveStyles: function() {
 			if (!this.getState('_savedStyles')) {
-				var saved = _.pick(this.widget$[0].style, fujion.widget.Window._saveStyles);
+				const saved = _.pick(this.widget$[0].style, fujion.widget.Window._saveStyles);
 				this.setState('_savedStyles', saved);
 			}
 		},
@@ -3857,7 +3822,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			
 			if (this._needsPositioning && this.getState('visible')) {
 				this._needsPositioning = false;
-				var pos = this.getState('position');
+				let pos = this.getState('position');
 				
 				if (pos) {
 					pos = pos.toLowerCase().replace('_', ' ');
@@ -3872,17 +3837,18 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		_updateSizable: function() {
-			var canResize = this.getState('sizable')
+			const canResize = this.getState('sizable')
 				&& this.getState('mode') !== 'INLINE'
-				&& this.getState('size') === 'NORMAL',
-				active = this.widget$.resizable('instance');
-			
+				&& this.getState('size') === 'NORMAL';
+			const active = this.widget$.resizable('instance');
+
 			if (!canResize !== !active) {
 				if (canResize) {
 					this.widget$.resizable({
 						minHeight: 50,
 						minWidth: 100,
-						handles: 'all'});
+						handles: 'all'
+					});
 				} else {
 					this.widget$.resizable('destroy');
 				}
@@ -3902,40 +3868,39 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		render$: function() {
-			var dom =
-				  '<div>'
-				+   '<div class="card-header">'
-				+     '<div id="${id}-titlebar" class="card-title">'
-				+       '<img id="${id}-image" class="fujion_window-image">'
-				+       '<span id="${id}-title"></span>'
-				+       '<span id="${id}-icons" class="fujion_titled-icons"></span>'
-				+     '</div>'
-				+   '</div>'
-				+   '<div id="${id}-inner" class="card-body"></div>'
+			const dom =
+				'<div>'
+				+ '<div class="card-header">'
+				+ '<div id="${id}-titlebar" class="card-title">'
+				+ '<img id="${id}-image" class="fujion_window-image">'
+				+ '<span id="${id}-title"></span>'
+				+ '<span id="${id}-icons" class="fujion_titled-icons"></span>'
+				+ '</div>'
+				+ '</div>'
+				+ '<div id="${id}-inner" class="card-body"></div>'
 				+ '</div>';
 			return $(this.resolveEL(dom));
 		},
 				
 		_buttonAdd: function(type, icons, position) {
-			var id = this.subId(type);
-			var btn = $('#' + id);
+			const id = this.subId(type);
+			let btn = $('#' + id);
 			
 			if (btn.length) {
 				return btn;
 			}
 			
-			icons = icons.split(' ');
 			btn = $('<span class="fa fa-' + icons[0] + '"></span>')
 				.attr('id', id)
 				.data('position', position)
-				.data('icons', icons)
+				.data('icons', icons.split(' '))
 				.data('state', 0);
-			var icons = this.sub$('icons');
-			icons.append(btn);
-			icons.children().sort(function(a, b) {
+			const icons$ = this.sub$('icons');
+			icons$.append(btn);
+			icons$.children().sort((a, b) => {
 				a = $(a);
 				b = $(b);
-				var x = a.data('position') - b.data('position');
+				const x = a.data('position') - b.data('position');
 				
 				if (x > 0) {
 					a.before(b);
@@ -3953,9 +3918,9 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		_buttonState: function(type, newState) {
-			var btn = this.sub$(type),
-				icons = btn.data('icons'),
-				oldState = btn.data('state');
+			const btn = this.sub$(type);
+			const icons = btn.data('icons');
+			const oldState = btn.data('state');
 			
 			if (!icons) {
 				newState = 0;
@@ -3993,7 +3958,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_mode: function(v, oldmode) {
-			var self = this;
+			const self = this;
 			
 			if (oldmode === 'INLINE') {
 				this._saveStyles();
@@ -4010,7 +3975,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			if (oldmode === 'MODAL') {
 			    removeModal(this);
 			    this.widget$.detach();
-                var index = this._parent ? this._parent.getChildIndex(this) : -1;
+				const index = this._parent ? this._parent.getChildIndex(this) : -1;
 
                 if (index >= 0) {
                     this._attach(index + 1);
@@ -4049,7 +4014,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		s_size: function(v)	 {
-			var inline = 'INLINE' === this.getState('mode');
+			const inline = 'INLINE' === this.getState('mode');
 			this._updateSizable();
 			
 			switch (v) {
@@ -4087,7 +4052,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 					this.sub$('inner').hide();
 					this._buttonState('minimize', 1);
 					this._buttonState('maximize', 0);
-					var tbheight = this.widget$.children().first().css('height');
+					const tbheight = this.widget$.children().first().css('height');
 					
 					if (inline) {
 						this._modifyStyles({
