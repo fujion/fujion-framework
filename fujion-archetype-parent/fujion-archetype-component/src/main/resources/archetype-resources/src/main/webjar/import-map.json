@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "${artifactId}": "js/${classname}.js",
+    "${artifactId}-css": "css/${classname}.css"
+  }
+}

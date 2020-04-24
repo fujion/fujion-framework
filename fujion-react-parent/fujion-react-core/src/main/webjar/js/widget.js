@@ -34,7 +34,7 @@ define('fujion-react-widget', ['fujion-core', 'fujion-widget', 'react', 'react-d
 			this._rxComponent = component;
 			
 			while (this._rxInvoke.length) {
-				var invk = this._rxInvoke.shift();
+				const invk = this._rxInvoke.shift();
 				this.rxInvoke(invk.functionName, invk.args);
 			}
 		},
@@ -51,17 +51,12 @@ define('fujion-react-widget', ['fujion-core', 'fujion-widget', 'react', 'react-d
 		
 		afterRender: function() {
 			this._super();
-			
-			var src = this.getState('src'),
-				self = this;
+			const src = this.getState('src');
 			
 			if (src) {
-				System.import(src).then(function(module) {
-					var element = React.createElement(module.ReactComponent);
-					
-					ReactDOM.render(element, self.widget$[0], function() {
-						self.loaded(this);
-					});
+				System.import(src).then(module => {
+					const element = React.createElement(module.ReactComponent);
+					ReactDOM.render(element, this.widget$[0], () => this.loaded(this));
 				});
 			}
 		},

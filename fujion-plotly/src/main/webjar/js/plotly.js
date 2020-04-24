@@ -34,13 +34,12 @@ define('fujion-plotly', ['fujion-core', 'fujion-widget', 'plotly-js'], function(
 		},
 		
 		run: function(params) {
-			var self = this;
 			this.reset();
-			Plotly.newPlot(self.id, params).then(function() {
-				self._loaded = true;
+			Plotly.newPlot(this.id, params).then(() => {
+				this._loaded = true;
 				
 				if (params.layout && params.layout.autosize) {
-					$(window).on('resize', self._onresize);
+					$(window).on('resize', this._onresize);
 				}
 			});
 		},

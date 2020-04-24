@@ -51,11 +51,7 @@ class PomodoroComponent extends Component {
 	}
 
 	componentDidMount() {
-		var self = this;
-
-		this.timer = setInterval(function() {
-			self.tick();
-		}, 1000);
+		this.timer = setInterval(() => this.tick(), 1000);
 	}
 
 	componentWillUnmount() {
@@ -69,8 +65,7 @@ class PomodoroComponent extends Component {
 
 	tick() {
 		if (!this.state.isPaused) {
-			var newState = {};
-
+			const newState = {};
 			newState.buttonLabel = 'Pause';
 			newState.seconds = this.state.seconds - 1;
 
@@ -88,8 +83,7 @@ class PomodoroComponent extends Component {
 	}
 
 	togglePause() {
-		var newState = {};
-
+		const newState = {};
 		newState.isPaused = !this.state.isPaused;
 
 		if (this.state.minutes < 24 || this.state.seconds < 59) {
@@ -120,6 +114,6 @@ class PomodoroComponent extends Component {
 	}
 }
 
-//Must export component to be instantiated as ReactComponent
+// Must export component to be instantiated as ReactComponent
 
 export { PomodoroComponent as ReactComponent };

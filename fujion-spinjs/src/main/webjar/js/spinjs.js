@@ -38,7 +38,7 @@ define('fujion-spinjs', [
 		
 		afterRender: function() {
 			this._super();
-			var options = this.getState('_options');
+			const options = this.getState('_options');
 			
 			if (options) {
 				this._spinner = new Spinner.Spinner(options);

@@ -118,10 +118,10 @@ var PomodoroComponent = function (_Component4) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			var self = this;
+			var _this5 = this;
 
 			this.timer = setInterval(function () {
-				self.tick();
+				return _this5.tick();
 			}, 1000);
 		}
 	}, {
@@ -140,7 +140,6 @@ var PomodoroComponent = function (_Component4) {
 		value: function tick() {
 			if (!this.state.isPaused) {
 				var newState = {};
-
 				newState.buttonLabel = 'Pause';
 				newState.seconds = this.state.seconds - 1;
 
@@ -160,7 +159,6 @@ var PomodoroComponent = function (_Component4) {
 		key: 'togglePause',
 		value: function togglePause() {
 			var newState = {};
-
 			newState.isPaused = !this.state.isPaused;
 
 			if (this.state.minutes < 24 || this.state.seconds < 59) {
@@ -191,6 +189,6 @@ var PomodoroComponent = function (_Component4) {
 	return PomodoroComponent;
 }(_react.Component);
 
-//Must export component to be instantiated as ReactComponent
+// Must export component to be instantiated as ReactComponent
 
 exports.ReactComponent = PomodoroComponent;

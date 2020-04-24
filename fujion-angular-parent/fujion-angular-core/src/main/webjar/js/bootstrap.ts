@@ -4,10 +4,10 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 export function AppContext(aModule: any, selector?: string) {
 
-    var appContext = this;
-    var ngModule: NgModule = {};
-    var extra: NgModule = aModule.ngModule;
-    var App = aModule.AngularComponent;
+    const appContext = this;
+    let ngModule: NgModule = {};
+    let extra: NgModule = aModule.ngModule;
+    let App = aModule.AngularComponent;
 
     if (App) {
         ngModule = {

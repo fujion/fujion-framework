@@ -17,9 +17,9 @@ define('fujion-sparkline', [
 		},
 		
 		run: function(data, op1, op2) {
-			var options = _.assign({}, op1, op2),
-				w = this.widget$.width(),
-				h = this.widget$.height();
+			const options = _.assign({}, op1, op2);
+			const w = this.widget$.width();
+			const h = this.widget$.height();
 			options.width = w ? w + 'px' : 'auto';
 			options.height = h ? h + 'px' : 'auto';
 			this.widget$.sparkline(data, options);

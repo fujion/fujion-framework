@@ -35,10 +35,8 @@ define('fujion-codemirror-xml', [
 		/*------------------------------ Other ------------------------------*/
 		
 		completeAfter: function(cm, pred) {
-			var cur = cm.getCursor();
-	          
 			if (this.getState('autoComplete') && (!pred || pred())) {
-				setTimeout(function() {
+				setTimeout(() => {
 					if (!cm.state.completionActive) {
 						cm.showHint({completeSingle: false});
 					}
@@ -48,31 +46,31 @@ define('fujion-codemirror-xml', [
 		},
 
 		completeIfAfterLt: function(cm) {
-			return this.completeAfter(cm, function() {
-				var cur = cm.getCursor();
+			return this.completeAfter(cm, () => {
+				const cur = cm.getCursor();
 				return cm.getRange(CodeMirror.Pos(cur.line, cur.ch - 1), cur) === '<';
 			});
 		},
 
 		completeIfInTag: function(cm) {
-			return this.completeAfter(cm, function() {
-				var tok = cm.getTokenAt(cm.getCursor());
+			return this.completeAfter(cm, () => {
+				const tok = cm.getTokenAt(cm.getCursor());
 				
 	            if (tok.type == 'string' && (!/['"]/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1)) {
 	            	return false;
 	            }
-	            
-	            var inner = CodeMirror.innerMode(cm.getMode(), tok.state).state;
+
+				const inner = CodeMirror.innerMode(cm.getMode(), tok.state).state;
 	            return inner.tagName;
 			});
 		},
 		
 		_format: function(cm, from, to) {
-			for (var i = from.line; i <= to.line; i++) {
-				var r1 = {line: i, ch: 0},
-					r2 = {line: i, ch: 999999},
-					s = cm.doc.getRange(r1, r2).trim(),
-					l = s.length;
+			for (let i = from.line; i <= to.line; i++) {
+				const r1 = {line: i, ch: 0};
+				const r2 = {line: i, ch: 999999};
+				let s = cm.doc.getRange(r1, r2).trim();
+				let l = s.length;
 				
 				s = s.replace('>', '>\n').trim();
 				l = s.length - l;

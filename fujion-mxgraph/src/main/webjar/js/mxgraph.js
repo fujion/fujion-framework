@@ -52,7 +52,7 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		},
 		
 		getGraphXML: function(pretty) {
-			var node = new mx.mxCodec().encode(this._graph.getModel());
+			const node = new mx.mxCodec().encode(this._graph.getModel());
 			return pretty ? mx.mxUtils.getPrettyXml(node) : mx.mxUtils.getXml(node, '&#xa;');
 		},
 		
@@ -81,19 +81,19 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 			if (_.isNil(id)) {
 				return null;
 			}
-			
-			var cell = this._graph.getModel().getCell(id);
-			
+
+			const cell = this._graph.getModel().getCell(id);
+
 			if (!cell) {
 				throw new Error('No cell with an id of "' + id + '" was found.');
 			}
-			
+
 			return cell;
 		},
 		
 		_mxInvoke: function(self, functionName, args) {
-			var tgt = self[functionName];
-			
+			const tgt = self[functionName];
+
 			if (_.isUndefined(tgt)) {
 				throw new Error('Unknown mxInvoke target: ' + functionName);
 			} else if (_.isFunction(tgt)) {
@@ -126,11 +126,9 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		
 		s_content: function(v) {
 			this.clear();
-			
-			var doc = mx.mxUtils.parseXml(v),
-				ele = doc.documentElement,
-				dec = new mxCodec(ele.ownerDocument);
-			
+			const doc = mx.mxUtils.parseXml(v);
+			const ele = doc.documentElement;
+			const dec = new mxCodec(ele.ownerDocument);
 			dec.decode(ele, this._graph.getModel());
 		},
 		
@@ -225,11 +223,11 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		/*------------------------------ Rendering ------------------------------*/
 
 		render$: function() {
-			var dom = '<div>'
-					+   '<div id="${id}-tbar"></div>'
-					+   '<div id="${id}-cnt"></div>'
-					+   '<label id="${id}-sbar"></label>'
-					+ '</div>';
+			const dom = '<div>'
+				+ '<div id="${id}-tbar"></div>'
+				+ '<div id="${id}-cnt"></div>'
+				+ '<label id="${id}-sbar"></label>'
+				+ '</div>';
 			return $(this.resolveEL(dom));
 		},
 

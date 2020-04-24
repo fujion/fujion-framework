@@ -568,7 +568,7 @@ iframe.fujion-resizer {
 }
 
 .fujion_caption > *:first-child {
-	width: 100%;
+	flex: 1;
 }
 
 /* Paging */

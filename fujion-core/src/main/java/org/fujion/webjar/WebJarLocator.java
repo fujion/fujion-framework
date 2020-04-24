@@ -96,7 +96,9 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
-            Resource[] resources = applicationContext.getResources("classpath*:/**/META-INF/resources/webjars/?*/?*/");
+            log.debug(() -> "Searching for web jars in classpath...");
+            Resource[] resources = applicationContext.getResources("classpath*:/META-INF/resources/webjars/?*/?*/");
+            log.debug(() -> "Found " + resources.length + " web jar(s) in classpath.");
             ObjectNode importMap = parser.createObjectNode();
             importMap.set("imports", parser.createObjectNode());
             importMap.set("scopes", parser.createObjectNode());
@@ -107,7 +109,7 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
                         continue;
                     }
 
-                    log.debug(() -> "Processing import map for web jar: " + resource);
+                    log.debug(() -> "Discovered web jar: " + resource);
                     WebJar webjar = new WebJar(resource);
                     String name = webjar.getName();
 

@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], function(fujion, wgt) { 
+define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], function(fujion) {
 	
 	/**
 	 * Wrapper for canvas.
@@ -16,10 +16,10 @@ define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], f
 		},
 		
 		initArrayBuffer: function(handle, type, sizeOrData) {
-			var ary = [],
-				data = _.isArray(sizeOrData) ? sizeOrData : null,
-				size = data ? data.length : sizeOrData,
-				c = this._context;
+			let ary = [];
+			const data = _.isArray(sizeOrData) ? sizeOrData : null;
+			const size = data ? data.length : sizeOrData;
+			const c = this._context;
 			
 			switch (type) {
 				case c.UNSIGNED_BYTE:
@@ -48,7 +48,7 @@ define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], f
 		
 		initContext: function(handle, type, options) {
 			this._context ? this.rerender() : null;
-			var canvas = this.getCanvas();
+			const canvas = this.getCanvas();
 			canvas.height = this.widget$.height();
 			canvas.width = this.widget$.width();
 			this._type = type;
@@ -76,7 +76,7 @@ define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], f
 		/*------------------------------ Other ------------------------------*/
 
 		configResource: function(handle, prop, value) {
-			var obj = this.getResource(handle);
+			const obj = this.getResource(handle);
 			obj[prop] = this._resolveResource(value);
 		},
 		
@@ -93,7 +93,7 @@ define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], f
 		},
 		
 		invokeResource: function(handle, fnc, args) {
-			var obj = this.getResource(handle);
+			const obj = this.getResource(handle);
 			args = _.isArray(args) && arguments.length === 3 ? args : [].slice.call(arguments, 2);
 			return obj[fnc].apply(obj, this._resolveResources(args));
 		}, 
@@ -107,12 +107,7 @@ define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], f
 		},
 		
 		_resolveResources: function(args) {
-			var self = this;
-			
-			_.forOwn(args, function(value, index) {
-				args[index] = self._resolveResource(value);
-			});
-			
+			_.forOwn(args, (value, index) => args[index] = this._resolveResource(value));
 			return args;
 		},
 		

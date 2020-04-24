@@ -7,7 +7,7 @@ define('fujion-barcode', [
 	'jquery-qrcode',
 	'fujion-barcode-css'], 
 	
-	function(fujion, Widget, JsBarcode) { 
+	function(fujion, Widget) {
 	
 	/**
 	 * Bar code widget
@@ -31,7 +31,7 @@ define('fujion-barcode', [
 
 		afterRender: function() {
 			this._super();
-			var value = this.getState('value');
+			const value = this.getState('value');
 			
 			if (_.isNil(value)) {
 				return;
@@ -58,7 +58,7 @@ define('fujion-barcode', [
 		},
 		
 		render$: function() {
-			var dom = '<div><canvas id="${id}-cnt"></canvas><span id="${id}-lbl"></span></div>';
+			const dom = '<div><canvas id="${id}-cnt"></canvas><span id="${id}-lbl"></span></div>';
 			return $(this.resolveEL(dom));
 		},
 		

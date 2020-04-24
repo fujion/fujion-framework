@@ -42,7 +42,7 @@ define('fujion-angular-widget', ['fujion-core', 'fujion-widget', '@angular/core'
 		
 		ngFlush: function() {
 			while (this._ngInvoke.length) {
-				var invk = this._ngInvoke.shift();
+				const invk = this._ngInvoke.shift();
 				this.ngInvoke(invk.functionName, invk.args);
 			}
 		},
@@ -51,17 +51,13 @@ define('fujion-angular-widget', ['fujion-core', 'fujion-widget', '@angular/core'
 		
 		afterRender: function() {
 			this._super();
-			
-			var src = this.getState('src'),
-				id = "#" + this.id,
-				self = this;
-			
+			const src = this.getState('src');
+			const id = "#" + this.id;
+
 			if (src) {
-				var ngFlush = this.ngFlush.bind(this);
-				
-				System.import(src).then(function(module) {
-					self._appContext = new bootstrap.AppContext(module, id);
-					self._appContext.bootstrap().then(ngFlush);
+				System.import(src).then(module => {
+					this._appContext = new bootstrap.AppContext(module, id);
+					this._appContext.bootstrap().then(() => this.ngFlush());
 				});
 			}
 		},

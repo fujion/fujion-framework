@@ -11,7 +11,7 @@ define('fujion-hchart', ['fujion-core', 'fujion-widget', 'highcharts'], function
 
 		handleResize : function() {
 			if (!this._resizing && this._chart) {
-				var w$ = this.widget$;
+				const w$ = this.widget$;
 				this._chart.setSize(w$.width(), w$.height());
 			}
 		},

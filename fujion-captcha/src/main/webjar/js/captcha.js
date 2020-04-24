@@ -47,8 +47,8 @@ define('fujion-captcha', [
 				window.recaptcha_defer[this.id] = this;
 				return;
 			}
-			
-			var key = this.getState('siteKey');
+
+			const key = this.getState('siteKey');
 			
 			_.isNil(key) ? null : grecaptcha.render(this.widget$[0], {
 				theme: this.getState('theme').toLowerCase(),
@@ -93,10 +93,6 @@ window.recaptcha_defer = {};
 window.recaptcha_onload = function() {
 	var defer = window.recaptcha_defer;
 	window.recaptcha_defer = null;
-	
-	_.forOwn(defer, function(widget) {
-		widget.rerender();
-	});
-	
+	_.forOwn(defer, widget => widget.rerender());
 };
 

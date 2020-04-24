@@ -37,10 +37,7 @@ define('fujion-ckeditor', [
 			
 			if (this._focus) {
 				delete this._focus;
-				var editor = this._editor;
-				setTimeout(function() {
-					editor.focus();
-				}, 0);
+				setTimeout(() => this.editor.focus(), 0);
 			}
 		},
 		
@@ -71,7 +68,7 @@ define('fujion-ckeditor', [
 		/*------------------------------ Other ------------------------------*/
 		
 		changed: function() {
-			var hash = this.MD5.hex(this._editor.getData());
+			const hash = this.MD5.hex(this._editor.getData());
 			
 			if (!this._hash || this._hash !== hash) {
 				this._hash = hash;
@@ -90,7 +87,7 @@ define('fujion-ckeditor', [
 			this._editor.once('instanceReady', this.instanceReadyHandler.bind(this));
 			this._editor.on('blur', this.blurHandler.bind(this));
 			this._editor.on('change', this.changeHandler.bind(this));
-			var iframe = this.widget$.find('iframe.fujion-resizer')[0];
+			const iframe = this.widget$.find('iframe.fujion-resizer')[0];
 			
 			if (iframe) {
 				$(iframe.contentWindow).on('resize', this.resizeHandler.bind(this));
@@ -108,7 +105,7 @@ define('fujion-ckeditor', [
 		},
 		
 		render$: function() {
-			var dom = this.getState('sizable') ? '<div><textarea></textarea></div>' : '<div><textarea></textarea><iframe class="fujion-resizer"></iframe></div>';
+			const dom = this.getState('sizable') ? '<div><textarea></textarea></div>' : '<div><textarea></textarea><iframe class="fujion-resizer"></iframe></div>';
 			return $(dom);
 		},
 		

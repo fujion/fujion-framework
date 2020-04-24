@@ -48,10 +48,10 @@ define('fujion-codemirror', [
 		},
 		
 		format: function() {
-		    var cm = this._cm,
-		    	sel = cm.doc.somethingSelected(),
-		    	from = sel ? cm.getCursor('from') : {line: 0, ch: 0},
-		    	to = sel ? cm.getCursor('to') : {line: cm.lastLine(), ch: 99999999};
+			const cm = this._cm;
+			const sel = cm.doc.somethingSelected();
+			const from = sel ? cm.getCursor('from') : {line: 0, ch: 0};
+			const to = sel ? cm.getCursor('to') : {line: cm.lastLine(), ch: 99999999};
 		    
     		cm.operation(this._format.bind(this, cm, from, to));
     		from.ch = 0;
@@ -65,7 +65,7 @@ define('fujion-codemirror', [
 		},
 		
 		_format: function(cm, from, to) {
-			for (var i = from.line; i <= to.line; i++) {
+			for (let i = from.line; i <= to.line; i++) {
 				cm.indentLine(i);
 		    }
 		},
@@ -73,26 +73,20 @@ define('fujion-codemirror', [
 		/*------------------------------ Rendering ------------------------------*/
 
 		afterRender: function() {
-			var self = this;
-			
-			setTimeout(function() {
-			    self._cm ? self._cm.refresh() : null;
-			}, 1);
-
+			setTimeout(() => this._cm ? this._cm.refresh() : null, 1);
 		},
 		
 		beforeRender: function() {
-			var self = this, 
-				options = _.merge({}, this._options, this.getState('options'));
+			const options = _.merge({}, this._options, this.getState('options'));
 			this._super();
 			this._destroy();
 			this._cm = CodeMirror(this.widget$[0], options);
 			
-			this._cm.on('changes', function() {
-				var v = self._cm.getValue();
+			this._cm.on('changes', () => {
+				const v = this._cm.getValue();
 				
-				if (self.setState('value', v)) {
-					self.trigger('change', {value: v});
+				if (this.setState('value', v)) {
+					this.trigger('change', {value: v});
 				}
 			});
 			
