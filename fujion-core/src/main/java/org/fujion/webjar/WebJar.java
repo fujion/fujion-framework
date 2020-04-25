@@ -32,6 +32,8 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import static org.fujion.webjar.WebJarLocator.IMPORT_MAP_FILE;
+
 /**
  * Information describing a single web jar resource.
  */
@@ -178,7 +180,7 @@ public class WebJar {
      */
     private Resource getImportMapResource() {
         try {
-            Resource importMapResource = resource.createRelative("import-map.json");
+            Resource importMapResource = resource.createRelative(IMPORT_MAP_FILE);
             return importMapResource.exists() ? importMapResource : null;
         } catch (IOException e) {
             return null;

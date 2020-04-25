@@ -1,0 +1,10 @@
+/* Example of a global import map.
+*  Note that the for webjar-embedded resources, the "./webjars/name/" prefix is required, where
+*  "name" is the name of the webjar.
+*/
+
+{
+  "imports": {
+      "test-import": "./webjars/name/path/xxx.js"
+  }
+}

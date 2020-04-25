@@ -32,12 +32,12 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_SINGLE_QUOTES;
-import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES;
+import static com.fasterxml.jackson.core.JsonParser.Feature.*;
 import static com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS;
 
 /**
@@ -46,6 +46,8 @@ import static com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTR
  */
 public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> {
 
+    static final String IMPORT_MAP_FILE = "import-map.json";
+
     private static final Logger log = Logger.create(WebJarLocator.class);
 
     private static final WebJarLocator instance = new WebJarLocator();
@@ -53,6 +55,7 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
     static ObjectMapper parser = new ObjectMapper()
             .configure(ALLOW_UNQUOTED_FIELD_NAMES, true)
             .configure(ALLOW_SINGLE_QUOTES, true)
+            .configure(ALLOW_COMMENTS, true)
             .configure(ORDER_MAP_ENTRIES_BY_KEYS, true);
 
     private String importMapStr;
@@ -114,17 +117,27 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
                     String name = webjar.getName();
 
                     if (webjars.containsKey(name)) {
-                        log.warn(() ->"Duplicate webjar was ignored: " + webjar);
+                        log.warn(() -> "Ignoring duplicate web jar: " + webjar);
                         continue;
                     }
 
                     webjars.put(name, webjar);
                     JSONUtil.merge(importMap, webjar.getImportMap(), true);
                 } catch (Exception e) {
-                    log.error(() -> "Error extracting import map from web jar: " + resource, e);
+                    log.error(() -> "Error processing import map for web jar: " + resource, e);
                 }
             }
-            
+
+            Resource globalImportMap = applicationContext.getResource("WEB-INF/" + IMPORT_MAP_FILE);
+
+            if (globalImportMap.exists()) {
+                try (InputStream is = globalImportMap.getInputStream()) {
+                    JSONUtil.merge(importMap, parser.readTree(is));
+                } catch (Exception e) {
+                    log.error(() -> "Error processing global import map", e);
+                }
+            }
+
             if (WebUtil.isDebugEnabled()) {
                 importMapStr = parser.writerWithDefaultPrettyPrinter().writeValueAsString(importMap);
             } else {
