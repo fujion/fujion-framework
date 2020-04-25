@@ -6,7 +6,7 @@ define('fujion-captcha', [
 	'recaptcha', 
 	'fujion-captcha-css'], 
 	
-	function(fujion, Widget) { 
+	(fujion, Widget) => {
 	
 	/**
 	 * CAPTCHA widget

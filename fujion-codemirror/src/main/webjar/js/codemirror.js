@@ -13,7 +13,7 @@ define('fujion-codemirror', [
 	'codemirror/addon/edit/matchbrackets',
 	'codemirror/addon/fold/brace-fold'], 
 	
-	function(fujion, Widget, CodeMirror) { 
+	(fujion, Widget, CodeMirror) => {
 	
 	/**
 	 * Base Wrapper for CodeMirror Editor

@@ -12,7 +12,6 @@
 
 	<properties>
 		<react.version>16.13.1-SNAPSHOT</react.version>
-		
 		<webjar.name>fujion-react</webjar.name>
 		<skip.minification>false</skip.minification>
 	</properties>

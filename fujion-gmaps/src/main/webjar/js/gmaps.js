@@ -5,7 +5,7 @@ define('fujion-gmaps', [
 	'fujion-widget',
 	'fujion-gmaps-css'],
 	
-	function(fujion, Widget) {
+	(fujion, Widget) => {
 
 	const CALLBACK_NAME = 'fujion_gmap_callback';
 	const API_URL = 'https://maps.googleapis.com/maps/api/js?';

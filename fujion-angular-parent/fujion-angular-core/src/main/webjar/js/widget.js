@@ -1,7 +1,7 @@
 'use strict';
 
 define('fujion-angular-widget', ['fujion-core', 'fujion-widget', '@angular/core', 'fujion-angular-bootstrap', 'core-js/client/shim', '@angular/common', '@angular/platform-browser', '@angular/platform-browser-dynamic', 'zone.js', 'rxjs'],
-	function(fujion, wgt, core, bootstrap) { 
+	(fujion, wgt, core, bootstrap) => {
 
 	fujion.debug ? null : core.enableProdMode();
 	

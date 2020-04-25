@@ -4,7 +4,7 @@ define('fujion-spinjs', [
 	'fujion-core', 
 	'fujion-widget',
 	'spin-js',
-	'spin-js-css'], function(fujion, Widget, Spinner) {
+	'spin-js-css'], (fujion, Widget, Spinner) => {
 	
 	/******************************************************************************************************************
 	 * A spin.js widget

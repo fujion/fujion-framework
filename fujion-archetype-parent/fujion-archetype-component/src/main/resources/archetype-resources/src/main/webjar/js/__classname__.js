@@ -6,7 +6,7 @@ define('${artifactId}', [
 	'${artifactId}-css'
 	], 
 	
-	function(fujion, Widget) { 
+	(fujion, Widget) => {
 	
 	var ${ClassName} = Widget.UIWidget.extend({
 	

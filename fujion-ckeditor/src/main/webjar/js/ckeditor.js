@@ -7,7 +7,7 @@ define('fujion-ckeditor', [
 	'fujion-widget',
 	'jshashes',
 	'ckeditor-full',
-	'fujion-ckeditor-css'], function(fujion, Widget, Hashes) { 
+	'fujion-ckeditor-css'], (fujion, Widget, Hashes) => {
 	
 	/******************************************************************************************************************
 	 * A CKEditor widget

@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-upload', ['fujion-core', 'fujion-widget'], function(fujion) { 
+define('fujion-upload', ['fujion-core', 'fujion-widget'], fujion => {
 	
 	/******************************************************************************************************************
 	 * Base class for file uploader

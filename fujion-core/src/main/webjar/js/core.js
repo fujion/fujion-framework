@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], function($) {
+define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 	let fujion;
 
 	return fujion = {

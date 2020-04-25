@@ -10,7 +10,7 @@ define('fujion-codemirror-xml', [
     'codemirror/addon/edit/matchtags',
     'codemirror/addon/hint/xml-hint'], 
 	
-	function(fujion, Widget, CodeMirror) { 
+	(fujion, Widget, CodeMirror) => {
 	
 	/**
 	 * CodeMirror XML Extensions

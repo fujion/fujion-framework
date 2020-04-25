@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'], function(fujion) { 
+define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'], fujion => {
 	
 	/******************************************************************************************************************
 	 * A tab box widget

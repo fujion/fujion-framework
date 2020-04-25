@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'], function(fujion) { 
+define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'], fujion => {
 	
 	/******************************************************************************************************************
 	 * Tree view widget

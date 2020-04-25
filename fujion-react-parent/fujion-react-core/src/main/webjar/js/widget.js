@@ -1,7 +1,7 @@
 'use strict';
 
 define('fujion-react-widget', ['fujion-core', 'fujion-widget', 'react', 'react-dom'], 
-	function(fujion, wgt, React, ReactDOM) { 
+	(fujion, wgt, React, ReactDOM) => {
 
 	return {
 		

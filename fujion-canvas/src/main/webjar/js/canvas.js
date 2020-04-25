@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], function(fujion) {
+define('fujion-canvas', ['fujion-core', 'fujion-widget', 'fujion-canvas-css'], fujion => {
 	
 	/**
 	 * Wrapper for canvas.

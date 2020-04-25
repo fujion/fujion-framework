@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], function(fujion) { 
+define('fujion-picker', ['fujion-core', 'fujion-widget', 'fujion-picker-css'], fujion => {
 	
 	/******************************************************************************************************************
 	 * Base class for picker widgets.

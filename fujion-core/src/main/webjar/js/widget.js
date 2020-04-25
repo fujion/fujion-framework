@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scrollTo', 'jquery-print','balloon-css', 'jquery-ui-css', 'bootstrap-css', 'fontawesome-css', 'fujion-widget-css'], function(fujion) { 
+define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scrollTo', 'jquery-print','balloon-css', 'jquery-ui-css', 'bootstrap-css', 'fontawesome-css', 'fujion-widget-css'], fujion => {
 	/* Widget support.  In the documentation, when we refer to 'widget' we mean an instance of the Widget
 	 * class.  When we refer to 'widget$' (following the convention that a variable name ending in '$'
 	 * is always a jquery object), we mean the jquery object managed by the widget.

@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'], function(fujion) { 
+define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'], fujion => {
 	
 	/******************************************************************************************************************
 	 * Pane view widget

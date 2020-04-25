@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], function(fujion) { 
+define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], fujion => {
 	/******************************************************************************************************************
 	 * Grid widget
 	 ******************************************************************************************************************/

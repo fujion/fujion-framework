@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-hchart', ['fujion-core', 'fujion-widget', 'highcharts'], function(fujion, wgt, Highcharts) { 
+define('fujion-hchart', ['fujion-core', 'fujion-widget', 'highcharts'], (fujion, wgt, Highcharts) => {
 	
 	/**
 	 * Wrapper for HighCharts

@@ -1,5 +1,5 @@
 define('fujion-react-test', ['react', 'react-dom'],  
-	function(React, ReactDOM) {
+	(React, ReactDOM) => {
 		var i = 0;
 		
 		return React.createClass({

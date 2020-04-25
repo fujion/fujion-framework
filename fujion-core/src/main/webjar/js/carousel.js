@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'], function(fujion) {
+define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'], fujion => {
 	
 	/******************************************************************************************************************
 	 * Carousel widget

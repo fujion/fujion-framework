@@ -7,7 +7,7 @@ define('fujion-barcode', [
 	'jquery-qrcode',
 	'fujion-barcode-css'], 
 	
-	function(fujion, Widget) {
+	(fujion, Widget) => {
 	
 	/**
 	 * Bar code widget

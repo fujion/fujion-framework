@@ -3,7 +3,7 @@
  */
 'use strict';
 
-define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], function(fujion) { 
+define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], fujion => {
 
 	/******************************************************************************************************************
 	 * A detail widget

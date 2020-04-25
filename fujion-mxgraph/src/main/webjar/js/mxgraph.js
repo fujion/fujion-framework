@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxgraph-css'], function(fujion, wgt, mx) { 
+define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxgraph-css'], (fujion, wgt, mx) => {
 	
 	/**
 	 * Wrapper for mxGraph

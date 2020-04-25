@@ -3,7 +3,7 @@
 define('fujion-sparkline', [
 	'fujion-core', 
 	'fujion-widget',
-	'jquery-sparkline'], function(fujion, Widget) { 
+	'jquery-sparkline'], (fujion, Widget) => {
 	
 	/******************************************************************************************************************
 	 * A sparkline widget
