@@ -1008,7 +1008,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 	load: function(pkgname, callback) {			
 		const path = System.resolve(pkgname);
 		const nmsp = System.get(path);
-		const pkg = nmsp ? (nmsp.default ? nmsp.default : nmsp) : null;
+		const pkg = nmsp ? (nmsp.__useDefault ? nmsp.default : nmsp) : null;
 		
 		if (!pkg) {
 			return System.import(path).then(pkg => _callback(pkg));
