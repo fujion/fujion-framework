@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.fujion.common.JSONUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
+import org.fujion.common.Version;
 import org.fujion.core.WebUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -38,7 +39,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import static com.fasterxml.jackson.core.JsonParser.Feature.*;
-import static com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS;
 
 /**
  * Locates all web jars on the class path, merging their import maps into a single import map
@@ -55,8 +55,7 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
     static ObjectMapper parser = new ObjectMapper()
             .configure(ALLOW_UNQUOTED_FIELD_NAMES, true)
             .configure(ALLOW_SINGLE_QUOTES, true)
-            .configure(ALLOW_COMMENTS, true)
-            .configure(ORDER_MAP_ENTRIES_BY_KEYS, true);
+            .configure(ALLOW_COMMENTS, true);
 
     private String importMapStr;
 
@@ -102,9 +101,6 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
             log.debug(() -> "Searching for web jars in classpath...");
             Resource[] resources = applicationContext.getResources("classpath*:/META-INF/resources/webjars/?*/?*/");
             log.debug(() -> "Found " + resources.length + " web jar(s) in classpath.");
-            ObjectNode importMap = parser.createObjectNode();
-            importMap.set("imports", parser.createObjectNode());
-            importMap.set("scopes", parser.createObjectNode());
 
             for (Resource resource : resources) {
                 try {
@@ -112,27 +108,46 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
                         continue;
                     }
 
-                    log.debug(() -> "Discovered web jar: " + resource);
                     WebJar webjar = new WebJar(resource);
-                    String name = webjar.getName();
+                    WebJar previous = webjars.get(webjar.getName());
 
-                    if (webjars.containsKey(name)) {
-                        log.warn(() -> "Ignoring duplicate web jar: " + webjar);
-                        continue;
+                    if (previous != null) {
+                        Version v1 = previous.getCanonicalVersion();
+                        Version v2 = webjar.getCanonicalVersion();
+                        int cmp = v2.compareTo(v1);
+
+                        if (cmp < 0) {
+                            log.warn(() -> String.format("Using newer web jar: %s vs %s.", previous, webjar));
+                            continue;
+                        } else if (cmp > 0) {
+                            log.warn(() -> String.format("Using newer web jar: %s vs %s.", webjar, previous));
+                        } else {
+                            log.warn(() -> String.format("Ignoring duplicate web jar %s.", webjar));
+                            continue;
+                        }
+                    } else {
+                        log.info(() -> String.format("Registering web jar %s.", webjar));
                     }
 
-                    webjars.put(name, webjar);
-                    JSONUtil.merge(importMap, webjar.getImportMap(), true);
+                    webjars.put(webjar.getName(), webjar);
                 } catch (Exception e) {
-                    log.error(() -> "Error processing import map for web jar: " + resource, e);
+                    log.error(() -> String.format("Error registering web jar '%s'", resource), e);
                 }
+            }
+
+            ObjectNode importMap = parser.createObjectNode();
+            importMap.set("imports", parser.createObjectNode());
+            importMap.set("scopes", parser.createObjectNode());
+
+            for (WebJar webjar : this) {
+                JSONUtil.merge(importMap, webjar.getImportMap(), true);
             }
 
             Resource globalImportMap = applicationContext.getResource("WEB-INF/" + IMPORT_MAP_FILE);
 
             if (globalImportMap.exists()) {
                 try (InputStream is = globalImportMap.getInputStream()) {
-                    JSONUtil.merge(importMap, parser.readTree(is));
+                    JSONUtil.merge(importMap, parser.readTree(is), true);
                 } catch (Exception e) {
                     log.error(() -> "Error processing global import map", e);
                 }

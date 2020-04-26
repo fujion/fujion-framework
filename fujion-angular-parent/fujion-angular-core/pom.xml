@@ -11,10 +11,10 @@
     <artifactId>fujion-angular-core</artifactId>
 
     <properties>
-        <angular.version>8.0.2-SNAPSHOT</angular.version>
+        <angular.version>9.1.3-SNAPSHOT</angular.version>
         <corejs.version>2.6.9-SNAPSHOT</corejs.version>
         <rxjs.version>6.5.5-SNAPSHOT</rxjs.version>
-        <zonejs.version>0.9.1-SNAPSHOT</zonejs.version>
+        <zonejs.version>0.10.3-SNAPSHOT</zonejs.version>
 
         <webjar.name>fujion-angular</webjar.name>
         <skip.minification>false</skip.minification>

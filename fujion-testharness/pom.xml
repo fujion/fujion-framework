@@ -12,6 +12,10 @@
 	<packaging>war</packaging>
 	<description>Fujion Web Framework Test Harness</description>
 
+	<properties>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.fujion</groupId>

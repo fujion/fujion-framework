@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
+import org.fujion.common.Version;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
@@ -45,7 +46,9 @@ public class WebJar {
 
     private final String name;
 
-    private final String version;
+    private final Version version;
+
+    private final String versionStr;
 
     private final String absolutePath;
 
@@ -60,7 +63,8 @@ public class WebJar {
             int j = absolutePath.indexOf("/", i);
             this.name = absolutePath.substring(i, j);
             i = absolutePath.indexOf("/", j + 1);
-            this.version = absolutePath.substring(j + 1, i);
+            this.versionStr = absolutePath.substring(j + 1, i);
+            this.version = new Version(versionStr);
             parseImportMap();
         } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
@@ -104,14 +108,23 @@ public class WebJar {
     }
 
     /**
-     * Returns the version of this web jar.
+     * Returns the canonical (parsed) version of this web jar.
      *
-     * @return The version.
+     * @return The canonical version of this web jar.
      */
-    public String getVersion() {
+    public Version getCanonicalVersion() {
         return version;
     }
-    
+
+    /**
+     * Returns the version of this web jar.
+     *
+     * @return The version as a string.
+     */
+    public String getVersion() {
+        return versionStr;
+    }
+
     /**
      * Extracts the named node from the incoming configuration data, normalizes
      * it by converting relative paths to root-based paths, and adds it to
@@ -189,7 +202,7 @@ public class WebJar {
 
     @Override
     public String toString() {
-        return "webjar:" + name + ":" + version;
+        return "webjar:" + name + "@" + versionStr;
     }
 
 }
