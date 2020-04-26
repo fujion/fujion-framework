@@ -118,7 +118,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 			if (tgt) {
 				if (tgt.startsWith('@')) {
 					return System.import(tgt.substring(1)).then(
-						module => _invokeAction(module, action)
+						module => _invokeAction(module.default, action)
 					)
 				}
 
@@ -1024,9 +1024,9 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 	
 	saveToFile: function(content, mimetype, filename) {
 		mimetype = !mimetype || navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? 'application/octet-stream' : mimetype;
-		System.import('file-saver').then(function(fileSaver) {
+		System.import('file-saver').then(fileSaver => {
 			const blob = new Blob([content], {type: mimetype});
-			fileSaver.saveAs(blob, filename);
+			fileSaver.default.saveAs(blob, filename);
 		});
 	},
 	
