@@ -118,7 +118,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 			if (tgt) {
 				if (tgt.startsWith('@')) {
 					return System.import(tgt.substring(1)).then(
-						module => _invokeAction(module.default, action)
+						module => _invokeAction(module, action)
 					)
 				}
 
@@ -1008,7 +1008,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 	load: function(pkgname, callback) {			
 		const path = System.resolve(pkgname);
 		const nmsp = System.get(path);
-		const pkg = nmsp ? nmsp.default : null;
+		const pkg = nmsp ? (nmsp.default ? nmsp.default : nmsp) : null;
 		
 		if (!pkg) {
 			return System.import(path).then(pkg => _callback(pkg));
@@ -1017,7 +1017,6 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 		return _callback(pkg);
 
 		function _callback(pkg) {
-			pkg = pkg.default ? pkg.default : pkg;
 			return callback ? callback(pkg) : pkg;
 		}
 	},
@@ -1026,7 +1025,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 		mimetype = !mimetype || navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? 'application/octet-stream' : mimetype;
 		System.import('file-saver').then(fileSaver => {
 			const blob = new Blob([content], {type: mimetype});
-			fileSaver.default.saveAs(blob, filename);
+			fileSaver.saveAs(blob, filename);
 		});
 	},
 	

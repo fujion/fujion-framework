@@ -56,7 +56,7 @@ define('fujion-angular-widget', ['fujion-core', 'fujion-widget', '@angular/core'
 
 			if (src) {
 				System.import(src).then(module => {
-					this._appContext = new bootstrap.AppContext(module.default, id);
+					this._appContext = new bootstrap.AppContext(module, id);
 					this._appContext.bootstrap().then(() => this.ngFlush());
 				});
 			}

@@ -6,6 +6,7 @@
 <body>
 	<script src='webjars/webjar-systemjs/dist/system.js'></script>
 	<script src='webjars/webjar-systemjs/dist/extras/amd.js'></script>
+	<script src='webjars/webjar-systemjs/dist/extras/use-default.js'></script>
 	<script src='webjars/webjar-systemjs-css-extra/dist/css.js'></script>
 
 	<script type='systemjs-importmap'>
@@ -16,7 +17,7 @@
 		var exports = {};
 
 		System.import('fujion-core').then(fujion => {
-			fujion.default.init({
+			fujion.init({
 				pid: '${pid}',
 				baseurl: '${baseUrl}',
 				wsurl: '${wsUrl}',
