@@ -3,7 +3,7 @@
 <Configuration>
 
 	<Properties>
-		<Property name="log-path">${java.io.tmpdir}/log/</Property>
+		<Property name="log-path">../logs/</Property>
 		<Property name="pattern-layout">%d{yyyy-MM-dd HH:mm:ss.SSS} %p %t %c - %m%n</Property>
 	</Properties>
 
@@ -35,7 +35,7 @@
 		<Logger name="EXCEPTION_LOG" additivity="false" level="info">
 			<AppenderRef ref="exc" />
 		</Logger>
-		<Logger name="org.fujion" level="error">
+		<Logger name="org.fujion" level="debug">
 		</Logger>
 		<Logger name="org.springframework" level="error">
 		</Logger>

@@ -4,7 +4,7 @@
 dist
 tmp
 out-tsc
-temp
+temp*
 target
 
 # dependencies
@@ -45,4 +45,4 @@ Thumbs.db
 
 # Test output
 test-report.xml
-!build
+temp.sh
