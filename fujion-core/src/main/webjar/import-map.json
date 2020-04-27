@@ -1,5 +1,10 @@
 {
-  "imports": {
+  "packages": {
+    "": {
+      "defaultExtension": "js"
+    }
+  },
+  "map": {
     "fujion-core": "js/core.js",
     "fujion-widget": "js/widget.js",
     "fujion-widget-css": "css/widget.css",

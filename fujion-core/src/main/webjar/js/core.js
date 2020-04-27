@@ -571,7 +571,6 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 		 * @return {Widget} The newly created widget.
 		 */
 		create: function (parent, props, state) {
-			let pkg;
 			props.id = props.id || fujion.uniqueId();
 			props.wmodule = props.wmodule || 'fujion-widget';
 			return fujion.import(props.wmodule, _create);
@@ -1004,8 +1003,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 	},
 	
 	import: function(pkgname, callback) {
-		const path = System.resolve(pkgname);
-		const pkg = System.get(path);
+		const path = System.resolveSync(pkgname);
+		const pkg = System.registry.get(path);
 		return pkg ? _callback(pkg) : System.import(path).then(pkg => _callback(pkg));
 
 		function _callback(pkg) {

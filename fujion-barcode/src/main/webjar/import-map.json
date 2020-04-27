@@ -1,5 +1,5 @@
 {
-  "imports": {
+  "paths": {
     "fujion-barcode": "js/barcode.js",
     "fujion-barcode-css": "css/barcode.css"
   }

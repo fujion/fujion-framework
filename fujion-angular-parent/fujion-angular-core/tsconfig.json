@@ -3,8 +3,6 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true,
-        "module": "AMD",
-        "moduleResolution": "Node",
         "target": "es5",
         "lib": ["es2015", "es2017", "dom"],
         "outDir": "src/main/webjar/js"
@@ -13,7 +11,7 @@
     "compileOnSave": true,
 
     "include": [
-        "src/main/webjar/**/*.ts"
+        "src/main/webjar/js/*.ts"
     ],
 
     "exclude": []

@@ -52,12 +52,11 @@ public class WebJar {
 
     private final String absolutePath;
 
-    private final ObjectNode importMap;
+    private ObjectNode importMap;
 
     public WebJar(Resource resource) {
         try {
             this.resource = resource;
-            this.importMap = WebJarLocator.parser.createObjectNode();
             absolutePath = resource.getURL().toString();
             int i = absolutePath.lastIndexOf("/webjars/") + 9;
             int j = absolutePath.indexOf("/", i);
@@ -95,7 +94,7 @@ public class WebJar {
      * @return The relative root path.
      */
     public String getRootPath() {
-        return "./webjars/" + name + "/";
+        return "webjars/" + name + "/";
     }
 
     /**
@@ -126,21 +125,17 @@ public class WebJar {
     }
 
     /**
-     * Extracts the named node from the incoming configuration data, normalizes
-     * it by converting relative paths to root-based paths, and adds it to
-     * this web jar's configuration.
+     * Normalizes the named node from import map by converting relative paths to root-based paths.
      *
-     * @param name One of: "imports", "scopes"
-     * @param config The incoming configuration data.
+     * @param name One of: "paths", "map"
      */
-    private void addNormalizedNode(String name, ObjectNode config) {
-        ObjectNode paths = (ObjectNode) config.get(name);
+    private void normalizeNode(String name) {
+        ObjectNode paths = (ObjectNode) importMap.get(name);
 
         if (paths == null) {
             return;
         }
 
-        this.importMap.set(name, paths);
         Iterator<Entry<String, JsonNode>> it = paths.fields();
 
         while (it.hasNext()) {
@@ -153,8 +148,6 @@ public class WebJar {
                 if (!value.startsWith("//") && !value.contains("webjars/")) {
                     entry.setValue(createPathNode(value));
                 }
-            } else {
-                it.remove();
             }
         }
     }
@@ -177,9 +170,9 @@ public class WebJar {
 
         if (importMapResource != null) {
             try (InputStream is = importMapResource.getInputStream()) {
-                ObjectNode importMap = (ObjectNode) WebJarLocator.parser.readTree(is);
-                addNormalizedNode("imports", importMap);
-                addNormalizedNode("scopes", importMap);
+                importMap = (ObjectNode) WebJarLocator.parser.readTree(is);
+                normalizeNode("paths");
+                normalizeNode("map");
             } catch (Exception e) {
                 log.error("Error processing web jar import map", e);
             }

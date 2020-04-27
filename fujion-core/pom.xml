@@ -116,12 +116,12 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-systemjs</artifactId>
-			<version>6.3.1-SNAPSHOT</version>
+			<version>0.21.6-1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-systemjs-css-extra</artifactId>
-			<version>1.0.2-SNAPSHOT</version>
+		    <artifactId>webjar-systemjs-plugin-css</artifactId>
+		    <version>0.1.37-1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>

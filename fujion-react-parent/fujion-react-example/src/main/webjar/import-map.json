@@ -1,5 +1,5 @@
 {
-  "imports": {
+  "map": {
     "fujion-react-pomodoro": "pomodoro.js"
   }
 }

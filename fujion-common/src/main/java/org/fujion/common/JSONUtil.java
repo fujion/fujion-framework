@@ -428,29 +428,31 @@ public class JSONUtil {
      * Merges one JSON tree (srcNode) into another (destNode).
      *
      * @param destNode     The tree receiving the merged node.
-     * @param srcNode      The tree supplying the nodes to merge.
+     * @param srcNode      The tree supplying the nodes to merge (if null, no action is taken).
      * @param deleteOnNull If true and a null value is encountered in the source, delete the
      *                     corresponding node in the destination. If false, null values are treated like any
      *                     other value.
      * @return The destination node post merging.
      */
     public static JsonNode merge(JsonNode destNode, JsonNode srcNode, boolean deleteOnNull) {
-        Iterator<String> fieldNames = srcNode.fieldNames();
+        if (srcNode != null) {
+            Iterator<String> fieldNames = srcNode.fieldNames();
 
-        while (fieldNames.hasNext()) {
-            String fieldName = fieldNames.next();
-            JsonNode jsonNode = destNode.get(fieldName);
-            // if field exists and is an embedded object
-            if (jsonNode != null && jsonNode.isObject()) {
-                merge(jsonNode, srcNode.get(fieldName), deleteOnNull);
-            } else if (destNode instanceof ObjectNode) {
-                // Overwrite field
-                JsonNode value = srcNode.get(fieldName);
+            while (fieldNames.hasNext()) {
+                String fieldName = fieldNames.next();
+                JsonNode jsonNode = destNode.get(fieldName);
+                // if field exists and is an embedded object
+                if (jsonNode != null && jsonNode.isObject()) {
+                    merge(jsonNode, srcNode.get(fieldName), deleteOnNull);
+                } else if (destNode instanceof ObjectNode) {
+                    // Overwrite field
+                    JsonNode value = srcNode.get(fieldName);
 
-                if (deleteOnNull && value.isNull()) {
-                    ((ObjectNode) destNode).remove(fieldName);
-                } else {
-                    ((ObjectNode) destNode).set(fieldName, value);
+                    if (deleteOnNull && value.isNull()) {
+                        ((ObjectNode) destNode).remove(fieldName);
+                    } else {
+                        ((ObjectNode) destNode).set(fieldName, value);
+                    }
                 }
             }
         }

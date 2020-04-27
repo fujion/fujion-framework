@@ -136,8 +136,6 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
             }
 
             ObjectNode importMap = parser.createObjectNode();
-            importMap.set("imports", parser.createObjectNode());
-            importMap.set("scopes", parser.createObjectNode());
 
             for (WebJar webjar : this) {
                 JSONUtil.merge(importMap, webjar.getImportMap(), true);

@@ -144,7 +144,7 @@
 					<checkbox label="Post" checked="true" data="${1}"/>
 					<checkbox label="Send" checked="true" data="${0}"/>
 				</rowcell>
-				On button click, should see log entry ".. event test successful." for each selected method.
+				On button click, should see log entry "... event test successful." for each selected method.
 			</row>
 			<row>
 				<spinjs linecolor="red,green,blue" start="true"/>

@@ -4,7 +4,7 @@
 */
 
 {
-  "imports": {
+  "paths": {
       "test-import": "./webjars/name/path/xxx.js"
   }
 }

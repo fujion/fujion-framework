@@ -1,5 +1,5 @@
 {
-  "imports": {
+  "paths": {
     "fujion-spinjs": "js/spinjs.js"
   }
 }
