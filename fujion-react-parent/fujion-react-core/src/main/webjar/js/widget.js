@@ -54,7 +54,7 @@ define('fujion-react-widget', ['fujion-core', 'fujion-widget', 'react', 'react-d
 			const src = this.getState('src');
 			
 			if (src) {
-				System.import(src).then(module => {
+				fujion.import(src, module => {
 					const element = React.createElement(module.ReactComponent);
 					ReactDOM.render(element, this.widget$[0], () => this.loaded(this));
 				});

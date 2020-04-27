@@ -20,6 +20,7 @@
  */
 package org.fujion.webjar;
 
+import org.apache.commons.io.FilenameUtils;
 import org.fujion.core.WebUtil;
 import org.fujion.servlet.ETaggedResource;
 import org.springframework.core.io.Resource;
@@ -31,7 +32,7 @@ import java.util.List;
 
 /**
  * Inserts web jar version into request path and appends a "js" extension
- * if no extension is provided. For example, converts
+ * if no recognized extension is provided. For example, converts
  * <p>
  * <code>webjars/{webjar-name}/path/xyz</code>
  * </p>
@@ -48,15 +49,27 @@ public class WebJarResourceResolver extends AbstractResourceResolver {
         int j = path.indexOf("/", i + 1);
         String version = j < 0 ? "" : path.substring(i + 1, j);
         WebJar webjar = WebJarLocator.getInstance().getWebJar(name);
-        
-        if (webjar != null && !version.equals(webjar.getVersion())) {
+
+        if (webjar == null) {
+            return path;
+        }
+
+        if (!version.equals(webjar.getVersion())) {
             path = name + "/" + webjar.getVersion() + path.substring(i);
         }
 
-        i = path.lastIndexOf("/");
+        String ext = FilenameUtils.getExtension(path).toLowerCase();
 
-        if (i >=0 && path.indexOf(".", i) == -1) {
+        if (ext.isEmpty()) {
             path += ".js";
+        } else if (!ext.equalsIgnoreCase("js")) {
+            i = path.indexOf("/");
+            i = i < 0 ? i : path.indexOf("/", i + 1);
+            String resource = i < 0 ? "" : path.substring(i + 1);
+
+            if (webjar.getResource(resource) == null && webjar.getResource(resource + ".js") != null) {
+                path += ".js";
+            }
         }
 
         return path;

@@ -173,7 +173,7 @@ public class WebJar {
      * Retrieves and parses the import map if one is present.
      */
     private void parseImportMap() {
-        Resource importMapResource = getImportMapResource();
+        Resource importMapResource = getResource(IMPORT_MAP_FILE);
 
         if (importMapResource != null) {
             try (InputStream is = importMapResource.getInputStream()) {
@@ -187,15 +187,16 @@ public class WebJar {
     }
 
     /**
-     * Retrieve the import map resource if one exists.
+     * Return a resource within this web jar.
      *
-     * @return The import map resource, or null if it does not exist.
+     * @param path The relative path to the resource.
+     * @return The requested resource, or null if one does not exist.
      */
-    private Resource getImportMapResource() {
+    public Resource getResource(String path) {
         try {
-            Resource importMapResource = resource.createRelative(IMPORT_MAP_FILE);
-            return importMapResource.exists() ? importMapResource : null;
-        } catch (IOException e) {
+            Resource res = resource.createRelative(path);
+            return res.exists() ? res : null;
+        } catch (Exception e) {
             return null;
         }
     }

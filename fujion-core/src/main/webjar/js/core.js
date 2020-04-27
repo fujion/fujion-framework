@@ -117,9 +117,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 
 			if (tgt) {
 				if (tgt.startsWith('@')) {
-					return System.import(tgt.substring(1)).then(
-						module => _invokeAction(module, action)
-					)
+					return fujion.import(tgt.substring(1), module => _invokeAction(module, action))
 				}
 
 				const i = tgt.indexOf('-');
@@ -576,7 +574,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 			let pkg;
 			props.id = props.id || fujion.uniqueId();
 			props.wmodule = props.wmodule || 'fujion-widget';
-			return fujion.load(props.wmodule, _create);
+			return fujion.import(props.wmodule, _create);
 
 			function _create(pkg) {
 				const clazz = pkg[props.wclass];
@@ -1005,25 +1003,20 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 		return changed;
 	},
 	
-	load: function(pkgname, callback) {			
+	import: function(pkgname, callback) {
 		const path = System.resolve(pkgname);
-		const nmsp = System.get(path);
-		const pkg = nmsp ? (nmsp.__useDefault ? nmsp.default : nmsp) : null;
-		
-		if (!pkg) {
-			return System.import(path).then(pkg => _callback(pkg));
-		}
-		
-		return _callback(pkg);
+		const pkg = System.get(path);
+		return pkg ? _callback(pkg) : System.import(path).then(pkg => _callback(pkg));
 
 		function _callback(pkg) {
+			pkg = pkg.__useDefault ? pkg.default : pkg;
 			return callback ? callback(pkg) : pkg;
 		}
 	},
 	
 	saveToFile: function(content, mimetype, filename) {
 		mimetype = !mimetype || navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? 'application/octet-stream' : mimetype;
-		System.import('file-saver').then(fileSaver => {
+		this.import('file-saver', fileSaver => {
 			const blob = new Blob([content], {type: mimetype});
 			fileSaver.saveAs(blob, filename);
 		});
