@@ -103,36 +103,7 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
             log.debug(() -> "Found " + resources.length + " web jar(s) in classpath.");
 
             for (Resource resource : resources) {
-                try {
-                    if (resource.isFile() && !resource.getFile().isDirectory()) {
-                        continue;
-                    }
-
-                    WebJar webjar = new WebJar(resource);
-                    WebJar previous = webjars.get(webjar.getName());
-
-                    if (previous != null) {
-                        Version v1 = previous.getCanonicalVersion();
-                        Version v2 = webjar.getCanonicalVersion();
-                        int cmp = v2.compareTo(v1);
-
-                        if (cmp < 0) {
-                            log.warn(() -> String.format("Using newer web jar: %s vs %s.", previous, webjar));
-                            continue;
-                        } else if (cmp > 0) {
-                            log.warn(() -> String.format("Using newer web jar: %s vs %s.", webjar, previous));
-                        } else {
-                            log.warn(() -> String.format("Ignoring duplicate web jar %s.", webjar));
-                            continue;
-                        }
-                    } else {
-                        log.info(() -> String.format("Registering web jar %s.", webjar));
-                    }
-
-                    webjars.put(webjar.getName(), webjar);
-                } catch (Exception e) {
-                    log.error(() -> String.format("Error registering web jar '%s'", resource), e);
-                }
+                processWebjar(resource);
             }
 
             ObjectNode importMap = parser.createObjectNode();
@@ -158,6 +129,39 @@ public class WebJarLocator implements ApplicationContextAware, Iterable<WebJar> 
             }
         } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
+        }
+    }
+
+    public void processWebjar(Resource resource) {
+        try {
+            if (resource.isFile() && !resource.getFile().isDirectory()) {
+                return;
+            }
+
+            WebJar webjar = new WebJar(resource);
+            WebJar previous = webjars.get(webjar.getName());
+
+            if (previous != null) {
+                Version v1 = previous.getCanonicalVersion();
+                Version v2 = webjar.getCanonicalVersion();
+                int cmp = v2.compareTo(v1);
+
+                if (cmp < 0) {
+                    log.warn(() -> String.format("Using newer web jar: %s vs %s.", previous, webjar));
+                    return;
+                } else if (cmp > 0) {
+                    log.warn(() -> String.format("Using newer web jar: %s vs %s.", webjar, previous));
+                } else {
+                    log.warn(() -> String.format("Ignoring duplicate web jar %s.", webjar));
+                    return;
+                }
+            } else {
+                log.info(() -> String.format("Registering web jar %s.", webjar));
+            }
+
+            webjars.put(webjar.getName(), webjar);
+        } catch (Exception e) {
+            log.error(() -> String.format("Error registering web jar '%s'", resource), e);
         }
     }
 

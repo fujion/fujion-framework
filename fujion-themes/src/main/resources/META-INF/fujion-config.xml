@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans 
 		 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="org.fujion.theme.bootswatch.VersionCheck">
-		<constructor-arg ref="fujion_WebJarLocator" />
-	</bean>
+	<bean class="org.fujion.theme.bootswatch.VersionCheck" />
 	
 	<bean id="fujion-bootswatch" abstract="true" class="org.fujion.theme.Theme">
 		<property name="mappings">
 			<map>
-				<entry key="/webjars/webjar-bootstrap/**" value="/webjars/webjar-bootswatch-$0/$1" />
+				<entry key="/webjars/webjar-bootstrap/dist/css/**" value="/webjars/webjar-bootswatch/dist/$0/$1" />
 			</map>
 		</property>
 	</bean>
