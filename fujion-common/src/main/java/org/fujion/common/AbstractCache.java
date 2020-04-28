@@ -182,7 +182,7 @@ public abstract class AbstractCache<KEY, VALUE> implements Iterable<VALUE> {
     public Iterator<VALUE> iterator() {
         return new Iterator<VALUE>() {
 
-            Iterator<CachedObject<VALUE>> iterator = map.values().iterator();
+            final Iterator<CachedObject<VALUE>> iterator = map.values().iterator();
 
             @Override
             public boolean hasNext() {

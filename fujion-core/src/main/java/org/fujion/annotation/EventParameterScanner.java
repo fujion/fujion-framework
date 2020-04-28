@@ -30,7 +30,7 @@ import org.fujion.event.Event;
  */
 public class EventParameterScanner extends AbstractFieldScanner<Event, EventParameter> {
 
-    private static EventParameterScanner instance = new EventParameterScanner();
+    private static final EventParameterScanner instance = new EventParameterScanner();
     
     /**
      * Wire an event object with parameters in a client request.

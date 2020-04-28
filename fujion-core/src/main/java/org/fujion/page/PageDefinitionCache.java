@@ -41,9 +41,9 @@ import java.util.Set;
  */
 public class PageDefinitionCache extends AbstractCache<String, PageDefinition> implements ServletContextAware, ApplicationListener<ContextRefreshedEvent> {
 
-    private static PageDefinitionCache instance = new PageDefinitionCache();
+    private static final PageDefinitionCache instance = new PageDefinitionCache();
 
-    private static Logger log = Logger.create(PageDefinitionCache.class);
+    private static final Logger log = Logger.create(PageDefinitionCache.class);
 
     private Set<String> precompiled = new LinkedHashSet<>();
 

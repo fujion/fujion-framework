@@ -52,7 +52,7 @@ public enum OnFailure {
     void doAction(String message, Object... args) {
         switch (this) {
             case IGNORE:
-                return;
+                break;
             
             case EXCEPTION:
                 message = StrUtil.formatMessage(message, args);
@@ -61,7 +61,7 @@ public enum OnFailure {
             case LOG:
                 message = StrUtil.formatMessage(message, args);
                 log.warn(message);
-                return;
+                break;
         }
     }
     
@@ -73,14 +73,14 @@ public enum OnFailure {
     void doAction(Exception e) {
         switch (this) {
             case IGNORE:
-                return;
+                break;
             
             case EXCEPTION:
                 throw MiscUtil.toUnchecked(e);
                 
             case LOG:
                 log.error(e::getMessage, e);
-                return;
+                break;
         }
     }
 }

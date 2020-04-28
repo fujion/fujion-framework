@@ -50,8 +50,8 @@ public class CssStyles {
             return;
         }
 
-        for (String style : value.split("\\;")) {
-            String[] pcs = style.split("\\:", 2);
+        for (String style : value.split(";")) {
+            String[] pcs = style.split(":", 2);
             String name = pcs[0].trim();
             value = pcs.length == 1 ? "" : pcs[1].trim();
 

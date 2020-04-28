@@ -103,7 +103,7 @@ public class CssClasses {
                 continue;
             }
 
-            for (String cls : value.split("\\ ")) {
+            for (String cls : value.split(" ")) {
                 cls = cls.trim();
                 boolean _remove = remove;
 
@@ -113,7 +113,7 @@ public class CssClasses {
                 }
 
                 if (cls.contains(":")) {
-                    String[] pcs = cls.split("\\:", 2);
+                    String[] pcs = cls.split(":", 2);
                     cls = pcs[1];
                     String group = pcs[0];
                     String clazz = groups.get(group);

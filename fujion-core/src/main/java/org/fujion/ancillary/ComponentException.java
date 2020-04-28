@@ -85,7 +85,7 @@ public class ComponentException extends UnhandledException {
      * @exception ComponentException Thrown if the condition is not met.
      */
     private static void assertTrue(boolean condition, Class<? extends BaseComponent> componentClass, BaseComponent component,
-                                   Supplier<String> message) {
+                                   Supplier<String> message) throws ComponentException {
         if (!condition) {
             throw new ComponentException((Throwable) null, componentClass, component, message.get());
         }

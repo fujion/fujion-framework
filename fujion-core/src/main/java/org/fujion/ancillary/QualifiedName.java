@@ -48,7 +48,7 @@ public class QualifiedName {
             name = value;
             qualifier = null;
         } else {
-            String[] pcs = value.split("\\:", 2);
+            String[] pcs = value.split(":", 2);
             name = pcs[0] + ":";
             qualifier = pcs[1];
         }
