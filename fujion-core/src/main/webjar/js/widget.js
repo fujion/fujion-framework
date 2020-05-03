@@ -3889,11 +3889,12 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 			if (btn.length) {
 				return btn;
 			}
-			
+
+			icons = icons.split(' ');
 			btn = $('<span class="fa fa-' + icons[0] + '"></span>')
 				.attr('id', id)
 				.data('position', position)
-				.data('icons', icons.split(' '))
+				.data('icons', icons)
 				.data('state', 0);
 			const icons$ = this.sub$('icons');
 			icons$.append(btn);
