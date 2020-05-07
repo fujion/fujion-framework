@@ -57,6 +57,7 @@
     background: #5D6D7E;
     color: white;
     text-align: center;
+    width: 100%;
 }
 
 .fujion_pane-title:empty {
