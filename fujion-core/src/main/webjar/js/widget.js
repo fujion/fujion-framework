@@ -3128,7 +3128,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		handleClick: function(event) {
 			if (!this._dragging) {
 				this.syncSelected(true);
-				this._parent.handleChange();
+				this._parent.handleChange(event);
 				this._parent.focus();
 			}
 		},
