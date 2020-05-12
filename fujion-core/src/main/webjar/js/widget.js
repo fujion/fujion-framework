@@ -1009,9 +1009,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		focus: function(focus) {
-			const sel = ':input:enabled:visible:not([readonly]):first';
-			const tgt$ = this.widget$.is(sel) ? this.widget$ : this.widget$.find(sel);
-			focus ? tgt$.focus().select() : tgt$.blur();
+			const sel = ':input:enabled:visible:not([readonly])';
+			const tgt = this.widget$.is(sel) ? this.widget$.get(0) : this.widget$.find(sel).get(0);
+			focus = typeof focus === 'boolean' ? focus : true;
+
+			if (tgt) {
+				focus ? tgt.focus() : tgt.blur();
+			}
 		},
 		
 		input$: function() {
@@ -3127,7 +3131,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		
 		handleClick: function(event) {
 			if (!this._dragging) {
-				this.syncSelected(true);
+				this.select(true);
 				this._parent.handleChange(event);
 				this._parent.focus();
 			}
@@ -3142,7 +3146,13 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		},
 		
 		/*------------------------------ Other ------------------------------*/
-		
+
+		select: function(select) {
+			if (this.updateState('selected', select)) {
+				this.trigger('change', {value: select});
+			}
+		},
+
 		syncSelected: function(noevent) {
 			const selected = this.widget$.is(':selected');
 
