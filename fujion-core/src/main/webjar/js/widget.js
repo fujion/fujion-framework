@@ -3132,7 +3132,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		handleClick: function(event) {
 			if (!this._dragging) {
 				this.select(true);
-				this._parent.handleChange(event);
+				this._parent.handleChange({});
 				this._parent.focus();
 			}
 		},
@@ -3148,9 +3148,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		/*------------------------------ Other ------------------------------*/
 
 		select: function(select) {
-			if (this.updateState('selected', select)) {
-				this.trigger('change', {value: select});
-			}
+			this.s_selected(select);
 		},
 
 		syncSelected: function(noevent) {
