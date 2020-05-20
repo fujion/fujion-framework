@@ -30,23 +30,42 @@ public class MimeContent {
     private byte[] data;
     
     private String mimeType;
-    
+
+    private String source;
+
     public MimeContent(String mimeType, byte[] data) {
         this.mimeType = mimeType;
         this.data = data;
     }
-    
+
+    public MimeContent(String mimeType, String source) {
+        this.mimeType = mimeType;
+        this.source = source;
+    }
+
     public String getSrc() {
-        return (mimeType == null || data == null) ? null
+        return source != null ? source : (mimeType == null || data == null) ? null
                 : "data:" + mimeType + ";base64," + Base64Utils.encodeToString(data);
     }
-    
+
+    public void setSource(String source) {
+        this.source = source;
+
+        if (source != null) {
+            data = null;
+        }
+    }
+
     public byte[] getData() {
         return data;
     }
     
     public void setData(byte[] data) {
         this.data = data;
+
+        if (data != null) {
+            source = null;
+        }
     }
     
     public String getMimeType() {
