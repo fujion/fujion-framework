@@ -22,11 +22,7 @@ package org.fujion.common;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections.IteratorUtils;
@@ -181,7 +177,29 @@ public class MiscUtil {
         
         return false;
     }
-    
+
+    /**
+     * Ensures that the list is not null, creating one if it is.
+     *
+     * @param list The list.
+     * @param <T> The list's element type.
+     * @return The original list, or a new one if the original was null.
+     */
+    public static <T> List<T> ensureList(List<T> list) {
+        return list == null ? new ArrayList<T>() : list;
+    }
+
+    /**
+     * Converts an array to a list, handling nulls.
+     *
+     * @param elements The array of elements.
+     * @param <T> The element type.
+     * @return The list containing the elements (null if input was null).
+     */
+    public static <T> List<T> toList(T... elements) {
+        return elements == null ? null : Arrays.asList(elements);
+    }
+
     /**
      * Converts a checked exception to unchecked. If the original exception is already unchecked, it
      * is simply returned.
