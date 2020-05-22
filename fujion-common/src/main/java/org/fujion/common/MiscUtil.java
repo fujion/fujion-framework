@@ -197,7 +197,7 @@ public class MiscUtil {
      * @param <T> The lists' element type.
      * @return The modified (or newly created) destination list.
      */
-    public static <T> List<T> replaceList(List<T> dest, List<T> source) {
+    public static <T> List<T> replaceList(List<T> dest, Collection<T> source) {
         source = source == null ? Collections.emptyList() : source;
 
         if (dest == null) {
