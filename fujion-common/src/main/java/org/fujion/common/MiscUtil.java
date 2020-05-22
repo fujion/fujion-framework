@@ -190,6 +190,27 @@ public class MiscUtil {
     }
 
     /**
+     * Replaces the contents of the destination list with that of the source list.
+     *
+     * @param source The source list.  Null is equivalent to an empty list.
+     * @param dest The destination list.  If null, a new list will be created.
+     * @param <T> The lists' element type.
+     * @return The modified (or newly created) destination list.
+     */
+    public static <T> List<T> replaceList(List<T> source, List<T> dest) {
+        source = source == null ? Collections.emptyList() : source;
+
+        if (dest == null) {
+            dest = new ArrayList<>(source);
+        } else {
+            dest.clear();
+            dest.addAll(source);
+        }
+
+        return dest;
+    }
+
+    /**
      * Converts an array to a list, handling nulls.
      *
      * @param elements The array of elements.
