@@ -185,7 +185,7 @@ public class DateRange {
      *
      * @param startDate The start date.
      */
-    private void setStartDate(String startDate) {
+    protected void setStartDate(String startDate) {
         this.rawStartDate = startDate;
         this.startDate = DateUtil.parseDate(startDate);
     }
@@ -195,7 +195,7 @@ public class DateRange {
      *
      * @param endDate The end date.
      */
-    private void setEndDate(String endDate) {
+    protected void setEndDate(String endDate) {
         this.rawEndDate = endDate;
         this.endDate = DateUtil.parseDate(endDate);
     }
