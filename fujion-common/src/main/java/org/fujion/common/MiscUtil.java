@@ -192,12 +192,12 @@ public class MiscUtil {
     /**
      * Replaces the contents of the destination list with that of the source list.
      *
-     * @param source The source list.  Null is equivalent to an empty list.
      * @param dest The destination list.  If null, a new list will be created.
+     * @param source The source list.  Null is equivalent to an empty list.
      * @param <T> The lists' element type.
      * @return The modified (or newly created) destination list.
      */
-    public static <T> List<T> replaceList(List<T> source, List<T> dest) {
+    public static <T> List<T> replaceList(List<T> dest, List<T> source) {
         source = source == null ? Collections.emptyList() : source;
 
         if (dest == null) {
@@ -208,6 +208,18 @@ public class MiscUtil {
         }
 
         return dest;
+    }
+
+    /**
+     * Replaces the contents of the destination list the specified elements.
+     *
+     * @param dest The destination list.  If null, a new list will be created.
+     * @param elements A list of elements to be copied to the destination list.
+     * @param <T> The lists' element type.
+     * @return The modified (or newly created) destination list.
+     */
+    public static <T> List<T> replaceList(List<T> dest, T... elements) {
+        return replaceList(dest, elements == null ? null : Arrays.asList(elements));
     }
 
     /**
