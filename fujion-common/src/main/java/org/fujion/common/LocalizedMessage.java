@@ -32,7 +32,7 @@ public class LocalizedMessage {
     private final Locale locale;
 
     public LocalizedMessage(String id) {
-        this(id, Localizer.getDefaultLocale());
+        this(id, null);
     }
 
     public LocalizedMessage(
@@ -42,12 +42,16 @@ public class LocalizedMessage {
         this.locale = locale;
     }
 
+    private String getMessage(Object... params) {
+        return Localizer.getMessage(id, locale == null ? Localizer.getDefaultLocale() : locale, params);
+    }
+
     @Override
     public String toString() {
-        return Localizer.getMessage(id, locale);
+        return getMessage();
     }
 
     public String toString(Object... params) {
-        return Localizer.getMessage(id, locale, params);
+        return getMessage(params);
     }
 }
