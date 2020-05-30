@@ -45,6 +45,7 @@ import org.springframework.util.Assert;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -52,8 +53,6 @@ import java.util.regex.Pattern;
  */
 public abstract class BaseComponent implements IElementIdentifier, IAttributeMap<String, Object> {
 
-    private static final String ATTR_CONTROLLER = "controller";
-    
     /**
      * Reference to a subcomponent. A subcomponent typically does not have an explicit
      * implementation on the server, but does have a corresponding HTML element on the client. This
@@ -65,7 +64,9 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
 
         private final String subId;
 
-        private SubComponent(BaseComponent component, String subId) {
+        private SubComponent(
+                BaseComponent component,
+                String subId) {
             this.component = component;
             this.subId = subId;
         }
@@ -74,131 +75,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         public String getId() {
             return component.getId() + "-" + subId;
         }
-    }
 
-    /**
-     * Used to wrap a component that is referenced by another component for purposes other than
-     * parent-child relationships. This wrapper serves two functions. First, it tracks the lifecycle
-     * of the referenced component, removing the reference when the component is destroyed. Second,
-     * when a component reference is passed to the synchronizer, this wrapper ensures that it is
-     * connected to the active page.
-     *
-     * @param <T> The type of the reference component.
-     */
-    public class ComponentReference<T extends BaseComponent> implements IElementIdentifier, IEventListener {
-        
-        private T component;
-
-        private final Consumer<BaseComponent> onDestroy;
-        
-        public ComponentReference() {
-            this(null, null);
-        }
-        
-        public ComponentReference(T component) {
-            this(component, null);
-        }
-        
-        public ComponentReference(Consumer<BaseComponent> onDestroy) {
-            this(null, onDestroy);
-        }
-        
-        public ComponentReference(T component, Consumer<BaseComponent> onDestroy) {
-            this.onDestroy = onDestroy;
-            setReference(component);
-        }
-        
-        /**
-         * Returns the referenced component.
-         *
-         * @return The referenced component (possibly null).
-         */
-        public T getReference() {
-            return component;
-        }
-
-        /**
-         * Sets the referenced component, removing any previous reference.
-         *
-         * @param component The referenced component.
-         * @return True if the referenced component changed.
-         */
-        public boolean setReference(T component) {
-            if (component != this.component) {
-                if (component != null) {
-                    component.validatePage(BaseComponent.this.page);
-                    component.addEventListener("destroy", this);
-                }
-                
-                removeReference();
-                this.component = component;
-                return true;
-            }
-
-            return false;
-        }
-
-        /**
-         * Returns the id of the referenced component, or null if there is no referenced component.
-         */
-        @Override
-        public String getId() {
-            return component == null ? null : component.getId();
-        }
-
-        /**
-         * Prior to performing the transform, ensure that the referenced component is attached to
-         * the active page.
-         */
-        @Override
-        public Object transformForClient() {
-            if (component == null) {
-                return null;
-            }
-
-            if (!component.isDead() && component.getPage() == null) {
-                Page page = BaseComponent.this.page;
-                component._attach(page != null ? page : ExecutionContext.getPage());
-            }
-
-            return IElementIdentifier.super.transformForClient();
-        }
-        
-        @Override
-        public boolean equals(Object o) {
-            return (o instanceof ComponentReference) && ((ComponentReference<?>) o).component == component;
-        }
-
-        @Override
-        protected void finalize() {
-            removeReference();
-        }
-
-        /**
-         * Handle the destroy event.
-         *
-         * @param event The destroy event.
-         */
-        @Override
-        public void onEvent(Event event) {
-            if (component == event.getTarget()) {
-                removeReference();
-
-                if (onDestroy != null) {
-                    onDestroy.accept(event.getTarget());
-                }
-            }
-        }
-        
-        /**
-         * Remove the component reference.
-         */
-        private void removeReference() {
-            if (component != null) {
-                component.removeEventListener("destroy", this);
-                component = null;
-            }
-        }
     }
 
     /**
@@ -208,15 +85,15 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     private static class ChildList implements List<BaseComponent> {
 
         private final List<BaseComponent> delegate = new LinkedList<>();
-        
+
         private final BaseComponent parent;
-        
+
         private int modCount;
-        
+
         private ChildList(BaseComponent parent) {
             this.parent = parent;
         }
-        
+
         @Override
         public int size() {
             return delegate.size();
@@ -235,19 +112,19 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         @Override
         public Iterator<BaseComponent> iterator() {
             return new Iterator<BaseComponent>() {
-                
+
                 int next = 0;
-                
+
                 boolean fetched = false;
-                
+
                 int expected = modCount;
-                
+
                 @Override
                 public boolean hasNext() {
                     checkModCount();
                     return next < delegate.size();
                 }
-                
+
                 @Override
                 public BaseComponent next() {
                     checkModCount();
@@ -263,7 +140,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
                     ChildList.this.remove(--next);
                     expected = modCount;
                 }
-                
+
                 private void checkModCount() {
                     if (modCount != expected) {
                         throw new ConcurrentModificationException();
@@ -288,15 +165,18 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             return true;
         }
 
-        protected void remove(BaseComponent child, boolean noSync, boolean destroy) {
+        protected void remove(
+                BaseComponent child,
+                boolean noSync,
+                boolean destroy) {
             if (child instanceof IComposite) {
                 BaseComponent root = ((IComposite) child).getCompositeRoot();
                 BaseComponent parent = root == null ? null : root.getParent();
-                
+
                 if (parent != null) {
                     parent.children.remove(root, noSync, destroy);
                 }
-                
+
                 child.parent = null;
                 modCount++;
             } else {
@@ -328,7 +208,9 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         }
 
         @Override
-        public boolean addAll(int index, Collection<? extends BaseComponent> c) {
+        public boolean addAll(
+                int index,
+                Collection<? extends BaseComponent> c) {
             for (BaseComponent child : c) {
                 add(index++, child);
             }
@@ -341,7 +223,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             for (Object child : c) {
                 remove(child);
             }
-            
+
             return true;
         }
 
@@ -362,14 +244,16 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
                 remove(get(0), false, destroy);
             }
         }
-        
+
         @Override
         public BaseComponent get(int index) {
             return delegate.get(index);
         }
 
         @Override
-        public BaseComponent set(int index, BaseComponent child) {
+        public BaseComponent set(
+                int index,
+                BaseComponent child) {
             BaseComponent old = get(index);
             old.detach();
             add(index, child);
@@ -383,15 +267,17 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         }
 
         @Override
-        public void add(int index, BaseComponent child) {
+        public void add(
+                int index,
+                BaseComponent child) {
             modCount++;
-            
+
             if (child instanceof IComposite) {
                 parent.addComposite((IComposite) child);
                 child.parent = parent;
                 return;
             }
-            
+
             boolean noSync = child.getPage() == null && index < 0;
             child.validate();
             BaseComponent oldParent = child.getParent();
@@ -473,26 +359,30 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         @Override
         public ListIterator<BaseComponent> listIterator(int index) {
             ListIterator<BaseComponent> iter = listIterator();
-            
+
             while (iter.nextIndex() < index) {
                 iter.next();
             }
-            
+
             return iter;
         }
 
         @Override
-        public List<BaseComponent> subList(int fromIndex, int toIndex) {
+        public List<BaseComponent> subList(
+                int fromIndex,
+                int toIndex) {
             throw new UnsupportedOperationException();
         }
-        
+
         /**
          * Swap positions of two children.
          *
          * @param index1 Index of first child.
          * @param index2 Index of second child.
          */
-        public void swap(int index1, int index2) {
+        public void swap(
+                int index1,
+                int index2) {
             if (index1 != index2) {
                 BaseComponent child1 = delegate.get(index1);
                 BaseComponent child2 = delegate.get(index2);
@@ -502,8 +392,137 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
                 modCount++;
             }
         }
+
     }
-    
+
+    /**
+     * Used to wrap a component that is referenced by another component for purposes other than
+     * parent-child relationships. This wrapper serves two functions. First, it tracks the lifecycle
+     * of the referenced component, removing the reference when the component is destroyed. Second,
+     * when a component reference is passed to the synchronizer, this wrapper ensures that it is
+     * connected to the active page.
+     *
+     * @param <T> The type of the reference component.
+     */
+    public class ComponentReference<T extends BaseComponent> implements IElementIdentifier, IEventListener {
+
+        private final Consumer<BaseComponent> onDestroy;
+
+        private T component;
+
+        public ComponentReference() {
+            this(null, null);
+        }
+
+        public ComponentReference(T component) {
+            this(component, null);
+        }
+
+        public ComponentReference(Consumer<BaseComponent> onDestroy) {
+            this(null, onDestroy);
+        }
+
+        public ComponentReference(
+                T component,
+                Consumer<BaseComponent> onDestroy) {
+            this.onDestroy = onDestroy;
+            setReference(component);
+        }
+
+        /**
+         * Returns the referenced component.
+         *
+         * @return The referenced component (possibly null).
+         */
+        public T getReference() {
+            return component;
+        }
+
+        /**
+         * Sets the referenced component, removing any previous reference.
+         *
+         * @param component The referenced component.
+         * @return True if the referenced component changed.
+         */
+        public boolean setReference(T component) {
+            if (component != this.component) {
+                if (component != null) {
+                    component.validatePage(BaseComponent.this.page);
+                    component.addEventListener("destroy", this);
+                }
+
+                removeReference();
+                this.component = component;
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * Returns the id of the referenced component, or null if there is no referenced component.
+         */
+        @Override
+        public String getId() {
+            return component == null ? null : component.getId();
+        }
+
+        /**
+         * Prior to performing the transform, ensure that the referenced component is attached to
+         * the active page.
+         */
+        @Override
+        public Object transformForClient() {
+            if (component == null) {
+                return null;
+            }
+
+            if (!component.isDead() && component.getPage() == null) {
+                Page page = BaseComponent.this.page;
+                component._attach(page != null ? page : ExecutionContext.getPage());
+            }
+
+            return IElementIdentifier.super.transformForClient();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return (o instanceof ComponentReference) && ((ComponentReference<?>) o).component == component;
+        }
+
+        @Override
+        protected void finalize() {
+            removeReference();
+        }
+
+        /**
+         * Handle the destroy event.
+         *
+         * @param event The destroy event.
+         */
+        @Override
+        public void onEvent(Event event) {
+            if (component == event.getTarget()) {
+                removeReference();
+
+                if (onDestroy != null) {
+                    onDestroy.accept(event.getTarget());
+                }
+            }
+        }
+
+        /**
+         * Remove the component reference.
+         */
+        private void removeReference() {
+            if (component != null) {
+                component.removeEventListener("destroy", this);
+                component = null;
+            }
+        }
+
+    }
+
     /**
      * An index of child component names maintained by a parent component.
      */
@@ -546,13 +565,15 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
          * Validate that a component's name does not conflict with an existing name.
          *
          * @param component Component to be validated.
-         * @exception ComponentException Thrown if a name collision is detected.
+         * @throws ComponentException Thrown if a name collision is detected.
          */
         public void validate(BaseComponent component) {
             _validate(component, getNameRoot());
         }
 
-        private void _validate(BaseComponent component, BaseComponent root) {
+        private void _validate(
+                BaseComponent component,
+                BaseComponent root) {
             _validate(component.getName(), root, component);
 
             if (!(component.isNamespace())) {
@@ -566,7 +587,10 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             _validate(name, getNameRoot(), null);
         }
 
-        private void _validate(String name, BaseComponent root, BaseComponent component) {
+        private void _validate(
+                String name,
+                BaseComponent root,
+                BaseComponent component) {
             if (name != null) {
                 BaseComponent cmp = _find(name, root);
                 ComponentException.assertTrue(cmp == null || cmp == component,
@@ -589,7 +613,9 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             return _find(name, getNameRoot());
         }
 
-        private BaseComponent _find(String name, BaseComponent root) {
+        private BaseComponent _find(
+                String name,
+                BaseComponent root) {
             BaseComponent component = root.nameIndex._get(name);
 
             if (component != null) {
@@ -608,7 +634,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
 
             return component;
         }
-        
+
         /**
          * Returns a map of all named components in this namespace.
          *
@@ -619,26 +645,41 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             _findAll(getNameRoot(), results);
             return results;
         }
-        
-        private void _findAll(BaseComponent root, Map<String, BaseComponent> results) {
+
+        private void _findAll(
+                BaseComponent root,
+                Map<String, BaseComponent> results) {
             if (root.nameIndex.names != null) {
                 results.putAll(root.nameIndex.names);
             }
-            
+
             for (BaseComponent child : root.children) {
                 if (!(child.isNamespace())) {
                     _findAll(child, results);
                 }
             }
         }
+
     }
-    
+
+    private static final String ATTR_CONTROLLER = "controller";
+
     private static final Pattern nameValidator = Pattern.compile("^[a-zA-Z$][a-zA-Z_$0-9]*$");
+
+    private final ChildList children = new ChildList(this);
+
+    private final Map<String, Object> attributes = new HashMap<>();
+
+    private final EventListeners eventListeners = new EventListeners();
+
+    private final ComponentDefinition componentDefinition;
+
+    private final NameIndex nameIndex = new NameIndex();
 
     private String name;
 
     private String id;
-    
+
     private boolean dead;
 
     private Page page;
@@ -654,28 +695,18 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     private OptionMap inits;
 
     private ClientInvocationQueue invocationQueue;
-    
+
     private boolean namespace;
 
     private int initializing;
 
     private List<Object> controllers;
 
-    private final ChildList children = new ChildList(this);
-
-    private final Map<String, Object> attributes = new HashMap<>();
-
-    private final EventListeners eventListeners = new EventListeners();
-
-    private final ComponentDefinition componentDefinition;
-
-    private final NameIndex nameIndex = new NameIndex();
-
     /**
      * Validates that a component still exists (i.e., is not dead).
      *
      * @param comp Component to validate.
-     * @exception ComponentException Thrown upon validation failure.
+     * @throws ComponentException Thrown upon validation failure.
      */
     protected static void validate(BaseComponent comp) {
         ComponentException.assertTrue(comp == null || !comp.isDead(), "Component no longer exists: %s", comp);
@@ -869,7 +900,9 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param disable The disable state.
      * @param recurse If true recurse through all descendants.
      */
-    public void disableChildren(boolean disable, boolean recurse) {
+    public void disableChildren(
+            boolean disable,
+            boolean recurse) {
         for (BaseComponent child : getChildren()) {
             if (child instanceof IDisable) {
                 ((IDisable) child).setDisabled(disable);
@@ -896,7 +929,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     public boolean isDead() {
         return dead;
     }
-    
+
     /**
      * Returns true if the component has been rendered on the browser. A component is considered
      * rendered if it belongs to a rendered page.
@@ -910,7 +943,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Validates that this component is not dead.
      *
-     * @exception ComponentException Thrown if validation fails.
+     * @throws ComponentException Thrown if validation fails.
      */
     protected void validate() {
         validate(this);
@@ -926,28 +959,11 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     }
 
     /**
-     * Validates that a component would a valid parent for this component.
-     *
-     * @param parent Component to validate.
-     * @exception ComponentException Thrown if the new parent is not a valid parent for this
-     *                component.
-     */
-    protected void validateParent(BaseComponent parent) {
-        if (parent == null) {
-            return;
-        }
-
-        componentDefinition.validateParent(parent.componentDefinition);
-        ComponentException.assertTrue(!isAncestor(parent),
-                "Not a valid parent because it is the same as or an descendant of this component");
-    }
-
-    /**
      * Sets the component's parent.
      *
      * @param parent The new parent.
-     * @exception ComponentException Thrown if the new parent is not a valid parent for this
-     *                component.
+     * @throws ComponentException Thrown if the new parent is not a valid parent for this
+     *                            component.
      */
     public void setParent(BaseComponent parent) {
         if (parent != this.parent) {
@@ -957,6 +973,23 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
                 parent.addChild(this);
             }
         }
+    }
+
+    /**
+     * Validates that a component would a valid parent for this component.
+     *
+     * @param parent Component to validate.
+     * @throws ComponentException Thrown if the new parent is not a valid parent for this
+     *                            component.
+     */
+    protected void validateParent(BaseComponent parent) {
+        if (parent == null) {
+            return;
+        }
+
+        componentDefinition.validateParent(parent.componentDefinition);
+        ComponentException.assertTrue(!isAncestor(parent),
+                "Not a valid parent because it is the same as or an descendant of this component");
     }
 
     /**
@@ -972,19 +1005,21 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Returns the value of the named attribute, cast to the specified type.
      *
-     * @param <T> The attribute value's expected type.
+     * @param <T>  The attribute value's expected type.
      * @param name The attribute name.
      * @param dflt The default attribute value. This will be returned under one of the following
-     *            conditions:
-     *            <ul>
-     *            <li>The named attribute does not exist</li>
-     *            <li>The named attribute value is null</li>
-     *            <li>The named attribute value cannot be cast to the specified type</li>
-     *            </ul>
+     *             conditions:
+     *             <ul>
+     *             <li>The named attribute does not exist</li>
+     *             <li>The named attribute value is null</li>
+     *             <li>The named attribute value cannot be cast to the specified type</li>
+     *             </ul>
      * @return The value of the named attribute, or the default value.
      */
     @SuppressWarnings("unchecked")
-    public <T> T getAttribute(String name, T dflt) {
+    public <T> T getAttribute(
+            String name,
+            T dflt) {
         try {
             Object value = attributes.get(name);
             return value == null ? dflt : dflt == null ? (T) value : (T) dflt.getClass().cast(value);
@@ -996,13 +1031,15 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Returns the value of the named attribute, converted to the specified type.
      *
-     * @param <T> The return type.
+     * @param <T>  The return type.
      * @param name The attribute name.
      * @param type The return type for the attribute value.
      * @return The value of the named attribute, or null if the existing value cannot be converted
      *         to the specified type.
      */
-    public <T> T getAttribute(String name, Class<T> type) {
+    public <T> T getAttribute(
+            String name,
+            Class<T> type) {
         try {
             return ConvertUtil.convert(attributes.get(name), type, this);
         } catch (Exception e) {
@@ -1031,12 +1068,14 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Sets the value of a named attribute.
      *
-     * @param name The attribute name.
+     * @param name  The attribute name.
      * @param value The new value.
      * @return The previous value of the named attribute, if any.
      */
     @PropertySetter("attr:")
-    private Object _setAttribute(String name, Object value) {
+    private Object _setAttribute(
+            String name,
+            Object value) {
         return setAttribute(name, value);
     }
 
@@ -1044,7 +1083,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Validates that the specified component is currently a child of this component.
      *
      * @param child The component to check.
-     * @exception ComponentException Thrown if the component fails validation.
+     * @throws ComponentException Thrown if the component fails validation.
      */
     protected void validateIsChild(BaseComponent child) {
         ComponentException.assertTrue(child == null || child.getParent() == this, child,
@@ -1055,7 +1094,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Validates that the specified component may be added as a child.
      *
      * @param child The component to check.
-     * @exception ComponentException Thrown if the component fails validation.
+     * @throws ComponentException Thrown if the component fails validation.
      */
     protected void validateChild(BaseComponent child) {
         componentDefinition.validateChild(child.componentDefinition, () -> getChildCount(child.getClass()));
@@ -1076,17 +1115,21 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param child Child to add.
      * @param index The position in the child list where the new child will be inserted.
      */
-    public void addChild(BaseComponent child, int index) {
+    public void addChild(
+            BaseComponent child,
+            int index) {
         children.add(index, child);
     }
 
     /**
      * Adds a child to the child list immediately before the reference child.
      *
-     * @param child Child to add.
+     * @param child  Child to add.
      * @param before The reference child.
      */
-    public void addChild(BaseComponent child, BaseComponent before) {
+    public void addChild(
+            BaseComponent child,
+            BaseComponent before) {
         if (before == null) {
             children.add(-1, child);
         } else {
@@ -1121,7 +1164,9 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param index1 Index of the first child.
      * @param index2 Index of the second child.
      */
-    public void swapChildren(int index1, int index2) {
+    public void swapChildren(
+            int index1,
+            int index2) {
         children.swap(index1, index2);
     }
 
@@ -1152,22 +1197,22 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             case LAST:
                 parent.addChild(root, -1);
                 break;
-                
+
             case PARENT:
                 anchor.detach();
                 parent.addChild(root, index);
                 anchor.setParent(root);
                 break;
-                
+
             case REPLACE:
                 anchor.destroy();
                 parent.addChild(root, index);
                 break;
-                
+
             case BEFORE:
                 parent.addChild(root, index);
                 break;
-                
+
             case AFTER:
                 parent.addChild(root, index + 1);
                 break;
@@ -1234,7 +1279,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Returns an iterable of children of the specified type.
      *
-     * @param <T> The desired type.
+     * @param <T>  The desired type.
      * @param type The desired type.
      * @return An iterable of children of the specified type. Never null.
      */
@@ -1259,7 +1304,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     public boolean hasChildren() {
         return !children.isEmpty();
     }
-    
+
     /**
      * Returns the count of children of a specified type.
      *
@@ -1309,7 +1354,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Return the first child of the requested type.
      *
-     * @param <T> The type of child sought.
+     * @param <T>  The type of child sought.
      * @param type The type of child sought.
      * @return The requested child, or null if none exist of the requested type.
      */
@@ -1351,7 +1396,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Return first ancestor that is of the requested type.
      *
-     * @param <T> The type of ancestor sought.
+     * @param <T>  The type of ancestor sought.
      * @param type The type of ancestor sought.
      * @return The ancestor component of the requested type, or null if none found.
      */
@@ -1362,13 +1407,15 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Return first ancestor that is of the requested type.
      *
-     * @param <T> Expected return type.
-     * @param type The type of ancestor sought.
+     * @param <T>         Expected return type.
+     * @param type        The type of ancestor sought.
      * @param includeSelf If true, include this component in the search.
      * @return The ancestor component of the requested type, or null if none found.
      */
     @SuppressWarnings("unchecked")
-    public <T> T getAncestor(Class<T> type, boolean includeSelf) {
+    public <T> T getAncestor(
+            Class<T> type,
+            boolean includeSelf) {
         BaseComponent cmp = includeSelf ? this : this.getParent();
 
         while (cmp != null) {
@@ -1426,7 +1473,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Return the next sibling of the requested type.
      *
-     * @param <T> The type of sibling sought.
+     * @param <T>  The type of sibling sought.
      * @param type The type of sibling sought.
      * @return The requested sibling, or null if none exist of the requested type.
      */
@@ -1446,7 +1493,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Return the previous sibling of the requested type.
      *
-     * @param <T> The type of sibling sought.
+     * @param <T>  The type of sibling sought.
      * @param type The type of sibling sought.
      * @return The requested sibling, or null if none exist of the requested type.
      */
@@ -1458,7 +1505,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Returns the sibling of this component at the specified offset.
      *
      * @param offset Offset from this component. For example, 2 would mean the second sibling
-     *            following this component.
+     *               following this component.
      * @return The requested sibling, or null if none exists at the requested offset.
      */
     private BaseComponent getRelativeSibling(int offset) {
@@ -1470,16 +1517,18 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Return the next/previous sibling of the requested type.
      *
-     * @param <T> The type of sibling sought.
-     * @param type The type of sibling sought.
+     * @param <T>      The type of sibling sought.
+     * @param type     The type of sibling sought.
      * @param previous If true, search for a previous sibling. Otherwise, search for next.
      * @return The requested sibling, or null if none exist of the requested type.
      */
     @SuppressWarnings("unchecked")
-    private <T> T getRelativeSibling(Class<T> type, boolean previous) {
+    private <T> T getRelativeSibling(
+            Class<T> type,
+            boolean previous) {
         BaseComponent sib = this;
         int offset = previous ? -1 : 1;
-        
+
         while ((sib = sib.getRelativeSibling(offset)) != null) {
             if (type.isInstance(sib)) {
                 return (T) sib;
@@ -1496,15 +1545,15 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     public BaseComponent getNamespace() {
         BaseComponent comp = this;
-        
+
         while (comp != null) {
             if (comp.isNamespace()) {
                 return comp;
             }
-            
+
             comp = comp.getParent();
         }
-        
+
         return null;
     }
 
@@ -1517,7 +1566,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     public boolean isNamespace() {
         return namespace;
     }
-    
+
     /**
      * When set to true, this component defines a namespace boundary. This may not be changed once a
      * parent or children are added or for a component that implements the INamespace interface.
@@ -1575,7 +1624,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Validates that the specified page can be an owner of this component.
      *
      * @param page The page to be tested.
-     * @exception ComponentException If fails validation.
+     * @throws ComponentException If fails validation.
      */
     protected void validatePage(Page page) {
         ComponentException.assertTrue(page == this.page || this.page == null, this,
@@ -1630,7 +1679,9 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param state The state name.
      * @param value The state value.
      */
-    protected void sync(String state, Object value) {
+    protected void sync(
+            String state,
+            Object value) {
         if (!dead) {
             if (getPage() == null) {
                 if (inits == null) {
@@ -1648,9 +1699,11 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Invoke a widget function on the client.
      *
      * @param function The name of the function.
-     * @param args Arguments for the function.
+     * @param args     Arguments for the function.
      */
-    public void invoke(String function, Object... args) {
+    public void invoke(
+            String function,
+            Object... args) {
         invoke(function, null, args);
     }
 
@@ -1659,9 +1712,12 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      *
      * @param function The name of the function.
      * @param callback Optional callback for invocation result.
-     * @param args Arguments for the function.
+     * @param args     Arguments for the function.
      */
-    public void invoke(String function, IResponseCallback<?> callback, Object... args) {
+    public void invoke(
+            String function,
+            IResponseCallback<?> callback,
+            Object... args) {
         if (!dead) {
             invoke(this, function, callback, args);
         }
@@ -1671,9 +1727,11 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Invoke a widget function on the client only if attached to a page.
      *
      * @param function The name of the function.
-     * @param args Arguments for the function.
+     * @param args     Arguments for the function.
      */
-    public void invokeIfAttached(String function, Object... args) {
+    public void invokeIfAttached(
+            String function,
+            Object... args) {
         if (page != null) {
             invoke(function, null, args);
         }
@@ -1700,23 +1758,30 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Invoke a widget or sub-widget function on the client.
      *
-     * @param id The id of the widget or sub-widget.
+     * @param id       The id of the widget or sub-widget.
      * @param function The name of the function.
      * @param callback Optional callback for invocation result.
-     * @param args Arguments for the function.
+     * @param args     Arguments for the function.
      */
-    public void invoke(IElementIdentifier id, String function, IResponseCallback<?> callback, Object... args) {
+    public void invoke(
+            IElementIdentifier id,
+            String function,
+            IResponseCallback<?> callback,
+            Object... args) {
         invoke(new ClientInvocation(id, function, callback, args));
     }
 
     /**
      * Invoke a widget or sub-widget function on the client.
      *
-     * @param id The id of the widget or sub-widget.
+     * @param id       The id of the widget or sub-widget.
      * @param function The name of the function.
-     * @param args Arguments for the function.
+     * @param args     Arguments for the function.
      */
-    public void invoke(IElementIdentifier id, String function, Object... args) {
+    public void invoke(
+            IElementIdentifier id,
+            String function,
+            Object... args) {
         invoke(id, function, null, args);
     }
 
@@ -1741,7 +1806,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             if (pc.isEmpty()) {
                 continue;
             }
-            
+
             if ("^".equals(pc)) {
                 cmp = cmp.getNamespace();
 
@@ -1756,7 +1821,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
 
         return cmp;
     }
-    
+
     /**
      * Returns a map of all named components in this namespace.
      *
@@ -1770,14 +1835,32 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Looks up a component of the specified type by its name within the namespace occupied by this
      * component.
      *
-     * @param <T> The expected return type.
+     * @param <T>  The expected return type.
      * @param name Component name or path.
      * @param type Expected return type.
      * @return The component sought, or null if not found.
      */
     @SuppressWarnings("unchecked")
-    public <T extends BaseComponent> T findByName(String name, Class<T> type) {
+    public <T extends BaseComponent> T findByName(
+            String name,
+            Class<T> type) {
         return (T) findByName(name);
+    }
+
+    /**
+     * Find the first child matching the specified criteria.
+     *
+     * @param criteria The logic that returns true if a match.
+     * @return The matching child, or null if not found.
+     */
+    public BaseComponent findChild(Predicate<BaseComponent> criteria) {
+        for (BaseComponent child : children) {
+            if (criteria.test(child)) {
+                return child;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -1787,13 +1870,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @return The child with the data object, or null if not found.
      */
     public BaseComponent findChildByData(Object data) {
-        for (BaseComponent child : children) {
-            if (ObjectUtils.equals(data, child.getData())) {
-                return child;
-            }
-        }
-
-        return null;
+        return findChild(child -> ObjectUtils.equals(data, child.getData()));
     }
 
     /**
@@ -1804,13 +1881,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @return The first child whose label matches, or null if none found.
      */
     public BaseComponent findChildByLabel(String label) {
-        for (BaseComponent comp : children) {
-            if (comp instanceof ILabeled && label.equals(((ILabeled) comp).getLabel())) {
-                return comp;
-            }
-        }
-
-        return null;
+        return findChild(child -> child instanceof ILabeled && label.equals(((ILabeled) child).getLabel()));
     }
 
     /**
@@ -1827,14 +1898,14 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Causes one or more events to be forwarded. Multiple entries must be separated by a space.
      *
      * @param forwards One or more forwarding directives, multiple entries separated by spaces. Each
-     *            entry is of the form <code>event=target</code> where <code>event</code> is the
-     *            name of the event to forward and <code>target</code> is the forwarding target. The
-     *            target is the name of the forwarded event optionally prefixed by a resolvable
-     *            component name or path. In the absence of such a prefix, the target is the
-     *            component itself. For example, <code>click=window.listbox.change</code> would
-     *            forward this component's <code>click</code> event as a <code>change</code> event
-     *            targeting the component that is the result of resolving the
-     *            <code>window.listbox</code> path.
+     *                 entry is of the form <code>event=target</code> where <code>event</code> is the
+     *                 name of the event to forward and <code>target</code> is the forwarding target. The
+     *                 target is the name of the forwarded event optionally prefixed by a resolvable
+     *                 component name or path. In the absence of such a prefix, the target is the
+     *                 component itself. For example, <code>click=window.listbox.change</code> would
+     *                 forward this component's <code>click</code> event as a <code>change</code> event
+     *                 targeting the component that is the result of resolving the
+     *                 <code>window.listbox</code> path.
      */
     @PropertySetter(value = "forward", bindable = false, defer = true, description = "Sets one or more event forwarding directives.")
     private void setForward(String forwards) {
@@ -1868,9 +1939,11 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * this component to another component.
      *
      * @param eventType The event type to forward.
-     * @param target The target for the forwarded event.
+     * @param target    The target for the forwarded event.
      */
-    public void addEventForward(String eventType, BaseComponent target) {
+    public void addEventForward(
+            String eventType,
+            BaseComponent target) {
         addEventForward(eventType, target, null);
     }
 
@@ -1878,11 +1951,14 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Adds an event forward. An event forward forwards an event of the specified type received by
      * this component to another component, optionally with a different event type.
      *
-     * @param eventType The event type to forward.
-     * @param target The target for the forwarded event.
+     * @param eventType   The event type to forward.
+     * @param target      The target for the forwarded event.
      * @param forwardType The type of the forwarded event. If null, the original event type is used.
      */
-    public void addEventForward(String eventType, BaseComponent target, String forwardType) {
+    public void addEventForward(
+            String eventType,
+            BaseComponent target,
+            String forwardType) {
         addEventListener(eventType, createForwardListener(eventType, target, forwardType));
     }
 
@@ -1891,9 +1967,11 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * this component to another component.
      *
      * @param eventClass The event type to forward.
-     * @param target The target for the forwarded event.
+     * @param target     The target for the forwarded event.
      */
-    public void addEventForward(Class<? extends Event> eventClass, BaseComponent target) {
+    public void addEventForward(
+            Class<? extends Event> eventClass,
+            BaseComponent target) {
         addEventForward(eventClass, target, null);
     }
 
@@ -1901,11 +1979,14 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Adds an event forward. An event forward forwards an event of the specified type received by
      * this component to another component, optionally with a different event type.
      *
-     * @param eventClass The event type to forward.
-     * @param target The target for the forwarded event.
+     * @param eventClass  The event type to forward.
+     * @param target      The target for the forwarded event.
      * @param forwardType The type of the forwarded event. If null, the original event type is used.
      */
-    public void addEventForward(Class<? extends Event> eventClass, BaseComponent target, String forwardType) {
+    public void addEventForward(
+            Class<? extends Event> eventClass,
+            BaseComponent target,
+            String forwardType) {
         addEventForward(getEventType(eventClass), target, forwardType);
     }
 
@@ -1913,20 +1994,25 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Removes an event forward, if one exists.
      *
      * @param eventType The source event type.
-     * @param target The forwarded event target.
+     * @param target    The forwarded event target.
      */
-    public void removeEventForward(String eventType, BaseComponent target) {
+    public void removeEventForward(
+            String eventType,
+            BaseComponent target) {
         removeEventForward(eventType, target, null);
     }
 
     /**
      * Removes an event forward, if one exists.
      *
-     * @param eventType The source event type.
-     * @param target The forwarded event target.
+     * @param eventType   The source event type.
+     * @param target      The forwarded event target.
      * @param forwardType The forwarded event type. If null, the source event type is used.
      */
-    public void removeEventForward(String eventType, BaseComponent target, String forwardType) {
+    public void removeEventForward(
+            String eventType,
+            BaseComponent target,
+            String forwardType) {
         removeEventListener(eventType, createForwardListener(eventType, target, forwardType));
     }
 
@@ -1934,24 +2020,32 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Removes an event forward, if one exists.
      *
      * @param eventClass The source event type.
-     * @param target The forwarded event target.
+     * @param target     The forwarded event target.
      */
-    public void removeEventForward(Class<? extends Event> eventClass, BaseComponent target) {
+    public void removeEventForward(
+            Class<? extends Event> eventClass,
+            BaseComponent target) {
         removeEventForward(eventClass, target, null);
     }
 
     /**
      * Removes an event forward, if one exists.
      *
-     * @param eventClass The source event type.
-     * @param target The forwarded event target.
+     * @param eventClass  The source event type.
+     * @param target      The forwarded event target.
      * @param forwardType The forwarded event type. If null, the source event type is used.
      */
-    public void removeEventForward(Class<? extends Event> eventClass, BaseComponent target, String forwardType) {
+    public void removeEventForward(
+            Class<? extends Event> eventClass,
+            BaseComponent target,
+            String forwardType) {
         removeEventForward(getEventType(eventClass), target, forwardType);
     }
 
-    private ForwardListener createForwardListener(String eventType, BaseComponent target, String forwardType) {
+    private ForwardListener createForwardListener(
+            String eventType,
+            BaseComponent target,
+            String forwardType) {
         return new ForwardListener(forwardType == null ? eventType : forwardType, target == null ? this : target);
     }
 
@@ -1978,103 +2072,129 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Adds an event listener.
      *
-     * @param eventType The type of event to listen for.
+     * @param eventType     The type of event to listen for.
      * @param eventListener The listener for the event.
      */
-    public void addEventListener(String eventType, IEventListener eventListener) {
+    public void addEventListener(
+            String eventType,
+            IEventListener eventListener) {
         updateEventListener(eventType, eventListener, true, true);
     }
 
     /**
      * Adds an event listener.
      *
-     * @param eventClass The type of event to listen for.
+     * @param eventClass    The type of event to listen for.
      * @param eventListener The listener for the event.
      */
-    public void addEventListener(Class<? extends Event> eventClass, IEventListener eventListener) {
+    public void addEventListener(
+            Class<? extends Event> eventClass,
+            IEventListener eventListener) {
         updateEventListener(eventClass, eventListener, true, true);
     }
 
     /**
      * Adds an event listener.
      *
-     * @param eventType The type of event to listen for.
+     * @param eventType     The type of event to listen for.
      * @param eventListener The listener for the event.
-     * @param syncToClient If true, notify the client that a listener has been added. The client
-     *            will normally not send events to the server unless it knows that a listener
-     *            exists.
+     * @param syncToClient  If true, notify the client that a listener has been added. The client
+     *                      will normally not send events to the server unless it knows that a listener
+     *                      exists.
      */
-    public void addEventListener(String eventType, IEventListener eventListener, boolean syncToClient) {
+    public void addEventListener(
+            String eventType,
+            IEventListener eventListener,
+            boolean syncToClient) {
         updateEventListener(eventType, eventListener, true, syncToClient);
     }
 
     /**
      * Adds an event listener.
      *
-     * @param eventClass The type of event to listen for.
+     * @param eventClass    The type of event to listen for.
      * @param eventListener The listener for the event.
-     * @param syncToClient If true, notify the client that a listener has been added. The client
-     *            will normally not send events to the server unless it knows that a listener
-     *            exists.
+     * @param syncToClient  If true, notify the client that a listener has been added. The client
+     *                      will normally not send events to the server unless it knows that a listener
+     *                      exists.
      */
-    public void addEventListener(Class<? extends Event> eventClass, IEventListener eventListener, boolean syncToClient) {
+    public void addEventListener(
+            Class<? extends Event> eventClass,
+            IEventListener eventListener,
+            boolean syncToClient) {
         updateEventListener(eventClass, eventListener, true, syncToClient);
     }
 
     /**
      * Removes an event listener.
      *
-     * @param eventType The type of event listened for.
+     * @param eventType     The type of event listened for.
      * @param eventListener The listener for the event.
      */
-    public void removeEventListener(String eventType, IEventListener eventListener) {
+    public void removeEventListener(
+            String eventType,
+            IEventListener eventListener) {
         updateEventListener(eventType, eventListener, false, true);
     }
 
     /**
      * Removes an event listener.
      *
-     * @param eventClass The type of event listened for.
+     * @param eventClass    The type of event listened for.
      * @param eventListener The listener for the event.
      */
-    public void removeEventListener(Class<? extends Event> eventClass, IEventListener eventListener) {
+    public void removeEventListener(
+            Class<? extends Event> eventClass,
+            IEventListener eventListener) {
         updateEventListener(eventClass, eventListener, false, true);
     }
 
     /**
      * Removes an event listener.
      *
-     * @param eventType The type of event listened for.
+     * @param eventType     The type of event listened for.
      * @param eventListener The listener for the event.
-     * @param syncToClient If true, notify the client that a listener has been added. The client
-     *            will normally not send events to the server unless it knows that a listener
-     *            exists.
+     * @param syncToClient  If true, notify the client that a listener has been added. The client
+     *                      will normally not send events to the server unless it knows that a listener
+     *                      exists.
      */
-    public void removeEventListener(String eventType, IEventListener eventListener, boolean syncToClient) {
+    public void removeEventListener(
+            String eventType,
+            IEventListener eventListener,
+            boolean syncToClient) {
         updateEventListener(eventType, eventListener, false, syncToClient);
     }
 
     /**
      * Removes an event listener.
      *
-     * @param eventClass The type of event listened for.
+     * @param eventClass    The type of event listened for.
      * @param eventListener The listener for the event.
-     * @param syncToClient If true, notify the client that a listener has been added. The client
-     *            will normally not send events to the server unless it knows that a listener
-     *            exists.
+     * @param syncToClient  If true, notify the client that a listener has been added. The client
+     *                      will normally not send events to the server unless it knows that a listener
+     *                      exists.
      */
-    public void removeEventListener(Class<? extends Event> eventClass, IEventListener eventListener, boolean syncToClient) {
+    public void removeEventListener(
+            Class<? extends Event> eventClass,
+            IEventListener eventListener,
+            boolean syncToClient) {
         updateEventListener(eventClass, eventListener, false, syncToClient);
     }
 
-    private void updateEventListener(Class<? extends Event> eventClass, IEventListener eventListener, boolean register,
-                                     boolean syncToClient) {
+    private void updateEventListener(
+            Class<? extends Event> eventClass,
+            IEventListener eventListener,
+            boolean register,
+            boolean syncToClient) {
         updateEventListener(getEventType(eventClass), eventListener, register, syncToClient);
 
     }
 
-    private void updateEventListener(String eventTypes, IEventListener eventListener, boolean register,
-                                     boolean syncToClient) {
+    private void updateEventListener(
+            String eventTypes,
+            IEventListener eventListener,
+            boolean register,
+            boolean syncToClient) {
         for (String eventType : eventTypes.split("\\ ")) {
             eventType = EventUtil.stripOn(eventType);
             boolean before = eventListeners.hasListeners(eventType);
@@ -2091,7 +2211,9 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         }
     }
 
-    private void syncEventListeners(String eventType, boolean remove) {
+    private void syncEventListeners(
+            String eventType,
+            boolean remove) {
         invoke("forwardToServer", eventType, remove);
     }
 
@@ -2134,20 +2256,25 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Send an event to the client.
      *
      * @param eventType The event type.
-     * @param data The event payload.
+     * @param data      The event payload.
      */
-    public void fireEventToClient(String eventType, Object data) {
+    public void fireEventToClient(
+            String eventType,
+            Object data) {
         fireEventToClient(eventType, this, data);
     }
-    
+
     /**
      * Send an event to the client.
      *
      * @param eventType The event type.
-     * @param target The event target.
-     * @param payload The event payload.
+     * @param target    The event target.
+     * @param payload   The event payload.
      */
-    public void fireEventToClient(String eventType, IElementIdentifier target, Object payload) {
+    public void fireEventToClient(
+            String eventType,
+            IElementIdentifier target,
+            Object payload) {
         OptionMap event = new OptionMap();
         event.put("type", eventType);
         event.put("payload", payload);
@@ -2159,17 +2286,19 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Setter for on* event handlers.
      *
      * @param eventName The event name.
-     * @param value Either a script component, a script string, or an event listener.
+     * @param value     Either a script component, a script string, or an event listener.
      */
     @PropertySetter("on:")
-    private void setOnHandler(String eventName, Object value) {
+    private void setOnHandler(
+            String eventName,
+            Object value) {
         BaseScriptComponent script;
 
         if (value instanceof IEventListener) {
             addEventListener(eventName, (IEventListener) value);
             return;
         }
-        
+
         if (value instanceof BaseScriptComponent) {
             script = (BaseScriptComponent) value;
         } else if (value instanceof String) {
@@ -2194,15 +2323,17 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             script.execute(variables);
         });
     }
-    
+
     /**
      * Send an event to all the ancestors of this component. Event propagation stops if any
      * recipient invokes the <code>stopPropagation</code> method on the event.
      *
-     * @param event Event to send.
+     * @param event       Event to send.
      * @param includeThis If true, include this component in the recipient chain.
      */
-    public void notifyAncestors(Event event, boolean includeThis) {
+    public void notifyAncestors(
+            Event event,
+            boolean includeThis) {
         BaseComponent next = includeThis ? this : getParent();
 
         while (next != null && !event.isStopped()) {
@@ -2216,10 +2347,12 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * propagation stops if any recipient invokes the <code>stopPropagation</code> method on the
      * event.
      *
-     * @param event Event to send.
+     * @param event       Event to send.
      * @param includeThis If true, include this component in the recipient chain.
      */
-    public void notifyDescendants(Event event, boolean includeThis) {
+    public void notifyDescendants(
+            Event event,
+            boolean includeThis) {
         for (BaseComponent child : children) {
             child.notifyDescendants(event, true);
         }
@@ -2234,49 +2367,51 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * component to resolve name references.
      *
      * @param controller The controller to wire. The following values are recognized:
-     *            <ul>
-     *            <li>self - Controller is the component itself.</li>
-     *            <li>&lt;String&gt; - Name of the class from which a controller instance will be
-     *            created.</li>
-     *            <li>&lt;Class&gt; - The class from which a controller instance will be
-     *            created.</li>
-     *            <li>&lt;Collection&gt; - Each element of the collection will be wired.</li>
-     *            <li>All other - The controller instance to be wired.</li>
-     *            </ul>
+     *                   <ul>
+     *                   <li>self - Controller is the component itself.</li>
+     *                   <li>&lt;String&gt; - Name of the class from which a controller instance will be
+     *                   created.</li>
+     *                   <li>&lt;Class&gt; - The class from which a controller instance will be
+     *                   created.</li>
+     *                   <li>&lt;Collection&gt; - Each element of the collection will be wired.</li>
+     *                   <li>All other - The controller instance to be wired.</li>
+     *                   </ul>
      */
     @PropertySetter(value = "controller", bindable = false, defer = true, description = "Controller to be wired to this component.")
     public void wireController(Object controller) {
         wireController("", controller);
     }
-    
+
     /**
      * Wires a controller's annotated components and event handlers, in that order, using this
      * component to resolve name references.
      *
-     * @param mode The wiring mode.
+     * @param mode       The wiring mode.
      * @param controller The controller to wire. The following values are recognized:
-     *            <ul>
-     *            <li>self - Controller is the component itself.</li>
-     *            <li>&lt;String&gt; - Name of the class from which a controller instance will be
-     *            created.</li>
-     *            <li>&lt;Class&gt; - The class from which a controller instance will be
-     *            created.</li>
-     *            <li>&lt;Collection&gt; - Each element of the collection will be wired.</li>
-     *            <li>All other - The controller instance to be wired.</li>
-     *            </ul>
+     *                   <ul>
+     *                   <li>self - Controller is the component itself.</li>
+     *                   <li>&lt;String&gt; - Name of the class from which a controller instance will be
+     *                   created.</li>
+     *                   <li>&lt;Class&gt; - The class from which a controller instance will be
+     *                   created.</li>
+     *                   <li>&lt;Collection&gt; - Each element of the collection will be wired.</li>
+     *                   <li>All other - The controller instance to be wired.</li>
+     *                   </ul>
      */
     @PropertySetter(value = "controller:", bindable = false, defer = true, description = "Controller to be wired to this component.")
-    public void wireController(String mode, Object controller) {
+    public void wireController(
+            String mode,
+            Object controller) {
         ComponentException.assertTrue(controller != null, this, "Controller is null or could not be resolved");
 
         if (controller instanceof Collection) {
             for (Object ctlr : (Collection<?>) controller) {
                 wireController(mode, ctlr);
             }
-            
+
             return;
         }
-        
+
         if (controller instanceof String) {
             try {
                 controller = "self".equals(controller) ? this : Class.forName((String) controller);
@@ -2284,7 +2419,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
                 throw MiscUtil.toUnchecked(e);
             }
         }
-        
+
         if (controller instanceof Class) {
             try {
                 controller = ((Class<?>) controller).newInstance();
@@ -2294,7 +2429,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         }
 
         setAttribute(ATTR_CONTROLLER, controller);
-        
+
         if (controller instanceof IAutoWired) {
             ((IAutoWired) controller).beforeInitialized(this);
         }
@@ -2304,12 +2439,12 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         controllers = controllers == null ? new ArrayList<>() : controllers;
         controllers.add(controller);
         setAttribute(ATTR_CONTROLLER + "_" + controllers.size(), controller);
-        
+
         if (controller instanceof IAutoWired) {
             ((IAutoWired) controller).afterInitialized(this);
         }
     }
-    
+
     /**
      * Returns an immutable list of controllers wired to this component.
      *
@@ -2378,12 +2513,14 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Returns the input value if it is not null, or the default value otherwise.
      *
-     * @param <T> The argument class.
+     * @param <T>   The argument class.
      * @param value The input value.
      * @param deflt The default value.
      * @return Original value or the default if the input value was null.
      */
-    protected <T> T defaultify(T value, T deflt) {
+    protected <T> T defaultify(
+            T value,
+            T deflt) {
         return value == null ? deflt : value;
     }
 
@@ -2394,7 +2531,9 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param obj2 Second object to compare.
      * @return True if the objects are equal.
      */
-    protected boolean areEqual(Object obj1, Object obj2) {
+    protected boolean areEqual(
+            Object obj1,
+            Object obj2) {
         return ObjectUtils.equals(obj1, obj2);
     }
 
@@ -2409,19 +2548,6 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     }
 
     /**
-     * Returns the data object associated with the component if it is of the specified type;
-     * otherwise returns null.
-     *
-     * @param <T> Expected return type.
-     * @param type The expected type.
-     * @return The data object if it is of the expected type; null otherwise.
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T getData(Class<T> type) {
-        return type.isInstance(data) ? (T) data : null;
-    }
-
-    /**
      * Sets the data object to be associated with the component.
      *
      * @param data The data object.
@@ -2429,6 +2555,19 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     @PropertySetter(value = "data", description = "Data object to associate with this component.")
     public void setData(Object data) {
         propertyChange("data", this.data, this.data = data, false);
+    }
+
+    /**
+     * Returns the data object associated with the component if it is of the specified type;
+     * otherwise returns null.
+     *
+     * @param <T>  Expected return type.
+     * @param type The expected type.
+     * @return The data object if it is of the expected type; null otherwise.
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T getData(Class<T> type) {
+        return type.isInstance(data) ? (T) data : null;
     }
 
     /**
@@ -2459,7 +2598,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     protected boolean isContentSynced() {
         return contentSynced;
     }
-    
+
     /**
      * Set to true if the content property is to be synced to the client.
      *
@@ -2468,7 +2607,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     protected void setContentSynced(boolean contentSynced) {
         this.contentSynced = contentSynced;
     }
-    
+
     /**
      * Handle state change events from the client. These events cause the field whose name matches
      * the state name to be directly updated with the new value. This is the principal mechanism by
@@ -2498,12 +2637,16 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * {@link PropertychangeEvent} is fired.
      *
      * @param propertyName The property name.
-     * @param oldValue The old value.
-     * @param newValue The new value.
+     * @param oldValue     The old value.
+     * @param newValue     The new value.
      * @param syncToClient If true, notify client of change.
      * @return True if property value changed.
      */
-    protected boolean propertyChange(String propertyName, Object oldValue, Object newValue, boolean syncToClient) {
+    protected boolean propertyChange(
+            String propertyName,
+            Object oldValue,
+            Object newValue,
+            boolean syncToClient) {
         if (areEqual(oldValue, newValue)) {
             return false;
         }
@@ -2511,53 +2654,58 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         if (!isInitializing() && syncToClient) {
             sync(propertyName, newValue);
         }
-        
+
         if (this.hasEventListener(PropertychangeEvent.TYPE)) {
             fireEvent(new PropertychangeEvent(this, propertyName, oldValue, newValue));
         }
 
         return true;
     }
-    
+
     /**
      * Handle changes to published properties that are component references. If the old and new
      * values are the same, no action is taken. Otherwise, the client is notified of the new value
      * (if syncToClient is true) and a {@link PropertychangeEvent} is fired.
      *
-     * @param <T> The type of the referenced component.
+     * @param <T>          The type of the referenced component.
      * @param propertyName The property name.
-     * @param reference The property reference object.
-     * @param newValue The new value.
+     * @param reference    The property reference object.
+     * @param newValue     The new value.
      * @param syncToClient If true, notify client of change.
      * @return True if property value changed.
      */
-    protected <T extends BaseComponent> boolean propertyChange(String propertyName, ComponentReference<T> reference,
-                                                               T newValue, boolean syncToClient) {
+    protected <T extends BaseComponent> boolean propertyChange(
+            String propertyName,
+            ComponentReference<T> reference,
+            T newValue,
+            boolean syncToClient) {
         T oldValue = reference.getReference();
 
         if (reference.setReference(newValue)) {
             propertyChange(propertyName, oldValue, newValue, false);
-            
+
             if (!isInitializing() && syncToClient) {
                 sync(propertyName, reference);
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Convenience method for programmatically adding a binding.
      *
      * @param propertyName Name of property in this component to be bound.
-     * @param binding The binding to apply.
+     * @param binding      The binding to apply.
      */
-    public void bind(String propertyName, IBinding binding) {
+    public void bind(
+            String propertyName,
+            IBinding binding) {
         getDefinition().setProperty(this, propertyName, binding);
     }
-    
+
     /**
      * Asynchronously loads the specified JavaScript module.
      *
@@ -2566,17 +2714,19 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     public void loadModule(String module) {
         loadModule(module, null);
     }
-    
+
     /**
      * Asynchronously loads the specified JavaScript module.
      *
-     * @param module The module name or path.
+     * @param module   The module name or path.
      * @param callback Optional callback to invoke upon completion.
      */
-    public void loadModule(String module, IResponseCallback<?> callback) {
+    public void loadModule(
+            String module,
+            IResponseCallback<?> callback) {
         ClientUtil.invoke(new ClientInvocation(module, "", callback));
     }
-    
+
     /**
      * Returns basic information about this component for display purposes.
      */
@@ -2586,14 +2736,15 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
 
         //@formatter:off
         sb.append(getClass().getName())
-        .append(", ")
-        .append("id: ")
-        .append(id)
-        .append(", ")
-        .append("name: ")
-        .append(name);
+                .append(", ")
+                .append("id: ")
+                .append(id)
+                .append(", ")
+                .append("name: ")
+                .append(name);
         //@formatter:on
 
         return sb.toString();
     }
+
 }
