@@ -20,9 +20,9 @@
  */
 package org.fujion.common;
 
-import java.util.function.Supplier;
-
 import org.apache.commons.logging.Log;
+
+import java.util.function.Supplier;
 
 /**
  * Extends Commons Log interface to allow use of lambda expressions.

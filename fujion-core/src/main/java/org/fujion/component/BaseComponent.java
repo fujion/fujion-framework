@@ -35,6 +35,7 @@ import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientInvocationQueue;
 import org.fujion.client.ClientUtil;
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.CollectionUtil;
 import org.fujion.common.IAttributeMap;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseScriptComponent.ExecutionMode;
@@ -1284,7 +1285,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @return An iterable of children of the specified type. Never null.
      */
     public final <T extends BaseComponent> Iterable<T> getChildren(Class<T> type) {
-        return MiscUtil.iterableForType(getChildren(), type);
+        return CollectionUtil.iterableForType(getChildren(), type);
     }
 
     /**

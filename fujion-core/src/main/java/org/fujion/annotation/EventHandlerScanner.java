@@ -24,6 +24,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.fujion.ancillary.ComponentException;
 import org.fujion.ancillary.ConvertUtil;
+import org.fujion.common.CollectionUtil;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.event.Event;
@@ -131,7 +132,7 @@ public class EventHandlerScanner {
             EventHandler[] annotations = method.getAnnotationsByType(EventHandler.class);
 
             for (EventHandler annotation : annotations) {
-                if (!MiscUtil.intersects(annotation.mode(), activeModes)) {
+                if (!CollectionUtil.intersects(annotation.mode(), activeModes)) {
                     continue;
                 }
                 

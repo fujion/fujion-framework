@@ -20,7 +20,7 @@
  */
 package org.fujion.annotation;
 
-import org.fujion.common.MiscUtil;
+import org.fujion.common.CollectionUtil;
 import org.fujion.component.BaseComponent;
 
 /**
@@ -49,7 +49,7 @@ public class WiredComponentScanner extends AbstractFieldScanner<Object, WiredCom
 
         instance.scan(object, (annotation, field) -> {
 
-            if (!MiscUtil.intersects(annotation.mode(), activeModes)) {
+            if (!CollectionUtil.intersects(annotation.mode(), activeModes)) {
                 return true;
             }
             

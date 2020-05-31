@@ -20,11 +20,11 @@
  */
 package org.fujion.common;
 
+import org.fujion.common.RegistryMap.DuplicateAction;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.fujion.common.RegistryMap.DuplicateAction;
 
 /**
  * Abstract base class for thread-safe registry of shared objects.

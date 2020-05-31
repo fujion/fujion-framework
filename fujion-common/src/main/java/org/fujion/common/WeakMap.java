@@ -22,13 +22,7 @@ package org.fujion.common;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
-import java.util.AbstractCollection;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implements the equivalent of a map with weakly referenced values. Note: this differs from a
