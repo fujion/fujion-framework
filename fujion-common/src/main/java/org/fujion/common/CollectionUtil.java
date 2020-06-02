@@ -21,9 +21,10 @@
 package org.fujion.common;
 
 import org.apache.commons.collections.IteratorUtils;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.*;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,37 @@ import java.util.stream.Collectors;
  * Utility methods for manipulating collections.
  */
 public class CollectionUtil {
+
+    /**
+     * Returns the first element of a collection, or null if the collection is null or empty.
+     *
+     * @param source The collection.
+     * @param <T> The collection element type.
+     * @return The first element (possibly null).
+     */
+    public static <T> T getFirst(Collection<T> source) {
+        return source == null ? null : source.stream().findFirst().orElse(null);
+    }
+
+    /**
+     * Returns true if the collection is null or empty.
+     *
+     * @param source The collection.
+     * @return True if the collection is null or empty.
+     */
+    public static boolean isEmpty(Collection<?> source) {
+        return source == null || source.isEmpty();
+    }
+
+    /**
+     * Returns true if the collection is not empty.
+     *
+     * @param source The collection.
+     * @return True if the collection is not empty.
+     */
+    public static boolean notEmpty(Collection<?> source) {
+        return !isEmpty(source);
+    }
 
     /**
      * Returns true if the list contains the exact instance of the specified object.
@@ -251,7 +283,32 @@ public class CollectionUtil {
      * @return The matching element, or null if not found.
      */
     public static <T> T findMatch(Collection<T> source, Predicate<T> criteria) {
-        return source.stream().filter(criteria).findFirst().orElse(null);
+        return source == null ? null : source.stream().filter(criteria).findFirst().orElse(null);
+    }
+
+    /**
+     * Searches a list of items for the first one that matches an element from the source collection
+     * based on the criteria provided, returning the matching element.
+     *
+     * @param source The collection to search.
+     * @param criteria The criteria for a matching element.
+     * @param items The list of items to search.
+     * @param <T> The type of collection element.
+     * @param <I> The type of item.
+     * @return The matching element, or null if not found.
+     */
+    public static <T, I> T findMatch(Collection<T> source, BiPredicate<T, I> criteria, I... items) {
+        if (source != null && !source.isEmpty()) {
+            for (I item : items) {
+                T match = source.stream().filter(element -> criteria.test(element, item)).findFirst().orElse(null);
+
+                if (match != null) {
+                    return match;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**

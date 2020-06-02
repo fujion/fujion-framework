@@ -20,8 +20,6 @@
  */
 package org.fujion.common;
 
-import org.apache.commons.lang.UnhandledException;
-
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.regex.Pattern;
@@ -57,7 +55,7 @@ public class MiscUtil {
             return (RuntimeException) e;
         }
 
-        return new UnhandledException(e);
+        return new RuntimeException(e);
     }
 
     /**
