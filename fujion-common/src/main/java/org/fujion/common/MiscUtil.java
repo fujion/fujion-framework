@@ -22,6 +22,7 @@ package org.fujion.common;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.regex.Pattern;
 
 /**
@@ -74,6 +75,21 @@ public class MiscUtil {
         }
         
         return parameterTypes;
+    }
+
+    /**
+     * Returns the first class in a collection of candidate classes that is assignable from the specified
+     * type.
+     *
+     * @param type The type.
+     * @param candidates A collection of candidate types.
+     * @return The first class that is assignable from the specified type.
+     */
+    public static Class<?> firstAssignable(Class<?> type, Collection<Class<?>> candidates) {
+        return candidates.stream()
+                .filter(candidate -> candidate.isAssignableFrom(type))
+                .findFirst()
+                .orElse(null);
     }
 
     /**

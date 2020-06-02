@@ -673,4 +673,13 @@ public class CommonTest {
         assertTrue(StrUtil.compareToIgnoreCase(null, null) == 0);
     }
 
+    private static final List<Class<?>> classes = Arrays.asList(Integer.class, Number.class, String.class);
+
+    @Test
+    public void testClassUtils() {
+        assertEquals(Number.class, MiscUtil.firstAssignable(Number.class, classes));
+        assertEquals(Number.class, MiscUtil.firstAssignable(Long.class, classes));
+        assertEquals(Integer.class, MiscUtil.firstAssignable(Integer.class, classes));
+        assertNull(MiscUtil.firstAssignable(Object.class, classes));
+    }
 }
