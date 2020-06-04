@@ -673,7 +673,7 @@ public class CommonTest {
         assertTrue(StrUtil.compareToIgnoreCase(null, null) == 0);
     }
 
-    private static final List<Class<?>> classes = Arrays.asList(Integer.class, Number.class, String.class);
+    private static final Class<?>[] classes = {Integer.class, Number.class, String.class};
 
     @Test
     public void testClassUtils() {
