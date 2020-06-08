@@ -418,8 +418,8 @@ public class CommonTest {
         List<String> list = new ArrayList<>();
         final int[] ops = {0, 0};
 
-        ObservedCollection<String> col = new ObservedCollection<>(list,
-                new ObservedCollection.IObservedCollectionListener<String>() {
+        ObservableCollection<String> col = new ObservableCollection<>(list,
+                new ObservableCollection.IObservableCollectionListener<String>() {
 
                     @Override
                     public void onAddElement(String element) {

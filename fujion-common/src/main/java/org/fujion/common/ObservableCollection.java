@@ -28,14 +28,14 @@ import java.util.Iterator;
  *
  * @param <T> The element type.
  */
-public class ObservedCollection<T> extends ProxiedCollection<T> {
+public class ObservableCollection<T> extends ProxiedCollection<T> {
     
     /**
      * Listener for changes to an observed collection.
      *
      * @param <T> The element type.
      */
-    public interface IObservedCollectionListener<T> {
+    public interface IObservableCollectionListener<T> {
         
         /**
          * Invoked when an element is added.
@@ -52,7 +52,7 @@ public class ObservedCollection<T> extends ProxiedCollection<T> {
         void onRemoveElement(T element);
     }
     
-    public ObservedCollection(Collection<T> delegate, IObservedCollectionListener<T> listener) {
+    public ObservableCollection(Collection<T> delegate, IObservableCollectionListener<T> listener) {
         super(delegate, new ProxiedCollection.IProxiedCollectionOperations<T>() {
             
             @Override
