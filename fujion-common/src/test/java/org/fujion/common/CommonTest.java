@@ -26,6 +26,11 @@ import org.junit.Test;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -80,6 +85,54 @@ public class CommonTest {
         assertFalse(StrUtil.toBoolean("false"));
         assertFalse(StrUtil.toBoolean("0"));
         assertFalse(StrUtil.toBoolean("any old string"));
+    }
+
+    @Test
+    public void testLocalDateUtil() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
+        testLocalDate(now);
+        testLocalDate(now);
+        testLocalDate("T", today, 0);
+        testLocalDate("N", now, 1000);
+        testLocalDate("T+30", today.plus(30, ChronoUnit.DAYS), 0);
+        testLocalDate("N+30", now.plus(30, ChronoUnit.DAYS), 1000);
+        testLocalDate("T-4", today.minus(4, ChronoUnit.DAYS), 0);
+        testLocalDate("T-50s", now.minus(50, ChronoUnit.SECONDS), 0);
+        testLocalDate("N-50s", now.minus(50, ChronoUnit.SECONDS), 1000);
+        testLocalDate("T-50h", now.minus(50, ChronoUnit.HOURS), 0);
+        testLocalDate("T-50n", now.minus(50, ChronoUnit.MILLIS), 0);
+        Temporal date = DateUtil.parseLocalDate("19880302");
+        testLocalDate(date.toString(), date, 0);
+    }
+
+    private void testLocalDate(
+            String value,
+            Temporal expected,
+            int threshold) {
+        Temporal actual = DateUtil.parseLocalDate(value);
+        testLocalDate(actual);
+        long diff = threshold == 0 ? 0 : expected.isSupported(ChronoUnit.MILLIS) && actual.isSupported(ChronoUnit.MILLIS)
+                ? Math.abs(ChronoUnit.MILLIS.between(expected, actual)) : 0;
+        assertTrue("Difference exceeded threshold " + diff + " (" + threshold + ")", diff <= threshold);
+    }
+
+    private void testLocalDate(Temporal date) {
+        testLocalDate(date, true, true);
+        testLocalDate(date, false, false);
+        testLocalDate(date, true, false);
+        testLocalDate(date, false, true);
+    }
+
+    private void testLocalDate(
+            Temporal date,
+            boolean showTimezone,
+            boolean ignoreTime) {
+        String text = DateUtil.formatLocalDate(date, showTimezone, ignoreTime);
+        print(text);
+        Temporal date2 = DateUtil.parseLocalDate(text);
+        String text2 = DateUtil.formatLocalDate(date2, showTimezone, ignoreTime);
+        assertEquals(text, text2);
     }
 
     @Test

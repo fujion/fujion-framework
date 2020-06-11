@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -85,9 +86,14 @@ public class DateUtil {
          *
          * @return A formatter.
          */
-        public FastDateFormat getFormatter() {
+        public FastDateFormat getDateFormatter() {
             boolean ignoreTime = this == WITHOUT_TIME || this == HL7_WITHOUT_TIME;
             return FastDateFormat.getInstance(pattern, ignoreTime ? TimeZone.getDefault() : getLocalTimeZone());
+        }
+
+        public DateTimeFormatter getLocalDateFormatter() {
+            // boolean ignoreTime = this == WITHOUT_TIME || this == HL7_WITHOUT_TIME;
+            return DateTimeFormatter.ofPattern(pattern);
         }
 
         /**
@@ -96,8 +102,12 @@ public class DateUtil {
          * @param date The date to format.
          * @return The formatted date.
          */
-        public String format(Date date) {
-            return date == null ? "" : getFormatter().format(date);
+        public String formatDate(Date date) {
+            return date == null ? "" : getDateFormatter().format(date);
+        }
+
+        public String formatLocalDate(Temporal date) {
+            return date == null ? "" : getLocalDateFormatter().format(date);
         }
 
         /**
@@ -107,8 +117,19 @@ public class DateUtil {
          * @return The resulting date value if successful.
          * @throws ParseException Date parsing exception.
          */
-        public Date parse(String value) throws ParseException {
+        public Date parseAsDate(String value) throws ParseException {
             return parseDate(value, pattern);
+        }
+
+        /**
+         * Parses an input value.
+         *
+         * @param value The value to parse.
+         * @return The resulting date value if successful.
+         * @throws ParseException Date parsing exception.
+         */
+        public LocalDateTime parseAsLocalDate(String value) throws ParseException {
+            return toLocalDateTime(parseDate(value, pattern));
         }
     }
 
@@ -155,390 +176,7 @@ public class DateUtil {
 
     private static ThreadLocal<DecimalFormat> decimalFormat = ThreadLocal.withInitial(() -> new DecimalFormat("##0.##"));
 
-    /**
-     * <p>
-     * Convert a string value to a date/time. Attempts to convert using the four locale-specific
-     * date formats (FULL, LONG, MEDIUM, SHORT). If these fail, looks to see if T+/-offset or
-     * N+/-offset is used.
-     * </p>
-     * <p>
-     * TODO: probably we can make the "Java parse" portion a bit smarter by using a better variety
-     * of formats, maybe to catch Euro-style input as well.
-     * </p>
-     * <p>
-     * TODO: probably we can add something like "t+d" or "t-y" as valid cases; in these scenarios,
-     * the coefficient was omitted and could be defaulted to 1.
-     * </p>
-     *
-     * @param s <code>String</code> containing value to be converted.
-     * @return <code>Date</code> object corresponding to the input value, or <code>null</code> if
-     *         the parsing failed to resolve a valid Date.
-     */
-    public static Date parseDate(String s) {
-        Date result = null;
-
-        if (s != null && !s.isEmpty()) {
-            s = s.toLowerCase(); // make lc
-
-            if ((PATTERN_EXT_DATE.matcher(s)).matches()) { // is an extended date?
-                try {
-                    s = s.replaceAll("\\s+", ""); // strip space since they not
-                    // delim
-                    String _k = s.substring(1); // _k will ultimately be the multiplier value
-                    char k = 'd'; // k = s, n, h, d (default), m, or y
-
-                    if (1 == s.length()) {
-                        _k = "0";
-                    } else {
-                        if ((PATTERN_SPECIFIES_UNITS.matcher(s)).matches()) {
-                            _k = s.substring(1, s.length() - 1);
-                            k = s.charAt(s.length() - 1);
-                        }
-                    }
-
-                    if ('+' == _k.charAt(0)) { // clip positive coefficient...
-                        _k = _k.substring(1);
-                    }
-
-                    int field = Calendar.DAY_OF_YEAR;
-                    int offset = Integer.parseInt(_k);
-                    Calendar c = Calendar.getInstance();
-                    c.setLenient(false);
-
-                    if (s.charAt(0) == 't') {
-                        c.setTime(DateUtil.today());
-                    }
-
-                    switch (k) {
-                        case 'y': // years
-                            field = Calendar.YEAR;
-                            break;
-                        case 'm': // months
-                            field = Calendar.MONTH;
-                            break;
-                        case 'h': // hours
-                            field = Calendar.HOUR_OF_DAY;
-                            break;
-                        case 'n': // minutes
-                            field = Calendar.MINUTE;
-                            break;
-                        case 's': // seconds
-                            field = Calendar.SECOND;
-                            break;
-                    }
-
-                    c.add(field, offset);
-                    result = c.getTime();
-                    // format
-                } catch (Exception e) {
-                    return null; // found unparseable date (e.g. t-y)
-                }
-            } else {
-                result = tryParse(s);
-
-                if (result != null) {
-                    return result;
-                }
-
-                s = s.replaceAll("[.|-]", "/"); // dots, dashes to slashes
-                result = tryParse(s);
-
-                if (result != null) {
-                    return result;
-                }
-
-                s = s.replaceAll("\\s", "/"); // last chance to parse: spaces to
-                result = tryParse(s); // slashes!
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Attempts to parse an input value using one of several patterns.
-     *
-     * @param value    String to parse.
-     * @param patterns Patterns to be tried in succession until parsing succeeds.
-     * @return The resulting date value.
-     * @throws ParseException Date parsing exception.
-     */
-    public static Date parseDate(
-            String value,
-            String... patterns) throws ParseException {
-        return DateUtils.parseDate(value, patterns);
-    }
-
-    /**
-     * Attempts to parse a string containing a date representation using several different date
-     * patterns.
-     *
-     * @param value String to parse
-     * @return If the parsing was successful, returns the date value represented by the input value.
-     *         Otherwise, returns null.
-     */
-    private static Date tryParse(String value) {
-        for (Format format : Format.values()) {
-            try {
-                return format.parse(value);
-            } catch (Exception e) {
-                // NOP
-            }
-        }
-
-        for (int i = 3; i >= 0; i--) {
-            try {
-                return DateFormat.getDateInstance(i).parse(value);
-            } catch (Exception e) {
-                // NOP
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Clones a date.
-     *
-     * @param date Date to clone.
-     * @return A clone of the original date, or null if the original date was null.
-     */
-    public static Date cloneDate(Date date) {
-        return date == null ? null : new Date(date.getTime());
-    }
-
-    /**
-     * Adds specified number of days to date and, optionally strips the time component.
-     *
-     * @param date       Date value to process.
-     * @param daysOffset # of days to add.
-     * @param stripTime  If true, strip the time component.
-     * @return Input value the specified operations applied.
-     */
-    public static Date addDays(
-            Date date,
-            int daysOffset,
-            boolean stripTime) {
-        if (date == null) {
-            return null;
-        }
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setLenient(false); // Make sure the calendar will not perform
-        // automatic correction.
-        calendar.setTime(date); // Set the time of the calendar to the given
-        // date.
-
-        if (stripTime) { // Remove the hours, minutes, seconds and milliseconds.
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-        }
-
-        calendar.add(Calendar.DAY_OF_MONTH, daysOffset);
-        return calendar.getTime();
-
-    }
-
-    /**
-     * Strips the time component from a date.
-     *
-     * @param date Original date.
-     * @return Date without the time component.
-     */
-    public static Date stripTime(Date date) {
-        return addDays(date, 0, true);
-    }
-
-    /**
-     * Returns the input date with the time set to the end of the day.
-     *
-     * @param date Original date.
-     * @return Date with time set to end of day.
-     */
-    public static Date endOfDay(Date date) {
-        if (date == null) {
-            return null;
-        }
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.MILLISECOND, 999);
-        return calendar.getTime();
-    }
-
-    /**
-     * Returns a date with the current time.
-     *
-     * @return Current date and time.
-     */
-    public static Date now() {
-        return new Date();
-    }
-
-    /**
-     * Returns a date with the current day (no time).
-     *
-     * @return Current date.
-     */
-    public static Date today() {
-        return stripTime(now());
-    }
-
-    /**
-     * Compares two dates. Allows nulls.
-     *
-     * @param date1 First date to compare.
-     * @param date2 Second date to compare.
-     * @return Result of comparison.
-     */
-    public static int compare(
-            Date date1,
-            Date date2) {
-        long diff = date1 == date2 ? 0 : date1 == null ? -1 : date2 == null ? 1 : date1.getTime() - date2.getTime();
-        return diff < 0 ? -1 : diff > 0 ? 1 : 0;
-    }
-
-    /**
-     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
-     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
-     * that no time is present and strip that from the return value.
-     *
-     * @param date Date value to convert.
-     * @return Formatted string representation of the specified date, or an empty string if date is
-     *         null.
-     */
-    public static String formatDate(Date date) {
-        return formatDate(date, false, false);
-    }
-
-    /**
-     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
-     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
-     * that no time is present and strip that from the return value.
-     *
-     * @param date         Date value to convert.
-     * @param showTimezone If true, time zone information is also appended.
-     * @return Formatted string representation of the specified date, or an empty string if date is
-     *         null.
-     */
-    public static String formatDate(
-            Date date,
-            boolean showTimezone) {
-        return formatDate(date, showTimezone, false);
-    }
-
-    /**
-     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
-     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
-     * that no time is present and strip that from the return value.
-     *
-     * @param date         Date value to convert
-     * @param showTimezone If true, time zone information is also appended.
-     * @param ignoreTime   If true, the time component is ignored.
-     * @return Formatted string representation of the specified date, or an empty string if date is
-     *         null.
-     */
-    public static String formatDate(
-            Date date,
-            boolean showTimezone,
-            boolean ignoreTime) {
-        ignoreTime = ignoreTime || !hasTime(date);
-        Format format = ignoreTime ? Format.WITHOUT_TIME : showTimezone ? Format.WITH_TZ : Format.WITHOUT_TZ;
-        return format.format(date);
-    }
-
-    /**
-     * Same as formatDate(Date, boolean) except replaces the time separator with the specified
-     * string.
-     *
-     * @param date          Date value to convert
-     * @param timeSeparator String to use in place of default time separator
-     * @return Formatted string representation of the specified date using the specified time
-     *         separator.
-     */
-    public static String formatDate(
-            Date date,
-            String timeSeparator) {
-        return formatDate(date).replaceFirst(" ", timeSeparator);
-    }
-
-    /**
-     * Convert a date to HL7 format.
-     *
-     * @param date Date to convert.
-     * @return The HL7-formatted date.
-     */
-    public static String toHL7(Date date) {
-        Format format = hasTime(date) ? Format.HL7_WITHOUT_TIME : Format.HL7;
-        return format.format(date);
-    }
-
-    /**
-     * Convert a date to ISO format.
-     *
-     * @param date Date to convert.
-     * @return The ISO-formatted date.
-     */
-    public static String toISO(LocalDate date) {
-        return date.format(DateTimeFormatter.ISO_LOCAL_DATE);
-    }
-
-    /**
-     * Convert a date/time to ISO format.
-     *
-     * @param date Date to convert.
-     * @return The ISO-formatted date.
-     */
-    public static String toISO(LocalDateTime date) {
-        return date.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-    }
-
-    /**
-     * Convert a date to ISO format.
-     *
-     * @param date Date to convert.
-     * @return The ISO-formatted date.
-     */
-    public static String toISO(Date date) {
-        return toISO(date, false);
-    }
-
-    /**
-     * Converts date to ISO date format
-     *
-     * @param date        The date.
-     * @param includeTime If true, include the time in the output.
-     * @return The ISO date.
-     */
-    public static String toISO(
-            Date date,
-            boolean includeTime) {
-        FastDateFormat formatter = includeTime
-                ? DateFormatUtils.ISO_8601_EXTENDED_DATETIME_FORMAT
-                : DateFormatUtils.ISO_8601_EXTENDED_DATE_FORMAT;
-        return formatter.format(date);
-    }
-
-    /**
-     * Returns true if the date has an associated time.
-     *
-     * @param date Date value to check.
-     * @return True if the date has a time component.
-     */
-    public static boolean hasTime(Date date) {
-        if (date == null) {
-            return false;
-        }
-
-        long time1 = date.getTime();
-        long time2 = stripTime(date).getTime();
-        return time1 != time2; // Do not use "Date.equals" since date may be of type Timestamp.
-    }
+    // =============================== General Methods ===============================
 
     /**
      * Return elapsed time in ms to displayable format with units.
@@ -754,6 +392,390 @@ public class DateUtil {
         return TIME_UNIT[index][which];
     }
 
+    private static int getAgeInYears(
+            int birthYear,
+            int birthMonth,
+            int birthDay,
+            int refYear,
+            int refMonth,
+            int refDay) {
+        // If person has had a birthday already this year
+        if (refMonth > birthMonth || (refMonth == birthMonth && refDay >= birthDay)) {
+            return refYear - birthYear;
+        }
+
+        // If person has not yet had a birthday this year, subtract 1
+        return refYear - birthYear - 1;
+    }
+
+    private static String formatUnits(
+            long value,
+            TimeUnit accuracy,
+            boolean pluralize) {
+        return value + " " + getDurationUnits(accuracy, pluralize && value != 1, true);
+    }
+
+    // =============================== java.util.Date Methods ===============================
+
+    /**
+     * Clones a date.
+     *
+     * @param date Date to clone.
+     * @return A clone of the original date, or null if the original date was null.
+     */
+    public static Date cloneDate(Date date) {
+        return date == null ? null : new Date(date.getTime());
+    }
+
+    /**
+     * Adds specified number of days to date and, optionally strips the time component.
+     *
+     * @param date       Date value to process.
+     * @param daysOffset # of days to add.
+     * @param stripTime  If true, strip the time component.
+     * @return Input value the specified operations applied.
+     */
+    public static Date addDays(
+            Date date,
+            int daysOffset,
+            boolean stripTime) {
+        if (date == null) {
+            return null;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setLenient(false); // Make sure the calendar will not perform
+        // automatic correction.
+        calendar.setTime(date); // Set the time of the calendar to the given
+        // date.
+
+        if (stripTime) { // Remove the hours, minutes, seconds and milliseconds.
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+        }
+
+        calendar.add(Calendar.DAY_OF_MONTH, daysOffset);
+        return calendar.getTime();
+
+    }
+
+    /**
+     * Strips the time component from a date.
+     *
+     * @param date Original date.
+     * @return Date without the time component.
+     */
+    public static Date stripTime(Date date) {
+        return addDays(date, 0, true);
+    }
+
+    /**
+     * Returns the input date with the time set to the end of the day.
+     *
+     * @param date Original date.
+     * @return Date with time set to end of day.
+     */
+    public static Date endOfDay(Date date) {
+        if (date == null) {
+            return null;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime();
+    }
+
+    /**
+     * Returns a date with the current time.
+     *
+     * @return Current date and time.
+     */
+    public static Date now() {
+        return new Date();
+    }
+
+    /**
+     * Returns a date with the current day (no time).
+     *
+     * @return Current date.
+     */
+    public static Date today() {
+        return stripTime(now());
+    }
+
+    /**
+     * Compares two dates. Allows nulls.
+     *
+     * @param date1 First date to compare.
+     * @param date2 Second date to compare.
+     * @return Result of comparison.
+     */
+    public static int compare(
+            Date date1,
+            Date date2) {
+        long diff = date1 == date2 ? 0 : date1 == null ? -1 : date2 == null ? 1 : date1.getTime() - date2.getTime();
+        return diff < 0 ? -1 : diff > 0 ? 1 : 0;
+    }
+
+    /**
+     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
+     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
+     * that no time is present and strip that from the return value.
+     *
+     * @param date Date value to convert.
+     * @return Formatted string representation of the specified date, or an empty string if date is
+     *         null.
+     */
+    public static String formatDate(Date date) {
+        return formatDate(date, false, false);
+    }
+
+    /**
+     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
+     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
+     * that no time is present and strip that from the return value.
+     *
+     * @param date         Date value to convert.
+     * @param showTimezone If true, time zone information is also appended.
+     * @return Formatted string representation of the specified date, or an empty string if date is
+     *         null.
+     */
+    public static String formatDate(
+            Date date,
+            boolean showTimezone) {
+        return formatDate(date, showTimezone, false);
+    }
+
+    /**
+     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
+     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
+     * that no time is present and strip that from the return value.
+     *
+     * @param date         Date value to convert
+     * @param showTimezone If true, time zone information is also appended.
+     * @param ignoreTime   If true, the time component is ignored.
+     * @return Formatted string representation of the specified date, or an empty string if date is
+     *         null.
+     */
+    public static String formatDate(
+            Date date,
+            boolean showTimezone,
+            boolean ignoreTime) {
+        ignoreTime = ignoreTime || !hasTime(date);
+        Format format = ignoreTime ? Format.WITHOUT_TIME : showTimezone ? Format.WITH_TZ : Format.WITHOUT_TZ;
+        return format.formatDate(date);
+    }
+
+    /**
+     * Same as formatDate(Date, boolean) except replaces the time separator with the specified
+     * string.
+     *
+     * @param date          Date value to convert
+     * @param timeSeparator String to use in place of default time separator
+     * @return Formatted string representation of the specified date using the specified time
+     *         separator.
+     */
+    public static String formatDate(
+            Date date,
+            String timeSeparator) {
+        return formatDate(date).replaceFirst(" ", timeSeparator);
+    }
+
+    /**
+     * Convert a date to HL7 format.
+     *
+     * @param date Date to convert.
+     * @return The HL7-formatted date.
+     */
+    public static String toHL7(Date date) {
+        Format format = hasTime(date) ? Format.HL7_WITHOUT_TIME : Format.HL7;
+        return format.formatDate(date);
+    }
+
+    /**
+     * Convert a date to ISO format.
+     *
+     * @param date Date to convert.
+     * @return The ISO-formatted date.
+     */
+    public static String toISODate(Date date) {
+        return DateFormatUtils.ISO_8601_EXTENDED_DATE_FORMAT.format(date);
+    }
+
+    /**
+     * Convert a date to ISO format.
+     *
+     * @param date Date to convert.
+     * @return The ISO-formatted date.
+     */
+    public static String toISODateTime(Date date) {
+        return DateFormatUtils.ISO_8601_EXTENDED_DATETIME_FORMAT.format(date);
+    }
+
+    /**
+     * Returns true if the date has an associated time.
+     *
+     * @param date Date value to check.
+     * @return True if the date has a time component.
+     */
+    public static boolean hasTime(Date date) {
+        if (date == null) {
+            return false;
+        }
+
+        long time1 = date.getTime();
+        long time2 = stripTime(date).getTime();
+        return time1 != time2; // Do not use "Date.equals" since date may be of type Timestamp.
+    }
+
+    /**
+     * <p>
+     * Convert a string value to a date/time. Attempts to convert using the four locale-specific
+     * date formats (FULL, LONG, MEDIUM, SHORT). If these fail, looks to see if T+/-offset or
+     * N+/-offset is used.
+     * </p>
+     * <p>
+     * TODO: probably we can make the "Java parse" portion a bit smarter by using a better variety
+     * of formats, maybe to catch Euro-style input as well.
+     * </p>
+     * <p>
+     * TODO: probably we can add something like "t+d" or "t-y" as valid cases; in these scenarios,
+     * the coefficient was omitted and could be defaulted to 1.
+     * </p>
+     *
+     * @param s <code>String</code> containing value to be converted.
+     * @return <code>Date</code> object corresponding to the input value, or <code>null</code> if
+     *         the parsing failed to resolve a valid Date.
+     */
+    public static Date parseDate(String s) {
+        Date result = null;
+
+        if (s != null && !s.isEmpty()) {
+            s = s.toLowerCase(); // make lc
+
+            if ((PATTERN_EXT_DATE.matcher(s)).matches()) { // is an extended date?
+                try {
+                    s = s.replaceAll("\\s+", ""); // strip space since they not
+                    // delim
+                    String _k = s.substring(1); // _k will ultimately be the multiplier value
+                    char k = 'd'; // k = s, n, h, d (default), m, or y
+
+                    if (1 == s.length()) {
+                        _k = "0";
+                    } else {
+                        if ((PATTERN_SPECIFIES_UNITS.matcher(s)).matches()) {
+                            _k = s.substring(1, s.length() - 1);
+                            k = s.charAt(s.length() - 1);
+                        }
+                    }
+
+                    if ('+' == _k.charAt(0)) { // clip positive coefficient...
+                        _k = _k.substring(1);
+                    }
+
+                    int field = Calendar.DAY_OF_YEAR;
+                    int offset = Integer.parseInt(_k);
+                    Calendar c = Calendar.getInstance();
+                    c.setLenient(false);
+
+                    if (s.charAt(0) == 't') {
+                        c.setTime(DateUtil.today());
+                    }
+
+                    switch (k) {
+                        case 'y': // years
+                            field = Calendar.YEAR;
+                            break;
+                        case 'm': // months
+                            field = Calendar.MONTH;
+                            break;
+                        case 'h': // hours
+                            field = Calendar.HOUR_OF_DAY;
+                            break;
+                        case 'n': // minutes
+                            field = Calendar.MINUTE;
+                            break;
+                        case 's': // seconds
+                            field = Calendar.SECOND;
+                            break;
+                    }
+
+                    c.add(field, offset);
+                    result = c.getTime();
+                    // format
+                } catch (Exception e) {
+                    return null; // found unparseable date (e.g. t-y)
+                }
+            } else {
+                result = tryParse(s);
+
+                if (result != null) {
+                    return result;
+                }
+
+                s = s.replaceAll("[.|-]", "/"); // dots, dashes to slashes
+                result = tryParse(s);
+
+                if (result != null) {
+                    return result;
+                }
+
+                s = s.replaceAll("\\s", "/"); // last chance to parse: spaces to
+                result = tryParse(s); // slashes!
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Attempts to parse an input value using one of several patterns.
+     *
+     * @param value    String to parse.
+     * @param patterns Patterns to be tried in succession until parsing succeeds.
+     * @return The resulting date value.
+     * @throws ParseException Date parsing exception.
+     */
+    public static Date parseDate(
+            String value,
+            String... patterns) throws ParseException {
+        return DateUtils.parseDate(value, patterns);
+    }
+
+    /**
+     * Attempts to parse a string containing a date representation using several different date
+     * patterns.
+     *
+     * @param value String to parse
+     * @return If the parsing was successful, returns the date value represented by the input value.
+     *         Otherwise, returns null.
+     */
+    private static Date tryParse(String value) {
+        for (Format format : Format.values()) {
+            try {
+                return format.parseAsDate(value);
+            } catch (Exception e) {
+                // NOP
+            }
+        }
+
+        for (int i = 3; i >= 0; i--) {
+            try {
+                return DateFormat.getDateInstance(i).parse(value);
+            } catch (Exception e) {
+                // NOP
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Returns the user's time zone.
      *
@@ -844,29 +866,6 @@ public class DateUtil {
                 pluralize);
     }
 
-    private static int getAgeInYears(
-            int birthYear,
-            int birthMonth,
-            int birthDay,
-            int refYear,
-            int refMonth,
-            int refDay) {
-        // If person has had a birthday already this year
-        if (refMonth > birthMonth || (refMonth == birthMonth && refDay >= birthDay)) {
-            return refYear - birthYear;
-        }
-
-        // If person has not yet had a birthday this year, subtract 1
-        return refYear - birthYear - 1;
-    }
-
-    private static String formatUnits(
-            long value,
-            TimeUnit accuracy,
-            boolean pluralize) {
-        return value + " " + getDurationUnits(accuracy, pluralize && value != 1, true);
-    }
-
     /**
      * Converts day, month, and year to a date.
      *
@@ -906,6 +905,99 @@ public class DateUtil {
         return cal.getTime();
     }
 
+    // =============================== java.time.LocalDate Methods ===============================
+
+    /**
+     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
+     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
+     * that no time is present and strip that from the return value.
+     *
+     * @param date Date value to convert.
+     * @return Formatted string representation of the specified date, or an empty string if date is
+     *         null.
+     */
+    public static String formatLocalDate(Temporal date) {
+        return formatLocalDate(date, false, false);
+    }
+
+    /**
+     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
+     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
+     * that no time is present and strip that from the return value.
+     *
+     * @param date         Date value to convert.
+     * @param showTimezone If true, time zone information is also appended.
+     * @return Formatted string representation of the specified date, or an empty string if date is
+     *         null.
+     */
+    public static String formatLocalDate(
+            Temporal date,
+            boolean showTimezone) {
+        return formatLocalDate(date, showTimezone, false);
+    }
+
+    /**
+     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
+     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
+     * that no time is present and strip that from the return value.
+     *
+     * @param date         Date value to convert
+     * @param showTimezone If true, time zone information is also appended.
+     * @param ignoreTime   If true, the time component is ignored.
+     * @return Formatted string representation of the specified date, or an empty string if date is
+     *         null.
+     */
+    public static String formatLocalDate(
+            LocalDateTime date,
+            boolean showTimezone,
+            boolean ignoreTime) {
+        return formatDate(toDate(date), ignoreTime);
+    }
+
+    /**
+     * Converts a date value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
+     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
+     * that no time is present and strip that from the return value.
+     *
+     * @param date         Date value to convert
+     * @param showTimezone If true, time zone information is also appended.
+     * @param ignoreTime   If true, the time component is ignored.
+     * @return Formatted string representation of the specified date, or an empty string if date is
+     *         null.
+     */
+    public static String formatLocalDate(
+            Temporal date,
+            boolean showTimezone,
+            boolean ignoreTime) {
+        if (date instanceof LocalDate) {
+            return formatDate(toDate((LocalDate) date), showTimezone, ignoreTime);
+        } else if (date instanceof LocalDateTime) {
+            return formatDate(toDate((LocalDateTime) date), showTimezone, ignoreTime);
+        }
+
+        throw new IllegalArgumentException("Unsupported date type: " + date.getClass());
+    }
+
+    /**
+     * Convert a date to ISO format.
+     *
+     * @param date Date to convert.
+     * @return The ISO-formatted date.
+     */
+    public static String toISODate(Temporal date) {
+        return DateTimeFormatter.ISO_LOCAL_DATE.format(date);
+    }
+
+    /**
+     * Convert a date/time to ISO format.
+     *
+     * @param date Date to convert.
+     * @return The ISO-formatted date.
+     */
+    public static String toISODateTime(Temporal date) {
+        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(date);
+    }
+
     /**
      * Converts a java.util.Date to a LocalDate. Uses the system's default time zone.
      *
@@ -937,7 +1029,53 @@ public class DateUtil {
      * @return The equivalent java.util.Date.
      */
     public static Date toDate(LocalDate localDate) {
-        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return localDate == null ? null : Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * Converts a LocalDate to a java.util.Date using the local timezone.
+     *
+     * @param localDate The java.util.Date to convert.
+     * @return The equivalent java.util.Date.
+     */
+    public static Date toDate(LocalDateTime localDate) {
+        return localDate == null ? null : toDate(localDate.toLocalDate());
+    }
+
+    public static String formatAge(
+            LocalDate dob,
+            boolean pluralize) {
+        return formatAge(dob, pluralize, null);
+    }
+
+    public static String formatAge(
+            LocalDate dob,
+            boolean pluralize,
+            LocalDate refDate) {
+        return formatAge(toDate(dob), pluralize, toDate(refDate));
+    }
+
+    /**
+     * <p>
+     * Convert a string value to a date/time. Attempts to convert using the four locale-specific
+     * date formats (FULL, LONG, MEDIUM, SHORT). If these fail, looks to see if T+/-offset or
+     * N+/-offset is used.
+     * </p>
+     * <p>
+     * TODO: probably we can make the "Java parse" portion a bit smarter by using a better variety
+     * of formats, maybe to catch Euro-style input as well.
+     * </p>
+     * <p>
+     * TODO: probably we can add something like "t+d" or "t-y" as valid cases; in these scenarios,
+     * the coefficient was omitted and could be defaulted to 1.
+     * </p>
+     *
+     * @param s <code>String</code> containing value to be converted.
+     * @return <code>Date</code> object corresponding to the input value, or <code>null</code> if
+     *         the parsing failed to resolve a valid Date.
+     */
+    public static LocalDateTime parseLocalDate(String s) {
+        return toLocalDateTime(parseDate(s));
     }
 
     /**
