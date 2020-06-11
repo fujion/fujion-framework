@@ -415,6 +415,24 @@ public class DateUtil {
         return value + " " + getDurationUnits(accuracy, pluralize && value != 1, true);
     }
 
+    /**
+     * Returns the user's time zone.
+     *
+     * @return The user's time zone.
+     */
+    public static TimeZone getLocalTimeZone() {
+        return Localizer.getTimeZone();
+    }
+
+    /**
+     * Returns zone id of the user's time zone.
+     *
+     * @return The zone id of the user's time zone.
+     */
+    public static ZoneId getLocalZoneId() {
+        return getLocalTimeZone().toZoneId();
+    }
+
     // =============================== java.util.Date Methods ===============================
 
     /**
@@ -777,15 +795,6 @@ public class DateUtil {
     }
 
     /**
-     * Returns the user's time zone.
-     *
-     * @return The user's time zone.
-     */
-    public static TimeZone getLocalTimeZone() {
-        return Localizer.getTimeZone();
-    }
-
-    /**
      * <p>
      * Returns age as a formatted string expressed in days, months, or years, depending on whether
      * person is an infant (&lt; 2 mos), toddler (&gt; 2 mos, &lt; 2 yrs), or more than 2 years old.
@@ -1028,8 +1037,24 @@ public class DateUtil {
      * @param localDate The java.util.Date to convert.
      * @return The equivalent java.util.Date.
      */
+    public static Date toDate(Temporal localDate) {
+        if (localDate instanceof LocalDateTime) {
+            return toDate((LocalDateTime) localDate);
+        } else if (localDate instanceof LocalDate) {
+            return toDate((LocalDate) localDate);
+        }
+
+        throw new IllegalArgumentException("Unsupported date type: " + localDate.getClass());
+    }
+
+    /**
+     * Converts a LocalDate to a java.util.Date using the local timezone.
+     *
+     * @param localDate The java.util.Date to convert.
+     * @return The equivalent java.util.Date.
+     */
     public static Date toDate(LocalDate localDate) {
-        return localDate == null ? null : Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return localDate == null ? null : Date.from(localDate.atStartOfDay(getLocalZoneId()).toInstant());
     }
 
     /**
@@ -1039,19 +1064,45 @@ public class DateUtil {
      * @return The equivalent java.util.Date.
      */
     public static Date toDate(LocalDateTime localDate) {
-        return localDate == null ? null : toDate(localDate.toLocalDate());
+        return localDate == null ? null : Date.from(localDate.atZone(getLocalZoneId()).toInstant());
     }
 
-    public static String formatAge(
-            LocalDate dob,
-            boolean pluralize) {
-        return formatAge(dob, pluralize, null);
+    /**
+     * <p>
+     * Returns age as a formatted string expressed in days, months, or years, depending on whether
+     * person is an infant (&lt; 2 mos), toddler (&gt; 2 mos, &lt; 2 yrs), or more than 2 years old.
+     * </p>
+     *
+     * @param dob Date of person's birth
+     * @return the age display string
+     */
+    public static String formatAge(Temporal dob) {
+        return formatAge(dob, true, null);
     }
 
+    /**
+     * <p>
+     * Returns age as a formatted string expressed in days, months, or years, depending on whether
+     * person is an infant (&lt; 2 mos), toddler (&gt; 2 mos, &lt; 2 yrs), or more than 2 years old.
+     * </p>
+     * <p>
+     * Allows the caller to specify an &quot;as-of&quot; date. The calculated age will be as-of the
+     * provided date, rather than as-of the current date.
+     * </p>
+     * <p>
+     * Allows the caller to specify whether or not to pluralize the age units in the age display
+     * string.
+     * </p>
+     *
+     * @param dob       Date of person's birth
+     * @param pluralize If true, pluralize the age units in the age display string.
+     * @param refDate   The date as of which to calculate the Person's age (null means today).
+     * @return the age display string
+     */
     public static String formatAge(
-            LocalDate dob,
+            Temporal dob,
             boolean pluralize,
-            LocalDate refDate) {
+            Temporal refDate) {
         return formatAge(toDate(dob), pluralize, toDate(refDate));
     }
 
