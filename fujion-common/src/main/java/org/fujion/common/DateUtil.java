@@ -1038,7 +1038,9 @@ public class DateUtil {
      * @return The equivalent java.util.Date.
      */
     public static Date toDate(Temporal localDate) {
-        if (localDate instanceof LocalDateTime) {
+        if (localDate == null) {
+            return null;
+        } else if (localDate instanceof LocalDateTime) {
             return toDate((LocalDateTime) localDate);
         } else if (localDate instanceof LocalDate) {
             return toDate((LocalDate) localDate);
