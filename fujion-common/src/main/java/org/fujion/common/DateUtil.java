@@ -29,12 +29,15 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,6 +61,7 @@ public class DateUtil {
         WITH_TZ("dd-MMM-yyyy HH:mm zzz"),
         WITHOUT_TZ("dd-MMM-yyyy HH:mm"),
         WITHOUT_TIME("dd-MMM-yyyy"),
+        WITHOUT_DATE("HH:mm"),
         HL7(HL7_DATE_TIME_PATTERN),
         HL7_WITHOUT_TIME(HL7_DATE_ONLY_PATTERN),
         JS_WITH_TZ("yyyy-MM-dd HH:mm zzz"),
@@ -66,10 +70,22 @@ public class DateUtil {
         TO_STRING("EEE MMM dd HH:mm:ss zzz yyyy");
         //@formatter:on
 
+        private static final Map<ZoneId, DateTimeFormatter> formatterCache = new ConcurrentHashMap<>();
+
+        private final boolean noTime;
+
         private final String pattern;
+
+        private DateTimeFormatter temporalFormatter;
 
         Format(String pattern) {
             this.pattern = pattern;
+            this.noTime = !pattern.contains(":");
+            temporalFormatter = DateTimeFormatter.ofPattern(pattern);
+        }
+
+        private TimeZone getTimeZone() {
+            return noTime ? TimeZone.getDefault() : getLocalTimeZone();
         }
 
         /**
@@ -82,32 +98,28 @@ public class DateUtil {
         }
 
         /**
-         * Returns a formatter for this date format.
-         *
-         * @return A formatter.
-         */
-        public FastDateFormat getDateFormatter() {
-            boolean ignoreTime = this == WITHOUT_TIME || this == HL7_WITHOUT_TIME;
-            return FastDateFormat.getInstance(pattern, ignoreTime ? TimeZone.getDefault() : getLocalTimeZone());
-        }
-
-        public DateTimeFormatter getLocalDateFormatter() {
-            // boolean ignoreTime = this == WITHOUT_TIME || this == HL7_WITHOUT_TIME;
-            return DateTimeFormatter.ofPattern(pattern);
-        }
-
-        /**
          * Formats an input date.
          *
          * @param date The date to format.
          * @return The formatted date.
          */
         public String formatDate(Date date) {
-            return date == null ? "" : getDateFormatter().format(date);
+            return date == null ? "" : FastDateFormat.getInstance(pattern, getTimeZone()).format(date);
         }
 
-        public String formatLocalDate(Temporal date) {
-            return date == null ? "" : getLocalDateFormatter().format(date);
+        public String formatDate(Temporal date) {
+            if (date == null) {
+                return "";
+            }
+
+            ZoneId zoneId = getTimeZone().toZoneId();
+            DateTimeFormatter formatter = formatterCache.get(zoneId);
+
+            if (formatter == null) {
+                formatterCache.put(zoneId, formatter = temporalFormatter.withZone(zoneId));
+            }
+
+            return formatter.format(date);
         }
 
         /**
@@ -128,7 +140,18 @@ public class DateUtil {
          * @return The resulting date value if successful.
          * @throws ParseException Date parsing exception.
          */
-        public LocalDateTime parseAsLocalDate(String value) throws ParseException {
+        public LocalDate parseAsLocalDate(String value) throws ParseException {
+            return toLocalDate(parseDate(value, pattern));
+        }
+
+        /**
+         * Parses an input value.
+         *
+         * @param value The value to parse.
+         * @return The resulting date value if successful.
+         * @throws ParseException Date parsing exception.
+         */
+        public LocalDateTime parseAsLocalDateTime(String value) throws ParseException {
             return toLocalDateTime(parseDate(value, pattern));
         }
     }
@@ -917,74 +940,24 @@ public class DateUtil {
     // =============================== java.time.LocalDate Methods ===============================
 
     /**
-     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
-     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
-     * that no time is present and strip that from the return value.
+     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm.
      *
-     * @param date Date value to convert.
-     * @return Formatted string representation of the specified date, or an empty string if date is
-     *         null.
+     * @param temporal Date/time value to convert.
+     * @return Formatted string representation of the specified date/time, or an empty string if input is
+     *         null or of an unsupported type..
      */
-    public static String formatLocalDate(Temporal date) {
-        return formatLocalDate(date, false, false);
-    }
+    public static String formatDate(Temporal temporal) {
+        Format format = null;
 
-    /**
-     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
-     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
-     * that no time is present and strip that from the return value.
-     *
-     * @param date         Date value to convert.
-     * @param showTimezone If true, time zone information is also appended.
-     * @return Formatted string representation of the specified date, or an empty string if date is
-     *         null.
-     */
-    public static String formatLocalDate(
-            Temporal date,
-            boolean showTimezone) {
-        return formatLocalDate(date, showTimezone, false);
-    }
-
-    /**
-     * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
-     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
-     * that no time is present and strip that from the return value.
-     *
-     * @param date         Date value to convert
-     * @param showTimezone If true, time zone information is also appended.
-     * @param ignoreTime   If true, the time component is ignored.
-     * @return Formatted string representation of the specified date, or an empty string if date is
-     *         null.
-     */
-    public static String formatLocalDate(
-            LocalDateTime date,
-            boolean showTimezone,
-            boolean ignoreTime) {
-        return formatDate(toDate(date), ignoreTime);
-    }
-
-    /**
-     * Converts a date value to a string, using the format dd-mmm-yyyy hh:mm. Because we cannot
-     * determine the absence of a time from a time of 24:00, we must assume a time of 24:00 means
-     * that no time is present and strip that from the return value.
-     *
-     * @param date         Date value to convert
-     * @param showTimezone If true, time zone information is also appended.
-     * @param ignoreTime   If true, the time component is ignored.
-     * @return Formatted string representation of the specified date, or an empty string if date is
-     *         null.
-     */
-    public static String formatLocalDate(
-            Temporal date,
-            boolean showTimezone,
-            boolean ignoreTime) {
-        if (date instanceof LocalDate) {
-            return formatDate(toDate((LocalDate) date), showTimezone, ignoreTime);
-        } else if (date instanceof LocalDateTime) {
-            return formatDate(toDate((LocalDateTime) date), showTimezone, ignoreTime);
+        if (temporal instanceof LocalDate) {
+            format = Format.WITHOUT_TIME;
+        } else if (temporal instanceof LocalDateTime) {
+            format = Format.WITHOUT_TZ;
+        } else if (temporal instanceof LocalTime) {
+            format = Format.WITHOUT_DATE;
         }
 
-        throw new IllegalArgumentException("Unsupported date type: " + date.getClass());
+        return format == null ? "" : format.formatDate(temporal);
     }
 
     /**

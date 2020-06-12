@@ -28,7 +28,6 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.List;
@@ -118,20 +117,10 @@ public class CommonTest {
     }
 
     private void testLocalDate(Temporal date) {
-        testLocalDate(date, true, true);
-        testLocalDate(date, false, false);
-        testLocalDate(date, true, false);
-        testLocalDate(date, false, true);
-    }
-
-    private void testLocalDate(
-            Temporal date,
-            boolean showTimezone,
-            boolean ignoreTime) {
-        String text = DateUtil.formatLocalDate(date, showTimezone, ignoreTime);
+        String text = DateUtil.formatDate(date);
         print(text);
         Temporal date2 = DateUtil.parseLocalDate(text);
-        String text2 = DateUtil.formatLocalDate(date2, showTimezone, ignoreTime);
+        String text2 = DateUtil.formatDate(date2);
         assertEquals(text, text2);
     }
 
