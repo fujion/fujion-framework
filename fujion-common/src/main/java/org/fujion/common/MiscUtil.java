@@ -24,6 +24,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 /**
@@ -217,13 +218,70 @@ public class MiscUtil {
                     sb.append(ch);
             }
         }
-        
+
         return Pattern.compile(sb.append('$').toString());
     }
-    
+
+    /**
+     * Asserts that a condition is true, throwing an IllegalArgumentException if not.
+     *
+     * @param condition The condition to test.
+     * @param message   The exception message.
+     * @throws IllegalArgumentException if condition is false.
+     */
+    public static void assertTrue(
+            boolean condition,
+            String message) {
+        assertTrue(condition, () -> message);
+    }
+
+    /**
+     * Asserts that a tested condition is true, throwing an IllegalArgumentException if not.
+     *
+     * @param condition The tested condition.
+     * @param message   The exception message.
+     * @throws IllegalArgumentException if condition is false.
+     */
+    public static void assertTrue(
+            boolean condition,
+            Supplier<String> message) {
+        if (!condition) {
+            throw new IllegalArgumentException(message.get());
+        }
+    }
+
+    /**
+     * Asserts that a tested state is true, throwing an IllegalStateException if not.
+     *
+     * @param state   The tested state.
+     * @param message The exception message.
+     * @throws IllegalStateException if state is false.
+     */
+    public static void assertState(
+            boolean state,
+            String message) {
+        assertState(state, () -> message);
+    }
+
+    /**
+     * Asserts that a tested state is true, throwing an IllegalStateException if not.
+     *
+     * @param state   The tested state.
+     * @param message The exception message.
+     * @throws IllegalStateException if state is false.
+     */
+    public static void assertState(
+            boolean state,
+            Supplier<String> message) {
+        if (!state) {
+            throw new IllegalStateException(message.get());
+        }
+    }
+
     /**
      * Enforce static class.
      */
     private MiscUtil() {
     }
+
 }
