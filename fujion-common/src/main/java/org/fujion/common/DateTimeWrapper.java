@@ -14,6 +14,8 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
 
     private final Temporal temporal;
 
+    private final Date date;
+
     /**
      * Returns a wrapper for the current date and time.
      *
@@ -32,15 +34,6 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
         return new DateTimeWrapper(LocalDate.now());
     }
 
-    /**
-     * Returns a wrapper for the current time.
-     *
-     * @return The current time.
-     */
-    public static DateTimeWrapper time() {
-        return new DateTimeWrapper(LocalTime.now());
-    }
-
     public static DateTimeWrapper parse(String value) {
         Date date = DateUtil.parseDate(value);
         MiscUtil.assertTrue(date != null, () -> "Unable to parse input '" + value + "'.");
@@ -49,45 +42,33 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
 
     public DateTimeWrapper(LocalDate date) {
         this.temporal = validateTemporal(date);
+        this.date = DateUtil.toDate(temporal);
     }
 
     public DateTimeWrapper(LocalDateTime datetime) {
         this.temporal = validateTemporal(datetime);
-    }
-
-    public DateTimeWrapper(LocalTime time) {
-        this.temporal = validateTemporal(time);
+        this.date = DateUtil.toDate(temporal);
     }
 
     public DateTimeWrapper(Date date) {
         this.temporal = validateTemporal(DateUtil.hasTime(date) ? DateUtil.toLocalDateTime(date) : DateUtil.toLocalDate(date));
-    }
-
-    public boolean hasDate() {
-        return temporal instanceof LocalDate || temporal instanceof LocalDateTime;
+        this.date = date;
     }
 
     public boolean hasTime() {
-        return temporal instanceof LocalDateTime || temporal instanceof LocalTime;
-    }
-
-    public boolean hasDateAndTime() {
         return temporal instanceof LocalDateTime;
     }
 
     public Date getLegacyDate() {
-        validateDate();
-        return DateUtil.toDate(temporal);
+        return date;
     }
 
     public LocalDateTime getDateTime() {
-        validateDate();
         validateTime();
         return (LocalDateTime) temporal;
     }
 
     public LocalDate getDate() {
-        validateDate();
         return temporal instanceof LocalDateTime ? ((LocalDateTime) temporal).toLocalDate() : (LocalDate) temporal;
     }
 
@@ -101,10 +82,6 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
         return temporal;
     }
 
-    private void validateDate() {
-        MiscUtil.assertState(hasDate(), "No date component available.");
-    }
-
     private void validateTime() {
         MiscUtil.assertState(hasTime(), "No time component available.");
     }
@@ -112,10 +89,6 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
     @Override
     public int compareTo(DateTimeWrapper w) {
         Temporal temporal2 = w.temporal;
-
-        if (temporal instanceof LocalTime && temporal2 instanceof LocalTime) {
-            return ((LocalTime) temporal).compareTo((LocalTime) temporal2);
-        }
 
         if (temporal instanceof LocalDate && temporal2 instanceof LocalDate) {
             return ((LocalDate) temporal).compareTo((LocalDate) temporal2);
@@ -133,14 +106,11 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
             return ((LocalDate) temporal).atStartOfDay().compareTo(((LocalDateTime) temporal2));
         }
 
-        throw new IllegalArgumentException("Incompatible date/time components for comparison.");
+        throw new IllegalArgumentException("Incompatible date components for comparison.");
     }
 
     public String toISOString() {
-        return hasDate() && hasTime() ? DateTimeFormatter.ISO_DATE_TIME.format(temporal) :
-                hasDate() ? DateTimeFormatter.ISO_DATE.format(temporal) :
-                        hasTime() ? DateTimeFormatter.ISO_TIME.format(temporal) :
-                                null;
+        return hasTime() ? DateTimeFormatter.ISO_DATE_TIME.format(temporal) : DateTimeFormatter.ISO_DATE.format(temporal);
     }
 
     @Override
