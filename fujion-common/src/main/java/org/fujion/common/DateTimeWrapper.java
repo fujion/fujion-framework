@@ -133,21 +133,16 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
     /**
      * Compares two DateTimeWrapper instances.  Wrapped values are coerced as necessary.
      *
-     * @param w A DateTimeWrapper against which to compare.
+     * @param dtw A DateTimeWrapper against which to compare.
      * @return The result of the comparison.
      */
     @Override
-    public int compareTo(DateTimeWrapper w) {
-
-        if (!hasTime() && !w.hasTime()) {
-            return getDate().compareTo(w.getDate());
+    public int compareTo(DateTimeWrapper dtw) {
+        if (!hasTime() && !dtw.hasTime()) {
+            return getDate().compareTo(dtw.getDate());
+        } else {
+            return getDateTime().compareTo(dtw.getDateTime());
         }
-
-        if (hasTime() && w.hasTime()) {
-            return getDateTime().compareTo(w.getDateTime());
-        }
-
-        return getDateTime().compareTo(w.getDateTime());
     }
 
     /**
