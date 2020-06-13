@@ -8,7 +8,7 @@ import java.time.temporal.Temporal;
 import java.util.Date;
 
 /**
- * Wrapper for local date/time and legacy date.
+ * Common wrapper for LocalDate, LocalDateTime, and Date instances.
  */
 public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
 
@@ -34,47 +34,95 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
         return new DateTimeWrapper(LocalDate.now());
     }
 
+    /**
+     * Converts a string value to a DateTimeWrapper.
+     *
+     * @param value The value to parse.
+     * @return A DateTimeWrapper instance.
+     * @throws IllegalArgumentException If the input value could not be parsed.
+     */
     public static DateTimeWrapper parse(String value) {
         Date date = DateUtil.parseDate(value);
         MiscUtil.assertTrue(date != null, () -> "Unable to parse input '" + value + "'.");
         return new DateTimeWrapper(date);
     }
 
+    /**
+     * Wrap a LocalDate value.
+     *
+     * @param date A LocalDate value.
+     */
     public DateTimeWrapper(LocalDate date) {
         this.temporal = validateTemporal(date);
         this.date = DateUtil.toDate(temporal);
     }
 
+    /**
+     * Wrap a LocalDateTime value.
+     *
+     * @param datetime A LocalDateTime value.
+     */
     public DateTimeWrapper(LocalDateTime datetime) {
         this.temporal = validateTemporal(datetime);
         this.date = DateUtil.toDate(temporal);
     }
 
+    /**
+     * Wrap a legacy Date value.
+     *
+     * @param date A legacy Date value.
+     */
     public DateTimeWrapper(Date date) {
         this.temporal = validateTemporal(DateUtil.hasTime(date) ? DateUtil.toLocalDateTime(date) : DateUtil.toLocalDate(date));
         this.date = date;
     }
 
+    /**
+     * Returns true if the wrapped date/time has a time component.
+     *
+     * @return True if the wrapped date/time has a time component.
+     */
     public boolean hasTime() {
         return temporal instanceof LocalDateTime;
     }
 
+    /**
+     * Returns the wrapped date/time as a legacy Date value.  If the wrapped value has no time component,
+     * the returned value will have a time set to midnight.
+     *
+     * @return The wrapped value as a legacy date value.
+     */
     public Date getLegacyDate() {
         return date;
     }
 
+    /**
+     * Returns the wrapped date/time as a LocalDateTime value.  If the wrapped value contains no time component,
+     * it will be coerced to one with a time beginning at the start of the day.
+     *
+     * @return The wrapped value as a LocalDateTime.
+     */
     public LocalDateTime getDateTime() {
-        validateTime();
-        return (LocalDateTime) temporal;
+        return hasTime() ? (LocalDateTime) temporal : ((LocalDate) temporal).atStartOfDay();
     }
 
-    public LocalDate getDate() {
-        return temporal instanceof LocalDateTime ? ((LocalDateTime) temporal).toLocalDate() : (LocalDate) temporal;
+    /**
+     * Returns the wrapped date/time as a LocalDate value.  If the wrapped value contains a time component,
+     * it will be coerced to a value with the time component removed.
+     *
+     * @return The wrapped value as a LocalDateTime.
+     */
+   public LocalDate getDate() {
+        return hasTime() ? ((LocalDateTime) temporal).toLocalDate() : (LocalDate) temporal;
     }
 
+    /**
+     * Returns the time component of the wrapped value.  If there is no time component, null is returned.
+     *
+     * @return The time component of the wrapped value (possibly null).
+     */
     public LocalTime getTime() {
-        validateTime();
-        return temporal instanceof LocalDateTime ? ((LocalDateTime) temporal).toLocalTime() : (LocalTime) temporal;
+        return hasTime() ? ((LocalDateTime) temporal).toLocalTime() : null;
     }
 
     private Temporal validateTemporal(Temporal temporal) {
@@ -82,37 +130,40 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
         return temporal;
     }
 
-    private void validateTime() {
-        MiscUtil.assertState(hasTime(), "No time component available.");
-    }
-
+    /**
+     * Compares two DateTimeWrapper instances.  Wrapped values are coerced as necessary.
+     *
+     * @param w A DateTimeWrapper against which to compare.
+     * @return The result of the comparison.
+     */
     @Override
     public int compareTo(DateTimeWrapper w) {
-        Temporal temporal2 = w.temporal;
 
-        if (temporal instanceof LocalDate && temporal2 instanceof LocalDate) {
-            return ((LocalDate) temporal).compareTo((LocalDate) temporal2);
+        if (!hasTime() && !w.hasTime()) {
+            return getDate().compareTo(w.getDate());
         }
 
-        if (temporal instanceof LocalDateTime && temporal2 instanceof LocalDateTime) {
-            return ((LocalDateTime) temporal).compareTo((LocalDateTime) temporal2);
+        if (hasTime() && w.hasTime()) {
+            return getDateTime().compareTo(w.getDateTime());
         }
 
-        if (temporal instanceof LocalDateTime && temporal2 instanceof LocalDate) {
-            return ((LocalDateTime) temporal).compareTo(((LocalDate) temporal2).atStartOfDay());
-        }
-
-        if (temporal instanceof LocalDate && temporal2 instanceof LocalDateTime) {
-            return ((LocalDate) temporal).atStartOfDay().compareTo(((LocalDateTime) temporal2));
-        }
-
-        throw new IllegalArgumentException("Incompatible date components for comparison.");
+        return getDateTime().compareTo(w.getDateTime());
     }
 
+    /**
+     * Returns the wrapped date/time as an ISO-formatted date or date/time.
+     *
+     * @return An ISO-formatted date or date/time.
+     */
     public String toISOString() {
         return hasTime() ? DateTimeFormatter.ISO_DATE_TIME.format(temporal) : DateTimeFormatter.ISO_DATE.format(temporal);
     }
 
+    /**
+     * Returns the wrapped date/time in a form suitable for display.
+     *
+     * @return Text version of the wrapped date/time.
+     */
     @Override
     public String toString() {
         return DateUtil.formatDate(temporal);
