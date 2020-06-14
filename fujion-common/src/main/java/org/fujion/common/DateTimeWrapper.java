@@ -14,8 +14,6 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
 
     private final Temporal temporal;
 
-    private final Date date;
-
     /**
      * Returns a wrapper for the current date and time.
      *
@@ -54,7 +52,6 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
      */
     public DateTimeWrapper(LocalDate date) {
         this.temporal = validateTemporal(date);
-        this.date = DateUtil.toDate(temporal);
     }
 
     /**
@@ -64,7 +61,6 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
      */
     public DateTimeWrapper(LocalDateTime datetime) {
         this.temporal = validateTemporal(datetime);
-        this.date = DateUtil.toDate(temporal);
     }
 
     /**
@@ -74,7 +70,6 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
      */
     public DateTimeWrapper(Date date) {
         this.temporal = validateTemporal(DateUtil.hasTime(date) ? DateUtil.toLocalDateTime(date) : DateUtil.toLocalDate(date));
-        this.date = date;
     }
 
     /**
@@ -93,7 +88,7 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
      * @return The wrapped value as a legacy date value.
      */
     public Date getLegacyDate() {
-        return date;
+        return DateUtil.toDate(temporal);
     }
 
     /**
