@@ -80,6 +80,18 @@ public class MiscUtil {
     }
 
     /**
+     * Casts a value to the specified type, returning null if the cast is not possible.
+     *
+     * @param value The value to cast.
+     * @param type The type to cast to.
+     * @param <T> The type to cast to.
+     * @return The original value, cast to the specified type, or null if the cast is not possible.
+     */
+    public static <T> T castTo(Object value, Class<T> type) {
+        return type.isInstance(value) ? (T) value : null;
+    }
+
+    /**
      * Returns the first class from a list of candidate classes that is assignable from the specified
      * type.
      *
