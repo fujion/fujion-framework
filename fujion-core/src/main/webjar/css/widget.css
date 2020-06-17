@@ -557,7 +557,8 @@ iframe.fujion-resizer {
 	justify-content: center;
 }
 
-.fujion_toolbar > * {
+.fujion_toolbar > *,
+.fujion_toolbar > span > * {
 	margin: 2px;
 }
 
