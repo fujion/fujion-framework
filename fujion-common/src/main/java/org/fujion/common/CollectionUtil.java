@@ -245,7 +245,7 @@ public class CollectionUtil {
      * @param <T>    The lists' element type.
      * @return The modified (or newly created) destination list.
      */
-    public static <T> List<T> replaceList(
+    public static <T> List<T> replaceElements(
             List<T> dest,
             Collection<T> source) {
         source = source == null ? Collections.emptyList() : source;
@@ -268,10 +268,10 @@ public class CollectionUtil {
      * @param <T>      The lists' element type.
      * @return The modified (or newly created) destination list.
      */
-    public static <T> List<T> replaceList(
+    public static <T> List<T> replaceElements(
             List<T> dest,
             T... elements) {
-        return replaceList(dest, elements == null ? null : Arrays.asList(elements));
+        return replaceElements(dest, elements == null ? null : Arrays.asList(elements));
     }
 
     /**
