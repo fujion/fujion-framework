@@ -23,7 +23,7 @@ package org.fujion.script.jython;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.script.IScriptLanguage;
 import org.python.core.PyCode;
 import org.python.util.PythonInterpreter;

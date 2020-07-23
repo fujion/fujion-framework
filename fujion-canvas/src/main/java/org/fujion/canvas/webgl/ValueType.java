@@ -20,7 +20,7 @@
  */
 package org.fujion.canvas.webgl;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.fujion.ancillary.IEnumWithValue;
 
 /**

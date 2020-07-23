@@ -22,7 +22,7 @@ package org.fujion.script.groovy;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.script.IScriptLanguage;
 
 import groovy.lang.Binding;

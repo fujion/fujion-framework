@@ -20,8 +20,8 @@
  */
 package org.fujion.thread;
 
-import org.apache.commons.lang.NotImplementedException;
-import org.apache.commons.lang.time.StopWatch;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.time.StopWatch;
 import org.fujion.client.ExecutionContext;
 import org.fujion.common.Logger;
 import org.fujion.component.BaseComponent;

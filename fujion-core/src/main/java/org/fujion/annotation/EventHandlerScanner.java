@@ -21,7 +21,7 @@
 package org.fujion.annotation;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.fujion.ancillary.ComponentException;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.common.CollectionUtil;

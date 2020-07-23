@@ -22,7 +22,7 @@ package org.fujion.canvas;
 
 import java.util.Collections;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.client.IClientTransform;
 

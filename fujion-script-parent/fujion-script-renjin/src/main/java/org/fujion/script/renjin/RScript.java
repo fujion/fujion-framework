@@ -25,7 +25,7 @@ import java.util.Map.Entry;
 
 import javax.script.ScriptException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.common.MiscUtil;
 import org.fujion.script.IScriptLanguage;
 import org.renjin.script.RenjinScriptEngine;

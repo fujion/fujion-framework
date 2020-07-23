@@ -22,7 +22,7 @@ package org.fujion.model;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.reflect.MethodUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.DeferredInvocation;
 import org.fujion.common.MiscUtil;

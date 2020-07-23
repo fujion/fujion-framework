@@ -21,7 +21,7 @@
 package org.fujion.servlet;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.text.StringSubstitutor;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.Page;
 import org.fujion.core.RequestUtil;
@@ -138,7 +138,7 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
         map.put("debug", WebUtil.isDebugEnabled());
         map.put("logging", LogUtil.getSettingsForClient());
         map.put("keepalive", WebSocketConfiguration.getKeepaliveInterval());
-        StrSubstitutor sub = new StrSubstitutor(map);
+        StringSubstitutor sub = new StringSubstitutor(map);
 
         for (String line : bootstrapperTemplate) {
             bootstrapperResource.addContent(sub.replace(line));

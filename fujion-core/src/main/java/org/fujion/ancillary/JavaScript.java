@@ -20,7 +20,7 @@
  */
 package org.fujion.ancillary;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.client.CustomDatatype;
 import org.fujion.client.IClientTransform;
 

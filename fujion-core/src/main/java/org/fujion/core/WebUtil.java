@@ -22,7 +22,7 @@ package org.fujion.core;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.fujion.client.ExecutionContext;
@@ -339,7 +339,7 @@ public class WebUtil {
                 resource = DynamicResourceRegistry.getInstance().getResource(path);
             } else if (src.startsWith("web/") || src.startsWith("/web/")) {
                 resource = new ClassPathResource(src);
-            } else if (src.matches("^.*\\:\\/.*")) {
+            } else if (src.matches("^.*:/.*")) {
                 resource = new UrlResource(src);
             } else {
                 src = src.startsWith("/") ? src : "/" + src;

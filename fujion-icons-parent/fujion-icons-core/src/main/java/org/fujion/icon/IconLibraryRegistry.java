@@ -23,7 +23,7 @@ package org.fujion.icon;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.common.Logger;
 import org.fujion.common.AbstractRegistry;
 import org.springframework.beans.BeansException;

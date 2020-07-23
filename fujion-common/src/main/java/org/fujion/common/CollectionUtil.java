@@ -20,8 +20,7 @@
  */
 package org.fujion.common;
 
-import org.apache.commons.collections.IteratorUtils;
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.collections4.IteratorUtils;
 
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -161,9 +160,10 @@ public class CollectionUtil {
     public static <T, S extends T> Iterator<S> iteratorForType(
             Iterator<T> iterator,
             Class<S> type) {
-        return iterator instanceof ListIterator
+        Iterator<?> iter = iterator instanceof ListIterator
                 ? IteratorUtils.filteredListIterator((ListIterator<T>) iterator, type::isInstance)
                 : IteratorUtils.filteredIterator(iterator, type::isInstance);
+        return (Iterator<S>) iter;
     }
 
     /**
@@ -206,7 +206,7 @@ public class CollectionUtil {
             Iterable<?> iter2) {
         for (Object obj1 : iter1) {
             for (Object obj2 : iter2) {
-                if (ObjectUtils.equals(obj1, obj2)) {
+                if (Objects.equals(obj1, obj2)) {
                     return true;
                 }
             }

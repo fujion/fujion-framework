@@ -20,7 +20,7 @@
  */
 package org.fujion.servlet;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
 import org.fujion.websocket.ISessionLifecycle;
@@ -45,11 +45,11 @@ public class DynamicResourceRegistry implements ISessionLifecycle {
         private static final long serialVersionUID = 1L;
     }
     
-    private static DynamicResourceRegistry instance = new DynamicResourceRegistry();
+    private static final DynamicResourceRegistry instance = new DynamicResourceRegistry();
 
     private final Map<String, ResourceRegistry> registryMap = new ConcurrentHashMap<>();
 
-    private final Pattern sessionPattern = Pattern.compile("^_fujion_\\d+\\/.*$");
+    private final Pattern sessionPattern = Pattern.compile("^_fujion_\\d+/.*$");
 
     /**
      * Returns the singleton instance.

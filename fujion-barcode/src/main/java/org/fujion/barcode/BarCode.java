@@ -23,7 +23,7 @@ package org.fujion.barcode;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;

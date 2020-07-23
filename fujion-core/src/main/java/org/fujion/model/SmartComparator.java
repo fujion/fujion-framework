@@ -21,7 +21,7 @@
 package org.fujion.model;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.fujion.common.MiscUtil;
 
 import java.util.Comparator;

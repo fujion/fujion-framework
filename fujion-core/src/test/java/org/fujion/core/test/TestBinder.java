@@ -20,9 +20,10 @@
  */
 package org.fujion.core.test;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.fujion.model.GenericBinder;
 import org.fujion.model.ObservableModel;
+
+import java.util.Objects;
 
 /**
  * Test binder and model.
@@ -42,7 +43,7 @@ public class TestBinder extends GenericBinder<TestBinder.TestModel> {
         }
 
         private void propertyChanged(String propertyName, Object oldValue, Object newValue) {
-            if (!ObjectUtils.equals(oldValue, newValue)) {
+            if (!Objects.equals(oldValue, newValue)) {
                 propertyChanged(propertyName);
             }
         }

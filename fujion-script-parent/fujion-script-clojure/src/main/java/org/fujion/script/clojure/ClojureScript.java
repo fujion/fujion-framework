@@ -22,7 +22,7 @@ package org.fujion.script.clojure;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.script.IScriptLanguage;
 
 import clojure.lang.IFn;

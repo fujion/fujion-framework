@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.fujion.ancillary.ComponentRegistry;
 import org.fujion.ancillary.IAutoWired;
 import org.fujion.annotation.ComponentDefinition;

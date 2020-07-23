@@ -20,7 +20,7 @@
  */
 package org.fujion.ipc;
 
-import org.apache.commons.lang.reflect.MethodUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;

@@ -20,8 +20,7 @@
  */
 package org.fujion.ancillary;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.annotation.Component.FactoryParameter;
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.component.BaseComponent;
@@ -29,10 +28,7 @@ import org.fujion.expression.ELContext;
 import org.fujion.expression.ELEvaluator;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 /**
@@ -199,7 +195,7 @@ public class ComponentFactory {
     private boolean caseMatches(Object switchVal) {
         if (switchVal != null) {
             for (Object val : ConvertUtil.convertToIterable(caseVal)) {
-                if (CASE_DEFAULT.equals(val) || ObjectUtils.equals(switchVal, val)) {
+                if (CASE_DEFAULT.equals(val) || Objects.equals(switchVal, val)) {
                     return true;
                 }
             }

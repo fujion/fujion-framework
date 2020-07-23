@@ -20,16 +20,14 @@
  */
 package org.fujion.ancillary;
 
-import org.apache.commons.lang.UnhandledException;
 import org.fujion.component.BaseComponent;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Supplier;
 
 /**
  * Run time exception related to a component operation.
  */
-public class ComponentException extends UnhandledException {
+public class ComponentException extends RuntimeException {
     
     private static final long serialVersionUID = 1L;
     

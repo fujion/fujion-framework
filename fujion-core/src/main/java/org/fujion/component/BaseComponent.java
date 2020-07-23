@@ -20,9 +20,8 @@
  */
 package org.fujion.component;
 
-import org.apache.commons.collections.IteratorUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.reflect.FieldUtils;
+import org.apache.commons.collections4.IteratorUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.fujion.ancillary.*;
 import org.fujion.ancillary.IComposite.CompositePosition;
 import org.fujion.annotation.Component.PropertyGetter;
@@ -1797,7 +1796,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             return null;
         }
 
-        String[] pcs = name.replace('.', '/').split("\\/");
+        String[] pcs = name.replace('.', '/').split("/");
         BaseComponent cmp = this;
         int i = 0;
 
@@ -1871,7 +1870,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @return The child with the data object, or null if not found.
      */
     public BaseComponent findChildByData(Object data) {
-        return findChild(child -> ObjectUtils.equals(data, child.getData()));
+        return findChild(child -> Objects.equals(data, child.getData()));
     }
 
     /**
@@ -1913,7 +1912,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         forwards = trimify(forwards);
 
         if (forwards != null) {
-            for (String forward : forwards.split("\\ ")) {
+            for (String forward : forwards.split(" ")) {
                 if (!forward.isEmpty()) {
                     int i = forward.indexOf("=");
 
@@ -2196,7 +2195,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             IEventListener eventListener,
             boolean register,
             boolean syncToClient) {
-        for (String eventType : eventTypes.split("\\ ")) {
+        for (String eventType : eventTypes.split(" ")) {
             eventType = EventUtil.stripOn(eventType);
             boolean before = eventListeners.hasListeners(eventType);
 
@@ -2535,7 +2534,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     protected boolean areEqual(
             Object obj1,
             Object obj2) {
-        return ObjectUtils.equals(obj1, obj2);
+        return Objects.equals(obj1, obj2);
     }
 
     /**

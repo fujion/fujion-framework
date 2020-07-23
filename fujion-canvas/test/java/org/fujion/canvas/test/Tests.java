@@ -23,7 +23,7 @@ package org.fujion.canvas.test;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.fujion.ancillary.IEnumWithValue;
 import org.fujion.annotation.PackageScanner;
 import org.fujion.canvas.d3.Canvas3D;

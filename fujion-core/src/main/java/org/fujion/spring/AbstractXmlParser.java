@@ -20,7 +20,7 @@
  */
 package org.fujion.spring;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.expression.ParseException;
@@ -77,6 +77,6 @@ public abstract class AbstractXmlParser extends AbstractSingleBeanDefinitionPars
     }
     
     private void error(String message) {
-        throw new ParseException(0, message + ".\n" + "Must be one of: " + ATTRIBUTES.toString());
+        throw new ParseException(0, message + ".\n" + "Must be one of: " + String.join(", ", ATTRIBUTES));
     }
 }

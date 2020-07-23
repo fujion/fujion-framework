@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;

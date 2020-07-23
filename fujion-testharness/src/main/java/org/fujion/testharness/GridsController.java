@@ -22,8 +22,8 @@ package org.fujion.testharness;
 
 import java.util.Comparator;
 
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.component.BaseComponent;
@@ -73,7 +73,7 @@ public class GridsController extends BaseController {
 
     private final Comparator<RowModelObject> comp1 = (o1, o2) -> o1.label.compareToIgnoreCase(o2.label);
 
-    private final Comparator<RowModelObject> comp2 = (o1, o2) -> o1.value - o2.value;
+    private final Comparator<RowModelObject> comp2 = Comparator.comparingInt(o -> o.value);
 
     @WiredComponent
     private Grid grid;

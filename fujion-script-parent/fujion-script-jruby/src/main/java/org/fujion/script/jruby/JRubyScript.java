@@ -23,7 +23,7 @@ package org.fujion.script.jruby;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.script.IScriptLanguage;
 import org.jruby.embed.LocalContextScope;
 import org.jruby.embed.ScriptingContainer;
