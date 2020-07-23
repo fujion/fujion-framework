@@ -151,7 +151,7 @@ public enum TextureBufferInternalFormat implements IEnumWithValue {
      */
     SRGB8_ALPHA8(35907);
     
-    private int value;
+    private final int value;
     
     TextureBufferInternalFormat(int value) {
         this.value = value;

@@ -63,7 +63,7 @@ public enum ProgramParameterType implements IEnumWithValue {
      */
     VALIDATE_STATUS(35715);
     
-    private int value;
+    private final int value;
 
     ProgramParameterType(int value) {
         this.value = value;

@@ -79,7 +79,7 @@ public enum TextureParameterType implements IEnumWithValue {
      */
     TEXTURE_WRAP_T(10243);
 
-    private int value;
+    private final int value;
 
     TextureParameterType(int value) {
         this.value = value;

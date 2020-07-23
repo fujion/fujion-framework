@@ -20,10 +20,9 @@
  */
 package org.fujion.common;
 
-import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -49,7 +48,7 @@ public class StrUtil {
     
     public static final Charset UTF8 = StandardCharsets.UTF_8;
     
-    public static final String UTF8_STR = CharEncoding.UTF_8;
+    public static final String UTF8_STR = UTF8.name();
     
     /**
      * Splits a string using the specified delimiter.
@@ -488,11 +487,8 @@ public class StrUtil {
             pcs = split(text, delimiter);
             size = text.endsWith(delimiter) ? pcs.length - 1 : pcs.length;
         }
-        
-        for (int i = 0; i < size; i++) {
-            list.add(pcs[i]);
-        }
-        
+
+        list.addAll(Arrays.asList(pcs).subList(0, size));
         return list;
     }
     

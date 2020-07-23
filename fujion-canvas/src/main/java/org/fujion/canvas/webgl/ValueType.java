@@ -60,7 +60,7 @@ public enum ValueType implements IEnumWithValue {
      */
     UNSIGNED_INT(5125);
     
-    private int value;
+    private final int value;
 
     /**
      * Validate that the specified value is one of the allowed types.

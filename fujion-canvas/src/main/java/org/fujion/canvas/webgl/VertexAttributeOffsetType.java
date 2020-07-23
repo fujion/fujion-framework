@@ -29,7 +29,7 @@ public enum VertexAttributeOffsetType implements IEnumWithValue {
     
     VERTEX_ATTRIB_ARRAY_POINTER(34373);
 
-    private int value;
+    private final int value;
 
     VertexAttributeOffsetType(int value) {
         this.value = value;

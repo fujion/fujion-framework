@@ -31,7 +31,7 @@ public class DateRange {
 
     private static final String REGEX_DELIM = "\\" + DELIM;
 
-    private String label;
+    private final String label;
 
     private String rawStartDate;
 

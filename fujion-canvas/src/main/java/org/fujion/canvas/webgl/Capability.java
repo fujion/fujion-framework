@@ -69,7 +69,7 @@ public enum Capability implements IEnumWithValue {
      */
     STENCIL_TEST(2960);
     
-    private int value;
+    private final int value;
     
     Capability(int value) {
         this.value = value;

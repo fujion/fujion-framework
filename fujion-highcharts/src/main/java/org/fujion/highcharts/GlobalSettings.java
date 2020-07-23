@@ -68,14 +68,16 @@ public class GlobalSettings extends Options {
                     Class<?> type = field.getType();
 
                     if (type.isArray()) {
-                        field.set(options, value.split("\\,"));
+                        field.set(options, value.split(","));
                     } else if (type == Boolean.class) {
                         field.set(options, Boolean.valueOf(value));
                     } else {
                         field.set(options, value);
                     }
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                // NOP
+            }
         }
     }
 }

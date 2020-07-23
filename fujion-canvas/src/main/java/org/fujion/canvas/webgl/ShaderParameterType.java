@@ -39,7 +39,7 @@ public enum ShaderParameterType implements IEnumWithValue {
      */
     SHADER_TYPE(35663);
 
-    private int value;
+    private final int value;
 
     ShaderParameterType(int value) {
         this.value = value;

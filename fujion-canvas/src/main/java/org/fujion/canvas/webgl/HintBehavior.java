@@ -37,7 +37,7 @@ public enum HintBehavior implements IEnumWithValue {
      */
     GENERATE_MIPMAP_HINT(33170);
     
-    private int value;
+    private final int value;
     
     HintBehavior(int value) {
         this.value = value;

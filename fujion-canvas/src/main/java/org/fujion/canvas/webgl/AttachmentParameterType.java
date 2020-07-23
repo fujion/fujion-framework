@@ -44,7 +44,7 @@ public enum AttachmentParameterType implements IEnumWithValue {
 
     // @formatter:on
     
-    private int value;
+    private final int value;
     
     AttachmentParameterType(int value) {
         this.value = value;

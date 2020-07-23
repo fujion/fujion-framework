@@ -35,7 +35,7 @@ public enum PixelDataType implements IEnumWithValue {
     UNSIGNED_SHORT_5_6_5(33635);
     // @formatter:on
     
-    private int value;
+    private final int value;
 
     PixelDataType(int value) {
         this.value = value;

@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class ThreadPoolFactory {
 
-    private static ThreadPoolFactory instance = new ThreadPoolFactory();
+    private static final ThreadPoolFactory instance = new ThreadPoolFactory();
 
     @Value("${org.fujion.thread.sessionMinPoolSize:0}")
     private int sessionMinPoolSize;

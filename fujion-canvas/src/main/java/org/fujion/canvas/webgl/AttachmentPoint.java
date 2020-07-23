@@ -50,7 +50,7 @@ public enum AttachmentPoint implements IEnumWithValue {
 
     // @formatter:on
 
-    private int value;
+    private final int value;
 
     AttachmentPoint(int value) {
         this.value = value;

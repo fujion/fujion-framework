@@ -41,7 +41,7 @@ public abstract class BasePickerComponent<T, P extends BasePickerItem<T>> extend
     
     private boolean showHints;
     
-    private P converter;
+    private final P converter;
     
     protected BasePickerComponent(Class<P> itemClass) {
         try {

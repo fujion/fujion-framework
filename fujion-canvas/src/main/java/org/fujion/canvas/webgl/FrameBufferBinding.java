@@ -41,7 +41,7 @@ public enum FrameBufferBinding implements IEnumWithValue {
      */
     READ_FRAMEBUFFER(36008);
 
-    private int value;
+    private final int value;
     
     FrameBufferBinding(int value) {
         this.value = value;

@@ -166,7 +166,7 @@ public class SchemaAssembler {
             prop = prop.trim().replace("=", ",");
             
             if (!prop.isEmpty() && !prop.startsWith("#")) {
-                String[] pcs = prop.split("\\,", 3);
+                String[] pcs = prop.split(",", 3);
                 schemas.add(pcs[0]);
                 generateSchema(pcs[0], pcs[1], pcs.length == 2 ? null : pcs[2]);
             }

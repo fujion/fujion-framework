@@ -64,7 +64,9 @@ public class XMLUtil {
         try {
             factory.setNamespaceAware(nsAware);
             factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-        } catch (ParserConfigurationException e) {}
+        } catch (ParserConfigurationException e) {
+            // NOP
+        }
     }
 
     /**

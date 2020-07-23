@@ -33,7 +33,7 @@ public enum FeedbackBufferMode implements IEnumWithValue {
 
     // @formatter:on
     
-    private int value;
+    private final int value;
     
     FeedbackBufferMode(int value) {
         this.value = value;

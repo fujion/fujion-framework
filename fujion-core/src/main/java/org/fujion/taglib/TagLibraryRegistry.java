@@ -33,9 +33,9 @@ import org.springframework.core.io.Resource;
  */
 public class TagLibraryRegistry extends AbstractRegistry<String, TagLibrary> implements ApplicationContextAware {
     
-    private static Logger log = Logger.create(TagLibraryRegistry.class);
+    private static final Logger log = Logger.create(TagLibraryRegistry.class);
     
-    private static TagLibraryRegistry instance = new TagLibraryRegistry();
+    private static final TagLibraryRegistry instance = new TagLibraryRegistry();
     
     public static TagLibraryRegistry getInstance() {
         return instance;

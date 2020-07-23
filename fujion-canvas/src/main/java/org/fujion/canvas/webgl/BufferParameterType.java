@@ -35,7 +35,7 @@ public enum BufferParameterType implements IEnumWithValue {
      */
     BUFFER_USAGE(34661);
     
-    private int value;
+    private final int value;
     
     BufferParameterType(int value) {
         this.value = value;

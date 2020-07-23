@@ -350,7 +350,6 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             return delegate.lastIndexOf(o);
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         public ListIterator<BaseComponent> listIterator() {
             return IteratorUtils.toListIterator(iterator());

@@ -39,7 +39,7 @@ public enum HintMode implements IEnumWithValue {
      */
     NICEST(4354);
 
-    private int value;
+    private final int value;
     
     HintMode(int value) {
         this.value = value;

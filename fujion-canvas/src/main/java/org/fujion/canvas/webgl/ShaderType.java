@@ -35,7 +35,7 @@ public enum ShaderType implements IEnumWithValue {
      */
     VERTEX_SHADER(35633);
 
-    private int value;
+    private final int value;
     
     ShaderType(int value) {
         this.value = value;

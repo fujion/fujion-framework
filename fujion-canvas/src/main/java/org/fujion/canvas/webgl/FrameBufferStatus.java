@@ -56,7 +56,7 @@ public enum FrameBufferStatus implements IEnumWithValue {
      */
     FRAMEBUFFER_UNSUPPORTED(36061);
     
-    private int value;
+    private final int value;
 
     FrameBufferStatus(int value) {
         this.value = value;

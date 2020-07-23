@@ -68,7 +68,7 @@ public enum RenderBufferParameterType implements IEnumWithValue {
      */
     RENDERBUFFER_WIDTH(36162);
 
-    private int value;
+    private final int value;
 
     RenderBufferParameterType(int value) {
         this.value = value;

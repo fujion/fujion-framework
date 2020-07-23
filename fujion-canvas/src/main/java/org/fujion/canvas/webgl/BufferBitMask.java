@@ -31,7 +31,7 @@ public enum BufferBitMask implements IEnumWithValue {
 
     // @formatter:on
     
-    private int value;
+    private final int value;
 
     public static int combine(BufferBitMask... bitmasks) {
         int result = 0;

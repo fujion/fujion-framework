@@ -43,7 +43,7 @@ public enum BlendMode implements IEnumWithValue {
      */
     MIN(32775);
     
-    private int value;
+    private final int value;
     
     BlendMode(int value) {
         this.value = value;

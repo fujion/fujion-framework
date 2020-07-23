@@ -67,7 +67,7 @@ public enum TextureFormat implements IEnumWithValue {
      */
     RGBA_INTEGER(36249);
 
-    private int value;
+    private final int value;
 
     TextureFormat(int value) {
         this.value = value;

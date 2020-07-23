@@ -88,7 +88,7 @@ public class MiscUtil {
      * @return The original value, cast to the specified type, or null if the cast is not possible.
      */
     public static <T> T castTo(Object value, Class<T> type) {
-        return type.isInstance(value) ? (T) value : null;
+        return type.isInstance(value) ? type.cast(value) : null;
     }
 
     /**

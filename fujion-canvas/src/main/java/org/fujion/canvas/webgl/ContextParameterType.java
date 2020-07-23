@@ -119,7 +119,7 @@ public enum ContextParameterType implements IEnumWithValue {
 
     // @formatter:on
 
-    private int value;
+    private final int value;
 
     ContextParameterType(int value) {
         this.value = value;

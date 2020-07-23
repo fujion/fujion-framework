@@ -65,7 +65,7 @@ public enum VertexAttributeType implements IEnumWithValue {
      */
     VERTEX_ATTRIB_ARRAY_TYPE(34341);
 
-    private int value;
+    private final int value;
     
     VertexAttributeType(int value) {
         this.value = value;

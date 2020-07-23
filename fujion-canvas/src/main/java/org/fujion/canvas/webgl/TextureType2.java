@@ -55,7 +55,7 @@ public enum TextureType2 implements IEnumWithValue {
      */
     TEXTURE_CUBE_MAP_POSITIVE_Z(34073);
 
-    private int value;
+    private final int value;
 
     TextureType2(int value) {
         this.value = value;

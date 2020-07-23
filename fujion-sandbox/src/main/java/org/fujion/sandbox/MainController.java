@@ -93,7 +93,7 @@ public class MainController implements IAutoWired, ApplicationContextAware {
 
     };
 
-    private static SchemaInfo schemaInfo = new SchemaInfo();
+    private static final SchemaInfo schemaInfo = new SchemaInfo();
     
     static {
         // Initializes schema info for the component tree.

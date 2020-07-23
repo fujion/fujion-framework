@@ -20,7 +20,12 @@
  */
 package org.fujion.test;
 
-import java.io.IOException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.WebSocketExtension;
+import org.springframework.web.socket.WebSocketMessage;
+import org.springframework.web.socket.WebSocketSession;
+
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.security.Principal;
@@ -28,22 +33,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.WebSocketExtension;
-import org.springframework.web.socket.WebSocketMessage;
-import org.springframework.web.socket.WebSocketSession;
-
 /**
  * A mock web socket connection.
  */
 public class MockWebSocketSession implements WebSocketSession {
 
-    private URI uri;
+    private final URI uri;
 
     private final Map<String, Object> attributes = new HashMap<>();
 
-    private Principal principal;
+    private final Principal principal;
 
     int messageSizeLimitText = 5000;
 

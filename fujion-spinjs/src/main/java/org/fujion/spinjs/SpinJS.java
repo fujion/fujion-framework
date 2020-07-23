@@ -258,7 +258,7 @@ public class SpinJS extends BaseUIComponent {
      */
     @PropertySetter(value = "linecolor", defaultValue = "#000", description = "The line color(s).  Separate multiple colors with commas.")
     public void setLineColor(String color) {
-        String[] colors = color == null ? null : color.replace(" ", "").split("\\,");
+        String[] colors = color == null ? null : color.replace(" ", "").split(",");
         propertyChange("linecolor", options.color$array, options.color$array = colors, false);
     }
 
@@ -283,7 +283,7 @@ public class SpinJS extends BaseUIComponent {
      */
     @PropertySetter(value = "fadecolor", defaultValue = "transparent", description = "The color(s) for the fade effect.  Separate multiple colors with commas.")
     public void setFadeColor(String fadeColor) {
-        String[] colors = fadeColor == null ? null : fadeColor.replace(" ", "").split("\\,");
+        String[] colors = fadeColor == null ? null : fadeColor.replace(" ", "").split(",");
         propertyChange("fadecolor", options.fadeColor$array, options.fadeColor$array = colors, false);
     }
 

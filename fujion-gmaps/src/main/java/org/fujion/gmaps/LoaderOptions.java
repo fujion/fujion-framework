@@ -38,7 +38,7 @@ public class LoaderOptions extends Options {
         public String toString() {
             return name().toLowerCase();
         }
-    };
+    }
 
     public static final LoaderOptions instance = new LoaderOptions();
     

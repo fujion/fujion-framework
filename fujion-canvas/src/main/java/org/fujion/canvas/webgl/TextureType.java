@@ -40,7 +40,7 @@ public enum TextureType implements IEnumWithValue {
      */
     TEXTURE_CUBE_MAP(34067);
     
-    private int value;
+    private final int value;
     
     TextureType(int value) {
         this.value = value;

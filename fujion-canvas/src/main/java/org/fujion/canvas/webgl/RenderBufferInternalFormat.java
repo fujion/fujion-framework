@@ -191,7 +191,7 @@ public enum RenderBufferInternalFormat implements IEnumWithValue {
      */
     STENCIL_INDEX8(36168);
     
-    private int value;
+    private final int value;
     
     RenderBufferInternalFormat(int value) {
         this.value = value;

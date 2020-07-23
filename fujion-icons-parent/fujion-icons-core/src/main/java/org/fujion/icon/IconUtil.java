@@ -47,7 +47,7 @@ public class IconUtil {
          * @param defltLibrary Default library.
          */
         IconParams(String icon, String defltDimensions, String defltLibrary) {
-            String[] pcs = icon.split("\\:", 3);
+            String[] pcs = icon.split(":", 3);
             boolean all = pcs.length > 1;
             this.library = getElement(pcs, all ? 0 : -1, defltLibrary);
             this.name = getElement(pcs, all ? 1 : 0, "noname");

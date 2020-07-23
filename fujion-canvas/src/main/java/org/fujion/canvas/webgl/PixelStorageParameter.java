@@ -82,7 +82,7 @@ public enum PixelStorageParameter implements IEnumWithValue {
      */
     UNPACK_SKIP_ROWS(3315);
 
-    private int value;
+    private final int value;
 
     PixelStorageParameter(int value) {
         this.value = value;

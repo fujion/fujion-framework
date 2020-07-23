@@ -59,7 +59,7 @@ public enum ErrorType implements IEnumWithValue {
      */
     OUT_OF_MEMORY(1285);
 
-    private int value;
+    private final int value;
 
     ErrorType(int value) {
         this.value = value;

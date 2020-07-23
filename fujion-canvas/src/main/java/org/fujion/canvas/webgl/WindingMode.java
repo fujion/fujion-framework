@@ -35,7 +35,7 @@ public enum WindingMode implements IEnumWithValue {
      */
     CW(2304);
     
-    private int value;
+    private final int value;
     
     WindingMode(int value) {
         this.value = value;

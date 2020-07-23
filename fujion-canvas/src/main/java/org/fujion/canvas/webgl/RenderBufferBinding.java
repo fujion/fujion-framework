@@ -31,7 +31,7 @@ public enum RenderBufferBinding implements IEnumWithValue {
      */
     RENDERBUFFER(36161);
     
-    private int value;
+    private final int value;
 
     RenderBufferBinding(int value) {
         this.value = value;

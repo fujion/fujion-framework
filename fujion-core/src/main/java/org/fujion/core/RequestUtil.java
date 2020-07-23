@@ -41,7 +41,7 @@ import java.util.Enumeration;
  */
 public class RequestUtil {
 
-    private static Logger log = Logger.create(RequestUtil.class);
+    private static final Logger log = Logger.create(RequestUtil.class);
 
     /**
      * Return current HttpServletRequest. Note that this will return null when invoked outside the

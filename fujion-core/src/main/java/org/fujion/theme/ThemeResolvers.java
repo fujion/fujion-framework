@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ThemeResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -45,7 +46,7 @@ public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
     
     private static final ThemeResolvers instance = new ThemeResolvers();
     
-    private final Set<ThemeResolver> themeResolvers = new TreeSet<>((tr1, tr2) -> getOrder(tr1) - getOrder(tr2));
+    private final Set<ThemeResolver> themeResolvers = new TreeSet<>(Comparator.comparingInt(this::getOrder));
     
     private String defaultTheme = "default";
     

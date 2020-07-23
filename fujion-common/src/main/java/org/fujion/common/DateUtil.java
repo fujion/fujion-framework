@@ -76,7 +76,7 @@ public class DateUtil {
 
         private final String pattern;
 
-        private DateTimeFormatter temporalFormatter;
+        private final DateTimeFormatter temporalFormatter;
 
         Format(String pattern) {
             this.pattern = pattern;
@@ -170,13 +170,13 @@ public class DateUtil {
      * minus a numeric value of 'd' (days), 'm' (months), or 'y' (years).
      */
     private static final Pattern PATTERN_EXT_DATE = Pattern
-            .compile("^\\s*[t|n]{1}\\s*([+|-]{1}\\s*[\\d]*\\s*[s|n|h|d|m|y]?)?\\s*$");
+            .compile("^\\s*[tn]{1}\\s*([+-]{1}\\s*[\\d]*\\s*[snhdmy]?)?\\s*$");
 
     /*
      * Defines a regular expression pattern representing a value ending in one
      * of the acceptable extended style date units (d, m, or y).
      */
-    private static final Pattern PATTERN_SPECIFIES_UNITS = Pattern.compile("^.*[s|n|h|d|m|y]$");
+    private static final Pattern PATTERN_SPECIFIES_UNITS = Pattern.compile("^.*[snhdmy]$");
 
     /*
      * Defines a regular expression pattern for extracting a numeric prefix from a string.
@@ -197,7 +197,7 @@ public class DateUtil {
             {"hour", "hours", "hr", "hrs"}, {"minute", "minutes", "min", "mins"}, {"second", "seconds", "sec", "secs"},
             {"millisecond", "milliseconds", "ms", "ms"}};
 
-    private static ThreadLocal<DecimalFormat> decimalFormat = ThreadLocal.withInitial(() -> new DecimalFormat("##0.##"));
+    private static final ThreadLocal<DecimalFormat> decimalFormat = ThreadLocal.withInitial(() -> new DecimalFormat("##0.##"));
 
     // =============================== General Methods ===============================
 
@@ -760,7 +760,7 @@ public class DateUtil {
                     return result;
                 }
 
-                s = s.replaceAll("[.|-]", "/"); // dots, dashes to slashes
+                s = s.replaceAll("[.-]", "/"); // dots, dashes to slashes
                 result = tryParse(s);
 
                 if (result != null) {

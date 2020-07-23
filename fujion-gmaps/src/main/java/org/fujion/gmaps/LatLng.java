@@ -41,7 +41,7 @@ public class LatLng extends Options {
         }
         
         value = StrUtil.xlate(value, "+[]()° ", "").toUpperCase();
-        String[] pcs = value.split("\\,");
+        String[] pcs = value.split(",");
         
         if (pcs.length != 2) {
             return null;

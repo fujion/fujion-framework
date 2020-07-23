@@ -37,7 +37,7 @@ public enum PrecisionType implements IEnumWithValue {
 
     // @formatter:on
 
-    private int value;
+    private final int value;
     
     PrecisionType(int value) {
         this.value = value;

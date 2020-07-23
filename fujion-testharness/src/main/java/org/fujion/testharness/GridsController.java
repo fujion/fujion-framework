@@ -43,7 +43,7 @@ import org.fujion.model.ListModel;
  */
 public class GridsController extends BaseController {
 
-    private class RowModelObject implements Comparable<RowModelObject> {
+    private static class RowModelObject implements Comparable<RowModelObject> {
 
         final String label;
 

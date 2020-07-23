@@ -103,7 +103,7 @@ public class Sparkline extends BaseUIComponent {
 
     @PropertySetter(value = "data", defer = true, description = "Comma-delimited list of numeric values.")
     private void setData(String data) {
-        String[] pcs = data.split("\\,");
+        String[] pcs = data.split(",");
         double[] values = new double[pcs.length];
         
         for (int i = 0; i < values.length; i++) {

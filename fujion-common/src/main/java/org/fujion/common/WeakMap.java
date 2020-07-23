@@ -108,7 +108,7 @@ public class WeakMap<K, E> extends WeakCollectionBase<E>implements Map<K, E> {
             public Iterator<Entry<K, E>> iterator() {
                 return new Iterator<Entry<K, E>>() {
                     
-                    Iterator<Entry<K, WeakReference<E>>> iterator = referenceMap.entrySet().iterator();
+                    final Iterator<Entry<K, WeakReference<E>>> iterator = referenceMap.entrySet().iterator();
                     
                     @Override
                     public boolean hasNext() {

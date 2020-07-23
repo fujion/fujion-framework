@@ -37,7 +37,7 @@ import org.fujion.model.NestedModel;
  */
 public class TreesController extends BaseController {
 
-    private class TreeModelObject {
+    private static class TreeModelObject {
 
         final List<TreeModelObject> children = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class TreesController extends BaseController {
 
     }
 
-    private class TreeModel extends NestedModel<TreeModelObject> {
+    private static class TreeModel extends NestedModel<TreeModelObject> {
 
         public TreeModel(List<TreeModelObject> children) {
             super(children);

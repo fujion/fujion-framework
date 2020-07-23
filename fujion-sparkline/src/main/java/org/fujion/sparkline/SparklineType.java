@@ -30,7 +30,7 @@ public enum SparklineType {
     LINE(LinePlot.class), BAR(BarPlot.class), TRISTATE(TristatePlot.class), DISCRETE(DiscretePlot.class), BULLET(
             BulletPlot.class), PIE(PiePlot.class), BOX(BoxPlot.class);
 
-    private Class<? extends AbstractPlot> optionClass;
+    private final Class<? extends AbstractPlot> optionClass;
     
     public static SparklineType fromClass(Class<? extends AbstractPlot> clazz) {
         return SparklineType.valueOf(StringUtils.removeEnd(clazz.getSimpleName().toUpperCase(), "PLOT"));

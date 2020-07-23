@@ -39,7 +39,7 @@ public enum FaceMode implements IEnumWithValue {
      */
     FRONT_AND_BACK(1032);
 
-    private int value;
+    private final int value;
 
     FaceMode(int value) {
         this.value = value;

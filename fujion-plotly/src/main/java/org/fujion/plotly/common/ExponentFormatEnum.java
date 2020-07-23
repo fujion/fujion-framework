@@ -50,7 +50,7 @@ public enum ExponentFormatEnum {
      */
     B("B");
 
-    private String value;
+    private final String value;
     
     ExponentFormatEnum(String value) {
         this.value = value;

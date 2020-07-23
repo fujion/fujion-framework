@@ -28,7 +28,7 @@ import org.fujion.ancillary.IEnumWithValue;
 public enum TiltAngle implements IEnumWithValue {
     ZERO(0), FORTY_FIVE(45);
 
-    private int value;
+    private final int value;
 
     TiltAngle(int value) {
         this.value = value;

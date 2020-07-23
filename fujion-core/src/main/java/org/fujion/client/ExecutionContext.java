@@ -42,7 +42,7 @@ public class ExecutionContext {
 
     public static final String ATTR_PROCESSING = "fujion_processing";
 
-    private static final ThreadLocal<Map<String, Object>> context = ThreadLocal.withInitial(() -> new HashMap<>());
+    private static final ThreadLocal<Map<String, Object>> context = ThreadLocal.withInitial(HashMap::new);
 
     /**
      * Put a key/value pair in the thread-local map.

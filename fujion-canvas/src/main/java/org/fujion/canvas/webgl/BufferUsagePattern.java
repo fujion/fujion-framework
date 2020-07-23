@@ -40,7 +40,7 @@ public enum BufferUsagePattern implements IEnumWithValue {
 
     // @formatter:on
     
-    private int value;
+    private final int value;
 
     BufferUsagePattern(int value) {
         this.value = value;

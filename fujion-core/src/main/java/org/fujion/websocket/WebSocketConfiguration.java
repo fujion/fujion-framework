@@ -38,7 +38,7 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     
     private static long keepaliveInterval;
 
-    private WebSocketHandler fujion_WebSocketHandler;
+    private final WebSocketHandler fujion_WebSocketHandler;
 
     /**
      * Returns the keep-alive interval, in milliseconds. The client will transmit a ping packet when

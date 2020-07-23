@@ -60,7 +60,7 @@ public enum DrawMode implements IEnumWithValue {
      */
     TRIANGLES(4);
     
-    private int value;
+    private final int value;
     
     DrawMode(int value) {
         this.value = value;

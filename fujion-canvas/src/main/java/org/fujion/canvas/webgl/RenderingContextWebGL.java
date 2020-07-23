@@ -237,7 +237,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
      * @param callback Call back to receive result.
      */
     public void checkFramebufferStatus(FrameBufferBinding target, IResponseCallback<FrameBufferStatus> callback) {
-        invoke((response) -> IResponseCallback.invoke(callback, IEnumWithValue.fromValue(FrameBufferStatus.class, (Integer) response)), "checkFramebufferStatus", target);
+        invoke(response -> IResponseCallback.invoke(callback, IEnumWithValue.fromValue(FrameBufferStatus.class, (Integer) response)), "checkFramebufferStatus", target);
     }
 
     /**
@@ -752,7 +752,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
      * @param callback Callback to receive result.
      */
     public void getError(IResponseCallback<ErrorType> callback) {
-        invoke((response) -> IResponseCallback.invoke(callback, IEnumWithValue.fromValue(ErrorType.class, (Integer) response)), "getError");
+        invoke(response -> IResponseCallback.invoke(callback, IEnumWithValue.fromValue(ErrorType.class, (Integer) response)), "getError");
     }
     
     /**

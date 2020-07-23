@@ -60,7 +60,7 @@ public enum DepthFunction implements IEnumWithValue {
      */
     NOTEQUAL(517);
     
-    private int value;
+    private final int value;
     
     DepthFunction(int value) {
         this.value = value;

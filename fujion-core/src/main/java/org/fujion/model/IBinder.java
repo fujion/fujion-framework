@@ -145,7 +145,7 @@ public interface IBinder<T> {
      * @return The new binding.
      */
     default IBinding dual(String modelProperty) {
-        return dual(modelProperty, (Function<?, ?>) null, (Function<?, ?>) null);
+        return dual(modelProperty, (Function<?, ?>) null, null);
     }
     
     /**

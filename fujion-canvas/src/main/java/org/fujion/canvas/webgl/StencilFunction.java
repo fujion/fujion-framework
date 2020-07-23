@@ -63,7 +63,7 @@ public enum StencilFunction implements IEnumWithValue {
      */
     ZERO(0);
     
-    private int value;
+    private final int value;
 
     StencilFunction(int value) {
         this.value = value;

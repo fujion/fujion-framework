@@ -88,7 +88,7 @@ public enum BlendFactor implements IEnumWithValue {
      */
     ZERO(0);
     
-    private int value;
+    private final int value;
     
     BlendFactor(int value) {
         this.value = value;

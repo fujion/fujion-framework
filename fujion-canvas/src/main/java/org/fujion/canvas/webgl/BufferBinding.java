@@ -60,7 +60,7 @@ public enum BufferBinding implements IEnumWithValue {
      */
     UNIFORM_BUFFER(35345);
     
-    private int value;
+    private final int value;
     
     BufferBinding(int value) {
         this.value = value;
