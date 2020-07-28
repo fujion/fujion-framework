@@ -1,4 +1,4 @@
-import {ApplicationRef, ComponentFactoryResolver, NgModule, NgModuleRef, NgZone} from '@angular/core';
+import {ApplicationRef, ComponentFactoryResolver, DoBootstrap, NgModule, NgModuleRef, NgZone} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
@@ -7,13 +7,13 @@ export function AppContext(aModule: any, selector?: string) {
     const appContext = this;
     let ngModule: NgModule = {};
     let extra: NgModule = aModule.ngModule;
-    let App = aModule.AngularComponent;
+    let AngularComponent = aModule.AngularComponent;
 
-    if (App) {
+    if (AngularComponent) {
         ngModule = {
             imports: [BrowserModule],
-            declarations: [App],
-            entryComponents: [App]
+            declarations: [AngularComponent],
+            entryComponents: [AngularComponent]
         }
     } else if (!extra) {
         aModule = aModule.AngularModule || aModule;
@@ -25,29 +25,29 @@ export function AppContext(aModule: any, selector?: string) {
     }
 
     extra ? Object.assign(ngModule, extra) : null;
-    App = App || (ngModule.bootstrap ? ngModule.bootstrap[0] : null);
+    AngularComponent = AngularComponent || ngModule.bootstrap?.[0];
 
-    if (!App) {
+    if (!AngularComponent) {
         throw 'No Angular bootstrap target specified';
     }
 
     delete ngModule.bootstrap;
 
     function findDecorator(obj: any): any {
-        return obj['__annotations__'][0];
+        return obj['__annotations__']?.[0];
     }
 
     @NgModule(ngModule)
-    class AppModule {
+    class AppModule implements DoBootstrap {
         constructor(
-            private resolver: ComponentFactoryResolver,
-            private ngZone: NgZone
+            private readonly resolver: ComponentFactoryResolver,
+            private readonly ngZone: NgZone
         ) {
             appContext.zone = ngZone;
         }
 
         ngDoBootstrap(appRef: ApplicationRef) {
-            const factory = this.resolver.resolveComponentFactory(App);
+            const factory = this.resolver.resolveComponentFactory(AngularComponent);
             appContext.componentRef = appRef.bootstrap(factory, selector);
         }
     }
