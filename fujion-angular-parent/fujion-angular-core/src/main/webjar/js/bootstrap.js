@@ -13,15 +13,16 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
 function AppContext(aModule, selector) {
+    var _a;
     var appContext = this;
     var ngModule = {};
     var extra = aModule.ngModule;
-    var App = aModule.AngularComponent;
-    if (App) {
+    var AngularComponent = aModule.AngularComponent;
+    if (AngularComponent) {
         ngModule = {
             imports: [platform_browser_1.BrowserModule],
-            declarations: [App],
-            entryComponents: [App]
+            declarations: [AngularComponent],
+            entryComponents: [AngularComponent]
         };
     }
     else if (!extra) {
@@ -32,13 +33,14 @@ function AppContext(aModule, selector) {
         }
     }
     extra ? Object.assign(ngModule, extra) : null;
-    App = App || (ngModule.bootstrap ? ngModule.bootstrap[0] : null);
-    if (!App) {
+    AngularComponent = AngularComponent || ((_a = ngModule.bootstrap) === null || _a === void 0 ? void 0 : _a[0]);
+    if (!AngularComponent) {
         throw 'No Angular bootstrap target specified';
     }
     delete ngModule.bootstrap;
     function findDecorator(obj) {
-        return obj['__annotations__'][0];
+        var _a;
+        return (_a = obj['__annotations__']) === null || _a === void 0 ? void 0 : _a[0];
     }
     var AppModule = /** @class */ (function () {
         function AppModule(resolver, ngZone) {
@@ -47,7 +49,7 @@ function AppContext(aModule, selector) {
             appContext.zone = ngZone;
         }
         AppModule.prototype.ngDoBootstrap = function (appRef) {
-            var factory = this.resolver.resolveComponentFactory(App);
+            var factory = this.resolver.resolveComponentFactory(AngularComponent);
             appContext.componentRef = appRef.bootstrap(factory, selector);
         };
         AppModule = __decorate([
