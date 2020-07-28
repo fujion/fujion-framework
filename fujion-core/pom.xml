@@ -131,7 +131,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-jquery</artifactId>
-			<version>3.5.0-SNAPSHOT</version>
+			<version>3.5.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
@@ -141,7 +141,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-bootstrap</artifactId>
-			<version>4.4.1-SNAPSHOT</version>
+			<version>4.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
@@ -151,7 +151,7 @@
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-lodash</artifactId>
-		    <version>4.17.15-SNAPSHOT</version>
+		    <version>4.17.19-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
@@ -161,12 +161,12 @@
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-moment</artifactId>
-		    <version>2.24.0-1-SNAPSHOT</version>
+		    <version>2.27.0-SNAPSHOT</version>
 		</dependency>		
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-balloon-css</artifactId>
-		    <version>1.0.4-SNAPSHOT</version>
+		    <version>1.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
