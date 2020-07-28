@@ -15,10 +15,12 @@ var platform_browser_1 = require("@angular/platform-browser");
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
 function AppContext(aModule, selector) {
     var _a;
-    var appContext = this;
     var ngModule = {};
-    var extra = aModule.ngModule;
+    var decorator = aModule.ngModule;
     var AngularComponent = aModule.AngularComponent;
+    var zone;
+    var componentRef;
+    var moduleRef;
     if (AngularComponent) {
         ngModule = {
             imports: [platform_browser_1.BrowserModule],
@@ -26,17 +28,17 @@ function AppContext(aModule, selector) {
             entryComponents: [AngularComponent]
         };
     }
-    else if (!extra) {
+    else if (decorator == null) {
         aModule = aModule.AngularModule || aModule;
-        extra = findDecorator(aModule);
-        if (!extra) {
-            throw 'No NgModule decorator for Angular module';
+        decorator = findDecorator(aModule);
+        if (decorator == null) {
+            throw new Error('No NgModule decorator for Angular module');
         }
     }
-    extra ? Object.assign(ngModule, extra) : null;
+    Object.assign(ngModule, decorator || {});
     AngularComponent = AngularComponent || ((_a = ngModule.bootstrap) === null || _a === void 0 ? void 0 : _a[0]);
     if (!AngularComponent) {
-        throw 'No Angular bootstrap target specified';
+        throw new Error('No Angular bootstrap component specified');
     }
     delete ngModule.bootstrap;
     function findDecorator(obj) {
@@ -46,12 +48,11 @@ function AppContext(aModule, selector) {
     var AppModule = /** @class */ (function () {
         function AppModule(resolver, ngZone) {
             this.resolver = resolver;
-            this.ngZone = ngZone;
-            appContext.zone = ngZone;
+            zone = ngZone;
         }
         AppModule.prototype.ngDoBootstrap = function (appRef) {
             var factory = this.resolver.resolveComponentFactory(AngularComponent);
-            appContext.componentRef = appRef.bootstrap(factory, selector);
+            componentRef = appRef.bootstrap(factory, selector);
         };
         AppModule = __decorate([
             core_1.NgModule(ngModule),
@@ -61,21 +62,18 @@ function AppContext(aModule, selector) {
         return AppModule;
     }());
     AppContext.prototype.isLoaded = function () {
-        return !!this.moduleRef;
+        return moduleRef != null;
     };
     AppContext.prototype.bootstrap = function (compilerOptions) {
-        var _this = this;
-        var platform = platform_browser_dynamic_1.platformBrowserDynamic();
-        return platform.bootstrapModule(AppModule, compilerOptions).then(function (ref) { return _this.moduleRef = ref; });
+        return platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(AppModule, compilerOptions).then(function (ref) { return moduleRef = ref; });
     };
     AppContext.prototype.destroy = function () {
-        this.moduleRef ? this.moduleRef.destroy() : null;
-        this.moduleRef = null;
+        moduleRef === null || moduleRef === void 0 ? void 0 : moduleRef.destroy();
+        moduleRef = null;
     };
     AppContext.prototype.invoke = function (functionName, args) {
-        var _this = this;
-        return this.zone.run(function () {
-            var instance = _this.componentRef.instance;
+        return zone.run(function () {
+            var instance = componentRef.instance;
             instance[functionName].apply(instance, args);
         });
     };
