@@ -6,7 +6,7 @@ export function AppContext(aModule: any, selector?: string) {
 
     const appContext = this;
     let ngModule: NgModule = {};
-    let extra: NgModule = aModule.ngModule;
+    let decorator: NgModule = aModule.ngModule;
     let AngularComponent = aModule.AngularComponent;
 
     if (AngularComponent) {
@@ -15,20 +15,20 @@ export function AppContext(aModule: any, selector?: string) {
             declarations: [AngularComponent],
             entryComponents: [AngularComponent]
         }
-    } else if (!extra) {
+    } else if (decorator == null) {
         aModule = aModule.AngularModule || aModule;
-        extra = findDecorator(aModule);
+        decorator = findDecorator(aModule);
 
-        if (!extra) {
-            throw 'No NgModule decorator for Angular module';
+        if (decorator == null) {
+            throw new Error('No NgModule decorator for Angular module');
         }
     }
 
-    extra ? Object.assign(ngModule, extra) : null;
+    Object.assign(ngModule, decorator || {});
     AngularComponent = AngularComponent || ngModule.bootstrap?.[0];
 
     if (!AngularComponent) {
-        throw 'No Angular bootstrap target specified';
+        throw new Error('No Angular bootstrap component specified');
     }
 
     delete ngModule.bootstrap;
@@ -53,17 +53,16 @@ export function AppContext(aModule: any, selector?: string) {
     }
 
     AppContext.prototype.isLoaded = function(): boolean {
-        return !!this.moduleRef;
+        return this.moduleRef != null;
     };
 
     AppContext.prototype.bootstrap = function(compilerOptions?): Promise<NgModuleRef<AppModule>> {
-        const platform = platformBrowserDynamic();
-        return platform.bootstrapModule(AppModule, compilerOptions).then(
+        return platformBrowserDynamic().bootstrapModule(AppModule, compilerOptions).then(
             ref => this.moduleRef = ref);
     };
 
     AppContext.prototype.destroy = function(): void {
-        this.moduleRef ? this.moduleRef.destroy() : null;
+        this.moduleRef?.destroy();
         this.moduleRef = null;
     };
 
