@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AppContext = void 0;
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
