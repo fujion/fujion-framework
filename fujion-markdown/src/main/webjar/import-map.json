@@ -1,0 +1,6 @@
+{
+  "paths": {
+    "fujion-markdown": "js/markdown.js",
+    "fujion-markdown-css": "css/markdown.css"
+  }
+}

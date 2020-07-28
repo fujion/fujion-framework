@@ -68,17 +68,21 @@
 			<tab label="Grid" hint="${@msg.fujion.testharness.grids}">
 				<import src="pages/grids.fsp" />
 			</tab>
-			
+
 			<tab label="HTML" hint="${@msg.fujion.testharness.html}">
 				<import src="pages/html.fsp" />
 			</tab>
-			
+
 			<tab label="IFrame" hint="${@msg.fujion.testharness.iframe}">
 				<import src="pages/iframe.fsp" />
 			</tab>
 			
-			<tab name="tabInputBoxes" label="Input Boxes" hint="${@msg.fujion.testharness.boxes}">
+			<tab label="Input Boxes" name="tabInputBoxes" hint="${@msg.fujion.testharness.boxes}">
 				<import src="pages/boxes.fsp" />
+			</tab>
+
+			<tab label="Markdown" hint="${@msg.fujion.testharness.markdown}">
+				<import src="pages/markdown.fsp" />
 			</tab>
 
 			<tab label="Menus" hint="${@msg.fujion.testharness.menus}">

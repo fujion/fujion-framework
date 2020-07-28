@@ -20,10 +20,6 @@
  */
 package org.fujion.mxgraph;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ContentHandling;
@@ -37,10 +33,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Fujion wrapper for mxGraph component.
  */
-@Component(tag = "mxgraph", widgetModule = "fujion-mxgraph", widgetClass = "MXGraph", parentTag = "*", content = ContentHandling.AS_ATTRIBUTE, description = "Fujion wrapper for mxGraph component.")
+@Component(
+        tag = "mxgraph",
+        widgetModule = "fujion-mxgraph",
+        widgetClass = "MXGraph",
+        parentTag = "*",
+        content = ContentHandling.AS_ATTRIBUTE,
+        description = "Fujion wrapper for mxGraph component.")
 public class MXGraph extends BaseUIComponent {
     
     private int nextId;

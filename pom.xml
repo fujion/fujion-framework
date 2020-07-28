@@ -34,6 +34,7 @@
 		<module>fujion-gmaps</module>
 		<module>fujion-highcharts</module>
 		<module>fujion-icons-parent</module>
+		<module>fujion-markdown</module>
 		<module>fujion-mxgraph</module>
 		<module>fujion-plotly</module>
 		<module>fujion-react-parent</module>

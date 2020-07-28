@@ -1,0 +1,25 @@
+.fujion_markdown pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: #f8f8f8;
+    border: 1px solid #dfdfdf;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    padding: 0.5rem;
+}
+
+.fujion_markdown pre code {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+}
+
+.fujion_markdown blockquote {
+    background-color: #d8deea;
+    border: 1px solid #c6d1e7;
+    border-radius: 6px;
+    padding-top: 16px;
+    padding-bottom: 2px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
