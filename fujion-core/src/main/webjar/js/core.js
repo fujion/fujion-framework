@@ -993,36 +993,85 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 			array.splice(i, 1);
 			changed = true;
 		}
-		
+
 		if (position >= 0) {
 			array.splice(position, 0, element);
 			changed = true;
 		}
-		
+
 		return changed;
 	},
-	
-	import: function(pkgname, callback) {
-		const path = System.resolveSync(pkgname);
-		const pkg = System.registry.get(path);
-		return pkg ? _callback(pkg) : System.import(path).then(pkg => _callback(pkg));
 
-		function _callback(pkg) {
-			pkg = pkg.__useDefault ? pkg.default : pkg;
-			return callback ? callback(pkg) : pkg;
+		import: function (pkgname, callback) {
+			const path = System.resolveSync(pkgname);
+			const pkg = System.registry.get(path);
+			return pkg ? _callback(pkg) : System.import(path).then(pkg => _callback(pkg));
+
+			function _callback(pkg) {
+				pkg = pkg.__useDefault ? pkg.default : pkg;
+				return callback ? callback(pkg) : pkg;
+			}
+		},
+
+		saveToFile: function (content, mimetype, filename) {
+			mimetype = !mimetype || navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? 'application/octet-stream' : mimetype;
+			this.import('file-saver', fileSaver => {
+				const blob = new Blob([content], {type: mimetype});
+				fileSaver.saveAs(blob, filename);
+			});
+		},
+
+		tagIsSupported: function (tag) {
+			return !(document.createElement(tag) instanceof HTMLUnknownElement);
+		},
+
+		qualifyCSS: function (css, qualifier) {
+			let i = 0;
+			let j;
+			let result = '';
+			css = css || '';
+
+			while ((i = css.indexOf('/*', i)) !== -1) {
+				j = css.indexOf('*/', i + 2);
+				j = j == -1 ? css.length : j + 2;
+				css = css.substring(0, i) + css.substring(j);
+			}
+
+			i = -1;
+			let p = 0;
+
+			while ((i = css.indexOf('{', p)) !== -1) {
+				let lvl = 1;
+
+				for (j = i + 1; j < css.length; j++) {
+					const c = css.charAt(j);
+
+					if (c === '{') {
+						lvl++;
+					} else if (c === '}' && --lvl === 0) {
+						break;
+					}
+				}
+
+				let sels = css.substring(p, i).trim();
+				p = j + 1;
+
+				if (!sels.startsWith('@')) {
+					const sel = sels.split(',');
+
+					for (let k = 0; k < sel.length; k++) {
+						const pc = sel[k].trim();
+						sel[k] = pc ? qualifier + ' ' + pc : pc;
+					}
+
+					sels = sel.join(',');
+					result += sels + css.substring(i, j + 1);
+				}
+
+			}
+
+			return result;
 		}
-	},
-	
-	saveToFile: function(content, mimetype, filename) {
-		mimetype = !mimetype || navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? 'application/octet-stream' : mimetype;
-		this.import('file-saver', fileSaver => {
-			const blob = new Blob([content], {type: mimetype});
-			fileSaver.saveAs(blob, filename);
-		});
-	},
-	
-	tagIsSupported: function(tag) {
-		return !(document.createElement(tag) instanceof HTMLUnknownElement);
-	}	
-		
-}});  // end module definition
+
+	}
+});  // end module definition

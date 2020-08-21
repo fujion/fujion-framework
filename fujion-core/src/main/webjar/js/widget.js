@@ -1125,7 +1125,7 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 					this._ancillaries.inline$ = inline$ =
 						$('<style>').appendTo(fujion.head$).attr('id', this.subId('inline'));
 				}
-				inline$.text(this.resolveEL(v, '#'));
+				inline$.text(fujion.qualifyCSS(v, '#' + this.id));
 			} else if (inline$) {
 				inline$.remove();
 				delete this._ancillaries.inline$;
