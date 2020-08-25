@@ -4,17 +4,17 @@
     <parent>
         <groupId>org.fujion</groupId>
         <artifactId>fujion-angular-parent</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>3.0.0</version>
     </parent>
 
     <name>Fujion Angular Integration</name>
     <artifactId>fujion-angular-core</artifactId>
 
     <properties>
-        <angular.version>10.0.5-SNAPSHOT</angular.version>
-        <corejs.version>2.6.11-SNAPSHOT</corejs.version>
-        <rxjs.version>6.6.0-SNAPSHOT</rxjs.version>
-        <zonejs.version>0.10.3-SNAPSHOT</zonejs.version>
+        <angular.version>10.0.11</angular.version>
+        <corejs.version>2.6.11</corejs.version>
+        <rxjs.version>6.6.0</rxjs.version>
+        <zonejs.version>0.10.3</zonejs.version>
 
         <webjar.name>fujion-angular</webjar.name>
         <skip.minification>false</skip.minification>

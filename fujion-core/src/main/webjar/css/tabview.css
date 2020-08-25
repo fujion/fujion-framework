@@ -26,6 +26,7 @@
 .fujion_tabview-left > .fujion_tabview-tabs,
 .fujion_tabview-right > .fujion_tabview-tabs {
 	flex-direction: column;
+	max-width: 20%;
 }
 
 .fujion_tabview-panes {

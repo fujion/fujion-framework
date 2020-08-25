@@ -4,14 +4,14 @@
 	<parent>
 		<groupId>org.fujion</groupId>
 		<artifactId>fujion-react-parent</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
+		<version>3.0.0</version>
 	</parent>
 
 	<name>Fujion React Integration</name>
 	<artifactId>fujion-react-core</artifactId>
 
 	<properties>
-		<react.version>16.13.1-SNAPSHOT</react.version>
+		<react.version>16.13.1</react.version>
 		<webjar.name>fujion-react</webjar.name>
 		<skip.minification>false</skip.minification>
 	</properties>
