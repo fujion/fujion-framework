@@ -15,7 +15,6 @@
 	
 	<properties>
 		<bootswatch.version>4.5.0</bootswatch.version>
-		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 	
 	<dependencies>
