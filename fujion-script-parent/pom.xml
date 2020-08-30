@@ -16,6 +16,7 @@
 		<module>fujion-script-groovy</module>
 		<module>fujion-script-jruby</module>
 		<module>fujion-script-jython</module>
+		<module>fujion-script-lua</module>
 		<module>fujion-script-renjin</module>
 	</modules>
 	
