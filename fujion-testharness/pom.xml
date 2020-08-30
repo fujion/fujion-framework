@@ -109,6 +109,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
+			<artifactId>fujion-script-lua</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
 			<artifactId>fujion-script-renjin</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

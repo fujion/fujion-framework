@@ -77,11 +77,6 @@ public class LuaScript implements IScriptLanguage {
         return "lua";
     }
 
-    @Override
-    public String getSelf() {
-        return null;
-    }
-
     /**
      * @see org.fujion.script.IScriptLanguage#parse(java.lang.String)
      */

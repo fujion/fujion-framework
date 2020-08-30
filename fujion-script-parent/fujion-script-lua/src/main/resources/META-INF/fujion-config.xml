@@ -5,6 +5,6 @@
 		"http://www.springframework.org/schema/beans 
 		 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="org.fujion.script.groovy.GroovyScript" />
+	<bean class="org.fujion.script.lua.LuaScript" />
 	
 </beans>

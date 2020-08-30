@@ -54,12 +54,17 @@ public class ScriptsController extends BaseController {
     private void jrubyExecutionHandler(Event event) {
         log("JRuby script was executed: " + event.getData());
     }
-    
+
     @EventHandler(value = "scriptExecution", target = "jythonscript")
     private void jythonExecutionHandler(Event event) {
         log("Jython script was executed: " + event.getData());
     }
-    
+
+    @EventHandler(value = "scriptExecution", target = "luascript")
+    private void luaExecutionHandler(Event event) {
+        log("Lua script was executed: " + event.getData());
+    }
+
     @EventHandler(value = "scriptExecution", target = "rscript")
     private void renjinExecutionHandler(Event event) {
         log("Renjin script was executed: " + event.getData());

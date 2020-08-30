@@ -31,6 +31,12 @@
 		self.getName() + " crushes!"
 	</sscript>
 	<div>
+		You should see the message "Lua script was executed." in the status log.
+	</div>
+	<sscript name="luascript" type="lua">
+		return "lua is awesome!"
+	</sscript>
+	<div>
 		You should see the message "Renjin script was executed." in the status log.
 	</div>
 	<sscript name="rscript" type="renjin">
@@ -56,6 +62,7 @@
 			<comboitem label="Groovy (external)" value="externalscript" />
 			<comboitem label="JRuby (embedded)" value="jrubyscript" />
 			<comboitem label="Jython (embedded)" value="jythonscript" />
+			<comboitem label="Lua (embedded)" value="luascript" />
 			<comboitem label="Renjin (embedded)" value="rscript" />
 			<comboitem label="Clojure (embedded)" value="clojurescript" />
 		</combobox>
