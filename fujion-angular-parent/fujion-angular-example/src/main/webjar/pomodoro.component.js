@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AngularComponent = exports.PomodoroComponent = void 0;
+exports.PomodoroComponent = void 0;
 var core_1 = require("@angular/core");
 // Pomodoro timer component
 // Note: bootstrapping is handled automatically.
@@ -52,5 +52,4 @@ var PomodoroComponent = /** @class */ (function () {
     return PomodoroComponent;
 }());
 exports.PomodoroComponent = PomodoroComponent;
-exports.AngularComponent = PomodoroComponent;
 //# sourceMappingURL=pomodoro.component.js.map

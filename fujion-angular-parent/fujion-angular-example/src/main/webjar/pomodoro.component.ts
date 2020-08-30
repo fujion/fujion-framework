@@ -55,5 +55,3 @@ export class PomodoroComponent {
     }
   }
 }
-
-export {PomodoroComponent as AngularComponent};
