@@ -460,12 +460,22 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
         propertyChange("balloon", this.balloon, this.balloon = nullify(balloon), true);
     }
 
+    /**
+     * Returns the disabled state of the component.
+     *
+     * @return The disabled state.
+     */
     @Override
     @PropertyGetter(value = "disabled", description = "True if the component is disabled.")
     public boolean isDisabled() {
         return disabled;
     }
 
+    /**
+     * Sets the disabled state of the component.
+     *
+     * @param disabled The disabled state.
+     */
     @Override
     @PropertySetter(value = "disabled", defaultValue = "false", description = "True if the component is disabled.")
     public void setDisabled(boolean disabled) {
@@ -693,14 +703,14 @@ public abstract class BaseUIComponent extends BaseComponent implements IDisable 
     }
 
     /**
-     * Print this element with default options.
+     * Print this element and its children with default options.
      */
     public void print() {
         print(null);
     }
     
     /**
-     * Print this element with the specified options.
+     * Print this element and its children with the specified options.
      *
      * @param options Print options.
      */
