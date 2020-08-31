@@ -1,6 +1,6 @@
-chart.js Integration
+howler.js Integration
 ======================
 
-A Fujion component supporting the chart.js JavaScript graphing library.
+A Fujion component supporting the howler.js JavaScript audio library.
 
-# fujion-chartjs
+# fujion-audio
