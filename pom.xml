@@ -23,6 +23,7 @@
 	<modules>
 		<module>fujion-angular-parent</module>
 		<module>fujion-archetype-parent</module>
+		<module>fujion-audio</module>
 		<module>fujion-barcode</module>
 		<module>fujion-canvas</module>
 		<module>fujion-captcha</module>

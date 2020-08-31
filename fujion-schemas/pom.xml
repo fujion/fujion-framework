@@ -136,5 +136,11 @@
 			<version>${project.parent.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-audio</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>
