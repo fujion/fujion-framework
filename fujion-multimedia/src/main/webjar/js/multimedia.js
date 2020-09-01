@@ -28,6 +28,11 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 			this.initState({volume: 0.5, muted: false});
 		},
 
+		destroy: function() {
+			this.stop();
+			this._super();
+		},
+
 		/*------------------------------ Other ------------------------------*/
 
 		fade: function(from, to, duration) {
