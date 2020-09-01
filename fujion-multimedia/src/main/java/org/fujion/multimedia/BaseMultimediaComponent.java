@@ -35,9 +35,9 @@ public abstract class BaseMultimediaComponent extends BaseUIComponent {
 
     private boolean controls;
 
-    private int volume = 50;
-
     private boolean loop;
+
+    private double volume = 0.5;
 
     private double rate = 1.0;
 
@@ -48,13 +48,13 @@ public abstract class BaseMultimediaComponent extends BaseUIComponent {
     /**
      * Fade volume over specified range and duration.
      *
-     * @param from     Starting volume level (0 - 100).
-     * @param to       Ending volume level (0 - 100).
+     * @param from     Starting volume level (0 - 1).
+     * @param to       Ending volume level (0 - 1).
      * @param duration Duration of fade operation (milliseconds).
      */
     public void fade(
-            int from,
-            int to,
+            double from,
+            double to,
             int duration) {
         _validateVolume(from, "From");
         _validateVolume(to, "To");
@@ -126,18 +126,18 @@ public abstract class BaseMultimediaComponent extends BaseUIComponent {
 
     @Component.PropertyGetter(
             value = "volume",
-            description = "The volume (0 - 100) of the audio source."
+            description = "The volume (0 - 1) of the audio source."
     )
-    public int getVolume() {
+    public double getVolume() {
         return volume;
     }
 
     @Component.PropertySetter(
             value = "volume",
             defaultValue = "50",
-            description = "The volume (0 - 100) of the audio source."
+            description = "The volume (0 - 1) of the audio source."
     )
-    public void setVolume(int volume) {
+    public void setVolume(double volume) {
         _validateVolume(volume, "Volume");
         propertyChange("volume", this.volume, this.volume = volume, true);
     }
@@ -195,9 +195,9 @@ public abstract class BaseMultimediaComponent extends BaseUIComponent {
     }
 
     private void _validateVolume(
-            int value,
+            double value,
             String propName) {
-        MiscUtil.assertTrue(value >= 0 && value <= 100, () -> propName + " must be between 0 and 100, inclusive");
+        MiscUtil.assertTrue(value >= 0.0 && value <= 1.0, () -> propName + " must be between 0 and 1, inclusive");
     }
 
 }

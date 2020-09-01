@@ -7,23 +7,35 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 	 */
 	fujion.widget.MultimediaWidget = fujion.widget.UIWidget.extend({
 
+		/*------------------------------ Events ------------------------------*/
+
+		handleVolumeChange: function() {
+			const w$ = this.widget$;
+			const self = this;
+			updateState('volume');
+			updateState('muted');
+
+			function updateState(prop) {
+				const val = w$ ? w$.prop(prop) : undefined;
+				return val === undefined ? null : self.updateState(prop, val);
+			}
+		},
+
 		/*------------------------------ Lifecycle ------------------------------*/
 
-		destroy: function() {
-			this._super();
-		},
-		
 		init: function() {
 			this._super();
+			this.initState({volume: 0.5, muted: false});
 		},
-		
+
 		/*------------------------------ Other ------------------------------*/
 
 		fade: function(from, to, duration) {
 			const inc = (to - from) / (duration / 100);
 			this.stop();
-			this.s_volume(from);
+			this.updateState('volume', from, true);
 			this.play();
+			let nosync = true;
 			this._interval = setInterval(() => {
 				from += inc;
 				duration -= 100;
@@ -31,9 +43,10 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 				if (duration <= 0) {
 					this._stopFade();
 					from = to;
+					nosync = false;
 				}
 
-				this.s_volume(from);
+				this.updateState('volume', from, nosync);
 			}, 100);
 		},
 
@@ -77,6 +90,11 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 			return w$;
 		},
 
+		afterRender: function() {
+			this._super();
+			this.widget$.on('volumechange', event => this.handleVolumeChange(event))
+		},
+
 		/*------------------------------ State ------------------------------*/
 
 		s_autoplay: function(v) {
@@ -100,7 +118,7 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 		},
 
 		s_volume: function(v) {
-			this.prop('volume', v / 100);
+			this.prop('volume', v);
 		}
 	});
 
