@@ -36,7 +36,7 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 			this.updateState('volume', from, true);
 			this.play();
 			let nosync = true;
-			this._interval = setInterval(() => {
+			this._fade = setInterval(() => {
 				from += inc;
 				duration -= 100;
 
@@ -64,7 +64,7 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 
 		stop: function() {
 			this._stopFade();
-			this.widget$ ? this.widget$.get(0).load() : null;
+			this.seek(0);
 		},
 
 		_stopFade: function() {
