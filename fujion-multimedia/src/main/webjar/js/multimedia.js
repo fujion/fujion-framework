@@ -83,7 +83,7 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 				src = src.split(',');
 
 				for (let i = 0; i < src.length; i++) {
-					w$.append('<source src="' + src[i].trim() + '"></source>');
+					w$.append('<source src="' + src[i].trim() + '">');
 				}
 			}
 
@@ -113,7 +113,7 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 			this.prop('playbackRate', v);
 		},
 
-		s_src: function(v) {
+		s_src: function() {
 			this.rerender();
 		},
 
