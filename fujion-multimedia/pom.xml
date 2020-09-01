@@ -7,13 +7,9 @@
 		<version>3.1.0-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Wrapper for howler.js</name>
-	<artifactId>fujion-audio</artifactId>
+	<name>Fujion audio/video support</name>
+	<artifactId>fujion-multimedia</artifactId>
 
-	<properties>
-		<webjar.name>fujion-audio</webjar.name>
-	</properties>
-	
 	<build>
 		<plugins>
 			<plugin>
@@ -26,9 +22,9 @@
 							<skip>false</skip>
 							<arguments>
 								<argument>-v=${project.version}</argument>
-								<argument>-t=Audio Extension</argument>
-								<argument>-c=org.fujion.audio.Audio</argument>
-								<argument>${webjar.schemadir}fsp-audio.xsd</argument>
+								<argument>-t=Multimedia Extension</argument>
+								<argument>-p=org.fujion.multimedia</argument>
+								<argument>${webjar.schemadir}fsp-multimedia.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -42,11 +38,6 @@
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-core</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-howler</artifactId>
-			<version>2.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

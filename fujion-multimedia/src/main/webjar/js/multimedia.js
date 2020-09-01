@@ -38,7 +38,7 @@ define('fujion-multimedia', ['fujion-core'], (fujion) => {
 		},
 
 		seek: function(v) {
-			this.prop('currentTime', v / 1000);
+			this.prop('currentTime', v);
 		},
 
 		pause: function() {

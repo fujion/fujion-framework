@@ -78,7 +78,7 @@ public abstract class BaseMultimediaComponent extends BaseUIComponent {
     /**
      * Sets the position of playback for the track.
      *
-     * @param position Playback position in milliseconds.
+     * @param position Playback position in seconds.
      */
     public void seek(int position) {
         invoke("seek", position);
