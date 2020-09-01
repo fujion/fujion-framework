@@ -18,36 +18,30 @@
  *
  * #L%
  */
-package org.fujion.audio;
+package org.fujion.multimedia;
 
 import org.fujion.annotation.Component;
 import org.fujion.common.MiscUtil;
-import org.fujion.component.BaseComponent;
+import org.fujion.component.BaseUIComponent;
 
 /**
- * Fujion wrapper for howler.js library.
+ * Base class for multimedia components.
  */
-@Component(
-        tag = "audio",
-        widgetModule = "fujion-audio",
-        widgetClass = "Audio",
-        parentTag = "*",
-        description = "Fujion wrapper for howler.js library.")
-public class Audio extends BaseComponent {
+public abstract class BaseMultimediaComponent extends BaseUIComponent {
 
     private String src;
 
-    private boolean mute;
+    private boolean muted;
+
+    private boolean controls;
 
     private int volume = 50;
-
-    private boolean html5 = true;
 
     private boolean loop;
 
     private double rate = 1.0;
 
-    public Audio() {
+    public BaseMultimediaComponent() {
         super();
     }
 
@@ -110,25 +104,24 @@ public class Audio extends BaseComponent {
             description = "The URL of the external audio source."
     )
     public void setSrc(String src) {
-        src = this.nullify(src);
-        propertyChange("src", this.src, this.src = src, true);
+        propertyChange("src", this.src, this.src = nullify(src), true);
     }
 
     @Component.PropertyGetter(
-            value = "mute",
+            value = "muted",
             description = "True to mute the audio track."
     )
-    public boolean isMute() {
-        return mute;
+    public boolean getMuted() {
+        return muted;
     }
 
     @Component.PropertySetter(
-            value = "mute",
+            value = "muted",
             defaultValue = "false",
             description = "True to mute the audio track."
     )
-    public void setMute(boolean mute) {
-        propertyChange("mute", this.mute, this.mute = mute, true);
+    public void setMuted(boolean muted) {
+        propertyChange("muted", this.muted, this.muted = muted, true);
     }
 
     @Component.PropertyGetter(
@@ -150,27 +143,10 @@ public class Audio extends BaseComponent {
     }
 
     @Component.PropertyGetter(
-            value = "html5",
-            description = "True to force HTML5 audio."
-    )
-    public boolean isHtml5() {
-        return html5;
-    }
-
-    @Component.PropertySetter(
-            value = "html5",
-            defaultValue = "true",
-            description = "True to force HTML5 audio."
-    )
-    public void setHtml5(boolean html5) {
-        propertyChange("html5", this.html5, this.html5 = html5, true);
-    }
-
-    @Component.PropertyGetter(
             value = "loop",
             description = "True to loop the audio track."
     )
-    public boolean isLoop() {
+    public boolean getLoop() {
         return loop;
     }
 
@@ -199,6 +175,23 @@ public class Audio extends BaseComponent {
     public void setRate(double rate) {
         MiscUtil.assertTrue(rate >= 0.5 && rate <= 4.0, () -> "Rate must be between 0.5 and 4.0, inclusive");
         propertyChange("rate", this.rate, this.rate = rate, true);
+    }
+
+    @Component.PropertyGetter(
+            value = "controls",
+            description = "If true, show multimedia controls."
+    )
+    public boolean getControls() {
+        return controls;
+    }
+
+    @Component.PropertySetter(
+            value = "controls",
+            defaultValue = "false",
+            description = "If true, show multimedia controls."
+    )
+    public void setControls(boolean controls) {
+        propertyChange("controls", this.controls, this.controls = controls, true);
     }
 
     private void _validateVolume(

@@ -9,6 +9,6 @@
         http://www.fujion.org/schema/component
         http://www.fujion.org/schema/component-extensions.xsd">
 
-	<ffc:component-scan package="org.fujion.audio" />
+	<ffc:component-scan package="org.fujion.multimedia" />
 
 </beans>
