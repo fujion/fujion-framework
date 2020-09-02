@@ -23,11 +23,9 @@ package org.fujion.script;
 import org.apache.commons.lang3.StringUtils;
 import org.fujion.common.MiscUtil;
 
-import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.util.Collections;
 import java.util.Map;
 
 /**
