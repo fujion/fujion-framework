@@ -20,63 +20,15 @@
  */
 package org.fujion.script.kotlin;
 
-import org.fujion.common.MiscUtil;
-import org.fujion.script.IScriptLanguage;
-
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-import java.util.Collections;
-import java.util.Map;
-
-import static org.fujion.script.ScriptRegistry.SCRIPT_ENGINE_MANAGER;
+import org.fujion.script.BaseScript;
 
 /**
  * Support for embedding Kotlin scripts.
  */
-public class KotlinScript implements IScriptLanguage {
+public class KotlinScript extends BaseScript {
 
-    /**
-     * Wrapper for a parsed Kotlin script
-     */
-    public static class ParsedScript implements IParsedScript {
-
-        private final String source;
-
-        public ParsedScript(String source) {
-            this.source = source;
-        }
-
-        @Override
-        public Object run(Map<String, Object> variables) {
-            ScriptEngine engine = SCRIPT_ENGINE_MANAGER.getEngineByExtension("kts");
-            MiscUtil.assertState(engine != null, "Kotlin scripting engine was not found.");
-            Bindings bindings = engine.createBindings();
-            bindings.putAll(variables == null ? Collections.emptyMap() : variables);
-
-            try {
-                return engine.eval(source, bindings);
-            } catch (ScriptException e) {
-                throw MiscUtil.toUnchecked(e);
-            }
-        }
-
-    }
-
-    /**
-     * @see org.fujion.script.IScriptLanguage#getType()
-     */
-    @Override
-    public String getType() {
-        return "kotlin";
-    }
-
-    /**
-     * @see org.fujion.script.IScriptLanguage#parse(java.lang.String)
-     */
-    @Override
-    public IParsedScript parse(String source) {
-        return new ParsedScript(source);
+    public KotlinScript() {
+        super("kotlin", "Kotlin");
     }
 
 }

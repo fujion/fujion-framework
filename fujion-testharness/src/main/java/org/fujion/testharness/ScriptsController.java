@@ -60,6 +60,11 @@ public class ScriptsController extends BaseController {
         log("Jython script was executed: " + event.getData());
     }
 
+    @EventHandler(value = "scriptExecution", target = "kotlinscript")
+    private void kotlinExecutionHandler(Event event) {
+        log("Kotlin script was executed: " + event.getData());
+    }
+
     @EventHandler(value = "scriptExecution", target = "luascript")
     private void luaExecutionHandler(Event event) {
         log("Lua script was executed: " + event.getData());

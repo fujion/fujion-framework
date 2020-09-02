@@ -39,6 +39,12 @@
 	<div>
 		You should see the message "Renjin script was executed." in the status log.
 	</div>
+	<sscript name="kotlinscript" type="kotlin">
+		"kotlin is hotlin!"
+	</sscript>
+	<div>
+		You should see the message "Renjin script was executed." in the status log.
+	</div>
 	<sscript name="rscript" type="renjin">
 		paste(self$getName(), "worked!")
 	</sscript>
@@ -62,6 +68,7 @@
 			<comboitem label="Groovy (external)" value="externalscript" />
 			<comboitem label="JRuby (embedded)" value="jrubyscript" />
 			<comboitem label="Jython (embedded)" value="jythonscript" />
+			<comboitem label="Kotlin (embedded)" value="kotlinscript" />
 			<comboitem label="Lua (embedded)" value="luascript" />
 			<comboitem label="Renjin (embedded)" value="rscript" />
 			<comboitem label="Clojure (embedded)" value="clojurescript" />

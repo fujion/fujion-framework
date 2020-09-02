@@ -20,89 +20,15 @@
  */
 package org.fujion.script.renjin;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.script.ScriptException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.fujion.common.MiscUtil;
-import org.fujion.script.IScriptLanguage;
-import org.renjin.script.RenjinScriptEngine;
-import org.renjin.script.RenjinScriptEngineFactory;
+import org.fujion.script.BaseScript;
 
 /**
  * Support for embedding Renjin (R language) scripts.
  */
-public class RScript implements IScriptLanguage {
+public class RScript extends BaseScript {
 
-    private static volatile RenjinScriptEngineFactory factory;
-    
-    /**
-     * Wrapper for a Renjin script. Note that Renjin does not support pre-compiling scripts.
-     */
-    public static class ParsedScript implements IParsedScript {
-
-        private final String source;
-
-        public ParsedScript(String source) {
-            this.source = StringUtils.trimToEmpty(source);
-        }
-
-        @Override
-        public Object run(Map<String, Object> variables) {
-            RenjinScriptEngine engine = getFactory().getScriptEngine();
-
-            if (variables != null) {
-                for (Entry<String, Object> entry : variables.entrySet()) {
-                    engine.put(entry.getKey(), entry.getValue());
-                }
-            }
-
-            try {
-                return engine.eval(source);
-            } catch (ScriptException e) {
-                throw MiscUtil.toUnchecked(e);
-            }
-        }
-    }
-
-    /**
-     * Return the Renjin script engine factory.
-     *
-     * @return The Rengin script engine factory.
-     */
-    public static RenjinScriptEngineFactory getFactory() {
-        return factory == null ? _getFactory() : factory;
-    }
-
-    /**
-     * Initialize the Renjin script engine factory.
-     *
-     * @return The initialized Renjin script engine factory.
-     */
-    private static synchronized RenjinScriptEngineFactory _getFactory() {
-        if (factory == null) {
-            factory = new RenjinScriptEngineFactory();
-        }
-        
-        return factory;
-    }
-
-    /**
-     * @see org.fujion.script.IScriptLanguage#getType()
-     */
-    @Override
-    public String getType() {
-        return "renjin";
-    }
-
-    /**
-     * @see org.fujion.script.IScriptLanguage#parse(java.lang.String)
-     */
-    @Override
-    public IParsedScript parse(String source) {
-        return new ParsedScript(source);
+    public RScript() {
+        super("Renjin", "Renjin");
     }
 
 }

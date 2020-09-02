@@ -24,6 +24,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
+			<artifactId>fujion-multimedia</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
 			<artifactId>fujion-themes</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
@@ -105,6 +110,11 @@
 		<dependency>
 			<groupId>org.fujion</groupId>
 			<artifactId>fujion-script-jython</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-script-kotlin</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
