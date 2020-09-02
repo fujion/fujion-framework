@@ -18,44 +18,44 @@
  *
  * #L%
  */
-package org.fujion.script.lua;
+package org.fujion.script.kotlin;
 
 import org.fujion.common.MiscUtil;
 import org.fujion.script.IScriptLanguage;
 
-import javax.script.*;
+import javax.script.Bindings;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 import java.util.Collections;
 import java.util.Map;
 
 import static org.fujion.script.ScriptRegistry.SCRIPT_ENGINE_MANAGER;
 
 /**
- * Support for embedding Lua scripts.
+ * Support for embedding Kotlin scripts.
  */
-public class LuaScript implements IScriptLanguage {
+public class KotlinScript implements IScriptLanguage {
 
     /**
-     * Wrapper for a parsed Lua script
+     * Wrapper for a parsed Kotlin script
      */
     public static class ParsedScript implements IParsedScript {
 
-        private final CompiledScript script;
+        private final String source;
 
         public ParsedScript(String source) {
-            try {
-                this.script = ((Compilable) engine).compile(source);
-            } catch (ScriptException e) {
-                throw MiscUtil.toUnchecked(e);
-            }
+            this.source = source;
         }
 
         @Override
         public Object run(Map<String, Object> variables) {
+            ScriptEngine engine = SCRIPT_ENGINE_MANAGER.getEngineByExtension("kts");
+            MiscUtil.assertState(engine != null, "Kotlin scripting engine was not found.");
             Bindings bindings = engine.createBindings();
             bindings.putAll(variables == null ? Collections.emptyMap() : variables);
 
             try {
-                return script.eval(bindings);
+                return engine.eval(source, bindings);
             } catch (ScriptException e) {
                 throw MiscUtil.toUnchecked(e);
             }
@@ -63,14 +63,12 @@ public class LuaScript implements IScriptLanguage {
 
     }
 
-    private static ScriptEngine engine = SCRIPT_ENGINE_MANAGER.getEngineByName("luaj");
-
     /**
      * @see org.fujion.script.IScriptLanguage#getType()
      */
     @Override
     public String getType() {
-        return "lua";
+        return "kotlin";
     }
 
     /**
@@ -78,7 +76,6 @@ public class LuaScript implements IScriptLanguage {
      */
     @Override
     public IParsedScript parse(String source) {
-        MiscUtil.assertState(engine != null, "Lua scripting engine was not found.");
         return new ParsedScript(source);
     }
 
