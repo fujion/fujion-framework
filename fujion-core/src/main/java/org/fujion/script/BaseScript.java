@@ -48,7 +48,7 @@ public abstract class BaseScript implements IScriptLanguage {
 
         @Override
         public Object run(Map<String, Object> variables) {
-            ScriptEngine engine = SCRIPT_ENGINE_MANAGER.getEngineByName(type);
+            ScriptEngine engine = SCRIPT_ENGINE_MANAGER.getEngineByName(engineName);
             MiscUtil.assertState(engine != null, () -> displayName + " scripting engine was not found.");
 
             if (variables != null) {
@@ -70,12 +70,16 @@ public abstract class BaseScript implements IScriptLanguage {
 
     private final String type;
 
+    private final String engineName;
+
     private final String displayName;
 
     protected BaseScript(
             String type,
+            String engineName,
             String displayName) {
         this.type = type;
+        this.engineName = engineName;
         this.displayName = displayName;
     }
 

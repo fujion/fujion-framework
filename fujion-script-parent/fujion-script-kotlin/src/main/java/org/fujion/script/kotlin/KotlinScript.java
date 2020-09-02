@@ -28,7 +28,7 @@ import org.fujion.script.BaseScript;
 public class KotlinScript extends BaseScript {
 
     public KotlinScript() {
-        super("kotlin", "Kotlin");
+        super("kotlin", "kotlin", "Kotlin");
     }
 
 }

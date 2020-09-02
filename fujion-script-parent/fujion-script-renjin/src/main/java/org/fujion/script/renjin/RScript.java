@@ -28,7 +28,7 @@ import org.fujion.script.BaseScript;
 public class RScript extends BaseScript {
 
     public RScript() {
-        super("Renjin", "Renjin");
+        super("renjin", "Renjin", "Renjin");
     }
 
 }
