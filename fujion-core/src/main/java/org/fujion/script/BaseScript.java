@@ -24,9 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import javax.script.*;
 import java.util.Map;
 
 /**
@@ -41,23 +39,38 @@ public abstract class BaseScript implements IScriptLanguage {
 
         private final String source;
 
+        private final CompiledScript compiledScript;
+
+        private final ScriptEngine engine;
+
         public ParsedScript(String source) {
             this.source = StringUtils.trimToEmpty(source);
+            this.engine = SCRIPT_ENGINE_MANAGER.getEngineByName(engineName);
+            Assert.state(engine != null, "%s scripting engine was not found.", displayName);
+
+            try {
+                compiledScript = engine instanceof Compilable ? ((Compilable) engine).compile(source) : null;
+            } catch (ScriptException e) {
+                throw MiscUtil.toUnchecked(e);
+            }
+
         }
 
         @Override
         public Object run(Map<String, Object> variables) {
-            ScriptEngine engine = SCRIPT_ENGINE_MANAGER.getEngineByName(engineName);
-            Assert.state(engine != null, () -> displayName + " scripting engine was not found.");
+            Bindings bindings = null;
 
             if (variables != null) {
-                for (Map.Entry<String, Object> entry : variables.entrySet()) {
-                    engine.put(entry.getKey(), entry.getValue());
-                }
+                bindings = engine.createBindings();
+                bindings.putAll(variables);
             }
 
             try {
-                return engine.eval(source);
+                if (compiledScript != null) {
+                    return bindings == null ? compiledScript.eval() : compiledScript.eval(bindings);
+                } else {
+                    return bindings == null ? engine.eval(source) : engine.eval(source, bindings);
+                }
             } catch (ScriptException e) {
                 throw MiscUtil.toUnchecked(e);
             }
