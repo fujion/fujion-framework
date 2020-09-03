@@ -736,6 +736,7 @@ public class CommonTest {
         assertException(() -> Assert.isNull("not null", ""));
         Assert.notNull("not null", "");
         assertException(() -> Assert.notNull(null, ""));
+        assertException(() -> Assert.fail(""));
         Assert.state(true, "");
         assertThrows(IllegalStateException.class, () -> Assert.state(false, ""));
     }

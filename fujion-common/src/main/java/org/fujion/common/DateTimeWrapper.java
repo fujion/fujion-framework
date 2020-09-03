@@ -41,7 +41,7 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
      */
     public static DateTimeWrapper parse(String value) {
         Date date = DateUtil.parseDate(value);
-        MiscUtil.assertTrue(date != null, () -> "Unable to parse input '" + value + "'.");
+        Assert.isTrue(date != null, () -> "Unable to parse input '" + value + "'.");
         return new DateTimeWrapper(date);
     }
 
@@ -121,7 +121,7 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
     }
 
     private Temporal validateTemporal(Temporal temporal) {
-        MiscUtil.assertTrue(temporal != null, "Date/time value must not be null.");
+        Assert.isTrue(temporal != null, "Date/time value must not be null.");
         return temporal;
     }
 

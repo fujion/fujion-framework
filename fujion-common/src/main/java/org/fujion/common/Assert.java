@@ -28,6 +28,24 @@ import java.util.function.Supplier;
 public class Assert {
 
     /**
+     * Always fails, throwing an IllegalArgument Exception.
+     * @param message The exception message.
+     * @throws IllegalArgumentException always thrown.
+     */
+    public static void fail(String message) {
+        fail(() -> message);
+    }
+
+    /**
+     * Always fails, throwing an IllegalArgument Exception.
+     * @param message The exception message.
+     * @throws IllegalArgumentException always thrown.
+     */
+    public static void fail(Supplier<String> message) {
+        throw new IllegalArgumentException(message.get());
+    }
+
+    /**
      * Asserts that a condition is true, throwing an IllegalArgumentException if not.
      *
      * @param condition The condition to test.
@@ -51,7 +69,7 @@ public class Assert {
             boolean condition,
             Supplier<String> message) {
         if (!condition) {
-            throw new IllegalArgumentException(message.get());
+            fail(message);
         }
     }
 
