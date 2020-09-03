@@ -1914,11 +1914,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             for (String forward : forwards.split(" ")) {
                 if (!forward.isEmpty()) {
                     int i = forward.indexOf("=");
-
-                    if (i <= 0) {
-                        throw new IllegalArgumentException("Illegal forward directive:  " + forward);
-                    }
-
+                    Assert.isTrue(i > 0, "Illegal forward directive:  %s", forward);
                     String original = forward.substring(0, i);
                     forward = forward.substring(i + 1);
                     i = forward.lastIndexOf(".");
@@ -2225,11 +2221,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     private String getEventType(Class<? extends Event> eventClass) {
         String eventType = EventUtil.getEventType(eventClass);
-
-        if (eventType == null) {
-            throw new IllegalArgumentException("Not a concrete event type: " + eventClass);
-        }
-
+        Assert.notNull(eventType, "Not a concrete event type: %s", eventClass);
         return eventType;
     }
 

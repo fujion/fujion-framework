@@ -60,7 +60,7 @@ public class PageRegistry extends AbstractRegistry<String, Page> {
      */
     public static Page getPage(String pid) {
         Page page = instance.get(pid);
-        Assert.notNull(page, () -> "Page not found: " + pid);
+        Assert.notNull(page, "Page not found: %s", pid);
         return page;
     }
 

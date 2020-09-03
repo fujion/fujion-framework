@@ -516,11 +516,7 @@ public enum KeyCode {
                 }
 
                 KeyCode keycode = fromString(entry);
-
-                if (keycode == null) {
-                    throw new IllegalArgumentException("Unrecognized key mnemonic: " + entry);
-                }
-
+                Assert.notNull(keycode, "Unrecognized key mnemonic: %s", entry);
                 String pfx = StringUtils.join(pfxs, "");
                 result.append(result.length() > 0 ? " " : "").append(pfx).append(keycode.getCode());
             }

@@ -149,11 +149,7 @@ public class ServerScript extends BaseScriptComponent {
     public void setType(String type) {
         type = nullify(type);
         scriptLanguage = type == null ? null : ScriptRegistry.getInstance().get(type);
-        
-        if (scriptLanguage == null && type != null) {
-            throw new IllegalArgumentException("Unknown script type: " + type);
-        }
-
+        Assert.isTrue(scriptLanguage != null || type == null, "Unknown script type: %s", type);
         propertyChange("type", this.type, this.type = type, false);
     }
     

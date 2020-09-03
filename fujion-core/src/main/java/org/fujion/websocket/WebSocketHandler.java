@@ -312,11 +312,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
         session.updateLastActivity();
         ClientRequest request = new ClientRequest(session, map);
         IRequestHandler handler = handlers.get(request.getType());
-
-        if (handler == null) {
-            throw new IllegalArgumentException("No registered handler for request type: " + request.getType());
-        }
-
+        Assert.notNull(handler, "No registered handler for request type: %s", request.getType());
         ExecutionContext.clear();
         ExecutionContext.put(ExecutionContext.ATTR_REQUEST, request);
         ExecutionContext.put(ExecutionContext.ATTR_PROCESSING, true);

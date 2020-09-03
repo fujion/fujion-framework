@@ -23,6 +23,7 @@ package org.fujion.annotation;
 import org.apache.commons.beanutils.ConstructorUtils;
 import org.fujion.ancillary.*;
 import org.fujion.annotation.Component.*;
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.model.IBinding;
@@ -428,10 +429,8 @@ public class ComponentDefinition {
             String name = getter.value();
 
             if (!this.getters.containsKey(name)) {
-                if (isStatic(method) || method.getReturnType() == Void.TYPE || method.getParameterTypes().length > 0) {
-                    throw new IllegalArgumentException("Bad signature for getter method: " + method.getName());
-                }
-
+                Assert.isFalse(isStatic(method) || method.getReturnType() == Void.TYPE || method.getParameterTypes().length > 0,
+                        "Bad signature for getter method: %s", method.getName());
                 this.getters.put(name, getter.hide() ? null : method);
             }
         }
@@ -459,12 +458,9 @@ public class ComponentDefinition {
             
             if (!setters.containsKey(name)) {
                 int length = method.getParameterCount();
-                
-                if (isStatic(method) || length == 0 || length > 2
-                        || (length == 2 && method.getParameterTypes()[0] != String.class)) {
-                    throw new IllegalArgumentException("Bad signature for setter method: " + method.getName());
-                }
-                
+                Assert.isFalse(isStatic(method) || length == 0 || length > 2
+                        || (length == 2 && method.getParameterTypes()[0] != String.class),
+                        "Bad signature for setter method: %s", method.getName());
                 setters.put(name, setter.hide() ? null : method);
             }
         }
@@ -491,10 +487,8 @@ public class ComponentDefinition {
             String name = parameter.value();
             
             if (!parameters.containsKey(name)) {
-                if (isStatic(method) || method.getParameterTypes().length != 1) {
-                    throw new IllegalArgumentException("Bad signature for factory parameter method: " + method.getName());
-                }
-                
+                Assert.isFalse(isStatic(method) || method.getParameterTypes().length != 1,
+                        "Bad signature for factory parameter method: %s", method.getName());
                 parameters.put(name, method);
             }
         }

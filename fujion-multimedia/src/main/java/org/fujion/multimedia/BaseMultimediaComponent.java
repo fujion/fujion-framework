@@ -21,7 +21,7 @@
 package org.fujion.multimedia;
 
 import org.fujion.annotation.Component;
-import org.fujion.common.MiscUtil;
+import org.fujion.common.Assert;
 import org.fujion.component.BaseUIComponent;
 
 /**
@@ -173,7 +173,7 @@ public abstract class BaseMultimediaComponent extends BaseUIComponent {
             description = "The playback speed (0.5 - 4.0)."
     )
     public void setRate(double rate) {
-        MiscUtil.assertTrue(rate >= 0.5 && rate <= 4.0, () -> "Rate must be between 0.5 and 4.0, inclusive");
+        Assert.isTrue(rate >= 0.5 && rate <= 4.0, "Rate must be between 0.5 and 4.0, inclusive");
         propertyChange("rate", this.rate, this.rate = rate, true);
     }
 
@@ -197,7 +197,7 @@ public abstract class BaseMultimediaComponent extends BaseUIComponent {
     private void _validateVolume(
             double value,
             String propName) {
-        MiscUtil.assertTrue(value >= 0.0 && value <= 1.0, () -> propName + " must be between 0 and 1, inclusive");
+        Assert.isTrue(value >= 0.0 && value <= 1.0, "%s must be between 0 and 1, inclusive", propName);
     }
 
 }

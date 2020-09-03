@@ -20,6 +20,7 @@
  */
 package org.fujion.page;
 
+import org.fujion.common.Assert;
 import org.w3c.dom.ProcessingInstruction;
 
 /**
@@ -74,12 +75,9 @@ public abstract class PIParserBase {
         i = data.indexOf(dlm == null ? " " : dlm, 1);
         data = data.substring(dlm == null ? 0 : 1, i < 0 ? data.length() : i);
         data = data.isEmpty() ? null : data;
-
-        if (data == null && required) {
-            throw new IllegalArgumentException(
-                    "Processing instruction \"" + pi.getTarget() + "\" is missing expected attribute \"" + name + "\"");
-        }
-
+        Assert.isTrue(data != null || !required,
+                "Processing instruction \"%s\" is missing expected attribute \"%s\"",
+                pi.getTarget(), name);
         return data;
     }
 

@@ -94,7 +94,7 @@ public class ConvertUtil {
         if (targetType == Boolean.class || targetType == boolean.class) {
             String val = value.toString().trim().toLowerCase();
             Boolean result = "true".equals(val) ? Boolean.TRUE : "false".equals(val) ? Boolean.FALSE : null;
-            Assert.notNull(result, () -> "Not a valid Boolean value: " + value);
+            Assert.notNull(result, "Not a valid Boolean value: %s", value);
             return (T) result;
         }
 
@@ -118,8 +118,8 @@ public class ConvertUtil {
             }
         }
 
-        throw new IllegalArgumentException(
-            StrUtil.formatMessage("The value \"%s\" is not a member of the enumeration %s", value, enumType.getName()));
+        Assert.fail("The value \"%s\" is not a member of the enumeration %s", value, enumType.getName());
+        return null;
     }
 
     /**
@@ -147,18 +147,10 @@ public class ConvertUtil {
         BaseComponent container = (BaseComponent) instance;
         BaseComponent target = name.startsWith(Page.ID_PREFIX) ? container.getPage().findById(name)
                 : container.findByName(name);
-
-        if (target == null) {
-            throw new IllegalArgumentException(
-                StrUtil.formatMessage("A component with name or id \"%s\" was not found", name));
-        }
-
-        if (!componentType.isInstance(target)) {
-            throw new IllegalArgumentException(StrUtil.formatMessage(
-                "The component with name or id \"%s\" is not of the expected type (was %s but expected %s)", name,
-                target.getClass().getName(), componentType.getName()));
-        }
-
+        Assert.notNull(target, "A component with name or id \"%s\" was not found", name);
+        Assert.isTrue(componentType.isInstance(target),
+                "The component with name or id \"%s\" is not of the expected type (was %s but expected %s)",
+                name, target.getClass().getName(), componentType.getName());
         return target;
     }
 

@@ -118,7 +118,7 @@ public class WebUtil {
      * @throws IllegalArgumentException if url is null.
      */
     public static String addQueryString(String url, String queryString) {
-        Assert.notNull(url, () -> "The url must not be null");
+        Assert.notNull(url, "The url must not be null");
 
         if (!StringUtils.isEmpty(queryString)) {
             if (url.endsWith("?")) {
@@ -187,8 +187,8 @@ public class WebUtil {
      * @throws IllegalArgumentException if any argument is null.
      */
     public static Cookie getCookie(String cookieName, HttpServletRequest request) {
-        Assert.notNull(cookieName, () -> "The cookie name must not be null");
-        Assert.notNull(request, () -> "The request must not be null");
+        Assert.notNull(cookieName, "The cookie name must not be null");
+        Assert.notNull(request, "The request must not be null");
         Cookie[] cookies = request.getCookies();
 
         if (cookies != null) {
@@ -242,7 +242,7 @@ public class WebUtil {
      * @throws IllegalArgumentException If the argument is null.
      */
     public static String encodeCookieValue(String cookieValuePlainText) {
-        Assert.notNull(cookieValuePlainText, () -> "The cookieValuePlainText must not be null");
+        Assert.notNull(cookieValuePlainText, "The cookieValuePlainText must not be null");
 
         try {
             return URLEncoder.encode(Base64.encodeBase64String(cookieValuePlainText.getBytes()), StrUtil.UTF8_STR);
@@ -265,7 +265,7 @@ public class WebUtil {
      * @throws IllegalArgumentException If the argument is null.
      */
     public static String decodeCookieValue(String encodedCookieValue) {
-        Assert.notNull(encodedCookieValue, () -> "The encodedCookieValue must not be null");
+        Assert.notNull(encodedCookieValue, "The encodedCookieValue must not be null");
 
         try {
             return new String(Base64.decodeBase64(URLDecoder.decode(encodedCookieValue, StrUtil.UTF8_STR)));
@@ -287,7 +287,7 @@ public class WebUtil {
      */
     public static Cookie setCookie(String cookieName, String value, HttpServletResponse response,
                                    HttpServletRequest request) {
-        Assert.notNull(response, () -> "The response must not be null");
+        Assert.notNull(response, "The response must not be null");
         Cookie cookie = getCookie(cookieName, request);
 
         if (value != null) {

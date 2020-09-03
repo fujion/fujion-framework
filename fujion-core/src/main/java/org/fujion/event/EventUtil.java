@@ -252,11 +252,7 @@ public class EventUtil {
      */
     public static Event toEvent(ClientRequest request) {
         String type = getEventType(request);
-        
-        if (type == null) {
-            throw new IllegalArgumentException("Request does not contain an event");
-        }
-        
+        Assert.notNull(type, "Request does not contain an event");
         return toEvent(getEventClass(type), request);
     }
     

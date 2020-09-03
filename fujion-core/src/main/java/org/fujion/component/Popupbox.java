@@ -25,6 +25,7 @@ import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
+import org.fujion.common.Assert;
 import org.fujion.event.CloseEvent;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
@@ -92,11 +93,8 @@ public class Popupbox extends Textbox {
     @Override
     public void setPopup(Popup popup) {
         BaseComponent child = this.getFirstChild();
-        
-        if (child != null && child != popup) {
-            throw new IllegalArgumentException("You may not set a popup reference when a child popup is present");
-        }
-        
+        Assert.isTrue(child == null || child == popup, "You may not set a popup reference when a child popup is present");
+
         if (popup != getPopup()) {
             open = false;
         }

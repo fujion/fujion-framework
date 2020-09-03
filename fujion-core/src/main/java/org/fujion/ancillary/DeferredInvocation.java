@@ -64,7 +64,7 @@ public class DeferredInvocation<T> {
     public void addArgs(Object... args) {
         if (args != null) {
             Assert.isTrue(curriedArgs.size() + args.length <= method.getParameterCount(),
-                    () -> "Method parameter count was exceeded");
+                    "Method parameter count was exceeded");
             curriedArgs.addAll(Arrays.asList(args));
         }
     }
