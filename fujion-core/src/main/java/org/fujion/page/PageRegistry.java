@@ -21,8 +21,8 @@
 package org.fujion.page;
 
 import org.fujion.common.AbstractRegistry;
+import org.fujion.common.Assert;
 import org.fujion.component.Page;
-import org.springframework.util.Assert;
 
 import java.util.Collection;
 

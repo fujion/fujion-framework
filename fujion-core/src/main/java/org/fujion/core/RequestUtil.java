@@ -21,9 +21,9 @@
 package org.fujion.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.fujion.common.Assert;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
-import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

@@ -26,6 +26,7 @@ import org.fujion.annotation.Component.ContentHandling;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 import org.fujion.core.WebUtil;
 import org.fujion.event.Event;
@@ -34,7 +35,6 @@ import org.fujion.script.IScriptLanguage;
 import org.fujion.script.IScriptLanguage.IParsedScript;
 import org.fujion.script.ScriptRegistry;
 import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

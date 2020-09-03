@@ -21,8 +21,8 @@
 package org.fujion.thread;
 
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.Assert;
 import org.fujion.websocket.Session;
-import org.springframework.util.Assert;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;

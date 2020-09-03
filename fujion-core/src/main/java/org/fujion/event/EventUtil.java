@@ -28,10 +28,10 @@ import org.fujion.annotation.EventParameterScanner;
 import org.fujion.annotation.EventTypeScanner;
 import org.fujion.client.ClientRequest;
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
-import org.springframework.util.Assert;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

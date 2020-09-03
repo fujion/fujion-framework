@@ -23,7 +23,7 @@ package org.fujion.component;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
-import org.springframework.util.Assert;
+import org.fujion.common.Assert;
 
 /**
  * A component for uploading files to the server.

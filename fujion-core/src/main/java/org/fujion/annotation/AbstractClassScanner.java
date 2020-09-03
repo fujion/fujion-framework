@@ -20,8 +20,8 @@
  */
 package org.fujion.annotation;
 
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
-import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 

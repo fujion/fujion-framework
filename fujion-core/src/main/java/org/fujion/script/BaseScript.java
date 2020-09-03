@@ -21,6 +21,7 @@
 package org.fujion.script;
 
 import org.apache.commons.lang3.StringUtils;
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 
 import javax.script.ScriptEngine;
@@ -47,7 +48,7 @@ public abstract class BaseScript implements IScriptLanguage {
         @Override
         public Object run(Map<String, Object> variables) {
             ScriptEngine engine = SCRIPT_ENGINE_MANAGER.getEngineByName(engineName);
-            MiscUtil.assertState(engine != null, () -> displayName + " scripting engine was not found.");
+            Assert.state(engine != null, () -> displayName + " scripting engine was not found.");
 
             if (variables != null) {
                 for (Map.Entry<String, Object> entry : variables.entrySet()) {

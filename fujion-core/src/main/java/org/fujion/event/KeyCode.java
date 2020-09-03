@@ -21,7 +21,7 @@
 package org.fujion.event;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Assert;
+import org.fujion.common.Assert;
 
 import java.util.HashMap;
 import java.util.Map;

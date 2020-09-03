@@ -24,10 +24,10 @@ import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.common.Assert;
 import org.fujion.model.IModelAndView;
 import org.fujion.model.ISupportsModel;
 import org.fujion.model.ModelAndView;
-import org.springframework.util.Assert;
 
 /**
  * A component supporting a carousel view.

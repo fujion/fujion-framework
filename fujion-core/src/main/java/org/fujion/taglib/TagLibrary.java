@@ -20,7 +20,7 @@
  */
 package org.fujion.taglib;
 
-import org.springframework.util.Assert;
+import org.fujion.common.Assert;
 
 import java.util.HashMap;
 import java.util.Map;

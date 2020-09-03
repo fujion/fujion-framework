@@ -21,9 +21,9 @@
 package org.fujion.event;
 
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.Assert;
 import org.fujion.component.Page;
 import org.fujion.websocket.Session;
-import org.springframework.util.Assert;
 
 import java.util.LinkedList;
 

@@ -22,8 +22,8 @@ package org.fujion.page;
 
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.annotation.ComponentDefinition.Cardinality;
+import org.fujion.common.Assert;
 import org.fujion.taglib.TagLibrary;
-import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.Map.Entry;

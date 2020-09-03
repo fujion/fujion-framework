@@ -20,8 +20,8 @@
  */
 package org.fujion.event;
 
+import org.fujion.common.Assert;
 import org.fujion.component.BaseComponent;
-import org.springframework.util.Assert;
 
 /**
  * Implementation for a listener for a forwarded event.

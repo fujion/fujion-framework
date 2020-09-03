@@ -34,13 +34,13 @@ import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientInvocationQueue;
 import org.fujion.client.ClientUtil;
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.Assert;
 import org.fujion.common.CollectionUtil;
 import org.fujion.common.IAttributeMap;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseScriptComponent.ExecutionMode;
 import org.fujion.event.*;
 import org.fujion.model.IBinding;
-import org.springframework.util.Assert;
 
 import java.lang.reflect.Field;
 import java.util.*;

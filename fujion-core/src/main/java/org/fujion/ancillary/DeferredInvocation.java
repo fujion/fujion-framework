@@ -20,8 +20,8 @@
  */
 package org.fujion.ancillary;
 
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
-import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

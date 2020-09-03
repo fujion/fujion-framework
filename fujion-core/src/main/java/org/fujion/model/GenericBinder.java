@@ -25,12 +25,12 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.DeferredInvocation;
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.event.PropertychangeEvent;
 import org.fujion.model.IBinding.IReadBinding;
 import org.fujion.model.IBinding.IWriteBinding;
-import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
 import java.util.*;

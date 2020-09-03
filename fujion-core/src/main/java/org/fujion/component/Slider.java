@@ -24,8 +24,8 @@ import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
+import org.fujion.common.Assert;
 import org.fujion.event.ChangeEvent;
-import org.springframework.util.Assert;
 
 /**
  * A slider component.

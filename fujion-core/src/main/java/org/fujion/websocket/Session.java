@@ -23,6 +23,7 @@ package org.fujion.websocket;
 import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientRequest;
 import org.fujion.client.Synchronizer;
+import org.fujion.common.Assert;
 import org.fujion.common.IAttributeMap;
 import org.fujion.common.Logger;
 import org.fujion.component.Page;
@@ -30,7 +31,6 @@ import org.fujion.page.PageRegistry;
 import org.fujion.thread.ThreadPool;
 import org.fujion.thread.ThreadPoolFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.util.Assert;
 import org.springframework.web.socket.WebSocketSession;
 
 import javax.servlet.ServletContext;

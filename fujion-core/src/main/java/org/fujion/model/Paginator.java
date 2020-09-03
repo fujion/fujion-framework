@@ -20,7 +20,7 @@
  */
 package org.fujion.model;
 
-import org.springframework.util.Assert;
+import org.fujion.common.Assert;
 
 import java.util.ArrayList;
 import java.util.List;

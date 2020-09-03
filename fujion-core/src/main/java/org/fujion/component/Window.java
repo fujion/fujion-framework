@@ -28,9 +28,9 @@ import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.Assert;
 import org.fujion.event.Event;
 import org.fujion.event.IEventListener;
-import org.springframework.util.Assert;
 
 import java.util.function.BooleanSupplier;
 

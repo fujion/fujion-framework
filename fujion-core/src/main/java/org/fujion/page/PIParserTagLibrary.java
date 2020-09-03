@@ -20,9 +20,9 @@
  */
 package org.fujion.page;
 
+import org.fujion.common.Assert;
 import org.fujion.taglib.TagLibrary;
 import org.fujion.taglib.TagLibraryRegistry;
-import org.springframework.util.Assert;
 import org.w3c.dom.ProcessingInstruction;
 
 /**

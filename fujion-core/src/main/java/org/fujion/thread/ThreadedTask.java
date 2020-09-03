@@ -23,11 +23,11 @@ package org.fujion.thread;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.time.StopWatch;
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.Assert;
 import org.fujion.common.Logger;
 import org.fujion.component.BaseComponent;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
-import org.springframework.util.Assert;
 
 import java.util.Collections;
 import java.util.HashMap;

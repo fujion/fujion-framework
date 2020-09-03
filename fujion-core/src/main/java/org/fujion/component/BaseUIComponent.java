@@ -26,8 +26,8 @@ import org.fujion.ancillary.IDisable;
 import org.fujion.ancillary.PrintOptions;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.common.Assert;
 import org.fujion.event.KeyCode;
-import org.springframework.util.Assert;
 
 /**
  * The base class from which all UI components derive.

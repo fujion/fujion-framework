@@ -21,10 +21,10 @@
 package org.fujion.spring;
 
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.Assert;
 import org.fujion.websocket.ISessionLifecycle;
 import org.fujion.websocket.Session;
 import org.fujion.websocket.Sessions;
-import org.springframework.util.Assert;
 
 /**
  * Implements a custom Spring scope bound to Fujion's execution context.

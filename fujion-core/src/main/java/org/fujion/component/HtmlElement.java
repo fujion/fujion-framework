@@ -24,7 +24,7 @@ import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.ChildTag;
 import org.fujion.annotation.Component.ContentHandling;
 import org.fujion.annotation.Component.PropertySetter;
-import org.springframework.util.Assert;
+import org.fujion.common.Assert;
 
 /**
  * A component that allows embedding native HTML within a page.

@@ -20,11 +20,11 @@
  */
 package org.fujion.client;
 
+import org.fujion.common.Assert;
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
 import org.fujion.websocket.Session;
 import org.springframework.context.ApplicationContext;
-import org.springframework.util.Assert;
 
 import javax.servlet.ServletContext;
 import java.util.Collections;

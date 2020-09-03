@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.fujion.client.ExecutionContext;
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 import org.fujion.servlet.DynamicResourceRegistry;
@@ -35,7 +36,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.util.Assert;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;

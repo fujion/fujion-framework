@@ -22,12 +22,12 @@ package org.fujion.ancillary;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.fujion.common.Assert;
 import org.fujion.common.DateUtil.Format;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
-import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.w3c.dom.Element;
 

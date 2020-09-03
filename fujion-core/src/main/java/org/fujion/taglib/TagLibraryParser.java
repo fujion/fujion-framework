@@ -20,11 +20,11 @@
  */
 package org.fujion.taglib;
 
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.XMLUtil;
 import org.fujion.core.WebUtil;
 import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
