@@ -23,6 +23,7 @@ package org.fujion.common;
 import org.fujion.common.DateUtil.TimeUnit;
 import org.fujion.common.Version.VersionPart;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -723,5 +724,23 @@ public class CommonTest {
         assertEquals(Number.class, MiscUtil.firstAssignable(Long.class, classes));
         assertEquals(Integer.class, MiscUtil.firstAssignable(Integer.class, classes));
         assertNull(MiscUtil.firstAssignable(Object.class, classes));
+    }
+
+    @Test
+    public void testAssertions() {
+        Assert.isTrue(true, "");
+        assertException(() -> Assert.isTrue(false, ""));
+        Assert.isFalse(false, "");
+        assertException(() -> Assert.isFalse(true, ""));
+        Assert.isNull(null, "");
+        assertException(() -> Assert.isNull("not null", ""));
+        Assert.isNotNull("not null", "");
+        assertException(() -> Assert.isNotNull(null, ""));
+        Assert.state(true, "");
+        assertThrows(IllegalStateException.class, () -> Assert.state(false, ""));
+    }
+
+    private void assertException(ThrowingRunnable test) {
+        assertThrows(IllegalArgumentException.class, test);
     }
 }

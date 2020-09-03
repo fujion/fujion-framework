@@ -241,10 +241,11 @@ public class MiscUtil {
      * @param message   The exception message.
      * @throws IllegalArgumentException if condition is false.
      */
+    @Deprecated
     public static void assertTrue(
             boolean condition,
             String message) {
-        assertTrue(condition, () -> message);
+        Assert.isTrue(condition, message);
     }
 
     /**
@@ -254,12 +255,11 @@ public class MiscUtil {
      * @param message   The exception message.
      * @throws IllegalArgumentException if condition is false.
      */
+    @Deprecated
     public static void assertTrue(
             boolean condition,
             Supplier<String> message) {
-        if (!condition) {
-            throw new IllegalArgumentException(message.get());
-        }
+        Assert.isTrue(condition, message);
     }
 
     /**
@@ -269,10 +269,11 @@ public class MiscUtil {
      * @param message The exception message.
      * @throws IllegalStateException if state is false.
      */
+    @Deprecated
     public static void assertState(
             boolean state,
             String message) {
-        assertState(state, () -> message);
+        Assert.state(state, message);
     }
 
     /**
@@ -282,12 +283,11 @@ public class MiscUtil {
      * @param message The exception message.
      * @throws IllegalStateException if state is false.
      */
+    @Deprecated
     public static void assertState(
             boolean state,
             Supplier<String> message) {
-        if (!state) {
-            throw new IllegalStateException(message.get());
-        }
+        Assert.state(state, message);
     }
 
     /**
