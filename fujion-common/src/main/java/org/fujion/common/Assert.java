@@ -114,7 +114,7 @@ public class Assert {
      * @param message   The exception message.
      * @throws IllegalArgumentException if value is null.
      */
-    public static void isNotNull(
+    public static void notNull(
             Object value,
             String message) {
         isTrue(value != null, message);
@@ -127,7 +127,7 @@ public class Assert {
      * @param message   The exception message.
      * @throws IllegalArgumentException if value is null.
      */
-    public static void isNotNull(
+    public static void notNull(
             Object value,
             Supplier<String> message) {
         isTrue(value != null, message);
