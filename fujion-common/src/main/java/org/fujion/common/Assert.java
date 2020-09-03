@@ -29,20 +29,28 @@ public class Assert {
 
     /**
      * Always fails, throwing an IllegalArgument Exception.
+     *
      * @param message The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException always thrown.
      */
-    public static void fail(String message) {
-        fail(() -> message);
+    public static void fail(
+            String message,
+            Object... params) {
+        throw new IllegalArgumentException(getMessage(message, params));
     }
 
     /**
      * Always fails, throwing an IllegalArgument Exception.
+     *
      * @param message The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException always thrown.
      */
-    public static void fail(Supplier<String> message) {
-        throw new IllegalArgumentException(message.get());
+    public static void fail(
+            Supplier<String> message,
+            Object... params) {
+        fail(message.get(), params);
     }
 
     /**
@@ -50,12 +58,16 @@ public class Assert {
      *
      * @param condition The condition to test.
      * @param message   The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException if condition is false.
      */
     public static void isTrue(
             boolean condition,
-            String message) {
-        isTrue(condition, () -> message);
+            String message,
+            Object... params) {
+        if (!condition) {
+            fail(message, params);
+        }
     }
 
     /**
@@ -63,13 +75,15 @@ public class Assert {
      *
      * @param condition The tested condition.
      * @param message   The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException if condition is false.
      */
     public static void isTrue(
             boolean condition,
-            Supplier<String> message) {
+            Supplier<String> message,
+            Object... params) {
         if (!condition) {
-            fail(message);
+            fail(message, params);
         }
     }
 
@@ -78,12 +92,14 @@ public class Assert {
      *
      * @param condition The condition to test.
      * @param message   The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException if condition is true.
      */
     public static void isFalse(
             boolean condition,
-            String message) {
-        isTrue(!condition, () -> message);
+            String message,
+            Object... params) {
+        isTrue(!condition, message, params);
     }
 
     /**
@@ -91,12 +107,14 @@ public class Assert {
      *
      * @param condition The tested condition.
      * @param message   The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException if condition is true.
      */
     public static void isFalse(
             boolean condition,
-            Supplier<String> message) {
-        isTrue(!condition, message);
+            Supplier<String> message,
+            Object... params) {
+        isTrue(!condition, message, params);
     }
 
     /**
@@ -104,12 +122,14 @@ public class Assert {
      *
      * @param value The value to check.
      * @param message   The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException if value is not null.
      */
     public static void isNull(
             Object value,
-            String message) {
-        isTrue(value == null, message);
+            String message,
+            Object... params) {
+        isTrue(value == null, message, params);
     }
 
     /**
@@ -117,12 +137,14 @@ public class Assert {
      *
      * @param value The value to check.
      * @param message   The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException if value is not null.
      */
     public static void isNull(
             Object value,
-            Supplier<String> message) {
-        isTrue(value == null, message);
+            Supplier<String> message,
+            Object... params) {
+        isTrue(value == null, message, params);
     }
 
     /**
@@ -130,12 +152,14 @@ public class Assert {
      *
      * @param value The value to check.
      * @param message   The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException if value is null.
      */
     public static void notNull(
             Object value,
-            String message) {
-        isTrue(value != null, message);
+            String message,
+            Object... params) {
+        isTrue(value != null, message, params);
     }
 
     /**
@@ -143,12 +167,14 @@ public class Assert {
      *
      * @param value The value to check.
      * @param message   The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalArgumentException if value is null.
      */
     public static void notNull(
             Object value,
-            Supplier<String> message) {
-        isTrue(value != null, message);
+            Supplier<String> message,
+            Object... params) {
+        isTrue(value != null, message, params);
     }
 
     /**
@@ -156,27 +182,44 @@ public class Assert {
      *
      * @param state   The tested state.
      * @param message The exception message.
+     * @param params Optional parameters if formatted message.
      * @throws IllegalStateException if state is false.
      */
     public static void state(
             boolean state,
-            String message) {
-        state(state, () -> message);
-    }
-
-    /**
-     * Asserts that a tested state is true, throwing an IllegalStateException if not.
-     *
-     * @param state   The tested state.
-     * @param message The exception message.
-     * @throws IllegalStateException if state is false.
-     */
-    public static void state(
-            boolean state,
-            Supplier<String> message) {
+            String message,
+            Object... params) {
         if (!state) {
-            throw new IllegalStateException(message.get());
+            throw new IllegalStateException(getMessage(message, params));
         }
+    }
+
+    /**
+     * Asserts that a tested state is true, throwing an IllegalStateException if not.
+     *
+     * @param state   The tested state.
+     * @param message The exception message.
+     * @param params Optional parameters if formatted message.
+     * @throws IllegalStateException if state is false.
+     */
+    public static void state(
+            boolean state,
+            Supplier<String> message,
+            Object... params) {
+        if (!state) {
+            throw new IllegalStateException(getMessage(message.get(), params));
+        }
+    }
+
+    /**
+     * Returns the message text with formatting applied.
+     *
+     * @param message The exception message.
+     * @param params Optional parameters if formatted message.
+     * @return The fully formatted message.
+     */
+    private static String getMessage(String message, Object... params) {
+        return params == null || params.length == 0 ? message : StrUtil.formatMessage(message, params);
     }
 
 }
