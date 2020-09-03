@@ -39,19 +39,19 @@ public abstract class BaseScript implements IScriptLanguage {
 
         private final String source;
 
-        private final CompiledScript compiledScript;
-
         private final ScriptEngine engine;
+
+        private CompiledScript compiledScript;
 
         public ParsedScript(String source) {
             this.source = StringUtils.trimToEmpty(source);
             this.engine = SCRIPT_ENGINE_MANAGER.getEngineByName(engineName);
-            Assert.state(engine != null, "%s scripting engine was not found.", displayName);
+            Assert.state(engine != null, "%s scripting engine was not found.", engineName);
 
             try {
                 compiledScript = engine instanceof Compilable ? ((Compilable) engine).compile(source) : null;
             } catch (ScriptException e) {
-                throw MiscUtil.toUnchecked(e);
+                compiledScript = null;
             }
 
         }
@@ -61,8 +61,12 @@ public abstract class BaseScript implements IScriptLanguage {
             Bindings bindings = null;
 
             if (variables != null) {
-                bindings = engine.createBindings();
-                bindings.putAll(variables);
+                if (supportsBindings) {
+                    bindings = engine.createBindings();
+                    bindings.putAll(variables);
+                } else {
+                    variables.entrySet().stream().forEach(entry -> engine.put(entry.getKey(), entry.getValue()));
+                }
             }
 
             try {
@@ -84,15 +88,15 @@ public abstract class BaseScript implements IScriptLanguage {
 
     private final String engineName;
 
-    private final String displayName;
+    private final boolean supportsBindings;
 
     protected BaseScript(
             String type,
             String engineName,
-            String displayName) {
+            boolean supportsBindings) {
         this.type = type;
         this.engineName = engineName;
-        this.displayName = displayName;
+        this.supportsBindings = supportsBindings;
     }
 
     /**

@@ -22,7 +22,7 @@ package org.fujion.gmaps;
 
 import org.fujion.ancillary.IOptionMapTransform;
 import org.fujion.ancillary.OptionMap;
-import org.springframework.util.Assert;
+import org.fujion.common.Assert;
 
 /**
  * Stylers are formatting options that you can apply to map features and elements.

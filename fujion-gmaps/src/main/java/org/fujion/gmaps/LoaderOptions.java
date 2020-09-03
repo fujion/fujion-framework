@@ -22,8 +22,8 @@ package org.fujion.gmaps;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.common.Assert;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**

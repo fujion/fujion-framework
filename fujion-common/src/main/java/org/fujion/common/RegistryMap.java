@@ -139,9 +139,8 @@ public class RegistryMap<KEY, VALUE> implements Map<KEY, VALUE> {
                         break;
                     
                     case ERROR:
-                        if (!oldValue.equals(value)) {
-                            throw new IllegalArgumentException("Cannot modify existing entry with the key '" + key + "'.");
-                        }
+                        Assert.isTrue(oldValue.equals(value),
+                                "Cannot modify existing entry with the key '%s'.", key);
                         break;
                 }
             }

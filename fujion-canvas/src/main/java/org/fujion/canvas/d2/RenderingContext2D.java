@@ -22,8 +22,8 @@ package org.fujion.canvas.d2;
 
 import org.fujion.canvas.BaseCanvasComponent;
 import org.fujion.canvas.RenderingContextBase;
+import org.fujion.common.Assert;
 import org.fujion.component.Image;
-import org.springframework.util.Assert;
 
 public class RenderingContext2D extends RenderingContextBase {
     

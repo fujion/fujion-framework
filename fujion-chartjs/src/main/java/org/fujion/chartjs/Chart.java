@@ -29,10 +29,10 @@ import org.fujion.chartjs.axis.CartesianAxisOptions;
 import org.fujion.chartjs.axis.RadialAxisOptions;
 import org.fujion.chartjs.plot.PlotOptions;
 import org.fujion.chartjs.plot.PlotType;
+import org.fujion.common.Assert;
 import org.fujion.common.CyclicIterator;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseUIComponent;
-import org.springframework.util.Assert;
 
 /**
  * Fujion wrapper for Chart.js component.

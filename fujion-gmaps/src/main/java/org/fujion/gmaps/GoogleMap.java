@@ -24,13 +24,9 @@ import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
+import org.fujion.common.Assert;
 import org.fujion.component.BaseUIComponent;
-import org.fujion.gmaps.event.CenterChangeEvent;
-import org.fujion.gmaps.event.HeadingChangeEvent;
-import org.fujion.gmaps.event.MapTypeIdChangeEvent;
-import org.fujion.gmaps.event.TiltChangeEvent;
-import org.fujion.gmaps.event.ZoomChangeEvent;
-import org.springframework.util.Assert;
+import org.fujion.gmaps.event.*;
 
 /**
  * Fujion wrapper for Google Maps library.

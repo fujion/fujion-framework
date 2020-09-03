@@ -20,17 +20,17 @@
  */
 package org.fujion.highcharts;
 
-import java.util.Arrays;
-
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.common.Assert;
 import org.fujion.component.BaseUIComponent;
 import org.fujion.component.Page;
-import org.springframework.util.Assert;
+
+import java.util.Arrays;
 
 /**
  * Fujion wrapper for HighCharts component.

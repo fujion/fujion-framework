@@ -20,16 +20,16 @@
  */
 package org.fujion.plotly;
 
-import java.util.Map;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.common.Assert;
 import org.fujion.component.BaseUIComponent;
 import org.fujion.plotly.layout.LayoutOptions;
 import org.fujion.plotly.plot.PlotOptions;
 import org.fujion.plotly.plot.PlotType;
-import org.springframework.util.Assert;
+
+import java.util.Map;
 
 /**
  * Fujion wrapper for Plotly component.

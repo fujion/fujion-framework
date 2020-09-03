@@ -20,15 +20,16 @@
  */
 package org.fujion.barcode;
 
-import java.util.function.Function;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.math.NumberUtils;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.common.Assert;
 import org.fujion.component.BaseUIComponent;
 import org.springframework.util.StringUtils;
+
+import java.util.function.Function;
+import java.util.regex.Pattern;
 
 /**
  * Fujion wrapper for JsBarcode library.
@@ -123,10 +124,8 @@ public class BarCode extends BaseUIComponent {
      * @param value Value to validate.
      */
     private void validateValue(String value) {
-        if (!format.validate(value)) {
-            throw new IllegalArgumentException(
-                String.format("Value \"%s\" is not valid for the format type \"%s\"", value, format.name()));
-        }
+        Assert.isTrue(format.validate(value),
+                "Value \"%s\" is not valid for the format type \"%s\"", value, format.name());
     }
     
     /**

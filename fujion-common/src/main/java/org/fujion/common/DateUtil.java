@@ -1019,7 +1019,8 @@ public class DateUtil {
             return toDate((LocalDate) localDate);
         }
 
-        throw new IllegalArgumentException("Unsupported date type: " + localDate.getClass());
+        Assert.fail("Unsupported date type: %s", localDate.getClass());
+        return null;
     }
 
     /**

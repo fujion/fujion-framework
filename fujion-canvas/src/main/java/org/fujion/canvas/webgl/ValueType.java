@@ -22,6 +22,7 @@ package org.fujion.canvas.webgl;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.fujion.ancillary.IEnumWithValue;
+import org.fujion.common.Assert;
 
 /**
  * Value type of array elements.
@@ -70,9 +71,8 @@ public enum ValueType implements IEnumWithValue {
      * @exception IllegalArgumentException Thrown if the value is not allowed.
      */
     public static void validate(ValueType value, ValueType... allowedValues) {
-        if (!ArrayUtils.contains(allowedValues, value)) {
-            throw new IllegalArgumentException("Value type must be one of " + ArrayUtils.toString(allowedValues));
-        }
+        Assert.isTrue(ArrayUtils.contains(allowedValues, value),
+                () -> "Value type must be one of " + ArrayUtils.toString(allowedValues));
     }
 
     ValueType(int value) {

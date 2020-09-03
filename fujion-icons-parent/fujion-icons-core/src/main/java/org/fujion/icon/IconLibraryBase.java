@@ -20,13 +20,9 @@
  */
 package org.fujion.icon;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.fujion.common.Assert;
 import org.fujion.common.Logger;
 import org.fujion.webjar.WebJar;
 import org.fujion.webjar.WebJarLocator;
@@ -34,7 +30,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.util.Assert;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * An abstract base implementation for webjar-packaged icon libraries.

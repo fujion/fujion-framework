@@ -20,15 +20,15 @@
  */
 package org.fujion.canvas.webgl;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-
 import org.fujion.ancillary.IEnumWithValue;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.canvas.BaseCanvasComponent;
 import org.fujion.canvas.RenderingContextBase;
-import org.springframework.util.Assert;
+import org.fujion.common.Assert;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 public class RenderingContextWebGL extends RenderingContextBase {
     

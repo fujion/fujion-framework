@@ -33,13 +33,18 @@ import java.util.Collections;
 public class TestScript {
 
     @Test
-    @Ignore  // Need to fix classpath issue
+    @Ignore  // Tests succeed when run by IntelliJ, but fail when run independently.
     public void test() {
         IScriptLanguage lang = new KotlinScript();
         Assert.assertEquals(123, lang.parse("123").run());
-        IScriptLanguage.IParsedScript script = lang.parse("kotlin.math.sqrt(x)");
+        Assert.assertEquals(456, lang.parse("val self=bindings[\"self\"] as org.fujion.script.kotlin.TestScript\nself.testFcn()").run(Collections.singletonMap("self", this)));
+        IScriptLanguage.IParsedScript script = lang.parse("val x=bindings[\"x\"] as Double\nkotlin.math.sqrt(x)");
         Assert.assertEquals(10.0, script.run(Collections.singletonMap("x", 100.0)));
         Assert.assertEquals(9.0, script.run(Collections.singletonMap("x", 81.0)));
+    }
+
+    public int testFcn() {
+        return 456;
     }
 
 }

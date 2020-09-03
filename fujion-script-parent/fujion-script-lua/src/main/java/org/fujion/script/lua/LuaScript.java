@@ -28,7 +28,7 @@ import org.fujion.script.BaseScript;
 public class LuaScript extends BaseScript {
 
     public LuaScript() {
-        super("lua", "luaj", "Lua");
+        super("lua", "luaj", true);
     }
 
 }

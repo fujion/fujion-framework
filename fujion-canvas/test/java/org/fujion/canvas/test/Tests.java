@@ -29,7 +29,7 @@ import org.fujion.annotation.PackageScanner;
 import org.fujion.canvas.d3.Canvas3D;
 import org.junit.Test;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.util.Assert;
+import org.fujion.common.Assert;
 
 /**
  * Canvas component tests.

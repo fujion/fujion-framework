@@ -20,11 +20,11 @@
  */
 package org.fujion.canvas.webgl;
 
+import org.fujion.canvas.BaseCanvasComponent;
+import org.fujion.common.Assert;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.fujion.canvas.BaseCanvasComponent;
-import org.springframework.util.Assert;
 
 /**
  * Array buffer derived from an array of numeric values.

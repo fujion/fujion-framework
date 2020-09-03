@@ -20,14 +20,14 @@
  */
 package org.fujion.spinjs;
 
-import java.util.Arrays;
-
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.common.Assert;
 import org.fujion.common.StrUtil;
 import org.fujion.component.BaseUIComponent;
-import org.springframework.util.Assert;
+
+import java.util.Arrays;
 
 /**
  * Fujion wrapper for jquery.sparkline component.
