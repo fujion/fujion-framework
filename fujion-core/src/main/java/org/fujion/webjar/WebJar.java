@@ -127,16 +127,17 @@ public class WebJar {
     /**
      * Normalizes the named node from import map by converting relative paths to root-based paths.
      *
-     * @param name One of: "paths", "map"
+     * @param name One of: "imports", "paths", "map"
+     * @return The root node that was normalized.
      */
-    private void normalizeNode(String name) {
-        ObjectNode paths = (ObjectNode) importMap.get(name);
+    private ObjectNode normalizeNode(String name) {
+        ObjectNode node = (ObjectNode) importMap.get(name);
 
-        if (paths == null) {
-            return;
+        if (node == null) {
+            return null;
         }
 
-        Iterator<Entry<String, JsonNode>> it = paths.fields();
+        Iterator<Entry<String, JsonNode>> it = node.fields();
 
         while (it.hasNext()) {
             Entry<String, JsonNode> entry = it.next();
@@ -150,6 +151,8 @@ public class WebJar {
                 }
             }
         }
+
+        return node;
     }
 
     /**
@@ -171,6 +174,7 @@ public class WebJar {
         if (importMapResource != null) {
             try (InputStream is = importMapResource.getInputStream()) {
                 importMap = (ObjectNode) WebJarLocator.parser.readTree(is);
+                normalizeNode("imports");
                 normalizeNode("paths");
                 normalizeNode("map");
             } catch (Exception e) {
