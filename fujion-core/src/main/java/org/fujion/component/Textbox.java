@@ -79,7 +79,7 @@ public class Textbox extends BaseInputboxComponent<String> {
      *
      * @return The input format.
      */
-    @PropertyGetter(value = "format", description = "The input format.")
+    @PropertyGetter(value = "format", description = "The input format.  See https://github.com/nosir/cleave.js for more information.")
     public String getFormat() {
         return format;
     }
@@ -89,7 +89,7 @@ public class Textbox extends BaseInputboxComponent<String> {
      *
      * @param format The input format.
      */
-    @PropertySetter(value = "format", description = "The input format.")
+    @PropertySetter(value = "format", description = "The input format.  See https://github.com/nosir/cleave.js for more information.")
     public void setFormat(String format) {
         propertyChange("format", this.format, this.format = trimify(format), true);
     }
