@@ -89,6 +89,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
+			<artifactId>fujion-mxgraph</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
 			<artifactId>fujion-sandbox</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

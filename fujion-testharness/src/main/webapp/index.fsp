@@ -88,11 +88,15 @@
 			<tab label="Menus" hint="${@msg.fujion.testharness.menus}">
 				<import src="pages/menus.fsp" />
 			</tab>
-			
+
 			<tab label="Miscellaneous" hint="${@msg.fujion.testharness.misc}">
 				<import src="pages/misc.fsp" />
 			</tab>
-			
+
+			<tab label="mxGraph" hint="${@msg.fujion.testharness.mxgraph}">
+				<import src="pages/mxgraph.fsp" />
+			</tab>
+
 			<tab label="Paneview" hint="${@msg.fujion.testharness.panes}">
 				<import src="pages/panes.fsp" />
 			</tab>

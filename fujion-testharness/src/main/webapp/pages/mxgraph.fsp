@@ -1,0 +1,22 @@
+<fsp>
+    <mxgraph name="graph"/>
+    <sscript type="groovy">
+        import org.fujion.ancillary.ITypedAutoWired;
+        import org.fujion.mxgraph.MXEdge;
+        import org.fujion.mxgraph.MXGraph;
+        import org.fujion.mxgraph.MXVertex;
+        
+        graph.beginUpdate();
+        
+        try
+            {
+            MXVertex v1 = graph.insertVertex("Hello,", 20, 20, 80, 30, null, false);
+            MXVertex v2 = graph.insertVertex("World!", 200, 150, 80, 30, null, false);
+            MXEdge e1 = graph.insertEdge("", v1, v2, null);
+            }
+        finally
+        {
+            graph.endUpdate();        
+        }
+    </sscript>
+</fsp>
