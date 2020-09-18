@@ -36,6 +36,8 @@ public class Textbox extends BaseInputboxComponent<String> {
 
     private boolean masked;
 
+    private String format;
+
     @Override
     @PropertyGetter(value = "synchronized", description = "A true value means that the client will notify the server "
             + "as the value of the input box changes. A false value means that the client will notify "
@@ -70,6 +72,26 @@ public class Textbox extends BaseInputboxComponent<String> {
     @PropertySetter(value = "masked", defaultValue = "false", description = "True if input is to be obscured by a mask.")
     public void setMasked(boolean masked) {
         propertyChange("masked", this.masked, this.masked = masked, true);
+    }
+
+    /**
+     * Returns the input format.
+     *
+     * @return The input format.
+     */
+    @PropertyGetter(value = "format", description = "The input format.")
+    public String getFormat() {
+        return format;
+    }
+
+    /**
+     * Sets the input format.
+     *
+     * @param format The input format.
+     */
+    @PropertySetter(value = "format", description = "The input format.")
+    public void setFormat(String format) {
+        propertyChange("format", this.format, this.format = trimify(format), true);
     }
 
     @Override

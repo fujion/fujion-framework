@@ -169,9 +169,14 @@
 		    <version>1.2.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.fujion.webjars</groupId>
-		    <artifactId>webjar-jquery-scrollto</artifactId>
-		    <version>2.1.2-1</version>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-jquery-scrollto</artifactId>
+			<version>2.1.2-1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion.webjars</groupId>
+			<artifactId>webjar-cleave-js</artifactId>
+			<version>1.6.0-1</version>
 		</dependency>
 		<!-- Apache HTTP components -->
 		<dependency>
