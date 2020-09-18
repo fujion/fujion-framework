@@ -14,7 +14,7 @@
 	</description>
 	
 	<properties>
-		<bootswatch.version>4.5.0</bootswatch.version>
+		<bootswatch.version>4.5.2</bootswatch.version>
 	</properties>
 	
 	<dependencies>
