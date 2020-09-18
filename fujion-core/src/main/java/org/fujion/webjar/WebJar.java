@@ -174,9 +174,14 @@ public class WebJar {
         if (importMapResource != null) {
             try (InputStream is = importMapResource.getInputStream()) {
                 importMap = (ObjectNode) WebJarLocator.parser.readTree(is);
-                normalizeNode("imports");
-                normalizeNode("paths");
+                ObjectNode imports = normalizeNode("imports");
+                ObjectNode paths = normalizeNode("paths");
                 normalizeNode("map");
+
+                if (imports != null && paths == null) {
+                    importMap.remove("imports");
+                    importMap.set("paths", imports);
+                }
             } catch (Exception e) {
                 log.error("Error processing web jar import map", e);
             }
