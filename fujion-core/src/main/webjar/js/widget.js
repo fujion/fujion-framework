@@ -2854,45 +2854,45 @@ define('fujion-widget', ['fujion-core', 'bootstrap', 'jquery-ui', 'jquery-scroll
 		init: function() {
 			this._type = 'text';
 			this._super();
-			this._cleave = null;
+			this._options = null;
 		},
 
 		destroy: function() {
-			this._destroyCleave();
+			this._removeOptions();
 			this._super();
 		},
 
-		_destroyCleave: function() {
-			if (this._cleave) {
-				this._cleave.destroy();
-				this._cleave = null;
+		_removeOptions: function() {
+			if (this._options) {
+				this._options.destroy();
+				this._options = null;
 			}
 		},
 
 		/*------------------------------ State ------------------------------*/
 
-		s_format: function(v) {
-			this._destroyCleave();
+		s_options: function(v) {
+			this._removeOptions();
 
 			if (!v) {
 				return;
 			}
 
-			if (!_.startsWith(v, '{')) {
-				v = '{' + v + '}';
+			const self = this;
+            fujion.import('cleave.js', () => applyOptions(v.phone));
+
+			function applyOptions(loadPhoneFormatter) {
+				if (loadPhoneFormatter) {
+					if (!v.phoneRegionCode) {
+						const lang = navigator.language.split('-');
+						v.phoneRegionCode = lang[1] || lang[0];
+					}
+
+					return fujion.import('cleave.js/addons/cleave-phone.' + v.phoneRegionCode.toLowerCase() + '.js', () => applyOptions())
+				}
+
+				self._options = new Cleave(self.input$(), v);
 			}
-
-			const opt = Function('return ' + v)();
-
-			if (opt.phone && !opt.phoneRegionCode) {
-				const lang = navigator.language.split('-');
-				opt.phoneRegionCode = lang[1] || lang[0];
-			}
-
-            fujion.import('cleave.js', Cleave => {
-				fujion.import('cleave.js/addons/cleave-phone.' + opt.phoneRegionCode.toLowerCase() + '.js', () =>
-					this._cleave = new Cleave(this.input$(), opt))
-			});
 		},
 
 		s_masked: function(v) {

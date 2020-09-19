@@ -20,6 +20,7 @@
  */
 package org.fujion.component;
 
+import org.fujion.ancillary.TextInputOptions;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
@@ -36,7 +37,7 @@ public class Textbox extends BaseInputboxComponent<String> {
 
     private boolean masked;
 
-    private String format;
+    private TextInputOptions options;
 
     @Override
     @PropertyGetter(value = "synchronized", description = "A true value means that the client will notify the server "
@@ -75,23 +76,23 @@ public class Textbox extends BaseInputboxComponent<String> {
     }
 
     /**
-     * Returns the input format.
+     * Returns the input options.
      *
-     * @return The input format.
+     * @return The input options.
      */
-    @PropertyGetter(value = "format", description = "The input format.  See https://github.com/nosir/cleave.js for more information.")
-    public String getFormat() {
-        return format;
+    @PropertyGetter(value = "options", description = "The options to constrain and/or format user input.")
+    public TextInputOptions getOptions() {
+        return options;
     }
 
     /**
-     * Sets the input format.
+     * Sets the input options.
      *
-     * @param format The input format.
+     * @param options The input options.
      */
-    @PropertySetter(value = "format", description = "The input format.  See https://github.com/nosir/cleave.js for more information.")
-    public void setFormat(String format) {
-        propertyChange("format", this.format, this.format = trimify(format), true);
+    @PropertySetter(value = "options", description = "The options to constrain and/or format user input.")
+    public void setOptions(TextInputOptions options) {
+        propertyChange("options", this.options, this.options = options, true);
     }
 
     @Override
