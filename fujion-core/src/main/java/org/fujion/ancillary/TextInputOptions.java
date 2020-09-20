@@ -22,9 +22,7 @@ package org.fujion.ancillary;
 
 import org.fujion.annotation.Option;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Text input formats supported by Textbox component.
@@ -55,47 +53,6 @@ public abstract class TextInputOptions extends Options {
         }
 
     }
-
-    @Option
-    private boolean swapHiddenInput = true;
-
-    /**
-     * Value to be prepended to the input. It can't be removed or changed in the input field.
-     * The default is no prefix.
-     */
-    @Option
-    public String prefix;
-
-    /**
-     * If true, will only add the prefix once the user enters values. Useful if you need to use placeholders.
-     * The default is false;
-     */
-    @Option
-    public Boolean noImmediatePrefix;
-
-    /**
-     * Indicates the delimiter to be used in formatting.  The default depends on the option type.
-     */
-    @Option
-    public String delimiter;
-
-    /**
-     * If true, will add the delimiter only when the user starts typing the next group section.
-     * Default is false;
-     */
-    @Option
-    public Boolean delimiterLazyShow;
-
-    /**
-     * Determines how text input is converted or restricted.
-     *
-     * Default is no action.
-     */
-    @Option(
-            value = "${value.option}",
-            convertUsing = "true"
-    )
-    public InputMode mode;
 
     public static class TextOptions extends TextInputOptions {
 
@@ -149,33 +106,30 @@ public abstract class TextInputOptions extends Options {
         private final boolean date = true;
 
         /**
-         * A list representing the date pattern.
-         *
+         * Represents the date pattern.
+         * <p>
          * Note: a leading 0 before date and month is required. To indicate what patterns it should apply, you can use: 'Y', 'y', 'm' and 'd'.
-         *
+         * <p>
          * Default value: ['d', 'm', 'Y']
          */
         @Option
-        public final List<String> datePattern = new ArrayList<>();
+        public String[] datePattern;
 
         /**
-         * The lower date boundary.  Default is no lower boundary.
+         * The lower date boundary (inclusive).  Default is no lower boundary.
          */
-        @Option(convertUsing = "DateUtil.toISODate(value)")
+        @Option(convertUsing = "T(org.fujion.common.DateUtil).toISODate(value)")
         public Date dateMin;
 
         /**
-         * The upper date boundary.  Default is no upper boundary.
+         * The upper date boundary (inclusive.  Default is no upper boundary.
          */
-        @Option(convertUsing = "DateUtil.toISODate(value)")
+        @Option(convertUsing = "T(org.fujion.common.DateUtil).toISODate(value)")
         public Date dateMax;
 
     }
 
     public static class TimeOptions extends TextInputOptions {
-
-        @Option
-        private boolean time = true;
 
         /**
          * Indicates the time pattern. Since it's an input field, a leading 0 before hour, minute and second
@@ -191,6 +145,9 @@ public abstract class TextInputOptions extends Options {
                 value = "timeFormat",
                 convertUsing = "value ? '24' : '12'")
         public Boolean militaryTime;
+
+        @Option
+        private final boolean time = true;
 
     }
 
@@ -224,11 +181,7 @@ public abstract class TextInputOptions extends Options {
             public String toString() {
                 return super.toString().toLowerCase();
             }
-        };
-
-        @Option
-        private boolean numeral = true;
-
+        }
 
         /**
          * Indicates the thousands separator grouping style.
@@ -283,5 +236,48 @@ public abstract class TextInputOptions extends Options {
          */
         @Option
         public Boolean stripLeadingZeroes;
+
+        @Option
+        private final boolean numeral = true;
+
     }
+
+    /**
+     * Value to be prepended to the input. It can't be removed or changed in the input field.
+     * The default is no prefix.
+     */
+    @Option
+    public String prefix;
+
+    /**
+     * If true, will only add the prefix once the user enters values. Useful if you need to use placeholders.
+     * The default is false;
+     */
+    @Option
+    public Boolean noImmediatePrefix;
+
+    /**
+     * Indicates the delimiter to be used in formatting.  The default depends on the option type.
+     */
+    @Option
+    public String delimiter;
+
+    /**
+     * If true, will add the delimiter only when the user starts typing the next group section.
+     * Default is false;
+     */
+    @Option
+    public Boolean delimiterLazyShow;
+
+    /**
+     * Determines how text input is converted or restricted.
+     * <p>
+     * Default is no action.
+     */
+    @Option(
+            value = "${value.option}",
+            convertUsing = "true"
+    )
+    public InputMode mode;
+
 }
