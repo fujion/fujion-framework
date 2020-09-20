@@ -750,10 +750,10 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
         },
 
         /**
-         * Performs an eval operation in the fujion context.
+         * Evaluates an expression in the fujion context, returning its value.
          */
         eval: function (value) {
-            return eval(value);
+            return Function(value).bind(this)();
         },
 
         /**
