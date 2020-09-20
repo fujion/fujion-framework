@@ -20,14 +20,14 @@
  */
 package org.fujion.icon;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
-import org.fujion.common.Logger;
 import org.fujion.common.AbstractRegistry;
+import org.fujion.common.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Registry for icon libraries. Will automatically register icon library beans instantiated in the
@@ -77,11 +77,6 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
     @Override
     protected String getKey(IIconLibrary item) {
         return item.getId();
-    }
-
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
     }
 
     @Override

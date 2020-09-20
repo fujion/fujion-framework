@@ -89,11 +89,6 @@ public class JMXConsole implements DestructionAwareBeanPostProcessor {
     }
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
-
-    @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (mbs != null && bean instanceof IJMXConsolePlugin) {
             registerPlugin((IJMXConsolePlugin) bean);

@@ -25,40 +25,35 @@ import org.fujion.common.RegistryMap.DuplicateAction;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
-import javax.script.ScriptEngineManager;
-
 /**
  * A registry of all script extensions.
  */
 public class ScriptRegistry extends AbstractRegistry<String, IScriptLanguage> implements BeanPostProcessor {
 
     private static final ScriptRegistry instance = new ScriptRegistry();
-    
+
     public static ScriptRegistry getInstance() {
         return instance;
     }
-    
+
     private ScriptRegistry() {
         super(DuplicateAction.ERROR);
     }
-    
+
     @Override
     protected String getKey(IScriptLanguage script) {
         return script.getType();
     }
-    
+
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
-    
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(
+            Object bean,
+            String beanName) throws BeansException {
         if (bean instanceof IScriptLanguage) {
             register((IScriptLanguage) bean);
         }
-        
+
         return bean;
     }
-    
+
 }

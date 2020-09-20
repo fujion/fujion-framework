@@ -167,14 +167,6 @@ public class Sessions implements BeanPostProcessor, ServletContextAware, Applica
     }
     
     /**
-     * NOP
-     */
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
-    
-    /**
      * Detects and registers lifecycle listeners.
      */
     @Override

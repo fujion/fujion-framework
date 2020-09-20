@@ -30,9 +30,9 @@ import java.util.function.Function;
  * <li>Dual - Property changes are synchronized between the model and the target.</li>
  * </ul>
  *
- * @param <T> The type of model object.
+ * @param <M> The type of model object.
  */
-public interface IBinder<T> {
+public interface IBinder<M> {
 
     /**
      * Supports use of format strings as type converters.
@@ -69,14 +69,14 @@ public interface IBinder<T> {
      *
      * @return The bound model.
      */
-    T getModel();
+    M getModel();
     
     /**
      * Sets the model to bind.
      *
      * @param model The model to bind.
      */
-    void setModel(T model);
+    void setModel(M model);
     
     /**
      * Establishes a read binding for the given model property.

@@ -126,11 +126,6 @@ public class ThemeResolvers implements BeanPostProcessor, ThemeResolver {
     }
     
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
-    
-    @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof ThemeResolver) {
             themeResolvers.add((ThemeResolver) bean);

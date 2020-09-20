@@ -346,14 +346,6 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
     }
 
     /**
-     * NOP
-     */
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
-
-    /**
      * Detects and registers request handlers.
      */
     @Override
