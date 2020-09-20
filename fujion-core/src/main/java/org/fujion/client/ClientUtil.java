@@ -80,7 +80,8 @@ public class ClientUtil {
     }
 
     /**
-     * Invokes a JavaScript expression on the client.
+     * Evaluates a JavaScript expression on the client.  This is invoked as the body of an
+     * anonymous function that is bound to the context of the global fujion object.
      *
      * @param expression A valid JavaScript expression.
      */
@@ -89,10 +90,13 @@ public class ClientUtil {
     }
 
     /**
-     * Invokes a JavaScript expression on the client, returning the result asynchronously.
+     * Evaluates a JavaScript expression on the client, returning the result asynchronously.
+     * This is invoked as the body of an anonymous function that is bound to the context of
+     * the global fujion object, so the result must be explicitly returned.  For example,
+     * {@code return 10*20; } would return the value 200.
      *
      * @param expression A valid JavaScript expression.
-     * @param callback Optional callback for invocation result.
+     * @param callback Callback for invocation result.
      */
     public static void eval(String expression, IResponseCallback<?> callback) {
         invoke("fujion.eval", callback, expression);
