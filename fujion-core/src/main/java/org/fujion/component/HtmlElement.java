@@ -32,7 +32,7 @@ import org.fujion.common.Assert;
 @Component(
         tag = "html:",
         widgetClass = "HtmlElement",
-        content = ContentHandling.AS_ATTRIBUTE,
+        content = ContentHandling.AS_CHILD,
         parentTag = "*",
         childTag = @ChildTag("*"),
         description = "A native HTML element.")
