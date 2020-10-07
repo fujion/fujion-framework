@@ -744,4 +744,20 @@ public class CommonTest {
     private void assertException(ThrowingRunnable test) {
         assertThrows(IllegalArgumentException.class, test);
     }
+
+    private static final String MSG = "Assertion failed";
+
+    private static final List<String> NULL = null;
+
+    private static final List<String> EMPTY = Collections.emptyList();
+
+    private static final List<String> NOT_EMPTY = Collections.singletonList("TEST");
+
+    @Test
+    public void asNullTests() {
+        Assert.isNull(MiscUtil.asNull(() -> NULL.get(0).isEmpty()), MSG);
+        Assert.isNull(MiscUtil.asNull(() -> EMPTY.get(0).isEmpty()), MSG);
+        Assert.notNull(MiscUtil.asNull(() -> NOT_EMPTY.get(0).isEmpty()), MSG);
+    }
+
 }

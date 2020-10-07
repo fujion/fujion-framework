@@ -62,6 +62,22 @@ public class MiscUtil {
     }
 
     /**
+     * If the supplier produces a null pointer or index-out-of-bounds exception, returns null.
+     * This is the equivalent of optional chaining.
+     *
+     * @param supplier The supplier of the value.
+     * @param <T> The type of the value.
+     * @return The returned value, possibly null.
+     */
+    public static <T> T asNull(Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    /**
      * Returns an array of parameter types given an array of parameters. Unlike other libraries,
      * this allows null parameter values.
      *
