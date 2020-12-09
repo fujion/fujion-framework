@@ -20,60 +20,129 @@
  */
 package org.fujion.ancillary;
 
-import org.springframework.util.Base64Utils;
+import java.util.Base64;
 
 /**
  * Helper class for packaging embedded binary or textual data.
  */
 public class MimeContent {
-    
+
     private byte[] data;
-    
+
     private String mimeType;
 
-    private String source;
+    private String url;
 
-    public MimeContent(String mimeType, byte[] data) {
+    /**
+     * @param mimeType The MIME type.
+     * @param data     The raw data.
+     */
+    public MimeContent(
+            String mimeType,
+            byte[] data) {
         this.mimeType = mimeType;
         this.data = data;
     }
 
-    public MimeContent(String mimeType, String source) {
+    /**
+     * @param mimeType The MIME type.
+     * @param url   The data URL.
+     */
+    public MimeContent(
+            String mimeType,
+            String url) {
         this.mimeType = mimeType;
-        this.source = source;
+        this.url = url;
     }
 
+    /**
+     * Returns the URL or base 64 encoded data suitable for an image src attribute.
+     *
+     * @return The URL or base 64 encoded data suitable for an image src attribute.
+     */
     public String getSrc() {
-        return source != null ? source : (mimeType == null || data == null) ? null
-                : "data:" + mimeType + ";base64," + Base64Utils.encodeToString(data);
+        return url != null ? url : (mimeType == null || data == null) ? null
+                : "data:" + mimeType + ";base64," + getEncodedData();
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    /**
+     * Returns the URL that references the data's source.
+     *
+     * @return The URL that references the data's source.
+     */
+    public String getUrl() {
+        return url;
+    }
 
-        if (source != null) {
+    /**
+     * Sets the URL that references the data's source.
+     *
+     * @param url The URL that references the data's source.
+     */
+    public void setUrl(String url) {
+        this.url = url;
+
+        if (url != null) {
             data = null;
         }
     }
 
+    /**
+     * Returns the raw data.
+     *
+     * @return The raw data.
+     */
     public byte[] getData() {
         return data;
     }
-    
+
+    /**
+     * Sets the raw data.
+     *
+     * @param data The raw data.
+     */
     public void setData(byte[] data) {
         this.data = data;
 
         if (data != null) {
-            source = null;
+            url = null;
         }
     }
-    
+
+    /**
+     * Returns the raw data in base 64 encoded form.
+     *
+     * @return The raw data in base 64 encoded form.
+     */
+    public String getEncodedData() {
+        return data == null ? null : Base64.getEncoder().encodeToString(data);
+    }
+
+    /**
+     * Sets the raw data from base 64 encoded data.
+     *
+     * @param encodedData The base 64 encoded data.
+     */
+    public void setEncodedData(String encodedData) {
+        setData(encodedData == null ? null : Base64.getDecoder().decode(encodedData));
+    }
+
+    /**
+     * Returns the MIME type.
+     *
+     * @return The MIME type.
+     */
     public String getMimeType() {
         return mimeType;
     }
-    
+
+    /**
+     * Sets the MIME type.
+     *
+     * @param mimeType The MIME type.
+     */
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
-    
+
 }
