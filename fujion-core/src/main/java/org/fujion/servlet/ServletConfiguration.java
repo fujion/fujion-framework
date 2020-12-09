@@ -27,13 +27,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.mvc.WebContentInterceptor;
-import org.springframework.web.servlet.resource.AppCacheManifestTransformer;
 import org.springframework.web.servlet.resource.EncodedResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolver;
 
@@ -60,8 +57,6 @@ public class ServletConfiguration implements WebMvcConfigurer, ApplicationContex
 
     private final FujionResourceTransformer fujionResourceTransformer = new FujionResourceTransformer();
 
-    private final AppCacheManifestTransformer appCacheManifestTransformer = new AppCacheManifestTransformer();
-
     private ApplicationContext applicationContext;
 
     @Override
@@ -80,9 +75,7 @@ public class ServletConfiguration implements WebMvcConfigurer, ApplicationContex
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        WebContentInterceptor wci = new WebContentInterceptor();
-        wci.addCacheMapping(CacheControl.noStore(), "/**/*.fsp");
-        registry.addInterceptor(wci);
+        registry.addInterceptor(new FSPInterceptor());
         registry.addInterceptor(new LocaleChangeInterceptor());
     }
 
@@ -125,10 +118,9 @@ public class ServletConfiguration implements WebMvcConfigurer, ApplicationContex
         }
 
         chain
-        .addResolver(minifiedResourceResolver)
-        .addResolver(encodedResourceResolver)
-        .addTransformer(fujionResourceTransformer)
-        .addTransformer(appCacheManifestTransformer);
+                .addResolver(minifiedResourceResolver)
+                .addResolver(encodedResourceResolver)
+                .addTransformer(fujionResourceTransformer);
         //@formatter:on
     }
 

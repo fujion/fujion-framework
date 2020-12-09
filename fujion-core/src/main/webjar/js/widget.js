@@ -1830,13 +1830,19 @@ define('fujion-widget', [
 	 * Widget wrapping text content
 	 ******************************************************************************************************************/
 
-	fujion.widget.Content = fujion.widget.NullWidget.extend({
+	fujion.widget.Content = fujion.widget.UIWidget.extend({
+
+		/*------------------------------ Rendering ------------------------------*/
+
+		render$: function() {
+			const text = document.createTextNode(this.getState('content'));
+			return $(text);
+		},
 
 		/*------------------------------ State ------------------------------*/
 
 		s_content: function(v) {
-			const parent$ = this._parent ? this._parent.widget$ : null;
-			parent$ ? parent$.text(v) : null;
+			this.rerender();
 		}
 
 	});
