@@ -251,62 +251,6 @@ public class MiscUtil {
     }
 
     /**
-     * Asserts that a condition is true, throwing an IllegalArgumentException if not.
-     *
-     * @param condition The condition to test.
-     * @param message   The exception message.
-     * @throws IllegalArgumentException if condition is false.
-     */
-    @Deprecated
-    public static void assertTrue(
-            boolean condition,
-            String message) {
-        Assert.isTrue(condition, message);
-    }
-
-    /**
-     * Asserts that a tested condition is true, throwing an IllegalArgumentException if not.
-     *
-     * @param condition The tested condition.
-     * @param message   The exception message.
-     * @throws IllegalArgumentException if condition is false.
-     */
-    @Deprecated
-    public static void assertTrue(
-            boolean condition,
-            Supplier<String> message) {
-        Assert.isTrue(condition, message);
-    }
-
-    /**
-     * Asserts that a tested state is true, throwing an IllegalStateException if not.
-     *
-     * @param state   The tested state.
-     * @param message The exception message.
-     * @throws IllegalStateException if state is false.
-     */
-    @Deprecated
-    public static void assertState(
-            boolean state,
-            String message) {
-        Assert.state(state, message);
-    }
-
-    /**
-     * Asserts that a tested state is true, throwing an IllegalStateException if not.
-     *
-     * @param state   The tested state.
-     * @param message The exception message.
-     * @throws IllegalStateException if state is false.
-     */
-    @Deprecated
-    public static void assertState(
-            boolean state,
-            Supplier<String> message) {
-        Assert.state(state, message);
-    }
-
-    /**
      * Enforce static class.
      */
     private MiscUtil() {
