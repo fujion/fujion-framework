@@ -64,12 +64,16 @@ public class MiscUtil {
     /**
      * Throws an exception, converting it to unchecked as necessary.  Can be used as a function or method.
      *
-     * @param e The original exception.
+     * @param e The original exception.  If null, no exception is thrown.
      * @param <T> Arbitrary return type.
      * @return Never returns a value.
      */
     public static <T> T throwUnchecked(Throwable e) {
-        throw toUnchecked(e);
+        if (e != null) {
+            throw toUnchecked(e);
+        }
+
+        return null;
     }
 
     /**
