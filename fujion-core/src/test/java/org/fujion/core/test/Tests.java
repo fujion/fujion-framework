@@ -32,7 +32,6 @@ import org.fujion.theme.Theme;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.util.Base64Utils;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -209,15 +208,24 @@ public class Tests {
         assertEquals(KeyCode.VK_ASTERISK, KeyCode.fromString("ASTERISK"));
         assertEquals(KeyCode.normalizeKeyCapture("^A ~F1 ^@~@^$1"), "^#65 ~#112 ^@~$#49");
     }
-    
-    private static final byte[] TEST_CONTENT = { 'a', 'e', 'i', 'o', 'u' };
+
+    private static final String MIME_CONTENT_STR = "aeiou";
+    private static final byte[] MIME_CONTENT_BYTES = MIME_CONTENT_STR.getBytes();
+    private static final String MIME_CONTENT_ENCODED = "YWVpb3U=";
     
     @Test
     public void mimeContentTests() {
-        MimeContent content = new MimeContent("image/png", TEST_CONTENT);
+        MimeContent content = new MimeContent("image/png", MIME_CONTENT_BYTES);
         String src = content.getSrc();
-        assertEquals("data:image/png;base64,YWVpb3U=", src);
-        assertEquals("aeiou", new String(Base64Utils.decodeFromString(src.split("\\,", 2)[1])));
+        assertEquals(MIME_CONTENT_ENCODED, content.getEncodedData());
+        assertEquals("data:image/png;base64," + MIME_CONTENT_ENCODED, src);
+        assertEquals(MIME_CONTENT_STR, new String(content.getData()));
+        content.setEncodedData(MIME_CONTENT_ENCODED);
+        assertEquals(MIME_CONTENT_STR, new String(content.getData()));
+        content.setData(null);
+        assertNull(content.getData());
+        assertNull(content.getEncodedData());
+        assertNull(content.getSrc());
     }
     
     private static final String GREEN = "green";

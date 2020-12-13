@@ -27,7 +27,50 @@ import java.util.Base64;
  */
 public class MimeContent {
 
-    private byte[] data;
+    private static class MimeData {
+
+        private byte[] rawData;
+
+        private String encodedData;
+
+        byte[] getRawData() {
+            if (rawData == null && encodedData != null) {
+                rawData = Base64.getDecoder().decode(encodedData);
+            }
+
+            return rawData;
+        }
+
+        void setRawData(byte[] rawData) {
+            this.rawData = rawData;
+            this.encodedData = null;
+        }
+
+        String getEncodedData() {
+            if (encodedData == null && rawData != null) {
+                encodedData = Base64.getEncoder().encodeToString(rawData);
+            }
+
+            return encodedData;
+        }
+
+        void setEncodedData(String encodedData) {
+            this.encodedData = encodedData;
+            this.rawData = null;
+        }
+
+        void clear() {
+            this.encodedData = null;
+            this.rawData = null;
+        }
+
+        boolean isEmpty() {
+            return encodedData == null && rawData == null;
+        }
+
+    }
+
+    private final MimeData data = new MimeData();
 
     private String mimeType;
 
@@ -35,13 +78,13 @@ public class MimeContent {
 
     /**
      * @param mimeType The MIME type.
-     * @param data     The raw data.
+     * @param rawData  The raw data.
      */
     public MimeContent(
             String mimeType,
-            byte[] data) {
+            byte[] rawData) {
         this.mimeType = mimeType;
-        this.data = data;
+        this.data.setRawData(rawData);
     }
 
     /**
@@ -61,8 +104,8 @@ public class MimeContent {
      * @return The URL or base 64 encoded data suitable for an image src attribute.
      */
     public String getSrc() {
-        return url != null ? url : (mimeType == null || data == null) ? null
-                : "data:" + mimeType + ";base64," + getEncodedData();
+        return url != null ? url : (mimeType == null || data.isEmpty()) ? null
+                : "data:" + mimeType + ";base64," + data.getEncodedData();
     }
 
     /**
@@ -83,7 +126,7 @@ public class MimeContent {
         this.url = url;
 
         if (url != null) {
-            data = null;
+            data.clear();
         }
     }
 
@@ -93,18 +136,18 @@ public class MimeContent {
      * @return The raw data.
      */
     public byte[] getData() {
-        return data;
+        return data.getRawData();
     }
 
     /**
      * Sets the raw data.
      *
-     * @param data The raw data.
+     * @param rawData The raw data.
      */
-    public void setData(byte[] data) {
-        this.data = data;
+    public void setData(byte[] rawData) {
+        data.setRawData(rawData);
 
-        if (data != null) {
+        if (rawData != null) {
             url = null;
         }
     }
@@ -115,7 +158,7 @@ public class MimeContent {
      * @return The raw data in base 64 encoded form.
      */
     public String getEncodedData() {
-        return data == null ? null : Base64.getEncoder().encodeToString(data);
+        return data.getEncodedData();
     }
 
     /**
@@ -124,7 +167,11 @@ public class MimeContent {
      * @param encodedData The base 64 encoded data.
      */
     public void setEncodedData(String encodedData) {
-        setData(encodedData == null ? null : Base64.getDecoder().decode(encodedData));
+        data.setEncodedData(encodedData);
+
+        if (encodedData != null) {
+            url = null;
+        }
     }
 
     /**
