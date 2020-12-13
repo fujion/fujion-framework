@@ -62,6 +62,17 @@ public class MiscUtil {
     }
 
     /**
+     * Throws an exception, converting it to unchecked as necessary.  Can be used as a function or method.
+     *
+     * @param e The original exception.
+     * @param <T> Arbitrary return type.
+     * @return Never returns a value.
+     */
+    public static <T> T throwUnchecked(Throwable e) {
+        throw toUnchecked(e);
+    }
+
+    /**
      * If the supplier produces a null pointer or index-out-of-bounds exception, returns null.
      * This is the equivalent of optional chaining.
      *
