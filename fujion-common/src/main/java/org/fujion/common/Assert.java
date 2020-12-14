@@ -32,9 +32,11 @@ public class Assert {
      *
      * @param message The exception message.
      * @param params Optional parameters if formatted message.
+     * @param <T> Pseudo return type to allow use as function.
+     * @return Never returns a value.
      * @throws IllegalArgumentException always thrown.
      */
-    public static void fail(
+    public static <T> T fail(
             String message,
             Object... params) {
         throw new IllegalArgumentException(getMessage(message, params));
@@ -45,12 +47,14 @@ public class Assert {
      *
      * @param message The exception message.
      * @param params Optional parameters if formatted message.
+     * @param <T> Pseudo return type to allow use as function.
+     * @return Never returns a value.
      * @throws IllegalArgumentException always thrown.
      */
-    public static void fail(
+    public static <T> T fail(
             Supplier<String> message,
             Object... params) {
-        fail(message.get(), params);
+        return fail(message.get(), params);
     }
 
     /**
