@@ -85,10 +85,23 @@ public class MiscUtil {
      * @return The returned value, possibly null.
      */
     public static <T> T asNull(Supplier<T> supplier) {
+        return withDefault(null, supplier);
+    }
+
+    /**
+     * If the supplier produces a null pointer or index-out-of-bounds exception, returns the default value.
+     * This is the equivalent of optional chaining.
+     *
+     * @param deflt The default value to use.
+     * @param supplier The supplier of the value.
+     * @param <T> The type of the value.
+     * @return The returned value, possibly null.
+     */
+    public static <T> T withDefault(T deflt, Supplier<T> supplier) {
         try {
             return supplier.get();
         } catch (NullPointerException | IndexOutOfBoundsException e) {
-            return null;
+            return deflt;
         }
     }
 
