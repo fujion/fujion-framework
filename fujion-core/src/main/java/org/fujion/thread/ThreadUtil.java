@@ -48,7 +48,7 @@ public class ThreadUtil {
      *
      * @return The session's thread pool.
      */
-    private static ThreadPool getSessionThreadPool() {
+    public static ThreadPool getSessionThreadPool() {
         Session session = ExecutionContext.getSession();
         Assert.notNull(session, "Cannot access thread service outside execution context.");
         return session.getThreadPool();
