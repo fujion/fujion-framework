@@ -184,7 +184,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
         jquery: {
             _init: function () {
                 for (const fn in this) {
-                    if (fn != '_init') {
+                    if (fn !== '_init') {
                         $.fn[fn] = this[fn];
                     }
                 }
@@ -807,7 +807,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 
             while ((i = text.indexOf(pfx, i)) >= 0) {
                 let j = text.indexOf('}', i + 2);
-                j = j == -1 ? text.length : j;
+                j = j === -1 ? text.length : j;
                 const exp = text.substring(i + 2, j);
                 let ref = exp.length === 0 ? null : this.resolveReference(base, exp);
                 ref = ref === null ? ''
@@ -1017,7 +1017,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
             mimetype = !mimetype || navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? 'application/octet-stream' : mimetype;
             this.import('file-saver', fileSaver => {
                 const blob = new Blob([content], {type: mimetype});
-                fileSaver.saveAs(blob, filename);
+                saveAs(blob, filename);
             });
         },
 
@@ -1033,7 +1033,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 
             while ((i = css.indexOf('/*', i)) !== -1) {
                 j = css.indexOf('*/', i + 2);
-                j = j == -1 ? css.length : j + 2;
+                j = j === -1 ? css.length : j + 2;
                 css = css.substring(0, i) + css.substring(j);
             }
 
