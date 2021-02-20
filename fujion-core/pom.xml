@@ -116,12 +116,12 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-systemjs</artifactId>
-			<version>0.21.6-1</version>
+			<version>6.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
-		    <artifactId>webjar-systemjs-plugin-css</artifactId>
-		    <version>0.1.37-1</version>
+			<artifactId>webjar-systemjs-css-extra</artifactId>
+			<version>1.0.2</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
@@ -151,7 +151,7 @@
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-lodash</artifactId>
-		    <version>4.17.20</version>
+		    <version>4.17.21</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>

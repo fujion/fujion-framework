@@ -1,5 +1,5 @@
 {
-  "paths": {
+  "imports": {
     "fujion-ckeditor": "js/ckeditor.js",
     "fujion-ckeditor-css": "css/ckeditor.css"
   }

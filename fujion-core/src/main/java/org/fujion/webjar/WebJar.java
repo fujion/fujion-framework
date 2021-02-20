@@ -94,7 +94,7 @@ public class WebJar {
      * @return The relative root path.
      */
     public String getRootPath() {
-        return "webjars/" + name + "/";
+        return "./webjars/" + name + "/";
     }
 
     /**
@@ -176,12 +176,20 @@ public class WebJar {
                 importMap = (ObjectNode) WebJarLocator.parser.readTree(is);
                 ObjectNode imports = normalizeNode("imports");
                 ObjectNode paths = normalizeNode("paths");
-                normalizeNode("map");
+                ObjectNode map = normalizeNode("map");
 
-                if (imports != null && paths == null) {
-                    importMap.remove("imports");
-                    importMap.set("paths", imports);
+                if (imports != null) {
+                    return;
+                } else if (paths != null) {
+                    imports = paths;
+                    importMap.remove("paths");
+                } else if (map != null) {
+                    imports = map;
+                    importMap.remove("map");
                 }
+
+                importMap.removeAll();
+                importMap.set("imports", imports);
             } catch (Exception e) {
                 log.error("Error processing web jar import map", e);
             }

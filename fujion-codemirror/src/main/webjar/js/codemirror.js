@@ -3,7 +3,7 @@
 define('fujion-codemirror', [
 	'fujion-core', 
 	'fujion-widget', 
-	'codemirror/lib/codemirror', 
+	'codemirror',
 	'fujion-codemirror-css', 
 	'codemirror-css',
 	'codemirror/addon/hint/show-hint.css',

@@ -1,5 +1,5 @@
 {
-  "map": {
+  "imports": {
     "fujion-react-widget": "js/widget.js"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "paths": {
+  "imports": {
     "fujion-multimedia": "js/multimedia.js"
   }
 }

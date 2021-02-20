@@ -12,9 +12,8 @@
 
     <properties>
         <angular.version>10.1.2</angular.version>
-        <corejs.version>2.6.11</corejs.version>
         <rxjs.version>6.6.3</rxjs.version>
-        <zonejs.version>0.11.1-1</zonejs.version>
+        <zonejs.version>0.11.4</zonejs.version>
 
         <webjar.name>fujion-angular</webjar.name>
         <skip.minification>false</skip.minification>
@@ -61,11 +60,6 @@
             <groupId>org.fujion.webjars</groupId>
             <artifactId>webjar-angular</artifactId>
             <version>${angular.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujion.webjars</groupId>
-            <artifactId>webjar-corejs</artifactId>
-            <version>${corejs.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fujion.webjars</groupId>

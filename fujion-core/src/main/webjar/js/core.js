@@ -1003,8 +1003,8 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
         },
 
         import: function (pkgname, callback) {
-            const path = System.resolveSync(pkgname);
-            const pkg = System.registry.get(path);
+            const path = System.resolve(pkgname);
+            const pkg = System.get(path);
             return pkg ? _callback(pkg) : System.import(path).then(pkg => _callback(pkg));
 
             function _callback(pkg) {

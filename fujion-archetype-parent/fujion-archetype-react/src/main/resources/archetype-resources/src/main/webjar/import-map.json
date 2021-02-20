@@ -1,5 +1,5 @@
 {
-  "map": {
+  "imports": {
     "${artifactId}": "app/${className}.js",
     "${artifactId}-css": "app/${className}.css"
   }

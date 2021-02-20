@@ -19,7 +19,7 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		},
 		
 		_mxinit: function() {
-			this._graph = new mx.mxGraph(this.widget$[0]);
+			this._graph = new mxGraph(this.widget$[0]);
 		},
 		
 		_mxdestroy: function() {
@@ -52,8 +52,8 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		},
 		
 		getGraphXML: function(pretty) {
-			const node = new mx.mxCodec().encode(this._graph.getModel());
-			return pretty ? mx.mxUtils.getPrettyXml(node) : mx.mxUtils.getXml(node, '&#xa;');
+			const node = new mxCodec().encode(this._graph.getModel());
+			return pretty ? mxUtils.getPrettyXml(node) : mxUtils.getXml(node, '&#xa;');
 		},
 		
 		insertEdge: function(parent, id, value, source, target, style) {
@@ -126,7 +126,7 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		
 		s_content: function(v) {
 			this.clear();
-			const doc = mx.mxUtils.parseXml(v);
+			const doc = mxUtils.parseXml(v);
 			const ele = doc.documentElement;
 			const dec = new mxCodec(ele.ownerDocument);
 			dec.decode(ele, this._graph.getModel());
@@ -169,7 +169,7 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		/*------------------------------ Lifecycle ------------------------------*/
 
 		_mxinit: function() {
-			this._editor = new mx.mxEditor();
+			this._editor = new mxEditor();
 			this._graph = this._editor.graph;
 			this._editor.setToolbarContainer(this.sub$('tbar')[0]);
 			this._editor.setGraphContainer(this.sub$('cnt')[0]);

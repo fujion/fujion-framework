@@ -1,5 +1,5 @@
 {
-  "paths": {
+  "imports": {
     "fujion-mxgraph": "js/mxgraph.js",
     "fujion-mxgraph-css": "css/mxgraph.css"
   }

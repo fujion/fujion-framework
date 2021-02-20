@@ -1,5 +1,5 @@
 {
-  "paths": {
+  "imports": {
     "fujion-plotly": "js/plotly.js"
   }
 }
