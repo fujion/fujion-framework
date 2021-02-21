@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-codemirror</artifactId>
-			<version>5.59.2</version>
+			<version>5.59.3</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

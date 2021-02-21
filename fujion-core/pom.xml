@@ -151,7 +151,7 @@
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-lodash</artifactId>
-		    <version>4.17.20</version>
+		    <version>4.17.21</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
