@@ -4,9 +4,9 @@ define('fujion-ace', [
 	'fujion-core', 
 	'fujion-widget',
 	'ace-editor',
-	'fujion-ace-css'], (fujion, Widget, Ace) => {
+	'fujion-ace-css'], (fujion, Widget, ace) => {
 
-	Ace.ace.config.set('basePath', 'webjars/webjar-ace/dist');
+	ace.config.set('basePath', 'webjars/webjar-ace/dist');
 
 	/**
 	 * Base Wrapper for Ace Editor
@@ -55,7 +55,11 @@ define('fujion-ace', [
 
 		beforeRender: function() {
 			this._super();
-			this._editor = Ace.ace.edit(this.widget$.children()[0]);
+			const mode = this.getState('mode');
+			this._editor = ace.edit(
+				this.widget$.children()[0], {
+					mode: mode ? 'ace/mode/' + mode : null
+				});
 			this._editor.on('blur', this.blurHandler.bind(this));
 			this._editor.on('change', this.changeHandler.bind(this));
 		},
@@ -71,8 +75,7 @@ define('fujion-ace', [
 		},
 
 		s_mode: function(v) {
-			//this._editor.getSession().setMode(v);
-			//fujion.import('ace-editor/dist/mode-' + v + '.js', pkg => this._editor.getSession().setMode(pkg));
+			this.rerender();
 		},
 
 		s_readonly: function(v) {
