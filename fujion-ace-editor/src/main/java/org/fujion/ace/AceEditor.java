@@ -37,7 +37,76 @@ public class AceEditor extends BaseInputComponent<String> {
 
     private String mode;
 
-    private boolean lineNumbers;
+    private boolean showGutter = true;
+
+    private String theme;
+
+    private boolean showCursor = true;
+
+    private int padding = 0;
+
+    private boolean animatedScroll;
+
+    private boolean showPrintMargin;
+
+    private boolean showInvisibles;
+
+    /**
+     * Scrolls the editor across both x- and y-axes.
+     *
+     * @param deltaX The x value to scroll by.
+     * @param deltaY The y value to scroll by.
+     */
+    public void scrollBy(int deltaX, int deltaY) {
+        invoke("scrollBy", deltaX, deltaY);
+    }
+
+    /**
+     * Gracefully scrolls from the top of the editor to the row indicated.
+     *
+     * @param row The row to scroll to.
+     */
+    public void scrollToRow(int row) {
+        invoke("scrollToRow", row);
+    }
+
+    /**
+     * Scrolls the editor across the x-axis to the pixel indicated.
+     *
+     * @param xPosition The position to scroll to.
+     */
+    public void scrollToX(int xPosition) {
+        invoke("scrollToX", xPosition);
+    }
+
+    /**
+     * Scrolls the editor across the y-axis to the pixel indicated.
+     *
+     * @param yPosition The position to scroll to.
+     */
+    public void scrollToY(int yPosition) {
+        invoke("scrollToY", yPosition);
+    }
+
+    /**
+     * Returns the animatedScroll parameter.
+     *
+     * @return True if animated scroll is enabled.
+     */
+    @PropertyGetter(value = "animatedScroll", description = "True if animated scrolling is enabled.")
+    public boolean getAnimatedScroll() {
+        return animatedScroll;
+    }
+
+    /**
+     * Sets the animatedScroll parameter.
+     *
+     * @param animatedScroll  True if animated scroll is enabled.
+     */
+    @PropertySetter(value = "animatedScroll", defaultValue = "false", description = "True if animated scrolling is enabled.")
+    public void setAnimatedScroll(boolean animatedScroll) {
+        propertyChange("animatedScroll", this.animatedScroll, this.animatedScroll = animatedScroll, true);
+    }
 
     /**
      * Returns true if the editor is set to read-only.
@@ -60,43 +129,143 @@ public class AceEditor extends BaseInputComponent<String> {
     }
 
     /**
-     * Returns the Ace Editor mode parameter.
+     * Returns the mode parameter.
      *
-     * @return The Ace Editor mode parameter.
+     * @return The mode parameter.
      */
-    @PropertyGetter(value = "mode", description = "The edit mode.")
+    @PropertyGetter(value = "mode", description = "The syntax highlight mode.")
     protected String getMode() {
         return mode;
     }
 
     /**
-     * Sets the Ace Editor mode parameter.
+     * Sets the mode parameter.
      *
-     * @param mode The Ace Editor mode parameter.
+     * @param mode The mode parameter.
      */
-    @PropertySetter(value = "mode", description = "The edit mode.")
+    @PropertySetter(value = "mode", description = "The syntax highlight mode.")
     protected void setMode(String mode) {
         propertyChange("mode", this.mode, this.mode = trimify(mode), true);
     }
 
     /**
-     * Returns the Ace Editor lineNumbers parameter.
+     * Returns the padding parameter.
      *
-     * @return The Ace Editor lineNumbers parameter.
+     * @return The padding parameter.
      */
-    @PropertyGetter(value = "lineNumbers", description = "Controls display of line numbers.")
-    public boolean getLineNumbers() {
-        return lineNumbers;
+    @PropertyGetter(value = "padding", description = "The padding in pixels.")
+    public int getPadding() {
+        return padding;
     }
 
     /**
-     * Sets the Ace Editor lineNumbers parameter.
+     * Sets the padding parameter.
      *
-     * @param lineNumbers The Ace Editor lineNumbers parameter.
+     * @param padding  The padding parameter.
      */
-    @PropertySetter(value = "lineNumbers", defaultValue = "false", description = "Controls display of line numbers.")
-    public void setLineNumbers(boolean lineNumbers) {
-        propertyChange("lineNumbers", this.lineNumbers, this.lineNumbers = lineNumbers, true);
+    @PropertySetter(value = "padding", defaultValue = "0", description = "The padding in pixels.")
+    public void setPadding(int padding) {
+        propertyChange("padding", this.padding, this.padding = padding, true);
+    }
+
+    /**
+     * Returns the showCursor parameter.
+     *
+     * @return The showCursor parameter.
+     */
+    @PropertyGetter(value = "showCursor", description = "Whether or not to show the cursor icon.")
+    public boolean getShowCursor() {
+        return showCursor;
+    }
+
+    /**
+     * Sets the showCursor parameter.
+     *
+     * @param showCursor If true, show the cursor icon.
+     */
+    @PropertySetter(value = "showCursor", defaultValue = "true", description = "Whether or not to show the cursor icon.")
+    public void setShowCursor(boolean showCursor) {
+        propertyChange("showCursor", this.showCursor, this.showCursor = showCursor, true);
+    }
+
+    /**
+     * Returns the showGutter parameter.
+     *
+     * @return The showGutter parameter.
+     */
+    @PropertyGetter(value = "showGutter", description = "Controls display of left gutter.")
+    public boolean getShowGutter() {
+        return showGutter;
+    }
+
+    /**
+     * Sets the showGutter parameter.
+     *
+     * @param showGutter The lineNumbers parameter.
+     */
+    @PropertySetter(value = "showGutter", defaultValue = "true", description = "Controls display of left gutter.")
+    public void setShowGutter(boolean showGutter) {
+        propertyChange("showGutter", this.showGutter, this.showGutter = showGutter, true);
+    }
+
+    /**
+     * Returns the showInvisibles parameter.
+     *
+     * @return The showInvisibles parameter.
+     */
+    @PropertyGetter(value = "showInvisibles", description = "Controls display of invisible characters.")
+    public boolean getShowInvisibles() {
+        return showInvisibles;
+    }
+
+    /**
+     * Sets the showInvisibles parameter.
+     *
+     * @param showInvisibles  The showInvisibles parameter.
+     */
+    @PropertySetter(value = "showInvisibles", defaultValue = "false", description = "Controls display of invisible characters.")
+    public void setShowInvisibles(boolean showInvisibles) {
+        propertyChange("showInvisibles", this.showInvisibles, this.showInvisibles = showInvisibles, true);
+    }
+
+    /**
+     * Returns the showPrintMargin parameter.
+     *
+     * @return The showPrintMargin parameter.
+     */
+    @PropertyGetter(value = "showPrintMargin", description = "Controls display of print margin column.")
+    public boolean getShowPrintMargin() {
+        return showPrintMargin;
+    }
+
+    /**
+     * Returns the showPrintMargin parameter.
+     *
+     * @param showPrintMargin  The showPrintMargin parameter.
+     */
+    @PropertySetter(value = "showPrintMargin", defaultValue = "false", description = "Controls display of print margin column.")
+    public void setShowPrintMargin(boolean showPrintMargin) {
+        propertyChange("showPrintMargin", this.showPrintMargin, this.showPrintMargin = showPrintMargin, true);
+    }
+
+    /**
+     * Returns the theme used by the editor.
+     *
+     * @return The theme used by the editor.
+     */
+    @PropertyGetter(value = "theme", description = "Theme used by the editor.")
+    public String getTheme() {
+        return theme;
+    }
+
+    /**
+     * Sets the theme used by the editor.
+     *
+     * @param theme  The theme used by the editor.
+     */
+    @PropertySetter(value = "theme", description = "Theme used by the editor.")
+    public void setTheme(String theme) {
+        propertyChange("theme", this.theme, this.theme = theme, true);
     }
 
     @Override

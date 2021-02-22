@@ -50,16 +50,28 @@ define('fujion-ace', [
 		    this._editor.setValue('');
 		    this._editor.focus();
 		},
-		
+
+		scrollBy: function(x, y) {
+			this._editor.renderer.scrollBy(x, y);
+		},
+
+		scrollToRow: function(row) {
+			this._editor.renderer.scrollToRow(row);
+		},
+
+		scrollToX: function(x) {
+			this._editor.renderer.scrollToX(x);
+		},
+
+		scrollToY: function(y) {
+			this._editor.renderer.scrollToY(y);
+		},
+
 		/*------------------------------ Rendering ------------------------------*/
 
 		beforeRender: function() {
 			this._super();
-			const mode = this.getState('mode');
-			this._editor = ace.edit(
-				this.widget$.children()[0], {
-					mode: mode ? 'ace/mode/' + mode : null
-				});
+			this._editor = ace.edit(this.widget$.children()[0]);
 			this._editor.on('blur', this.blurHandler.bind(this));
 			this._editor.on('change', this.changeHandler.bind(this));
 		},
@@ -70,16 +82,40 @@ define('fujion-ace', [
 		
 		/*------------------------------ State ------------------------------*/
 
-		s_lineNumbers: function(v) {
-			this._editor.renderer.setShowGutter(v);
+		s_animatedScroll: function(v) {
+			this._editor.renderer.setAnimatedScroll(v);
 		},
 
 		s_mode: function(v) {
-			this.rerender();
+			this._editor.session.setMode(v ? 'ace/mode/' + v : null);
 		},
 
 		s_readonly: function(v) {
 			this._editor.setReadOnly(v);
+		},
+
+		s_padding: function(v) {
+			this._editor.renderer.setPadding(v);
+		},
+
+		s_showCursor: function(v) {
+			v ? this._editor.renderer.showCursor() : this._editor.renderer.hideCursor();
+		},
+
+		s_showGutter: function(v) {
+			this._editor.renderer.setShowGutter(v);
+		},
+
+		s_showInvisibles: function(v) {
+			this._editor.renderer.setShowInvisibles(v);
+		},
+
+		s_showPrintMargin: function(v) {
+			this._editor.renderer.setShowPrintMargin(v);
+		},
+
+		s_theme: function(v) {
+			this._editor.renderer.setTheme(v ? 'ace/theme/' + v : null);
 		},
 
 		s_value: function(v) {

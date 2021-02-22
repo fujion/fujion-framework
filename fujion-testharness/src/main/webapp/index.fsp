@@ -9,7 +9,11 @@
 			<tab>
 				<import src="pages/@intro.fsp" />
 			</tab>
-			
+
+			<tab label="Ace Editor" hint="${@msg.fujion.testharness.aceeditor}">
+				<import src="pages/aceeditor.fsp" />
+			</tab>
+
 			<tab label="Angular" hint="${@msg.fujion.testharness.angular}">
 				<import src="web/org/fujion/angular/example/pomodoro.fsp" />
 			</tab>

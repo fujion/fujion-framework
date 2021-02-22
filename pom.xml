@@ -21,6 +21,7 @@
 	</scm>
 
 	<modules>
+		<module>fujion-ace-editor</module>
 		<module>fujion-angular-parent</module>
 		<module>fujion-archetype-parent</module>
 		<module>fujion-barcode</module>
