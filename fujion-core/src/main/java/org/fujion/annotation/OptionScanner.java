@@ -25,6 +25,7 @@ import org.fujion.ancillary.IOptionMapTransform;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.common.Assert;
 import org.fujion.common.Logger;
+import org.fujion.common.MiscUtil;
 import org.fujion.expression.ELEvaluator;
 
 import java.util.Collection;
@@ -68,7 +69,7 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
                 Object value = field.get(object);
                 
                 if (value == null) {
-                    Assert.isFalse(annotation.required(), "The field %s must have a value.", name);
+                    Assert.isFalse(annotation.required(), "The field '%s' must have a value.", name);
                     return true;
                 }
                 
@@ -99,6 +100,7 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
                 instance.setValue(name, value, map);
             } catch (Exception e) {
                 log.error("Exception transforming option map.", e);
+                throw MiscUtil.toUnchecked(e);
             }
             
             return true;

@@ -31,7 +31,7 @@ public class SearchOptions extends Options {
     /**
      * The string or regular expression to search for.
      */
-    @Option
+    @Option(required = true)
     public String needle;
 
     /**

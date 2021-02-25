@@ -26,7 +26,6 @@ import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.component.BaseInputComponent;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -97,16 +96,20 @@ public class AceEditor extends BaseInputComponent<String> {
      * @param callback The callback to receive the results.
      */
     public void find(SearchOptions options, IResponseCallback<Range> callback) {
-        invoke("find", callback, options);
+        invoke("find", (Map<String, Map<String, Integer>> range)
+                        -> IResponseCallback.invoke(callback, range == null ? null : new Range(range))
+                , options);
     }
 
     /**
      * Performs a search using the specified options, returning the results (a list of Ranges) asynchronously.
      *
-     * @param options The search options.
+     * @param options  The search options.
      * @param callback The callback to receive the results.
      */
-    public void findAll(SearchOptions options, IResponseCallback<List<Range>> callback) {
+    public void findAll(
+            SearchOptions options,
+            IResponseCallback<Integer> callback) {
         invoke("findAll", callback, options);
     }
 

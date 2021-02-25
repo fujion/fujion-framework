@@ -52,13 +52,11 @@ define('fujion-ace', [
 		},
 
 		find: function(options) {
-			const search = new ace.Search(options);
-			return search.find(this._editor.session);
+			return this._editor.find(options.needle, options);
 		},
 
 		findAll: function(options) {
-			const search = new ace.Search(options);
-			return search.findAll(this._editor.session);
+			return this._editor.findAll(options.needle, options);
 		},
 
 		scrollBy: function(x, y) {

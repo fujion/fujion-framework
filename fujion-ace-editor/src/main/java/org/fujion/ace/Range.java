@@ -23,30 +23,47 @@ package org.fujion.ace;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
+import java.util.Map;
+
 public class Range extends Options {
 
     /**
      * The starting row.
      */
-    @Option(required = true)
-    public Integer startRow;
+    @Option(value="start.row")
+    protected final int startRow;
 
     /**
      * The starting column.
      */
-    @Option(required = true)
-    public Integer startColumn;
+    @Option(value="start.column")
+    protected final int startColumn;
 
     /**
      * The ending row.
      */
-    @Option(required = true)
-    public Integer endRow;
+    @Option(value="end.row")
+    protected final int endRow;
 
     /**
      * The ending column.
      */
-    @Option(required = true)
-    public Integer endColumn;
+    @Option(value="end.column")
+    protected final int endColumn;
 
+    public Range(int startRow, int startColumn, int endRow, int endColumn) {
+        this.startRow = startRow;
+        this.startColumn = startColumn;
+        this.endRow = endRow;
+        this.endColumn = endColumn;
+    }
+
+    protected Range(Map<String, Map<String, Integer>> map) {
+        Map<String, Integer> start = map.get("start");
+        this.startRow = start.get("row");
+        this.startColumn = start.get("column");
+        Map<String, Integer> end = map.get("end");
+        this.endRow = end.get("row");
+        this.endColumn = end.get("column");
+    }
 }
