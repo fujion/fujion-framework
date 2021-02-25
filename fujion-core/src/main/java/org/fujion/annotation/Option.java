@@ -59,4 +59,11 @@ public @interface Option {
      * @return If true, ignore the annotation. Default is false.
      */
     boolean ignore() default false;
+
+    /**
+     * If true, a value is required.
+     *
+     * @return If true, an exception is thrown if the field's value is null.
+     */
+    boolean required() default false;
 }

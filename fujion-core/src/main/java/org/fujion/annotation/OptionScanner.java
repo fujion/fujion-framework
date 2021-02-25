@@ -23,6 +23,7 @@ package org.fujion.annotation;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.IOptionMapTransform;
 import org.fujion.ancillary.OptionMap;
+import org.fujion.common.Assert;
 import org.fujion.common.Logger;
 import org.fujion.expression.ELEvaluator;
 
@@ -67,6 +68,7 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
                 Object value = field.get(object);
                 
                 if (value == null) {
+                    Assert.isFalse(annotation.required(), "The field %s must have a value.", name);
                     return true;
                 }
                 
