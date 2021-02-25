@@ -20,11 +20,13 @@
  */
 package org.fujion.ace;
 
+import org.fujion.ancillary.IResponseCallback;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.component.BaseInputComponent;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,6 +88,26 @@ public class AceEditor extends BaseInputComponent<String> {
      */
     public void scrollToY(int yPosition) {
         invoke("scrollToY", yPosition);
+    }
+
+    /**
+     * Performs a search using the specified options, returning the result (a Range) asynchronously.
+     *
+     * @param options The search options.
+     * @param callback The callback to receive the results.
+     */
+    public void find(SearchOptions options, IResponseCallback<Range> callback) {
+        invoke("find", callback, options);
+    }
+
+    /**
+     * Performs a search using the specified options, returning the results (a list of Ranges) asynchronously.
+     *
+     * @param options The search options.
+     * @param callback The callback to receive the results.
+     */
+    public void findAll(SearchOptions options, IResponseCallback<List<Range>> callback) {
+        invoke("findAll", callback, options);
     }
 
     /**

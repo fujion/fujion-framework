@@ -51,6 +51,16 @@ define('fujion-ace', [
 		    this._editor.focus();
 		},
 
+		find: function(options) {
+			const search = new ace.Search(options);
+			return search.find(this._editor.session);
+		},
+
+		findAll: function(options) {
+			const search = new ace.Search(options);
+			return search.findAll(this._editor.session);
+		},
+
 		scrollBy: function(x, y) {
 			this._editor.renderer.scrollBy(x, y);
 		},
