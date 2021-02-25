@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
  */
 package org.fujion.plotly;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 import org.fujion.plotly.layout.LayoutOptions;
 import org.fujion.plotly.plot.PlotOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Container for all configuration data for this chart instance.

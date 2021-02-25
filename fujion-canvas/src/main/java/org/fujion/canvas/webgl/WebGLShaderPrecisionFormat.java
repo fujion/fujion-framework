@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@
  */
 package org.fujion.canvas.webgl;
 
-import java.util.Map;
-
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.canvas.BaseCanvasComponent;
 import org.fujion.canvas.CanvasResource;
+
+import java.util.Map;
 
 public class WebGLShaderPrecisionFormat extends CanvasResource {
 

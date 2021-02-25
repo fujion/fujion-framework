@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,6 @@
  */
 package org.fujion.testharness;
 
-import java.util.Date;
-
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.component.BaseComponent;
@@ -29,6 +27,8 @@ import org.fujion.component.Button;
 import org.fujion.component.Progressbar;
 import org.fujion.component.Timer;
 import org.fujion.event.TimerEvent;
+
+import java.util.Date;
 
 /**
  * Demonstration of timer control.

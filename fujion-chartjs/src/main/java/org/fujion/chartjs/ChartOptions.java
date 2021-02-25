@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,7 @@ package org.fujion.chartjs;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
-import org.fujion.chartjs.common.AnimationOptions;
-import org.fujion.chartjs.common.HoverOptions;
-import org.fujion.chartjs.common.LayoutOptions;
-import org.fujion.chartjs.common.LegendOptions;
-import org.fujion.chartjs.common.ScaleOptions;
-import org.fujion.chartjs.common.TitleOptions;
-import org.fujion.chartjs.common.TooltipOptions;
+import org.fujion.chartjs.common.*;
 
 public class ChartOptions extends Options {
     

@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +22,7 @@ package org.fujion.plotly.plot;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
-import org.fujion.plotly.common.ExponentFormatEnum;
-import org.fujion.plotly.common.FontOptions;
-import org.fujion.plotly.common.HorizontalAlignEnum;
-import org.fujion.plotly.common.MeasurementEnum;
-import org.fujion.plotly.common.ShowTickEnum;
-import org.fujion.plotly.common.TickModeEnum;
-import org.fujion.plotly.common.VerticalAlignEnum;
+import org.fujion.plotly.common.*;
 
 /**
  * Options for color bar.

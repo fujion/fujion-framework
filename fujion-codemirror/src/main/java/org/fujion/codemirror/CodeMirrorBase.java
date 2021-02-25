@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@
  */
 package org.fujion.codemirror;
 
-import java.util.Map;
-
 import org.apache.commons.lang3.BooleanUtils;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.annotation.EventHandler;
 import org.fujion.component.BaseInputComponent;
 import org.fujion.event.EventUtil;
+
+import java.util.Map;
 
 /**
  * Base class for CodeMirror JavaScript editor components.

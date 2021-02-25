@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@
  */
 package org.fujion.chartjs.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 import org.fujion.chartjs.plot.PlotOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataOptions extends Options {
     

@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,6 @@
  */
 package org.fujion.test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import org.fujion.client.ExecutionContext;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
@@ -36,6 +28,8 @@ import org.fujion.page.PageUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.springframework.core.io.Resource;
+
+import java.io.*;
 
 /**
  * Base class for tests using mock environment. Use this when you don't need a running web server

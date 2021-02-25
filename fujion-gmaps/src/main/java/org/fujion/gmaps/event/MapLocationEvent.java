@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
  */
 package org.fujion.gmaps.event;
 
-import java.util.Map;
-
 import org.fujion.annotation.EventType;
 import org.fujion.annotation.EventType.EventParameter;
 import org.fujion.annotation.OnFailure;
 import org.fujion.event.Event;
 import org.fujion.gmaps.LatLng;
+
+import java.util.Map;
 
 /**
  * A map location event.

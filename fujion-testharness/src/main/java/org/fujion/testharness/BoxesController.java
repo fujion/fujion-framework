@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,7 @@ package org.fujion.testharness;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.OnFailure;
 import org.fujion.annotation.WiredComponent;
-import org.fujion.component.BaseComponent;
-import org.fujion.component.Combobox;
-import org.fujion.component.Comboitem;
-import org.fujion.component.Listbox;
-import org.fujion.component.Listitem;
-import org.fujion.component.Popupbox;
-import org.fujion.component.Textbox;
+import org.fujion.component.*;
 import org.fujion.event.Event;
 import org.fujion.event.KeycaptureEvent;
 import org.fujion.model.IComponentRenderer;

@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@
  */
 package org.fujion.sparkline;
 
-import java.util.Map;
-
 import org.fujion.annotation.Option;
+
+import java.util.Map;
 
 /**
  * Options for bar plots.

@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
  */
 package org.fujion.script.jython;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang3.StringUtils;
 import org.fujion.script.IScriptLanguage;
 import org.python.core.PyCode;
 import org.python.util.PythonInterpreter;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Support for embedding Jython scripts.

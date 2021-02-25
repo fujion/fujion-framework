@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,6 @@
  */
 package org.fujion.testharness;
 
-import java.io.FileOutputStream;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.fujion.annotation.EventHandler;
@@ -33,6 +31,8 @@ import org.fujion.component.Upload;
 import org.fujion.event.ChangeEvent;
 import org.fujion.event.ClickEvent;
 import org.fujion.event.UploadEvent;
+
+import java.io.FileOutputStream;
 
 /**
  * Buttons demonstration.

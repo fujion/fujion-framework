@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,19 +24,9 @@ import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.OnFailure;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.client.ClientUtil;
-import org.fujion.component.BaseComponent;
+import org.fujion.component.*;
 import org.fujion.component.BaseLabeledComponent.LabelAlignment;
 import org.fujion.component.BaseLabeledComponent.LabelPositionAll;
-import org.fujion.component.Button;
-import org.fujion.component.Caption;
-import org.fujion.component.Checkbox;
-import org.fujion.component.Detail;
-import org.fujion.component.Div;
-import org.fujion.component.Hyperlink;
-import org.fujion.component.Popup;
-import org.fujion.component.Radiobutton;
-import org.fujion.component.Radiogroup;
-import org.fujion.component.Tab;
 import org.fujion.event.ChangeEvent;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;

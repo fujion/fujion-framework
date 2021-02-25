@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,6 @@
  */
 package org.fujion.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.client.ExecutionContext;
 import org.fujion.component.BaseComponent;
@@ -36,6 +28,10 @@ import org.fujion.page.PageDefinition;
 import org.fujion.page.PageElement;
 import org.fujion.page.PageUtil;
 import org.junit.Test;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class FujionTest extends MockTest {
 
