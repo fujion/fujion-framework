@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to build project from one of the Fujion archetypes.
+# Script to build a project from one of the Fujion archetypes.
 
 set -e
 
