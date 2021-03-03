@@ -23,6 +23,9 @@
 			<defaultValue>${project.parent.version}</defaultValue>
 			<!-- Fujion Framework Version -->
 		</requiredProperty>
+		<requiredProperty key="author">
+			<defaultValue>${user.name}</defaultValue>
+		</requiredProperty>
 	</requiredProperties>
 	<fileSets>
 		<fileSet filtered="true" packaged="false" encoding="UTF-8">
