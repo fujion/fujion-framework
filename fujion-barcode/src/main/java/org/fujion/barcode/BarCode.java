@@ -20,13 +20,13 @@
  */
 package org.fujion.barcode;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.common.Assert;
 import org.fujion.component.BaseUIComponent;
-import org.springframework.util.StringUtils;
 
 import java.util.function.Function;
 import java.util.regex.Pattern;

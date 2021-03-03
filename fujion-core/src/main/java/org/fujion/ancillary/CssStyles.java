@@ -20,7 +20,7 @@
  */
 package org.fujion.ancillary;
 
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
