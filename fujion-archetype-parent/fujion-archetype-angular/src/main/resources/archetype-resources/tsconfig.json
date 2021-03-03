@@ -9,14 +9,13 @@
     "buildOnSave": false,
     "compileOnSave": false,
     "compilerOptions": {
+        "outDir": "target/webjar/app",
         "baseUrl": "./",
         "target": "es2015",
         "module": "es2020",
         "moduleResolution": "node",
         "declaration": true,
         "sourceMap": true,
-        "inlineSourceMap": true,
-        "inlineSources": true,
         "skipLibCheck": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -26,5 +25,6 @@
         ],
         "lib": ["dom", "es2018"]
     },
+
     "exclude": ["node_modules", "dist", "**/*.ngfactory.ts", "**/*.shim.ts", "**/*.spec.ts"]
 }
