@@ -44,7 +44,7 @@ public class AnimationsOptions extends Options {
      * Start value for the animation.
      */
     @Option
-    public Integer from$string;
+    public String from$string;
 
     /**
      * Start value for the animation.
@@ -62,7 +62,7 @@ public class AnimationsOptions extends Options {
      * End value for the animation.
      */
     @Option
-    public Integer to$string;
+    public String to$string;
 
     /**
      * End value for the animation.

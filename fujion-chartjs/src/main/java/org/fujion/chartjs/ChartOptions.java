@@ -27,8 +27,6 @@ import org.fujion.annotation.Option;
 import org.fujion.chartjs.axis.BaseAxisOptions;
 import org.fujion.chartjs.common.*;
 
-import static org.fujion.chartjs.common.AnimationsOptions.PropertyTypeEnum;
-
 public class ChartOptions extends Options {
 
     @Option
@@ -45,20 +43,8 @@ public class ChartOptions extends Options {
     /**
      * Configures which element properties are animated and how.
      */
-    @Option("animations.numbers")
-    public final AnimationsOptions animationsOptionsNumbers = new AnimationsOptions(PropertyTypeEnum.NUMBER);
-
-    /**
-     * Configures which element properties are animated and how.
-     */
-    @Option("animations.colors")
-    public final AnimationsOptions animationsOptionsColors = new AnimationsOptions(PropertyTypeEnum.COLOR);
-
-    /**
-     * Configures which element properties are animated and how.
-     */
-    @Option("animations.booleans")
-    public final AnimationsOptions animationsOptionsBoolean = new AnimationsOptions(PropertyTypeEnum.BOOLEAN);
+    @Option
+    private final OptionMap animations = new OptionMap();
 
     /**
      * Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas).
@@ -89,7 +75,7 @@ public class ChartOptions extends Options {
     /**
      * Hover options.
      */
-    @Option // ?
+    @Option
     public final HoverOptions hover = new HoverOptions();
 
     /**
@@ -135,7 +121,7 @@ public class ChartOptions extends Options {
     /**
      * Called when a resize occurs. Gets passed two arguments: the chart instance and the new size.
      */
-    @Option(convertTo = JavaScript.class) // ?
+    @Option(convertTo = JavaScript.class)
     public String onResize;
 
     /**
@@ -155,7 +141,7 @@ public class ChartOptions extends Options {
      * <p>
      * Default: true
      */
-    @Option // ?
+    @Option
     public Boolean responsive;
 
     /**
@@ -168,14 +154,6 @@ public class ChartOptions extends Options {
     public Integer resizeDelay;
 
     /**
-     * Duration in milliseconds it takes to animate to new size after a resize event.
-     * <p>
-     * Default: 0
-     */
-    @Option("animation.resize.duration") // ?
-    public Integer responsiveAnimationDuration;
-    
-    /**
      * Scale options.
      */
     @Option
@@ -184,10 +162,14 @@ public class ChartOptions extends Options {
     /**
      * If true, show plot lines.
      */
-    @Option // ?
+    @Option
     public Boolean showLine;
 
     public void addAxis(BaseAxisOptions axis) {
         scales.put(axis.id, axis);
+    }
+
+    public void addAnimation(String id, AnimationsOptions options) {
+        animations.put(id, options);
     }
 }
