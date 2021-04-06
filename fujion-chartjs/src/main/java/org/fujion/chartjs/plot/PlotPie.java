@@ -22,6 +22,7 @@ package org.fujion.chartjs.plot;
 
 import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.BorderAlignEnum;
 
 /**
  * Options for pie plots.

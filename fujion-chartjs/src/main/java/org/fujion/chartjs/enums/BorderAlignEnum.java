@@ -1,4 +1,4 @@
-package org.fujion.chartjs.plot;
+package org.fujion.chartjs.enums;
 
 public enum BorderAlignEnum {
     CENTER, // The borders of arcs next to each other will overlap.

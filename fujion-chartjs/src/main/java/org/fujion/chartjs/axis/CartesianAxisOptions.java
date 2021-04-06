@@ -21,24 +21,15 @@
 package org.fujion.chartjs.axis;
 
 import org.fujion.annotation.Option;
-import org.fujion.chartjs.common.CartesianAxisEnum;
-import org.fujion.chartjs.common.PositionEnum;
 import org.fujion.chartjs.common.TitleOptions;
+import org.fujion.chartjs.enums.CartesianAxisEnum;
+import org.fujion.chartjs.enums.PositionEnum;
+import org.fujion.chartjs.enums.ScaleBoundsEnum;
 
 /**
  * Options common to all Cartesian axes.
  */
 public abstract class CartesianAxisOptions extends BaseAxisOptions {
-
-    public enum Bounds {
-        DATA,   // Makes sure data are fully visible, labels outside are removed.
-        TICKS;  // Makes sure ticks are fully visible, data outside are truncated.
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
 
     /**
      * Controls the scale boundary strategy (bypassed by min/max options).
@@ -46,7 +37,7 @@ public abstract class CartesianAxisOptions extends BaseAxisOptions {
      * Default: TICKS
      */
     @Option
-    public Bounds bounds;
+    public ScaleBoundsEnum bounds;
 
     /**
      * Which type of axis this is. If not set, this is inferred from the first character of the ID

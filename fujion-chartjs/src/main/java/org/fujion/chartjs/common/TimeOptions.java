@@ -23,21 +23,13 @@ package org.fujion.chartjs.common;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.TimeUnitEnum;
 
 /**
  * Time-related options.
  */
 public class TimeOptions extends Options {
-    
-    public enum TimeUnitEnum {
-        DAY, HOUR, MILLISECOND, MINUTE, MONTH, QUARTER, SECOND, WEEK, YEAR;
 
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
-    
     /**
      * Determines how different time units are displayed. See
      * <a href="http://momentjs.com/docs/#/displaying/format/">moment.js</a> for the allowable

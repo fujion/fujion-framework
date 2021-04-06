@@ -2,6 +2,8 @@ package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.AxisDirectionEnum;
+import org.fujion.chartjs.enums.InteractionModeEnum;
 
 /**
  * By default, these options apply to both the hover and tooltip interactions. The same options can be set in the
@@ -10,17 +12,6 @@ import org.fujion.annotation.Option;
  */
 public class InteractionOptions extends Options {
 
-    /**
-     * Determines which directions are used in calculating distances.
-     */
-    public enum AxisDirectionEnum {
-        X, XY, Y;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
     /**
      * Determines which directions are used in calculating distances.
      */

@@ -22,10 +22,10 @@ package org.fujion.chartjs.plot;
 
 import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
-import org.fujion.chartjs.common.CartesianAxisEnum;
 import org.fujion.chartjs.common.Point;
-import org.fujion.chartjs.common.PointStyleEnum;
-import org.fujion.chartjs.common.PositionEnum;
+import org.fujion.chartjs.enums.CartesianAxisEnum;
+import org.fujion.chartjs.enums.PointStyleEnum;
+import org.fujion.chartjs.enums.PositionEnum;
 
 /**
  * Options for bar plots.

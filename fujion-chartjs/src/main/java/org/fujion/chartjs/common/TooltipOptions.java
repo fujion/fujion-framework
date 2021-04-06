@@ -22,23 +22,14 @@ package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.HorizontalAlignmentEnum;
+import org.fujion.chartjs.enums.InteractionModeEnum;
+import org.fujion.chartjs.enums.TooltipPositionModeEnum;
 
 /**
  * Options for tooltips.
  */
 public class TooltipOptions extends InteractionOptions {
-
-    /**
-     * Position modes.
-     */
-    public enum PositionModeEnum {
-        AVERAGE, NEAREST;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
 
     /**
      * Background color of the tooltip.
@@ -241,7 +232,7 @@ public class TooltipOptions extends InteractionOptions {
      * Default: AVERAGE
      */
     @Option
-    public PositionModeEnum position;
+    public TooltipPositionModeEnum position;
 
     /**
      * Set to true for rendering the tooltip from right to left.

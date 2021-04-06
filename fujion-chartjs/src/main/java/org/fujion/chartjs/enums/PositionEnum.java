@@ -18,18 +18,16 @@
  *
  * #L%
  */
-package org.fujion.chartjs.common;
-
-import org.fujion.common.StrUtil;
+package org.fujion.chartjs.enums;
 
 /**
- * Point styles.
+ * Possible axis positions.
  */
-public enum PointStyleEnum {
-    CIRCLE, CROSS, CROSS_ROT, DASH, LINE, RECT, RECT_ROT, RECT_ROUNDED, STAR, TRIANGLE;
+public enum PositionEnum {
+    BOTTOM, LEFT, RIGHT, TOP;
 
     @Override
     public String toString() {
-        return StrUtil.toCamelCaseLower(name());
+        return name().toLowerCase();
     }
 }

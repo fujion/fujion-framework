@@ -23,7 +23,7 @@ package org.fujion.chartjs.plot;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.BubblePoint;
-import org.fujion.chartjs.common.PointStyleEnum;
+import org.fujion.chartjs.enums.PointStyleEnum;
 
 /**
  * Options for bubble plots.

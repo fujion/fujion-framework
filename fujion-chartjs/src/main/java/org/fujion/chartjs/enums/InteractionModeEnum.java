@@ -1,4 +1,4 @@
-package org.fujion.chartjs.common;
+package org.fujion.chartjs.enums;
 
 /**
  * Sets which elements appear in the interaction.

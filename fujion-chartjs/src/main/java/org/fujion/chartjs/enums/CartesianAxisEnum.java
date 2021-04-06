@@ -1,7 +1,7 @@
-package org.fujion.chartjs.common;
+package org.fujion.chartjs.enums;
 
-public enum AlignmentEnum {
-    START, CENTER, END;
+public enum CartesianAxisEnum {
+    X, Y;
 
     @Override
     public String toString() {

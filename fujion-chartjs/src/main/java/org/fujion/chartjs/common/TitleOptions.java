@@ -22,6 +22,8 @@ package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.AlignmentEnum;
+import org.fujion.chartjs.enums.PositionEnum;
 
 /**
  * Title options.

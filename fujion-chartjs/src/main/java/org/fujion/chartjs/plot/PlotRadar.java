@@ -22,9 +22,9 @@ package org.fujion.chartjs.plot;
 
 import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
-import org.fujion.chartjs.common.LineCapStyleEnum;
-import org.fujion.chartjs.common.LineJoinStyleEnum;
-import org.fujion.chartjs.common.PointStyleEnum;
+import org.fujion.chartjs.enums.LineCapStyleEnum;
+import org.fujion.chartjs.enums.LineJoinStyleEnum;
+import org.fujion.chartjs.enums.PointStyleEnum;
 import org.fujion.chartjs.plot.PlotLine.FillEnum;
 
 /**

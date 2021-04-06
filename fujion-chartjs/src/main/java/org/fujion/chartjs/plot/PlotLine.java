@@ -22,7 +22,11 @@ package org.fujion.chartjs.plot;
 
 import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
-import org.fujion.chartjs.common.*;
+import org.fujion.chartjs.common.Point;
+import org.fujion.chartjs.enums.CartesianAxisEnum;
+import org.fujion.chartjs.enums.LineCapStyleEnum;
+import org.fujion.chartjs.enums.LineJoinStyleEnum;
+import org.fujion.chartjs.enums.PointStyleEnum;
 
 /**
  * Options for line plots.

@@ -23,6 +23,8 @@ package org.fujion.chartjs.common;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.AlignmentEnum;
+import org.fujion.chartjs.enums.PositionEnum;
 
 /**
  * Options for controlling legend display.

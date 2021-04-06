@@ -1,4 +1,4 @@
-package org.fujion.chartjs.common;
+package org.fujion.chartjs.enums;
 
 public enum HorizontalAlignmentEnum {
     LEFT, CENTER, RIGHT;

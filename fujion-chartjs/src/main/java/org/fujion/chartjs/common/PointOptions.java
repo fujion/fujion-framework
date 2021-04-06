@@ -2,6 +2,7 @@ package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.PointStyleEnum;
 
 /**
  * Point rendering options across all chart types.

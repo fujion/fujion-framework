@@ -2,6 +2,8 @@ package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.LineCapStyleEnum;
+import org.fujion.chartjs.enums.LineJoinStyleEnum;
 
 public class LineOptions extends Options {
 

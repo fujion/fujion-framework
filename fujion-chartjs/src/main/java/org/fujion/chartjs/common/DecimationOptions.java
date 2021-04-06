@@ -2,17 +2,9 @@ package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.DecimationAlgorithmEnum;
 
 public class DecimationOptions extends Options {
-
-    public enum DecimationAlgorithmEnum {
-        LTTB, MIN_MAX;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase().replace("_", "-");
-        }
-    }
 
     /**
      * Is decimation enabled?

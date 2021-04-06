@@ -1,7 +1,7 @@
-package org.fujion.chartjs.common;
+package org.fujion.chartjs.enums;
 
-public enum LineJoinStyleEnum {
-    BEVEL, ROUND, MITER;
+public enum LineCapStyleEnum {
+    BUTT, ROUND, SQUARE;
 
     @Override
     public String toString() {
