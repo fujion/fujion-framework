@@ -21,14 +21,13 @@
 package org.fujion.chartjs.common;
 
 import org.fujion.ancillary.JavaScript;
-import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
 /**
  * Options for tooltips.
  */
-public class TooltipOptions extends Options {
-    
+public class TooltipOptions extends InteractionOptions {
+
     /**
      * Position modes.
      */
@@ -50,36 +49,22 @@ public class TooltipOptions extends Options {
     public String backgroundColor;
 
     /**
-     * The body font color.
-     * <p>
-     * Default: "#FFF"
+     * The body font.
      */
     @Option
-    public String bodyFontColor;
+    public final FontOptions bodyFont = new FontOptions();
 
     /**
-     * The body font family.
-     * <p>
-     * Default: "Helvetica Neue, Helvetica, Arial, sans-serif"
+     * The footer font.
      */
     @Option
-    public String bodyFontFamily;
+    public final FontOptions footerFont = new FontOptions();
 
     /**
-     * The bodu font size.
-     * <p>
-     * Default: 12
+     * Padding inside the tooltip.
      */
     @Option
-    public Integer bodyFontSize;
-
-    /**
-     * The body font style.
-     * <p>
-     * Default: "normal"
-     */
-    @Option
-    public String bodyFontStyle;
+    public final Padding padding = new Padding();
 
     /**
      * The spacing to add to top and bottom of each tooltip item.
@@ -96,7 +81,7 @@ public class TooltipOptions extends Options {
      */
     @Option
     public String borderColor;
-    
+
     /**
      * Size of the border.
      * <p>
@@ -104,13 +89,27 @@ public class TooltipOptions extends Options {
      */
     @Option
     public Integer borderWidth;
-    
+
+    /**
+     * The title font.
+     */
+    @Option
+    public final FontOptions titleFont = new FontOptions();
+
+    /**
+     * Horizontal alignment of the body text lines.
+     * <p>
+     * Default: LEFT
+     */
+    @Option
+    public HorizontalAlignmentEnum bodyAlign;
+
     /**
      * Options for tooltip callbacks.
      */
     @Option
     public final TooltipCallbackOptions callbacks = new TooltipCallbackOptions();
-    
+
     /**
      * Extra distance to move the end of the tooltip arrow away from the tooltip point.
      * <p>
@@ -134,12 +133,14 @@ public class TooltipOptions extends Options {
      */
     @Option
     public Double cornerRadius;
-    
+
     /**
-     * Custom tooltip function/
+     * The body text color.
+     * <p>
+     * Default: "#FFF"
      */
-    @Option(convertTo = JavaScript.class)
-    public String custom;
+    @Option
+    public String bodyColor;
     
     /**
      * If true, color boxes are shown in the tooltip.
@@ -156,44 +157,30 @@ public class TooltipOptions extends Options {
      */
     @Option
     public Boolean enabled;
-    
+
     /**
      * Custom function for filtering tooltip items.
      */
     @Option(convertTo = JavaScript.class)
     public String filter;
-    
+
     /**
-     * The footer font color.
-     * <p>
-     * Default: "#FFF"
+     * Height of the color box if displayColors is true.
      */
     @Option
-    public String footerFontColor;
-    
+    public Integer boxHeight;
+
     /**
-     * The footer font family.
-     * <p>
-     * Default: "Helvetica Neue, Helvetica, Arial, sans-serif"
+     * Width of the color box if displayColors is true.
      */
     @Option
-    public String footerFontFamily;
-    
+    public Integer boxWidth;
+
     /**
-     * The footer font size.
-     * <p>
-     * Default: 12
+     * Custom tooltip function/
      */
-    @Option
-    public Integer footerFontSize;
-    
-    /**
-     * The footer font style.
-     * <p>
-     * Default: "bold"
-     */
-    @Option
-    public String footerFontStyle;
+    @Option(convertTo = JavaScript.class)
+    public String external;
 
     /**
      * Margin to add before drawing the footer.
@@ -202,7 +189,7 @@ public class TooltipOptions extends Options {
      */
     @Option
     public Integer footerMarginTop;
-    
+
     /**
      * The spacing to add to top and bottom of each footer line.
      * <p>
@@ -210,30 +197,29 @@ public class TooltipOptions extends Options {
      */
     @Option
     public Integer footerSpacing;
-    
+
     /**
-     * If true, the tooltip mode applies only when the mouse position intersects with an element. If
-     * false, the mode will be applied at all times.
+     * Horizontal alignment of the footer text lines.
      * <p>
-     * Default: true
+     * Default: LEFT
      */
     @Option
-    public Boolean intersect;
-    
+    public HorizontalAlignmentEnum footerAlign;
+
     /**
      * Custom function for sorting tooltip items.
      */
     @Option(convertTo = JavaScript.class)
     public String itemSort;
-    
+
     /**
-     * Determines which elements appear in the tooltip.
+     * The footer color.
      * <p>
-     * Default: NEAREST
+     * Default: "#FFF"
      */
     @Option
-    public HoverModeEnum mode;
-    
+    public String footerColor;
+
     /**
      * Color to draw behind the colored boxes when multiple items are in the tooltip.
      * <p>
@@ -241,7 +227,14 @@ public class TooltipOptions extends Options {
      */
     @Option
     public String multiKeyBackground;
-    
+
+    /**
+     * If true, the tooltip mode applies only when the mouse position intersects with an element.
+     * If false, the mode will be applied at all times.
+     */
+    @Option
+    public Boolean intersect;
+
     /**
      * The mode for positioning the tooltip.
      * <p>
@@ -249,38 +242,35 @@ public class TooltipOptions extends Options {
      */
     @Option
     public PositionModeEnum position;
-    
+
     /**
-     * The title font color.
+     * Set to true for rendering the tooltip from right to left.
+     * <p>
+     * Default: false
+     */
+    public Boolean rtl;
+
+    /**
+     * Sets which elements appear in the tooltip.
+     */
+    @Option
+    public InteractionModeEnum mode;
+
+    /**
+     * Horizontal alignment of the title text lines.
+     * <p>
+     * Default: LEFT
+     */
+    @Option
+    public HorizontalAlignmentEnum titleAlign;
+
+    /**
+     * Color of title text.
      * <p>
      * Default: "#FFF"
      */
     @Option
-    public String titleFontColor;
-    
-    /**
-     * The title font family.
-     * <p>
-     * Default: "Helvetica Neue, Helvetica, Arial, sans-serif"
-     */
-    @Option
-    public String titleFontFamily;
-    
-    /**
-     * The title font size.
-     * <p>
-     * Default: 12
-     */
-    @Option
-    public Integer titleFontSize;
-    
-    /**
-     * The title font style.
-     * <p>
-     * Default: "bold"
-     */
-    @Option
-    public String titleFontStyle;
+    public String titleColor;
 
     /**
      * The margin to add on bottom of title section.
@@ -297,20 +287,13 @@ public class TooltipOptions extends Options {
      */
     @Option
     public Integer titleSpacing;
-    
+
     /**
-     * Padding to add on left and right of tooltip.
+     * Use the corresponding point style (from dataset options) instead of color boxes, ex: star, triangle etc.
+     * Size is based on the minimum value between boxWidth and boxHeight.
      * <p>
-     * Default: 6
+     * Default: false
      */
-    @Option
-    public Integer xPadding;
-    
-    /**
-     * Padding to add on top and bottom of tooltip.
-     * <p>
-     * Default: 6
-     */
-    @Option
-    public Integer yPadding;
+    public Boolean usePointStyle;
+
 }

@@ -43,20 +43,20 @@ public class GridLineOptions extends Options {
     public Integer borderDashOffset;
 
     /**
-     * The color of the grid lines. The first color applies to the first grid line, the second to
-     * the second grid line and so on.
-     */
-    @Option("color")
-    public String[] color$array;
-
-    /**
      * The color of all grid lines.
      * <p>
      * Default: "rgba(0, 0, 0, 0.1)"
      */
-    @Option("color")
-    public String color$string;
-    
+    @Option
+    public String color;
+
+    /**
+     * The color of the grid lines. The first color applies to the first grid line, the second to
+     * the second grid line and so on.
+     */
+    @Option
+    public String[] color$array;
+
     /**
      * If false, do not display grid lines for this axis.
      * <p>
@@ -91,19 +91,19 @@ public class GridLineOptions extends Options {
     public Boolean drawTicks;
 
     /**
-     * Stroke width of individual grid lines.
-     */
-    @Option("lineWidth")
-    public int[] lineWidth$array;
-
-    /**
      * Stroke width of all grid lines.
      * <p>
      * Default: 1
      */
-    @Option("lineWidth")
-    public Integer lineWidth$number;
-    
+    @Option
+    public Integer lineWidth;
+
+    /**
+     * Stroke width of individual grid lines.
+     */
+    @Option
+    public int[] lineWidth$array;
+
     /**
      * If true, grid lines will be shifted to be between labels.
      * <p>

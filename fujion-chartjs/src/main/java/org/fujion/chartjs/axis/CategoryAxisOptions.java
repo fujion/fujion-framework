@@ -20,13 +20,46 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for category axes.
  */
 public class CategoryAxisOptions extends CartesianAxisOptions {
-    
+
+    /**
+     * An array of labels to display.
+     */
+    @Option
+    public String[] labels;
+
+    /**
+     * The minimum item to display as index of label.
+     */
+    @Option
+    public Integer min$number;
+
+    /**
+     * The minimum item to display as valuve of label.
+     */
+    @Option
+    public String min$string;
+
+    /**
+     * The maximum item to display as index of label.
+     */
+    @Option
+    public Integer max$number;
+
+    /**
+     * The maximum item to display as value of label.
+     */
+    @Option
+    public String max$string;
+
     /**
      * Tick options.
      */
     public final CategoryTickOptions ticks = new CategoryTickOptions();
+
 }

@@ -94,6 +94,14 @@ public class TooltipCallbackOptions extends Options {
     public String labelColor;
 
     /**
+     * Returns the point style to use instead of color boxes if usePointStyle is true
+     * (object with values pointStyle and rotation). Default implementation uses the point style
+     * from the dataset points.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String labelPointStyle;
+
+    /**
      * Returns the colors for the text of the label for the tooltip item.
      */
     @Option(convertTo = JavaScript.class)

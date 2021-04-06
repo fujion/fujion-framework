@@ -21,12 +21,11 @@
 package org.fujion.chartjs.axis;
 
 import org.fujion.annotation.Option;
-import org.fujion.chartjs.plot.PlotOptions;
 
 /**
  * Options for logarithmic axes.
  */
-public class LogarithmicAxisOptions extends PlotOptions {
+public class LogarithmicAxisOptions extends CartesianAxisOptions {
 
     /**
      * Tick options.

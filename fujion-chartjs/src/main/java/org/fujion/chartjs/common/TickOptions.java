@@ -86,10 +86,8 @@ public abstract class TickOptions extends Options {
      * Padding between the tick label and the axis. When set on a vertical axis, this applies in the
      * horizontal (X) direction. When set on a horizontal axis, this applies in the vertical (Y)
      * direction.
-     * <p>
-     * Default: 10
      */
     @Option
-    public Integer padding;
+    public final Padding padding = new Padding();
 
 }

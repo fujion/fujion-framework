@@ -27,34 +27,6 @@ import org.fujion.chartjs.common.TimeOptions;
  */
 public class TimeAxisOptions extends CartesianAxisOptions {
     
-    public enum BoundsEnum {
-        SCALE, TICK;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
-
-    public enum DistributionEnum {
-        LINEAR, SERIES;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
-
-    /**
-     * Determines the scale bounds.
-     */
-    public BoundsEnum bounds;
-
-    /**
-     * How data is plotted.
-     */
-    public DistributionEnum distribution;
-
     /**
      * Tick options.
      */

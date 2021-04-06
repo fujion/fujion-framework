@@ -85,8 +85,6 @@ public class LegendLabelOptions extends Options {
     
     /**
      * Padding between rows of colored boxes.
-     * <p>
-     * Default: 10
      */
     @Option
     public Integer padding;

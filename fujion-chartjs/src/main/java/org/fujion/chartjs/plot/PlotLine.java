@@ -20,8 +20,9 @@
  */
 package org.fujion.chartjs.plot;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
-import org.fujion.chartjs.common.Point;
+import org.fujion.chartjs.common.*;
 
 /**
  * Options for line plots.
@@ -60,7 +61,7 @@ public class PlotLine extends PlotOptions {
     }
     
     public enum SteppedLineEnum {
-        AFTER, BEFORE;
+        AFTER, BEFORE, MIDDLE, FALSE, TRUE;
         
         @Override
         public String toString() {
@@ -69,11 +70,12 @@ public class PlotLine extends PlotOptions {
     }
     
     /**
-     * Cap style of the line. See <a href=
-     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineCap">MDN</a>.
+     * Cap style of the line.
+     *
+     * Default: BUTT
      */
     @Option
-    public String borderCapStyle;
+    public LineCapStyleEnum borderCapStyle;
     
     /**
      * Length and spacing of dashes. See <a href=
@@ -81,7 +83,14 @@ public class PlotLine extends PlotOptions {
      */
     @Option
     public int[] borderDash;
-    
+
+    /**
+     * Length and spacing of dashes. See <a href=
+     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</a>.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderDash$function;
+
     /**
      * Offset for line dashes. See See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
@@ -90,12 +99,13 @@ public class PlotLine extends PlotOptions {
     public Integer borderDashOffset;
 
     /**
-     * Line joint style. See <a href=
-     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineJoin">MDN</a>.
+     * Line join style.
+     *
+     * Default: MITER
      */
     @Option
-    public String borderJoinStyle;
-    
+    public LineJoinStyleEnum borderJoinStyle;
+
     /**
      * Algorithm used to interpolate a smooth curve from the discrete data points.
      */
@@ -105,38 +115,76 @@ public class PlotLine extends PlotOptions {
     /**
      * The plot data (as numbers).
      */
-    @Option("data")
+    @Option
     public double[] data$number;
 
     /**
      * The plot data (as points).
      */
-    @Option("data")
+    @Option
     public Point[] data$points;
     
     /**
      * If false, fill mode is disabled.
      */
-    @Option("fill")
+    @Option
     public Boolean fill$boolean;
     
     /**
      * A boundary-based fill.
      */
-    @Option("fill")
+    @Option
     public FillEnum fill$enum;
 
     /**
      * An absolute dataset index.
      */
-    @Option("fill")
+    @Option
     public Integer fill$number;
 
     /**
      * A relative dataset index (e.g., "+1" or "-2").
      */
-    @Option("fill")
+    @Option
     public String fill$string;
+
+    /**
+     * Cap style of the line.
+     *
+     * Default: BUTT
+     */
+    @Option
+    public LineCapStyleEnum hoverBorderCapStyle;
+
+    /**
+     * Length and spacing of dashes. See <a href=
+     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</a>.
+     */
+    @Option
+    public int[] hoverBorderDash;
+
+    /**
+     * Offset for line dashes. See See <a href=
+     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
+     */
+    @Option
+    public Integer hoverBorderDashOffset;
+
+    /**
+     * Line join style.
+     *
+     * Default: MITER
+     */
+    @Option
+    public LineJoinStyleEnum hoverBorderJoinStyle;
+
+    /**
+     * The base axis of the dataset. X for horizontal lines and Y for vertical lines.
+     * <p>
+     * Default: X
+     */
+    @Option
+    public CartesianAxisEnum indexAxis;
 
     /**
      * The label for the dataset which appears in the legend and tooltips.
@@ -147,9 +195,17 @@ public class PlotLine extends PlotOptions {
     /**
      * Bezier curve tension of the line. Set to 0 to draw straightlines. This option is ignored if
      * monotone cubic interpolation is used.
+     *
+     * Default: 0
      */
     @Option
-    public Double lineTension;
+    public Integer tension;
+
+    /**
+     * The drawing order of dataset.
+     */
+    @Option
+    public Integer order;
 
     /**
      * The fill color for points.
@@ -166,98 +222,106 @@ public class PlotLine extends PlotOptions {
     /**
      * The width of the point border in pixels.
      */
-    @Option("pointBorderWidth")
-    public int[] pointBorderWidth$array;
-    
+    @Option
+    public Integer pointBorderWidth;
+
     /**
      * The width of the point border in pixels.
      */
-    @Option("pointBorderWidth")
-    public Integer pointBorderWidth$number;
-    
+    @Option
+    public int[] pointBorderWidth$array;
+
     /**
      * The pixel size of the non-displayed point that reacts to mouse events.
      */
-    @Option("pointHitRadius")
+    @Option
+    public Integer pointHitRadius;
+
+    /**
+     * The pixel size of the non-displayed point that reacts to mouse events.
+     */
+    @Option
     public int[] pointHitRadius$array;
 
     /**
-     * The pixel size of the non-displayed point that reacts to mouse events.
+     * Point background color when hovered.
      */
-    @Option("pointHitRadius")
-    public Integer pointHitRadius$number;
+    @Option
+    public String pointHoverBackgroundColor;
 
     /**
      * Point background color when hovered.
      */
-    @Option("pointHoverBackgroundColor")
+    @Option
     public String[] pointHoverBackgroundColor$array;
 
     /**
-     * Point background color when hovered.
+     * Point border color when hovered.
      */
-    @Option("pointHoverBackgroundColor")
-    public String pointHoverBackgroundColor$string;
+    @Option
+    public String pointHoverBorderColor;
 
     /**
      * Point border color when hovered.
      */
-    @Option("pointHoverBorderColor")
+    @Option
     public String[] pointHoverBorderColor$array;
 
     /**
-     * Point border color when hovered.
+     * Border width of point when hovered.
      */
-    @Option("pointHoverBorderColor")
-    public String pointHoverBorderColor$string;
+    @Option
+    public Integer pointHoverBorderWidth;
 
     /**
      * Border width of point when hovered.
      */
-    @Option("pointHoverBorderWidth")
+    @Option
     public int[] pointHoverBorderWidth$array;
-    
-    /**
-     * Border width of point when hovered.
-     */
-    @Option("pointHoverBorderWidth")
-    public Integer pointHoverBorderWidth$number;
 
     /**
      * The radius of the point when hovered.
      */
-    @Option("pointHoverRadius")
+    @Option
+    public Integer pointHoverRadius;
+
+    /**
+     * The radius of the point when hovered.
+     */
+    @Option
     public int[] pointHoverRadius$array;
 
     /**
-     * The radius of the point when hovered.
+     * The radius of the point shape in pixels. If set to 0, the point is not rendered.
      */
-    @Option("pointHoverRadius")
-    public Integer pointHoverRadius$number;
+    @Option
+    public Integer pointRadius;
 
     /**
      * The radius of the point shape in pixels. If set to 0, the point is not rendered.
      */
-    @Option("pointRadius")
+    @Option
     public int[] pointRadius$array;
 
     /**
-     * The radius of the point shape in pixels. If set to 0, the point is not rendered.
+     * The rotation of the point in degrees.
+     *
+     * Default: 0
      */
-    @Option("pointRadius")
-    public Integer pointRadius$number;
+    @Option
+    public Integer pointRotation;
 
     /**
      * Style of the point.
      */
-    @Option("pointStyle")
+    @Option
+    public PointStyleEnum pointStyle;
+
+    /**
+     * Style of the point.
+     */
+    @Option
     public PointStyleEnum[] pointStyle$array;
-
-    /**
-     * Style of the point.
-     */
-    @Option("pointStyle")
-    public PointStyleEnum pointStyle$enum;
 
     /**
      * If false, the line is not drawn for this dataset.
@@ -267,10 +331,16 @@ public class PlotLine extends PlotOptions {
 
     /**
      * If true, lines will be drawn between points with no or null data. If false, points with NaN
-     * data will create a break in the line
+     * data will create a break in the line.
      */
     @Option
-    public Boolean spanGaps;
+    public Boolean spanGaps$boolean;
+
+    /**
+     * A number specifying the maximum gap length to span. The unit of the value depends on the scale used.
+     */
+    @Option
+    public Integer spanGaps$number;
 
     /**
      * Stepped line interpolation mode.
@@ -278,7 +348,7 @@ public class PlotLine extends PlotOptions {
      * Default: no interpolation
      */
     @Option
-    public SteppedLineEnum steppedLine;
+    public SteppedLineEnum stepped;
 
     /**
      * The ID of the x axis to plot this dataset on. If not specified, this defaults to the ID of

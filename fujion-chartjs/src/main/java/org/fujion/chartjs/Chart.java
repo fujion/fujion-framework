@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
-import org.fujion.chartjs.axis.AxisOptions;
+import org.fujion.chartjs.axis.BaseAxisOptions;
 import org.fujion.chartjs.axis.CartesianAxisOptions;
 import org.fujion.chartjs.axis.RadialAxisOptions;
 import org.fujion.chartjs.plot.PlotOptions;
@@ -58,7 +58,7 @@ public class Chart extends BaseUIComponent {
     
     public Chart() {
         super();
-        instance.options.title.text$array = titles;
+        instance.options.plugins.title.text$array = titles;
     }
     
     /**
@@ -139,7 +139,7 @@ public class Chart extends BaseUIComponent {
      * Sets the title to visible if either a title or a subtitle is present.
      */
     private void updateTitleVisibility() {
-        instance.options.title.display = !StringUtils.isEmpty(getTitle()) || !StringUtils.isEmpty(getSubtitle());
+        instance.options.plugins.title.display = !StringUtils.isEmpty(getTitle()) || !StringUtils.isEmpty(getSubtitle());
     }
     
     /**
@@ -200,7 +200,7 @@ public class Chart extends BaseUIComponent {
     }
     
     public <T extends CartesianAxisOptions> T addXAxis(T axis) {
-        instance.options.scales.xAxes.add(axis);
+        instance.options.addAxis(axis);
         return axis;
     }
     
@@ -209,7 +209,7 @@ public class Chart extends BaseUIComponent {
     }
 
     public <T extends CartesianAxisOptions> T addYAxis(T axis) {
-        instance.options.scales.yAxes.add(axis);
+        instance.options.addAxis(axis);
         return axis;
     }
     
@@ -218,7 +218,7 @@ public class Chart extends BaseUIComponent {
     }
     
     public RadialAxisOptions addRAxis(RadialAxisOptions axis) {
-        instance.options.scales.rAxes.add(axis);
+        instance.options.addAxis(axis);
         return axis;
     }
 
@@ -229,7 +229,7 @@ public class Chart extends BaseUIComponent {
      * @param axisType The axis type.
      * @return An instance of the given axis type.
      */
-    private <T extends AxisOptions> T newAxis(Class<T> axisType) {
+    private <T extends BaseAxisOptions> T newAxis(Class<T> axisType) {
         try {
             return axisType.newInstance();
         } catch (Exception e) {

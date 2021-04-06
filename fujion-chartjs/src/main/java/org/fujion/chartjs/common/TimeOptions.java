@@ -108,21 +108,13 @@ public class TimeOptions extends Options {
      * Default: false
      */
     @Option
-    public Boolean isoWeekday;
+    public Boolean isoWeekday$boolean;
 
     /**
-     * The data maximum. For supported formats, see
-     * <a href="http://momentjs.com/docs/#/parsing/">moment.js</a>.
+     *The index of the first day of the week (0 - Sunday, 6 - Saturday).
      */
     @Option
-    public String max;
-
-    /**
-     * The data minimum. For supported formats, see
-     * <a href="http://momentjs.com/docs/#/parsing/">moment.js</a>.
-     */
-    @Option
-    public String min;
+    public Integer isoWeekday$number;
 
     /**
      * The minimum display format to be used for a time unit.
@@ -133,16 +125,16 @@ public class TimeOptions extends Options {
     public TimeUnitEnum minUnit;
 
     /**
-     * Custom function for parsing dates.
-     */
-    @Option(value="parser", convertTo = JavaScript.class)
-    public String parser$function;
-
-    /**
      * Custom format for parsing dates.
      */
-    @Option("parser")
-    public String parser$string;
+    @Option
+    public String parser;
+
+    /**
+     * Custom function for parsing dates.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String parser$function;
 
     /**
      * Dates will be rounded to the start of this unit.

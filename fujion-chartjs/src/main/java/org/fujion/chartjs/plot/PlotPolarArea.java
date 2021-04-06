@@ -20,6 +20,7 @@
  */
 package org.fujion.chartjs.plot;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
 
 /**
@@ -42,54 +43,38 @@ public class PlotPolarArea extends PlotOptions {
      */
     @Option("animation.animateScale")
     public Boolean animation_animateScale;
-    
+
+    /**
+     * When CENTER, the borders of arcs next to each other will overlap.
+     * When INNER, it is guaranteed that all borders will not overlap.
+     * <p>
+     * Default: CENTER
+     */
+    @Option
+    public BorderAlignEnum borderAlign;
+
+    /**
+     * When CENTER, the borders of arcs next to each other will overlap.
+     * When INNER, it is guaranteed that all borders will not overlap.
+     * <p>
+     * Default: CENTER
+     */
+    @Option
+    public BorderAlignEnum[] borderAlign$array;
+
+    /**
+     * When CENTER, the borders of arcs next to each other will overlap.
+     * When INNER, it is guaranteed that all borders will not overlap.
+     * <p>
+     * Default: CENTER
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderAlign$function;
+
     /**
      * The data points.
      */
     @Option
     public double[] data;
     
-    /**
-     * The fill color of individual bars when hovered.
-     */
-    @Option("hoverBackgroundColor")
-    public String[] hoverBackgroundColor$array;
-    
-    /**
-     * The fill color of all bars when hovered.
-     */
-    @Option("hoverBackgroundColor")
-    public String hoverBackgroundColor$string;
-    
-    /**
-     * The stroke color of individual bars when hovered.
-     */
-    @Option("hoverBorderColor")
-    public String[] hoverBorderColor$array;
-    
-    /**
-     * The stroke color of all bars when hovered.
-     */
-    @Option("hoverBorderColor")
-    public String hoverBorderColor$string;
-    
-    /**
-     * The stroke width of individual bars when hovered.
-     */
-    @Option("hoverBorderWidth")
-    public int[] hoverBorderWidth$array;
-    
-    /**
-     * The stroke width of all bars when hovered.
-     */
-    @Option("hoverBorderWidth")
-    public Integer hoverBorderWidth$number;
-    
-    /**
-     * Starting angle to draw arcs for the first item in a dataset.
-     * <p>
-     * Default: 0.5 * pi
-     */
-    @Option
-    public Double startAngle;
 }

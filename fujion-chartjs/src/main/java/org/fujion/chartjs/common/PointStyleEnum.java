@@ -18,7 +18,7 @@
  *
  * #L%
  */
-package org.fujion.chartjs.plot;
+package org.fujion.chartjs.common;
 
 import org.fujion.common.StrUtil;
 

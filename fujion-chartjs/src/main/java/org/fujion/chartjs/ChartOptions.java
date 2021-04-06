@@ -21,15 +21,54 @@
 package org.fujion.chartjs;
 
 import org.fujion.ancillary.JavaScript;
+import org.fujion.ancillary.OptionMap;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.axis.BaseAxisOptions;
 import org.fujion.chartjs.common.*;
 
+import static org.fujion.chartjs.common.AnimationsOptions.PropertyTypeEnum;
+
 public class ChartOptions extends Options {
-    
+
     @Option
     public final AnimationOptions animation = new AnimationOptions();
-    
+
+    /**
+     * Set to true to disable animations.
+     *
+     * Default: false
+     */
+    @Option(value = "animation", convertUsing = "value == false ? false : animation")
+    public Boolean disableAnimation;
+
+    /**
+     * Configures which element properties are animated and how.
+     */
+    @Option("animations.numbers")
+    public final AnimationsOptions animationsOptionsNumbers = new AnimationsOptions(PropertyTypeEnum.NUMBER);
+
+    /**
+     * Configures which element properties are animated and how.
+     */
+    @Option("animations.colors")
+    public final AnimationsOptions animationsOptionsColors = new AnimationsOptions(PropertyTypeEnum.COLOR);
+
+    /**
+     * Configures which element properties are animated and how.
+     */
+    @Option("animations.booleans")
+    public final AnimationsOptions animationsOptionsBoolean = new AnimationsOptions(PropertyTypeEnum.BOOLEAN);
+
+    /**
+     * Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas).
+     * Note that this option is ignored if the height is explicitly defined either as attribute or via the style.
+     *
+     * Default: 2
+     */
+    @Option
+    public Integer aspectRatio;
+
     /**
      * Override the window's default devicePixelRatio.
      * <p>
@@ -42,7 +81,7 @@ public class ChartOptions extends Options {
      * The events option defines the browser events that the chart should listen to for tooltips and
      * hovering.
      * <p>
-     * Default: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"]
+     * Default: ["mousemove", "mouseout", "click", "touchstart", "touchmove"]
      */
     @Option
     public String[] events;
@@ -50,21 +89,27 @@ public class ChartOptions extends Options {
     /**
      * Hover options.
      */
-    @Option
+    @Option // ?
     public final HoverOptions hover = new HoverOptions();
-    
+
+    /**
+     * Interaction options.
+     */
+    @Option
+    public final InteractionOptions interaction = new InteractionOptions();
+
+    /**
+     * A BCP 47 language tag.
+     */
+    @Option
+    public String locale;
+
     /**
      * Layout options.
      */
     @Option
     public final LayoutOptions layout = new LayoutOptions();
 
-    /**
-     * Legend options.
-     */
-    @Option
-    public final LegendOptions legend = new LegendOptions();
-    
     /**
      * Maintain the original canvas aspect ratio (width / height) when resizing.
      * <p>
@@ -90,47 +135,59 @@ public class ChartOptions extends Options {
     /**
      * Called when a resize occurs. Gets passed two arguments: the chart instance and the new size.
      */
-    @Option(convertTo = JavaScript.class)
+    @Option(convertTo = JavaScript.class) // ?
     public String onResize;
-    
+
+    /**
+     * Plugin options.
+     */
+    @Option
+    public final PluginOptions plugins = new PluginOptions();
+
+    /**
+     * Element configuration for all chart types.
+     */
+    @Option
+    public final ElementsOptions elements = new ElementsOptions();
+
     /**
      * Resizes the chart canvas when its container does.
      * <p>
      * Default: true
      */
-    @Option
+    @Option // ?
     public Boolean responsive;
+
+    /**
+     * Delay the resize update by give amount of milliseconds.
+     * This can ease the resize process by debouncing update of the elements.
+     *
+     * Default: 0
+     */
+    @Option
+    public Integer resizeDelay;
 
     /**
      * Duration in milliseconds it takes to animate to new size after a resize event.
      * <p>
      * Default: 0
      */
-    @Option
+    @Option("animation.resize.duration") // ?
     public Integer responsiveAnimationDuration;
     
     /**
      * Scale options.
      */
     @Option
-    public final ScaleOptions scales = new ScaleOptions();
+    private final OptionMap scales = new OptionMap();
     
     /**
      * If true, show plot lines.
      */
-    @Option
-    public Boolean showLines;
-    
-    /**
-     * Title display options.
-     */
-    @Option
-    public final TitleOptions title = new TitleOptions();
+    @Option // ?
+    public Boolean showLine;
 
-    /**
-     * Tooltip display options.
-     */
-    @Option
-    public final TooltipOptions tooltips = new TooltipOptions();
-    
+    public void addAxis(BaseAxisOptions axis) {
+        scales.put(axis.id, axis);
+    }
 }

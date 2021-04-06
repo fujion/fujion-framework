@@ -41,10 +41,10 @@ public class ChartJSController extends BaseChartController {
         chartjs.setTitle("ChartJS: Monthly Average Temperature");
         chartjs.setSubtitle("Source: WorldClimate.com");
         chartjs.setLabels(CATEGORIES);
-        yaxis.scaleLabel.labelString = "Temperature (°C)";
-        yaxis.scaleLabel.display = true;
-        yaxis.id = "yaxis";
-        chartjs.getOptions().tooltips.callbacks.label = "function(item, data) {return item.yLabel + '°C';}";
+        yaxis.title.text = "Temperature (°C)";
+        yaxis.title.display = true;
+        yaxis.id = "y";
+        chartjs.getOptions().plugins.tooltip.callbacks.label = "function(item, data) {return item.formattedValue + '°C';}";
         chartjs.addYAxis(yaxis);
         addSeries(TOKYO, "Tokyo");
         addSeries(NEW_YORK, "New York");

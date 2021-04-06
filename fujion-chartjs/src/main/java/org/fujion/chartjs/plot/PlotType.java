@@ -23,6 +23,8 @@ package org.fujion.chartjs.plot;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 
+import java.util.Arrays;
+
 /**
  * Supported plot types.
  */
@@ -32,7 +34,6 @@ public enum PlotType {
     BAR(PlotBar.class),
     BUBBLE(PlotBubble.class),
     DOUGHNUT(PlotDoughnut.class),
-    HORIZONTAL_BAR(PlotHorizBar.class),
     LINE(PlotLine.class),
     PIE(PlotPie.class),
     POLAR_AREA(PlotPolarArea.class),
@@ -47,13 +48,10 @@ public enum PlotType {
      * @return The corresponding plot type, or null if none.
      */
     public static PlotType fromPlotClass(Class<? extends PlotOptions> plotClass) {
-        for (PlotType type : PlotType.values()) {
-            if (type.plotClass == plotClass) {
-                return type;
-            }
-        }
-        
-        return null;
+        return Arrays.stream(PlotType.values())
+                .filter(type -> type.plotClass == plotClass)
+                .findAny()
+                .orElse(null);
     }
 
     private final Class<? extends PlotOptions> plotClass;

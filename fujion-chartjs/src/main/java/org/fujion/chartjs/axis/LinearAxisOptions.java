@@ -20,13 +20,34 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for linear axes.
  */
 public class LinearAxisOptions extends CartesianAxisOptions {
 
     /**
+     * If true, scale will include 0 if it is not already included.
+     */
+    @Option
+    public Boolean beginAtZero;
+
+    /**
+     * Amount for added room in the scale range above and below data.
+     */
+    @Option
+    public Integer grace$number;
+
+    /**
+     * Percentage for added room in the scale range above and below data.
+     */
+    @Option(convertUsing = "value + '%'")
+    public Integer grace$percentage;
+
+    /**
      * Tick options.
      */
     public final LinearTickOptions ticks = new LinearTickOptions();
+
 }

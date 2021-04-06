@@ -28,23 +28,7 @@ import org.fujion.annotation.Option;
  * Options for controlling legend display.
  */
 public class LegendOptions extends Options {
-    
-    /**
-     * If true, the legend is shown.
-     * <p>
-     * Default: true;
-     */
-    @Option
-    public Boolean display;
-    
-    /**
-     * Marks that this box should take the full width of the canvas (pushing down other boxes).
-     * <p>
-     * Default: true
-     */
-    @Option
-    public Boolean fullWidth;
-    
+
     /**
      * Legend label options.
      */
@@ -52,19 +36,70 @@ public class LegendOptions extends Options {
     public final LegendLabelOptions labels = new LegendLabelOptions();
 
     /**
+     * Alignment of the legend.
+     * <p>
+     * Default: CENTER
+     */
+    @Option
+    public AlignmentEnum align;
+
+    /**
+     * If true, the legend is shown.
+     * <p>
+     * Default: true;
+     */
+    @Option
+    public Boolean display;
+
+    /**
+     * Maximum height of the legend, in pixels
+     */
+    @Option
+    public Integer maxHeight;
+
+    /**
+     * Maximum width of the legend, in pixels
+     */
+    @Option
+    public Integer maxWidth;
+
+    /**
+     * Marks that this box should take the full width/height of the canvas (moving other boxes).
+     * This is unlikely to need to be changed in day-to-day use.
+     * <p>
+     * Default: true
+     */
+    @Option
+    public Boolean fullSize;
+
+    /**
      * A callback that is called when a click event is registered on a label item.
+     * <p>
+     * Arguments: [event, legendItem, legend]
      */
     @Option(convertTo = JavaScript.class)
     public String onClick;
 
     /**
      * A callback that is called when a 'mousemove' event is registered on top of a label item.
+     * <p>
+     * Arguments: [event, legendItem, legend]
      */
     @Option(convertTo = JavaScript.class)
     public String onHover;
 
     /**
+     * A callback that is called when a 'mousemove' event is registered outside of a previously hovered label item.
+     * <p>
+     * Arguments: [event, legendItem, legend]
+     */
+    @Option(convertTo = JavaScript.class)
+    public String onLeave;
+
+    /**
      * Position of the legend.
+     * <p>
+     * Default: TOP
      */
     @Option
     public PositionEnum position;
@@ -76,4 +111,17 @@ public class LegendOptions extends Options {
      */
     @Option
     public Boolean reverse;
+
+    /**
+     * Set to true for rendering the legends from right to left.
+     *
+     * Default: false
+     */
+    @Option
+    public Boolean rtl;
+
+    /**
+     * Options for the legend title.
+     */
+    public final TitleOptions title = new TitleOptions();
 }

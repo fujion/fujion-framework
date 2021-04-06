@@ -27,7 +27,22 @@ import org.fujion.annotation.Option;
  * Title options.
  */
 public class TitleOptions extends Options {
-    
+
+    /**
+     * The horizontal alignment of the title.
+     *
+     * Default: CENTER
+     */
+    public AlignmentEnum align;
+
+    /**
+     * Font color.
+     * <p>
+     * Default: "#666"
+     */
+    @Option
+    public String color;
+
     /**
      * If true, the is title shown.
      * <p>
@@ -35,55 +50,31 @@ public class TitleOptions extends Options {
      */
     @Option
     public Boolean display;
-    
-    /**
-     * Font color.
-     * <p>
-     * Default: "#666"
-     */
-    @Option
-    public String fontColor;
 
     /**
-     * Font family.
+     * Font.
      * <p>
-     * Default: "Helvetica Neue, Helvetica, Arial, sans-serif"
+     * Default: font.style = bold
      */
     @Option
-    public String fontFamily;
-    
+    public final FontOptions font = new FontOptions();
+
     /**
-     * Font size.
-     * <p>
-     * Default: 12
+     * Marks that this box should take the full width/height of the canvas.
+     * If false, the box is sized and placed above/beside the chart area.
+     *
+     * Default: true
      */
     @Option
-    public Integer fontSize;
-    
-    /**
-     * Font style.
-     * <p>
-     * Default: "bold"
-     */
-    @Option
-    public String fontStyle;
-    
-    /**
-     * Height of an individual line of text. See
-     * <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height">MDN</a>.
-     * <p>
-     * Default: 1.2
-     */
-    @Option
-    public String lineHeight;
-    
+    public Boolean fullSize;
+
     /**
      * Number of pixels to add above and below the title text.
-     * <p>
+     *
      * Default: 10
      */
     @Option
-    public Integer padding;
+    public final Padding padding = new Padding();
     
     /**
      * Position of title.
@@ -92,17 +83,17 @@ public class TitleOptions extends Options {
      */
     @Option
     public PositionEnum position;
-    
+
     /**
      * The text of the title.
      */
-    @Option("text")
+    @Option
+    public String text;
+
+    /**
+     * The text of the title.
+     */
+    @Option
     public String[] text$array;
     
-    /**
-     * The text of the title.
-     */
-    @Option("text")
-    public String text$string;
-
 }

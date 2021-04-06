@@ -86,9 +86,7 @@ public class ScaleLabelOptions extends Options {
     
     /**
      * Padding to apply around scale labels. Only top and bottom are implemented.
-     * <p>
-     * Default: 4
      */
     @Option
-    public Integer padding;
+    public final Padding padding = new Padding();
 }

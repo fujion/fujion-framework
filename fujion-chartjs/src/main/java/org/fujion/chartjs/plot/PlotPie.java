@@ -35,7 +35,7 @@ public class PlotPie extends PlotOptions {
      */
     @Option("animation.animateRotate")
     public Boolean animation_animateRotate;
-    
+
     /**
      * If true, will animate scaling the chart from the center outwards.
      * <p>
@@ -43,90 +43,148 @@ public class PlotPie extends PlotOptions {
      */
     @Option("animation.animateScale")
     public Boolean animation_animateScale;
-    
+
+    /**
+     * When CENTER, the borders of arcs next to each other will overlap.
+     * When INNER, it is guaranteed that all borders will not overlap.
+     * <p>
+     * Default: CENTER
+     */
+    @Option
+    public BorderAlignEnum borderAlign;
+
+    /**
+     * When CENTER, the borders of arcs next to each other will overlap.
+     * When INNER, it is guaranteed that all borders will not overlap.
+     * <p>
+     * Default: CENTER
+     */
+    @Option
+    public BorderAlignEnum[] borderAlign$array;
+
+    /**
+     * When CENTER, the borders of arcs next to each other will overlap.
+     * When INNER, it is guaranteed that all borders will not overlap.
+     * <p>
+     * Default: CENTER
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderAlign$function;
+
     /**
      * Sweep to allow arcs to cover.
      * <p>
-     * Default: 2 * pi
+     * Default: 0 degrees
      */
     @Option
     public Double circumference;
-    
+
     /**
      * The percentage of the chart that is cut out of the middle.
      * <p>
      * Default: 0 for pie chart, 50 for doughnut.
      */
     @Option
-    public Integer cutoutPercentage;
-    
+    public Integer cutout$pixels;
+
+    /**
+     * The # pixels of the chart that is cut out of the middle.
+     * <p>
+     * Default: 0 for pie chart, 50 for doughnut.
+     */
+    @Option(convertUsing = "value + '%'")
+    public Integer cutout$percent;
+
     /**
      * The data points.
      */
     @Option
     public double[] data;
-    
+
+    /**
+     * The background color when hovered as a single value.
+     */
+    @Option
+    public String hoverBackgroundColor;
+
     /**
      * The background color when hovered as an array.
      */
-    @Option("hoverBackgroundColor")
+    @Option
     public String[] hoverBackgroundColor$array;
     
     /**
      * The background color when hovered as a function.
      */
-    @Option(value = "hoverBackgroundColor", convertTo = JavaScript.class)
+    @Option(convertTo = JavaScript.class)
     public String hoverBackgroundColor$function;
-    
-    /**
-     * The background color when hovered as a single value.
-     */
-    @Option("hoverBackgroundColor")
-    public String hoverBackgroundColor$string;
 
     /**
-     * The border color when hovered as an array.
-     */
-    @Option("hoverBorderColor")
-    public String[] hoverBorderColor$array;
-    
-    /**
-     * The border color when hovered as a function.
-     */
-    @Option(value = "hoverBorderColor", convertTo = JavaScript.class)
-    public String hoverBorderColor$function;
-    
-    /**
-     * The border color when hovered as a single value.
-     */
-    @Option("hoverBorderColor")
-    public String hoverBorderColor$string;
-    
-    /**
-     * The border width when hovered as an array.
-     */
-    @Option("hoverBorderWidth")
-    public Integer[] hoverBorderWidth$array;
-    
-    /**
-     * The border width when hovered as a function.
-     */
-    @Option(value = "hoverBorderWidth", convertTo = JavaScript.class)
-    public String hoverBorderWidth$function;
-    
-    /**
-     * The border width when hovered as a single value.
+     * Arc offset when hovered (in pixels).
      * <p>
-     * Default: 1
+     * Default: 0
      */
-    @Option("hoverBorderWidth")
-    public Integer hoverBorderWidth$number;
+    @Option
+    public Integer hoverOffset;
+
+    /**
+     * Arc offset when hovered (in pixels).
+     */
+    @Option
+    public int[] hoverOffset$array;
+
+    /**
+     * Arc offset when hovered (in pixels).
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverOffset$function;
+
+    /**
+     * Arc offset (in pixels).
+     */
+    @Option
+    public Integer offset;
+
+    /**
+     * Arc offset (in pixels).
+     */
+    @Option
+    public int[] offset$array;
+
+    /**
+     * Arc offset (in pixels).
+     */
+    @Option(convertTo = JavaScript.class)
+    public String offset$function;
+
+    /**
+     * The outer radius of the chart in pixels.
+     */
+    @Option
+    public Integer radius$pixels;
+
+    /**
+     * The outer radius of the chart as a percentage of the maximum radius.
+     * <p>
+     * Default: 100
+     */
+    @Option(convertUsing = "value + '%'")
+    public Integer radius$percent;
 
     /**
      * Starting angle to draw arcs from.
      * <p>
-     * Default: -0.5 * pi
+     * Default: 0
      */
     @Option
     public Double rotation;
+
+    /**
+     * The relative thickness of the dataset. Providing a value for weight will cause the pie or doughnut dataset
+     * to be drawn with a thickness relative to the sum of all the dataset weight values.
+     *
+     * Default: 1
+     */
+    @Option
+    public Integer weight;
 }

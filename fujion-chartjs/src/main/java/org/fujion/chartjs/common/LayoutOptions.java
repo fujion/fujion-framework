@@ -27,37 +27,11 @@ import org.fujion.annotation.Option;
  * Options for layout.
  */
 public class LayoutOptions extends Options {
-    
-    /**
-     * Bottom padding in pixels.
-     * <p>
-     * Default: 0
-     */
-    @Option("padding.bottom")
-    public Integer padding_bottom;
 
     /**
-     * Left padding in pixels.
-     * <p>
-     * Default: 0
+     * The padding to add inside the chart.
      */
-    @Option("padding.left")
-    public Integer padding_left;
-
-    /**
-     * Right padding in pixels.
-     * <p>
-     * Default: 0
-     */
-    @Option("padding.right")
-    public Integer padding_right;
-
-    /**
-     * Top padding in pixels.
-     * <p>
-     * Default: 0
-     */
-    @Option("padding.top")
-    public Integer padding_top;
+    @Option
+    public final Padding padding = new Padding();
 
 }

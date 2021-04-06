@@ -20,56 +20,19 @@
  */
 package org.fujion.chartjs.common;
 
-import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
 /**
  * Hover options.
  */
-public class HoverOptions extends Options {
-    
-    /**
-     * Determines which directions are used in calculating distances.
-     */
-    public enum AxisEnum {
-        X, XY, Y;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
+public class HoverOptions extends InteractionOptions {
 
     /**
      * Duration in milliseconds it takes to animate hover style changes.
      * <p>
      * Default: 400
      */
-    @Option
+    @Option("animation.active.duration")
     public Integer animationDuration;
-    
-    /**
-     * Determines which directions are used in calculating distances.
-     * <p>
-     * Default: X for index mode and XY in dataset and nearest modes.
-     */
-    @Option
-    public AxisEnum axis;
-    
-    /**
-     * If true, the hover mode only applies when the mouse position intersects an item on the chart.
-     * <p>
-     * Default: true
-     */
-    @Option
-    public Boolean intersect;
-
-    /**
-     * Determines which elements appear in the tooltip.
-     * <p>
-     * Default: NEAREST
-     */
-    @Option
-    public HoverModeEnum mode;
     
 }

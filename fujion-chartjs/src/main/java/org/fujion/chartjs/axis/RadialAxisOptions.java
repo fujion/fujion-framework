@@ -25,7 +25,7 @@ import org.fujion.annotation.Option;
 /**
  * Options for linear radial axes.
  */
-public class RadialAxisOptions extends AxisOptions {
+public class RadialAxisOptions extends BaseAxisOptions {
 
     /**
      * Angle line options.
@@ -44,6 +44,14 @@ public class RadialAxisOptions extends AxisOptions {
      */
     @Option
     public Object pointLabels;
+
+    /**
+     * Starting angle to draw arcs for the first item in a dataset.
+     * <p>
+     * Default: 0 degrees
+     */
+    @Option
+    public Double startAngle;
 
     /**
      * Tick options.

@@ -21,93 +21,48 @@
 package org.fujion.chartjs.axis;
 
 import org.fujion.annotation.Option;
-import org.fujion.chartjs.common.GridLineOptions;
+import org.fujion.chartjs.common.CartesianAxisEnum;
 import org.fujion.chartjs.common.PositionEnum;
-import org.fujion.chartjs.common.ScaleLabelOptions;
+import org.fujion.chartjs.common.TitleOptions;
 
 /**
  * Options common to all Cartesian axes.
  */
-public abstract class CartesianAxisOptions extends AxisOptions {
-    
-    /**
-     * If true, automatically calculates how many labels that can be shown and hides labels
-     * accordingly. Turn it off to show all labels no matter what.
-     * <p>
-     * Default: true
-     */
-    @Option
-    public Boolean autoSkip;
-    
-    /**
-     * Padding between the ticks on the horizontal axis when autoSkip is enabled. Note: Only
-     * applicable to horizontal scales.
-     * <p>
-     * Default: 0
-     */
-    @Option
-    public Integer autoSkipPadding;
-    
-    /**
-     * Grid line configuration.
-     */
-    @Option
-    public final GridLineOptions gridLines = new GridLineOptions();
+public abstract class CartesianAxisOptions extends BaseAxisOptions {
+
+    public enum Bounds {
+        DATA,   // Makes sure data are fully visible, labels outside are removed.
+        TICKS;  // Makes sure ticks are fully visible, data outside are truncated.
+
+        @Override
+        public String toString() {
+            return name().toLowerCase();
+        }
+    }
 
     /**
-     * Distance in pixels to offset the label from the centre point of the tick (in the y direction
-     * for the x axis, and the x direction for the y axis). Note: this can cause labels at the edges
-     * to be cropped by the edge of the canvas.
+     * Controls the scale boundary strategy (bypassed by min/max options).
      * <p>
-     * Default: 0
+     * Default: TICKS
      */
     @Option
-    public Integer labelOffset;
+    public Bounds bounds;
 
     /**
-     * Maximum rotation for tick labels when rotating to condense labels. Note: Rotation doesn't
-     * occur until necessary. Note: Only applicable to horizontal scales.
-     * <p>
-     * Default: 90
+     * Which type of axis this is. If not set, this is inferred from the first character of the ID
+     * which should be 'x' or 'y'.
      */
     @Option
-    public Integer maxRotation;
-
-    /**
-     * Minimum rotation for tick labels. Note: Only applicable to horizontal scales.
-     * <p>
-     * Default: 0
-     */
-    @Option
-    public Integer minRotation;
-
-    /**
-     * Flips tick labels around axis, displaying the labels inside the chart instead of outside.
-     * Note: Only applicable to vertical scales.
-     * <p>
-     * Default: false
-     */
-    @Option
-    public Boolean mirror;
+    public CartesianAxisEnum axis;
 
     /**
      * If true, extra space is added to the both edges and the axis is scaled to fit into the chart
      * area. This is set to true in the bar chart by default.
      * <p>
-     * Default: true for bar charts; false otherwise
+     * Default: true for bar charts; false otherwise.
      */
     @Option
     public Boolean offset;
-
-    /**
-     * Padding between the tick label and the axis. When set on a vertical axis, this applies in the
-     * horizontal (X) direction. When set on a horizontal axis, this applies in the vertical (Y)
-     * direction.
-     * <p>
-     * Default: 10
-     */
-    @Option
-    public Integer padding;
 
     /**
      * Position of the axis in the chart.
@@ -116,16 +71,8 @@ public abstract class CartesianAxisOptions extends AxisOptions {
     public PositionEnum position;
 
     /**
-     * Scale title configuration.
+     * Title configuration.
      */
     @Option
-    public final ScaleLabelOptions scaleLabel = new ScaleLabelOptions();
-
-    /**
-     * Type of scale being employed. Custom scales can be created and registered with a string key.
-     * This allows changing the type of an axis for a chart.
-     */
-    @Option
-    public String type;
-
+    public final TitleOptions title = new TitleOptions();
 }
