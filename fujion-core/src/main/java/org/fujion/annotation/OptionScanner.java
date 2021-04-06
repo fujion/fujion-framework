@@ -112,16 +112,18 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
     }
 
     /**
-     * Sets the name/value pair into the specified map. If the name contains an underscore, the
-     * value is stored in a submap using the first part of the name as the top level key and the
-     * second part as the subkey. If an underscore is part of the variable name, use two consecutive
-     * underscores. If a name contains a "$" character, the name is truncated at that character.
-     * This allows representing alternate forms of the same variable. For such variables, only the
+     * Sets the name/value pair into the specified map.
+     * <p>
+     * If the name contains a period, the value is stored in a submap using the first part of the
+     * name as the top level key and the second part as the subkey.
+     * <p>
+     * If a name contains a "$" character, the name is truncated at that character.  This allows
+     * representing alternate forms of the same variable. For such variables, only the
      * last non-null instance will be passed.
      *
-     * @param name Key name.
+     * @param name  Key name.
      * @param value Value.
-     * @param map Map to receive key/value pair.
+     * @param map   Map to receive key/value pair.
      */
     private void setValue(String name, Object value, Map<String, Object> map) {
         if (name.contains(".")) {
@@ -143,6 +145,7 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
             return;
         }
 
+        name = name.split("\\$")[0];
         map.put(name, value);
     }
     
