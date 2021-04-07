@@ -4,6 +4,11 @@ import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 import org.fujion.chartjs.enums.DecimationAlgorithmEnum;
 
+/**
+ * The decimation plugin can be used with line charts to automatically decimate data at the
+ * start of the chart lifecycle. Before enabling this plugin, review the requirements to ensure
+ * that it will work with the chart you want to create.
+ */
 public class DecimationOptions extends Options {
 
     /**

@@ -48,6 +48,7 @@ public class LinearAxisOptions extends CartesianAxisOptions {
     /**
      * Tick options.
      */
+    @Option
     public final LinearTickOptions ticks = new LinearTickOptions();
 
 }

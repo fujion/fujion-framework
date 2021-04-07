@@ -23,64 +23,27 @@ package org.fujion.chartjs.plot;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.Point;
-import org.fujion.chartjs.enums.CartesianAxisEnum;
-import org.fujion.chartjs.enums.LineCapStyleEnum;
-import org.fujion.chartjs.enums.LineJoinStyleEnum;
-import org.fujion.chartjs.enums.PointStyleEnum;
+import org.fujion.chartjs.enums.*;
 
 /**
  * Options for line plots.
  */
 public class PlotLine extends PlotOptions {
-    
-    public enum CubicInterpolationModeEnum {
-        /**
-         * Uses a custom weighted cubic interpolation, which produces pleasant curves for all types
-         * of datasets.
-         */
-        DEFAULT,
-        /**
-         * More suited to y = f(x) datasets : it preserves monotonicity (or piecewise monotonicity)
-         * of the dataset being interpolated, and ensures local extremums (if any) stay at input
-         * data points.
-         */
-        MONOTONE;
-        
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
 
-    /**
-     * Boundary-based fill mode.
-     */
-    public enum FillEnum {
-        END, ORIGIN, START;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
-    
-    public enum SteppedLineEnum {
-        AFTER, BEFORE, MIDDLE, FALSE, TRUE;
-        
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
-    
     /**
      * Cap style of the line.
-     *
+     * <p>
      * Default: BUTT
      */
     @Option
     public LineCapStyleEnum borderCapStyle;
-    
+
+    /**
+     * Cap style of the line.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderCapStyle$function;
+
     /**
      * Length and spacing of dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</a>.
@@ -103,18 +66,36 @@ public class PlotLine extends PlotOptions {
     public Integer borderDashOffset;
 
     /**
+     * Offset for line dashes.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderDashOffset$function;
+
+    /**
      * Line join style.
-     *
+     * <p>
      * Default: MITER
      */
     @Option
     public LineJoinStyleEnum borderJoinStyle;
 
     /**
+     * Line join style.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderJoinStyle$function;
+
+    /**
      * Algorithm used to interpolate a smooth curve from the discrete data points.
      */
     @Option
     public CubicInterpolationModeEnum cubicInterpolationMode;
+
+    /**
+     * Custom algorithm used to interpolate a smooth curve from the discrete data points.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String cubicInterpolationMode$function;
 
     /**
      * The plot data (as numbers).
@@ -153,12 +134,24 @@ public class PlotLine extends PlotOptions {
     public String fill$string;
 
     /**
+     * Compute fill.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String fill$function;
+
+    /**
      * Cap style of the line.
-     *
+     * <p>
      * Default: BUTT
      */
     @Option
     public LineCapStyleEnum hoverBorderCapStyle;
+
+    /**
+     * Cap style of the line.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderCapStyle$function;
 
     /**
      * Length and spacing of dashes. See <a href=
@@ -168,6 +161,12 @@ public class PlotLine extends PlotOptions {
     public int[] hoverBorderDash;
 
     /**
+     * Length and spacing of dashes.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderDash$function;
+
+    /**
      * Offset for line dashes. See See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
@@ -175,12 +174,24 @@ public class PlotLine extends PlotOptions {
     public Integer hoverBorderDashOffset;
 
     /**
+     * Offset for line dashes.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderDashOffset$function;
+
+    /**
      * Line join style.
-     *
+     * <p>
      * Default: MITER
      */
     @Option
     public LineJoinStyleEnum hoverBorderJoinStyle;
+
+    /**
+     * Line join style.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderJoinStyle$function;
 
     /**
      * The base axis of the dataset. X for horizontal lines and Y for vertical lines.
@@ -216,6 +227,18 @@ public class PlotLine extends PlotOptions {
      */
     @Option
     public String pointBackgroundColor;
+
+    /**
+     * The fill color for points.
+     */
+    @Option
+    public String[] pointBackgroundColor$array;
+
+    /**
+     * The fill color for points.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointBackgroundColor$function;
 
     /**
      * The border color for points.
@@ -308,12 +331,30 @@ public class PlotLine extends PlotOptions {
     public int[] pointRadius$array;
 
     /**
+     * The radius of the point shape in pixels.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointRadius$function;
+
+    /**
      * The rotation of the point in degrees.
-     *
+     * <p>
      * Default: 0
      */
     @Option
     public Integer pointRotation;
+
+    /**
+     * The rotation of the point in degrees.
+     */
+    @Option
+    public int[] pointRotation$array;
+
+    /**
+     * The rotation of the point in degrees.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointRotation$function;
 
     /**
      * Style of the point.
@@ -326,6 +367,12 @@ public class PlotLine extends PlotOptions {
      */
     @Option
     public PointStyleEnum[] pointStyle$array;
+
+    /**
+     * Style of the point.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointStyle$function;
 
     /**
      * If false, the line is not drawn for this dataset.
@@ -352,18 +399,28 @@ public class PlotLine extends PlotOptions {
      * Default: no interpolation
      */
     @Option
-    public SteppedLineEnum stepped;
+    public SteppedLineEnum stepped$enum;
 
     /**
-     * The ID of the x axis to plot this dataset on. If not specified, this defaults to the ID of
-     * the first found x axis
+     * Stepped line interpolation mode.
+     * <p>
+     * Default: false
+     */
+    @Option
+    public Boolean stepped$boolean;
+
+    /**
+     * The ID of the x axis to plot this dataset on.
+     * <p>
+     * Default: the ID of the first found x axis
      */
     @Option
     public String xAxisID;
 
     /**
-     * The ID of the y axis to plot this dataset on. If not specified, this defaults to the ID of
-     * the first found y axis.
+     * The ID of the y axis to plot this dataset on.
+     * <p>
+     * Default: the ID of the first found y axis.
      */
     @Option
     public String yAxisID;

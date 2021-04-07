@@ -40,7 +40,7 @@ public class CategoryAxisOptions extends CartesianAxisOptions {
     public Integer min$number;
 
     /**
-     * The minimum item to display as valuve of label.
+     * The minimum item to display as value of label.
      */
     @Option
     public String min$string;
@@ -60,6 +60,7 @@ public class CategoryAxisOptions extends CartesianAxisOptions {
     /**
      * Tick options.
      */
+    @Option
     public final CategoryTickOptions ticks = new CategoryTickOptions();
 
 }

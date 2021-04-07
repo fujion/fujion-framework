@@ -14,6 +14,8 @@ public class InteractionOptions extends Options {
 
     /**
      * Determines which directions are used in calculating distances.
+     * <p>
+     * Default: X
      */
     @Option
     public AxisDirectionEnum axis;

@@ -20,6 +20,7 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.TimeOptions;
 
 /**
@@ -30,11 +31,13 @@ public class TimeAxisOptions extends CartesianAxisOptions {
     /**
      * Tick options.
      */
+    @Option
     public final TimeTickOptions ticks = new TimeTickOptions();
 
     /**
      * Time options.
      */
+    @Option
     public final TimeOptions time = new TimeOptions();
 
 }

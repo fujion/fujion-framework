@@ -239,6 +239,7 @@ public class TooltipOptions extends InteractionOptions {
      * <p>
      * Default: false
      */
+    @Option
     public Boolean rtl;
 
     /**
@@ -285,6 +286,7 @@ public class TooltipOptions extends InteractionOptions {
      * <p>
      * Default: false
      */
+    @Option
     public Boolean usePointStyle;
 
 }

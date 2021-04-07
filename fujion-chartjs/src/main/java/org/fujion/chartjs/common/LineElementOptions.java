@@ -5,7 +5,10 @@ import org.fujion.annotation.Option;
 import org.fujion.chartjs.enums.LineCapStyleEnum;
 import org.fujion.chartjs.enums.LineJoinStyleEnum;
 
-public class LineOptions extends Options {
+/**
+ * Line elements are used to represent the line in a line chart.
+ */
+public class LineElementOptions extends Options {
 
     /**
      * Bézier curve tension (0 for no Bézier curves).

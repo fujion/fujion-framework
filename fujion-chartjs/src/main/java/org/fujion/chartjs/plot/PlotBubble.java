@@ -135,4 +135,16 @@ public class PlotBubble extends PlotOptions {
     @Option
     public Double rotation;
 
+    /**
+     * Starting angle to draw arcs from.
+     */
+    @Option
+    public double[] rotation$array;
+
+    /**
+     * Starting angle to draw arcs from.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String rotation$function;
+
 }

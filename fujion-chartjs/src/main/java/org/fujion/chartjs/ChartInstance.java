@@ -22,7 +22,6 @@ package org.fujion.chartjs;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
-import org.fujion.chartjs.common.DataOptions;
 import org.fujion.chartjs.plot.PlotType;
 
 /**

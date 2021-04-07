@@ -58,6 +58,15 @@ public class ChartOptions extends Options {
     /**
      * Override the window's default devicePixelRatio.
      * <p>
+     * By default the chart's canvas will use a 1:1 pixel ratio, unless the physical display has a higher pixel ratio
+     * (e.g. Retina displays).  For applications where a chart will be converted to a bitmap, or printed to a higher
+     * DPI medium it can be desirable to render the chart at a higher resolution than the default.
+     * <p>
+     * Setting devicePixelRatio to a value other than 1 will force the canvas size to be scaled by that amount,
+     * relative to the container size. There should be no visible difference on screen; the difference will only
+     * be visible when the image is zoomed or printed.
+     *
+     * <p>
      * Default: window.devicePixelRatio
      */
     @Option
@@ -165,11 +174,42 @@ public class ChartOptions extends Options {
     @Option
     public Boolean showLine;
 
-    public void addAxis(BaseAxisOptions axis) {
-        scales.put(axis.id, axis);
+    /**
+     *
+     * Adds an axis.
+     *
+     * @param id The unique id for the axis.
+     * @param axis The axis to add.
+     */
+    protected void addAxis(String id, BaseAxisOptions axis) {
+        scales.put(id, axis);
     }
 
-    public void addAnimation(String id, AnimationsOptions options) {
-        animations.put(id, options);
+    /**
+     * Removes an axis
+     *
+     * @param id The unique id for the axis.
+     */
+    protected void removeAxis(String id) {
+        scales.remove(id);
+    }
+
+    /**
+     * Adds an animation option.
+     *
+     * @param name The group or property name affected by the animation options.
+     * @param options The animation options.  If null, any existing animation is removed.
+     */
+    protected void addAnimation(String name, AnimationsOptions options) {
+        animations.put(name, options);
+    }
+
+    /**
+     * Removes an animation option.
+     *
+     * @param name The group or property name affected by the animation options.
+     */
+    protected void removeAnimation(String name) {
+        animations.remove(name);
     }
 }

@@ -125,5 +125,6 @@ public class LegendOptions extends Options {
     /**
      * Options for the legend title.
      */
+    @Option
     public final TitleOptions title = new TitleOptions();
 }

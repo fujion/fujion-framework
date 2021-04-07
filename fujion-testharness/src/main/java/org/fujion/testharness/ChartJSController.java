@@ -23,6 +23,8 @@ package org.fujion.testharness;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.chartjs.Chart;
 import org.fujion.chartjs.axis.LinearAxisOptions;
+import org.fujion.chartjs.enums.CartesianAxisEnum;
+import org.fujion.chartjs.enums.InteractionModeEnum;
 import org.fujion.chartjs.plot.PlotLine;
 import org.fujion.component.BaseComponent;
 
@@ -43,9 +45,10 @@ public class ChartJSController extends BaseChartController {
         chartjs.setLabels(CATEGORIES);
         yaxis.title.text = "Temperature (°C)";
         yaxis.title.display = true;
-        yaxis.id = "y";
-        chartjs.getOptions().plugins.tooltip.callbacks.label = "function(item, data) {return item.formattedValue + '°C';}";
-        chartjs.addYAxis(yaxis);
+        yaxis.axis = CartesianAxisEnum.Y;
+        chartjs.getTooltipOptions().callbacks.label = "function(item, data) {return item.formattedValue + '°C';}";
+        chartjs.getTooltipOptions().mode = InteractionModeEnum.X;
+        chartjs.addAxis("y", yaxis);
         addSeries(TOKYO, "Tokyo");
         addSeries(NEW_YORK, "New York");
         addSeries(BERLIN, "Berlin");
@@ -57,7 +60,7 @@ public class ChartJSController extends BaseChartController {
         PlotLine series = chartjs.addSeries(PlotLine.class);
         series.data$number = data;
         series.label = name;
-        series.yAxisID = yaxis.id;
+        series.yAxisID = "y";
     }
 
 }

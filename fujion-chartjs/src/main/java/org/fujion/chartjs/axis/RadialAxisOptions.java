@@ -31,31 +31,40 @@ public class RadialAxisOptions extends BaseAxisOptions {
      * Angle line options.
      */
     @Option
-    public Object angleLines;
+    public final AngleLineOptions angleLines = new AngleLineOptions();
 
     /**
-     * Grid line options.
+     * Whether to animate scaling the chart from the center.
      */
     @Option
-    public Object gridLines;
+    public Boolean animate;
+
+    /**
+     * If true, scale will include 0 if it is not already included.
+     *
+     * Default: false
+     */
+    @Option
+    public Boolean beginAtZero;
 
     /**
      * Point label options.
      */
     @Option
-    public Object pointLabels;
+    public final PointLabelOptions pointLabels = new PointLabelOptions();
 
     /**
-     * Starting angle to draw arcs for the first item in a dataset.
+     * Starting angle of the scale. In degrees, 0 is at top.
      * <p>
-     * Default: 0 degrees
+     * Default: 0
      */
     @Option
     public Double startAngle;
 
     /**
-     * Tick options.
+     * Tick configuration.
      */
     @Option
-    public final LinearTickOptions ticks = new LinearTickOptions();
+    public final RadialTickOptions ticks = new RadialTickOptions();
+
 }

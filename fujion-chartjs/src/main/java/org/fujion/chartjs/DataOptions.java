@@ -18,7 +18,7 @@
  *
  * #L%
  */
-package org.fujion.chartjs.common;
+package org.fujion.chartjs;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;

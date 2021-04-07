@@ -20,6 +20,7 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
@@ -33,5 +34,11 @@ public class LayoutOptions extends Options {
      */
     @Option
     public final Padding padding = new Padding();
+
+    /**
+     * The padding to add inside the chart.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String padding$function;
 
 }

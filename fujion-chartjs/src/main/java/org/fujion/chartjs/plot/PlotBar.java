@@ -105,6 +105,18 @@ public class PlotBar extends PlotOptions {
     public Integer hoverBorderRadius;
 
     /**
+     * The bar border radius when hovered (in pixels).
+     */
+    @Option
+    public int[] hoverBorderRadius$array;
+
+    /**
+     * The bar border radius when hovered (in pixels).
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderRadius$function;
+
+    /**
      * The base axis of the dataset. X for vertical bars and Y for horizontal bars.
      * <p>
      * Default: X
@@ -133,27 +145,23 @@ public class PlotBar extends PlotOptions {
     /**
      * Style of the point.
      */
-    @Option
-    public PointStyleEnum[] pointStyle$array;
-
-    /**
-     * Style of the point.
-     */
     @Option(convertTo = JavaScript.class)
     public String pointStyle$function;
 
     /**
-     * The ID of the x axis to plot this dataset on. If not specified, this defaults to the ID of
-     * the first found x axis
+     * The ID of the x axis to plot this dataset on.
+     * <p>
+     * Default: the ID of the first found x axis
      */
     @Option
     public String xAxisID;
 
     /**
-     * The ID of the y axis to plot this dataset on. If not specified, this defaults to the ID of
-     * the first found y axis.
+     * The ID of the y axis to plot this dataset on.
+     * <p>
+     * Default: the ID of the first found y axis.
      */
     @Option
     public String yAxisID;
-    
+
 }

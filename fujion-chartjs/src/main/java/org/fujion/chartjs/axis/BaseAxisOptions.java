@@ -64,12 +64,6 @@ public abstract class BaseAxisOptions extends Options {
     public String backgroundColor;
 
     /**
-     * The ID is used to link datasets and scale axes together.
-     */
-    @Option
-    public String id;
-
-    /**
      * User defined minimum number for the scale, overrides minimum value from data.
      */
     @Option

@@ -26,5 +26,6 @@ public class PluginOptions extends Options {
     /**
      * Decimation options.
      */
+    @Option
     public final DecimationOptions decimation = new DecimationOptions();
 }

@@ -5,9 +5,9 @@ import org.fujion.annotation.Option;
 import org.fujion.chartjs.enums.PointStyleEnum;
 
 /**
- * Point rendering options across all chart types.
+ * Point elements are used to represent the points in a line, radar or bubble chart.
  */
-public class PointOptions extends Options {
+public class PointElementOptions extends Options {
 
     /**
      * Point radius.

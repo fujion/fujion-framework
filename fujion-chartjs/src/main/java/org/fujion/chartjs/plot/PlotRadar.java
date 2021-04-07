@@ -22,10 +22,10 @@ package org.fujion.chartjs.plot;
 
 import org.fujion.ancillary.JavaScript;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.FillEnum;
 import org.fujion.chartjs.enums.LineCapStyleEnum;
 import org.fujion.chartjs.enums.LineJoinStyleEnum;
 import org.fujion.chartjs.enums.PointStyleEnum;
-import org.fujion.chartjs.plot.PlotLine.FillEnum;
 
 /**
  * Options for radar plots.
@@ -68,12 +68,25 @@ public class PlotRadar extends PlotOptions {
     public Integer borderDashOffset;
 
     /**
+     * Offset for line dashes. See See <a href=
+     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderDashOffset$function;
+
+    /**
      * Line join style.
      * <p>
      * Default: MITER
      */
     @Option
     public LineJoinStyleEnum borderJoinStyle;
+
+    /**
+     * Line join style.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderJoinStyle$function;
 
     /**
      * The plot data.
@@ -94,16 +107,22 @@ public class PlotRadar extends PlotOptions {
     public FillEnum fill$enum;
 
     /**
-     * An absolute dataset index.
+     * Fill as an absolute dataset index.
      */
     @Option
     public Integer fill$number;
 
     /**
-     * A relative dataset index (e.g., "+1" or "-2").
+     * Fill as a relative dataset index (e.g., "+1" or "-2").
      */
     @Option
     public String fill$string;
+
+    /**
+     * Computed fill.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String fill$function;
 
     /**
      * Cap style of the line.
@@ -114,11 +133,24 @@ public class PlotRadar extends PlotOptions {
     public LineCapStyleEnum hoverBorderCapStyle;
 
     /**
+     * Cap style of the line.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderCapStyle$function;
+
+    /**
      * Length and spacing of dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</a>.
      */
     @Option
     public int[] hoverBorderDash;
+
+    /**
+     * Length and spacing of dashes. See <a href=
+     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</a>.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderDash$function;
 
     /**
      * Offset for line dashes. See See <a href=
@@ -128,12 +160,25 @@ public class PlotRadar extends PlotOptions {
     public Integer hoverBorderDashOffset;
 
     /**
+     * Offset for line dashes. See See <a href=
+     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderDashOffset$function;
+
+    /**
      * Line join style.
      * <p>
      * Default: MITER
      */
     @Option
     public LineJoinStyleEnum hoverBorderJoinStyle;
+
+    /**
+     * Line join style.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderJoinStyle$function;
 
     /**
      * The label for the dataset which appears in the legend and tooltips.
@@ -154,10 +199,34 @@ public class PlotRadar extends PlotOptions {
     public String pointBackgroundColor;
 
     /**
+     * The fill color for points.
+     */
+    @Option
+    public String[] pointBackgroundColor$array;
+
+    /**
+     * The fill color for points.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointBackgroundColor$function;
+
+    /**
      * The border color for points.
      */
     @Option
     public String pointBorderColor;
+
+    /**
+     * The border color for points.
+     */
+    @Option
+    public String[] pointBorderColor$array;
+
+    /**
+     * The border color for points.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointBorderColor$function;
 
     /**
      * The width of the point border in pixels.
@@ -172,6 +241,12 @@ public class PlotRadar extends PlotOptions {
     public int[] pointBorderWidth$array;
 
     /**
+     * The width of the point border in pixels.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointBorderWidth$function;
+
+    /**
      * The pixel size of the non-displayed point that reacts to mouse events.
      */
     @Option
@@ -182,6 +257,12 @@ public class PlotRadar extends PlotOptions {
      */
     @Option
     public int[] pointHitRadius$array;
+
+    /**
+     * The pixel size of the non-displayed point that reacts to mouse events.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointHitRadius$function;
 
     /**
      * Point background color when hovered.
@@ -196,6 +277,12 @@ public class PlotRadar extends PlotOptions {
     public String[] pointHoverBackgroundColor$array;
 
     /**
+     * Point background color when hovered.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointHoverBackgroundColor$function;
+
+    /**
      * Point border color when hovered.
      */
     @Option
@@ -206,6 +293,12 @@ public class PlotRadar extends PlotOptions {
      */
     @Option
     public String[] pointHoverBorderColor$array;
+
+    /**
+     * Point border color when hovered.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointHoverBorderColor$function;
 
     /**
      * Border width of point when hovered.
@@ -220,6 +313,12 @@ public class PlotRadar extends PlotOptions {
     public int[] pointHoverBorderWidth$array;
 
     /**
+     * Border width of point when hovered.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointHoverBorderWidth$function;
+
+    /**
      * The radius of the point when hovered.
      */
     @Option
@@ -230,6 +329,12 @@ public class PlotRadar extends PlotOptions {
      */
     @Option
     public int[] pointHoverRadius$array;
+
+    /**
+     * The radius of the point when hovered.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointHoverRadius$function;
 
     /**
      * The radius of the point shape in pixels. If set to 0, the point is not rendered.
@@ -244,12 +349,30 @@ public class PlotRadar extends PlotOptions {
     public int[] pointRadius$array;
 
     /**
+     * The radius of the point shape in pixels. If set to 0, the point is not rendered.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointRadius$function;
+
+    /**
      * The rotation of the point in degrees.
      * <p>
      * Default: 0
      */
     @Option
     public Integer pointRotation;
+
+    /**
+     * The rotation of the point in degrees.
+     */
+    @Option
+    public int[] pointRotation$array;
+
+    /**
+     * The rotation of the point in degrees.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointRotation$function;
 
     /**
      * Style of the point.
@@ -262,6 +385,12 @@ public class PlotRadar extends PlotOptions {
      */
     @Option
     public PointStyleEnum[] pointStyle$array;
+
+    /**
+     * Style of the point.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String pointStyle$function;
 
     /**
      * If true, lines will be drawn between points with no or null data. If false, points with NaN
