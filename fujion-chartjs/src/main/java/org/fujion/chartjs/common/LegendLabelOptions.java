@@ -20,10 +20,10 @@
  */
 package org.fujion.chartjs.common;
 
-import javafx.scene.text.TextAlignment;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.HorizontalAlignmentEnum;
 import org.fujion.chartjs.enums.PointStyleEnum;
 
 /**
@@ -97,7 +97,7 @@ public class LegendLabelOptions extends Options {
      * Horizontal alignment of the label text.
      */
     @Option
-    public TextAlignment textAlign;
+    public HorizontalAlignmentEnum textAlign;
 
     /**
      * Label style will match corresponding point style (size is based on fontSize, boxWidth is not
