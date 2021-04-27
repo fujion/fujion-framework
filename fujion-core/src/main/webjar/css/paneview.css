@@ -53,6 +53,13 @@
     border: 1px solid lightgray;
 }
 
+.fujion_pane-inner {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: auto;
+}
+
 .fujion_pane-title {
     background: #5D6D7E;
     color: white;
