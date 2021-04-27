@@ -65,7 +65,7 @@ public abstract class BaseScript implements IScriptLanguage {
                     bindings = engine.createBindings();
                     bindings.putAll(variables);
                 } else {
-                    variables.entrySet().stream().forEach(entry -> engine.put(entry.getKey(), entry.getValue()));
+                    variables.forEach(engine::put);
                 }
             }
 

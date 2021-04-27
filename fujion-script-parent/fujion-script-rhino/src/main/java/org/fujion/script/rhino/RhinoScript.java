@@ -18,59 +18,56 @@
  *
  * #L%
  */
-package org.fujion.script.jython;
+package org.fujion.script.rhino;
 
 import org.apache.commons.lang3.StringUtils;
 import org.fujion.script.IScriptLanguage;
-import org.python.core.PyCode;
-import org.python.util.PythonInterpreter;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 import java.util.Map;
 
 /**
- * Support for embedding Jython scripts.
+ * Support for embedding Lua scripts.
  */
-public class JythonScript implements IScriptLanguage {
+public class RhinoScript implements IScriptLanguage {
 
     /**
-     * Wrapper for a parsed Jython script
+     * Wrapper for a parsed Rhino script.
      */
     public static class ParsedScript implements IParsedScript {
 
-        private final PyCode script;
+        private final String source;
 
         public ParsedScript(String source) {
-            source = StringUtils.trimToEmpty(source);
-
-            try (PythonInterpreter interp = new PythonInterpreter()) {
-                script = interp.compile(source);
-            }
+            this.source = StringUtils.trimToEmpty(source);
         }
 
         @Override
         public Object run(Map<String, Object> variables) {
-            try (PythonInterpreter interp = new PythonInterpreter()) {
-                
-                if (variables != null) {
-                    variables.forEach(interp::set);
-                }
+            Context context = Context.enter();
+            Scriptable scope = context.initStandardObjects();
 
-                return interp.eval(script);
+            if (variables != null) {
+                variables.forEach((key, value) -> ScriptableObject.putProperty(scope, key, value));
+            }
+
+            try {
+                return context.evaluateString(scope, source, null, 1, null);
+
+            } finally {
+                Context.exit();
             }
         }
+
     }
 
-    /**
-     * @see org.fujion.script.IScriptLanguage#getType()
-     */
     @Override
     public String getType() {
-        return "jython";
+        return "rhino";
     }
 
-    /**
-     * @see org.fujion.script.IScriptLanguage#parse(java.lang.String)
-     */
     @Override
     public IParsedScript parse(String source) {
         return new ParsedScript(source);

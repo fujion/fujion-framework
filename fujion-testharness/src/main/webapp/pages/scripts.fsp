@@ -55,6 +55,12 @@
 		(str (.getName (.get args "self")) " finished!")
 	</sscript>
 	<div>
+		You should see the message "Rhino script was executed." in the status log.
+	</div>
+	<sscript name="rhinoscript" type="rhino">
+		'rhino runs!'
+	</sscript>
+	<div>
 		You should see the message "External server script was executed." in the status log.
 	</div>
 	<sscript name="externalscript" type="groovy" src="scripts/sscript.groovy" />

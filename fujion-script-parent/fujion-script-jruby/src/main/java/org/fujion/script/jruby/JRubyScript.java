@@ -27,7 +27,6 @@ import org.jruby.embed.ScriptingContainer;
 import org.jruby.javasupport.JavaEmbedUtils.EvalUnit;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Support for embedding Ruby scripts.
@@ -54,9 +53,7 @@ public class JRubyScript implements IScriptLanguage {
             container.clear();
             
             if (variables != null) {
-                for (Entry<String, Object> entry : variables.entrySet()) {
-                    container.put(entry.getKey(), entry.getValue());
-                }
+                variables.forEach(container::put);
             }
             
             return unit.run();
