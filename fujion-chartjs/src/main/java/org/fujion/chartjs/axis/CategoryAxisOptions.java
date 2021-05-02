@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,47 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.annotation.Option;
+
 /**
  * Options for category axes.
  */
 public class CategoryAxisOptions extends CartesianAxisOptions {
-    
+
+    /**
+     * An array of labels to display.
+     */
+    @Option
+    public String[] labels;
+
+    /**
+     * The minimum item to display as index of label.
+     */
+    @Option
+    public Integer min$number;
+
+    /**
+     * The minimum item to display as value of label.
+     */
+    @Option
+    public String min$string;
+
+    /**
+     * The maximum item to display as index of label.
+     */
+    @Option
+    public Integer max$number;
+
+    /**
+     * The maximum item to display as value of label.
+     */
+    @Option
+    public String max$string;
+
     /**
      * Tick options.
      */
+    @Option
     public final CategoryTickOptions ticks = new CategoryTickOptions();
+
 }

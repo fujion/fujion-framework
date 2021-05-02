@@ -10,7 +10,7 @@
 	<artifactId>fujion-archetype-angular</artifactId>
 	<packaging>maven-archetype</packaging>
 	<name>Fujion Angular Component Archetype</name>
-	
+
 	<build>
 		<extensions>
 			<extension>

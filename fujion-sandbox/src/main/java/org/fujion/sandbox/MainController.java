@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +20,6 @@
  */
 package org.fujion.sandbox;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -41,12 +32,7 @@ import org.fujion.codemirror.CodeMirrorXML;
 import org.fujion.codemirror.CodeMirrorXML.SchemaInfo;
 import org.fujion.codemirror.CodeMirrorXML.Tag;
 import org.fujion.common.MiscUtil;
-import org.fujion.component.BaseComponent;
-import org.fujion.component.Combobox;
-import org.fujion.component.Comboitem;
-import org.fujion.component.Label;
-import org.fujion.component.Namespace;
-import org.fujion.component.Window;
+import org.fujion.component.*;
 import org.fujion.component.Window.Mode;
 import org.fujion.event.EventUtil;
 import org.fujion.model.IComponentRenderer;
@@ -55,6 +41,15 @@ import org.fujion.page.PageUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Plugin to facilitate testing of Fujion layouts.

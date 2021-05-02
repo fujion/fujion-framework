@@ -19,6 +19,7 @@
 		<module>fujion-script-kotlin</module>
 		<module>fujion-script-lua</module>
 		<module>fujion-script-renjin</module>
+		<module>fujion-script-rhino</module>
 	</modules>
 	
 	<dependencies>

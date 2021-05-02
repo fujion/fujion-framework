@@ -1,0 +1,6 @@
+{
+  "paths": {
+    "fujion-ace": "js/ace.js",
+    "fujion-ace-css": "css/ace.css"
+  }
+}

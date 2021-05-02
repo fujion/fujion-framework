@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,6 @@
  */
 package org.fujion.test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.fujion.client.ExecutionContext;
 import org.fujion.component.Page;
 import org.fujion.event.EventQueue;
@@ -31,6 +28,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class creates a mock Fujion environment suitable for certain kinds of unit tests. It creates a

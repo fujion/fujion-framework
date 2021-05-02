@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,6 +92,14 @@ public class TooltipCallbackOptions extends Options {
      */
     @Option(convertTo = JavaScript.class)
     public String labelColor;
+
+    /**
+     * Returns the point style to use instead of color boxes if usePointStyle is true
+     * (object with values pointStyle and rotation). Default implementation uses the point style
+     * from the dataset points.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String labelPointStyle;
 
     /**
      * Returns the colors for the text of the label for the tooltip item.

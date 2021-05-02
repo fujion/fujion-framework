@@ -44,7 +44,13 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 	 ******************************************************************************************************************/ 
 	
 	fujion.widget.Pane = fujion.widget.UIWidget.extend({
-		
+
+		/*------------------------------ Containment ------------------------------*/
+
+		anchor$: function() {
+			return this.sub$('inner');
+		},
+
 		/*------------------------------ Events ------------------------------*/
 		
 		handleResize: function(event) {
@@ -74,6 +80,7 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 		render$: function() {
 			const dom = '<div>'
 					+    '<span id="${id}-title" class="${wclazz}-title"></span>'
+					+	 '<div id="${id}-inner" class="${wclazz}-inner"></div>'
 					+ '</div>';
 			return $(this.resolveEL(dom));
 		},

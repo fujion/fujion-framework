@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ package org.fujion.testharness;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.chartjs.Chart;
 import org.fujion.chartjs.axis.LinearAxisOptions;
+import org.fujion.chartjs.enums.CartesianAxisEnum;
+import org.fujion.chartjs.enums.InteractionModeEnum;
 import org.fujion.chartjs.plot.PlotLine;
 import org.fujion.component.BaseComponent;
 
@@ -41,11 +43,12 @@ public class ChartJSController extends BaseChartController {
         chartjs.setTitle("ChartJS: Monthly Average Temperature");
         chartjs.setSubtitle("Source: WorldClimate.com");
         chartjs.setLabels(CATEGORIES);
-        yaxis.scaleLabel.labelString = "Temperature (°C)";
-        yaxis.scaleLabel.display = true;
-        yaxis.id = "yaxis";
-        chartjs.getOptions().tooltips.callbacks.label = "function(item, data) {return item.yLabel + '°C';}";
-        chartjs.addYAxis(yaxis);
+        yaxis.title.text = "Temperature (°C)";
+        yaxis.title.display = true;
+        yaxis.axis = CartesianAxisEnum.Y;
+        chartjs.getTooltipOptions().callbacks.label = "function(item, data) {return item.formattedValue + '°C';}";
+        chartjs.getTooltipOptions().mode = InteractionModeEnum.X;
+        chartjs.addAxis("y", yaxis);
         addSeries(TOKYO, "Tokyo");
         addSeries(NEW_YORK, "New York");
         addSeries(BERLIN, "Berlin");
@@ -57,7 +60,7 @@ public class ChartJSController extends BaseChartController {
         PlotLine series = chartjs.addSeries(PlotLine.class);
         series.data$number = data;
         series.label = name;
-        series.yAxisID = yaxis.id;
+        series.yAxisID = "y";
     }
 
 }

@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
@@ -29,67 +30,88 @@ import org.fujion.annotation.Option;
 public abstract class TickOptions extends Options {
 
     /**
-     * If true, automatically calculates how many labels that can be shown and hides labels
-     * accordingly. Turn it off to show all labels no matter what.
+     * Returns the string representation of the tick value as it should be displayed on the chart.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String callback;
+
+    /**
+     * Color of ticks.
+     */
+    @Option
+    public String color;
+
+    /**
+     * Color of ticks.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String color$function;
+
+    /**
+     * If true, show tick labels.
      * <p>
      * Default: true
      */
     @Option
-    public Boolean autoSkip;
+    public Boolean display;
 
     /**
-     * Padding between the ticks on the horizontal axis when autoSkip is enabled. Note: Only
-     * applicable to horizontal scales.
-     * <p>
-     * Default: 0
+     * Font for ticks.
      */
     @Option
-    public Integer autoSkipPadding;
+    public final FontOptions font = new FontOptions();
 
     /**
-     * Distance in pixels to offset the label from the centre point of the tick (in the y direction
-     * for the x axis, and the x direction for the y axis). Note: this can cause labels at the edges
-     * to be cropped by the edge of the canvas.
-     * <p>
-     * Default: 0
+     * Font for ticks.
      */
-    @Option
-    public Integer labelOffset;
+    @Option(convertTo = JavaScript.class)
+    public String font$function;
 
     /**
-     * Maximum rotation for tick labels when rotating to condense labels. Note: Rotation doesn't
-     * occur until necessary. Note: Only applicable to horizontal scales.
-     * <p>
-     * Default: 90
+     * If true, major ticks are generated. A major tick will affect autoskipping and major will be
+     * defined on ticks in the scriptable options context.
      */
-    @Option
-    public Integer maxRotation;
+    @Option("major.enabled")
+    public Boolean major_enabled;
 
     /**
-     * Minimum rotation for tick labels. Note: Only applicable to horizontal scales.
+     * Sets the offset of the tick labels from the axis.
      * <p>
-     * Default: 0
-     */
-    @Option
-    public Integer minRotation;
-
-    /**
-     * Flips tick labels around axis, displaying the labels inside the chart instead of outside.
-     * Note: Only applicable to vertical scales.
-     * <p>
-     * Default: false
-     */
-    @Option
-    public Boolean mirror;
-
-    /**
-     * Padding between the tick label and the axis. When set on a vertical axis, this applies in the
-     * horizontal (X) direction. When set on a horizontal axis, this applies in the vertical (Y)
-     * direction.
-     * <p>
-     * Default: 10
+     * Default: 3
      */
     @Option
     public Integer padding;
+
+    /**
+     * The color of the stroke around the text.
+     */
+    @Option
+    public String textStrokeColor;
+
+    /**
+     * The color of the stroke around the text.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String textStrokeColor$function;
+
+    /**
+     * Stroke width around the text.
+     * <p>
+     * Default: 0
+     */
+    @Option
+    public Integer textStrokeWidth;
+
+    /**
+     * Stroke width around the text.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String textStrokeWidth$function;
+
+    /**
+     * z-index of tick layer. Useful when ticks are drawn on chart area. Values <= 0 are drawn under datasets, > 0 on top.
+     */
+    @Option
+    public Integer z;
 
 }

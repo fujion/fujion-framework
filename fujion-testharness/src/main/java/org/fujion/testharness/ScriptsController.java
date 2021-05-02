@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,39 +42,48 @@ public class ScriptsController extends BaseController {
 
     @EventHandler(value = "scriptExecution", target = "clojurescript")
     private void clojureExecutionHandler(Event event) {
-        log("Clojure script was executed: " + event.getData());
+        log("Clojure", event);
     }
     
     @EventHandler(value = "scriptExecution", target = "groovyscript")
     private void groovyExecutionHandler(Event event) {
-        log("Groovy script was executed: " + event.getData());
+        log("Groovy", event);
     }
     
     @EventHandler(value = "scriptExecution", target = "jrubyscript")
     private void jrubyExecutionHandler(Event event) {
-        log("JRuby script was executed: " + event.getData());
+        log("JRuby", event);
     }
 
     @EventHandler(value = "scriptExecution", target = "jythonscript")
     private void jythonExecutionHandler(Event event) {
-        log("Jython script was executed: " + event.getData());
+        log("Jython", event);
     }
 
     @EventHandler(value = "scriptExecution", target = "kotlinscript")
     private void kotlinExecutionHandler(Event event) {
-        log("Kotlin script was executed: " + event.getData());
+        log("Kotlin", event);
     }
 
     @EventHandler(value = "scriptExecution", target = "luascript")
     private void luaExecutionHandler(Event event) {
-        log("Lua script was executed: " + event.getData());
+        log("Lua", event);
     }
 
     @EventHandler(value = "scriptExecution", target = "rscript")
     private void renjinExecutionHandler(Event event) {
-        log("Renjin script was executed: " + event.getData());
+        log("Renjin", event);
     }
-    
+
+    @EventHandler(value = "scriptExecution", target = "rhinoscript")
+    private void rhinoExecutionHandler(Event event) {
+        log("Rhino", event);
+    }
+
+    private void log(String lang, Event event) {
+        log(lang + " script was executed: " + event.getData());
+    }
+
     @EventHandler(value = "scriptExecution", target = "externalscript")
     private void externalExecutionHandler(Event event) {
         log("External server script was executed: " + event.getData());

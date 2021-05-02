@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@
  */
 package org.fujion.canvas;
 
-import java.util.Collections;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.client.IClientTransform;
+
+import java.util.Collections;
 
 /**
  * Base class for canvas-generated resources.

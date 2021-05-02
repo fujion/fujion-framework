@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,9 @@ package org.fujion.annotation;
 import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.IOptionMapTransform;
 import org.fujion.ancillary.OptionMap;
+import org.fujion.common.Assert;
 import org.fujion.common.Logger;
+import org.fujion.common.MiscUtil;
 import org.fujion.expression.ELEvaluator;
 
 import java.util.Collection;
@@ -67,6 +69,7 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
                 Object value = field.get(object);
                 
                 if (value == null) {
+                    Assert.isFalse(annotation.required(), "The field '%s' must have a value.", name);
                     return true;
                 }
                 
@@ -97,6 +100,7 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
                 instance.setValue(name, value, map);
             } catch (Exception e) {
                 log.error("Exception transforming option map.", e);
+                throw MiscUtil.toUnchecked(e);
             }
             
             return true;
@@ -108,16 +112,18 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
     }
 
     /**
-     * Sets the name/value pair into the specified map. If the name contains an underscore, the
-     * value is stored in a submap using the first part of the name as the top level key and the
-     * second part as the subkey. If an underscore is part of the variable name, use two consecutive
-     * underscores. If a name contains a "$" character, the name is truncated at that character.
-     * This allows representing alternate forms of the same variable. For such variables, only the
+     * Sets the name/value pair into the specified map.
+     * <p>
+     * If the name contains a period, the value is stored in a submap using the first part of the
+     * name as the top level key and the second part as the subkey.
+     * <p>
+     * If a name contains a "$" character, the name is truncated at that character.  This allows
+     * representing alternate forms of the same variable. For such variables, only the
      * last non-null instance will be passed.
      *
-     * @param name Key name.
+     * @param name  Key name.
      * @param value Value.
-     * @param map Map to receive key/value pair.
+     * @param map   Map to receive key/value pair.
      */
     private void setValue(String name, Object value, Map<String, Object> map) {
         if (name.contains(".")) {
@@ -139,6 +145,7 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
             return;
         }
 
+        name = name.split("\\$")[0];
         map.put(name, value);
     }
     

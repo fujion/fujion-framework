@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,29 +25,46 @@ import org.fujion.annotation.Option;
 /**
  * Options for linear radial axes.
  */
-public class RadialAxisOptions extends AxisOptions {
+public class RadialAxisOptions extends BaseAxisOptions {
 
     /**
      * Angle line options.
      */
     @Option
-    public Object angleLines;
+    public final AngleLineOptions angleLines = new AngleLineOptions();
 
     /**
-     * Grid line options.
+     * Whether to animate scaling the chart from the center.
      */
     @Option
-    public Object gridLines;
+    public Boolean animate;
+
+    /**
+     * If true, scale will include 0 if it is not already included.
+     *
+     * Default: false
+     */
+    @Option
+    public Boolean beginAtZero;
 
     /**
      * Point label options.
      */
     @Option
-    public Object pointLabels;
+    public final PointLabelOptions pointLabels = new PointLabelOptions();
 
     /**
-     * Tick options.
+     * Starting angle of the scale. In degrees, 0 is at top.
+     * <p>
+     * Default: 0
      */
     @Option
-    public final LinearTickOptions ticks = new LinearTickOptions();
+    public Double startAngle;
+
+    /**
+     * Tick configuration.
+     */
+    @Option
+    public final RadialTickOptions ticks = new RadialTickOptions();
+
 }

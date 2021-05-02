@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ public abstract class BaseScript implements IScriptLanguage {
                     bindings = engine.createBindings();
                     bindings.putAll(variables);
                 } else {
-                    variables.entrySet().stream().forEach(entry -> engine.put(entry.getKey(), entry.getValue()));
+                    variables.forEach(engine::put);
                 }
             }
 

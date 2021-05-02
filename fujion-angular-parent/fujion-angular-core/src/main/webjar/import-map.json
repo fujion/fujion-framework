@@ -1,6 +1,7 @@
 {
   "imports": {
     "fujion-angular-widget": "js/widget.js",
-    "fujion-angular-bootstrap": "js/bootstrap.js"
+    "fujion-angular-bootstrap": "js/bootstrap.js",
+    "core-js-shim": "js/core-js-shim.js"
   }
 }

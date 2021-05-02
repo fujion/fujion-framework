@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@
  */
 package org.fujion.test;
 
+import org.apache.catalina.startup.Tomcat;
+import org.springframework.util.SocketUtils;
+
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
-
-import org.apache.catalina.startup.Tomcat;
-import org.springframework.util.SocketUtils;
 
 /**
  * An instance of embedded Tomcat as a mock web server.

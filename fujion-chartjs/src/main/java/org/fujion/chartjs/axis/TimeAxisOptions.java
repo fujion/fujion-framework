@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
  */
 package org.fujion.chartjs.axis;
 
+import org.fujion.annotation.Option;
 import org.fujion.chartjs.common.TimeOptions;
 
 /**
@@ -27,42 +28,16 @@ import org.fujion.chartjs.common.TimeOptions;
  */
 public class TimeAxisOptions extends CartesianAxisOptions {
     
-    public enum BoundsEnum {
-        SCALE, TICK;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
-
-    public enum DistributionEnum {
-        LINEAR, SERIES;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
-
-    /**
-     * Determines the scale bounds.
-     */
-    public BoundsEnum bounds;
-
-    /**
-     * How data is plotted.
-     */
-    public DistributionEnum distribution;
-
     /**
      * Tick options.
      */
+    @Option
     public final TimeTickOptions ticks = new TimeTickOptions();
 
     /**
      * Time options.
      */
+    @Option
     public final TimeOptions time = new TimeOptions();
 
 }

@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,13 @@
  */
 package org.fujion.script.jruby;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang3.StringUtils;
 import org.fujion.script.IScriptLanguage;
 import org.jruby.embed.LocalContextScope;
 import org.jruby.embed.ScriptingContainer;
 import org.jruby.javasupport.JavaEmbedUtils.EvalUnit;
+
+import java.util.Map;
 
 /**
  * Support for embedding Ruby scripts.
@@ -54,9 +53,7 @@ public class JRubyScript implements IScriptLanguage {
             container.clear();
             
             if (variables != null) {
-                for (Entry<String, Object> entry : variables.entrySet()) {
-                    container.put(entry.getKey(), entry.getValue());
-                }
+                variables.forEach(container::put);
             }
             
             return unit.run();

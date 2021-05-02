@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +24,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.fujion.ancillary.IAutoWired;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
-import org.fujion.component.BaseComponent;
-import org.fujion.component.Checkbox;
-import org.fujion.component.Memobox;
-import org.fujion.component.Page;
-import org.fujion.component.Tab;
-import org.fujion.component.Tabview;
+import org.fujion.component.*;
 import org.fujion.event.ChangeEvent;
 import org.fujion.event.Event;
 

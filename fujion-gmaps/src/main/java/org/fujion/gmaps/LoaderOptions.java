@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@
  */
 package org.fujion.gmaps;
 
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 import org.fujion.common.Assert;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
 
 /**
  * Options for Google Maps loader.  This should be a singleton.

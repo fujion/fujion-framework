@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
@@ -27,7 +28,19 @@ import org.fujion.annotation.Option;
  * Options for grid lines
  */
 public class GridLineOptions extends Options {
-    
+
+    /**
+     * If set, used as the color of the border line. If unset, the first color option is resolved and used.
+     */
+    @Option
+    public String borderColor;
+
+    /**
+     * If set, used as the width of the border line. If unset, the first lineWidth option is resolved and used.
+     */
+    @Option
+    public Integer borderWidth;
+
     /**
      * Length and spacing of dashes on grid lines. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</a>.
@@ -43,20 +56,40 @@ public class GridLineOptions extends Options {
     public Integer borderDashOffset;
 
     /**
-     * The color of the grid lines. The first color applies to the first grid line, the second to
-     * the second grid line and so on.
+     * Offset for line dashes. See See <a href=
+     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
-    @Option("color")
-    public String[] color$array;
+    @Option(convertTo = JavaScript.class)
+    public String borderDashOffset$function;
+
+    /**
+     * If true, gridlines are circular (on radar chart only).
+     */
+    @Option
+    public Boolean circular;
 
     /**
      * The color of all grid lines.
      * <p>
      * Default: "rgba(0, 0, 0, 0.1)"
      */
-    @Option("color")
-    public String color$string;
-    
+    @Option
+    public String color;
+
+    /**
+     * The color of the grid lines. The first color applies to the first grid line, the second to
+     * the second grid line and so on.
+     */
+    @Option
+    public String[] color$array;
+
+    /**
+     * The color of the grid lines. The first color applies to the first grid line, the second to
+     * the second grid line and so on.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String color$function;
+
     /**
      * If false, do not display grid lines for this axis.
      * <p>
@@ -64,7 +97,7 @@ public class GridLineOptions extends Options {
      */
     @Option
     public Boolean display;
-    
+
     /**
      * If true, draw border at the edge between the axis and the chart area.
      * <p>
@@ -91,65 +124,114 @@ public class GridLineOptions extends Options {
     public Boolean drawTicks;
 
     /**
-     * Stroke width of individual grid lines.
-     */
-    @Option("lineWidth")
-    public int[] lineWidth$array;
-
-    /**
      * Stroke width of all grid lines.
      * <p>
      * Default: 1
      */
-    @Option("lineWidth")
-    public Integer lineWidth$number;
-    
+    @Option
+    public Integer lineWidth;
+
+    /**
+     * Stroke width of individual grid lines.
+     */
+    @Option
+    public int[] lineWidth$array;
+
+    /**
+     * Stroke width of individual grid lines.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String lineWidth$function;
+
     /**
      * If true, grid lines will be shifted to be between labels.
      * <p>
      * Default: true for bar chart; false otherwise
      */
     @Option
-    public Boolean offsetGridLines;
-    
+    public Boolean offset;
+
+    /**
+     * Length and spacing of the tick mark line.
+     * <p>
+     * Default: the grid line borderDash value.
+     */
+    @Option
+    public int[] tickBorderDash;
+
+    /**
+     * Offset for the line dash of the tick mark.
+     *
+     * Default: the grid line borderDashOffset value.
+     */
+    @Option
+    public Integer tickBorderDashOffset;
+
+    /**
+     * Offset for the line dash of the tick mark.
+     */
+    @Option
+    public int[] tickBorderDashOffset$array;
+
+    /**
+     * Offset for the line dash of the tick mark.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String tickBorderDashOffset$function;
+
+    /**
+     * Color of the tick line.
+     *
+     * Default: the grid line color.
+     */
+    @Option
+    public String tickColor;
+
+    /**
+     * Color of the tick line.
+     */
+    @Option
+    public String[] tickColor$array;
+
+    /**
+     * Color of the tick line.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String tickColor$function;
+
     /**
      * Length in pixels that the grid lines will draw into the axis area.
      * <p>
-     * Default: 10
+     * Default: 8
      */
     @Option
-    public Integer tickMarkLength;
-    
-    /**
-     * Length and spacing of dashes of the grid line for the first index (index 0). See <a href=
-     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</a>.
-     */
-    @Option
-    public int[] zeroLineBorderDash;
+    public Integer tickLength;
 
     /**
-     * Offset for line dashes of the grid line for the first index (index 0). See See <a href=
-     * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
-     * <p>
+     * Width of the tick mark in pixels.
+     *
+     * Default: the grid line width.
+     */
+    @Option
+    public Integer tickWidth;
+
+    /**
+     * Width of the tick mark in pixels.
+     */
+    @Option
+    public int[] tickWidth$array;
+
+    /**
+     * Width of the tick mark in pixels.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String tickWidth$function;
+
+    /**
+     * z-index of gridline layer. Values <= 0 are drawn under datasets, > 0 on top.
+     *
      * Default: 0
      */
     @Option
-    public Integer zeroLineBorderDashOffset;
-
-    /**
-     * Stroke color of the grid line for the first index (index 0).
-     * <p>
-     * Default: "rgba(0, 0, 0, 0.25)"
-     */
-    @Option
-    public String zeroLineColor;
-
-    /**
-     * Stroke width of the grid line for the first index (index 0).
-     * <p>
-     * Default: 1
-     */
-    @Option
-    public Integer zeroLineWidth;
-    
+    public Integer z;
 }

@@ -7,7 +7,7 @@
 	<rows>
 		<row>
 			<rowcell>Using a collection</rowcell>
-			<rowcell> foreach="'$'{{1,2,3}} </rowcell>
+			<rowcell> foreach="${'$'}{{1,2,3}}" </rowcell>
 			<rowcell>
 				<div foreach="${{1,2,3}}">
 					<label label="label #${each}"/>
@@ -16,7 +16,7 @@
 		</row>
 		<row>
 			<rowcell>Using a map</rowcell>
-			<rowcell> foreach="'$'{{a:'item1',b:'item2',c:'item3'}}" </rowcell>
+			<rowcell> foreach="${'$'}{{a:'item1',b:'item2',c:'item3'}}" </rowcell>
 			<rowcell>
 				<div foreach="${{a:'item1',b:'item2',c:'item3'}}" forvar="other">
 					<label label="${other.key}=${other.value}"/>
@@ -25,7 +25,7 @@
 		</row>
 		<row>
 			<rowcell>Using an array</rowcell>
-			<rowcell> foreach="'$'{new String[]{'ele1','ele2','ele3'}}" </rowcell>
+			<rowcell> foreach="${'$'}{new String[]{'ele1','ele2','ele3'}}" </rowcell>
 			<rowcell>
 				<div foreach="${new String[]{'ele1','ele2','ele3'}}">
 					<label label="${each}"/>

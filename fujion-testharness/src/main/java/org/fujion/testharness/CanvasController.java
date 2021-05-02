@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,36 +20,20 @@
  */
 package org.fujion.testharness;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Calendar;
-
 import org.apache.commons.io.IOUtils;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
-import org.fujion.canvas.d2.Canvas2D;
-import org.fujion.canvas.d2.CanvasGradient;
-import org.fujion.canvas.d2.LineCap;
-import org.fujion.canvas.d2.RenderingContext2D;
-import org.fujion.canvas.d2.TextAlign;
-import org.fujion.canvas.d2.TextBaseline;
-import org.fujion.canvas.webgl.ArrayBuffer;
-import org.fujion.canvas.webgl.BufferBinding;
-import org.fujion.canvas.webgl.BufferBitMask;
-import org.fujion.canvas.webgl.BufferUsagePattern;
-import org.fujion.canvas.webgl.CanvasWebGL;
-import org.fujion.canvas.webgl.DrawMode;
-import org.fujion.canvas.webgl.RenderingContextWebGL;
-import org.fujion.canvas.webgl.ShaderType;
-import org.fujion.canvas.webgl.ValueType;
-import org.fujion.canvas.webgl.WebGLBuffer;
-import org.fujion.canvas.webgl.WebGLProgram;
-import org.fujion.canvas.webgl.WebGLShader;
+import org.fujion.canvas.d2.*;
+import org.fujion.canvas.webgl.*;
 import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 import org.fujion.component.Button;
 import org.fujion.component.Doublebox;
 import org.fujion.component.Timer;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
 
 /**
  * Sample controller to demonstrate canvas component.

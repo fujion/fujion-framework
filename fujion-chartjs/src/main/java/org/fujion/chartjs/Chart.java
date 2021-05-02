@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
-import org.fujion.chartjs.axis.AxisOptions;
-import org.fujion.chartjs.axis.CartesianAxisOptions;
-import org.fujion.chartjs.axis.RadialAxisOptions;
+import org.fujion.chartjs.axis.BaseAxisOptions;
+import org.fujion.chartjs.common.AnimationsOptions;
+import org.fujion.chartjs.common.LegendOptions;
+import org.fujion.chartjs.common.TitleOptions;
+import org.fujion.chartjs.common.TooltipOptions;
 import org.fujion.chartjs.plot.PlotOptions;
 import org.fujion.chartjs.plot.PlotType;
 import org.fujion.common.Assert;
@@ -58,7 +60,7 @@ public class Chart extends BaseUIComponent {
     
     public Chart() {
         super();
-        instance.options.title.text$array = titles;
+        instance.options.plugins.title.text$array = titles;
     }
     
     /**
@@ -139,7 +141,7 @@ public class Chart extends BaseUIComponent {
      * Sets the title to visible if either a title or a subtitle is present.
      */
     private void updateTitleVisibility() {
-        instance.options.title.display = !StringUtils.isEmpty(getTitle()) || !StringUtils.isEmpty(getSubtitle());
+        instance.options.plugins.title.display = !StringUtils.isEmpty(getTitle()) || !StringUtils.isEmpty(getSubtitle());
     }
     
     /**
@@ -198,38 +200,51 @@ public class Chart extends BaseUIComponent {
         Assert.notNull(type, () -> "Unrecognized plot class: " + plotClass);
         return (T) addSeries(type);
     }
-    
-    public <T extends CartesianAxisOptions> T addXAxis(T axis) {
-        instance.options.scales.xAxes.add(axis);
+
+    /**
+     * Adds an axis.
+     *
+     * @param id   The unique id for the axis.
+     * @param axis The axis to add.
+     * @param <T>  The axis type.
+     */
+    public <T extends BaseAxisOptions> T addAxis(
+            String id,
+            T axis) {
+        instance.options.addAxis(id, axis);
         return axis;
-    }
-    
-    public <T extends CartesianAxisOptions> T addXAxis(Class<T> type) {
-        return addXAxis(newAxis(type));
     }
 
-    public <T extends CartesianAxisOptions> T addYAxis(T axis) {
-        instance.options.scales.yAxes.add(axis);
-        return axis;
+    /**
+     * Creates and adds an axis.
+     *
+     * @param id   The unique id for the axis.
+     * @param type The type of axis to create.
+     * @param <T>  The axis type.
+     */
+    public <T extends BaseAxisOptions> T addAxis(
+            String id,
+            Class<T> type) {
+        return addAxis(id, newAxis(type));
     }
-    
-    public <T extends CartesianAxisOptions> T addYAxis(Class<T> type) {
-        return addYAxis(newAxis(type));
-    }
-    
-    public RadialAxisOptions addRAxis(RadialAxisOptions axis) {
-        instance.options.scales.rAxes.add(axis);
-        return axis;
+
+    /**
+     * Removes an axis with the specified id.
+     *
+     * @param id The unique id for the axis.
+     */
+    public void removeAxis(String id) {
+        instance.options.removeAxis(id);
     }
 
     /**
      * Creates an axis of the given type.
      *
-     * @param <T> The axis type.
+     * @param <T>      The axis type.
      * @param axisType The axis type.
      * @return An instance of the given axis type.
      */
-    private <T extends AxisOptions> T newAxis(Class<T> axisType) {
+    private <T extends BaseAxisOptions> T newAxis(Class<T> axisType) {
         try {
             return axisType.newInstance();
         } catch (Exception e) {
@@ -240,14 +255,62 @@ public class Chart extends BaseUIComponent {
     public void setLabels(String[] labels) {
         instance.data.labels = labels;
     }
-    
+
     /**
-     * Return options for chart.
+     * Return configuration options for chart.
      *
-     * @return Options for chart.
+     * @return Configuration options for chart.
      */
     public ChartOptions getOptions() {
         return instance.options;
+    }
+
+    /**
+     * Return title configuration options.
+     *
+     * @return Title configuration options.
+     */
+    public TitleOptions getTitleOptions() {
+        return instance.options.plugins.title;
+    }
+
+    /**
+     * Return tooltip configuration options.
+     *
+     * @return Tooltip configuration options.
+     */
+    public TooltipOptions getTooltipOptions() {
+        return instance.options.plugins.tooltip;
+    }
+
+    /**
+     * Return legend configuration options.
+     *
+     * @return Legend configuration options.
+     */
+    public LegendOptions getLegendOptions() {
+        return instance.options.plugins.legend;
+    }
+
+    /**
+     * Adds an animation option.
+     *
+     * @param name    The group or property name affected by the animation options.
+     * @param options The animation options.  If null, any existing animation is removed.
+     */
+    public void addAnimation(
+            String name,
+            AnimationsOptions options) {
+        instance.options.addAnimation(name, options);
+    }
+
+    /**
+     * Removes an animation option.
+     *
+     * @param name The group or property name affected by the animation options.
+     */
+    public void removeAnimation(String name) {
+        instance.options.removeAnimation(name);
     }
 
 }

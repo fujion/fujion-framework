@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,7 @@ import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.OnFailure;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.client.ClientUtil;
-import org.fujion.component.BaseComponent;
-import org.fujion.component.Button;
-import org.fujion.component.Div;
-import org.fujion.component.Label;
-import org.fujion.component.MessagePane;
-import org.fujion.component.MessageWindow;
-import org.fujion.component.Radiogroup;
-import org.fujion.component.Window;
+import org.fujion.component.*;
 import org.fujion.component.Window.Mode;
 import org.fujion.event.ResizeEvent;
 

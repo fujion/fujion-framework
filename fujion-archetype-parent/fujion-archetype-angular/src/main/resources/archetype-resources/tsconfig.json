@@ -1,0 +1,30 @@
+{
+    "angularCompilerOptions": {
+        "enableIvy": false,
+        "skipTemplateCodegen": true,
+        "strictMetadataEmit": true,
+        "fullTemplateTypeCheck": true,
+        "enableResourceInlining": true
+    },
+    "buildOnSave": false,
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "target/webjar/app",
+        "baseUrl": "./",
+        "target": "es2015",
+        "module": "es2020",
+        "moduleResolution": "node",
+        "declaration": true,
+        "sourceMap": true,
+        "skipLibCheck": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": ["dom", "es2018"]
+    },
+
+    "exclude": ["node_modules", "dist", "**/*.ngfactory.ts", "**/*.shim.ts", "**/*.spec.ts"]
+}

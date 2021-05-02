@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,45 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.AlignmentEnum;
+import org.fujion.chartjs.enums.PositionEnum;
 
 /**
  * Title options.
  */
 public class TitleOptions extends Options {
-    
+
+    /**
+     * The horizontal alignment of the title.
+     *
+     * Default: CENTER
+     */
+    @Option
+    public AlignmentEnum align;
+
+    /**
+     * The horizontal alignment of the title.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String align$function;
+
+    /**
+     * The color of the text.
+     * <p>
+     * Default: "#666"
+     */
+    @Option
+    public String color;
+
+    /**
+     * The color of the text.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String color$function;
+
     /**
      * If true, the is title shown.
      * <p>
@@ -35,56 +66,57 @@ public class TitleOptions extends Options {
      */
     @Option
     public Boolean display;
-    
-    /**
-     * Font color.
-     * <p>
-     * Default: "#666"
-     */
-    @Option
-    public String fontColor;
 
     /**
-     * Font family.
-     * <p>
-     * Default: "Helvetica Neue, Helvetica, Arial, sans-serif"
+     * If returns true, the is title shown.
      */
-    @Option
-    public String fontFamily;
-    
+    @Option(convertTo = JavaScript.class)
+    public String display$function;
+
     /**
-     * Font size.
+     * Font.
      * <p>
-     * Default: 12
+     * Default: font.style = bold
      */
     @Option
-    public Integer fontSize;
-    
+    public final FontOptions font = new FontOptions();
+
     /**
-     * Font style.
-     * <p>
-     * Default: "bold"
+     * Font.
      */
-    @Option
-    public String fontStyle;
-    
+    @Option(convertTo = JavaScript.class)
+    public String font$function;
+
     /**
-     * Height of an individual line of text. See
-     * <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height">MDN</a>.
-     * <p>
-     * Default: 1.2
+     * Marks that this box should take the full width/height of the canvas.
+     * If false, the box is sized and placed above/beside the chart area.
+     *
+     * Default: true
      */
     @Option
-    public String lineHeight;
-    
+    public Boolean fullSize;
+
+    /**
+     * Marks that this box should take the full width/height of the canvas.
+     * If returns false, the box is sized and placed above/beside the chart area.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String fullSize$function;
+
     /**
      * Number of pixels to add above and below the title text.
-     * <p>
+     *
      * Default: 10
      */
     @Option
-    public Integer padding;
-    
+    public final Padding padding = new Padding();
+
+    /**
+     * Number of pixels to add above and below the title text.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String padding$function;
+
     /**
      * Position of title.
      * <p>
@@ -92,17 +124,29 @@ public class TitleOptions extends Options {
      */
     @Option
     public PositionEnum position;
-    
+
+    /**
+     * Position of title.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String position$function;
+
     /**
      * The text of the title.
      */
-    @Option("text")
+    @Option
+    public String text;
+
+    /**
+     * The text of the title.
+     */
+    @Option
     public String[] text$array;
-    
+
     /**
      * The text of the title.
      */
-    @Option("text")
-    public String text$string;
+    @Option(convertTo = JavaScript.class)
+    public String text$function;
 
 }

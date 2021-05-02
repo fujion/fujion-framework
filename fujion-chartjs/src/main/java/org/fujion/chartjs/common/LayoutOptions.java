@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
  */
 package org.fujion.chartjs.common;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
@@ -27,37 +28,17 @@ import org.fujion.annotation.Option;
  * Options for layout.
  */
 public class LayoutOptions extends Options {
-    
-    /**
-     * Bottom padding in pixels.
-     * <p>
-     * Default: 0
-     */
-    @Option("padding.bottom")
-    public Integer padding_bottom;
 
     /**
-     * Left padding in pixels.
-     * <p>
-     * Default: 0
+     * The padding to add inside the chart.
      */
-    @Option("padding.left")
-    public Integer padding_left;
+    @Option
+    public final Padding padding = new Padding();
 
     /**
-     * Right padding in pixels.
-     * <p>
-     * Default: 0
+     * The padding to add inside the chart.
      */
-    @Option("padding.right")
-    public Integer padding_right;
-
-    /**
-     * Top padding in pixels.
-     * <p>
-     * Default: 0
-     */
-    @Option("padding.top")
-    public Integer padding_top;
+    @Option(convertTo = JavaScript.class)
+    public String padding$function;
 
 }

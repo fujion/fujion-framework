@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ package org.fujion.schema;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.ancillary.ComponentRegistry;
 import org.fujion.annotation.Component.ContentHandling;
 import org.fujion.annotation.Component.FactoryParameter;
@@ -36,7 +37,6 @@ import org.fujion.common.Version;
 import org.fujion.common.Version.VersionPart;
 import org.fujion.common.XMLUtil;
 import org.fujion.page.PageParser;
-import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -242,13 +242,13 @@ public class SchemaGenerator {
     private void processAttributes(Map<String, Method> setters, Element ct, Class<? extends Annotation> type) {
         for (Entry<String, Method> setter : setters.entrySet()) {
             String key = setter.getKey();
-            
-            if (key.startsWith("#") || key.endsWith(":")) {
+            Method method = setter.getValue();
+
+            if (method == null || key.startsWith("#") || key.endsWith(":")) {
                 continue;
             }
-            
+
             Element attr = createElement("attribute", ct, "name", setter.getKey());
-            Method method = setter.getValue();
             Class<?> javaType = method.getParameterTypes()[method.getParameterCount() - 1];
             Annotation annot = method.getAnnotation(type);
             String description = annot instanceof PropertySetter ? ((PropertySetter) annot).description()

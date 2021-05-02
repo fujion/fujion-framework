@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
  */
 package org.fujion.chartjs.plot;
 
+import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
@@ -33,7 +34,19 @@ public abstract class PlotOptions extends Options {
      */
     @Option
     public String backgroundColor;
-    
+
+    /**
+     * The fill alternating colors under the line.
+     */
+    @Option
+    public String[] backgroundColor$array;
+
+    /**
+     * The fill alternating colors under the line.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String backgroundColor$function;
+
     /**
      * The color of the line.
      */
@@ -41,10 +54,99 @@ public abstract class PlotOptions extends Options {
     public String borderColor;
 
     /**
+     * The color of the line.
+     */
+    @Option
+    public String[] borderColor$array;
+
+    /**
+     * The color of the line.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderColor$function;
+
+    /**
      * The width of the line in pixels.
      */
     @Option
-    public Integer borderWidth;
+    public String borderWidth;
+
+    /**
+     * The width of the line in pixels.
+     */
+    @Option
+    public String[] borderWidth$array;
+
+    /**
+     * The width of the line in pixels.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String borderWidth$function;
+
+    /**
+     * How to clip relative to chartArea. Positive value allows overflow, negative value clips
+     * that many pixels inside chart area.
+     *
+     * TODO: allow clip per side.
+     */
+    @Option
+    public Integer clip;
+
+    /**
+     * The background color when hovered as a single value.
+     */
+    @Option
+    public String hoverBackgroundColor;
+
+    /**
+     * The background color when hovered as an array.
+     */
+    @Option
+    public String[] hoverBackgroundColor$array;
+
+    /**
+     * The background color when hovered as a function.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBackgroundColor$function;
+
+    /**
+     * The border color when hovered as a single value.
+     */
+    @Option
+    public String hoverBorderColor;
+
+    /**
+     * The border color when hovered as an array.
+     */
+    @Option
+    public String[] hoverBorderColor$array;
+
+    /**
+     * The border color when hovered as a function.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderColor$function;
+
+    /**
+     * The border width when hovered as a single value.
+     * <p>
+     * Default: 1
+     */
+    @Option
+    public Integer hoverBorderWidth;
+
+    /**
+     * The border width when hovered as an array.
+     */
+    @Option
+    public int[] hoverBorderWidth$array;
+
+    /**
+     * The border width when hovered as a function.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String hoverBorderWidth$function;
 
     /**
      * The plot type.

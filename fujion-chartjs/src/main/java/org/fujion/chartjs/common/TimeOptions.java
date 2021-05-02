@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,21 +23,13 @@ package org.fujion.chartjs.common;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
+import org.fujion.chartjs.enums.TimeUnitEnum;
 
 /**
  * Time-related options.
  */
 public class TimeOptions extends Options {
-    
-    public enum TimeUnitEnum {
-        DAY, HOUR, MILLISECOND, MINUTE, MONTH, QUARTER, SECOND, WEEK, YEAR;
 
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
-    
     /**
      * Determines how different time units are displayed. See
      * <a href="http://momentjs.com/docs/#/displaying/format/">moment.js</a> for the allowable
@@ -108,21 +100,13 @@ public class TimeOptions extends Options {
      * Default: false
      */
     @Option
-    public Boolean isoWeekday;
+    public Boolean isoWeekday$boolean;
 
     /**
-     * The data maximum. For supported formats, see
-     * <a href="http://momentjs.com/docs/#/parsing/">moment.js</a>.
+     *The index of the first day of the week (0 - Sunday, 6 - Saturday).
      */
     @Option
-    public String max;
-
-    /**
-     * The data minimum. For supported formats, see
-     * <a href="http://momentjs.com/docs/#/parsing/">moment.js</a>.
-     */
-    @Option
-    public String min;
+    public Integer isoWeekday$number;
 
     /**
      * The minimum display format to be used for a time unit.
@@ -133,16 +117,16 @@ public class TimeOptions extends Options {
     public TimeUnitEnum minUnit;
 
     /**
-     * Custom function for parsing dates.
-     */
-    @Option(value="parser", convertTo = JavaScript.class)
-    public String parser$function;
-
-    /**
      * Custom format for parsing dates.
      */
-    @Option("parser")
-    public String parser$string;
+    @Option
+    public String parser;
+
+    /**
+     * Custom function for parsing dates.
+     */
+    @Option(convertTo = JavaScript.class)
+    public String parser$function;
 
     /**
      * Dates will be rounded to the start of this unit.

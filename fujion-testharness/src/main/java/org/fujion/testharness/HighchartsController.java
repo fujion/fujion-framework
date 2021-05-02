@@ -2,7 +2,7 @@
  * #%L
  * fujion
  * %%
- * Copyright (C) 2020 Fujion Framework
+ * Copyright (C) 2021 Fujion Framework
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +20,11 @@
  */
 package org.fujion.testharness;
 
-import java.util.Arrays;
-
 import org.fujion.annotation.WiredComponent;
 import org.fujion.component.BaseComponent;
-import org.fujion.highcharts.AlignHorizontal;
-import org.fujion.highcharts.AlignVertical;
-import org.fujion.highcharts.Axis;
-import org.fujion.highcharts.Chart;
-import org.fujion.highcharts.Orientation;
-import org.fujion.highcharts.PlotLineOptions;
-import org.fujion.highcharts.Series;
+import org.fujion.highcharts.*;
+
+import java.util.Arrays;
 
 /**
  * Sample controller to reproduce HighCharts demo from its web site.
