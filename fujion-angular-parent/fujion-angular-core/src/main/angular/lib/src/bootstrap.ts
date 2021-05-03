@@ -36,7 +36,7 @@ export function AppContext(aModule: any, selector?: string) {
     delete ngModule.bootstrap;
 
     function findDecorator(obj: any): any {
-        return obj['__annotations__']?.[0];
+        return obj.decorators?.[0]?.args?.[0];
     }
 
     @NgModule(ngModule)

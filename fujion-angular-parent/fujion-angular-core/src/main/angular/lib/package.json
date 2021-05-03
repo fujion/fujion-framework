@@ -1,0 +1,10 @@
+{
+  "name": "fujion-angular-bootstrap",
+  "version": "3.1.0",
+  "description": "Bootstrapper for embedded Angular apps",
+  "keywords": [
+    "fujion",
+    "angular"
+  ],
+  "author": "Fujion Framework"
+}

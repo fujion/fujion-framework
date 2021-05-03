@@ -1,0 +1,10 @@
+{
+  "name": "fujion-angular-example",
+  "version": "3.1.0",
+  "description": "Example Fujion plugin for Angular",
+  "keywords": [
+    "fujion",
+    "angular"
+  ],
+  "author": "Fujion Framework"
+}

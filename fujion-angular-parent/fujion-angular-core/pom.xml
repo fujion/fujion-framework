@@ -11,9 +11,9 @@
     <artifactId>fujion-angular-core</artifactId>
 
     <properties>
-        <angular.version>11.2.6</angular.version>
+        <angular.version>11.2.12</angular.version>
         <rxjs.version>6.6.6</rxjs.version>
-        <zonejs.version>0.11.3</zonejs.version>
+        <zonejs.version>0.11.4</zonejs.version>
 
         <webjar.name>fujion-angular</webjar.name>
         <skip.minification>false</skip.minification>
@@ -29,6 +29,7 @@
                         <id>npm-install</id>
                         <configuration>
                             <skip>false</skip>
+                            <workingDirectory>src/main/angular</workingDirectory>
                         </configuration>
                     </execution>
                    <execution>
@@ -41,6 +42,21 @@
                                 <argument>-c=org.fujion.angular.AngularComponent</argument>
                                 <argument>${webjar.schemadir}fsp-angular.xsd</argument>
                             </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>postcompile</id>
+                        <configuration>
+                            <target>
+                                <copy todir="${webjar.target}/js">
+                                    <fileset dir="${basedir}/src/main/angular/dist/bundles" />
+                                </copy>
+                            </target>
                         </configuration>
                     </execution>
                 </executions>

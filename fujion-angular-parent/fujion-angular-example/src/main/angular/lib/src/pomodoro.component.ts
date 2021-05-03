@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 // Pomodoro timer component
 // Note: bootstrapping is handled automatically.
@@ -55,3 +55,5 @@ export class PomodoroComponent {
     }
   }
 }
+
+//export const AngularComponent = PomodoroComponent;

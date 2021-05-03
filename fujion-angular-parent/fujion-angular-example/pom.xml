@@ -25,6 +25,22 @@
 						<id>npm-install</id>
 						<configuration>
 							<skip>false</skip>
+							<workingDirectory>src/main/angular</workingDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>postcompile</id>
+						<configuration>
+							<target>
+								<copy todir="${webjar.target}/dist">
+									<fileset dir="${basedir}/src/main/angular/dist/bundles" />
+								</copy>
+							</target>
 						</configuration>
 					</execution>
 				</executions>

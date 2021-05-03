@@ -1,5 +1,5 @@
 {
-  "map": {
-    "fujion-angular-pomodoro": "pomodoro.module.js"
+  "imports": {
+    "fujion-angular-pomodoro": "dist/fujion-angular-example.umd.js"
   }
 }
