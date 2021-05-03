@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-plotly-js</artifactId>
-			<version>1.58.4</version>
+			<version>1.58.4-10</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

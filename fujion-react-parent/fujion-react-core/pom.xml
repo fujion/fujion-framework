@@ -11,7 +11,7 @@
 	<artifactId>fujion-react-core</artifactId>
 
 	<properties>
-		<react.version>17.0.2</react.version>
+		<react.version>17.0.2-10</react.version>
 		<webjar.name>fujion-react</webjar.name>
 		<skip.minification>false</skip.minification>
 	</properties>

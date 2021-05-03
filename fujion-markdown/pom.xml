@@ -47,7 +47,7 @@
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-showdown</artifactId>
-		    <version>1.9.1</version>
+		    <version>1.9.1-10</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
