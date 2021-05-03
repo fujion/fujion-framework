@@ -1,5 +1,5 @@
 {
   "imports": {
-    "fujion-sparkline": "js/sparkline.js"
+    "fujion-sparkline": "js/fujion-sparkline.js"
   }
 }

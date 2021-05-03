@@ -1,6 +1,6 @@
 {
   "imports": {
-    "fujion-barcode": "js/barcode.js",
-    "fujion-barcode-css": "css/barcode.css"
+    "fujion-barcode": "js/fujion-barcode.js",
+    "fujion-barcode-css": "css/fujion-barcode.css"
   }
 }

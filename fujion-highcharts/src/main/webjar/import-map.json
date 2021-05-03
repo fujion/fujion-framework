@@ -1,5 +1,5 @@
 {
   "imports": {
-    "fujion-hchart": "js/hchart.js"
+    "fujion-highcharts": "js/fujion-highcharts.js"
   }
 }

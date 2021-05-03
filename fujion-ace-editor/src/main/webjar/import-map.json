@@ -1,6 +1,6 @@
 {
   "paths": {
-    "fujion-ace": "js/ace.js",
-    "fujion-ace-css": "css/ace.css"
+    "fujion-ace": "js/fujion-ace-editor.js",
+    "fujion-ace-css": "css/fujion-ace-editor.css"
   }
 }

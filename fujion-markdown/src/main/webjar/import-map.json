@@ -1,6 +1,6 @@
 {
   "imports": {
-    "fujion-markdown": "js/markdown.js",
-    "fujion-markdown-css": "css/markdown.css"
+    "fujion-markdown": "js/fujion-markdown.js",
+    "fujion-markdown-css": "css/fujion-markdown.css"
   }
 }

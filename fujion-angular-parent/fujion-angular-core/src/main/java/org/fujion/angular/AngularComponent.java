@@ -30,7 +30,7 @@ import org.fujion.component.BaseUIComponent;
  */
 @Component(
         tag = "angular",
-        widgetModule = "fujion-angular-widget",
+        widgetModule = "fujion-angular-core",
         widgetClass = "AngularWidget",
         parentTag = "*",
         description = "Container for an Angular component.")

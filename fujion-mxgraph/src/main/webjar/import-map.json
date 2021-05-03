@@ -1,6 +1,6 @@
 {
   "imports": {
-    "fujion-mxgraph": "js/mxgraph.js",
-    "fujion-mxgraph-css": "css/mxgraph.css"
+    "fujion-mxgraph": "js/fujion-mxgraph.js",
+    "fujion-mxgraph-css": "css/fujion-mxgraph.css"
   }
 }

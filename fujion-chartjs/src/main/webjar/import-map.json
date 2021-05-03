@@ -1,5 +1,5 @@
 {
   "imports": {
-    "fujion-chartjs": "js/chart-js.js"
+    "fujion-chartjs": "js/fujion-chartjs.js"
   }
 }

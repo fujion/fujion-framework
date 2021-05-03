@@ -1,6 +1,6 @@
 'use strict';
 
-window.CKEDITOR_BASEPATH = fujion.baseurl + 'webjars/webjar-ckeditor-full/dist/';
+window.CKEDITOR_BASEPATH = fujion.baseurl + 'webjars/webjar-ckeditor/dist/full/';
 
 define('fujion-ckeditor', [
 	'fujion-core', 

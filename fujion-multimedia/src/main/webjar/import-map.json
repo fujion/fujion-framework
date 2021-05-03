@@ -1,5 +1,5 @@
 {
   "imports": {
-    "fujion-multimedia": "js/multimedia.js"
+    "fujion-multimedia": "js/fujion-multimedia.js"
   }
 }

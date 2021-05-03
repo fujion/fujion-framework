@@ -30,7 +30,7 @@ import org.fujion.component.BaseUIComponent;
  */
 @Component(
         tag = "react",
-        widgetModule = "fujion-react-widget",
+        widgetModule = "fujion-react-core",
         widgetClass = "ReactWidget",
         parentTag = "*",
         description = "Container for a React component.")

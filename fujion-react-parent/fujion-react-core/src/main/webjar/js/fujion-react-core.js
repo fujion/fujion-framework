@@ -1,6 +1,6 @@
 'use strict';
 
-define('fujion-react-widget', ['fujion-core', 'fujion-widget', 'react', 'react-dom'], 
+define('fujion-react-core', ['fujion-core', 'fujion-widget', 'react', 'react-dom'],
 	(fujion, wgt, React, ReactDOM) => {
 
 	return {

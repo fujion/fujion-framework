@@ -53,7 +53,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-ckeditor-full</artifactId>
+			<artifactId>webjar-ckeditor</artifactId>
 			<version>4.16.0-10</version>
 		</dependency>
 		<dependency>

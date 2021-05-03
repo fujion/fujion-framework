@@ -1,6 +1,6 @@
 {
   "imports": {
-    "fujion-ckeditor": "js/ckeditor.js",
-    "fujion-ckeditor-css": "css/ckeditor.css"
+    "fujion-ckeditor": "js/fujion-ckeditor.js",
+    "fujion-ckeditor-css": "css/fujion-ckeditor.css"
   }
 }

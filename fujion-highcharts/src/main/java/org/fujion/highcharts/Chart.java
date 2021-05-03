@@ -37,7 +37,7 @@ import java.util.Arrays;
  */
 @Component(
         tag = "hchart",
-        widgetModule = "fujion-hchart",
+        widgetModule = "fujion-highcharts",
         widgetClass = "HChart",
         parentTag = "*",
         description = "Fujion wrapper for HighCharts component.")
