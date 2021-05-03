@@ -1,0 +1,160 @@
+/* Tabview */
+
+.fujion_tabview {
+	display: flex;
+	overflow: hidden;
+}
+
+.fujion_tabview-top,
+.fujion_tabview-bottom {
+	flex-direction: column;	
+}
+
+.fujion_tabview-left,
+.fujion_tabview-right {
+	flex-direction: row;
+}
+
+.fujion_tabview-tabs {
+	display: inline-flex;
+	overflow: auto;
+	margin: 0;
+	padding: 0;
+	order: 1;
+ }
+	
+.fujion_tabview-left > .fujion_tabview-tabs,
+.fujion_tabview-right > .fujion_tabview-tabs {
+	flex-direction: column;
+	max-width: 20%;
+}
+
+.fujion_tabview-panes {
+	display: inline-flex;
+	flex-direction: column;
+	order: 2;
+	flex: 1;
+	border: 1px solid lightgray;
+	overflow: hidden;
+}
+
+.fujion_tabview-top > .fujion_tabview-panes {
+	margin-top: -1px;	
+}
+
+.fujion_tabview-bottom > .fujion_tabview-panes {
+	margin-bottom: -1px;
+    order: 0;	
+}
+
+.fujion_tabview-right > .fujion_tabview-panes {
+	margin-right: -1px;	
+	order: 0;
+}
+
+.fujion_tabview-left > .fujion_tabview-panes {
+	margin-left: -1px;	
+}
+
+.fujion_tab-pane {
+	flex: 1;
+	padding: 2px;
+	height: 100%;
+	overflow: auto;
+}
+
+.fujion_tab {
+	display: inline-block;
+	position: relative;
+	opacity: .75;
+	background: #eee;
+	border: 1px solid lightgray;
+}
+
+.fujion_tabview-bottom > .fujion_tabview-tabs > .fujion_tab {
+	border-top: none;
+	border-radius: 0 0 4px 4px;
+	margin-right: 1px;
+}
+
+.fujion_tabview-top > .fujion_tabview-tabs > .fujion_tab {
+	border-bottom: none;
+	border-radius: 4px 4px 0 0;
+	margin-right: 1px;
+}
+
+.fujion_tabview-left > .fujion_tabview-tabs > .fujion_tab {
+	border-right: none;
+	border-radius: 4px 0 0 4px;
+	margin-bottom: 1px;
+}
+
+.fujion_tabview-right > .fujion_tabview-tabs > .fujion_tab {
+	border-left: none;
+	text-align: right;
+	border-radius: 0 4px 4px 0;
+	margin-bottom: 1px;
+}
+
+.fujion_tabview-right > .fujion_tabview-tabs img {
+	float: left;
+}
+
+.fujion_tab-closable > a > span {
+	padding-right: 5px;
+}
+
+.fujion_tab a {
+	font-size: 14px;
+	line-height: 2em;
+	display: block;
+	padding: 0 10px;
+	outline: none;
+}
+
+
+.fujion_tab a:hover {
+	text-decoration: underline;
+}
+
+.fujion_tab a:focus {
+	text-decoration: none;
+}
+
+.fujion_tab-selected {
+	background: inherit;
+	opacity: 1;
+}
+
+.fujion_tabview-top > .fujion_tabview-tabs > .fujion_tab-selected {
+	border-bottom: 1px solid white;
+}
+
+.fujion_tabview-bottom > .fujion_tabview-tabs > .fujion_tab-selected {
+	border-top: 1px solid white;
+}
+
+.fujion_tabview-right > .fujion_tabview-tabs > .fujion_tab-selected {
+	border-left: 1px solid white;
+}
+
+.fujion_tabview-left > .fujion_tabview-tabs > .fujion_tab-selected {
+	border-right: 1px solid white;
+}
+
+.fujion_tab > a > .badge {
+	margin-right: 5px;
+}
+
+.fujion_tab > a > .fa-remove {
+	font-size: 70%;
+	position: absolute;
+	margin-top: 2px;
+	margin-left: -1px;
+	opacity: .6;
+}
+
+.fujion_tab > a > .fa-remove:hover {
+	opacity: 1;
+}
+

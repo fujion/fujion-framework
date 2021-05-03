@@ -1,0 +1,61 @@
+/* Picker widgets */
+
+.fujion_picker-ddn {
+	border: 1px solid lightgray;
+	padding: 2px;
+	background-color: white;
+	overflow: auto;
+	cursor: default;
+	max-height: 200px;
+	max-width: 300px;
+}
+
+.fujion_picker-hidetext > input {
+    color: transparent;
+}
+
+
+/* Color picker */
+
+.fujion_colorpicker > input {
+	padding-left: 32px;
+}
+
+.fujion_colorpickeritem {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 12px;
+	height: 15px;
+	width: 15px;
+	border: 1px solid white;
+}
+
+.fujion_colorpickeritem:hover {
+	border-color: black;
+}
+
+/* Icon picker */
+
+.fujion_imagepicker > input {
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 32px;
+}
+
+.fujion_imagepickeritem {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 12px;
+	max-height: 31px;
+	min-height: 15px;
+	max-width: 31px;
+	min-width: 15px;
+	border: 1px solid white;
+}
+
+.fujion_imagepickeritem:hover {
+	border-color: black;
+}
+

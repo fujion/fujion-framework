@@ -1,0 +1,73 @@
+/* Tree View */
+
+.fujion_treeview {
+    display: inline-flex;
+    overflow: auto;
+    margin: 2px;
+}
+
+.fujion_treeview ul {
+    list-style-type: none;
+    background: url(../img/tree-vline.png) repeat-y;
+    margin: 0;
+    padding: 0;
+}
+   
+.fujion_treeview-noroot > ul,
+.fujion_treeview-noroot > ul > li,
+.fujion_treeview-noroot > ul > li > .fujion_treenode-nochildren {
+    background-image: none!important;
+    margin-left: -10px;
+}
+
+.fujion_treeview-nolines,
+.fujion_treeview-nolines * {
+    background-image: none!important;
+}
+   
+.fujion_treeview-notoggles .fujion_treenode > .fa {
+    display: none;    
+}
+
+.fujion_treeview ul {
+    margin-left: 10px;
+}
+
+.fujion_treeview li {
+    margin: 0;
+    padding: 0 12px;
+    line-height: 20px;
+    background: url(../img/tree-tline.png) no-repeat;
+    color: #369;
+}
+
+.fujion_treeview li:last-child {
+    background: #fff url(../img/tree-lline.png) no-repeat;
+}
+
+/* Tree Node */
+
+.fujion_treenode > span > img {
+    padding-right: 4px;
+    max-height: 16px;
+    max-width: 16px;
+}
+
+.fujion_treenode > span > .badge-pill {
+    margin-right: 5px;
+}
+
+.fujion_treenode-selected > span > .fujion-labeled-label {
+    background: lightgray;
+}
+
+.fujion_treenode > .fa {
+    margin-right: 2px;
+}
+
+.fujion_treenode-nochildren {
+    background-image: url(../img/tree-hline.png);
+    margin-left: -4px;
+    margin-right: 4px;
+}
+
