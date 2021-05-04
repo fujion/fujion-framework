@@ -60,7 +60,7 @@ public class NumUtil {
      *         outside the range.
      */
     public static int enforceRange(int value, int minValue, int maxValue) {
-        return value < minValue ? minValue : (value > maxValue ? maxValue : value);
+        return value < minValue ? minValue : Math.min(value, maxValue);
     }
     
     /**

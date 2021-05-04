@@ -92,19 +92,19 @@ public class StrUtil {
      * @return A string array containing the split values.
      */
     public static String[] split(String text, String delimiter, int count, boolean nonull) {
-        String[] pcs = text == null ? new String[count]
+        String[] ary = text == null ? new String[count]
                 : StringUtils.splitByWholeSeparatorPreserveAllTokens(text, delimiter);
-        pcs = pcs.length >= count ? pcs : Arrays.copyOf(pcs, count);
-        
+        ary = ary.length >= count ? ary : Arrays.copyOf(ary, count);
+
         if (nonull) {
-            for (int i = 0; i < pcs.length; i++) {
-                if (pcs[i] == null) {
-                    pcs[i] = "";
+            for (int i = 0; i < ary.length; i++) {
+                if (ary[i] == null) {
+                    ary[i] = "";
                 }
             }
         }
         
-        return pcs;
+        return ary;
     }
     
     /**
@@ -249,7 +249,7 @@ public class StrUtil {
             return "";
         }
         
-        end = (end <= pcs.length ? end : pcs.length) - 1;
+        end = Math.min(end, pcs.length) - 1;
         
         for (int i = --start; i <= end; i++) {
             result.append(pcs[i]);

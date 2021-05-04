@@ -132,13 +132,13 @@ public class XMLUtil {
      * @throws Exception Unspecified exception.
      */
     public static Document parseXMLFromStream(InputStream stream) throws Exception {
-        Document document = newDocumentBuilder(false).parse(stream);
-        stream.close();
-        return document;
+        try (InputStream is = stream) {
+            return newDocumentBuilder(false).parse(is);
+        }
     }
     
     /**
-     * Converts an XML document to a formatted XML string.
+     * Converts an XML document to a formatted XML string with a default indent of 4.
      *
      * @param doc The document to format.
      * @return Formatted XML document.

@@ -170,7 +170,7 @@ public class DateUtil {
      * minus a numeric value of 'd' (days), 'm' (months), or 'y' (years).
      */
     private static final Pattern PATTERN_EXT_DATE = Pattern
-            .compile("^\\s*[tn]{1}\\s*([+-]{1}\\s*[\\d]*\\s*[snhdmy]?)?\\s*$");
+            .compile("^\\s*[tn]\\s*([+-]\\s*[\\d]*\\s*[snhdmy]?)?\\s*$");
 
     /*
      * Defines a regular expression pattern representing a value ending in one
@@ -887,11 +887,11 @@ public class DateUtil {
             // If person is more than 2 months but less than 2 years then display age in months
             if (refMonth >= birthMonth && refDay >= birthDay) {
                 // If person has had a birthday already this year
-                return formatUnits((refYear - birthYear) * 12 + refMonth - birthMonth, TimeUnit.MONTHS, pluralize);
+                return formatUnits((refYear - birthYear) * 12L + refMonth - birthMonth, TimeUnit.MONTHS, pluralize);
             }
             // then age in months = # years old * 12 + months so far this year
             // If person has not yet had a birthday this year, subtract 1 month
-            return formatUnits((refYear - birthYear) * 12 + refMonth - birthMonth - 1, TimeUnit.MONTHS, pluralize);
+            return formatUnits((refYear - birthYear) * 12L + refMonth - birthMonth - 1, TimeUnit.MONTHS, pluralize);
         }
         // If person is more than 2 years old then display age in years
         return formatUnits(getAgeInYears(birthYear, birthMonth, birthDay, refYear, refMonth, refDay), TimeUnit.YEARS,

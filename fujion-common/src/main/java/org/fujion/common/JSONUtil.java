@@ -391,7 +391,6 @@ public class JSONUtil {
     public static <T> List<T> deserializeList(String typeProperty, String data, Class<T> clazz) {
         try {
             return getMapper(typeProperty).readValue(data, new TypeReference<List<T>>() {
-
             });
         } catch (Exception e) {
             throw new RuntimeException(e);
