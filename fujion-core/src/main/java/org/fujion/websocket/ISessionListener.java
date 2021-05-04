@@ -33,18 +33,21 @@ public interface ISessionListener {
      *
      * @param request A client request.
      */
-    void onClientRequest(ClientRequest request);
-    
+    default void onClientRequest(ClientRequest request) {
+    }
+
     /**
      * Called when a client invocation is sent.
      *
      * @param invocation A client invocation.
      */
-    void onClientInvocation(ClientInvocation invocation);
-    
+    default void onClientInvocation(ClientInvocation invocation) {
+    }
+
     /**
      * Called when the session is destroyed.
      */
-    void onDestroy();
-    
+    default void onDestroy() {
+    }
+
 }
