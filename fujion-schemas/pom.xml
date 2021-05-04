@@ -54,7 +54,49 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
+			<artifactId>fujion-ace-editor</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-angular-core</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-barcode</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
 			<artifactId>fujion-canvas</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-captcha</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-chartjs</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-ckeditor</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-codemirror</artifactId>
 			<version>${project.parent.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -72,66 +114,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
-			<artifactId>fujion-chartjs</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-plotly</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-sparkline</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-barcode</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-captcha</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-codemirror</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-ckeditor</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-spinjs</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-angular-core</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
-			<artifactId>fujion-react-core</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.fujion</groupId>
 			<artifactId>fujion-markdown</artifactId>
 			<version>${project.parent.version}</version>
 			<scope>provided</scope>
@@ -144,7 +126,31 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
-			<artifactId>fujion-ace-editor</artifactId>
+			<artifactId>fujion-mxgraph</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-plotly</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-react-core</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-sparkline</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-spinjs</artifactId>
 			<version>${project.parent.version}</version>
 			<scope>provided</scope>
 		</dependency>
