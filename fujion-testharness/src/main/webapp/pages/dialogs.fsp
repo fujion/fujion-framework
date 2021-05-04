@@ -1,0 +1,56 @@
+<fsp xmlns="http://www.fujion.org/schema/fsp"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="
+		http://www.fujion.org/schema/fsp 
+		http://www.fujion.org/schema/fsp.xsd">
+
+
+	<grid controller="org.fujion.testharness.DialogsController">
+		<columns style="visibility:hidden">
+			<column width="20%" />
+			<column width="80%" />
+		</columns>
+		<rows css="button {width: 150px}">
+			<row>
+				<button name="btnInputDialog" label="Input Dialog" />
+				A dialog that prompts for text input and returns that input upon closure.
+			</row>
+			<row>
+				<button name="btnConfirmDialog" label="Confirmation Dialog" />
+				A dialog that presents a message prompt with an OK and Cancel button.
+			</row>
+			<row>
+				<button name="btnShowInfoDialog" label="Informational Dialog" />
+				A dialog that displays informational text.
+			</row>
+			<row>
+				<button name="btnShowWarningDialog" label="Warning Dialog" />
+				A dialog that displays warning text.
+			</row>
+			<row>
+				<button name="btnShowErrorDialog" label="Error Dialog" />
+				A dialog that displays error text.
+			</row>
+			<row>
+				<button name="btnPopupDialog" label="Popup Dialog" />
+				A popup dialog displays a FSP in a popup window.
+			</row>
+			<row>
+				<button name="btnReportDialog" label="Report Dialog" />
+				A report dialog displays report text and can optionally print it.
+			</row>
+			<row>
+				<button name="btnErrorMessage" label="Error Message" />
+				A client-side error message dialog.
+			</row>
+			<row>
+				<button name="btnWarnMessage" label="Warning Message" />
+				A client-side warning message dialog.
+			</row>
+			<row>
+				<button name="btnInfoMessage" label="Informational Message" />
+				A client-side informational message dialog.
+			</row>
+		</rows>
+	</grid>
+</fsp>

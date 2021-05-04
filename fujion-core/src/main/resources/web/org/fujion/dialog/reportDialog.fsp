@@ -1,0 +1,20 @@
+
+<window class="flavor:alert-primary"
+	controller="org.fujion.dialog.ReportDialog">
+	<style src="web/org/fujion/dialog/dialogStyles.css" />
+	<paneview class="fujion-reportdialog" orientation="vertical">
+		<pane name="printRoot">
+			<cell name="cmpText" />
+			<html name="cmpHtml" />
+		</pane>
+		<pane>
+			<toolbar alignment="end" width="100%">
+				<button name="btnClose" class="flavor:btn-danger" 
+					label="${@msg.org.fujion.dialog.btn.close.label}" width="60px" />
+				<button name="btnPrint" 
+					visible="false" class="flavor:btn-info" 
+					label="${@msg.org.fujion.dialog.btn.print.label}" width="60px" />
+			</toolbar>
+		</pane>
+	</paneview>
+</window>

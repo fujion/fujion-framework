@@ -138,6 +138,44 @@ public class ClientUtil {
         invoke("fujion.saveToFile", content, mimeType, fileName);
     }
 
+    /**
+     * Displays an errar dialog.
+     *
+     * @param message The message.
+     */
+    public static void error(String message) {
+        alert(message, "Error", "danger");
+    }
+
+    /**
+     * Displays a warning dialog.
+     *
+     * @param message The message.
+     */
+    public static void warn(String message) {
+        alert(message, "Warning", "warning");
+    }
+
+    /**
+     * Displays an informational dialog.
+     *
+     * @param message The message.
+     */
+    public static void info(String message, String title) {
+        alert(message, title, "info");
+    }
+
+    /**
+     * Displays an alert dialog.
+     *
+     * @param message The alert message.
+     * @param title The alert title.
+     * @param flavor The alert flavor.
+     */
+    public static void alert(String message, String title, String flavor) {
+        invoke("fujion.alert", message, title, flavor);
+    }
+
     private ClientUtil() {
     }
 }

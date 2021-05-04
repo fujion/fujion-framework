@@ -24,9 +24,11 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.fujion.ancillary.IAutoWired;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
+import org.fujion.client.ClientUtil;
 import org.fujion.component.*;
 import org.fujion.event.ChangeEvent;
 import org.fujion.event.Event;
+import org.fujion.websocket.ISessionListener;
 
 /**
  * Controller for main page.
@@ -43,6 +45,12 @@ public class MainController implements IAutoWired {
         tabIndex = tabIndex < 0 ? tabview.getChildCount() + tabIndex : tabIndex;
         tabview.setSelectedTab((Tab) tabview.getChildAt(tabIndex));
         page.setAttribute("mainController", this);
+        page.getSession().addSessionListener(new ISessionListener() {
+            @Override
+            public void onDestroy() {
+                ClientUtil.warn("Your session has timed out.");
+            }
+        });
     }
 
     /*********************** Status Log ***********************/

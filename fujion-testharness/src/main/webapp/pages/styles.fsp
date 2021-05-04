@@ -13,8 +13,7 @@
 	<div>From external stylesheet:</div>
 	<label class="external" label="This label should have red text." />
 	<div>From inline stylesheet:</div>
-	<div css=".inline{font-style:italic; background: white}">
-		<label class="inline"
-			label="This label should have italicized text on a white background." />
+	<div css="label{font-style:italic; background: white}">
+		<label label="This label should have italicized text on a white background." />
 	</div>
 </fsp>		

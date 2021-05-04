@@ -1,3 +1,9 @@
-<fsp>
+<fsp xmlns="http://www.fujion.org/schema/fsp"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="
+		http://www.fujion.org/schema/fsp
+		http://www.fujion.org/schema/fsp.xsd">
+
 	<ace value="Demo of CKEditor integration" height="100%" width="100%" mode="java" focus="true"/>
+
 </fsp>

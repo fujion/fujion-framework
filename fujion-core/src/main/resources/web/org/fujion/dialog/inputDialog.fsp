@@ -1,0 +1,13 @@
+<window closable="true" class="fujion-inputdialog"
+	controller="org.fujion.dialog.InputDialog">
+	<style src="web/org/fujion/dialog/dialogStyles.css" />
+	<div>
+		<cell name="prompt"/>
+		<textbox name="textbox" synchronized="true" focus="true"/>
+	</div>
+	<toolbar alignment="center" width="100%">
+		<button name="btnCancel" label="${@msg.org.fujion.dialog.btn.cancel.label}" class="flavor:btn-danger"/>
+		<button name="btnOK" label="${@msg.org.fujion.dialog.btn.ok.label}" class="flavor:btn-success"
+			disabled="true"/>
+	</toolbar>
+</window>

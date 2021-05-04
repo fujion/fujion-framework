@@ -1,0 +1,15 @@
+
+<window closable="true" class="fujion-promptdialog"
+	controller="org.fujion.dialog.PromptDialog">
+	<style src="web/org/fujion/dialog/dialogStyles.css" />
+	<span>
+		<span name="icon" class="fa" />
+		<cell name="message" />
+		<div>
+			<listbox name="listbox" visible="false" />
+			<checkbox name="chkRemember" visible="false"
+				label="${@msg.org.fujion.dialog.prompt.chx.reminder.label}" />
+		</div>
+	</span>
+	<toolbar name="toolbar" alignment="center" width="100%" />
+</window>

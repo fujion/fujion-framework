@@ -52,7 +52,11 @@
 			<tab label="Conditionals" hint="${@msg.fujion.testharness.conditionals}">
 				<import src="pages/conditionals.fsp" />
 			</tab>
-			
+
+			<tab label="Dialogs" hint="${@msg.fujion.testharness.dialogs}">
+				<import src="pages/dialogs.fsp" />
+			</tab>
+
 			<tab label="Drag &amp; Drop" hint="${@msg.fujion.testharness.dnd}">
 				<import src="pages/dnd.fsp" />
 			</tab>

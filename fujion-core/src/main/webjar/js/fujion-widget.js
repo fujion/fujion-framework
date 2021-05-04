@@ -1021,10 +1021,10 @@ define('fujion-widget', [
 		focus: function(focus) {
 			const sel = ':input:enabled:visible:not([readonly])';
 			const tgt = this.widget$.is(sel) ? this.widget$.get(0) : this.widget$.find(sel).get(0);
-			focus = typeof focus === 'boolean' ? focus : true;
 
 			if (tgt) {
-				focus ? tgt.focus() : tgt.blur();
+				focus = typeof focus === 'boolean' ? focus : true;
+				setTimeout(() => focus ? tgt.focus() : tgt.blur(), 10);
 			}
 		},
 

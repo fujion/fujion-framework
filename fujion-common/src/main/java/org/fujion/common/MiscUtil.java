@@ -20,6 +20,8 @@
  */
 package org.fujion.common;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -74,6 +76,17 @@ public class MiscUtil {
         }
 
         return null;
+    }
+
+    /**
+     * Formats an exception for display.
+     *
+     * @param exc Exception to format.
+     * @return The displayable form of the exception.
+     */
+    public static String formatExceptionForDisplay(Throwable exc) {
+        Throwable root = ExceptionUtils.getRootCause(exc);
+        return exc == null ? null : ExceptionUtils.getMessage(root == null ? exc : root);
     }
 
     /**
