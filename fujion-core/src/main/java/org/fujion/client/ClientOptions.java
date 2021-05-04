@@ -74,8 +74,9 @@ public class ClientOptions extends Options {
      * @param name Name of setting.
      * @param value Setting value.
      */
-    public static void setCustomSetting(String name, Object value) {
+    public static ClientOptions setCustomSetting(String name, Object value) {
         instance.custom.put(name, value);
+        return instance;
     }
 
     private ClientOptions() {

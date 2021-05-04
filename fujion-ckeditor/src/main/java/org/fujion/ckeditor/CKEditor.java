@@ -23,6 +23,7 @@ package org.fujion.ckeditor;
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
 import org.fujion.annotation.Component.PropertySetter;
+import org.fujion.client.ClientOptions;
 import org.fujion.component.BaseInputComponent;
 
 /**
@@ -36,10 +37,41 @@ import org.fujion.component.BaseInputComponent;
         description = "CKEditor component.")
 public class CKEditor extends BaseInputComponent<String> {
 
+    public enum CKEditorBundle {
+        BASIC,
+        FULL,
+        STANDARD;
+
+        @Override
+        public String toString() {
+            return name().toLowerCase();
+        }
+    }
+
     private boolean readonly;
-    
+
     private boolean sizable = true;
-    
+
+    /**
+     * Sets the CKEditor bundle to be loaded.  This will take effect only after page initialization.
+     *
+     * @param bundle The bundle to load.
+     * @return A reference to the ClientOptions instance (not used).
+     */
+    public static Object setBundle(CKEditorBundle bundle) {
+        return ClientOptions.setCustomSetting("org.fujion.ckeditor.bundle", bundle.toString());
+    }
+
+    /**
+     * Sets the CKEditor bundle to be loaded.  This will take effect only after page initialization.
+     *
+     * @param bundle The bundle to load.
+     * @return A reference to the ClientOptions instance (not used).
+     */
+    protected static Object setBundleFromString(String bundle) {
+        return setBundle(CKEditorBundle.valueOf(bundle.toUpperCase()));
+    }
+
     /**
      * Returns true if the input box is read-only.
      *

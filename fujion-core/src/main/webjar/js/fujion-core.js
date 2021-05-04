@@ -9,7 +9,9 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 
         // Global options for Fujion client.
 
-        globalOptions: {},
+        globalOptions: {
+            custom: {}
+        },
 
         /**
          * Initializer for bootstrapping process.

@@ -10,4 +10,8 @@
 		http://www.fujion.org/schema/component-extensions.xsd">
 	
 	<ffc:component-scan package="org.fujion.ckeditor" />
+
+	<bean class="org.fujion.ckeditor.CKEditor" factory-method="setBundleFromString">
+		<constructor-arg value="${org.fujion.ckeditor.bundle}" />
+	</bean>
 </beans>

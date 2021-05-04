@@ -1,12 +1,14 @@
 'use strict';
 
-window.CKEDITOR_BASEPATH = fujion.baseurl + 'webjars/webjar-ckeditor/dist/full/';
+const ckeditorBundle = fujion.globalOptions.custom['org.fujion.ckeditor.bundle'] || 'full';
+
+window.CKEDITOR_BASEPATH = fujion.baseurl + 'webjars/webjar-ckeditor/dist/' + ckeditorBundle + '/';
 
 define('fujion-ckeditor', [
 	'fujion-core', 
 	'fujion-widget',
 	'jshashes',
-	'ckeditor-full',
+	'ckeditor-' + ckeditorBundle,
 	'fujion-ckeditor-css'], (fujion, Widget, Hashes) => {
 	
 	/******************************************************************************************************************
