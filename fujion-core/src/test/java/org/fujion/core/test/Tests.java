@@ -25,6 +25,7 @@ import org.fujion.annotation.ComponentDefinition;
 import org.fujion.annotation.ComponentScanner;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.*;
+import org.fujion.core.CoreUtil;
 import org.fujion.core.test.TestBinder.TestModel;
 import org.fujion.event.KeyCode;
 import org.fujion.page.*;
@@ -324,6 +325,19 @@ public class Tests {
         assertNull(theme.translatePath("this/should/not/match"));
     }
 
+    @Test
+    public void testResourceClassPath() {
+        Class<?> clazz = CoreUtil.class;
+        String pkg = "org.fujion.core";
+        assertEquals("web/org/fujion/core/", CoreUtil.getResourceClassPath(clazz));
+        assertEquals("web/org/fujion/", CoreUtil.getResourceClassPath(clazz, 1));
+        assertEquals("web/org/fujion/core/", CoreUtil.getResourceClassPath(clazz.getPackage()));
+        assertEquals("web/org/", CoreUtil.getResourceClassPath(clazz.getPackage(), 2));
+        assertEquals("web/org/fujion/core/", CoreUtil.getResourceClassPath(pkg));
+        assertEquals("web/org/fujion/core/", CoreUtil.getResourceClassPath(pkg, -2));
+        assertEquals("web/org/fujion/", CoreUtil.getResourceClassPath(pkg, 1));
+    }
+    
     private PageDefinition getPageDefinition(String file) {
         try (InputStream is = getClass().getResourceAsStream("/" + file)) {
             Assert.assertNotNull(is);

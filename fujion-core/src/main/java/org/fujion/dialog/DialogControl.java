@@ -23,7 +23,9 @@ package org.fujion.dialog;
 import org.fujion.common.StrUtil;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DialogControl<T> {
 
@@ -36,6 +38,43 @@ public class DialogControl<T> {
         void onComplete(DialogResponse<T> response);
 
     }
+
+    /**
+     * Used to persist previous responses.
+     */
+    public interface IDialogResponseProvider {
+
+        int get(String responseId);
+
+        void set(
+                String responseId,
+                int index);
+
+    }
+
+    /**
+     * The default provider for persisting last responses uses a map.
+     */
+    public static IDialogResponseProvider dialogResponseProvider = new IDialogResponseProvider() {
+
+        private final Map<String, Integer> responses = new HashMap<>();
+
+        @Override
+        public int get(String responseId) {
+            return responses.getOrDefault(responseId, -1);
+        }
+
+        @Override
+        public void set(
+                String responseId,
+                int index) {
+            if (index >= 0) {
+                responses.put(responseId, index);
+            } else {
+                responses.remove(responseId);
+            }
+        }
+    };
 
     private final String message;
 
@@ -236,20 +275,9 @@ public class DialogControl<T> {
      * @return The response, or null if none found.
      */
     public DialogResponse<T> getLastResponse() {
-        int i = saveResponseId == null ? -1 : getLastResponseIndex(saveResponseId);
+        int i = saveResponseId == null ? -1 : dialogResponseProvider.get(saveResponseId);
         DialogResponse<T> response = i < 0 || i >= responses.size() ? null : responses.get(i);
         return response == null || response.isExcluded() ? null : response;
-    }
-
-    /**
-     * Returns the index of the saved response for the given response id.  The default implementation
-     * always returns -1.  Override to provide ability to retrieve the response index from an external store.
-     *
-     * @param saveResponseId The response id.
-     * @return The index of the saved response.  Returns -1 if none available.
-     */
-    protected int getLastResponseIndex(String saveResponseId) {
-        return -1;
     }
 
     /**
@@ -260,20 +288,8 @@ public class DialogControl<T> {
     public void saveLastResponse(DialogResponse<T> response) {
         if (saveResponseId != null && (response == null || !response.isExcluded())) {
             int index = response == null ? -1 : responses.indexOf(response);
-            saveLastResponse(saveResponseId, index);
+            dialogResponseProvider.set(saveResponseId, index);
         }
-    }
-
-    /**
-     * Saves the index of the response.  The default implementation does nothing.  Override to save the
-     * response to an external store.
-     *
-     * @param saveResponseId The response id.
-     * @param index          The index of the response.  A value of -1 will cause the last response to be removed.
-     */
-    protected void saveLastResponse(
-            String saveResponseId,
-            int index) {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
