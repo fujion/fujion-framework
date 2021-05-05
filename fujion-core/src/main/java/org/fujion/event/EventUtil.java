@@ -42,13 +42,15 @@ import java.util.Map;
  */
 public class EventUtil {
 
-    private static final Class<?>[] CTOR_PARAM_TYPES = { BaseComponent.class, Object.class };
+    private static final Class<?>[] CTOR_PARAM_TYPES = {BaseComponent.class, Object.class};
+
+    private static final IEventListener deferredDelivery = EventUtil::send;
 
     /**
      * Sends an event to its designated target.
      *
      * @param event The event to send. If the event's designated target is null, the event is sent
-     *            to the page in the current execution context.
+     *              to the page in the current execution context.
      */
     public static void send(Event event) {
         BaseComponent target = event.getCurrentTarget();
@@ -342,7 +344,35 @@ public class EventUtil {
 
         return event;
     }
-    
+
+    /**
+     * Fires an event, deferring delivery if the page of the target is not currently active.
+     *
+     * @param event The event to fire.
+     */
+    public static void fireEvent(Event event) {
+        fireEvent(event, deferredDelivery);
+    }
+
+    /**
+     * Fires an event to the specified listener, deferring delivery if the page of the target is not
+     * currently active.
+     *
+     * @param event    The event to fire.
+     * @param listener The listener to receive the event.
+     */
+    public static void fireEvent(
+            Event event,
+            IEventListener listener) {
+        Page page = event.getTarget() == null ? null : event.getTarget().getPage();
+
+        if (page != null && page != ExecutionContext.getPage()) {
+            post(page, event);
+        } else {
+            listener.onEvent(event);
+        }
+    }
+
     private EventUtil() {
     }
 

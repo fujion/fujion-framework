@@ -34,10 +34,7 @@ import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientInvocationQueue;
 import org.fujion.client.ClientUtil;
 import org.fujion.client.ExecutionContext;
-import org.fujion.common.Assert;
-import org.fujion.common.CollectionUtil;
-import org.fujion.common.IAttributeMap;
-import org.fujion.common.MiscUtil;
+import org.fujion.common.*;
 import org.fujion.component.BaseScriptComponent.ExecutionMode;
 import org.fujion.event.*;
 import org.fujion.model.IBinding;
@@ -1880,7 +1877,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @return The first child whose label matches, or null if none found.
      */
     public BaseComponent findChildByLabel(String label) {
-        return findChild(child -> child instanceof ILabeled && label.equals(((ILabeled) child).getLabel()));
+        return findChildByLabel(label, true);
     }
 
     /**
@@ -1889,6 +1886,19 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param subId The sub identifier.
      * @return A subcomponent object.
      */
+    /**
+     * Find the first child whose label matches the specified value. This will only examine children
+     * that implement the ILabeled interface.
+     *
+     * @param label The label to find.
+     * @param caseSensitive If true, comparison is case-sensitive.
+     * @return The first child whose label matches, or null if none found.
+     */
+    public BaseComponent findChildByLabel(String label, boolean caseSensitive) {
+        return findChild(child -> child instanceof ILabeled
+                && StrUtil.areEqual(label, ((ILabeled) child).getLabel(), caseSensitive));
+    }
+
     public SubComponent sub(String subId) {
         return new SubComponent(this, subId);
     }
