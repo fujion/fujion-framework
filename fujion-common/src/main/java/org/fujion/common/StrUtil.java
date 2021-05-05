@@ -361,7 +361,7 @@ public class StrUtil {
      * @param s2 Second string to compare.
      * @return Result of comparison.
      */
-    public static int compareTo(String s1, String s2) {
+    public static int compare(String s1, String s2) {
         return s1 == s2 ? 0 : s1 == null ? -1 : s2 == null ? 1 : s1.compareTo(s2);
     }
 
@@ -372,8 +372,20 @@ public class StrUtil {
      * @param s2 Second string to compare.
      * @return Result of comparison.
      */
-    public static int compareToIgnoreCase(String s1, String s2) {
+    public static int compareIgnoreCase(String s1, String s2) {
         return s1 == s2 ? 0 : s1 == null ? -1 : s2 == null ? 1 : s1.compareToIgnoreCase(s2);
+    }
+
+    /**
+     * Returns true if two strings are equal.
+     *
+     * @param s1 First string to compare.
+     * @param s2 Second string to compare.
+     * @param caseSensitive If true, perform a case-sensitive comparison.
+     * @return True if the two strings are equal.
+     */
+    public static boolean areEqual(String s1, String s2, boolean caseSensitive) {
+        return (caseSensitive ? compare(s1, s2) : compareIgnoreCase(s1, s2)) == 0;
     }
 
     /**

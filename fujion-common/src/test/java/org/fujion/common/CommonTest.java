@@ -701,19 +701,24 @@ public class CommonTest {
 
     @Test
     public void testStringComparison() {
-        assertTrue(StrUtil.compareTo(cmp1, cmp2) < 0);
-        assertTrue(StrUtil.compareTo(cmp2, cmp2) == 0);
-        assertTrue(StrUtil.compareTo(cmp2, cmp1) > 0);
-        assertTrue(StrUtil.compareTo(null, cmp2) < 0);
-        assertTrue(StrUtil.compareTo(cmp1, null) > 0);
-        assertTrue(StrUtil.compareTo(cmp1, cmp3) == 0);
-        assertTrue(StrUtil.compareTo(null, null) == 0);
+        assertTrue(StrUtil.areEqual(cmp1, cmp2, false));
+        assertFalse(StrUtil.areEqual(cmp1, cmp2, true));
+        assertTrue(StrUtil.areEqual(cmp1, cmp3, true));
+        assertTrue(StrUtil.areEqual(cmp1, cmp3, false));
 
-        assertTrue(StrUtil.compareToIgnoreCase(cmp1, cmp2) == 0);
-        assertTrue(StrUtil.compareToIgnoreCase(cmp2, cmp1) == 0);
-        assertTrue(StrUtil.compareToIgnoreCase(null, cmp2) < 0);
-        assertTrue(StrUtil.compareToIgnoreCase(cmp1, null) > 0);
-        assertTrue(StrUtil.compareToIgnoreCase(null, null) == 0);
+        assertTrue(StrUtil.compare(cmp1, cmp2) < 0);
+        assertTrue(StrUtil.compare(cmp2, cmp2) == 0);
+        assertTrue(StrUtil.compare(cmp2, cmp1) > 0);
+        assertTrue(StrUtil.compare(null, cmp2) < 0);
+        assertTrue(StrUtil.compare(cmp1, null) > 0);
+        assertTrue(StrUtil.compare(cmp1, cmp3) == 0);
+        assertTrue(StrUtil.compare(null, null) == 0);
+
+        assertTrue(StrUtil.compareIgnoreCase(cmp1, cmp2) == 0);
+        assertTrue(StrUtil.compareIgnoreCase(cmp2, cmp1) == 0);
+        assertTrue(StrUtil.compareIgnoreCase(null, cmp2) < 0);
+        assertTrue(StrUtil.compareIgnoreCase(cmp1, null) > 0);
+        assertTrue(StrUtil.compareIgnoreCase(null, null) == 0);
     }
 
     private static final Class<?>[] classes = {Integer.class, Number.class, String.class};
