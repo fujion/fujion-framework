@@ -160,6 +160,7 @@ public class ClientUtil {
      * Displays an informational dialog.
      *
      * @param message The message.
+     * @param title The message title.
      */
     public static void info(String message, String title) {
         alert(message, title, "info");
