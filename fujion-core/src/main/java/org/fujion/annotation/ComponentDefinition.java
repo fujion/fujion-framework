@@ -101,6 +101,8 @@ public class ComponentDefinition {
         }
     }
 
+    public static final Cardinality CARDINALITY_NOT_SPECIFIED = new Cardinality(0, Integer.MAX_VALUE);
+
     private final ContentHandling contentHandling;
     
     private final String tag;
