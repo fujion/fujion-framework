@@ -11,7 +11,7 @@
     <artifactId>fujion-angular-core</artifactId>
 
     <properties>
-        <angular.version>11.2.12-10</angular.version>
+        <angular.version>12.0.4</angular.version>
         <rxjs.version>6.6.6-10</rxjs.version>
         <zonejs.version>0.11.4-10</zonejs.version>
 
