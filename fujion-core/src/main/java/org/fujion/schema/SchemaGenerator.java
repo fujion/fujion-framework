@@ -50,7 +50,9 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -66,8 +68,6 @@ public class SchemaGenerator {
     private static final String UNBOUNDED = "unbounded";
 
     private final Map<String, String> knownNamespaces = new HashMap<>();
-
-    private final ComponentRegistry registry = ComponentRegistry.getInstance();
 
     private final Document schema;
 
@@ -135,10 +135,13 @@ public class SchemaGenerator {
 
     private SchemaGenerator(String[] packages, String[] classes, String version, String title, boolean includeRoot)
             throws Exception {
+        ComponentRegistry registry = ComponentRegistry.getInstance();
         // Should only be run from command line, never within a server instance.
         Assert.state(registry.size() == 0, () -> "Schema generator may only be run in standalone mode");
         knownNamespaces.put("html", "http://www.fujion.org/schema/fsp/html");
         knownNamespaces.put("attr", "http://www.fujion.org/schema/fsp/attr");
+        knownNamespaces.put("on", "http://www.fujion.org/schema/fsp/on");
+        knownNamespaces.put("controller", "http://www.fujion.org/schema/fsp/controller");
 
         try {
             version = formatVersion(version);
@@ -197,16 +200,26 @@ public class SchemaGenerator {
                 }
 
                 if (componentTag.endsWith(":")) {
-                    addNamespace(componentTag);
+                    getNamespace(componentTag);
                     continue;
                 }
 
-                ele = createElement("element", root, "name", def.getTag());
+                createElement("element", root, "name", componentTag + "_").setAttribute("abstract", "true");
+                ele = createElement("element", root, "name", componentTag);
                 createAnnotation(ele, def.getDescription());
                 Element ct = createElement("complexType", ele);
+                List<String> groups = new ArrayList<>();
 
-                if (def.getParentTags().contains("*")) {
-                    ele.setAttribute("substitutionGroup", "fsp:anyParent");
+                for (String parentTag : def.getParentTags()) {
+                    if ("*".equals(parentTag)) {
+                        groups.add("fsp:anyParent");
+                    } else {
+                        groups.add("fsp:" + parentTag + "_");
+                    }
+                }
+
+                if (!groups.isEmpty()) {
+                    ele.setAttribute("substitutionGroup", String.join(" ", groups));
                 }
 
                 boolean childrenAllowed = def.childrenAllowed();
@@ -225,6 +238,11 @@ public class SchemaGenerator {
 
                         if ("*".equals(tag)) {
                             ele = createElement("element", childAnchor, "ref", "fsp:anyParent");
+                            setCardinality(ele, card);
+                            ele = createElement("element", childAnchor, "ref", "fsp:" + componentTag + "_");
+                            setCardinality(ele, card);
+                            ele = createElement("any", childAnchor, "namespace", "##other");
+                            ele.setAttribute("processContents", "skip");
                             setCardinality(ele, card);
                         } else {
                             ComponentDefinition childDef = registry.get(tag);
@@ -262,7 +280,7 @@ public class SchemaGenerator {
             }
 
             if (key.endsWith(":")) {
-                addNamespace(key);
+                getNamespace(key);
                 continue;
             }
 
@@ -287,17 +305,16 @@ public class SchemaGenerator {
         }
     }
 
-    private void addNamespace(String key) {
-        key = StringUtils.removeEnd(key, ":");
-        String ns = knownNamespaces.remove(key);
-
-        if (ns != null) {
-            root.setAttribute("xmlns:" + key, ns);
-        }
-
+    private String getNamespace(String key) {
+        String name = StringUtils.removeEnd(key, ":");
+        String ns = knownNamespaces.get(name);
+        Assert.notNull(ns, () -> "Unknown namespace: " + name);
+        return ns;
     }
 
-    private void processEnum(Element attr, Class<?> javaType) {
+    private void processEnum(
+            Element attr,
+            Class<?> javaType) {
         String name = findElement(attr).getAttribute("name") + "_" + attr.getAttribute("name");
         Element root = attr.getOwnerDocument().getDocumentElement();
         attr.setAttribute("type", "fsp:" + name);
@@ -313,12 +330,13 @@ public class SchemaGenerator {
     }
 
     private void addChildElement(
-            Element seq,
+            Element childAnchor,
             ComponentDefinition childDef,
             ComponentDefinition parentDef,
             Cardinality card) {
+        String childTag = childDef.getTag();
 
-        if (childDef.getTag().startsWith("#")) {
+        if (childTag.startsWith("#")) {
             return;
         }
 
@@ -326,7 +344,16 @@ public class SchemaGenerator {
             return;
         }
 
-        Element child = createElement("element", seq, "ref", "fsp:" + childDef.getTag());
+        Element child;
+
+        if (childTag.endsWith(":")) {
+            String ns = getNamespace(childTag);
+            child = createElement("any", childAnchor, "namespace", ns);
+            child.setAttribute("processContents", "skip");
+        } else {
+            child = createElement("element", childAnchor, "ref", "fsp:" + childTag);
+        }
+
         setCardinality(child, card);
     }
 
