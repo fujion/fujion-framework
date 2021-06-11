@@ -21,8 +21,6 @@
 package org.fujion.schema;
 
 import org.apache.commons.cli.*;
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +37,7 @@ import org.fujion.common.Version;
 import org.fujion.common.Version.VersionPart;
 import org.fujion.common.XMLUtil;
 import org.fujion.page.PageParser;
+import org.springframework.lang.NonNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -51,12 +50,9 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import static org.fujion.annotation.ComponentDefinition.CARDINALITY_NOT_SPECIFIED;
 
 /**
  * Generate an XML schema from annotations.
@@ -70,10 +66,6 @@ public class SchemaGenerator {
     private static final String UNBOUNDED = "unbounded";
 
     private final Map<String, String> knownNamespaces = new HashMap<>();
-
-    private final Map<String, Element> childAnchors = new HashMap<>();
-
-    private final MultiValuedMap<String, String> childTags = new HashSetValuedHashMap<>();
 
     private final ComponentRegistry registry = ComponentRegistry.getInstance();
 
@@ -209,42 +201,44 @@ public class SchemaGenerator {
                     continue;
                 }
 
-                ele = createComponentElement(def);
+                ele = createElement("element", root, "name", def.getTag());
+                createAnnotation(ele, def.getDescription());
                 Element ct = createElement("complexType", ele);
 
-                for (String parentTag : def.getParentTags()) {
-                    if ("*".equals(parentTag)) {
-                        ele.setAttribute("substitutionGroup", "fsp:anyParent");
-                    } else {
-                        ComponentDefinition parentDef = registry.get(parentTag);
-                        Assert.notNull(parentDef, () -> "Unknown parent tag specified: " + parentTag);
-                        Element childAnchor = childAnchors.get(parentTag);
-
-                        if (childAnchor != null) {
-                            addChildElement(childAnchor, def, parentDef, CARDINALITY_NOT_SPECIFIED);
-                        } else {
-                            childTags.put(parentTag, componentTag);
-                        }
-                    }
+                if (def.getParentTags().contains("*")) {
+                    ele.setAttribute("substitutionGroup", "fsp:anyParent");
                 }
 
                 boolean childrenAllowed = def.childrenAllowed();
                 boolean contentAllowed = def.contentHandling() != ContentHandling.ERROR;
 
-                if (!childrenAllowed && contentAllowed) {
-                    Element sc = createElement("simpleContent", ct);
-                    ct = createElement("extension", sc);
-                    ct.setAttribute("base", "xs:string");
-                } else if (childrenAllowed) {
+                if (childrenAllowed) {
                     if (contentAllowed) {
                         ct.setAttribute("mixed", "true");
                     }
 
                     Element childAnchor = createElement("all", ct);
-                    childAnchors.put(componentTag, childAnchor);
-                    addChildElements(def, childAnchor);
+
+                    for (Entry<String, Cardinality> childTag : def.getChildTags().entrySet()) {
+                        String tag = childTag.getKey();
+                        Cardinality card = childTag.getValue();
+
+                        if ("*".equals(tag)) {
+                            ele = createElement("element", childAnchor, "ref", "fsp:anyParent");
+                            setCardinality(ele, card);
+                        } else {
+                            ComponentDefinition childDef = registry.get(tag);
+                            Assert.notNull(childDef, "The child tag '" + tag + "' is not recognized");
+                            addChildElement(childAnchor, childDef, def, card);
+                        }
+
+                    }
+                } else if (contentAllowed) {
+                    Element sc = createElement("simpleContent", ct);
+                    ct = createElement("extension", sc);
+                    ct.setAttribute("base", "xs:string");
                 }
-                
+
                 processAttributes(def.getSetters(), ct, PropertySetter.class);
                 processAttributes(def.getFactoryParameters(), ct, FactoryParameter.class);
                 createElement("anyAttribute", ct, "namespace", "##other").setAttribute("processContents", "lax");
@@ -304,7 +298,7 @@ public class SchemaGenerator {
     }
 
     private void processEnum(Element attr, Class<?> javaType) {
-        String name = findElement("element", attr).getAttribute("name") + "_" + attr.getAttribute("name");
+        String name = findElement(attr).getAttribute("name") + "_" + attr.getAttribute("name");
         Element root = attr.getOwnerDocument().getDocumentElement();
         attr.setAttribute("type", "fsp:" + name);
         Element st = createElement("simpleType", root, "name", name);
@@ -318,41 +312,13 @@ public class SchemaGenerator {
         }
     }
 
-    private void addChildElements(
-            ComponentDefinition def,
-            Element childAnchor) {
-        Map<String, Cardinality> childTags = new HashMap<>(def.getChildTags());
-        Collection<String> pendingTags = this.childTags.remove(def.getTag());
-
-        if (pendingTags != null) {
-            pendingTags.forEach(tag -> childTags.putIfAbsent(tag, CARDINALITY_NOT_SPECIFIED));
-        }
-
-        for (Entry<String, Cardinality> childTag : childTags.entrySet()) {
-            String tag = childTag.getKey();
-            Cardinality card = childTag.getValue();
-
-            if ("*".equals(tag)) {
-                Element ele = createElement("element", childAnchor, "ref", "fsp:anyParent");
-                setCardinality(ele, card);
-            } else {
-                ComponentDefinition childDef = registry.get(tag);
-                Assert.notNull(childDef, "The child tag '" + tag + "' is not recognized");
-                addChildElement(childAnchor, childDef, def, card);
-            }
-
-        }
-
-    }
-
     private void addChildElement(
-            Element childAnchor,
+            Element seq,
             ComponentDefinition childDef,
             ComponentDefinition parentDef,
             Cardinality card) {
-        String tag = childDef.getTag();
 
-        if (tag.startsWith("#")) {
+        if (childDef.getTag().startsWith("#")) {
             return;
         }
 
@@ -360,39 +326,28 @@ public class SchemaGenerator {
             return;
         }
 
-        Element child;
-
-        if (tag.endsWith(":")) {
-            addNamespace(tag);
-            child = createElement("any", childAnchor, "namespace", StringUtils.removeEnd(tag, ":"));
-        } else {
-            tag = "fsp:" + tag;
-
-            if (hasChild(childAnchor, tag)) {
-                return;
-            }
-
-            child = createElement("element", childAnchor, "ref", tag);
-        }
-
+        Element child = createElement("element", seq, "ref", "fsp:" + childDef.getTag());
         setCardinality(child, card);
     }
-    
-    private Element addExtendedType(String type) {
+
+    private void addExtendedType(String type) {
         Element ele = createElement("simpleType", root, "name", type);
         createElement("union", ele, "memberTypes", "xs:" + type + " fsp:el");
-        return ele;
     }
-    
-    private Element setCardinality(Element ele, Cardinality cardinality) {
-        return setCardinality(ele, cardinality.getMinimum(),
-            cardinality.hasMaximum() ? cardinality.getMaximum() : UNBOUNDED);
+
+    private void setCardinality(
+            Element ele,
+            Cardinality cardinality) {
+        setCardinality(ele, cardinality.getMinimum(),
+                cardinality.hasMaximum() ? cardinality.getMaximum() : UNBOUNDED);
     }
-    
-    private Element setCardinality(Element ele, Object minOccurs, Object maxOccurs) {
+
+    private void setCardinality(
+            Element ele,
+            Object minOccurs,
+            Object maxOccurs) {
         ele.setAttribute("minOccurs", minOccurs.toString());
         ele.setAttribute("maxOccurs", maxOccurs.toString());
-        return ele;
     }
 
     private String getType(Class<?> javaType) {
@@ -411,26 +366,18 @@ public class SchemaGenerator {
         
         return null;
     }
-    
-    private Element findElement(String xsTag, Element ele) {
-        xsTag = "xs:" + xsTag;
 
+    private @NonNull
+    Element findElement(Element ele) {
         while (ele != null) {
-            if (ele.getTagName().equals(xsTag)) {
+            if (ele.getTagName().equals("xs:element")) {
                 return ele;
             }
 
             ele = (Element) ele.getParentNode();
         }
 
-        return null;
-    }
-
-    private Element createComponentElement(ComponentDefinition def) {
-        String componentTag = def.getTag();
-        Element element = createElement("element", root, "name", componentTag);
-        createAnnotation(element, def.getDescription());
-        return element;
+        return Assert.fail("Could not find the requested element");
     }
 
     private Element createElement(String xsTag) {
@@ -489,20 +436,6 @@ public class SchemaGenerator {
             Element annotation = createElement("annotation", ele);
             createElement("documentation", annotation).setTextContent(text);
         }
-    }
-
-    private boolean hasChild(Element childAnchor, String childTag) {
-        NodeList children = childAnchor.getElementsByTagName("xs:element");
-
-        for (int i = 0; i < children.getLength(); i++) {
-            Element ele = (Element) children.item(i);
-
-            if (childTag.equals(ele.getAttribute("ref"))) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
