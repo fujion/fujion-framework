@@ -3,7 +3,7 @@
 define('fujion-codemirror-xml', [
 	'fujion-core', 
 	'fujion-codemirror', 
-	'codemirror/lib/codemirror', 
+	'codemirror/lib/codemirror',
 	'codemirror/mode/xml/xml',
     'codemirror/addon/fold/xml-fold',
     'codemirror/addon/edit/closetag',
@@ -56,7 +56,7 @@ define('fujion-codemirror-xml', [
 			return this.completeAfter(cm, () => {
 				const tok = cm.getTokenAt(cm.getCursor());
 				
-	            if (tok.type == 'string' && (!/['"]/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1)) {
+	            if (tok.type === 'string' && (!/['"]/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length === 1)) {
 	            	return false;
 	            }
 

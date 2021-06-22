@@ -3,9 +3,9 @@
 define('fujion-codemirror', [
 	'fujion-core', 
 	'fujion-widget', 
-	'codemirror',
+	'codemirror/lib/codemirror',
 	'fujion-codemirror-css', 
-	'codemirror-css',
+	'codemirror/lib/codemirror.css',
 	'codemirror/addon/hint/show-hint.css',
 	'codemirror/addon/display/placeholder',
     'codemirror/addon/hint/show-hint',
