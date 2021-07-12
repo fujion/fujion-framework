@@ -296,7 +296,9 @@ iframe.fujion-resizer {
 .fujion_popup {
 	overflow: visible;
 	position: absolute;
-}
+	border: 1px solid gray;
+	background: white;
+	padding: 5px;}
 
 /* Menupopup */
 
@@ -581,7 +583,7 @@ iframe.fujion-resizer {
 
 .fujion_paging .fujion-labeled-label {
     font-weight: bold;
-    margin: 6px;
+    margin: 6px!important;
 }
 
 /* Cell */

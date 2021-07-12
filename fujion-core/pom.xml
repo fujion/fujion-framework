@@ -141,7 +141,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-bootstrap</artifactId>
-			<version>4.6.0-10</version>
+			<version>${bootstrap.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
