@@ -85,11 +85,11 @@ public class Accordion extends BaseUIComponent implements ISupportsModel<Accordi
     /**
      * Used to notify parent of a change in a child's expansion state.
      *
-     * @param expandedItem The expanded item.
+     * @param item The expanded item.
      */
-    protected void _setExpandedItem(Accordionitem expandedItem) {
-        if (!multiple && expandedItem.isExpanded()) {
-            setExpandedItem(expandedItem);
+    protected void _setExpandedItem(Accordionitem item) {
+        if (!multiple && item.isExpanded()) {
+            setExpandedItem(item);
         }
     }
 
@@ -100,9 +100,7 @@ public class Accordion extends BaseUIComponent implements ISupportsModel<Accordi
      */
     @Override
     protected void afterAddChild(BaseComponent child) {
-        if (!multiple && ((Accordionitem) child).isExpanded()) {
-            setExpandedItem((Accordionitem) child);
-        }
+        _setExpandedItem((Accordionitem) child);
     }
 
     @Override

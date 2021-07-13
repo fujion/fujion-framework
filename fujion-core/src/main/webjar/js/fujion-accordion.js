@@ -57,11 +57,10 @@ define('fujion-accordion', ['fujion-core', 'fujion-widget', 'fujion-accordion-cs
 
 		afterRender: function() {
 			this.sub$('outer')
-				.on('show.bs.collapse', () => this.triggerChanged(true))
-				.on('hide.bs.collapse', () => this.triggerChanged(false))
+				.on('shown.bs.collapse', () => this.triggerChanged(true))
+				.on('hidden.bs.collapse', () => this.triggerChanged(false))
 				.collapse({
-					toggle: false,
-					parent: this._parent
+					toggle: false
 				});
 		},
 
@@ -69,9 +68,9 @@ define('fujion-accordion', ['fujion-core', 'fujion-widget', 'fujion-accordion-cs
 			const dom =
 				'<div>'
 				+ '<h2 id="${id}-hdr" class="accordion-header">'
-				+   '<button id="${id}-btn" class="collapsed accordion-button" type="button" '
+				+   '<button id="${id}-btn" class="accordion-button" type="button" '
 				+      'data-bs-toggle="collapse" data-bs-target="#${id}-outer" '
-				+      'aria-expanded="false" aria-controls="${id}-outer"></button>'
+				+      'aria-controls="${id}-outer"></button>'
 				+ '</h2>'
 				+ '<div id="${id}-outer" class="accordion-collapse collapse" aria-labelledby="${id}-hdr">'
 				+    '<div id="${id}-inner" class="accordion-body"></div>'
@@ -89,8 +88,8 @@ define('fujion-accordion', ['fujion-core', 'fujion-widget', 'fujion-accordion-cs
 		/*------------------------------ State ------------------------------*/
 
 		s_expanded: function (v) {
-			v ? this.sub$('outer').collapse('show') : this.sub$('outer').collapse('hide');
 			this._updateButton(v);
+			v ? this.sub$('outer').collapse('show') : this.sub$('outer').collapse('hide');
 		},
 
 		s_title: function(v) {
