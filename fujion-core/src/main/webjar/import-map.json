@@ -3,6 +3,8 @@
     "fujion-core": "js/fujion-core.js",
     "fujion-widget": "js/fujion-widget.js",
     "fujion-widget-css": "css/fujion-widget.css",
+    "fujion-accordion": "js/fujion-accordion.js",
+    "fujion-accordion-css": "css/fujion-accordion.css",
     "fujion-carousel": "js/fujion-carousel.js",
     "fujion-carousel-css": "css/fujion-carousel.css",
     "fujion-detail": "js/fujion-detail.js",
