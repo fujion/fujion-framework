@@ -82,7 +82,7 @@ define('fujion-accordion', ['fujion-core', 'fujion-widget', 'fujion-accordion-cs
 
 		_updateButton: function (expanded) {
 			this.sub$('btn')
-				.toggleClass('collapsed', !expanded)
+				.toggleClass('collapsed bg-light', !expanded)
 				.attr('aria-expanded', expanded);
 		},
 

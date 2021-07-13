@@ -47,9 +47,9 @@ public class Accordionitem extends BaseUIComponent {
     private String title;
 
     /**
-     * Returns the selection state of the item.
+     * Returns the expansion state of the item.
      *
-     * @return The selection state of the item.
+     * @return The expansion state of the item.
      */
     @PropertyGetter(value = "expanded", description = "True if the item is expanded.")
     public boolean isExpanded() {
@@ -57,9 +57,9 @@ public class Accordionitem extends BaseUIComponent {
     }
 
     /**
-     * Sets the selection state of the item.
+     * Sets the expansion state of the item.
      *
-     * @param expanded The selection state of the item.
+     * @param expanded The expansion state of the item.
      */
     @PropertySetter(value = "expanded", defaultValue = "false", description = "True if the item is expanded.")
     public void setExpanded(boolean expanded) {
@@ -87,6 +87,36 @@ public class Accordionitem extends BaseUIComponent {
     }
 
     /**
+     * Sets the item's expanded status.
+     *
+     * @param expanded The new expanded status.
+     * @param notifyParent If true, notify the parent item view of the status change.
+     * @param notifyClient If true, notify the client of the status change.
+     */
+    protected void _setExpanded(boolean expanded, boolean notifyParent, boolean notifyClient) {
+        if (propertyChange("expanded", this.expanded, this.expanded = expanded, notifyClient)) {
+            if (expanded && notifyParent && getParent() != null) {
+                getAccordion()._setExpandedItem(this);
+            }
+        }
+    }
+
+    /**
+     * Returns the parent Accordion component, or null if there is no parent.
+     *
+     * @return The parent Accordion component.
+     */
+    public Accordion getAccordion() {
+        return (Accordion) getParent();
+    }
+
+    @Override
+    public void bringToFront() {
+        setExpanded(true);
+        super.bringToFront();
+    }
+
+    /**
      * Handles change events from the client.
      *
      * @param event A change event.
@@ -96,31 +126,6 @@ public class Accordionitem extends BaseUIComponent {
         _setExpanded(defaultify(event.getValue(Boolean.class), true), true, false);
         event = new ChangeEvent(this.getParent(), event.getData(), this);
         EventUtil.send(event);
-    }
-
-    /**
-     * Sets the item's expanded status.
-     *
-     * @param expanded The new expanded status.
-     * @param notifyParent If true, notify the parent item view of the status change.
-     * @param notifyClient If true, notify the client of the status change.
-     */
-    protected void _setExpanded(boolean expanded, boolean notifyParent, boolean notifyClient) {
-        if (propertyChange("expanded", this.expanded, this.expanded = expanded, notifyClient)) {
-            if (notifyParent && getParent() != null) {
-                getAccordion().setExpandedItem(expanded ? this : null);
-            }
-        }
-    }
-
-    public Accordion getAccordion() {
-        return (Accordion) getParent();
-    }
-
-    @Override
-    public void bringToFront() {
-        setExpanded(true);
-        super.bringToFront();
     }
 
 }

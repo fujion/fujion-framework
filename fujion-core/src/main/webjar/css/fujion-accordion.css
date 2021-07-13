@@ -1,3 +1,7 @@
 .fujion_accordion {
     display: inline-block;
 }
+
+.fujion_accordionitem > .accordion-header > .accordion-button {
+    padding: .5rem 1rem;
+}
