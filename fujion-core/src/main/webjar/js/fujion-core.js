@@ -774,7 +774,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
          * Return a unique identifier.
          */
         uniqueId: function () {
-            return _.uniqueId('_fujion__');
+            return _.uniqueId('f__');
         },
 
         /**

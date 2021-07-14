@@ -57,7 +57,7 @@ import java.util.concurrent.atomic.AtomicInteger;
         description = "The root component of a Fujion Server Page.")
 public final class Page extends BaseComponent implements INamespace {
     
-    public static final String ID_PREFIX = "_fujion_";
+    public static final String ID_PREFIX = "f_";
     
     private static final AtomicInteger uniqueId = new AtomicInteger();
     
