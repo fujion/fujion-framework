@@ -39,8 +39,8 @@ define('fujion-accordion', ['fujion-core', 'fujion-widget', 'fujion-accordion-cs
 
 		triggerChanged: function (expanded) {
 			if (this.setState('expanded', expanded)) {
-				this._updateButton(expanded);
 				this.trigger('change', {value: expanded});
+				this._updateStyles(expanded);
 			}
 		},
 
@@ -55,10 +55,10 @@ define('fujion-accordion', ['fujion-core', 'fujion-widget', 'fujion-accordion-cs
 
 		/*------------------------------ Rendering ------------------------------*/
 
-		afterRender: function() {
+		afterRender: function () {
 			this.sub$('outer')
-				.on('shown.bs.collapse', () => this.triggerChanged(true))
-				.on('hidden.bs.collapse', () => this.triggerChanged(false))
+				.on('show.bs.collapse', () => this.triggerChanged(true))
+				.on('hide.bs.collapse', () => this.triggerChanged(false))
 				.collapse({
 					toggle: false
 				});
@@ -79,17 +79,19 @@ define('fujion-accordion', ['fujion-core', 'fujion-widget', 'fujion-accordion-cs
 			return $(this.resolveEL(dom));
 		},
 
-		_updateButton: function (expanded) {
+		_updateStyles: function (expanded) {
 			this.sub$('btn')
 				.toggleClass('collapsed bg-light', !expanded)
 				.attr('aria-expanded', expanded);
+			this.sub$('outer')
+				.toggleClass('show', expanded);
 		},
 
 		/*------------------------------ State ------------------------------*/
 
 		s_expanded: function (v) {
-			this._updateButton(v);
-			v ? this.sub$('outer').collapse('show') : this.sub$('outer').collapse('hide');
+			this._updateStyles(v);
+			this.sub$('outer').collapse(v ? 'show' : 'hide');
 		},
 
 		s_title: function(v) {
