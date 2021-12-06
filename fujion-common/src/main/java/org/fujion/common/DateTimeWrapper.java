@@ -20,9 +20,7 @@
  */
 package org.fujion.common;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.util.Date;
@@ -84,12 +82,21 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
     }
 
     /**
+     * Wrap an OffsetDateTime value.
+     *
+     * @param datetime An OffsetDateTime value.
+     */
+    public DateTimeWrapper(OffsetDateTime datetime) {
+        this.temporal = validateTemporal(datetime);
+    }
+
+    /**
      * Wrap a legacy Date value.
      *
      * @param date A legacy Date value.
      */
     public DateTimeWrapper(Date date) {
-        this.temporal = validateTemporal(DateUtil.hasTime(date) ? DateUtil.toLocalDateTime(date) : DateUtil.toLocalDate(date));
+        this.temporal = validateTemporal(DateUtil.hasTime(date) ? DateUtil.toOffsetDateTime(date) : DateUtil.toLocalDate(date));
     }
 
     /**
@@ -98,7 +105,7 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
      * @return True if the wrapped date/time has a time component.
      */
     public boolean hasTime() {
-        return temporal instanceof LocalDateTime;
+        return temporal instanceof LocalDateTime || temporal instanceof OffsetDateTime;
     }
 
     /**
@@ -112,13 +119,27 @@ public class DateTimeWrapper implements Comparable<DateTimeWrapper> {
     }
 
     /**
+     * Returns the wrapped date/time as an OffsetDateTime value.  If the wrapped value contains no time component,
+     * it will be coerced to one with a time beginning at the start of the day.
+     *
+     * @return The wrapped value as a LocalDateTime.
+     */
+    public OffsetDateTime getOffsetDateTime() {
+        return temporal == null ? null : temporal instanceof OffsetDateTime ? (OffsetDateTime) temporal :
+                temporal instanceof LocalDateTime ? ((LocalDateTime) temporal).atOffset(ZoneOffset.UTC) :
+                        ((LocalDate) temporal).atStartOfDay().atOffset(ZoneOffset.UTC);
+    }
+
+    /**
      * Returns the wrapped date/time as a LocalDateTime value.  If the wrapped value contains no time component,
      * it will be coerced to one with a time beginning at the start of the day.
      *
      * @return The wrapped value as a LocalDateTime.
      */
     public LocalDateTime getDateTime() {
-        return hasTime() ? (LocalDateTime) temporal : ((LocalDate) temporal).atStartOfDay();
+        return temporal == null ? null : temporal instanceof LocalDateTime ? (LocalDateTime) temporal :
+                temporal instanceof OffsetDateTime ? ((OffsetDateTime) temporal).toLocalDateTime() :
+                        ((LocalDate) temporal).atStartOfDay();
     }
 
     /**

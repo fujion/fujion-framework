@@ -27,10 +27,7 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.util.Calendar;
@@ -40,6 +37,8 @@ import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.time.ZoneOffset.UTC;
 
 /**
  * Utility methods for managing dates.
@@ -153,6 +152,17 @@ public class DateUtil {
          */
         public LocalDateTime parseAsLocalDateTime(String value) throws ParseException {
             return toLocalDateTime(parseDate(value, pattern));
+        }
+
+        /**
+         * Parses an input value.
+         *
+         * @param value The value to parse.
+         * @return The resulting date value if successful.
+         * @throws ParseException Date parsing exception.
+         */
+        public OffsetDateTime parseAsOffsetDateTime(String value) throws ParseException {
+            return toOffsetDateTime(parseDate(value, pattern));
         }
     }
 
@@ -937,7 +947,7 @@ public class DateUtil {
         return cal.getTime();
     }
 
-    // =============================== java.time.LocalDate Methods ===============================
+    // =============================== java.time.Temporal Methods ===============================
 
     /**
      * Converts a date/time value to a string, using the format dd-mmm-yyyy hh:mm.
@@ -955,6 +965,8 @@ public class DateUtil {
             format = Format.WITHOUT_TZ;
         } else if (temporal instanceof LocalTime) {
             format = Format.WITHOUT_DATE;
+        } else if (temporal instanceof OffsetDateTime) {
+            format = Format.WITHOUT_TZ;
         }
 
         return format == null ? "" : format.formatDate(temporal);
@@ -1005,42 +1017,63 @@ public class DateUtil {
     }
 
     /**
-     * Converts a LocalDate to a java.util.Date using the local timezone.
+     * Converts a java.util.Date to an OffsetDateTime.
      *
-     * @param localDate The java.util.Date to convert.
+     * @param date The java.util.Date to convert.
+     * @return The equivalent OffsetDateTime.
+     */
+    public static OffsetDateTime toOffsetDateTime(Date date) {
+        return date == null ? null : OffsetDateTime.ofInstant(date.toInstant(), UTC);
+    }
+
+    /**
+     * Converts a Temporal value to a java.util.Date.
+     *
+     * @param temporal The Temporal to convert.
      * @return The equivalent java.util.Date.
      */
-    public static Date toDate(Temporal localDate) {
-        if (localDate == null) {
+    public static Date toDate(Temporal temporal) {
+        if (temporal == null) {
             return null;
-        } else if (localDate instanceof LocalDateTime) {
-            return toDate((LocalDateTime) localDate);
-        } else if (localDate instanceof LocalDate) {
-            return toDate((LocalDate) localDate);
+        } else if (temporal instanceof LocalDateTime) {
+            return toDate((LocalDateTime) temporal);
+        } else if (temporal instanceof LocalDate) {
+            return toDate((LocalDate) temporal);
+        } else if (temporal instanceof OffsetDateTime) {
+            return toDate((OffsetDateTime) temporal);
         }
 
-        Assert.fail("Unsupported date type: %s", localDate.getClass());
-        return null;
+        return Assert.fail("Unsupported date type: %s", temporal.getClass());
     }
 
     /**
      * Converts a LocalDate to a java.util.Date using the local timezone.
      *
-     * @param localDate The java.util.Date to convert.
+     * @param date The date to convert.
      * @return The equivalent java.util.Date.
      */
-    public static Date toDate(LocalDate localDate) {
-        return localDate == null ? null : Date.from(localDate.atStartOfDay(getLocalZoneId()).toInstant());
+    public static Date toDate(LocalDate date) {
+        return date == null ? null : Date.from(date.atStartOfDay(getLocalZoneId()).toInstant());
     }
 
     /**
-     * Converts a LocalDate to a java.util.Date using the local timezone.
+     * Converts a LocalDateTime to a java.util.Date using the local timezone.
      *
-     * @param localDate The java.util.Date to convert.
+     * @param date The date to convert.
      * @return The equivalent java.util.Date.
      */
-    public static Date toDate(LocalDateTime localDate) {
-        return localDate == null ? null : Date.from(localDate.atZone(getLocalZoneId()).toInstant());
+    public static Date toDate(LocalDateTime date) {
+        return date == null ? null : Date.from(date.atZone(getLocalZoneId()).toInstant());
+    }
+
+    /**
+     * Converts an OffsetDateTime to a java.util.Date using the local timezone.
+     *
+     * @param date The date to convert.
+     * @return The equivalent java.util.Date.
+     */
+    public static Date toDate(OffsetDateTime date) {
+        return date == null ? null : Date.from(date.toInstant());
     }
 
     /**
@@ -1083,26 +1116,23 @@ public class DateUtil {
     }
 
     /**
-     * <p>
-     * Convert a string value to a date/time. Attempts to convert using the four locale-specific
-     * date formats (FULL, LONG, MEDIUM, SHORT). If these fail, looks to see if T+/-offset or
-     * N+/-offset is used.
-     * </p>
-     * <p>
-     * TODO: probably we can make the "Java parse" portion a bit smarter by using a better variety
-     * of formats, maybe to catch Euro-style input as well.
-     * </p>
-     * <p>
-     * TODO: probably we can add something like "t+d" or "t-y" as valid cases; in these scenarios,
-     * the coefficient was omitted and could be defaulted to 1.
-     * </p>
+     * Convert a string value to a LocalDateTime.
      *
-     * @param s <code>String</code> containing value to be converted.
-     * @return <code>Date</code> object corresponding to the input value, or <code>null</code> if
-     *         the parsing failed to resolve a valid Date.
+     * @param s The value to be converted.
+     * @return A LocalDateTime corresponding to the input value, or <code>null</code> if parsing failed.
      */
     public static LocalDateTime parseLocalDate(String s) {
         return toLocalDateTime(parseDate(s));
+    }
+
+    /**
+     * Convert a string value to an OffsetDateTime.
+     *
+     * @param s The value to be converted.
+     * @return An OffsetDateTime corresponding to the input value, or <code>null</code> if parsing failed.
+     */
+    public static OffsetDateTime parseOffsetDateTime(String s) {
+        return toOffsetDateTime(parseDate(s));
     }
 
     /**
