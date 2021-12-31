@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-ace</artifactId>
-			<version>1.4.12-10</version>
+			<version>1.4.13</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
