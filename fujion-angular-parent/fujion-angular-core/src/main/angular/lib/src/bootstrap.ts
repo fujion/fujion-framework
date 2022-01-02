@@ -1,8 +1,9 @@
 import {ApplicationRef, ComponentRef, NgModuleRef, NgZone} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
-export function AppContext(aModule: any) {
+export function AppContext(aModule: any, selector: string) {
 
+    this.selector = selector;
     let zone: NgZone;
     let componentRef: ComponentRef<any>;
     let moduleRef: NgModuleRef<any>;
@@ -27,14 +28,15 @@ export function AppContext(aModule: any) {
         }
 
         AngularModule.prototype.ngDoBootstrap = (appRef: ApplicationRef) => {
-            componentRef = appRef.bootstrap(AngularComponent, aModule.fujion.selectors.pop());
-            zone = componentRef.injector.get(NgZone);
+            const context = aModule.fujion.contexts.shift();
+            context.componentRef = appRef.bootstrap(AngularComponent, context.selector);
+            context.zone = context.componentRef.injector.get(NgZone);
         }
 
         aModule.fujion = {
             AngularComponent,
             AngularModule,
-            selectors: []
+            contexts: []
         }
 
         function findDecorator(obj: any): any {
@@ -46,8 +48,8 @@ export function AppContext(aModule: any) {
         return moduleRef != null;
     };
 
-    AppContext.prototype.bootstrap = function (selector: string): Promise<NgModuleRef<any>> {
-        aModule.fujion.selectors.push(selector);
+    AppContext.prototype.bootstrap = function (): Promise<NgModuleRef<any>> {
+        aModule.fujion.contexts.push(this);
         return platformBrowserDynamic().bootstrapModule(aModule.fujion.AngularModule).then(
             ref => moduleRef = ref);
     };
