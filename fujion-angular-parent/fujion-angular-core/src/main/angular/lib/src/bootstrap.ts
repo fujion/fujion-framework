@@ -1,65 +1,47 @@
-import {ApplicationRef, ComponentFactoryResolver, DoBootstrap, NgModule, NgModuleRef, NgZone} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import {ApplicationRef, ComponentRef, NgModuleRef, NgZone} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 export function AppContext(aModule: any, selector?: string) {
 
-    let ngModule: NgModule = {};
-    let decorator: NgModule = aModule.ngModule;
     let AngularComponent = aModule.AngularComponent;
+    const AngularModule = aModule.AngularModule;
+
+    if (AngularModule == null) {
+        throw new Error('No module named "AngularModule" was found');
+    }
+
+    const decorator = findDecorator(AngularModule);
+
+    if (AngularComponent == null) {
+        AngularComponent = decorator?.bootstrap?.[0];
+
+        if (AngularComponent == null) {
+            throw new Error('No Angular bootstrap component specified');
+        }
+
+        delete decorator.bootstrap;
+    }
+
     let zone: NgZone;
-    let componentRef: any;
-    let moduleRef: any;
+    let componentRef: ComponentRef<any>;
+    let moduleRef: NgModuleRef<any>;
 
-    if (AngularComponent) {
-        ngModule = {
-            imports: [BrowserModule],
-            declarations: [AngularComponent],
-            entryComponents: [AngularComponent]
-        }
-    } else if (decorator == null) {
-        aModule = aModule.AngularModule || aModule;
-        decorator = findDecorator(aModule);
-
-        if (decorator == null) {
-            throw new Error('No NgModule decorator for Angular module');
-        }
+    AngularModule.prototype.ngDoBootstrap = function(appRef: ApplicationRef) {
+        //const factory = this.resolver.resolveComponentFactory(AngularComponent);
+        componentRef = appRef.bootstrap(AngularComponent, selector);
+        zone = componentRef.injector.get(NgZone);
     }
-
-    Object.assign(ngModule, decorator || {});
-    AngularComponent = AngularComponent || ngModule.bootstrap?.[0];
-
-    if (!AngularComponent) {
-        throw new Error('No Angular bootstrap component specified');
-    }
-
-    delete ngModule.bootstrap;
 
     function findDecorator(obj: any): any {
         return obj.decorators?.[0]?.args?.[0];
-    }
-
-    @NgModule(ngModule)
-    class AppModule implements DoBootstrap {
-        constructor(
-            private readonly resolver: ComponentFactoryResolver,
-            ngZone: NgZone
-        ) {
-            zone = ngZone;
-        }
-
-        ngDoBootstrap(appRef: ApplicationRef) {
-            const factory = this.resolver.resolveComponentFactory(AngularComponent);
-            componentRef = appRef.bootstrap(factory, selector);
-        }
     }
 
     AppContext.prototype.isLoaded = function(): boolean {
         return moduleRef != null;
     };
 
-    AppContext.prototype.bootstrap = function(compilerOptions?): Promise<NgModuleRef<AppModule>> {
-        return platformBrowserDynamic().bootstrapModule(AppModule, compilerOptions).then(
+    AppContext.prototype.bootstrap = function(options?): Promise<NgModuleRef<any>> {
+        return platformBrowserDynamic().bootstrapModule(AngularModule, options).then(
             ref => moduleRef = ref);
     };
 
