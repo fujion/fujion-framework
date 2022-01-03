@@ -83,6 +83,7 @@ export function AppContext(aModule: any, selector: string) {
      *
      * @param functionName The name of the function to invoke.
      * @param args The function's arguments.
+     * @return The result returned by the function.
      */
     AppContext.prototype.invoke = function (functionName: string, args: any[]): any {
         return zone.run(() => {
