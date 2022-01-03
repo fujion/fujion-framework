@@ -1,6 +1,12 @@
-import {ApplicationRef, ComponentRef, DoBootstrap, NgModuleRef, NgZone} from '@angular/core';
+import {ApplicationRef, ComponentRef, NgModuleRef, NgZone} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
+interface Context {
+    selector?: string;
+    zone?: NgZone;
+    componentRef?: ComponentRef<any>;
+    moduleRef?: NgModuleRef<any>;
+}
 /**
  * Supports bootstrapping an Angular component.
  *
@@ -9,32 +15,32 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
  */
 export function AppContext(aModule: any, selector: string) {
 
-    let zone: NgZone;
-    let componentRef: ComponentRef<any>;
-    let moduleRef: NgModuleRef<any>;
+    this.context = <Context> {selector};
 
-    /**
-     * Angular module that will do the bootstrapping.  The decorators of the actual Angular module will be copied
-     * here to allow custom bootstrapping logic to be used.
-     */
-    class AngularModule implements DoBootstrap {
-
-        ngDoBootstrap(appRef: ApplicationRef): void {
-            componentRef = appRef.bootstrap(aModule.AngularComponent, selector);
-            zone = componentRef.injector.get(NgZone);
-        }
+    if (aModule.fujion != null) {
+        return;
     }
 
-    if (aModule.AngularModule == null) {
+    aModule.fujion = {
+        contexts: []
+    };
+
+    const AngularModule = aModule.AngularModule;
+
+    if (AngularModule == null) {
         throw new Error('No module named "AngularModule" was found');
     }
 
-    // Copy decorators from real Angular module to local module.
-    Object.assign(AngularModule, aModule.AngularModule);
-    let bootstrapComponent = aModule.AngularModule.ɵmod?.bootstrap?.[0];
+    AngularModule.prototype.ngDoBootstrap = function (appRef: ApplicationRef): void {
+        const context = <Context> aModule.fujion.contexts.shift();
+        context.componentRef = appRef.bootstrap(aModule.AngularComponent, context.selector);
+        context.zone = context.componentRef.injector.get(NgZone);
+    }
+
+    let bootstrapComponent = AngularModule.ɵmod?.bootstrap?.[0];
 
     if (bootstrapComponent != null) {
-        aModule.AngularModule.ɵmod.bootstrap.length = 0;
+        AngularModule.ɵmod.bootstrap.length = 0;
     }
 
     // If an AngularComponent isn't explicitly specified, use the bootstrap component.
@@ -50,23 +56,24 @@ export function AppContext(aModule: any, selector: string) {
      * Returns true if the Angular module has been initialized (and, therefore, bootstrapping has occurred).
      */
     AppContext.prototype.isLoaded = function (): boolean {
-        return moduleRef != null;
+        return this.context.moduleRef != null;
     };
 
     /**
      * Bootstrap the Angular component.
      */
     AppContext.prototype.bootstrap = function (): Promise<NgModuleRef<any>> {
+        aModule.fujion.contexts.push(this.context);
         return platformBrowserDynamic().bootstrapModule(AngularModule).then(
-            ref => moduleRef = ref);
+            ref => this.context.moduleRef = ref);
     };
 
     /**
      * Destroy the module reference.
      */
     AppContext.prototype.destroy = function (): void {
-        moduleRef?.destroy();
-        moduleRef = null;
+        this.context?.moduleRef?.destroy();
+        this.context = null;
     };
 
     /**
@@ -77,8 +84,8 @@ export function AppContext(aModule: any, selector: string) {
      * @return The result returned by the function.
      */
     AppContext.prototype.invoke = function (functionName: string, args: any[]): any {
-        return zone.run(() => {
-            let instance = componentRef.instance;
+        return this.context.zone.run(() => {
+            let instance = this.context.componentRef.instance;
             instance[functionName].apply(instance, args);
         })
     }
