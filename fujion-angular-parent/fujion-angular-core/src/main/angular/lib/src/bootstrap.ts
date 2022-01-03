@@ -18,7 +18,6 @@ export function AppContext(aModule: any, selector: string) {
      * here to allow custom bootstrapping logic to be used.
      */
     class AngularModule implements DoBootstrap {
-        static decorators: any;
 
         ngDoBootstrap(appRef: ApplicationRef): void {
             componentRef = appRef.bootstrap(aModule.AngularComponent, selector);
@@ -31,19 +30,11 @@ export function AppContext(aModule: any, selector: string) {
     }
 
     // Copy decorators from real Angular module to local module.
-    const decorators = aModule.AngularModule.decorators || [];
-    AngularModule.decorators = decorators;
-    let bootstrapComponent;
+    Object.assign(AngularModule, aModule.AngularModule);
+    let bootstrapComponent = aModule.AngularModule.ɵmod?.bootstrap?.[0];
 
-    // Search for (and remove) any bootstrap component specified in a decorator.  This must be done or custom
-    // bootstrapping logic will not be executed.
-    for (const decorator of decorators) {
-        bootstrapComponent = decorator.args?.[0]?.bootstrap?.[0];
-
-        if (bootstrapComponent != null) {
-            delete decorator.args[0].bootstrap;
-            break;
-        }
+    if (bootstrapComponent != null) {
+        aModule.AngularModule.ɵmod.bootstrap.length = 0;
     }
 
     // If an AngularComponent isn't explicitly specified, use the bootstrap component.
