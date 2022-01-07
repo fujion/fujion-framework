@@ -11,8 +11,8 @@
 	<artifactId>fujion-angular-example</artifactId>
 
 	<properties>
-		<webjar.name>fujion-angular-example</webjar.name>
         <maven.javadoc.skip>true</maven.javadoc.skip>
+		<skip.minification>false</skip.minification>
 	</properties>
 
 	<build>
