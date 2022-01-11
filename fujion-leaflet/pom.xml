@@ -7,11 +7,11 @@
 		<version>3.1.0-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Wrapper for Plotly</name>
-	<artifactId>fujion-plotly</artifactId>
+	<name>Fujion Wrapper for leaflet.js</name>
+	<artifactId>fujion-leaflet</artifactId>
 
 	<properties>
-		<webjar.name>fujion-plotly</webjar.name>
+		<webjar.name>fujion-leaflet</webjar.name>
 		<skip.minification>false</skip.minification>
 	</properties>
 	
@@ -27,9 +27,9 @@
 							<skip>false</skip>
 							<arguments>
 								<argument>-v=${project.version}</argument>
-								<argument>-t=Plotly Extension</argument>
-								<argument>-c=org.fujion.plotly.Chart</argument>
-								<argument>${webjar.schemadir}fsp-plotly.xsd</argument>
+								<argument>-t=chart.js Extension</argument>
+								<argument>-c=org.fujion.leaflet.Leaflet</argument>
+								<argument>${webjar.schemadir}fsp-leaflet.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -46,8 +46,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
-			<artifactId>webjar-plotly-js</artifactId>
-			<version>2.8.3-1</version>
+			<artifactId>webjar-leaflet</artifactId>
+			<version>1.7.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

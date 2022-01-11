@@ -89,6 +89,10 @@
 				<import src="pages/boxes.fsp" />
 			</tab>
 
+			<tab label="Leaflet" hint="${@msg.fujion.testharness.leaflet}">
+				<import src="pages/leaflet.fsp" />
+			</tab>
+
 			<tab label="Markdown" hint="${@msg.fujion.testharness.markdown}">
 				<import src="pages/markdown.fsp" />
 			</tab>

@@ -89,6 +89,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
+			<artifactId>fujion-leaflet</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
 			<artifactId>fujion-markdown</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

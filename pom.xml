@@ -35,6 +35,7 @@
 		<module>fujion-gmaps</module>
 		<module>fujion-highcharts</module>
 		<module>fujion-icons-parent</module>
+		<module>fujion-leaflet</module>
 		<module>fujion-markdown</module>
 		<module>fujion-multimedia</module>
 		<module>fujion-mxgraph</module>

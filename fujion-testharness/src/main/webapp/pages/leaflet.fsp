@@ -1,0 +1,4 @@
+ 
+<div controller="org.fujion.testharness.LeafletController" width="100%" height="100%">
+    <leaflet name="leaflet" center="[39.7684N,86.1581W]" height="100%" width="100%"/>
+</div>
