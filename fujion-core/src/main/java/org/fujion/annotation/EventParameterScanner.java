@@ -20,10 +20,13 @@
  */
 package org.fujion.annotation;
 
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.annotation.EventType.EventParameter;
 import org.fujion.client.ClientRequest;
 import org.fujion.common.MiscUtil;
 import org.fujion.event.Event;
+
+import java.lang.reflect.Method;
 
 /**
  * Scans an event object's class and superclasses for fields annotated for wiring.
@@ -32,8 +35,14 @@ public class EventParameterScanner extends AbstractFieldScanner<Event, EventPara
 
     private static final EventParameterScanner instance = new EventParameterScanner();
     
+    private static final Method afterInitialized = MethodUtils.getMatchingMethod(Event.class, "afterInitialized");
+
+    static {
+        afterInitialized.setAccessible(true);
+    }
+
     /**
-     * Wire an event object with parameters in a client request.
+     * Wire an event object with parameters from a client request.
      *
      * @param event The event object to be wired..
      * @param request The client request from which parameter values will be derived.
@@ -57,8 +66,23 @@ public class EventParameterScanner extends AbstractFieldScanner<Event, EventPara
             }
             return true;
         });
+        
+        afterInitialized(event);
     }
 
+    /**
+     * Invoke an event's afterInitialized method.
+     * 
+     * @param event The event.
+     */
+    private static void afterInitialized(Event event) {
+        try {
+            afterInitialized.invoke(event);
+        } catch (Exception e) {
+            throw MiscUtil.toUnchecked(e);
+        }
+    }
+    
     private EventParameterScanner() {
         super(Event.class, EventParameter.class);
     }

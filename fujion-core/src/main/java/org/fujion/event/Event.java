@@ -235,4 +235,11 @@ public class Event {
     public int getId() {
         return id;
     }
+
+    /**
+     * Override to perform any additional initialization after all event parameters have been initialized.
+     */
+    protected void afterInitialized() {
+
+    }
 }
