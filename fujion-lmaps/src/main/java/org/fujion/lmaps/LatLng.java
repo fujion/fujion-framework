@@ -18,7 +18,7 @@
  *
  * #L%
  */
-package org.fujion.leaflet;
+package org.fujion.lmaps;
 
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;

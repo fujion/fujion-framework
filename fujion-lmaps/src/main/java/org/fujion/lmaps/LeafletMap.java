@@ -18,7 +18,7 @@
  *
  * #L%
  */
-package org.fujion.leaflet;
+package org.fujion.lmaps;
 
 import org.fujion.annotation.Component;
 import org.fujion.annotation.Component.PropertyGetter;
@@ -26,26 +26,26 @@ import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.component.BaseUIComponent;
 
 /**
- * Fujion wrapper for Chart.js component.
+ * Fujion wrapper for Leaflet.js interactive maps.
  */
 @Component(
-        tag = "leaflet",
-        widgetModule = "fujion-leaflet",
-        widgetClass = "Leaflet",
+        tag = "lmap",
+        widgetModule = "fujion-lmaps",
+        widgetClass = "LeafletMap",
         parentTag = "*",
-        description = "Fujion wrapper for leaflet.js component.")
-public class Leaflet extends BaseUIComponent {
+        description = "Fujion wrapper for leaflet.js interactive maps.")
+public class LeafletMap extends BaseUIComponent {
 
     private final LeafletOptions options = new LeafletOptions();
 
     private boolean running;
 
-    public Leaflet() {
+    public LeafletMap() {
         super();
     }
 
     /**
-     * Removes all series and data points and destroys the client graph.
+     * Removes the current map.
      */
     public void clear() {
         running = false;
@@ -53,7 +53,7 @@ public class Leaflet extends BaseUIComponent {
     }
 
     /**
-     * Build the graph on the client.
+     * Display the map on the client using the current options.
      */
     public void run() {
         invoke("run", options);
@@ -61,9 +61,9 @@ public class Leaflet extends BaseUIComponent {
     }
 
     /**
-     * Returns true if a chart is currently running on the client.
+     * Returns true if a map is currently displayed on the client.
      *
-     * @return True if a chart is running.
+     * @return True if a map is being displayed.
      */
     public boolean isRunning() {
         return running;

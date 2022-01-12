@@ -89,7 +89,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
-			<artifactId>fujion-leaflet</artifactId>
+			<artifactId>fujion-lmaps</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

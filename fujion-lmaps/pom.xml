@@ -7,11 +7,11 @@
 		<version>3.1.0-SNAPSHOT</version>
 	</parent>
 
-	<name>Fujion Wrapper for leaflet.js</name>
-	<artifactId>fujion-leaflet</artifactId>
+	<name>Fujion Wrapper for leaflet interactive maps</name>
+	<artifactId>fujion-lmaps</artifactId>
 
 	<properties>
-		<webjar.name>fujion-leaflet</webjar.name>
+		<webjar.name>fujion-lmaps</webjar.name>
 		<skip.minification>false</skip.minification>
 	</properties>
 	
@@ -27,9 +27,9 @@
 							<skip>false</skip>
 							<arguments>
 								<argument>-v=${project.version}</argument>
-								<argument>-t=chart.js Extension</argument>
-								<argument>-c=org.fujion.leaflet.Leaflet</argument>
-								<argument>${webjar.schemadir}fsp-leaflet.xsd</argument>
+								<argument>-t=leaflet.js Extension</argument>
+								<argument>-c=org.fujion.lmaps.LeafletMap</argument>
+								<argument>${webjar.schemadir}fsp-lmaps.xsd</argument>
 							</arguments>
 						</configuration>
 					</execution>
