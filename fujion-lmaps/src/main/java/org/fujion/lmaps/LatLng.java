@@ -24,6 +24,8 @@ import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 import org.fujion.common.StrUtil;
 
+import java.util.Map;
+
 /**
  * Latitude/longitude coordinates.
  */
@@ -76,6 +78,10 @@ public class LatLng extends Options {
     public LatLng(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;
+    }
+
+    public LatLng(Map<String, Number> map) {
+        this(map.get("lat").doubleValue(), map.get("lng").doubleValue());
     }
 
     /**

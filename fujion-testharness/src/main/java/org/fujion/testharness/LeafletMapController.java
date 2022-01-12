@@ -26,6 +26,8 @@ import org.fujion.component.BaseComponent;
 import org.fujion.component.Doublebox;
 import org.fujion.lmaps.LatLng;
 import org.fujion.lmaps.LeafletMap;
+import org.fujion.lmaps.LocateOptions;
+import org.fujion.lmaps.event.LocationFoundEvent;
 import org.fujion.lmaps.event.MapClickEvent;
 
 /**
@@ -56,10 +58,24 @@ public class LeafletMapController extends BaseController {
 
     @EventHandler(value = "click", target = "btnPanTo")
     private void onClick$btnPanTo() {
+        lmap.panTo(currentPos());
+    }
+
+    @EventHandler(value = "click", target = "btnMyLocation")
+    private void onClick$btnMyLocation() {
+        LocateOptions options = new LocateOptions();
+        options.setView = true;
+        options.maximumAge = 60000;
+        lmap.locate(options);
     }
 
     @EventHandler(value = MapClickEvent.TYPE, target = "@lmap")
     private void onClick$lmap(MapClickEvent event) {
+        updateControls(event.getLocation());
+    }
+
+    @EventHandler(value = LocationFoundEvent.TYPE, target = "@lmap")
+    private void onLocationFound$lmap(LocationFoundEvent event) {
         updateControls(event.getLocation());
     }
 

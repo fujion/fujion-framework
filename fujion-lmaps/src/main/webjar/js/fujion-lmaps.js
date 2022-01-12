@@ -9,8 +9,11 @@ define('fujion-lmaps', ['fujion-core', 'fujion-widget', 'leaflet', 'leaflet-css'
 
 		/*------------------------------ Events ------------------------------*/
 
-		_eventsToForward: ['resize', 'load', 'click', 'zoomstart', 'movestart',
-			'zoom', 'move', 'zoomend', 'moveend'],
+		_eventsToForward: [
+			'resize', 'load', 'click',
+			'zoom', 'zoomstart', 'zoomend',
+			'move', 'movestart', 'moveend',
+			'locationerror', 'locationfound'],
 
 		triggerMapEvent: function(event) {
 			const evt = _.assign({}, event, {
@@ -26,25 +29,28 @@ define('fujion-lmaps', ['fujion-core', 'fujion-widget', 'leaflet', 'leaflet-css'
 		/*------------------------------ Lifecycle ------------------------------*/
 
 		destroy: function() {
-			this._reset();
+			this.clear();
 			this._super();
 		},
 
-		init: function() {
+		init: function () {
 			this._super();
 		},
-		
+
 		/*------------------------------ Other ------------------------------*/
 
-		reset : function() {
-			if (this._map) {
-				this._map.remove();
-				delete this._map;
-			}
+		clear: function () {
+			delete this._map;
+			this.widget$.empty();
 		},
-		
-		run : function(options) {
-			this.reset();
+
+		invoke: function (fnc, args) {
+			const map = this._map;
+			return map ? map[fnc].apply(map, args) : null;
+		},
+
+		run: function (options) {
+			this.clear();
 			this._map = Leaflet.map(this.widget$[0], options);
 			_.forEach(this._eventsToForward, eventName => this._map.on(eventName, e => this.triggerMapEvent(e)));
 			Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

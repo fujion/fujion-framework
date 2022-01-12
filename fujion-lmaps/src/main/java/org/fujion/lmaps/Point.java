@@ -23,6 +23,8 @@ package org.fujion.lmaps;
 import org.fujion.ancillary.Options;
 import org.fujion.annotation.Option;
 
+import java.util.Map;
+
 /**
  * A point on a two-dimensional plane.
  */
@@ -44,7 +46,11 @@ public class Point extends Options {
         this.x = x;
         this.y = y;
     }
-    
+
+    public Point(Map<String, Number> map) {
+        this(map.get("x").doubleValue(), map.get("y").doubleValue());
+    }
+
     /**
      * Get the x-coordinate;
      *

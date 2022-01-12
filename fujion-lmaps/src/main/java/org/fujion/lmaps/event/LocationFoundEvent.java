@@ -25,54 +25,86 @@ import org.fujion.annotation.EventType.EventParameter;
 import org.fujion.annotation.OnFailure;
 import org.fujion.event.Event;
 import org.fujion.lmaps.LatLng;
-import org.fujion.lmaps.Point;
+import org.fujion.lmaps.LatLngBounds;
 
 import java.util.Map;
 
 /**
- * Map click event
+ * Fired when geolocation (using the locate method) completed successfully.
  */
-@EventType(MapClickEvent.TYPE)
-public class MapClickEvent extends Event {
+@EventType(LocationFoundEvent.TYPE)
+public class LocationFoundEvent extends Event {
 
     /**
      * The event type.
      */
-    public static final String TYPE = "lmap_click";
+    public static final String TYPE = "lmap_locationfound";
 
     private LatLng location;
 
-    private Point layerPoint;
-
-    private Point containerPoint;
+    private LatLngBounds bounds;
 
     @EventParameter(value = "latlng", onFailure = OnFailure.EXCEPTION)
     private Map<String, Number> _location;
 
-    @EventParameter(value="layerPoint", onFailure = OnFailure.EXCEPTION)
-    private Map<String, Number> _layerPoint;
+    @EventParameter(value = "bounds", onFailure = OnFailure.EXCEPTION)
+    private Map<String, Map<String, Number>> _bounds;
 
-    @EventParameter(value="containerPoint", onFailure = OnFailure.EXCEPTION)
-    private Map<String, Number> _containerPoint;
+    @EventParameter(onFailure = OnFailure.EXCEPTION)
+    private Integer accuracy;
+
+    @EventParameter(onFailure = OnFailure.EXCEPTION)
+    private Long timestamp;
+
+    @EventParameter
+    private Double altitude;
+
+    @EventParameter
+    private Integer altitudeAccuracy;
+
+    @EventParameter
+    private Integer heading;
+
+    @EventParameter
+    private Integer speed;
 
     public LatLng getLocation() {
         return location;
     }
 
-    public Point getLayerPoint() {
-        return layerPoint;
+    public LatLngBounds getBounds() {
+        return bounds;
     }
 
-    public Point getContainerPoint() {
-        return containerPoint;
+    public Integer getAccuracy() {
+        return accuracy;
+    }
+
+    public Double getAltitude() {
+        return altitude;
+    }
+
+    public Integer getAltitudeAccuracy() {
+        return altitudeAccuracy;
+    }
+
+    public Integer getHeading() {
+        return heading;
+    }
+
+    public Integer getSpeed() {
+        return speed;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 
     @Override
     protected void afterInitialized() {
         super.afterInitialized();
         location = new LatLng(_location);
-        layerPoint = new Point(_layerPoint);
-        containerPoint = new Point(_containerPoint);
+        bounds = new LatLngBounds(_bounds);
     }
 
 }

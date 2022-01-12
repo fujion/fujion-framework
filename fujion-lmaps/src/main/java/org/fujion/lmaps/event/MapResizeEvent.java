@@ -24,55 +24,44 @@ import org.fujion.annotation.EventType;
 import org.fujion.annotation.EventType.EventParameter;
 import org.fujion.annotation.OnFailure;
 import org.fujion.event.Event;
-import org.fujion.lmaps.LatLng;
 import org.fujion.lmaps.Point;
 
 import java.util.Map;
 
 /**
- * Map click event
+ * Map resize event
  */
-@EventType(MapClickEvent.TYPE)
-public class MapClickEvent extends Event {
+@EventType(MapResizeEvent.TYPE)
+public class MapResizeEvent extends Event {
 
     /**
      * The event type.
      */
-    public static final String TYPE = "lmap_click";
+    public static final String TYPE = "lmap_resize";
 
-    private LatLng location;
+    private Point oldSize;
 
-    private Point layerPoint;
+    private Point newSize;
 
-    private Point containerPoint;
+    @EventParameter(value = "oldSize", onFailure = OnFailure.EXCEPTION)
+    private Map<String, Number> _oldSize;
 
-    @EventParameter(value = "latlng", onFailure = OnFailure.EXCEPTION)
-    private Map<String, Number> _location;
+    @EventParameter(value = "newSize", onFailure = OnFailure.EXCEPTION)
+    private Map<String, Number> _newSize;
 
-    @EventParameter(value="layerPoint", onFailure = OnFailure.EXCEPTION)
-    private Map<String, Number> _layerPoint;
-
-    @EventParameter(value="containerPoint", onFailure = OnFailure.EXCEPTION)
-    private Map<String, Number> _containerPoint;
-
-    public LatLng getLocation() {
-        return location;
+    public Point getOldSize() {
+        return oldSize;
     }
 
-    public Point getLayerPoint() {
-        return layerPoint;
-    }
-
-    public Point getContainerPoint() {
-        return containerPoint;
+    public Point getNewSize() {
+        return newSize;
     }
 
     @Override
     protected void afterInitialized() {
         super.afterInitialized();
-        location = new LatLng(_location);
-        layerPoint = new Point(_layerPoint);
-        containerPoint = new Point(_containerPoint);
+        oldSize = new Point(_oldSize);
+        newSize = new Point(_newSize);
     }
 
 }
