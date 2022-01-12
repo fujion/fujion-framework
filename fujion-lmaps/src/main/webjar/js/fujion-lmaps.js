@@ -40,8 +40,11 @@ define('fujion-lmaps', ['fujion-core', 'fujion-widget', 'leaflet', 'leaflet-css'
 		/*------------------------------ Other ------------------------------*/
 
 		clear: function () {
-			delete this._map;
-			this.widget$.empty();
+			if (this._map) {
+				this._map.remove();
+				delete this._map;
+				this.widget$.empty();
+			}
 		},
 
 		invoke: function (fnc, args) {
@@ -53,10 +56,9 @@ define('fujion-lmaps', ['fujion-core', 'fujion-widget', 'leaflet', 'leaflet-css'
 			this.clear();
 			this._map = Leaflet.map(this.widget$[0], options);
 			_.forEach(this._eventsToForward, eventName => this._map.on(eventName, e => this.triggerMapEvent(e)));
-			Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-			}).addTo(this._map);
-
+				Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+					attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+				}).addTo(this._map);
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/

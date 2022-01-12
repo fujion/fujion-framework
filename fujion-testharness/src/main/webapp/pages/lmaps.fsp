@@ -13,6 +13,7 @@
         <doublebox name="longitude"/>
         <button label="Pan to" name="btnPanTo"/>
         <button label="My location" name="btnMyLocation" />
+        <button label="Reset" name="btnReset" />
     </toolbar>
 </div>
 </fsp>

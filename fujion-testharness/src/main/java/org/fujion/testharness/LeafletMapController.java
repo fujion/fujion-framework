@@ -61,6 +61,11 @@ public class LeafletMapController extends BaseController {
         lmap.panTo(currentPos());
     }
 
+    @EventHandler(value = "click", target = "btnReset")
+    private void onClick$btnReset() {
+        lmap.run();
+    }
+
     @EventHandler(value = "click", target = "btnMyLocation")
     private void onClick$btnMyLocation() {
         LocateOptions options = new LocateOptions();
