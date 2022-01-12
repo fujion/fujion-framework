@@ -25,6 +25,11 @@ import org.fujion.annotation.Option;
 
 public class LeafletOptions extends Options {
 
+    /**
+     * Whether Paths should be rendered on a Canvas renderer. By default, all Paths are rendered in a SVG renderer.
+     * <p>
+     * Default: false
+     */
     @Option
     public Boolean preferCanvas;
 
@@ -71,7 +76,7 @@ public class LeafletOptions extends Options {
     public LatLng center;
 
     /**
-     * Whether the map zoom animation is enabled. By default it's enabled in all browsers that support CSS3 Transitions except Android.
+     * Whether the map zoom animation is enabled. By default, it's enabled in all browsers that support CSS3 Transitions except Android.
      * <p>
      * Default: true
      */
@@ -87,7 +92,7 @@ public class LeafletOptions extends Options {
     public Double zoomAnimationThreshold;
 
     /**
-     * Whether the tile fade animation is enabled. By default it's enabled in all browsers that support CSS3 Transitions except Android.
+     * Whether the tile fade animation is enabled. By default, it's enabled in all browsers that support CSS3 Transitions except Android.
      * <p>
      * Default: true
      */
@@ -96,7 +101,7 @@ public class LeafletOptions extends Options {
 
     /**
      * Whether markers animate their zoom with the zoom animation, if disabled they will disappear for the length of
-     * the animation. By default it's enabled in all browsers that support CSS3 Transitions except Android.
+     * the animation. By default, it's enabled in all browsers that support CSS3 Transitions except Android.
      * <p>
      * Default: true
      */
@@ -187,7 +192,7 @@ public class LeafletOptions extends Options {
     public String scrollWheelZoomString;
 
     /**
-     * Limits the rate at which a wheel can fire (in milliseconds). By default user can't zoom via wheel more often
+     * Limits the rate at which a wheel can fire (in milliseconds). By default, user can't zoom via wheel more often
      * than once per 40 ms.
      * <p>
      * Default: 40
