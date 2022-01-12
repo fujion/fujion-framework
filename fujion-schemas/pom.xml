@@ -120,6 +120,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujion</groupId>
+			<artifactId>fujion-lmaps</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fujion</groupId>
 			<artifactId>fujion-multimedia</artifactId>
 			<version>${project.parent.version}</version>
 			<scope>provided</scope>
