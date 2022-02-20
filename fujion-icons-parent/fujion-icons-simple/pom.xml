@@ -17,6 +17,7 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
+			<!-- Note: newer versions don't work -->
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>simple-icons</artifactId>
 			<version>1.5.0</version>
