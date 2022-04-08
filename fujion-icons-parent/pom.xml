@@ -14,6 +14,7 @@
 	<modules>
 		<module>fujion-icons-core</module>
 		<module>fujion-icons-test</module>
+		<module>fujion-icons-bootstrap</module>
 		<module>fujion-icons-elegant</module>
 		<module>fujion-icons-fugue</module>
 		<module>fujion-icons-feather</module>
