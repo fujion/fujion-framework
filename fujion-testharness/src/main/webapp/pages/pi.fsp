@@ -7,7 +7,10 @@
 		</columns>
 		<rows>
 			<row>
+				<rowcell>
 				<image src="${icon.getIconPath('silk:exclamation')}"/>
+					<image src="${icon.getIconPath('material:outlined/pets')}"/>
+				</rowcell>
 				Test of icon tag library method resolution
 			</row>
 			<row name="myrow">
