@@ -14,12 +14,22 @@
 		<dependency>
 			<groupId>org.jruby</groupId>
 			<artifactId>jruby</artifactId>
-			<version>9.3.4.0</version>
+			<version>9.3.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
-	
+
+	<build>
+		<extensions>
+			<extension>
+				<!-- this allows us to download gems -->
+				<groupId>org.torquebox.mojo</groupId>
+				<artifactId>mavengem-wagon</artifactId>
+				<version>1.0.3</version>
+			</extension>
+		</extensions>
+	</build>
 </project>

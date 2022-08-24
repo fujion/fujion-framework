@@ -36,7 +36,7 @@ public class TestScript {
     @Ignore  // Tests succeed when run by IntelliJ, but fail when run independently.
     public void test() {
         IScriptLanguage lang = new KotlinScript();
-        Assert.assertEquals(123, lang.parse("val x=123").run());
+        Assert.assertEquals(123, lang.parse("var x=120+3\nx").run());
         Assert.assertEquals(456, lang.parse("val self=bindings[\"self\"] as org.fujion.script.kotlin.TestScript\nself.testFcn()").run(Collections.singletonMap("self", this)));
         IScriptLanguage.IParsedScript script = lang.parse("val x=bindings[\"x\"] as Double\nkotlin.math.sqrt(x)");
         Assert.assertEquals(10.0, script.run(Collections.singletonMap("x", 100.0)));
