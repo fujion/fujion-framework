@@ -12,8 +12,8 @@
 
     <properties>
         <angular.version>13.3.1</angular.version>
-        <rxjs.version>7.5.6</rxjs.version>
-        <zonejs.version>0.11.8</zonejs.version>
+        <rxjs.version>7.5.5</rxjs.version>
+        <zonejs.version>0.11.5</zonejs.version>
 
         <webjar.name>fujion-angular</webjar.name>
         <skip.minification>false</skip.minification>
