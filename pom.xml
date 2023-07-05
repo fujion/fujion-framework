@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>org.fujion</groupId>
 		<artifactId>fujion-root</artifactId>
-		<version>3.1.0</version>
+		<version>3.1.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>fujion-parent</artifactId>
-	<version>3.1.0</version>
+	<version>3.1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Fujion Framework Parent POM</name>
 	<description>Fujion Framework Parent POM</description>
