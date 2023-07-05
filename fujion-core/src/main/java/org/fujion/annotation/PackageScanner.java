@@ -57,7 +57,7 @@ public class PackageScanner {
     }
 
     /**
-     * Find all classes belonging packages matching the pattern.
+     * Find all classes belonging to packages matching the pattern.
      *
      * @param pattern A pattern for matching package names.
      * @return List of member classes (never null).
