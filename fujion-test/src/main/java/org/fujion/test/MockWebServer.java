@@ -21,7 +21,8 @@
 package org.fujion.test;
 
 import org.apache.catalina.startup.Tomcat;
-import org.springframework.util.SocketUtils;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.util.TestSocketUtils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -30,39 +31,38 @@ import java.net.URL;
 /**
  * An instance of embedded Tomcat as a mock web server.
  */
+@WebAppConfiguration
 public class MockWebServer {
 
     private Tomcat server;
-    
+
     private final int port;
 
     /**
      * Create an instance of an embedded Tomcat server, using a random port.
-     *
-     * @throws Exception Unspecified exception.
      */
-    public MockWebServer() throws Exception {
-        this(SocketUtils.findAvailableTcpPort());
+    public MockWebServer() {
+        this(TestSocketUtils.findAvailableTcpPort());
     }
-    
+
     /**
      * Create an instance of an embedded Tomcat server, using a specified port.
      *
      * @param port Main server port.
-     * @throws Exception Unspecified exception.
      */
-    public MockWebServer(int port) throws Exception {
+    public MockWebServer(int port) {
         this.port = port;
         server = new Tomcat();
         server.setBaseDir(getTargetPath("tomcat-" + port));
         server.setPort(this.port);
         server.addWebapp("", getTargetPath("classes"));
+        server.getConnector();
     }
 
     private String getTargetPath(String path) {
         return new File("./target/" + path + "/").getAbsolutePath();
     }
-    
+
     /**
      * Start the Tomcat server.
      *
@@ -81,7 +81,7 @@ public class MockWebServer {
         server.stop();
         server = null;
     }
-    
+
     /**
      * Return the server port.
      *

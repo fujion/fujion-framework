@@ -116,7 +116,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-systemjs</artifactId>
-			<version>6.12.1</version>
+			<version>6.12.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
@@ -136,7 +136,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-jquery-ui</artifactId>
-			<version>1.13.1</version>
+			<version>1.13.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
@@ -161,7 +161,7 @@
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-moment</artifactId>
-		    <version>2.29.2</version>
+		    <version>2.29.4</version>
 		</dependency>		
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
@@ -185,8 +185,14 @@
 		</dependency>
 		<!-- Servlet API -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+		</dependency>
+		<!-- Websocket support -->
+		<dependency>
+			<groupId>jakarta.websocket</groupId>
+			<artifactId>jakarta.websocket-api</artifactId>
+			<version>2.1.1</version>
 		</dependency>
 		<!-- MBean support -->
 		<dependency>

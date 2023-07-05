@@ -20,14 +20,14 @@
  */
 package org.fujion.test;
 
-import javax.websocket.ClientEndpointConfig;
-import javax.websocket.Endpoint;
-import javax.websocket.Extension;
-import javax.websocket.Session;
-import javax.websocket.server.ServerContainer;
-import javax.websocket.server.ServerEndpointConfig;
+import jakarta.websocket.*;
+import jakarta.websocket.server.ServerContainer;
+import jakarta.websocket.server.ServerEndpointConfig;
+
+import java.io.IOException;
 import java.net.URI;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -42,7 +42,7 @@ public class MockServerContainer implements ServerContainer {
     private int defaultMaxBinaryMessageBufferSize;
 
     private int defaultMaxTextMessageBufferSize;
-    
+
     @Override
     public long getDefaultAsyncSendTimeout() {
         return defaultAsyncSendTimeout;
@@ -117,5 +117,10 @@ public class MockServerContainer implements ServerContainer {
     @Override
     public void addEndpoint(ServerEndpointConfig sec) {
     }
-    
+
+    @Override
+    public void upgradeHttpToWebSocket(Object httpServletRequest, Object httpServletResponse, ServerEndpointConfig sec, Map<String, String> pathParameters) throws IOException, DeploymentException {
+
+    }
+
 }

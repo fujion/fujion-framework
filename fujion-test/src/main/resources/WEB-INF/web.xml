@@ -1,4 +1,4 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"  version="3.0">
 	<display-name>Fujion Framework Test Harness</display-name>
 
 	<servlet>
@@ -6,7 +6,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<async-supported>true</async-supported>
 		<load-on-startup>1</load-on-startup>
-		
+
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>

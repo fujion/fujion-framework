@@ -20,6 +20,7 @@
  */
 package org.fujion.websocket;
 
+import jakarta.servlet.ServletContext;
 import org.fujion.client.ClientInvocation;
 import org.fujion.client.ClientRequest;
 import org.fujion.client.Synchronizer;
@@ -33,7 +34,6 @@ import org.fujion.thread.ThreadPoolFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.socket.WebSocketSession;
 
-import javax.servlet.ServletContext;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;

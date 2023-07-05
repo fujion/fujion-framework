@@ -20,10 +20,9 @@
  */
 package org.fujion.servlet;
 
+import jakarta.servlet.ServletContext;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.web.WebApplicationInitializer;
-
-import javax.servlet.ServletContext;
 
 /**
  * Perform programmatic configuration of web application. This is used in conjunction with the

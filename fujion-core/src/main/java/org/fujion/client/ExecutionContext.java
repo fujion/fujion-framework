@@ -20,13 +20,13 @@
  */
 package org.fujion.client;
 
+import jakarta.servlet.ServletContext;
 import org.fujion.common.Assert;
 import org.fujion.component.Page;
 import org.fujion.page.PageRegistry;
 import org.fujion.websocket.Session;
 import org.springframework.context.ApplicationContext;
 
-import javax.servlet.ServletContext;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

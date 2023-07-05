@@ -20,9 +20,9 @@
  */
 package org.fujion.servlet;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.text.StringSubstitutor;
-import org.fujion.common.MiscUtil;
 import org.fujion.component.Page;
 import org.fujion.core.RequestUtil;
 import org.fujion.core.WebUtil;
@@ -34,7 +34,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.ResourceTransformerChain;
 import org.springframework.web.servlet.resource.ResourceTransformerSupport;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -42,6 +41,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Replaces the top-level Fujion resource with the bootstrapper template that is responsible for
@@ -55,7 +55,7 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
     private static class BootstrapperResource extends AbstractFileResolvingResource {
 
         private final Resource resource;
-        
+
         private final boolean compress;
 
         private final StringBuffer content = new StringBuffer();
@@ -103,12 +103,8 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
     private final List<String> bootstrapperTemplate;
 
     public FujionResourceTransformer() {
-        try {
-            bootstrapperTemplate = IOUtils.readLines(getClass().getResourceAsStream("/org/fujion/bootstrapper.htm"),
+        bootstrapperTemplate = IOUtils.readLines(Objects.requireNonNull(getClass().getResourceAsStream("/org/fujion/bootstrapper.htm")),
                 StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw MiscUtil.toUnchecked(e);
-        }
     }
 
     /**
@@ -119,7 +115,7 @@ public class FujionResourceTransformer extends ResourceTransformerSupport {
     public Resource transform(HttpServletRequest request, Resource resource,
                               ResourceTransformerChain chain) throws IOException {
         String filename = resource == null ? null : resource.getFilename();
-        
+
         if (filename == null || !filename.endsWith(".fsp")) {
             return chain.transform(request, resource);
         }

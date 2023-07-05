@@ -28,7 +28,7 @@ import org.junit.BeforeClass;
  * running for unit tests.
  */
 public class MockWebTest {
-    
+
     private static int initCount;
 
     protected static MockWebServer server;
@@ -40,7 +40,7 @@ public class MockWebTest {
             server.start();
         }
     }
-    
+
     @AfterClass
     public static void afterClass() throws Exception {
         if (--initCount == 0) {

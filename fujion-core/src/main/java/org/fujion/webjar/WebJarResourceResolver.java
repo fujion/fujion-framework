@@ -20,6 +20,7 @@
  */
 package org.fujion.webjar;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.fujion.core.WebUtil;
 import org.fujion.servlet.ETaggedResource;
@@ -27,7 +28,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.AbstractResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**

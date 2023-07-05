@@ -24,13 +24,12 @@ import com.udojava.jmx.wrapper.JMXBean;
 import com.udojava.jmx.wrapper.JMXBeanAttribute;
 import com.udojava.jmx.wrapper.JMXBeanOperation;
 import com.udojava.jmx.wrapper.JMXBeanOperation.IMPACT_TYPES;
+import jakarta.servlet.ServletContext;
 import org.fujion.common.StrUtil;
 import org.fujion.expression.ExpressionCache;
 import org.fujion.jmx.JMXConsole.IJMXConsolePlugin;
 import org.fujion.page.PageDefinitionCache;
 import org.springframework.web.context.ServletContextAware;
-
-import javax.servlet.ServletContext;
 
 /**
  * JMX console plugin for cache management.

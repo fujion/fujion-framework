@@ -26,7 +26,7 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class FujionServerTest extends MockWebTest {
     
@@ -34,7 +34,7 @@ public class FujionServerTest extends MockWebTest {
     public void testServer() throws Exception {
         InputStream result = server.request("web/fujion/test/test.fsp");
         List<String> data = IOUtils.readLines(result, "UTF-8");
-        assertTrue(data.get(0).equals("<head>"));
-        assertTrue(data.get(data.size() - 1).equals("</body>"));
+        assertEquals("<head>", data.get(0));
+        assertEquals("</body>", data.get(data.size() - 1));
     }
 }

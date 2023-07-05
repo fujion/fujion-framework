@@ -40,6 +40,7 @@ public class FujionTest extends MockTest {
         PageDefinition pagedef = getPageDefinition("web/fujion/test/test.fsp");
         PageElement pgele = pagedef.getRootElement().getChildren().iterator().next();
         Page page = ExecutionContext.getPage();
+        assertNotNull("Page should not be null", page);
         ComponentDefinition cmpdef = pgele.getDefinition();
         assertEquals("page", cmpdef.getTag());
         assertEquals(Page.class, cmpdef.getComponentClass());
@@ -100,7 +101,7 @@ public class FujionTest extends MockTest {
     
     private void checkNS(BaseComponent ref, String path, boolean notNull) {
         BaseComponent comp = ref.findByName(path);
-        assertTrue(notNull ? comp != null : comp == null);
+        assertEquals(notNull, comp != null);
     }
 
     private void checkLabel(BaseComponent parent, int childIndex, String expectedValue) {

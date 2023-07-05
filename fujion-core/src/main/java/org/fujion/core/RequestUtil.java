@@ -20,6 +20,9 @@
  */
 package org.fujion.core;
 
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.fujion.common.Assert;
 import org.fujion.common.Logger;
@@ -28,9 +31,6 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
 import java.net.InetAddress;
 import java.net.URL;

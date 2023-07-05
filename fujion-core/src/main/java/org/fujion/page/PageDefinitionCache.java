@@ -20,6 +20,7 @@
  */
 package org.fujion.page;
 
+import jakarta.servlet.ServletContext;
 import org.apache.commons.io.FilenameUtils;
 import org.fujion.common.AbstractCache;
 import org.fujion.common.Logger;
@@ -29,7 +30,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.web.context.ServletContextAware;
 
-import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedHashSet;

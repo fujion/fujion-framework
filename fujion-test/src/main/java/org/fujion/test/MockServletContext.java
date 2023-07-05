@@ -49,7 +49,7 @@ public class MockServletContext extends org.springframework.mock.web.MockServlet
     
     public MockServletContext() {
         super(new ResourceLoader());
-        this.setAttribute("javax.websocket.server.ServerContainer", new MockServerContainer());
+        this.setAttribute("jakarta.websocket.server.ServerContainer", new MockServerContainer());
     }
 
     @Override

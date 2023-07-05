@@ -20,11 +20,10 @@
  */
 package org.fujion.page;
 
+import jakarta.servlet.ServletContext;
 import org.fujion.common.MiscUtil;
 import org.springframework.web.context.ServletContextAware;
 import org.w3c.dom.ProcessingInstruction;
-
-import javax.servlet.ServletContext;
 
 /**
  * Parser for processing instructions that directly import a FSP.

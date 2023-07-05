@@ -24,6 +24,8 @@ import org.fujion.common.MiscUtil;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import java.io.Serial;
+
 /**
  * Subclass of DispatcherServlet. Prevents re-initialization if an exception occurred during initial
  * loading. It does this by caching the exception and re-throwing it if initialization is
@@ -31,6 +33,7 @@ import org.springframework.web.servlet.DispatcherServlet;
  */
 public class FujionServlet extends DispatcherServlet {
     
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final String ATTR_EXCEPTION = FujionServlet.class.getName() + ".EXCEPTION";

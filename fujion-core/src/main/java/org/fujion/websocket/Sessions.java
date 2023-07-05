@@ -20,6 +20,7 @@
  */
 package org.fujion.websocket;
 
+import jakarta.servlet.ServletContext;
 import org.fujion.common.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -29,7 +30,6 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
 
-import javax.servlet.ServletContext;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -98,8 +98,13 @@ public class MockEnvironment {
      * Cleans up all application contexts and invalidates the session.
      */
     public void close() {
-        session.destroy();
-        rootContext.close();
+        if (session != null) {
+            session.destroy();
+        }
+
+        if (rootContext != null) {
+            rootContext.close();
+        }
     }
 
     protected XmlWebApplicationContext createApplicationContext() {
