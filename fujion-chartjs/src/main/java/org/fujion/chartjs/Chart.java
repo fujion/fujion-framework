@@ -46,23 +46,23 @@ import org.fujion.component.BaseUIComponent;
         parentTag = "*",
         description = "Fujion wrapper for chart.js component.")
 public class Chart extends BaseUIComponent {
-    
-    private static final String[] DEFAULT_COLORS = new String[] { "#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9",
-            "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1" };
-    
+
+    private static final String[] DEFAULT_COLORS = new String[]{"#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9",
+            "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"};
+
     private boolean running;
-    
+
     private final CyclicIterator<String> colorIterator = new CyclicIterator<>(DEFAULT_COLORS);
-    
+
     private final ChartInstance instance = new ChartInstance();
 
-    private final String[] titles = new String[] { "", "" };
-    
+    private final String[] titles = new String[]{"", ""};
+
     public Chart() {
         super();
         instance.options.plugins.title.text$array = titles;
     }
-    
+
     /**
      * Removes all series and data points and destroys the client graph.
      */
@@ -71,7 +71,7 @@ public class Chart extends BaseUIComponent {
         colorIterator.reset();
         invoke("reset");
     }
-    
+
     /**
      * Build the graph on the client.
      */
@@ -79,7 +79,7 @@ public class Chart extends BaseUIComponent {
         invoke("run", instance);
         running = true;
     }
-    
+
     /**
      * Returns true if a chart is currently running on the client.
      *
@@ -88,7 +88,7 @@ public class Chart extends BaseUIComponent {
     public boolean isRunning() {
         return running;
     }
-    
+
     /**
      * Get the title text.
      *
@@ -98,7 +98,7 @@ public class Chart extends BaseUIComponent {
     public String getTitle() {
         return titles[0];
     }
-    
+
     /**
      * Set the title text.
      *
@@ -107,7 +107,7 @@ public class Chart extends BaseUIComponent {
     @PropertySetter(value = "title", description = "The title text.")
     public void setTitle(String title) {
         title = StringUtils.trimToEmpty(title);
-        
+
         if (propertyChange("title", titles[0], titles[0] = title, false)) {
             updateTitleVisibility();
         }
@@ -122,7 +122,7 @@ public class Chart extends BaseUIComponent {
     public String getSubtitle() {
         return titles[1];
     }
-    
+
     /**
      * Set the subtitle text.
      *
@@ -131,7 +131,7 @@ public class Chart extends BaseUIComponent {
     @PropertySetter(value = "subtitle", description = "The subtitle text.")
     public void setSubtitle(String subtitle) {
         subtitle = StringUtils.trimToEmpty(subtitle);
-        
+
         if (propertyChange("subtitle", titles[1], titles[1] = subtitle, false)) {
             updateTitleVisibility();
         }
@@ -143,7 +143,7 @@ public class Chart extends BaseUIComponent {
     private void updateTitleVisibility() {
         instance.options.plugins.title.display = !StringUtils.isEmpty(getTitle()) || !StringUtils.isEmpty(getSubtitle());
     }
-    
+
     /**
      * Returns the default plot type. Defaults to scatter.
      *
@@ -153,7 +153,7 @@ public class Chart extends BaseUIComponent {
     public PlotType getType() {
         return instance.type;
     }
-    
+
     /**
      * The default plot type. Defaults to scatter.
      *
@@ -163,7 +163,7 @@ public class Chart extends BaseUIComponent {
     public void setType(PlotType type) {
         propertyChange("type", instance.type, instance.type = defaultify(type, PlotType.LINE), false);
     }
-    
+
     /**
      * Adds a new series of the default type.
      *
@@ -172,7 +172,7 @@ public class Chart extends BaseUIComponent {
     public PlotOptions addSeries() {
         return addSeries(instance.type);
     }
-    
+
     /**
      * Adds a new series of the specified type.
      *
@@ -186,11 +186,11 @@ public class Chart extends BaseUIComponent {
         plot.backgroundColor = "transparent";
         return plot;
     }
-    
+
     /**
      * Adds a new series of the specified type.
      *
-     * @param <T> The plot implementation class.
+     * @param <T>       The plot implementation class.
      * @param plotClass The plot implementation class.
      * @return The new series.
      */
@@ -245,11 +245,7 @@ public class Chart extends BaseUIComponent {
      * @return An instance of the given axis type.
      */
     private <T extends BaseAxisOptions> T newAxis(Class<T> axisType) {
-        try {
-            return axisType.newInstance();
-        } catch (Exception e) {
-            throw MiscUtil.toUnchecked(e);
-        }
+        return MiscUtil.newInstance(axisType);
     }
 
     public void setLabels(String[] labels) {

@@ -54,12 +54,12 @@ public class ConvertUtil {
         ConvertUtils.register(dtc, Date.class);
         ConvertUtils.register(new JavaScriptConverter(), JavaScript.class);
     }
-    
+
     /**
      * Converts an input value to a target type.
      *
-     * @param <T> The target type.
-     * @param value The value to convert.
+     * @param <T>        The target type.
+     * @param value      The value to convert.
      * @param targetType The type to which to convert.
      * @return The converted value.
      */
@@ -70,11 +70,11 @@ public class ConvertUtil {
     /**
      * Converts an input value to a target type.
      *
-     * @param <T> The target type.
-     * @param value The value to convert.
+     * @param <T>        The target type.
+     * @param value      The value to convert.
      * @param targetType The type to which to convert.
-     * @param instance The object instance whose property value is to be set (necessary when the
-     *            target type is a component and the value is the component name or id).
+     * @param instance   The object instance whose property value is to be set (necessary when the
+     *                   target type is a component and the value is the component name or id).
      * @return The converted value.
      */
     @SuppressWarnings("unchecked")
@@ -105,7 +105,7 @@ public class ConvertUtil {
      * Converts the input value to an enumeration member. The input value must resolve to a string
      * which is then matched to an enumeration member by using a case-insensitive lookup.
      *
-     * @param value The value to convert.
+     * @param value    The value to convert.
      * @param enumType The enumeration type.
      * @return The enumeration member corresponding to the input value.
      */
@@ -127,23 +127,23 @@ public class ConvertUtil {
      * represents the name or id of the component sought. This name is resolved to a component
      * instance by looking it up in the namespace of the provided component instance.
      *
-     * @param value The value to convert.
+     * @param value         The value to convert.
      * @param componentType The component type.
-     * @param instance The component whose namespace will be used for lookup.
+     * @param instance      The component whose namespace will be used for lookup.
      * @return The component whose name matches the input value.
      */
     private static BaseComponent convertToComponent(Object value, Class<?> componentType, Object instance) {
         if (!(instance instanceof BaseComponent)) {
             StrUtil.formatMessage("The property owner is not of the expected type (was %s but expected %s)",
-                instance.getClass().getName(), BaseComponent.class.getName());
+                    instance.getClass().getName(), BaseComponent.class.getName());
         }
 
         String name = convert(value, String.class, instance);
-        
+
         if (name.trim().isEmpty()) {
             return null;
         }
-        
+
         BaseComponent container = (BaseComponent) instance;
         BaseComponent target = name.startsWith(Page.ID_PREFIX) ? container.getPage().findById(name)
                 : container.findByName(name);
@@ -158,21 +158,21 @@ public class ConvertUtil {
      * Converts an arbitrary value to an iterable type.
      *
      * @param value Value to convert. This may be any iterable, an array, a map (in which case the
-     *            map's entry set is used), a scalar value, or null.
+     *              map's entry set is used), a scalar value, or null.
      * @return The value as an iterable, or null if the value is null.
      */
     public static Iterable<?> convertToIterable(Object value) {
         return value == null ? null
                 : value instanceof Iterable ? (Iterable<?>) value
-                        : ObjectUtils.isArray(value) ? Arrays.asList(ObjectUtils.toObjectArray(value))
-                                : value instanceof Map ? ((Map<?, ?>) value).entrySet() : Collections.singletonList(value);
+                : ObjectUtils.isArray(value) ? Arrays.asList(ObjectUtils.toObjectArray(value))
+                : value instanceof Map ? ((Map<?, ?>) value).entrySet() : Collections.singletonList(value);
     }
-    
+
     /**
      * Converts an array of string values to a set. This effectively removes duplicate and empty
      * entries.
      *
-     * @param values Array of string values.
+     * @param values      Array of string values.
      * @param ignoreEmpty If true, empty elements are ignored.
      * @return Corresponding set of values.
      */
@@ -184,7 +184,7 @@ public class ConvertUtil {
                 set.add(value);
             }
         }
-        
+
         return set;
     }
 
@@ -192,10 +192,10 @@ public class ConvertUtil {
      * Invokes a method with the provided value(s), performing type conversion as necessary.
      *
      * @param instance Instance that is the target of the invocation (may be null for static
-     *            methods).
-     * @param method The method to invoke.
-     * @param args Arguments to be passed to the method (may be null if no arguments). Argument
-     *            values will be coerced to the expected type if possible.
+     *                 methods).
+     * @param method   The method to invoke.
+     * @param args     Arguments to be passed to the method (may be null if no arguments). Argument
+     *                 values will be coerced to the expected type if possible.
      * @return Return value of the method, if any.
      */
     public static Object invokeMethod(Object instance, Method method, Object... args) {
@@ -204,7 +204,7 @@ public class ConvertUtil {
             return method.invoke(instance, args);
         } catch (Exception e) {
             throw new ComponentException(e, "Exception invoking method \"%s\" on component \"%s\"", method.getName(),
-                instance.getClass().getName());
+                    instance.getClass().getName());
         }
     }
 
@@ -212,26 +212,22 @@ public class ConvertUtil {
      * Invokes a compatible constructor with the provided value(s), performing type conversion as
      * necessary.
      *
-     * @param <T> The expected return type.
+     * @param <T>   The expected return type.
      * @param clazz The class whose constructor is to be invoked.
-     * @param args Arguments to be passed to the constructor (may be null if no arguments). Argument
-     *            values will be coerced to the expected type if possible.
+     * @param args  Arguments to be passed to the constructor (may be null if no arguments). Argument
+     *              values will be coerced to the expected type if possible.
      * @return The newly created instance.
      */
     @SuppressWarnings("unchecked")
     public static <T> T invokeConstructor(Class<T> clazz, Object... args) {
         int arglen = args == null ? 0 : args.length;
-        
+
         if (arglen == 0) {
-            try {
-                return clazz.newInstance();
-            } catch (Exception e) {
-                throw MiscUtil.toUnchecked(e);
-            }
+            return MiscUtil.newInstance(clazz);
         }
-        
+
         RuntimeException lastException = null;
-        
+
         for (Constructor<?> ctor : clazz.getDeclaredConstructors()) {
             if (ctor.getParameterCount() == arglen) {
                 try {
@@ -246,12 +242,12 @@ public class ConvertUtil {
         Assert.notNull(lastException, () -> "No suitable constructor found for class " + clazz);
         throw lastException;
     }
-    
+
     private static Object[] convertArgs(Object instance, Class<?>[] parameterTypes, Object... args) {
         int arglen = args == null ? 0 : args.length;
-        
+
         Assert.isTrue(args.length == parameterTypes.length, () -> StrUtil.formatMessage("Incorrect number of arguments (provided %d but expected %d)", arglen,
-            parameterTypes.length));
+                parameterTypes.length));
 
         Object[] out = new Object[arglen];
 
@@ -261,14 +257,14 @@ public class ConvertUtil {
 
         return out;
     }
-    
+
     /**
      * Returns an attribute value from an XML element, coercing it to the requested type.
      *
-     * @param <T> The target type.
-     * @param element The XML element.
+     * @param <T>           The target type.
+     * @param element       The XML element.
      * @param attributeName The attribute name.
-     * @param targetType The target type.
+     * @param targetType    The target type.
      * @return The attribute value, coerced to the requested type.
      */
     public static <T> T getAttributeAs(Element element, String attributeName, Class<T> targetType) {
@@ -278,10 +274,10 @@ public class ConvertUtil {
     /**
      * Returns an attribute value from a map, coercing it to the requested type.
      *
-     * @param <T> The target type.
-     * @param map The map.
+     * @param <T>           The target type.
+     * @param map           The map.
      * @param attributeName The attribute name.
-     * @param targetType The target type.
+     * @param targetType    The target type.
      * @return The attribute value, coerced to the requested type.
      */
     public static <T> T getAttributeAs(Map<?, ?> map, String attributeName, Class<T> targetType) {

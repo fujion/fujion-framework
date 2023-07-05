@@ -66,7 +66,7 @@ public class MiscUtil {
     /**
      * Throws an exception, converting it to unchecked as necessary.  Can be used as a function or method.
      *
-     * @param e The original exception.  If null, no exception is thrown.
+     * @param e   The original exception.  If null, no exception is thrown.
      * @param <T> Arbitrary return type.
      * @return Never returns a value.
      */
@@ -94,7 +94,7 @@ public class MiscUtil {
      * This is the equivalent of optional chaining.
      *
      * @param supplier The supplier of the value.
-     * @param <T> The type of the value.
+     * @param <T>      The type of the value.
      * @return The returned value, possibly null.
      */
     public static <T> T asNull(Supplier<T> supplier) {
@@ -105,9 +105,9 @@ public class MiscUtil {
      * If the supplier produces a null pointer or index-out-of-bounds exception, returns the default value.
      * This is the equivalent of optional chaining.
      *
-     * @param deflt The default value to use.
+     * @param deflt    The default value to use.
      * @param supplier The supplier of the value.
-     * @param <T> The type of the value.
+     * @param <T>      The type of the value.
      * @return The returned value, possibly null.
      */
     public static <T> T withDefault(T deflt, Supplier<T> supplier) {
@@ -132,7 +132,7 @@ public class MiscUtil {
         for (int i = 0; i < len; i++) {
             parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
         }
-        
+
         return parameterTypes;
     }
 
@@ -140,8 +140,8 @@ public class MiscUtil {
      * Casts a value to the specified type, returning null if the cast is not possible.
      *
      * @param value The value to cast.
-     * @param type The type to cast to.
-     * @param <T> The type to cast to.
+     * @param type  The type to cast to.
+     * @param <T>   The type to cast to.
      * @return The original value, cast to the specified type, or null if the cast is not possible.
      */
     public static <T> T castTo(Object value, Class<T> type) {
@@ -152,7 +152,7 @@ public class MiscUtil {
      * Returns the first class from a list of candidate classes that is assignable from the specified
      * type.
      *
-     * @param type The type.
+     * @param type       The type.
      * @param candidates A list of candidate types.
      * @return The first class that is assignable from the specified type.
      */
@@ -164,7 +164,7 @@ public class MiscUtil {
      * Returns the first class in a collection of candidate classes that is assignable from the specified
      * type.
      *
-     * @param type The type.
+     * @param type       The type.
      * @param candidates A collection of candidate types.
      * @return The first class that is assignable from the specified type.
      */
@@ -188,11 +188,11 @@ public class MiscUtil {
         int firstIndexInClass = -1;
         char[] arr = glob.toCharArray();
         int last = arr.length - 1;
-        
+
         for (int i = 0; i <= last; i++) {
             char ch = arr[i];
             switch (ch) {
-                case '\\':
+                case '\\' -> {
                     if (++i >= arr.length) {
                         sb.append('\\');
                     } else {
@@ -210,9 +210,8 @@ public class MiscUtil {
                         }
                         sb.append(next);
                     }
-                    break;
-
-                case '*':
+                }
+                case '*' -> {
                     if (inClass != 0) {
                         sb.append('*');
                     } else if (i < last && arr[i + 1] == '*') {
@@ -221,74 +220,71 @@ public class MiscUtil {
                     } else {
                         sb.append("([^\\\\/]*)");
                     }
-                    break;
-
-                case '?':
+                }
+                case '?' -> {
                     if (inClass != 0) {
                         sb.append('?');
                     } else {
                         sb.append("(.)");
                     }
-                    break;
-
-                case '[':
+                }
+                case '[' -> {
                     inClass++;
                     firstIndexInClass = i + 1;
                     sb.append('[');
-                    break;
-
-                case ']':
+                }
+                case ']' -> {
                     inClass--;
                     sb.append(']');
-                    break;
-
-                case '.':
-                case '(':
-                case ')':
-                case '+':
-                case '|':
-                case '^':
-                case '$':
-                case '@':
-                case '%':
+                }
+                case '.', '(', ')', '+', '|', '^', '$', '@', '%' -> {
                     if (inClass == 0 || (firstIndexInClass == i && ch == '^')) {
                         sb.append('\\');
                     }
                     sb.append(ch);
-                    break;
-
-                case '!':
+                }
+                case '!' -> {
                     if (firstIndexInClass == i) {
                         sb.append('^');
                     } else {
                         sb.append('!');
                     }
-                    break;
-
-                case '{':
+                }
+                case '{' -> {
                     inGroup++;
                     sb.append('(');
-                    break;
-
-                case '}':
+                }
+                case '}' -> {
                     inGroup--;
                     sb.append(')');
-                    break;
-
-                case ',':
+                }
+                case ',' -> {
                     if (inGroup > 0) {
                         sb.append('|');
                     } else {
                         sb.append(',');
                     }
-                    break;
-
-                default:
-                    sb.append(ch);
+                }
+                default -> sb.append(ch);
             }
         }
 
         return Pattern.compile(sb.append('$').toString());
+    }
+
+    /**
+     * Creates a new instance of a class using its no-arg constructor.
+     *
+     * @param type The type to be instantiated.
+     * @param <T>  The type to be instantiated.
+     * @return An instance of the specified type.
+     */
+    public static <T> T newInstance(Class<T> type) {
+        try {
+            return type.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw toUnchecked(e);
+        }
     }
 
     /**

@@ -34,23 +34,19 @@ import org.fujion.model.ModelAndView;
  * @param <P> The type of child picker item component.
  */
 public abstract class BasePickerComponent<T, P extends BasePickerItem<T>> extends BaseInputboxComponent<T> implements ISupportsModel<P> {
-    
+
     private final ModelAndView<P, Object> modelAndView = new ModelAndView<>(this);
-    
+
     private boolean showText;
-    
+
     private boolean showHints;
-    
+
     private final P converter;
-    
+
     protected BasePickerComponent(Class<P> itemClass) {
-        try {
-            converter = itemClass.newInstance();
-        } catch (Exception e) {
-            throw MiscUtil.toUnchecked(e);
-        }
+        converter = MiscUtil.newInstance(itemClass);
     }
-    
+
     /**
      * Returns showText property.
      *
@@ -60,7 +56,7 @@ public abstract class BasePickerComponent<T, P extends BasePickerItem<T>> extend
     public boolean getShowText() {
         return showText;
     }
-    
+
     /**
      * Sets showText property.
      *
@@ -70,42 +66,42 @@ public abstract class BasePickerComponent<T, P extends BasePickerItem<T>> extend
     public void setShowText(boolean showText) {
         propertyChange("showText", this.showText, this.showText = showText, true);
     }
-    
+
     /**
      * Returns the showHints property.
      *
      * @return If true, the text representation of pick list items is displayed when hovering over
-     *         them.
+     * them.
      */
     @PropertyGetter(value = "showHints", description = "If true, the text representation of pick list items is displayed when hovering over them.")
     public boolean getShowHints() {
         return showHints;
     }
-    
+
     /**
      * Sets the showHints property.
      *
      * @param showHints If true, the text representation of pick list items is displayed when
-     *            hovering over them.
+     *                  hovering over them.
      */
     @PropertySetter(value = "showHints", defaultValue = "false", description = "If true, the text representation of pick list items is displayed when hovering over them.")
     public void setShowHints(boolean showHints) {
         propertyChange("showHints", this.showHints, this.showHints = showHints, true);
     }
-    
+
     @Override
     protected T _toValue(String text) {
         return converter._toValue(text);
     }
-    
+
     @Override
     protected String _toString(T value) {
         return converter._toString(value);
     }
-    
+
     @Override
     public IModelAndView<P, ?> getModelAndView() {
         return modelAndView;
     }
-    
+
 }

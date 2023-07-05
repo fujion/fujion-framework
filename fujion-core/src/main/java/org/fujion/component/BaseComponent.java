@@ -1031,7 +1031,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @param name The attribute name.
      * @param type The return type for the attribute value.
      * @return The value of the named attribute, or null if the existing value cannot be converted
-     *         to the specified type.
+     * to the specified type.
      */
     public <T> T getAttribute(
             String name,
@@ -1890,7 +1890,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * Find the first child whose label matches the specified value. This will only examine children
      * that implement the ILabeled interface.
      *
-     * @param label The label to find.
+     * @param label         The label to find.
      * @param caseSensitive If true, comparison is case-sensitive.
      * @return The first child whose label matches, or null if none found.
      */
@@ -2422,11 +2422,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         }
 
         if (controller instanceof Class) {
-            try {
-                controller = ((Class<?>) controller).newInstance();
-            } catch (Exception e) {
-                throw MiscUtil.toUnchecked(e);
-            }
+            controller = MiscUtil.newInstance((Class<?>) controller);
         }
 
         setAttribute(ATTR_CONTROLLER, controller);

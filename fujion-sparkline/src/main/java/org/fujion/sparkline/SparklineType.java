@@ -31,7 +31,7 @@ public enum SparklineType {
             BulletPlot.class), PIE(PiePlot.class), BOX(BoxPlot.class);
 
     private final Class<? extends AbstractPlot> optionClass;
-    
+
     public static SparklineType fromClass(Class<? extends AbstractPlot> clazz) {
         return SparklineType.valueOf(StringUtils.removeEnd(clazz.getSimpleName().toUpperCase(), "PLOT"));
     }
@@ -39,13 +39,9 @@ public enum SparklineType {
     SparklineType(Class<? extends AbstractPlot> optionClass) {
         this.optionClass = optionClass;
     }
-    
+
     public AbstractPlot createPlot() {
-        try {
-            return optionClass.newInstance();
-        } catch (Exception e) {
-            throw MiscUtil.toUnchecked(e);
-        }
+        return MiscUtil.newInstance(optionClass);
     }
 
     @Override

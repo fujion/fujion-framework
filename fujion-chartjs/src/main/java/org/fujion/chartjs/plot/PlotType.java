@@ -66,13 +66,9 @@ public enum PlotType {
      * @return New plot instance.
      */
     public PlotOptions newInstance() {
-        try {
-            PlotOptions plotOptions = plotClass.newInstance();
-            plotOptions.type = this;
-            return plotOptions;
-        } catch (Exception e) {
-            throw MiscUtil.toUnchecked(e);
-        }
+        PlotOptions plotOptions = MiscUtil.newInstance(plotClass);
+        plotOptions.type = this;
+        return plotOptions;
     }
 
     @Override

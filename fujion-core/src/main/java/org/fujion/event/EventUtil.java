@@ -298,7 +298,7 @@ public class EventUtil {
             }
 
             if (target == null && data == null) {
-                return eventClass.newInstance();
+                return MiscUtil.newInstance(eventClass);
             }
             
             Constructor<?> ctor = ConstructorUtils.getMatchingAccessibleConstructor(eventClass, CTOR_PARAM_TYPES);
@@ -320,11 +320,11 @@ public class EventUtil {
     private static Event toEvent(Class<?> clazz, ClientRequest request) {
         try {
             if (Event.class.isAssignableFrom(clazz)) {
-                Event event = (Event) clazz.newInstance();
+                Event event = (Event) MiscUtil.newInstance(clazz);
                 EventParameterScanner.wire(event, request);
                 return event;
             }
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (Exception e) {
             return toEvent(clazz.getSuperclass(), request);
         }
 

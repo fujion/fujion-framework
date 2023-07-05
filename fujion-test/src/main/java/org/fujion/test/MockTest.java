@@ -74,7 +74,7 @@ public class MockTest {
         if (mockEnvironment == null) {
             try {
                 System.out.println("Initializing mock environment...");
-                mockEnvironment = mockEnvironmentClass.newInstance();
+                mockEnvironment = MiscUtil.newInstance(mockEnvironmentClass);
                 mockEnvironment.init(rootConfig, childConfig);
             } catch (Exception e) {
                 throw MiscUtil.toUnchecked(e);
