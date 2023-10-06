@@ -51,7 +51,7 @@ public class ClientInvocation {
      *
      * @param function A fully qualified path to a free-standing function. This may be one of the
      *            following formats:
-     *            <table style="padding-left:20px" summary="">
+     *            <table style="padding-left:20px">
      *            <tr>
      *            <td style="text-align:center"><b>[key]^[function name]</b></td>
      *            <td>- The key and the function name are explicitly declared.</td>
@@ -80,7 +80,7 @@ public class ClientInvocation {
      *            free-standing function.
      * @param function The name of the function to be invoked. This may be one of the following
      *            formats:
-     *            <table style="padding-left:20px" summary="">
+     *            <table style="padding-left:20px">
      *            <tr>
      *            <td style="text-align:center"><b>[key]^[function name]</b></td>
      *            <td>- The key and the function name are explicitly declared.</td>
@@ -114,7 +114,7 @@ public class ClientInvocation {
      *            free-standing function.
      * @param function The name of the exported function to be invoked. This may be one of the
      *            following formats:
-     *            <table style="padding-left:20px" summary="">
+     *            <table style="padding-left:20px">
      *            <tr>
      *            <td style="text-align:center"><b>[key]^[function name]</b></td>
      *            <td>- The key and the function name are explicitly declared.</td>
