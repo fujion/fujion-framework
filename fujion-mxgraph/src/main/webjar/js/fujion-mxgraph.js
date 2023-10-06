@@ -78,7 +78,7 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 		},
 		
 		_getCell: function(id) {
-			if (_.isNil(id)) {
+			if (id == null) {
 				return null;
 			}
 

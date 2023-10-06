@@ -87,7 +87,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], fujio
 		
 		s_sizable: function(v) {
 			const active = !!this.widget$.resizable('instance');
-			const newactive = !_.isNil(v);
+			const newactive = v != null;
 			
 			if (active !== newactive) {
 				newactive ? this.widget$.resizable({handles: 'e'}) : this.widget$.resizable('destroy');

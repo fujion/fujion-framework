@@ -120,7 +120,7 @@ define('fujion-widget', [
 			}
 
 			child._parent ? child._parent.removeChild(child) : null;
-			index = _.isNil(index) || index >= this._children.length ? -1 : index;
+			index = index == null || index >= this._children.length ? -1 : index;
 			child._parent = this;
 			child._attach(index);
 			index < 0 ? this._children.push(child) : this._children.splice(index, 0, child);
@@ -273,7 +273,7 @@ define('fujion-widget', [
 		 * @param {number} [index] Position of the widget relative to its siblings.
 		 */
 		_attach: function(index) {
-			const ref = _.isNil(index) || index < 0 ? null : this._parent._children[index];
+			const ref = index == null || index < 0 ? null : this._parent._children[index];
 			this._attachWidgetAt(this.widget$, this._parent.anchor$(this.widget$), fujion.$(ref));
 			this._attachAncillaries();
 		},
@@ -678,7 +678,7 @@ define('fujion-widget', [
 
 				const tmpl = fujion.widget._domTemplates[key];
 
-				if (!_.isNil(tmpl)) {
+				if (tmpl != null) {
 					result += tmpl;
 				}
 			}
@@ -725,7 +725,7 @@ define('fujion-widget', [
 		 */
 		hasState: function(key) {
 			const value = this._state[key];
-			return !_.isNil(value) && value !== '';
+			return value != null && value !== '';
 		},
 
 		/**
@@ -1085,7 +1085,7 @@ define('fujion-widget', [
 			function _toggle(cls) {
 				const i = _clazz.indexOf(cls);
 				const exists = i !== -1;
-				const remove = _.isNil(add) ? exists : !add;
+				const remove = add == null ? exists : !add;
 
 				if (exists === remove) {
 					w$ ? w$.toggleClass(cls, !remove) : null;
@@ -1150,7 +1150,7 @@ define('fujion-widget', [
 		s_dragid: function(v) {
 			const self = this;
 			const active = !!this.widget$.draggable('instance');
-			const newactive = !_.isNil(v);
+			const newactive = v != null;
 			this._dragids = newactive ? fujion.stringToSet(v, ' ') : null;
 
 			if (newactive !== active) {
@@ -1190,7 +1190,7 @@ define('fujion-widget', [
 		s_dropid: function(v) {
 			const self = this;
 			const active = !!this.widget$.droppable('instance');
-			const newactive = !_.isNil(v);
+			const newactive = v != null;
 			this._dropids = newactive ? fujion.stringToSet(v, ' ') : null;
 
 			if (newactive !== active) {
@@ -3981,7 +3981,7 @@ define('fujion-widget', [
 
 			if (!icons) {
 				newState = 0;
-			} else if (_.isNil(newState)) {
+			} else if (newState == null) {
 				newState = oldState;
 			} else if (newState !== oldState) {
 				btn.data('state', newState).removeClass('fa-' + icons[oldState]).addClass('fa-' + icons[newState]);

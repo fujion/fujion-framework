@@ -70,7 +70,7 @@ define('fujion-gmaps', [
 		},
 		
 		triggerMapEvent: function(event, data, ignoreNil) {
-			if (!this._rendering && !(ignoreNil && _.isNil(data))) {
+			if (!this._rendering && !(ignoreNil && data == null)) {
 				data = data && data.toJSON ? data.toJSON() : data;
 				this.trigger('gmap_' + event, {value: data});
 			}

@@ -50,7 +50,7 @@ define('fujion-captcha', [
 
 			const key = this.getState('siteKey');
 			
-			_.isNil(key) ? null : grecaptcha.render(this.widget$[0], {
+			key == null ? null : grecaptcha.render(this.widget$[0], {
 				theme: this.getState('theme').toLowerCase(),
 				size: this.getState('size').toLowerCase(),
 				type: this.getState('type').toLowerCase(),

@@ -160,7 +160,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
                 }
 
                 function _transform(value, key, object) {
-                    if (_.isNil(value)) {
+                    if (value == null) {
                         object[key] = null;
                     } else if (value.__fujion__) {
                         object[key] = _customTransform(value.__fujion__);
@@ -176,7 +176,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
                         throw new Error('Unknown argument type: ' + value.tp);
                     }
 
-                    return _.isNil(value.vl) ? null : tx(value.vl);
+                    return value.vl == null ? null : tx(value.vl);
                 }
             }
         },
@@ -260,11 +260,11 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
             },
 
             fujion$attr: function (name, value) {
-                return _.isNil(value) || value === '' ? this.removeAttr(name) : this.attr(name, value);
+                return value == null || value === '' ? this.removeAttr(name) : this.attr(name, value);
             },
 
             fujion$prop: function (name, value) {
-                return _.isNil(value) || value === '' ? this.removeProp(name) : this.prop(name, value);
+                return value == null || value === '' ? this.removeProp(name) : this.prop(name, value);
             },
 
             fujion$show: function (visible) {
@@ -589,7 +589,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
             },
 
             find: function (id) {
-                return _.isNil(id) ? null : this._registry[id];
+                return id == null ? null : this._registry[id];
             },
 
             isWidget: function (object) {
@@ -666,7 +666,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
          * Returns the jquery object associated with the object.
          */
         $: function (object) {
-            return _.isNil(object) ? null
+            return object == null ? null
                 : object.jquery ? object
                     : fujion.widget.isWidget(object) ? object.widget$
                         : $(object);
@@ -676,7 +676,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
          * Returns the widget associated with the object.
          */
         wgt: function (object) {
-            return _.isNil(object) ? null
+            return object == null ? null
                 : fujion.widget.isWidget(object) ? object
                     : this.$(object).fujion$widget();
         },
@@ -685,7 +685,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
          * Returns the id associated with the object.
          */
         id: function (object) {
-            return _.isNil(object) ? null
+            return object == null ? null
                 : object.jquery ? object.attr('id')
                     : object.id;
         },
@@ -694,7 +694,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
          * Returns the DOM element associated with the object.
          */
         ele: function (object) {
-            return _.isNil(object) ? null
+            return object == null ? null
                 : _.isElement(object) ? object
                     : fujion.$(object).get(0);
         },
@@ -881,7 +881,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
             maxdepth = maxdepth ? maxdepth : 0;
 
             _.forIn(source, function (value, key) {
-                if (!_.isNil(value) && !_.isFunction(value)) {
+                if (value != null && !_.isFunction(value)) {
                     key = _.isArray(source) ? '[' + key + ']' : key;
                     key = prefix ? (prefix + _.upperFirst(key)) : key;
 

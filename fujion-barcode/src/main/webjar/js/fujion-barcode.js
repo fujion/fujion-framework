@@ -33,7 +33,7 @@ define('fujion-barcode', [
 			this._super();
 			const value = this.getState('value');
 			
-			if (_.isNil(value)) {
+			if (value == null) {
 				return;
 			}
 			

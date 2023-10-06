@@ -60,7 +60,7 @@ define('fujion-codemirror', [
 		},
 		
 		setOption: function(name, value) {
-			_.isNil(value) ? delete this._options[name] : this._options[name] = value;
+			value == null ? delete this._options[name] : this._options[name] = value;
 			this._cm ? this._cm.setOption(name, value) : null;
 		},
 		
