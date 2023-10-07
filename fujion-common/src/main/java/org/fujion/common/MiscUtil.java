@@ -23,6 +23,7 @@ package org.fujion.common;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -281,7 +282,9 @@ public class MiscUtil {
      */
     public static <T> T newInstance(Class<T> type) {
         try {
-            return type.getDeclaredConstructor().newInstance();
+            Constructor<T> ctor = type.getDeclaredConstructor();
+            ctor.setAccessible(true);
+            return ctor.newInstance();
         } catch (Exception e) {
             throw toUnchecked(e);
         }
