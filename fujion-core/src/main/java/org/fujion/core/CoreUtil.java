@@ -41,7 +41,7 @@ public class CoreUtil {
      * Returns the resource classpath for the specified class.
      *
      * @param clazz Class to evaluate
-     * @param up Number of path levels to remove
+     * @param up    Number of path levels to remove
      * @return String representing resource path
      */
     public static String getResourceClassPath(Class<?> clazz, int up) {
@@ -62,7 +62,7 @@ public class CoreUtil {
      * Returns the resource classpath for the specified package.
      *
      * @param pkg Package to evaluate
-     * @param up Number of path levels to remove
+     * @param up  Number of path levels to remove
      * @return String representing resource path
      */
     public static String getResourceClassPath(Package pkg, int up) {
@@ -83,7 +83,7 @@ public class CoreUtil {
      * Returns the resource classpath for the package name.
      *
      * @param name Package name
-     * @param up Number of path levels to remove
+     * @param up   Number of path levels to remove
      * @return String representing resource path
      */
     public static String getResourceClassPath(String name, int up) {

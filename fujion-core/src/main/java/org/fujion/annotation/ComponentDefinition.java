@@ -20,12 +20,16 @@
  */
 package org.fujion.annotation;
 
-import org.apache.commons.beanutils.ConstructorUtils;
-import org.fujion.ancillary.*;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.fujion.ancillary.ComponentException;
+import org.fujion.ancillary.ComponentFactory;
+import org.fujion.ancillary.DeferredInvocation;
+import org.fujion.ancillary.QualifiedName;
 import org.fujion.annotation.Component.*;
 import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
+import org.fujion.core.BeanUtil;
 import org.fujion.model.IBinding;
 import org.fujion.model.IBinding.IReadBinding;
 import org.fujion.model.IBinding.IWriteBinding;
@@ -222,7 +226,7 @@ public class ComponentDefinition {
             return new DeferredInvocation<>(instance, setter, args);
         }
 
-        ConvertUtil.invokeMethod(instance, setter, args);
+        BeanUtil.invokeMethod(instance, setter, args);
         return null;
     }
     

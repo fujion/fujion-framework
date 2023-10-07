@@ -1,58 +1,40 @@
-/*
- * #%L
- * fujion
- * %%
- * Copyright (C) 2021 Fujion Framework
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * #L%
- */
-package org.fujion.ancillary;
+package org.fujion.convert;
 
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.converters.DateConverter;
 import org.fujion.common.Assert;
-import org.fujion.common.DateUtil.Format;
-import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.component.Page;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.util.ObjectUtils;
 import org.w3c.dom.Element;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * Utility methods for interconverting data types.
+ * Handles type conversions.  Encapsulates Spring's default conversion service and default converters.  This is a
+ * singleton instance.
  */
-public class ConvertUtil {
+public class ConversionService {
 
-    static {
-        DateConverter dtc = new DateConverter();
-        String[] patterns = new String[Format.values().length];
-        int i = 0;
+    private static final ConversionService instance = new ConversionService();
 
-        for (Format format : Format.values()) {
-            patterns[i++] = format.getPattern();
-        }
+    public static ConversionService getInstance() {
+        return instance;
+    }
 
-        dtc.setUseLocaleFormat(true);
-        dtc.setPatterns(patterns);
-        ConvertUtils.register(dtc, Date.class);
-        ConvertUtils.register(new JavaScriptConverter(), JavaScript.class);
+    private final DefaultConversionService service = (DefaultConversionService) DefaultConversionService.getSharedInstance();
+
+    /**
+     * Registers additional converters.
+     */
+    private ConversionService() {
+        registerConverter(new Converters.JavaScriptConverter());
+        registerConverter(new Converters.StringToClassConverter());
+        registerConverter(new Converters.ObjectToStringConverter());
+    }
+
+    public <T, S> void registerConverter(TypedConverter<T, S> converter) {
+        service.addConverter(converter.getSourceType(), converter.getTargetType(), converter);
     }
 
     /**
@@ -63,7 +45,7 @@ public class ConvertUtil {
      * @param targetType The type to which to convert.
      * @return The converted value.
      */
-    public static <T> T convert(Object value, Class<T> targetType) {
+    public <T> T convert(Object value, Class<T> targetType) {
         return convert(value, targetType, null);
     }
 
@@ -78,7 +60,7 @@ public class ConvertUtil {
      * @return The converted value.
      */
     @SuppressWarnings("unchecked")
-    public static <T> T convert(Object value, Class<T> targetType, Object instance) {
+    public <T> T convert(Object value, Class<T> targetType, Object instance) {
         if (value == null || targetType == null || targetType.isInstance(value)) {
             return (T) value;
         }
@@ -91,14 +73,7 @@ public class ConvertUtil {
             return (T) convertToComponent(value, targetType, instance);
         }
 
-        if (targetType == Boolean.class || targetType == boolean.class) {
-            String val = value.toString().trim().toLowerCase();
-            Boolean result = "true".equals(val) ? Boolean.TRUE : "false".equals(val) ? Boolean.FALSE : null;
-            Assert.notNull(result, "Not a valid Boolean value: %s", value);
-            return (T) result;
-        }
-
-        return (T) ConvertUtils.convert(value, targetType);
+        return service.convert(value, targetType);
     }
 
     /**
@@ -109,7 +84,7 @@ public class ConvertUtil {
      * @param enumType The enumeration type.
      * @return The enumeration member corresponding to the input value.
      */
-    private static Object convertToEnum(Object value, Class<?> enumType) {
+    private Object convertToEnum(Object value, Class<?> enumType) {
         String val = convert(value, String.class, null);
 
         for (Object e : enumType.getEnumConstants()) {
@@ -132,9 +107,9 @@ public class ConvertUtil {
      * @param instance      The component whose namespace will be used for lookup.
      * @return The component whose name matches the input value.
      */
-    private static BaseComponent convertToComponent(Object value, Class<?> componentType, Object instance) {
+    private BaseComponent convertToComponent(Object value, Class<?> componentType, Object instance) {
         if (!(instance instanceof BaseComponent)) {
-            StrUtil.formatMessage("The property owner is not of the expected type (was %s but expected %s)",
+            Assert.fail("The property owner is not of the expected type (was %s but expected %s)",
                     instance.getClass().getName(), BaseComponent.class.getName());
         }
 
@@ -161,7 +136,7 @@ public class ConvertUtil {
      *              map's entry set is used), a scalar value, or null.
      * @return The value as an iterable, or null if the value is null.
      */
-    public static Iterable<?> convertToIterable(Object value) {
+    public Iterable<?> convertToIterable(Object value) {
         return value == null ? null
                 : value instanceof Iterable ? (Iterable<?>) value
                 : ObjectUtils.isArray(value) ? Arrays.asList(ObjectUtils.toObjectArray(value))
@@ -176,7 +151,7 @@ public class ConvertUtil {
      * @param ignoreEmpty If true, empty elements are ignored.
      * @return Corresponding set of values.
      */
-    public static Set<String> convertToSet(String[] values, boolean ignoreEmpty) {
+    public Set<String> convertToSet(String[] values, boolean ignoreEmpty) {
         Set<String> set = new HashSet<>();
 
         for (String value : values) {
@@ -188,65 +163,10 @@ public class ConvertUtil {
         return set;
     }
 
-    /**
-     * Invokes a method with the provided value(s), performing type conversion as necessary.
-     *
-     * @param instance Instance that is the target of the invocation (may be null for static
-     *                 methods).
-     * @param method   The method to invoke.
-     * @param args     Arguments to be passed to the method (may be null if no arguments). Argument
-     *                 values will be coerced to the expected type if possible.
-     * @return Return value of the method, if any.
-     */
-    public static Object invokeMethod(Object instance, Method method, Object... args) {
-        try {
-            args = convertArgs(instance, method.getParameterTypes(), args);
-            return method.invoke(instance, args);
-        } catch (Exception e) {
-            throw new ComponentException(e, "Exception invoking method \"%s\" on component \"%s\"", method.getName(),
-                    instance.getClass().getName());
-        }
-    }
-
-    /**
-     * Invokes a compatible constructor with the provided value(s), performing type conversion as
-     * necessary.
-     *
-     * @param <T>   The expected return type.
-     * @param clazz The class whose constructor is to be invoked.
-     * @param args  Arguments to be passed to the constructor (may be null if no arguments). Argument
-     *              values will be coerced to the expected type if possible.
-     * @return The newly created instance.
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> T invokeConstructor(Class<T> clazz, Object... args) {
+    public Object[] convertArgs(Object instance, Class<?>[] parameterTypes, Object... args) {
         int arglen = args == null ? 0 : args.length;
 
-        if (arglen == 0) {
-            return MiscUtil.newInstance(clazz);
-        }
-
-        RuntimeException lastException = null;
-
-        for (Constructor<?> ctor : clazz.getDeclaredConstructors()) {
-            if (ctor.getParameterCount() == arglen) {
-                try {
-                    Object[] newArgs = convertArgs(null, ctor.getParameterTypes(), args);
-                    return (T) ctor.newInstance(newArgs);
-                } catch (Exception e) {
-                    lastException = MiscUtil.toUnchecked(e);
-                }
-            }
-        }
-
-        Assert.notNull(lastException, () -> "No suitable constructor found for class " + clazz);
-        throw lastException;
-    }
-
-    private static Object[] convertArgs(Object instance, Class<?>[] parameterTypes, Object... args) {
-        int arglen = args == null ? 0 : args.length;
-
-        Assert.isTrue(args.length == parameterTypes.length, () -> StrUtil.formatMessage("Incorrect number of arguments (provided %d but expected %d)", arglen,
+        Assert.isTrue(arglen == parameterTypes.length, () -> StrUtil.formatMessage("Incorrect number of arguments (provided %d but expected %d)", arglen,
                 parameterTypes.length));
 
         Object[] out = new Object[arglen];
@@ -267,7 +187,7 @@ public class ConvertUtil {
      * @param targetType    The target type.
      * @return The attribute value, coerced to the requested type.
      */
-    public static <T> T getAttributeAs(Element element, String attributeName, Class<T> targetType) {
+    public <T> T getAttributeAs(Element element, String attributeName, Class<T> targetType) {
         return convert(element.getAttribute(attributeName), targetType);
     }
 
@@ -280,10 +200,8 @@ public class ConvertUtil {
      * @param targetType    The target type.
      * @return The attribute value, coerced to the requested type.
      */
-    public static <T> T getAttributeAs(Map<?, ?> map, String attributeName, Class<T> targetType) {
+    public <T> T getAttributeAs(Map<?, ?> map, String attributeName, Class<T> targetType) {
         return convert(map.get(attributeName), targetType);
     }
 
-    private ConvertUtil() {
-    }
 }

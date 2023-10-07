@@ -36,6 +36,7 @@ import org.fujion.client.ClientUtil;
 import org.fujion.client.ExecutionContext;
 import org.fujion.common.*;
 import org.fujion.component.BaseScriptComponent.ExecutionMode;
+import org.fujion.convert.ConversionService;
 import org.fujion.event.*;
 import org.fujion.model.IBinding;
 
@@ -1037,7 +1038,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             String name,
             Class<T> type) {
         try {
-            return ConvertUtil.convert(attributes.get(name), type, this);
+            return ConversionService.getInstance().convert(attributes.get(name), type, this);
         } catch (Exception e) {
             return null;
         }
@@ -2620,7 +2621,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         try {
             Field field = FieldUtils.getField(this.getClass(), state, true);
             Object oldValue = field.get(this);
-            Object newValue = ConvertUtil.convert(event.getValue(), field.getType(), this);
+            Object newValue = ConversionService.getInstance().convert(event.getValue(), field.getType(), this);
             field.set(this, newValue);
             propertyChange(state, oldValue, newValue, false);
         } catch (Exception e) {

@@ -25,6 +25,7 @@ import org.fujion.annotation.ComponentDefinition;
 import org.fujion.annotation.ComponentScanner;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.*;
+import org.fujion.convert.ConversionService;
 import org.fujion.core.CoreUtil;
 import org.fujion.core.test.TestBinder.TestModel;
 import org.fujion.event.KeyCode;
@@ -133,14 +134,14 @@ public class Tests {
 
     @Test
     public void conversionTests() {
-        assertEquals("true", ConvertUtil.convert(true, String.class));
-        assertEquals(Boolean.TRUE, ConvertUtil.convert("true", Boolean.class));
-        assertEquals(TestEnum.TEST1, ConvertUtil.convert("test1", TestEnum.class));
-        assertEquals("TEST2", ConvertUtil.convert(TestEnum.TEST2, String.class));
+        assertEquals("true", ConversionService.getInstance().convert(true, String.class));
+        assertEquals(Boolean.TRUE, ConversionService.getInstance().convert("true", Boolean.class));
+        assertEquals(TestEnum.TEST1, ConversionService.getInstance().convert("test1", TestEnum.class));
+        assertEquals("TEST2", ConversionService.getInstance().convert(TestEnum.TEST2, String.class));
 
-        assertEquals("function() {var x=1}", ConvertUtil.convert("var x=1", JavaScript.class).toString());
+        assertEquals("function() {var x=1}", ConversionService.getInstance().convert("var x=1", JavaScript.class).toString());
         assertEquals("function() {var x=1}",
-            ConvertUtil.convert("function() {var x=1}", JavaScript.class).toString());
+            ConversionService.getInstance().convert("function() {var x=1}", JavaScript.class).toString());
     }
     
     @Test

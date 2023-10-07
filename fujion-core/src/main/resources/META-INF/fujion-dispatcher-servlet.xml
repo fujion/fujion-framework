@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	xmlns:ffc="http://www.fujion.org/schema/component"
-	xmlns:ffe="http://www.fujion.org/schema/eventtype"
-	xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:ffc="http://www.fujion.org/schema/component"
+       xmlns:ffe="http://www.fujion.org/schema/eventtype"
+       xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context  
@@ -18,157 +18,160 @@
 		http://www.fujion.org/schema/eventtype
 		http://www.fujion.org/schema/eventtype-extensions.xsd">
 
-	<import resource="classpath*:/META-INF/fujion-config.xml" />
-	
-	<context:property-placeholder
-		location="classpath*:/META-INF/*-default.properties,${org.fujion.location.properties:classpath:fujion*.properties}"
-		ignore-resource-not-found="true" />
+    <import resource="classpath*:/META-INF/fujion-config.xml"/>
 
-	<context:component-scan base-package="org.fujion" />
-	
-	<ffc:component-scan package="org.fujion.component" />
-	
-	<ffe:eventtype-scan package="org.fujion.event" />
-	
-	<mvc:annotation-driven />
+    <context:property-placeholder
+            location="classpath*:/META-INF/*-default.properties,${org.fujion.location.properties:classpath:fujion*.properties}"
+            ignore-resource-not-found="true"/>
 
-	<bean id="fujion_WebSocketHandler" 
-		class="org.fujion.websocket.WebSocketHandler" />
+    <context:component-scan base-package="org.fujion"/>
 
-	<bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
-		<property name="asyncSendTimeout" 
-			value="${org.fujion.websocket.asyncSendTimeout}" />		
-		<property name="maxSessionIdleTimeout" 
-			value="${org.fujion.websocket.maxSessionIdleTimeout}" />		
-		<property name="maxBinaryMessageBufferSize" 
-			value="${org.fujion.websocket.maxBinaryMessageBufferSize}" />		
-		<property name="maxTextMessageBufferSize" 
-			value="${org.fujion.websocket.maxTextMessageBufferSize}" />		
-	</bean>
-	
-	<bean id="fujion_Sessions" 
-		factory-method="getInstance"
-		class="org.fujion.websocket.Sessions" />
-	
-	<bean id="fujion_WebJarLocator" 
-		factory-method="getInstance"
-		class="org.fujion.webjar.WebJarLocator" />
-	
-	<bean id="fujion_ClientOptions"
-		factory-method="getInstance"
-		class="org.fujion.client.ClientOptions" />
-	
-	<bean class="org.fujion.websocket.InitRequestHandler" depends-on="fujion_ClientOptions" />
-	
-	<bean class="org.fujion.event.EventRequestHandler" />
+    <ffc:component-scan package="org.fujion.component"/>
 
-	<bean class="org.fujion.client.PingRequestHandler" />
+    <ffe:eventtype-scan package="org.fujion.event"/>
 
-	<bean class="org.fujion.logging.LogRequestHandler" />
+    <mvc:annotation-driven/>
 
-	<bean id="fujion_ThreadPoolFactory"
-		  factory-method="getInstance"
-		  init-method="init"
-		  destroy-method="destroy"
-		  class="org.fujion.thread.ThreadPoolFactory" />
+    <bean id="fujion_WebSocketHandler"
+          class="org.fujion.websocket.WebSocketHandler"/>
 
-	<bean id="fujion_ComponentScanner" 
-		factory-method="getInstance"
-		class="org.fujion.annotation.ComponentScanner" />
-	
-	<bean id="fujion_EventTypeScanner" 
-		factory-method="getInstance"
-		class="org.fujion.annotation.EventTypeScanner" />
-	
-	<bean id="fujion_ELEvaluator" 
-		factory-method="getInstance"
-		class="org.fujion.expression.ELEvaluator" />
+    <bean id="conversionService"
+          class="org.springframework.context.support.ConversionServiceFactoryBean"/>
 
-	<bean id="messageSource" name="msg,message"
-		factory-method="getInstance"
-		class="org.fujion.spring.ClasspathMessageSource" />
+    <bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+        <property name="asyncSendTimeout"
+                  value="${org.fujion.websocket.asyncSendTimeout}"/>
+        <property name="maxSessionIdleTimeout"
+                  value="${org.fujion.websocket.maxSessionIdleTimeout}"/>
+        <property name="maxBinaryMessageBufferSize"
+                  value="${org.fujion.websocket.maxBinaryMessageBufferSize}"/>
+        <property name="maxTextMessageBufferSize"
+                  value="${org.fujion.websocket.maxTextMessageBufferSize}"/>
+    </bean>
 
-	<bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-		<property name="defaultLocale" value="en" />
-	</bean>
-	
-	<bean factory-method="getInstance" 
-		class="org.fujion.taglib.TagLibraryRegistry" />
-	
-	<bean factory-method="getInstance"
-		class="org.fujion.script.ScriptRegistry" />
-	
-	<bean factory-method="getInstance" depends-on="fujion_WebJarLocator"
-		class="org.fujion.theme.ThemeRegistry" />
-	
-	<bean id="themeResolver" factory-method="getInstance"
-		class="org.fujion.theme.ThemeResolvers">
-		<property name="defaultTheme" value="${org.fujion.theme.default:default}"/>
-	</bean>
-	
-	<bean class="org.springframework.web.servlet.theme.CookieThemeResolver">
-		<property name="defaultThemeName">
-			<null />
-		</property>
-	</bean>
-	
-	<bean class="org.fujion.theme.Theme">
-		<constructor-arg value="default"/>
-	</bean>
-	
-	<bean factory-method="getInstance" 
-		class="org.fujion.page.PageDefinitionCache">
-		<property name="precompiled" value="${org.fujion.page.precompile:}"/>	
-	</bean>
-	
-	<bean factory-method="getInstance" 
-		class="org.fujion.page.PageParser" />
-	
-	<bean class="org.fujion.jmx.JMXConsole">
-		<constructor-arg value="${org.fujion.console.enabled:false}"/>
-	</bean>
-	
-	<bean class="org.fujion.jmx.CacheManagementConsole" />
-	
-	<bean class="org.fujion.page.PIParserAttribute" />
-	
-	<bean class="org.fujion.page.PIParserImport" />
-	
-	<bean class="org.fujion.page.PIParserTagLibrary" />
-	
-	<bean class="org.springframework.beans.factory.config.MethodInvokingBean">
-		<property name="staticMethod" value="org.fujion.core.InitLocalizer.init" />
-	</bean>
-	
-	<bean class="org.springframework.beans.factory.config.MethodInvokingBean">
-		<property name="staticMethod" value="org.fujion.logging.LogUtil.initSettings" />
-		<property name="arguments">
-			<map>
-				<entry key="debug" 
-					value="${org.fujion.logging.debug:NONE}" />
-				<entry key="error" 
-					value="${org.fujion.logging.error:BOTH}" />
-				<entry key="fatal" 
-					value="${org.fujion.logging.fatal:BOTH}" />
-				<entry key="info" 
-					value="${org.fujion.logging.info:NONE}" />
-				<entry key="trace" 
-					value="${org.fujion.logging.trace:NONE}" />
-				<entry key="warn" 
-					value="${org.fujion.logging.warn:NONE}" />
-			</map>
-		</property>
-	</bean>
+    <bean id="fujion_Sessions"
+          factory-method="getInstance"
+          class="org.fujion.websocket.Sessions"/>
 
-	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
-		<property name="scopes">
-			<map>
-				<entry key="page">
-					<bean class="org.fujion.spring.PageScope" />
-				</entry>
-			</map>
-		</property>
-	</bean>
-	
+    <bean id="fujion_WebJarLocator"
+          factory-method="getInstance"
+          class="org.fujion.webjar.WebJarLocator"/>
+
+    <bean id="fujion_ClientOptions"
+          factory-method="getInstance"
+          class="org.fujion.client.ClientOptions"/>
+
+    <bean class="org.fujion.websocket.InitRequestHandler" depends-on="fujion_ClientOptions"/>
+
+    <bean class="org.fujion.event.EventRequestHandler"/>
+
+    <bean class="org.fujion.client.PingRequestHandler"/>
+
+    <bean class="org.fujion.logging.LogRequestHandler"/>
+
+    <bean id="fujion_ThreadPoolFactory"
+          factory-method="getInstance"
+          init-method="init"
+          destroy-method="destroy"
+          class="org.fujion.thread.ThreadPoolFactory"/>
+
+    <bean id="fujion_ComponentScanner"
+          factory-method="getInstance"
+          class="org.fujion.annotation.ComponentScanner"/>
+
+    <bean id="fujion_EventTypeScanner"
+          factory-method="getInstance"
+          class="org.fujion.annotation.EventTypeScanner"/>
+
+    <bean id="fujion_ELEvaluator"
+          factory-method="getInstance"
+          class="org.fujion.expression.ELEvaluator"/>
+
+    <bean id="messageSource" name="msg,message"
+          factory-method="getInstance"
+          class="org.fujion.spring.ClasspathMessageSource"/>
+
+    <bean id="localeResolver"
+          class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en"/>
+    </bean>
+
+    <bean factory-method="getInstance"
+          class="org.fujion.taglib.TagLibraryRegistry"/>
+
+    <bean factory-method="getInstance"
+          class="org.fujion.script.ScriptRegistry"/>
+
+    <bean factory-method="getInstance" depends-on="fujion_WebJarLocator"
+          class="org.fujion.theme.ThemeRegistry"/>
+
+    <bean id="themeResolver" factory-method="getInstance"
+          class="org.fujion.theme.ThemeResolvers">
+        <property name="defaultTheme" value="${org.fujion.theme.default:default}"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.theme.CookieThemeResolver">
+        <property name="defaultThemeName">
+            <null/>
+        </property>
+    </bean>
+
+    <bean class="org.fujion.theme.Theme">
+        <constructor-arg value="default"/>
+    </bean>
+
+    <bean factory-method="getInstance"
+          class="org.fujion.page.PageDefinitionCache">
+        <property name="precompiled" value="${org.fujion.page.precompile:}"/>
+    </bean>
+
+    <bean factory-method="getInstance"
+          class="org.fujion.page.PageParser"/>
+
+    <bean class="org.fujion.jmx.JMXConsole">
+        <constructor-arg value="${org.fujion.console.enabled:false}"/>
+    </bean>
+
+    <bean class="org.fujion.jmx.CacheManagementConsole"/>
+
+    <bean class="org.fujion.page.PIParserAttribute"/>
+
+    <bean class="org.fujion.page.PIParserImport"/>
+
+    <bean class="org.fujion.page.PIParserTagLibrary"/>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingBean">
+        <property name="staticMethod" value="org.fujion.core.InitLocalizer.init"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingBean">
+        <property name="staticMethod" value="org.fujion.logging.LogUtil.initSettings"/>
+        <property name="arguments">
+            <map>
+                <entry key="debug"
+                       value="${org.fujion.logging.debug:NONE}"/>
+                <entry key="error"
+                       value="${org.fujion.logging.error:BOTH}"/>
+                <entry key="fatal"
+                       value="${org.fujion.logging.fatal:BOTH}"/>
+                <entry key="info"
+                       value="${org.fujion.logging.info:NONE}"/>
+                <entry key="trace"
+                       value="${org.fujion.logging.trace:NONE}"/>
+                <entry key="warn"
+                       value="${org.fujion.logging.warn:NONE}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="page">
+                    <bean class="org.fujion.spring.PageScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
 </beans>

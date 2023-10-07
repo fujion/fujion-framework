@@ -20,8 +20,8 @@
  */
 package org.fujion.model;
 
-import org.apache.commons.collections.ComparatorUtils;
-import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.collections4.ComparatorUtils;
+import org.apache.commons.collections4.IteratorUtils;
 
 import java.util.*;
 

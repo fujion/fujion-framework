@@ -20,10 +20,10 @@
  */
 package org.fujion.event;
 
-import org.fujion.ancillary.ConvertUtil;
 import org.fujion.annotation.EventType;
 import org.fujion.annotation.EventType.EventParameter;
 import org.fujion.component.BaseComponent;
+import org.fujion.convert.ConversionService;
 
 /**
  * A change event.
@@ -74,6 +74,6 @@ public class ChangeEvent extends Event {
      * @return The changed value, coerced to the specified type.
      */
     public <T> T getValue(Class<T> type) {
-        return ConvertUtil.convert(value, type);
+        return ConversionService.getInstance().convert(value, type);
     }
 }

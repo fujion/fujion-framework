@@ -24,6 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.fujion.annotation.Component.FactoryParameter;
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.component.BaseComponent;
+import org.fujion.convert.ConversionService;
+import org.fujion.core.BeanUtil;
 import org.fujion.expression.ELContext;
 import org.fujion.expression.ELEvaluator;
 
@@ -36,19 +38,19 @@ import java.util.Map.Entry;
  * deserialization to provide control over component creation.
  */
 public class ComponentFactory {
-    
+
     private static final String SWITCH_ATTR = "@switch";
-    
+
     private static final String CASE_DEFAULT = "@default";
 
     private final ComponentDefinition def;
-    
+
     private Class<? extends BaseComponent> clazz;
-    
+
     private boolean active = true;
-    
+
     private Iterable<?> forEach;
-    
+
     private String forVar = "each";
 
     private Object caseVal;
@@ -59,7 +61,7 @@ public class ComponentFactory {
         this.def = def;
         this.clazz = def.getComponentClass();
     }
-    
+
     /**
      * A special processor may modify the component's implementation class, as long as the
      * substituted class is a subclass of the original.
@@ -73,7 +75,7 @@ public class ComponentFactory {
                 "Implementation class must extend class %s", originalClazz.getName());
         this.clazz = clazz;
     }
-    
+
     /**
      * Conditionally prevents the factory from creating a component.
      *
@@ -83,7 +85,7 @@ public class ComponentFactory {
     protected void setIf(boolean condition) {
         active &= condition;
     }
-    
+
     /**
      * Conditionally prevents the factory from creating a component.
      *
@@ -93,7 +95,7 @@ public class ComponentFactory {
     protected void setUnless(boolean condition) {
         active &= !condition;
     }
-    
+
     /**
      * Sets an iterable which will be used to produce one component for each value returned by the
      * iterable. Components produced by an iterable will contain an attribute named "each" (unless
@@ -101,12 +103,12 @@ public class ComponentFactory {
      * element.
      *
      * @param forEach An object that will be converted to an iterable. See
-     *            {@link org.fujion.ancillary.ConvertUtil#convertToIterable convertToITerable} for
-     *            supported types.
+     *                {@link ConversionService#convertToIterable convertToITerable} for
+     *                supported types.
      */
     @FactoryParameter(value = "foreach", description = "Specifies a collection for iterative component creation.")
     protected void setForEach(Object forEach) {
-        this.forEach = ConvertUtil.convertToIterable(forEach);
+        this.forEach = ConversionService.getInstance().convertToIterable(forEach);
     }
 
     /**
@@ -119,7 +121,7 @@ public class ComponentFactory {
         forVar = StringUtils.trimToNull(forVar);
         forVar = forVar == null ? "each" : forVar;
         ComponentException.assertTrue(BaseComponent.validateName(forVar), "Name \"%s\" specified in 'forvar' is not valid",
-            forVar);
+                forVar);
         this.forVar = forVar;
     }
 
@@ -147,8 +149,8 @@ public class ComponentFactory {
      * Creates one or more component instances from the component definition using a factory
      * context.
      *
-     * @param attributes Attribute map for initializing.
-     * @param elContext Evaluation context for EL expressions.
+     * @param attributes      Attribute map for initializing.
+     * @param elContext       Evaluation context for EL expressions.
      * @param constructorArgs Optional list of constructor arguments.
      * @return A list of newly created components (never null).
      */
@@ -156,23 +158,24 @@ public class ComponentFactory {
         if (!attributes.isEmpty()) {
             for (Entry<String, Method> entry : def.getFactoryParameters().entrySet()) {
                 String name = entry.getKey();
-                
+
                 if (attributes.containsKey(name)) {
                     Object value = ELEvaluator.getInstance().evaluate(attributes.remove(name), elContext);
-                    ConvertUtil.invokeMethod(this, entry.getValue(), value);
+                    BeanUtil.invokeMethod(this, entry.getValue(), value);
                 }
             }
         }
-        
+
         if (active && caseVal != null) {
             BaseComponent parent = (BaseComponent) elContext.getValue("parent");
             Object switchVal = parent == null ? null : parent.getAttribute(SWITCH_ATTR);
+            active = caseMatches(switchVal);
 
-            if (active = caseMatches(switchVal)) {
+            if (active) {
                 parent.removeAttribute(SWITCH_ATTR);
             }
         }
-        
+
         if (!active) {
             return Collections.emptyList();
         }
@@ -194,7 +197,7 @@ public class ComponentFactory {
 
     private boolean caseMatches(Object switchVal) {
         if (switchVal != null) {
-            for (Object val : ConvertUtil.convertToIterable(caseVal)) {
+            for (Object val : ConversionService.getInstance().convertToIterable(caseVal)) {
                 if (CASE_DEFAULT.equals(val) || Objects.equals(switchVal, val)) {
                     return true;
                 }
@@ -203,15 +206,15 @@ public class ComponentFactory {
 
         return false;
     }
-    
+
     private BaseComponent create(Object... args) {
-        BaseComponent comp = ConvertUtil.invokeConstructor(clazz, args);
-        
+        BaseComponent comp = BeanUtil.invokeConstructor(clazz, args);
+
         if (switchVal != null) {
             comp.setAttribute(SWITCH_ATTR, switchVal);
         }
-        
+
         return comp;
     }
-    
+
 }

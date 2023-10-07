@@ -20,8 +20,8 @@
  */
 package org.fujion.client;
 
-import org.fujion.ancillary.ConvertUtil;
 import org.fujion.component.Page;
+import org.fujion.convert.ConversionService;
 import org.fujion.websocket.Session;
 
 import java.util.Map;
@@ -133,7 +133,7 @@ public class ClientRequest {
     @SuppressWarnings("unchecked")
     private <T> T convertValue(Object value, Class<T> type) {
         try {
-            return type == Page.class ? (T) getPage() : ConvertUtil.convert(value, type, getPage());
+            return type == Page.class ? (T) getPage() : ConversionService.getInstance().convert(value, type, getPage());
         } catch (Exception e) {
             return null;
         }

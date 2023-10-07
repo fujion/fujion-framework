@@ -20,7 +20,6 @@
  */
 package org.fujion.highcharts;
 
-import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.JavaScript;
 import org.fujion.ancillary.OptionMap;
 import org.fujion.annotation.Component;
@@ -29,6 +28,7 @@ import org.fujion.annotation.Component.PropertySetter;
 import org.fujion.common.Assert;
 import org.fujion.component.BaseUIComponent;
 import org.fujion.component.Page;
+import org.fujion.convert.ConversionService;
 
 import java.util.Arrays;
 
@@ -283,7 +283,7 @@ public class Chart extends BaseUIComponent {
      * @param js JavaScript snippet.
      */
     private void invokeJS(String func, String js) {
-        invoke(func, ConvertUtil.convert(js, JavaScript.class));
+        invoke(func, ConversionService.getInstance().convert(js, JavaScript.class));
     }
     
     /**

@@ -22,6 +22,7 @@ package org.fujion.ancillary;
 
 import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
+import org.fujion.core.BeanUtil;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class DeferredInvocation<T> {
         try {
             List<Object> arguments = new ArrayList<>(curriedArgs);
             arguments.addAll(Arrays.asList(args));
-            return (T) ConvertUtil.invokeMethod(instance, method, arguments.toArray());
+            return (T) BeanUtil.invokeMethod(instance, method, arguments.toArray());
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }

@@ -20,13 +20,13 @@
  */
 package org.fujion.annotation;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.fujion.ancillary.ComponentException;
-import org.fujion.ancillary.ConvertUtil;
 import org.fujion.common.CollectionUtil;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
+import org.fujion.convert.ConversionService;
+import org.fujion.core.BeanUtil;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
 import org.fujion.event.IEventListener;
@@ -144,8 +144,8 @@ public class EventHandlerScanner {
                     break;
                 }
 
-                Set<String> targets = ConvertUtil.convertToSet(annotation.target(), true);
-                Set<String> types = ConvertUtil.convertToSet(annotation.value(), true);
+                Set<String> targets = ConversionService.getInstance().convertToSet(annotation.target(), true);
+                Set<String> types = ConversionService.getInstance().convertToSet(annotation.value(), true);
                 BaseComponent component = null;
 
                 if (types.isEmpty()) {
@@ -169,7 +169,7 @@ public class EventHandlerScanner {
                                 Object value = field.get(instance);
                                 
                                 if (value != null && fld.length == 2) {
-                                    value = PropertyUtils.getProperty(value, fld[1]);
+                                    value = BeanUtil.getPropertyValue(value, fld[1]);
                                 }
                                 
                                 component = (BaseComponent) value;

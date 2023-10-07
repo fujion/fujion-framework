@@ -20,14 +20,13 @@
  */
 package org.fujion.model;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.fujion.ancillary.ConvertUtil;
 import org.fujion.ancillary.DeferredInvocation;
 import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
+import org.fujion.convert.ConversionService;
+import org.fujion.core.BeanUtil;
 import org.fujion.event.PropertychangeEvent;
 import org.fujion.model.IBinding.IReadBinding;
 import org.fujion.model.IBinding.IWriteBinding;
@@ -42,17 +41,17 @@ import java.util.function.Function;
  * @param <M> Type of model object.
  */
 public class GenericBinder<M> implements IBinder<M>, Observer {
-    
+
     private M model;
-    
+
     private List<GenericBinding> readBindings;
-    
+
     private List<GenericBinding> writeBindings;
 
     private boolean updating;
-    
+
     private class GenericBinding implements IBinding {
-        
+
         private final String modelProperty;
 
         private final Function<?, ?> readConverter;
@@ -100,17 +99,17 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
                 this.getter = null;
             }
         }
-        
+
         private DeferredInvocation<?> toDeferred(BaseComponent instance, Method method, String name, int maxArgs) {
             return method == null ? null
                     : new DeferredInvocation<>(instance, method,
-                            method.getParameterCount() == maxArgs ? new Object[] { name } : null);
+                    method.getParameterCount() == maxArgs ? new Object[]{name} : null);
         }
 
         private void read() {
             try {
                 if (model != null) {
-                    Object value = PropertyUtils.getProperty(model, modelProperty);
+                    Object value = BeanUtil.getPropertyValue(model, modelProperty);
                     value = convert(readConverter, value);
 
                     if (value != IBinder.NOVALUE) {
@@ -121,16 +120,14 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
                 throw MiscUtil.toUnchecked(e);
             }
         }
-        
+
         private void write() {
             try {
                 if (model != null) {
                     Object value = convert(writeConverter, getter.invoke());
 
                     if (value != IBinder.NOVALUE) {
-                        Class<?> targetType = PropertyUtils.getPropertyDescriptor(model, modelProperty).getPropertyType();
-                        value = ConvertUtil.convert(value, targetType);
-                        BeanUtils.copyProperty(model, modelProperty, value);
+                        BeanUtil.setPropertyValue(model, modelProperty, value);
                     }
                 }
             } catch (Exception e) {
@@ -138,7 +135,7 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
             }
 
         }
-        
+
         @SuppressWarnings("unchecked")
         private Object convert(Function<?, ?> converter, Object value) {
             return converter == null ? value : ((Function<Object, Object>) converter).apply(value);
@@ -146,11 +143,11 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
     }
 
     private class ReadBinding extends GenericBinding implements IReadBinding {
-        
+
         ReadBinding(String modelProperty, Function<?, ?> readConverter) {
             super(modelProperty, readConverter, null);
         }
-        
+
         @Override
         public void read() {
             super.read();
@@ -159,11 +156,11 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
     }
 
     private class WriteBinding extends GenericBinding implements IWriteBinding {
-        
+
         WriteBinding(String modelProperty, Function<?, ?> writeConverter) {
             super(modelProperty, null, writeConverter);
         }
-        
+
         @Override
         public void write() {
             super.write();
@@ -172,21 +169,21 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
     }
 
     private class DualBinding extends GenericBinding implements IReadBinding, IWriteBinding {
-        
+
         DualBinding(String modelProperty, Function<?, ?> readConverter, Function<?, ?> writeConverter) {
             super(modelProperty, readConverter, writeConverter);
         }
-        
+
         @Override
         public void read() {
             super.read();
         }
-        
+
         @Override
         public void write() {
             super.write();
         }
-        
+
     }
 
     public GenericBinder() {
@@ -217,17 +214,17 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
         }
 
     }
-    
+
     @Override
     public IBinding read(String modelProperty, Function<?, ?> converter) {
         return new ReadBinding(modelProperty, converter);
     }
-    
+
     @Override
     public IBinding write(String modelProperty, Function<?, ?> converter) {
         return new WriteBinding(modelProperty, converter);
     }
-    
+
     @Override
     public IBinding dual(String modelProperty, Function<?, ?> readConverter, Function<?, ?> writeConverter) {
         return new DualBinding(modelProperty, readConverter, writeConverter);
@@ -246,7 +243,7 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
     public void modelChanged() {
         modelChanged(null);
     }
-    
+
     private void targetChanged(String propertyName) {
         processChanged(propertyName, false);
     }
@@ -263,15 +260,15 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
     /**
      * Returns a lambda function (for use in spEL).
      *
-     * @param instance Object instance that is target of method invocation.
+     * @param instance   Object instance that is target of method invocation.
      * @param methodName Name of the method to invoke.
-     * @param args Optional additional arguments.
+     * @param args       Optional additional arguments.
      * @return The lambda function.
      */
     public Function<?, ?> lambda(Object instance, String methodName, Object... args) {
         int last = args == null ? 0 : args.length;
-        Object[] realArgs = args == null ? new Object[] { null } : Arrays.copyOf(args, last + 1);
-        
+        Object[] realArgs = args == null ? new Object[]{null} : Arrays.copyOf(args, last + 1);
+
         return arg -> {
             try {
                 realArgs[last] = arg;
@@ -281,7 +278,7 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
             }
         };
     }
-    
+
     /**
      * Returns a lambda function that returns one of a choice of values depending on the input
      * value.
@@ -295,7 +292,7 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
             return i < 0 || i >= choices.length ? null : choices[i];
         };
     }
-    
+
     private int valueToInt(Object value) {
         if (value == null) {
             return -1;
@@ -309,16 +306,16 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
             try {
                 switch (i) {
                     case 0: // Boolean
-                        return ConvertUtil.convert(value, Boolean.class) ? 0 : 1;
-                    
+                        return ConversionService.getInstance().convert(value, Boolean.class) ? 0 : 1;
+
                     case 1: // Integer
-                        return ConvertUtil.convert(value, Integer.class);
+                        return ConversionService.getInstance().convert(value, Integer.class);
                 }
             } catch (Exception e) {
                 // NOP
             }
         }
-        
+
         return -1;
     }
 

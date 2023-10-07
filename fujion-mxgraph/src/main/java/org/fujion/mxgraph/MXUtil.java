@@ -20,7 +20,7 @@
  */
 package org.fujion.mxgraph;
 
-import org.fujion.ancillary.ConvertUtil;
+import org.fujion.convert.ConversionService;
 import org.w3c.dom.Element;
 
 /**
@@ -39,7 +39,7 @@ public class MXUtil {
     }
     
     public static <T> T get(Element node, String attr, Class<T> type, T deflt) {
-        T value = ConvertUtil.getAttributeAs(node, attr, type);
+        T value = ConversionService.getInstance().getAttributeAs(node, attr, type);
         return value == null ? deflt : value;
     }
 

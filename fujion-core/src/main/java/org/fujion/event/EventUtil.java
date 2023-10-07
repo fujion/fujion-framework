@@ -20,10 +20,10 @@
  */
 package org.fujion.event;
 
-import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.annotation.EventParameterScanner;
 import org.fujion.annotation.EventTypeScanner;
 import org.fujion.client.ClientRequest;
