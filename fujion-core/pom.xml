@@ -117,7 +117,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-systemjs-css-extra</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.2-1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
@@ -132,7 +132,7 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-jquery-ui</artifactId>
-			<version>1.13.1</version>
+			<version>1.13.2-1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
@@ -142,37 +142,37 @@
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-fontawesome</artifactId>
-			<version>4.7.0-10</version>
+			<version>4.7.0-11-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-lodash</artifactId>
-		    <version>4.17.21-10</version>
+		    <version>4.17.21-11-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-file-saver</artifactId>
-		    <version>2.0.5-10</version>
+		    <version>2.0.5-11-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-moment</artifactId>
-		    <version>2.29.4</version>
+		    <version>2.29.4-1-SNAPSHOT</version>
 		</dependency>		
 		<dependency>
 		    <groupId>org.fujion.webjars</groupId>
 		    <artifactId>webjar-balloon-css</artifactId>
-		    <version>1.2.0-10</version>
+		    <version>1.2.0-11-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-jquery-scrollto</artifactId>
-			<version>2.1.3-10</version>
+			<version>2.1.3-11-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujion.webjars</groupId>
 			<artifactId>webjar-cleave-js</artifactId>
-			<version>1.6.0-10</version>
+			<version>1.6.0-11-SNAPSHOT</version>
 		</dependency>
 		<!-- Apache HTTP components -->
 		<dependency>

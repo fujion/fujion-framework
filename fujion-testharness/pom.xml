@@ -16,6 +16,10 @@
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 
+	<build>
+		<finalName>testharness</finalName>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.fujion</groupId>
