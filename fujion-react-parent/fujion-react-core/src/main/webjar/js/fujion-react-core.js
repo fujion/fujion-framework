@@ -20,8 +20,10 @@ define('fujion-react-core', ['fujion-core', 'fujion-widget', 'react', 'react-dom
 		},
 		
 		_destroy: function () {
-			this.widget$ ? ReactDOM.unmountComponentAtNode(this.widget$[0]) : null;
+			//this.widget$ ? ReactDOM.unmountComponentAtNode(this.widget$[0]) : null;
+			this._rxRoot ? this._rxRoot.unmount() : null;
 			this._rxComponent = null;
+			this._rxRoot = null;
 		},
 		
 		/*------------------------------ Other ------------------------------*/
@@ -55,10 +57,18 @@ define('fujion-react-core', ['fujion-core', 'fujion-widget', 'react', 'react-dom
 			
 			if (src) {
 				fujion.import(src, module => {
-					const element = React.createElement(module.ReactComponent);
-					ReactDOM.render(element, this.widget$[0], () => this.loaded(this));
+					const self = this;
+					const wrapper = React.createElement(ComponentWrapper);
+					this._rxRoot = ReactDOM.createRoot(this.widget$[0]);
+					this._rxRoot.render(wrapper);
+
+					function ComponentWrapper() {
+						React.useEffect(() => self.loaded(self));
+						return React.createElement(module.ReactComponent);
+					}
 				});
 			}
+
 		},
 		
 		beforeRender: function() {
