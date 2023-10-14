@@ -10,6 +10,10 @@
 	<name>Fujion audio/video support</name>
 	<artifactId>fujion-multimedia</artifactId>
 
+	<properties>
+		<webjar.compile.skip>false</webjar.compile.skip>
+	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
