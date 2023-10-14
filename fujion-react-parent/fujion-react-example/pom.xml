@@ -12,6 +12,7 @@
 
 	<properties>
 		<webjar.name>fujion-react-example</webjar.name>
+		<webjar.compile.skip>false</webjar.compile.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 

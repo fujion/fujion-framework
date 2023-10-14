@@ -13,7 +13,7 @@
     "url": "git://github.com/fujion/fujion-framework.git"
   },
   "scripts": {
-    "postinstall": "babel --source-maps --out-file target/webjar/pomodoro.js src/main/webjar/pomodoro.es6.js"
+    "postinstall": "babel --source-maps --out-file ${webjar.target}/pomodoro.js ${webjar.target}/pomodoro.es6.js"
   },
   "dependencies": {
     "react": "^18.0.0",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
-    "@babel/core": "^7.14.0",
+    "@babel/core": "^7.18.6",
     "@babel/preset-env": "^7.14.0"
   }
 }
