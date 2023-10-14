@@ -31,24 +31,6 @@
 	    </resources>
 		<plugins>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>precompile</id>
-						<configuration>
-							<target>
-								<copy todir="${project.build.directory}/staging">
-									<fileset dir="${basedir}/staging" />
-									<filterchain>
-										<expandproperties />
-									</filterchain>
-								</copy>
-							</target>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<configuration>

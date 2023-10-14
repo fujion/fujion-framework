@@ -12,14 +12,11 @@
 
 	<properties>
 		<webjar.name>fujion-mxgraph</webjar.name>
+		<webjar.compile.skip>false</webjar.compile.skip>
 	</properties>
 	
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>com.samaxes.maven</groupId>
-				<artifactId>minify-maven-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>

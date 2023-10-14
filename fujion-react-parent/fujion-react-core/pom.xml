@@ -13,7 +13,7 @@
 	<properties>
 		<react.version>18.2.0-SNAPSHOT</react.version>
 		<webjar.name>fujion-react</webjar.name>
-		<skip.minification>false</skip.minification>
+		<webjar.compile.skip>false</webjar.compile.skip>
 	</properties>
 
 	<build>

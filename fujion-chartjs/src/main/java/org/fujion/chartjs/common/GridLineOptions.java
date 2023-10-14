@@ -228,7 +228,7 @@ public class GridLineOptions extends Options {
     public String tickWidth$function;
 
     /**
-     * z-index of gridline layer. Values <= 0 are drawn under datasets, > 0 on top.
+     * z-index of gridline layer. Values &le; 0 are drawn under datasets, &gt; 0 on top.
      *
      * Default: 0
      */

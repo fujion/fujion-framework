@@ -10,12 +10,12 @@
 	<name>Fujion Wrapper for Ace Editor</name>
 	<artifactId>fujion-ace-editor</artifactId>
 
+	<properties>
+		<webjar.compile.skip>false</webjar.compile.skip>
+	</properties>
+
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>com.samaxes.maven</groupId>
-				<artifactId>minify-maven-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>

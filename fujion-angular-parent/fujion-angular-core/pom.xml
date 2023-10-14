@@ -16,7 +16,7 @@
         <zonejs.version>0.14.0-SNAPSHOT</zonejs.version>
 
         <webjar.name>fujion-angular</webjar.name>
-        <skip.minification>false</skip.minification>
+        <webjar.compile.skip>false</webjar.compile.skip>
     </properties>
 
     <build>

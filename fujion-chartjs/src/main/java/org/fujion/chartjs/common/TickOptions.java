@@ -109,7 +109,7 @@ public abstract class TickOptions extends Options {
     public String textStrokeWidth$function;
 
     /**
-     * z-index of tick layer. Useful when ticks are drawn on chart area. Values <= 0 are drawn under datasets, > 0 on top.
+     * z-index of tick layer. Useful when ticks are drawn on chart area. Values &le; 0 are drawn under datasets, &gt; 0 on top.
      */
     @Option
     public Integer z;

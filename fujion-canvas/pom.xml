@@ -12,7 +12,7 @@
 
 	<properties>
 		<webjar.name>fujion-canvas</webjar.name>
-		<skip.minification>false</skip.minification>
+		<webjar.compile.skip>false</webjar.compile.skip>
 	</properties>
 	
 	<build>
