@@ -30,6 +30,7 @@ import org.springframework.lang.NonNull;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * Bean manipulation methods.
@@ -76,6 +77,17 @@ public class BeanUtil {
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
+    }
+
+    /**
+     * Sets multiple property values from a map of property name/property value pairs.  This method
+     * calls {@link #setPropertyValue} to set each property value.
+     *
+     * @param bean The object whose properties are to be set.
+     * @param values The values to set.  The map's key is the property name.
+     */
+    public static void setPropertyValues(Object bean, Map<String, ?> values) {
+        values.forEach((k, v) -> setPropertyValue(bean, k, v));
     }
 
     /**
