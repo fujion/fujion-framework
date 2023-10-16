@@ -60,6 +60,19 @@ public class BeanUtil {
     }
 
     /**
+     * Returns the value of the named property.  If the value is not of the expected type, null is returned.
+     *
+     * @param bean         The object whose property value is sought.
+     * @param propertyName The name of the property.
+     * @param type         The expected data type.
+     * @return The property value.
+     */
+    public static <T> T getPropertyValue(Object bean, String propertyName, Class<T> type) {
+        Object value = getPropertyValue(bean, propertyName);
+        return MiscUtil.castTo(value, type);
+    }
+
+    /**
      * Sets a property value.  The value is first converted to the type required by the property.
      *
      * @param bean         The object whose property value is to be set.
@@ -83,7 +96,7 @@ public class BeanUtil {
      * Sets multiple property values from a map of property name/property value pairs.  This method
      * calls {@link #setPropertyValue} to set each property value.
      *
-     * @param bean The object whose properties are to be set.
+     * @param bean   The object whose properties are to be set.
      * @param values The values to set.  The map's key is the property name.
      */
     public static void setPropertyValues(Object bean, Map<String, ?> values) {
