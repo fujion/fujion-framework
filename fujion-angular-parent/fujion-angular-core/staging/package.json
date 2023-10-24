@@ -30,8 +30,8 @@
     "zone.js": "~${zonejs.version}"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~${angular.version}",
-    "@angular/cli": "~${angular.version}",
+    "@angular-devkit/build-angular": "~${angular.dev.version}",
+    "@angular/cli": "~${angular.dev.version}",
     "@angular/compiler-cli": "~${angular.version}",
     "@angular/language-service": "~${angular.version}",
     "ng-packagr": "^16.0.0",

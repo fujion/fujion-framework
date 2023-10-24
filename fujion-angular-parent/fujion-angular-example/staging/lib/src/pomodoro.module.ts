@@ -5,8 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 @NgModule({
     imports: [BrowserModule],
     bootstrap: [PomodoroComponent],
-    declarations: [PomodoroComponent],
-    entryComponents: [PomodoroComponent]
+    declarations: [PomodoroComponent]
 })
 
 export class AngularModule {

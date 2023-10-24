@@ -1,6 +1,6 @@
 {
   "name": "fujion-angular-example",
-  "version": "3.1.0",
+  "version": "${project.version}",
   "description": "Example Fujion plugin for Angular",
   "keywords": [
     "fujion",
