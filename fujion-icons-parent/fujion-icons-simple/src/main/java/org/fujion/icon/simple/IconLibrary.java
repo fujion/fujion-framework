@@ -32,7 +32,7 @@ public class IconLibrary extends IconLibraryBase {
      *
      */
     protected IconLibrary() {
-        super("simple-icons", "svg", "24x24");
+        super("webjar-simple-icons", "svg", "24x24");
     }
     
     @Override
@@ -42,7 +42,7 @@ public class IconLibrary extends IconLibraryBase {
 
     @Override
     protected String doFormatPath(String name, String dims) {
-        return "icons/" + expandName(name);
+        return "dist/" + expandName(name);
     }
     
 }

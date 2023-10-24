@@ -33,8 +33,8 @@ public class IconTests extends IconTestBase {
     private void doTests() {
         singleton("amazon", "24x24");
         singleton("pocket.svg", "24");
-        multiple("micro*.svg", "*", 9);
-        multiple("micro*.svg", "24x24", 9);
+        multiple("micro*.svg", "*", 26);
+        multiple("micro*.svg", "24x24", 26);
     }
     
 }
