@@ -4,15 +4,11 @@ const minifyCSS = require('gulp-clean-css');
 const rename = require('gulp-rename');
 const print = require('gulp-print').default;
 
-const srcDir = '${webjar.target}/';
-const destDir = srcDir;
+const srcDir = '${webjar.staging}/';
+const destDir = '${webjar.target}/';
 
 function task1() {
-    return _minifyJS('js/*.js', 'js')
-}
-
-function task2() {
-    return _minifyCSS('css/*.css', 'css')
+    return _minifyJS('js/*.js', 'dist');
 }
 
 function _toSrc(_src) {
@@ -27,6 +23,7 @@ function _minifyJS(_src, _dest) {
     console.log('  Minifying ' + _src);
     return _toSrc(_src)
         .pipe(print())
+        .pipe(_toDest(_dest))
         .pipe(minifyJS(
             {
                 noSource: true,
@@ -46,4 +43,4 @@ function _minifyCSS(_src, _dest) {
         .pipe(_toDest(_dest))
 }
 
-exports.default = series(task1, task2);
+exports.default = task1;

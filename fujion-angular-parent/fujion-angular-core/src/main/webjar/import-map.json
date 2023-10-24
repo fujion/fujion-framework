@@ -1,6 +1,6 @@
 {
   "imports": {
-    "fujion-angular-core": "js/fujion-angular-core.js",
-    "fujion-angular-bootstrap": "js/fujion-angular-bootstrap.umd.js"
+    "fujion-angular-core": "dist/fujion-angular-core.js",
+    "fujion-angular-bootstrap": "dist/fujion-angular-bootstrap.umd.js"
   }
 }

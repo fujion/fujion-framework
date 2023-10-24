@@ -26,13 +26,6 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>npm-install</id>
-                        <configuration>
-                            <skip>false</skip>
-                            <workingDirectory>src/main/angular</workingDirectory>
-                        </configuration>
-                    </execution>
-                   <execution>
                         <id>generate-schema</id>
                         <configuration>
                             <skip>false</skip>
@@ -42,21 +35,6 @@
                                 <argument>-c=org.fujion.angular.AngularComponent</argument>
                                 <argument>${webjar.schemadir}fsp-angular.xsd</argument>
                             </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>postcompile</id>
-                        <configuration>
-                            <target>
-                                <copy todir="${webjar.target}/js">
-                                    <fileset dir="${basedir}/src/main/angular/dist/bundles" />
-                                </copy>
-                            </target>
                         </configuration>
                     </execution>
                 </executions>
