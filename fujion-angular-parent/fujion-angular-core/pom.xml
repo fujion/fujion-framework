@@ -11,10 +11,6 @@
     <artifactId>fujion-angular-core</artifactId>
 
     <properties>
-        <angular.version>16.2.9-SNAPSHOT</angular.version>
-        <rxjs.version>7.8.1-SNAPSHOT</rxjs.version>
-        <zonejs.version>0.14.0-SNAPSHOT</zonejs.version>
-
         <webjar.name>fujion-angular</webjar.name>
         <webjar.compile.skip>false</webjar.compile.skip>
     </properties>
@@ -53,17 +49,7 @@
         <dependency>
             <groupId>org.fujion.webjars</groupId>
             <artifactId>webjar-angular</artifactId>
-            <version>${angular.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujion.webjars</groupId>
-            <artifactId>webjar-rxjs</artifactId>
-            <version>${rxjs.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujion.webjars</groupId>
-            <artifactId>webjar-zonejs</artifactId>
-            <version>${zonejs.version}</version>
+            <version>${angular.version}-SNAPSHOT</version>
         </dependency>
         <!-- Testing -->
         <dependency>

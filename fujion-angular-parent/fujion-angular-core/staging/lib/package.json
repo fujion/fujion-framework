@@ -1,6 +1,6 @@
 {
   "name": "fujion-angular-bootstrap",
-  "version": "3.1.0",
+  "version": "${project.version}",
   "description": "Bootstrapper for embedded Angular apps",
   "keywords": [
     "fujion",

@@ -10,7 +10,13 @@
 	<name>Fujion Angular Support Modules</name>
 	<artifactId>fujion-angular-parent</artifactId>
 	<packaging>pom</packaging>
-	
+
+	<properties>
+		<angular.version>16.2.10</angular.version>
+		<rxjs.version>7.8.1</rxjs.version>
+		<zonejs.version>0.13.0</zonejs.version>
+	</properties>
+
 	<modules>
 		<module>fujion-angular-core</module>
 		<module>fujion-angular-example</module>
