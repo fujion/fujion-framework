@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {PomodoroComponent} from './pomodoro.component';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
