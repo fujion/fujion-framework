@@ -17,9 +17,9 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-  			<groupId>org.webjars.npm</groupId>
-  			<artifactId>material-design-icons__svg</artifactId>
-  			<version>0.2.7</version>
+  			<groupId>org.fujion.webjars</groupId>
+  			<artifactId>webjar-material-design-icons</artifactId>
+  			<version>0.14.3-SNAPSHOT</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

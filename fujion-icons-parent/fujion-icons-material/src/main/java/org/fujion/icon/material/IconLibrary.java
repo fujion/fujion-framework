@@ -32,7 +32,7 @@ public class IconLibrary extends IconLibraryBase {
      *
      */
     protected IconLibrary() {
-        super("material-design-icons__svg", "svg", "24x24");
+        super("webjar-material-design-icons", "svg", "24x24");
     }
     
     @Override
@@ -46,7 +46,7 @@ public class IconLibrary extends IconLibraryBase {
             name = "filled/" + name;
         }
 
-        return expandName(name);
+        return expandName("dist/" + name);
     }
     
 }
