@@ -27,6 +27,7 @@ import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.Resource;
 
 import java.io.*;
+import java.lang.ref.Cleaner;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -36,6 +37,8 @@ import java.net.URL;
  * client.
  */
 class DynamicResource extends AbstractResource {
+
+    private static final Cleaner cleaner = Cleaner.create();
 
     private final File file;
     
@@ -47,9 +50,11 @@ class DynamicResource extends AbstractResource {
         try {
             description = resource.getDescription();
             contentLength = resource.contentLength();
-            file = File.createTempFile("fujion_", "." + FilenameUtils.getExtension(filename));
+            File file = File.createTempFile("fujion_", "." + FilenameUtils.getExtension(filename));
             file.deleteOnExit();
             FileUtils.copyInputStreamToFile(resource.getInputStream(), file);
+            this.file = file;
+            cleaner.register(this, () -> FileUtils.deleteQuietly(file));
         } catch (IOException e) {
             throw MiscUtil.toUnchecked(e);
         }
@@ -100,9 +105,4 @@ class DynamicResource extends AbstractResource {
         return true;
     }
     
-    @Override
-    protected void finalize() throws Throwable {
-        FileUtils.deleteQuietly(file);
-        super.finalize();
-    }
 }
