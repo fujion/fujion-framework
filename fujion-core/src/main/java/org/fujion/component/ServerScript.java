@@ -157,7 +157,6 @@ public class ServerScript extends BaseScriptComponent {
      * Force script re-compilation if any property changes.
      */
     @EventHandler(value = "propertychange", mode = "init")
-    @SuppressWarnings("unused")
     private void _onPropertyChanged() {
         destroyScript();
     }

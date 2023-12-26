@@ -285,7 +285,6 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      * Handles toggle events from the client.
      */
     @EventHandler(value = "toggle", syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _onToggle() {
         _setCollapsed(!collapsed, false);
     }
@@ -296,7 +295,6 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      * @param event A change event.
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _onChange(ChangeEvent event) {
         _setSelected(defaultify(event.getValue(Boolean.class), false), false, true);
         Treeview tree = getTreeview();
@@ -313,7 +311,6 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      * @param event A badge update event.
      */
     @EventHandler(value = "badge", mode = "init")
-    @SuppressWarnings("unused")
     private void _onBadge(Event event) {
         int delta = (Integer) event.getData();
         

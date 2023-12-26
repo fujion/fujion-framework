@@ -204,7 +204,6 @@ public class Column extends BaseLabeledImageComponent<BaseLabeledComponent.Label
      * Handles a sort request from the client.
      */
     @EventHandler(value = "sort", syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _sort() {
         toggleSort();
     }

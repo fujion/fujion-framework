@@ -88,7 +88,6 @@ public class Detail extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      * @param event An open event.
      */
     @EventHandler(value = "open", syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _onOpen(OpenEvent event) {
         _setOpen(true, false);
     }
@@ -99,7 +98,6 @@ public class Detail extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      * @param event A close event.
      */
     @EventHandler(value = "close", syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _onClose(CloseEvent event) {
         _setOpen(false, false);
     }

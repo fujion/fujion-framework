@@ -130,7 +130,6 @@ public class Comboitem extends BaseLabeledImageComponent<BaseLabeledComponent.La
      * @param event A change event.
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _onChange(ChangeEvent event) {
         _setSelected(defaultify(event.getValue(Boolean.class), true), false, true);
         event = new ChangeEvent(this.getParent(), this, event.getData(), getLabel());

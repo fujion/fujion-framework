@@ -70,7 +70,6 @@ public class Carouselitem extends BaseUIComponent {
      * @param event A change event.
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _onChange(ChangeEvent event) {
         _setSelected(defaultify(event.getValue(Boolean.class), true), true);
         event = new ChangeEvent(this.getParent(), event.getData(), this);

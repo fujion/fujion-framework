@@ -122,7 +122,6 @@ public class Accordionitem extends BaseUIComponent {
      * @param event A change event.
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _onChange(ChangeEvent event) {
         _setExpanded(defaultify(event.getValue(Boolean.class), true), true, false);
         event = new ChangeEvent(this.getParent(), event.getData(), this);

@@ -517,7 +517,6 @@ public class Window extends BaseUIComponent implements INamespace {
      * Handles close events from the client.
      */
     @EventHandler(value = "close", syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _close() {
         close();
     }

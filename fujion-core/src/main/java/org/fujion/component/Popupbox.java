@@ -140,7 +140,6 @@ public class Popupbox extends Textbox {
      * @param event A popup open or close event.
      */
     @EventHandler(value = { "popupopen", "popupclose" }, mode = "init")
-    @SuppressWarnings("unused")
     private void _onOpen(Event event) {
         boolean open = "popupopen".equals(event.getType());
 

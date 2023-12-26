@@ -89,7 +89,6 @@ public class Menu extends BaseMenuComponent implements ISupportsModel<BaseMenuCo
      * @param event An open or close event.
      */
     @EventHandler(value = { "open", "close" }, syncToClient = false, mode = "init")
-    @SuppressWarnings("unused")
     private void _onOpenOrClose(Event event) {
         open = event instanceof OpenEvent;
     }

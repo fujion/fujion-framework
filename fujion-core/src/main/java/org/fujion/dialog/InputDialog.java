@@ -93,21 +93,18 @@ public class InputDialog implements IAutoWired {
     }
 
     @EventHandler(value = "change", target = "@textbox")
-    @SuppressWarnings("unused")
     private void _onChange() {
         updateState();
     }
 
     @EventHandler(value = "enter", target = "@textbox")
     @EventHandler(value = "click", target = "@btnOK")
-    @SuppressWarnings("unused")
     private void _onCommit() {
         root.setAttribute("result", textbox.getValue());
         root.close();
     }
 
     @EventHandler(value = "click", target = "btnCancel")
-    @SuppressWarnings("unused")
     private void _onCancel() {
         root.setAttribute("result", null);
         root.close();
