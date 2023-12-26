@@ -24,6 +24,7 @@ import org.fujion.common.Logger;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
+import java.lang.ref.Cleaner;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,16 +36,40 @@ public abstract class AbstractScope implements Scope {
 
     private static final Logger log = Logger.create(AbstractScope.class);
 
+    private static final Cleaner cleaner = Cleaner.create();
+
     /**
      * IOC container for the custom scopes.
      */
     public static class ScopeContainer implements Scope {
 
-        private final Map<String, Object> beans;
+        private static class CleanableState {
 
-        private final Map<String, Runnable> destructionCallbacks = new HashMap<>();
+            private final Map<String, Object> beans;
+
+            private final Map<String, Runnable> destructionCallbacks = new HashMap<>();
+
+            private CleanableState(Map<String, Object> beans) {
+                this.beans = beans == null ? new HashMap<>() : beans;
+            }
+
+            public void clean() {
+                for (Entry<String, Runnable> entry : destructionCallbacks.entrySet()) {
+                    try {
+                        entry.getValue().run();
+                    } catch (Throwable t) {
+                        log.error(() -> "Error during destruction callback for bean " + entry.getKey(), t);
+                    }
+                }
+
+                beans.clear();
+                destructionCallbacks.clear();
+            }
+        }
 
         private final String conversationId;
+
+        private final CleanableState cleanableState;
 
         public ScopeContainer(String conversationId) {
             this(conversationId, null);
@@ -52,18 +77,20 @@ public abstract class AbstractScope implements Scope {
 
         public ScopeContainer(String conversationId, Map<String, Object> beans) {
             this.conversationId = conversationId;
-            this.beans = beans == null ? new HashMap<>() : beans;
+            CleanableState cleanableState = new CleanableState(beans);
+            this.cleanableState = cleanableState;
+            cleaner.register(this, cleanableState::clean);
         }
 
         @Override
         public synchronized Object remove(String key) {
-            destructionCallbacks.remove(key);
-            return beans.remove(key);
+            cleanableState.destructionCallbacks.remove(key);
+            return cleanableState.beans.remove(key);
         }
 
         @Override
         public synchronized Object get(String name, ObjectFactory<?> objectFactory) {
-            Object bean = beans.get(name);
+            Object bean = cleanableState.beans.get(name);
 
             if (bean == null) {
                 registerBean(name, bean = objectFactory.getObject());
@@ -81,30 +108,21 @@ public abstract class AbstractScope implements Scope {
          */
         public synchronized Object registerBean(String name, Object bean) {
             if (bean == null) {
-                return beans.remove(name);
+                return cleanableState.beans.remove(name);
             } else {
-                return beans.put(name, bean);
+                return cleanableState.beans.put(name, bean);
             }
         }
-        
+
         /**
          * Register a bean destruction callback.
          *
-         * @param name Bean name.
+         * @param name     Bean name.
          * @param callback Callback.
          */
         @Override
         public synchronized void registerDestructionCallback(String name, Runnable callback) {
-            destructionCallbacks.put(name, callback);
-        }
-
-        /**
-         * For orphan containers.
-         */
-        @Override
-        protected void finalize() throws Throwable {
-            destroy();
-            super.finalize();
+            cleanableState.destructionCallbacks.put(name, callback);
         }
 
         /**
@@ -112,16 +130,7 @@ public abstract class AbstractScope implements Scope {
          * container.
          */
         public void destroy() {
-            for (Entry<String, Runnable> entry : destructionCallbacks.entrySet()) {
-                try {
-                    entry.getValue().run();
-                } catch (Throwable t) {
-                    log.error(() -> "Error during destruction callback for bean " + entry.getKey(), t);
-                }
-            }
-
-            beans.clear();
-            destructionCallbacks.clear();
+            cleanableState.clean();
         }
 
         @Override
