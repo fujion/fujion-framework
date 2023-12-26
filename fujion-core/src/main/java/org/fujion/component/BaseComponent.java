@@ -82,7 +82,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     private static class ChildList implements List<BaseComponent> {
 
-        private final List<BaseComponent> delegate = new LinkedList<>();
+        private final LinkedList<BaseComponent> delegate = new LinkedList<>();
 
         private final BaseComponent parent;
 
