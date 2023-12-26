@@ -20,30 +20,51 @@
  */
 package org.fujion.model;
 
-import java.util.Observable;
+import org.fujion.event.IPropertyChangeObservable;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * Base class for creating observable models for data binding.
  */
-public class ObservableModel extends Observable {
+public class ObservableModel implements IPropertyChangeObservable {
+
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     private boolean updating;
+
+    private boolean changed;
 
     /**
      * Notify observers of a property change. Protects against update loops.
      *
      * @param propertyName Name of the property that changed.
      */
-    protected void propertyChanged(String propertyName) {
+    protected void propertyChanged(String propertyName, Object oldValue, Object newValue) {
         if (!updating) {
             try {
                 updating = true;
-                setChanged();
-                notifyObservers(propertyName);
+                changed = true;
+                propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
             } finally {
                 updating = false;
             }
         }
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        propertyChangeSupport.addPropertyChangeListener(pcl);
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        propertyChangeSupport.removePropertyChangeListener(pcl);
+    }
+
+    public boolean isChanged() {
+        return changed;
     }
 
 }

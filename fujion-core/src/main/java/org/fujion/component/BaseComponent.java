@@ -21,6 +21,7 @@
 package org.fujion.component;
 
 import org.apache.commons.collections4.IteratorUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.fujion.ancillary.*;
 import org.fujion.ancillary.IComposite.CompositePosition;
@@ -40,6 +41,8 @@ import org.fujion.convert.ConversionService;
 import org.fujion.event.*;
 import org.fujion.model.IBinding;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Consumer;
@@ -49,7 +52,7 @@ import java.util.regex.Pattern;
 /**
  * The abstract base class for all components.
  */
-public abstract class BaseComponent implements IElementIdentifier, IAttributeMap<String, Object> {
+public abstract class BaseComponent implements IElementIdentifier, IAttributeMap<String, Object>, IPropertyChangeObservable {
 
     /**
      * Reference to a subcomponent. A subcomponent typically does not have an explicit
@@ -668,6 +671,8 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     private final Map<String, Object> attributes = new HashMap<>();
 
     private final EventListeners eventListeners = new EventListeners();
+
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     private final ComponentDefinition componentDefinition;
 
@@ -2284,6 +2289,14 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
         invoke("trigger", event, null, true);
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
     /**
      * Setter for on* event handlers.
      *
@@ -2632,7 +2645,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Handle changes to published properties. If the old and new values are the same, no action is
      * taken. Otherwise, the client is notified of the new value (if syncToClient is true) and a
-     * {@link PropertychangeEvent} is fired.
+     * {@link java.beans.PropertyChangeEvent} is fired.
      *
      * @param propertyName The property name.
      * @param oldValue     The old value.
@@ -2653,8 +2666,10 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             sync(propertyName, newValue);
         }
 
-        if (this.hasEventListener(PropertychangeEvent.TYPE)) {
-            fireEvent(new PropertychangeEvent(this, propertyName, oldValue, newValue));
+        propertyName = StringUtils.removeStart(propertyName, "_");
+
+        if (propertyChangeSupport.hasListeners(propertyName)) {
+            propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
         }
 
         return true;
@@ -2663,7 +2678,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Handle changes to published properties that are component references. If the old and new
      * values are the same, no action is taken. Otherwise, the client is notified of the new value
-     * (if syncToClient is true) and a {@link PropertychangeEvent} is fired.
+     * (if syncToClient is true) and a {@link java.beans.PropertyChangeEvent} is fired.
      *
      * @param <T>          The type of the referenced component.
      * @param propertyName The property name.

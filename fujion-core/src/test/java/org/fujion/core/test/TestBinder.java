@@ -42,9 +42,9 @@ public class TestBinder extends GenericBinder<TestBinder.TestModel> {
             propertyChanged("color", this.color, this.color = color);
         }
 
-        private void propertyChanged(String propertyName, Object oldValue, Object newValue) {
+        public void propertyChanged(String propertyName, Object oldValue, Object newValue) {
             if (!Objects.equals(oldValue, newValue)) {
-                propertyChanged(propertyName);
+                super.propertyChanged(propertyName, oldValue, newValue);
             }
         }
     }

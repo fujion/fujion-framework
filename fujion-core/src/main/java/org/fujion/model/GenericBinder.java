@@ -27,12 +27,16 @@ import org.fujion.common.MiscUtil;
 import org.fujion.component.BaseComponent;
 import org.fujion.convert.ConversionService;
 import org.fujion.core.BeanUtil;
-import org.fujion.event.PropertychangeEvent;
+import org.fujion.event.IPropertyChangeObservable;
 import org.fujion.model.IBinding.IReadBinding;
 import org.fujion.model.IBinding.IWriteBinding;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -40,7 +44,7 @@ import java.util.function.Function;
  *
  * @param <M> Type of model object.
  */
-public class GenericBinder<M> implements IBinder<M>, Observer {
+public class GenericBinder<M> implements IBinder<M>, PropertyChangeListener {
 
     private M model;
 
@@ -90,8 +94,8 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
                     write();
                 }
 
-                instance.addEventListener(PropertychangeEvent.class, (event) -> {
-                    if (!updating && ((PropertychangeEvent) event).getPropertyName().equals(propertyName)) {
+                instance.addPropertyChangeListener(event -> {
+                    if (!updating && event.getPropertyName().equals(propertyName)) {
                         write();
                     }
                 });
@@ -201,16 +205,16 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
 
     @Override
     public void setModel(M model) {
-        if (this.model instanceof Observable) {
-            ((Observable) this.model).deleteObserver(this);
+        if (this.model instanceof IPropertyChangeObservable pco) {
+            pco.removePropertyChangeListener(this);
         }
 
         this.model = model;
         modelChanged(null);
         targetChanged(null);
 
-        if (this.model instanceof Observable) {
-            ((Observable) this.model).addObserver(this);
+        if (this.model instanceof IPropertyChangeObservable pco) {
+            pco.addPropertyChangeListener(this);
         }
 
     }
@@ -230,11 +234,8 @@ public class GenericBinder<M> implements IBinder<M>, Observer {
         return new DualBinding(modelProperty, readConverter, writeConverter);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o == model) {
-            modelChanged(arg instanceof String ? (String) arg : null);
-        }
+    public void propertyChange(PropertyChangeEvent evt) {
+        modelChanged(evt.getPropertyName());
     }
 
     /**

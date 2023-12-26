@@ -42,8 +42,8 @@ public class BindingController extends BaseController {
             propertyChanged("color", this.color, this.color = color);
         }
 
-        private void propertyChanged(String propertyName, Object oldValue, Object newValue) {
-            propertyChanged(propertyName);
+        public void propertyChanged(String propertyName, Object oldValue, Object newValue) {
+            super.propertyChanged(propertyName, oldValue, newValue);
             BindingController.this.log(
                 String.format("Model property \"%s\" changed from \"%s\" to \"%s\".", propertyName, oldValue, newValue));
         }

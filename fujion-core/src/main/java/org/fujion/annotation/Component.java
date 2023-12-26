@@ -21,7 +21,6 @@
 package org.fujion.annotation;
 
 import org.fujion.ancillary.ComponentFactory;
-import org.fujion.event.PropertychangeEvent;
 import org.fujion.model.IBinding.IReadBinding;
 import org.fujion.model.IBinding.IWriteBinding;
 
@@ -74,7 +73,7 @@ public @interface Component {
         
         /**
          * If true, the getter may be bound to a {@link IWriteBinding write binder}. A property must
-         * signal a change in value via a {@link PropertychangeEvent} in order to serve as a data
+         * signal a change in value via a {@link java.beans.PropertyChangeEvent} in order to serve as a data
          * source for a write binder.
          *
          * @return If true, the getter may be bound to a {@link IWriteBinding write binder}.
