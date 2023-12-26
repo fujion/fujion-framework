@@ -217,8 +217,7 @@ public class EventUtil {
      */
     public static Method getHandler(String handlerName, Object instance, Event event) {
         handlerName = handlerName != null ? handlerName : event.getType();
-        Method method = MethodUtils.getMatchingAccessibleMethod(instance.getClass(), handlerName,
-            new Class<?>[] { event.getClass() });
+        Method method = MethodUtils.getMatchingAccessibleMethod(instance.getClass(), handlerName, event.getClass());
         return method != null ? method
                 : MethodUtils.getAccessibleMethod(instance.getClass(), handlerName, ArrayUtils.EMPTY_CLASS_ARRAY);
 

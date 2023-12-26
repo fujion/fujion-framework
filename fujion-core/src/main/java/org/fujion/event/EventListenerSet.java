@@ -20,6 +20,7 @@
  */
 package org.fujion.event;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
@@ -28,6 +29,7 @@ import java.util.LinkedHashSet;
  */
 public class EventListenerSet extends LinkedHashSet<IEventListener> implements IEventListener {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

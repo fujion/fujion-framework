@@ -50,7 +50,7 @@ public class Accordion extends BaseUIComponent implements ISupportsModel<Accordi
     /**
      * Returns the currently expanded item, if any.  If multiple items are expanded, returns the first only.
      *
-     * @return The currently expanded item (may be null).
+     * @return The currently expanded item (possibly null).
      */
     public Accordionitem getExpandedItem() {
         return this.getChildren().stream()
@@ -75,7 +75,7 @@ public class Accordion extends BaseUIComponent implements ISupportsModel<Accordi
     /**
      * Sets the currently expanded item.  All other expanded items will be collapsed.
      *
-     * @param expandedItem The item to expand (may be null).
+     * @param expandedItem The item to expand (possibly null).
      */
     public void setExpandedItem(Accordionitem expandedItem) {
         validateIsChild(expandedItem);

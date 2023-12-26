@@ -117,7 +117,7 @@ public class Listbox extends BaseUIComponent implements ISupportsModel<Listitem>
      * Returns the selected list item, if any. If there are multiple selections, only the first will
      * be returned.
      *
-     * @return The selected list item (may be null).
+     * @return The selected list item (possibly null).
      */
     public Listitem getSelectedItem() {
         return selected.isEmpty() ? null : selected.iterator().next();
@@ -126,7 +126,7 @@ public class Listbox extends BaseUIComponent implements ISupportsModel<Listitem>
     /**
      * Sets the selected list item. Any existing selections are cleared.
      *
-     * @param item The selected list item (may be null).
+     * @param item The selected list item (possibly null).
      */
     public void setSelectedItem(Listitem item) {
         validateIsChild(item);

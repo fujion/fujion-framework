@@ -73,7 +73,7 @@ public class WebJar {
     /**
      * Returns the import map for this web jar.
      *
-     * @return The import map with all paths normalized..
+     * @return The import map with all paths normalized.
      */
     protected ObjectNode getImportMap() {
         return importMap;

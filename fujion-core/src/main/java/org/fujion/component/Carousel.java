@@ -73,7 +73,7 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
     }
 
     /**
-     * Returns whether or not the carousel will respond to keyboard events.
+     * Returns whether the carousel will respond to keyboard events.
      *
      * @return True if the carousel will respond to keyboard events.
      */
@@ -83,7 +83,7 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
     }
 
     /**
-     * Sets whether or not the carousel will respond to keyboard events.
+     * Sets whether the carousel will respond to keyboard events.
      *
      * @param keyboard True if the carousel is to respond to keyboard events.
      */
@@ -103,7 +103,7 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
     }
 
     /**
-     * Sets whether or not the carousel will respond to keyboard events.
+     * Sets whether the carousel will respond to keyboard events.
      *
      * @param wrap True if the carousel is to respond to keyboard events.
      */
@@ -115,7 +115,7 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
     /**
      * Returns the currently selected item, if any.
      *
-     * @return The currently selected item (may be null).
+     * @return The currently selected item (possibly null).
      */
     public Carouselitem getSelectedItem() {
         return selectedItem;
@@ -124,7 +124,7 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
     /**
      * Sets the currently selected item.
      *
-     * @param selectedItem The item to select (may be null).
+     * @param selectedItem The item to select (can be null).
      */
     public void setSelectedItem(Carouselitem selectedItem) {
         validateIsChild(selectedItem);

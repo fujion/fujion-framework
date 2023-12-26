@@ -79,7 +79,7 @@ public class ThreadedTask implements Runnable, ICancellable, Future<ThreadedTask
      * notification of completion.  The task is guaranteed to be executed in the execution context
      * of the requester.
      *
-     * @param task The task to be performed in the background thread..
+     * @param task The task to be performed in the background thread.
      * @param requester The component requesting the operation.
      */
     public ThreadedTask(TaskExecutor task, BaseComponent requester) {
@@ -91,7 +91,7 @@ public class ThreadedTask implements Runnable, ICancellable, Future<ThreadedTask
      * notification of completion.  The task is guaranteed to be executed in the execution context
      * of the requester.
      *
-     * @param task The task to be performed in the background thread..
+     * @param task The task to be performed in the background thread.
      * @param requester The component requesting the operation.
      * @param eventName Name of the event used to notify requester of completion. When fired, the
      *            data associated with the event will be a reference to this instance and may be

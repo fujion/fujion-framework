@@ -207,6 +207,7 @@ public class Slider extends BaseUIComponent {
      * @param event A change event.
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _onChange(ChangeEvent event) {
         _setValue(defaultify(event.getValue(Integer.class), value), false);
     }

@@ -23,7 +23,6 @@ package org.fujion.servlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.fujion.core.WebUtil;
 import org.springframework.core.io.Resource;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.servlet.resource.AbstractResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
 
@@ -51,7 +50,7 @@ public class EmptyResourceResolver extends AbstractResourceResolver {
 
         @Override
         public InputStream getInputStream() {
-            return StreamUtils.emptyInput();
+            return InputStream.nullInputStream();
         }
 
         @Override

@@ -123,7 +123,7 @@ public class CssStyles {
 
         for (Entry<String, String> entry : styles.entrySet()) {
             if (entry.getValue() != null) {
-                if (sb.length() > 0) {
+                if (!sb.isEmpty()) {
                     sb.append(";");
                 }
 

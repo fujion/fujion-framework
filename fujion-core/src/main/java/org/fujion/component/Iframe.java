@@ -120,6 +120,7 @@ public class Iframe extends BaseUIComponent {
      * @param event A load event.
      */
     @EventHandler(value = "load", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _onLoad(LoadEvent event) {
         String src = nullify(event.getSrc());
 

@@ -56,7 +56,7 @@ public class PageDefinition {
     /**
      * Returns the source from which this page definition was derived.
      *
-     * @return The source of this page definition (may be null).
+     * @return The source of this page definition (possibly null).
      */
     public String getSource() {
         return source;

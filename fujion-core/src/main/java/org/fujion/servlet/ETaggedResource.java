@@ -29,6 +29,7 @@ import org.springframework.web.servlet.resource.HttpResource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serial;
 import java.net.URI;
 import java.net.URL;
 
@@ -39,6 +40,7 @@ public class ETaggedResource implements HttpResource {
 
     public static class ResourceNotModifiedException extends RuntimeException {
 
+        @Serial
         private static final long serialVersionUID = 1L;
 
         private final String etag;

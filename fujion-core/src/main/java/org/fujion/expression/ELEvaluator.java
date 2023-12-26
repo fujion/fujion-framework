@@ -37,7 +37,7 @@ import org.springframework.expression.spel.support.StandardTypeConverter;
 
 /**
  * An extension of Spring's EL evaluation context that supports plugin accessors, resolvers, and
- * converters..
+ * converters.
  */
 public class ELEvaluator extends StandardEvaluationContext implements BeanPostProcessor, ApplicationContextAware {
 

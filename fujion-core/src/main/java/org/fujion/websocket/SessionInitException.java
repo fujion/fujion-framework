@@ -20,12 +20,15 @@
  */
 package org.fujion.websocket;
 
+import java.io.Serial;
+
 /**
  * Exception occurring during session initialization. It should be considered fatal and the session
  * should be discarded.
  */
 public class SessionInitException extends RuntimeException {
     
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public SessionInitException(Throwable cause) {

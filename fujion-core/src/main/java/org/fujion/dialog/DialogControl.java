@@ -109,7 +109,7 @@ public class DialogControl<T> {
      *                         the last response. If not specified (null or empty), the response is not saved.
      *                         Otherwise, if a saved response exists, it is returned without displaying the
      *                         dialog. If a saved response does not exist, the user is prompted in the normal
-     *                         manner with the addition of a check box on the dialog asking if the response is to
+     *                         manner with the addition of a checkbox on the dialog asking if the response is to
      *                         be saved. If this box is checked, the user's response is then saved as a user
      *                         preference.
      * @param callback         Callback to receive response.
@@ -150,7 +150,7 @@ public class DialogControl<T> {
      *                         the last response. If not specified (null or empty), the response is not saved.
      *                         Otherwise, if a saved response exists, it is returned without displaying the
      *                         dialog. If a saved response does not exist, the user is prompted in the normal
-     *                         manner with the addition of a check box on the dialog asking if the response is to
+     *                         manner with the addition of a checkbox on the dialog asking if the response is to
      *                         be saved. If this box is checked, the user's response is then saved as a user
      *                         preference.
      * @param callback         Callback to receive response.
@@ -181,7 +181,7 @@ public class DialogControl<T> {
      *                         the last response. If not specified (null or empty), the response is not saved.
      *                         Otherwise, if a saved response exists, it is returned without displaying the
      *                         dialog. If a saved response does not exist, the user is prompted in the normal
-     *                         manner with the addition of a check box on the dialog asking if the response is to
+     *                         manner with the addition of a checkbox on the dialog asking if the response is to
      *                         be saved. If this box is checked, the user's response is then saved as a user
      *                         preference.
      * @param callback         Callback to receive response.
@@ -210,7 +210,7 @@ public class DialogControl<T> {
      *                       the last response. If not specified (null or empty), the response is not saved.
      *                       Otherwise, if a saved response exists, it is returned without displaying the
      *                       dialog. If a saved response does not exist, the user is prompted in the normal
-     *                       manner with the addition of a check box on the dialog asking if the response is to
+     *                       manner with the addition of a checkbox on the dialog asking if the response is to
      *                       be saved. If this box is checked, the user's response is then saved as a user
      *                       preference.
      * @param callback       Callback to receive response.

@@ -41,28 +41,28 @@ public class Menuitem extends BaseMenuComponent {
     private boolean checked;
 
     /**
-     * Returns true if the menu item has an associated check box.
+     * Returns true if the menu item has an associated checkbox.
      *
-     * @return True if the menu item has an associated check box.
+     * @return True if the menu item has an associated checkbox.
      */
-    @PropertyGetter(value = "checkable", description = "True if the menu item has an associated check box.")
+    @PropertyGetter(value = "checkable", description = "True if the menu item has an associated checkbox.")
     public boolean isCheckable() {
         return checkable;
     }
 
     /**
-     * Set to true to associate a check box with the menu item.
+     * Set to true to associate a checkbox with the menu item.
      *
-     * @param checkable True to associate a check box with the menu item.
+     * @param checkable True to associate a checkbox with the menu item.
      */
-    @PropertySetter(value = "checkable", defaultValue = "false", description = "True if the menu item has an associated check box.")
+    @PropertySetter(value = "checkable", defaultValue = "false", description = "True if the menu item has an associated checkbox.")
     public void setCheckable(boolean checkable) {
         propertyChange("checkable", this.checkable, this.checkable = checkable, true);
     }
 
     /**
      * Returns the checked state of the menu item. If the checkable property is set to true, this
-     * state will be reflected in the associated check box.
+     * state will be reflected in the associated checkbox.
      *
      * @return The checked state of the menu item.
      */
@@ -73,7 +73,7 @@ public class Menuitem extends BaseMenuComponent {
 
     /**
      * Sets the checked state of the menu item. If the checkable property is set to true, this state
-     * will be reflected in the associated check box.
+     * will be reflected in the associated checkbox.
      *
      * @param checked The checked state of the menu item.
      */

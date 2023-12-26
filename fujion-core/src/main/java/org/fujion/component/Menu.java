@@ -78,7 +78,8 @@ public class Menu extends BaseMenuComponent implements ISupportsModel<BaseMenuCo
     @PropertySetter(value = "open", defaultValue = "false", description = "The open state.")
     public void setOpen(boolean open) {
         if (open != this.open) {
-            invoke((this.open = open) ? "open" : "close");
+            this.open = open;
+            invoke(open ? "open" : "close");
         }
     }
     
@@ -88,7 +89,8 @@ public class Menu extends BaseMenuComponent implements ISupportsModel<BaseMenuCo
      * @param event An open or close event.
      */
     @EventHandler(value = { "open", "close" }, syncToClient = false, mode = "init")
-    private void onOpenOrClose(Event event) {
+    @SuppressWarnings("unused")
+    private void _onOpenOrClose(Event event) {
         open = event instanceof OpenEvent;
     }
     

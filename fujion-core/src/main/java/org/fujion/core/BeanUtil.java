@@ -121,10 +121,9 @@ public class BeanUtil {
     /**
      * Invokes a method with the provided value(s), performing type conversion as necessary.
      *
-     * @param instance Instance that is the target of the invocation (may be null for static
-     *                 methods).
+     * @param instance Instance that is the target of the invocation (use null for static methods).
      * @param method   The method to invoke.
-     * @param args     Arguments to be passed to the method (may be null if no arguments). Argument
+     * @param args     Arguments to be passed to the method (use null if no arguments). Argument
      *                 values will be coerced to the expected type if possible.
      * @return Return value of the method, if any.
      */
@@ -145,7 +144,7 @@ public class BeanUtil {
      *
      * @param <T>   The expected return type.
      * @param clazz The class whose constructor is to be invoked.
-     * @param args  Arguments to be passed to the constructor (may be null if no arguments). Argument
+     * @param args  Arguments to be passed to the constructor (use null if no arguments). Argument
      *              values will be coerced to the expected type if possible.
      * @return The newly created instance.
      */

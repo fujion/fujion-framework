@@ -36,20 +36,20 @@ import java.util.Map;
  * Base class for a popup window.
  */
 public class PopupDialog extends Window {
-    
+
     private static final Log log = LogFactory.getLog(PopupDialog.class);
-    
+
     private boolean cancelled = true;
-    
+
     /**
-     * Can be used to popup any page definition as a modal dialog.
-     * 
-     * @param dialog String Page used to construct the dialog.
-     * @param args Argument list (may be null)
-     * @param closable If true, window closure button appears.
-     * @param sizable If true, window sizing grips appear.
-     * @param show If true, the window is displayed modally. If false, the window is created but not
-     *            displayed.
+     * Can be used to pop up any page definition as a modal dialog.
+     *
+     * @param dialog        String Page used to construct the dialog.
+     * @param args          Argument list (may be null)
+     * @param closable      If true, window closure button appears.
+     * @param sizable       If true, window sizing grips appear.
+     * @param show          If true, the window is displayed modally. If false, the window is created but not
+     *                      displayed.
      * @param closeListener Called upon window closure.
      * @return Reference to the opened window, if successful.
      */
@@ -59,28 +59,28 @@ public class PopupDialog extends Window {
         Page currentPage = ExecutionContext.getPage();
         parent.setParent(currentPage);
         Window window = null;
-        
+
         try {
             PageUtil.createPage(dialog, parent, args);
             window = parent.getFirstChild(Window.class);
-            
+
             if (window != null) { // If any top component is a window, discard temp parent
                 window.setParent(null);
                 BaseComponent child;
-                
+
                 while ((child = parent.getFirstChild()) != null) {
                     child.setParent(window);
                 }
-                
+
                 parent.destroy();
                 window.setParent(currentPage);
             } else { // Otherwise, use the temp parent as the window
                 window = parent;
             }
-            
+
             window.setClosable(closable);
             window.setSizable(sizable);
-            
+
             if (show) {
                 window.modal(closeListener);
             }
@@ -89,22 +89,20 @@ public class PopupDialog extends Window {
                 window.destroy();
                 window = null;
             }
-            
-            if (parent != null) {
-                parent.destroy();
-            }
-            
+
+            parent.destroy();
+
             org.fujion.dialog.DialogUtil.showError(e);
             log.error("Error materializing page", e);
         }
-        
+
         return window;
     }
-    
+
     /**
      * Create popup window with specified parent and title and with default attributes. Defaults are
      * used: reference loadDefaults()
-     * 
+     *
      * @param owner Component that requested creation (may be null)
      * @param title Window title
      */
@@ -112,19 +110,19 @@ public class PopupDialog extends Window {
         super();
         loadDefaults();
         setTitle(title);
-        
+
         if (owner != null) {
             setParent(owner.getPage());
         } else {
             setParent(ExecutionContext.getPage());
         }
     }
-    
+
     public PopupDialog() {
         super();
         loadDefaults();
     }
-    
+
     private void loadDefaults() {
         //setContentStyle("overflow:auto");
         setVisible(false);
@@ -136,10 +134,10 @@ public class PopupDialog extends Window {
             onResize(sizeEvent.getHeight(), sizeEvent.getWidth());
         });
     }
-    
+
     /**
      * Show the window modally.
-     * 
+     *
      * @param closeListener The close listener.
      */
     public void show(IEventListener closeListener) {
@@ -149,33 +147,33 @@ public class PopupDialog extends Window {
             // NOP
         }
     }
-    
+
     /**
      * Returns true if window action was canceled.
-     * 
+     *
      * @return True if window action was canceled.
      */
     public boolean isCanceled() {
         return cancelled;
     }
-    
+
     /**
      * Fired when the window is resized. Override to perform any special reformatting.
-     * 
+     *
      * @param newHeight New height of window.
-     * @param newWidth New width of window.
+     * @param newWidth  New width of window.
      */
     public void onResize(double newHeight, double newWidth) {
     }
-    
+
     /**
      * Closes the window with the specified cancel status.
-     * 
+     *
      * @param canceled Cancel status for the closed window.
      */
     public void close(boolean canceled) {
         this.cancelled = canceled;
         close();
     }
-    
+
 }

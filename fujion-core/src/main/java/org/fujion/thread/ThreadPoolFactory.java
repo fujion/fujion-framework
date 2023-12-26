@@ -23,7 +23,7 @@ package org.fujion.thread;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
- * Manages threads on a per session basis.
+ * Manages threads on a per-session basis.
  */
 public class ThreadPoolFactory {
 

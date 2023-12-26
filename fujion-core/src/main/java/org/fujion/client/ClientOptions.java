@@ -69,7 +69,7 @@ public class ClientOptions extends Options {
 
     /**
      * Set a custom global setting.  Custom settings will appear under <code>globalOptions.custom</code>
-     * on the client.  Only pages created subsequent to the change will receive the updated value.
+     * on the client.  Only pages created after the change will receive the updated value.
      *
      * @param name Name of setting.
      * @param value Setting value.

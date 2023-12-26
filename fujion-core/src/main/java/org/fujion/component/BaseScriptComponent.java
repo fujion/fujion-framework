@@ -208,7 +208,8 @@ public abstract class BaseScriptComponent extends BaseSourcedComponent {
      * Performs deferred execution of the script.
      */
     @EventHandler(value = EVENT_DEFERRED, syncToClient = false, mode = "init")
-    private void onDeferredExecution() {
+    @SuppressWarnings("unused")
+    private void _onDeferredExecution() {
         execute();
     }
 

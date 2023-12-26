@@ -87,9 +87,8 @@ public class ClientRequest {
      * @exception ClassCastException If the payload is not assignment-compatible with the specified
      *                class.
      */
-    @SuppressWarnings("unchecked")
     public <T> T getData(Class<T> clazz) {
-        return (T) data;
+        return clazz.cast(data);
     }
 
     /**

@@ -20,6 +20,7 @@
  */
 package org.fujion.dialog;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujion.ancillary.IAutoWired;
@@ -28,7 +29,6 @@ import org.fujion.annotation.WiredComponent;
 import org.fujion.client.ExecutionContext;
 import org.fujion.component.*;
 import org.fujion.page.PageUtil;
-import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
@@ -71,9 +71,9 @@ public class InputDialog implements IAutoWired {
         Window dialog = (Window) PageUtil
                 .createPage(org.fujion.dialog.DialogConstants.RESOURCE_PREFIX + "inputDialog.fsp", ExecutionContext.getPage(), args).get(0);
 
-        dialog.modal(callback == null ? null : (event) -> {
-            callback.onComplete(dialog.getAttribute("result", String.class));
-        });
+        dialog.modal(callback == null ? null : event ->
+                callback.onComplete(dialog.getAttribute("result", String.class))
+        );
     }
 
     @Override
@@ -89,23 +89,26 @@ public class InputDialog implements IAutoWired {
     }
 
     private void updateState() {
-        btnOK.setDisabled(StringUtils.isEmpty(textbox.getValue()));
+        btnOK.setDisabled(ObjectUtils.isEmpty(textbox.getValue()));
     }
 
     @EventHandler(value = "change", target = "@textbox")
-    private void onChange() {
+    @SuppressWarnings("unused")
+    private void _onChange() {
         updateState();
     }
 
     @EventHandler(value = "enter", target = "@textbox")
     @EventHandler(value = "click", target = "@btnOK")
-    private void onCommit() {
+    @SuppressWarnings("unused")
+    private void _onCommit() {
         root.setAttribute("result", textbox.getValue());
         root.close();
     }
 
     @EventHandler(value = "click", target = "btnCancel")
-    private void onCancel() {
+    @SuppressWarnings("unused")
+    private void _onCancel() {
         root.setAttribute("result", null);
         root.close();
     }

@@ -90,7 +90,7 @@ public class ThreadUtil {
     }
 
     /**
-     * Schedule a task to run repeatedly after the an initial delay.
+     * Schedule a task to run repeatedly after the initial delay.
      *
      * @param task Task to execute.
      * @param initialDelay Delay before the task is first executed.

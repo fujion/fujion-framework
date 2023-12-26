@@ -159,6 +159,7 @@ public class MessagePane extends BaseUIComponent {
      * Handles close events from the client.
      */
     @EventHandler(value = "close", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _close() {
         destroy();
     }

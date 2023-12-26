@@ -44,7 +44,7 @@ public class EventParameterScanner extends AbstractFieldScanner<Event, EventPara
     /**
      * Wire an event object with parameters from a client request.
      *
-     * @param event The event object to be wired..
+     * @param event The event object to be wired.
      * @param request The client request from which parameter values will be derived.
      */
     public static void wire(Event event, ClientRequest request) {

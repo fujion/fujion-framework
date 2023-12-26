@@ -101,7 +101,7 @@ class DynamicResource extends AbstractResource {
     }
     
     @Override
-    public void finalize() throws Throwable {
+    protected void finalize() throws Throwable {
         FileUtils.deleteQuietly(file);
         super.finalize();
     }

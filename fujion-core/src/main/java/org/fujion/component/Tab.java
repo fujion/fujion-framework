@@ -112,6 +112,7 @@ public class Tab extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPos
      * @param event A change event.
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _onChange(ChangeEvent event) {
         _setSelected(defaultify(event.getValue(Boolean.class), true), true);
         event = new ChangeEvent(this.getParent(), event.getData(), this);
@@ -124,6 +125,7 @@ public class Tab extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPos
      * @param event A close event.
      */
     @EventHandler(value = "close", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _onClose(Event event) {
         close();
     }
@@ -211,6 +213,7 @@ public class Tab extends BaseLabeledImageComponent<BaseLabeledComponent.LabelPos
      * @param event A badge update event.
      */
     @EventHandler(value = "badge", mode = "init")
+    @SuppressWarnings("unused")
     private void _onBadge(Event event) {
         int delta = (Integer) event.getData();
 

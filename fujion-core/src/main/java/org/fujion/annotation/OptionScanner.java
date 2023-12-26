@@ -114,8 +114,8 @@ public class OptionScanner extends AbstractFieldScanner<Object, Option> {
     /**
      * Sets the name/value pair into the specified map.
      * <p>
-     * If the name contains a period, the value is stored in a submap using the first part of the
-     * name as the top level key and the second part as the subkey.
+     * If the name contains a period, the value is stored in a sub-map using the first part of the
+     * name as the top level key and the second part as the sub-key.
      * <p>
      * If a name contains a "$" character, the name is truncated at that character.  This allows
      * representing alternate forms of the same variable. For such variables, only the

@@ -20,6 +20,7 @@
  */
 package org.fujion.ancillary;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import java.util.HashMap;
  */
 public class OptionMap extends HashMap<String, Object> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

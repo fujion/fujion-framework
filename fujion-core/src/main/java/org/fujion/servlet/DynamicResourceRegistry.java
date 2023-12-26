@@ -28,6 +28,7 @@ import org.fujion.websocket.Session;
 import org.fujion.websocket.Sessions;
 import org.springframework.core.io.Resource;
 
+import java.io.Serial;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
@@ -42,6 +43,7 @@ public class DynamicResourceRegistry implements ISessionLifecycle {
     
     private static class ResourceRegistry extends ConcurrentHashMap<String, Resource> {
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
     

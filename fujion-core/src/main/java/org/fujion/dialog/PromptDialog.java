@@ -175,13 +175,9 @@ public class PromptDialog implements IAutoWired {
             listbox.setSelectedItem(listbox.getFirstChild(Listitem.class));
         }
         
-        addButton(LABEL_ID_CANCEL, "danger", (event) -> {
-            close(null);
-        });
+        addButton(LABEL_ID_CANCEL, "danger", event -> close(null));
         
-        addButton(LABEL_ID_OK, "success", (event) -> {
-            close(listbox.getSelectedItem());
-        });
+        addButton(LABEL_ID_OK, "success", event -> close(listbox.getSelectedItem()));
     }
     
     private Button addButton(String label, String flavor, IEventListener listener) {

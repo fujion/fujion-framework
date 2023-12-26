@@ -48,9 +48,9 @@ public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     }
 
     /**
-     * Returns the checked state of the check box.
+     * Returns the checked state of the checkbox.
      *
-     * @return True if the check box is checked, false if not.
+     * @return True if the checkbox is checked, false if not.
      */
     @PropertyGetter(value = "checked", description = "The checked state of the check box.")
     public boolean isChecked() {
@@ -58,9 +58,9 @@ public class Checkbox extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     }
 
     /**
-     * Sets the checked state of the check box.
+     * Sets the checked state of the checkbox.
      *
-     * @param checked if the check box is checked, false if not.
+     * @param checked if the checkbox is checked, false if not.
      */
     @PropertySetter(value = "checked", defaultValue = "false", description = "The checked state of the check box.")
     public void setChecked(boolean checked) {

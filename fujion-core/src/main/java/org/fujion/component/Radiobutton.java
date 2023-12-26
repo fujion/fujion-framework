@@ -37,7 +37,7 @@ public class Radiobutton extends Checkbox {
     /**
      * Returns the nearest enclosing radio group.
      *
-     * @return The nearest enclosing radio group (may be null).
+     * @return The nearest enclosing radio group (possibly null).
      */
     public Radiogroup getGroup() {
         return getAncestor(Radiogroup.class);

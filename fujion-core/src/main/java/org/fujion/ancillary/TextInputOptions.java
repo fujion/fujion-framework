@@ -122,7 +122,7 @@ public abstract class TextInputOptions extends Options {
         public Date dateMin;
 
         /**
-         * The upper date boundary (inclusive.  Default is no upper boundary.
+         * The upper date boundary (inclusive).  Default is no upper boundary.
          */
         @Option(convertUsing = "T(org.fujion.common.DateUtil).toISODate(value)")
         public Date dateMax;
@@ -158,7 +158,7 @@ public abstract class TextInputOptions extends Options {
          */
         public enum ThousandsGroupStyle {
             /**
-             * Thousand numbering group style. It groups numbers in thousands and the delimiter occurs every 3 digits.
+             * Thousands numbering group style. It groups numbers in thousands and the delimiter occurs every 3 digits.
              * For example: 1,234,567.89
              */
             THOUSAND,
@@ -185,7 +185,7 @@ public abstract class TextInputOptions extends Options {
 
         /**
          * Indicates the thousands separator grouping style.
-         * Default is THOUSAND.
+         * Default is <code>THOUSAND</code>.
          */
         @Option("numeralThousandsGroupStyle")
         public ThousandsGroupStyle thousandsGroupStyle;

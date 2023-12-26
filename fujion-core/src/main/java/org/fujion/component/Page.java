@@ -172,9 +172,8 @@ public final class Page extends BaseComponent implements INamespace {
      * @param type The expected return type.
      * @return The attribute value, possibly null.
      */
-    @SuppressWarnings("unchecked")
     public <T> T getBrowserInfo(String key, Class<T> type) {
-        return (T) browserInfo.get(key);
+        return type.cast(browserInfo.get(key));
     }
     
     /**

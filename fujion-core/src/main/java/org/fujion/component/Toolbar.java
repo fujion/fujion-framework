@@ -39,7 +39,7 @@ import org.fujion.annotation.Component.PropertySetter;
 public class Toolbar extends BaseUIComponent {
     
     /**
-     * Alignment of children within the tool bar. Default is START.
+     * Alignment of children within the toolbar. Default is START.
      */
     public enum Alignment {
         /**
@@ -57,15 +57,15 @@ public class Toolbar extends BaseUIComponent {
     }
     
     /**
-     * Orientation of the tool bar. Default is HORIZONTAL.
+     * Orientation of the toolbar. Default is HORIZONTAL.
      */
     public enum Orientation {
         /**
-         * Tool bar is oriented horizontally.
+         * Toolbar is oriented horizontally.
          */
         HORIZONTAL,
         /**
-         * Tool bar is oriented vertically.
+         * Toolbar is oriented vertically.
          */
         VERTICAL
     }
@@ -75,41 +75,41 @@ public class Toolbar extends BaseUIComponent {
     private Orientation orientation = Orientation.HORIZONTAL;
     
     /**
-     * Returns the {@link Alignment alignment} of children within the tool bar.
+     * Returns the {@link Alignment alignment} of children within the toolbar.
      *
-     * @return The {@link Alignment alignment} of children within the tool bar.
+     * @return The {@link Alignment alignment} of children within the toolbar.
      */
-    @PropertyGetter(value = "alignment", description = "The alignment of children within the tool bar.")
+    @PropertyGetter(value = "alignment", description = "The alignment of children within the toolbar.")
     public Alignment getAlignment() {
         return alignment;
     }
     
     /**
-     * Sets the {@link Alignment alignment} of children within the tool bar.
+     * Sets the {@link Alignment alignment} of children within the toolbar.
      *
-     * @param alignment The {@link Alignment alignment} of children within the tool bar.
+     * @param alignment The {@link Alignment alignment} of children within the toolbar.
      */
-    @PropertySetter(value = "alignment", defaultValue = "start", description = "The alignment of children within the tool bar.")
+    @PropertySetter(value = "alignment", defaultValue = "start", description = "The alignment of children within the toolbar.")
     public void setAlignment(Alignment alignment) {
         propertyChange("alignment", this.alignment, this.alignment = defaultify(alignment, Alignment.START), true);
     }
     
     /**
-     * Returns the {@link Orientation orientation} of the tool bar.
+     * Returns the {@link Orientation orientation} of the toolbar.
      *
-     * @return The {@link Orientation orientation} of the tool bar.
+     * @return The {@link Orientation orientation} of the toolbar.
      */
-    @PropertyGetter(value = "orientation", description = "The orientation of the tool bar.")
+    @PropertyGetter(value = "orientation", description = "The orientation of the toolbar.")
     public Orientation getOrientation() {
         return orientation;
     }
     
     /**
-     * Sets the {@link Orientation orientation} of the tool bar.
+     * Sets the {@link Orientation orientation} of the toolbar.
      *
-     * @param orientation The {@link Orientation orientation} of the tool bar.
+     * @param orientation The {@link Orientation orientation} of the toolbar.
      */
-    @PropertySetter(value = "orientation", defaultValue = "horizontal", description = "The orientation of the tool bar.")
+    @PropertySetter(value = "orientation", defaultValue = "horizontal", description = "The orientation of the toolbar.")
     public void setOrientation(Orientation orientation) {
         propertyChange("orientation", this.orientation, this.orientation = defaultify(orientation, Orientation.HORIZONTAL),
             true);

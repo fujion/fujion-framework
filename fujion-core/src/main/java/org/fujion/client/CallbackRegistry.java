@@ -89,7 +89,7 @@ public class CallbackRegistry {
      * Unregisters a callback.
      *
      * @param handle The callback's handle.
-     * @return The callback that was unregistered (may be null).
+     * @return The callback that was unregistered (possibly null).
      */
     private IResponseCallback<?> unregisterCallback(int handle) {
         timestamps.remove(handle);

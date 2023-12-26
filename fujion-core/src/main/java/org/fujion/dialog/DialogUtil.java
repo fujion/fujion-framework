@@ -86,9 +86,9 @@ public class DialogUtil {
             String title,
             String responseId,
             IConfirmCallback callback) {
-        prompt(message, title, STYLES_QUESTION, LABEL_IDS_OK_CANCEL, LABEL_ID_CANCEL, null, responseId, (response) -> {
-            IResponseCallback.invoke(callback, response != null && response.isOk());
-        });
+        prompt(message, title, STYLES_QUESTION, LABEL_IDS_OK_CANCEL, LABEL_ID_CANCEL, null, responseId, response ->
+                IResponseCallback.invoke(callback, response != null && response.isOk())
+        );
     }
 
     /* ---------------------- Prompt Dialogs ---------------------- */
@@ -111,9 +111,7 @@ public class DialogUtil {
             String responseId,
             IResponseCallback<DialogResponse<String>> callback) {
         org.fujion.dialog.DialogControl<String> ctl = org.fujion.dialog.DialogControl.create(message, title, styles, responses, exclusions, defaultResponse,
-                responseId, (response) -> {
-                    IResponseCallback.invoke(callback, response);
-                });
+                responseId, response -> IResponseCallback.invoke(callback, response));
 
         org.fujion.dialog.PromptDialog.show(ctl);
     }
@@ -299,7 +297,7 @@ public class DialogUtil {
     }
 
     /**
-     * Can be used to popup any page as a modal dialog.
+     * Can be used to pop up any page as a modal dialog.
      *
      * @param fspPage  Url of page.
      * @param closable If true, window closure button appears.
@@ -314,7 +312,7 @@ public class DialogUtil {
     }
 
     /**
-     * Can be used to popup any page as a modal dialog.
+     * Can be used to pop up any page as a modal dialog.
      *
      * @param fspPage  Url of page.
      * @param closable If true, window closure button appears.

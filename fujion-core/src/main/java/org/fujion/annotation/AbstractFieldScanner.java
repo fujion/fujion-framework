@@ -55,7 +55,7 @@ public abstract class AbstractFieldScanner<T, A extends Annotation> {
      */
     public void scan(T instance, BiFunction<A, Field, Boolean> processor) {
         if (instance != null) {
-            scan(instance, processor, instance.getClass());
+            scan(processor, instance.getClass());
         }
     }
 
@@ -63,14 +63,13 @@ public abstract class AbstractFieldScanner<T, A extends Annotation> {
      * Scan class and superclasses for annotated fields, calling the processor for each annotated
      * field. Superclasses are scanned first.
      *
-     * @param instance Object instance to scan.
      * @param processor Field processor.
      * @param clazz The class to be scanned.
      * @return Returns false to stop further scanning.
      */
-    private boolean scan(T instance, BiFunction<A, Field, Boolean> processor, Class<?> clazz) {
+    private boolean scan(BiFunction<A, Field, Boolean> processor, Class<?> clazz) {
         if (clazz != Object.class && instanceClass.isAssignableFrom(clazz)) {
-            if (!scan(instance, processor, clazz.getSuperclass())) {
+            if (!scan(processor, clazz.getSuperclass())) {
                 return false;
             }
 

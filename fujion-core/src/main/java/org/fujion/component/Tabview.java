@@ -71,7 +71,7 @@ public class Tabview extends BaseUIComponent implements ISupportsModel<Tab> {
     /**
      * Returns the currently selected tab, if any.
      *
-     * @return The currently selected tab (may be null).
+     * @return The currently selected tab (possibly null).
      */
     public Tab getSelectedTab() {
         return selectedTab;

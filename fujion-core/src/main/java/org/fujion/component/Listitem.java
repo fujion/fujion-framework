@@ -74,7 +74,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
     /**
      * Returns the list box that is the parent of this list item.
      *
-     * @return The parent list box (may be null).
+     * @return The parent list box (possibly null).
      */
     public Listbox getListbox() {
         return (Listbox) getParent();
@@ -126,6 +126,7 @@ public class Listitem extends BaseLabeledComponent<BaseLabeledComponent.LabelPos
      * @param event A change event.
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _onChange(ChangeEvent event) {
         _setSelected(defaultify(event.getValue(Boolean.class), true), false, true);
         event = new ChangeEvent(this.getParent(), this, event.getData(), this);

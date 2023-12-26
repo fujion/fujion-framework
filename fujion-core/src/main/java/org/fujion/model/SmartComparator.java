@@ -89,8 +89,7 @@ public class SmartComparator implements Comparator<Object> {
             return value1.hashCode() - value2.hashCode();
         }
 
-        if (value1 instanceof String) {
-            String s1 = (String) value1;
+        if (value1 instanceof String s1) {
             String s2 = (String) value2;
             return caseSensitive ? s1.compareTo(s2) : s1.compareToIgnoreCase(s2);
         }
@@ -110,7 +109,7 @@ public class SmartComparator implements Comparator<Object> {
         }
     }
 
-    private Object getPropertyValue(Object bean) throws Exception {
+    private Object getPropertyValue(Object bean) {
         return BeanUtil.getPropertyValue(bean, name);
     }
 

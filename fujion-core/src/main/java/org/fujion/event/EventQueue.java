@@ -29,7 +29,7 @@ import java.util.LinkedList;
 
 /**
  * A page's queue for posted events. Queued (posted) events are delivered at the end of an execution
- * cycle. If an event is queued outside of the target page's execution context, it will be delivered
+ * cycle. If an event is queued outside the target page's execution context, it will be delivered
  * at the end of the next execution cycle for that page. To ensure timely delivery in such an
  * instance, a ping request is sent to the client in order to trigger an execution cycle for the
  * target page.

@@ -63,7 +63,7 @@ public class MessageAccessor implements PropertyAccessor {
     /**
      * Accumulates property names.
      */
-    static class MessageContext {
+    public static class MessageContext {
 
         private String name;
 

@@ -305,7 +305,7 @@ public class ModelAndView<T extends BaseComponent, M> implements IListModelListe
         int page = paginator.getCurrentPage();
         int min = paginator.getModelOffset(page);
         int max = paginator.getModelOffset(page + 1) - 1;
-        return modelIndex < min ? min : modelIndex > max ? max : modelIndex;
+        return modelIndex < min ? min : Math.min(modelIndex, max);
     }
     
     @Override

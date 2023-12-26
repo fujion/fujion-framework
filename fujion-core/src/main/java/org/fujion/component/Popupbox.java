@@ -32,7 +32,7 @@ import org.fujion.event.EventUtil;
 import org.fujion.event.OpenEvent;
 
 /**
- * A popup box component is a text box with a drop down button that triggers the appearance of a
+ * A popup box component is a text box with a drop-down button that triggers the appearance of a
  * popup component. A popup component may be specified as a property or inline as a child.
  */
 @Component(
@@ -140,6 +140,7 @@ public class Popupbox extends Textbox {
      * @param event A popup open or close event.
      */
     @EventHandler(value = { "popupopen", "popupclose" }, mode = "init")
+    @SuppressWarnings("unused")
     private void _onOpen(Event event) {
         boolean open = "popupopen".equals(event.getType());
 

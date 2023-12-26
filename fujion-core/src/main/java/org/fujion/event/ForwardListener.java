@@ -51,8 +51,7 @@ public class ForwardListener implements IEventListener {
     
     @Override
     public boolean equals(Object object) {
-        if (object instanceof ForwardListener) {
-            ForwardListener fl = (ForwardListener) object;
+        if (object instanceof ForwardListener fl) {
             return fl.target == target && fl.forwardType.equals(forwardType);
         }
         

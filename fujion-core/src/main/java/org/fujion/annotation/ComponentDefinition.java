@@ -335,7 +335,7 @@ public class ComponentDefinition {
      * @return True if this component allows children.
      */
     public boolean childrenAllowed() {
-        return childTags.size() > 0;
+        return !childTags.isEmpty();
     }
     
     /**

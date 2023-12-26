@@ -152,7 +152,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler implements BeanPo
             for (ClientInvocation invocation : invocations) {
                 sb = sb == null ? new StringBuilder() : sb;
                 String json = writer.writeValueAsString(invocation.toMap(page));
-                sb.append(sb.length() == 0 ? "[" : ",").append(json);
+                sb.append(sb.isEmpty() ? "[" : ",").append(json);
                 session.notifySessionListeners(invocation);
             }
 

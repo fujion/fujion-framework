@@ -99,12 +99,14 @@ public class ReportDialog implements IAutoWired {
     }
 
     @EventHandler(value = "click", target = "btnClose")
-    private void btnClose$click() {
+    @SuppressWarnings("unused")
+    private void _btnClose$click() {
         window.close();
     }
 
     @EventHandler(value = "click", target = "@btnPrint")
-    private void btnPrint$click() {
+    @SuppressWarnings("unused")
+    private void _btnPrint$click() {
         PrintOptions options = new PrintOptions();
         options.title = window.getTitle();
         printRoot.print(options);

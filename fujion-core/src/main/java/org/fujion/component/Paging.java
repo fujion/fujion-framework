@@ -186,7 +186,8 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      *                {@link ISupportsModel} interface.
      */
     @PropertySetter(value = "target", defer = true, description = "The component whose associated model will be manipulated by paging operations.")
-    private void setPagingTarget(BaseComponent comp) {
+    @SuppressWarnings("unused")
+    private void _setPagingTarget(BaseComponent comp) {
         if (comp == null) {
             setPaginator(null);
         } else if (comp instanceof ISupportsModel) {
@@ -218,6 +219,7 @@ public class Paging extends BaseLabeledComponent<BaseLabeledComponent.LabelPosit
      * @param event A change event.
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _onChange(ChangeEvent event) {
         _setCurrentPage(defaultify(event.getValue(Integer.class), currentPage), false);
     }

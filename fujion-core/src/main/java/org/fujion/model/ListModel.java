@@ -144,7 +144,6 @@ public class ListModel<M> implements IListModel<M> {
         return list.isEmpty();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Iterator<M> iterator() {
         return IteratorUtils.unmodifiableIterator(list.iterator());
@@ -160,7 +159,6 @@ public class ListModel<M> implements IListModel<M> {
         return listIterator(0);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public ListIterator<M> listIterator(int index) {
         return IteratorUtils.unmodifiableListIterator(list.listIterator(index));

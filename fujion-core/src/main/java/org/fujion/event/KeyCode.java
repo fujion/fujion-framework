@@ -518,7 +518,7 @@ public enum KeyCode {
                 KeyCode keycode = fromString(entry);
                 Assert.notNull(keycode, "Unrecognized key mnemonic: %s", entry);
                 String pfx = StringUtils.join(pfxs, "");
-                result.append(result.length() > 0 ? " " : "").append(pfx).append(keycode.getCode());
+                result.append(!result.isEmpty() ? " " : "").append(pfx).append(keycode.getCode());
             }
 
             return result.toString();

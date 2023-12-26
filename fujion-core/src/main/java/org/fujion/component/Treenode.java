@@ -203,7 +203,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
     /**
      * Returns the parent tree view, if any.
      *
-     * @return The parent tree view (may be null).
+     * @return The parent tree view (possibly null).
      */
     public Treeview getTreeview() {
         return getAncestor(Treeview.class);
@@ -268,7 +268,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
     }
 
     /**
-     * Ensures that this node is visible (i.e., all of its parent tree nodes are expanded.
+     * Ensures that this node is visible (i.e., all of its parent tree nodes are expanded).
      */
     public void makeVisible() {
         BaseComponent node = getParent();
@@ -285,6 +285,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      * Handles toggle events from the client.
      */
     @EventHandler(value = "toggle", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _onToggle() {
         _setCollapsed(!collapsed, false);
     }
@@ -295,6 +296,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      * @param event A change event.
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _onChange(ChangeEvent event) {
         _setSelected(defaultify(event.getValue(Boolean.class), false), false, true);
         Treeview tree = getTreeview();
@@ -311,6 +313,7 @@ public class Treenode extends BaseLabeledImageComponent<BaseLabeledComponent.Lab
      * @param event A badge update event.
      */
     @EventHandler(value = "badge", mode = "init")
+    @SuppressWarnings("unused")
     private void _onBadge(Event event) {
         int delta = (Integer) event.getData();
         

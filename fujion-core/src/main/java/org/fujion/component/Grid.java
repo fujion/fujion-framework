@@ -86,7 +86,7 @@ public class Grid extends BaseUIComponent {
     /**
      * Returns the Columns child.
      *
-     * @return The Columns child (may be null).
+     * @return The Columns child (possibly null).
      */
     public Columns getColumns() {
         return columns;
@@ -95,7 +95,7 @@ public class Grid extends BaseUIComponent {
     /**
      * Returns the Rows child.
      *
-     * @return The Rows child (may be null).
+     * @return The Rows child (possibly null).
      */
     public Rows getRows() {
         return rows;

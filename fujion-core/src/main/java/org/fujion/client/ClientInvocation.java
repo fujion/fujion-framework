@@ -49,7 +49,7 @@ public class ClientInvocation {
     /**
      * Create a client invocation request.
      *
-     * @param function A fully qualified path to a free-standing function. This may be one of the
+     * @param function A fully qualified path to a freestanding function. This may be one of the
      *            following formats:
      *            <table style="padding-left:20px">
      *            <tr>
@@ -77,7 +77,7 @@ public class ClientInvocation {
      *
      * @param target The identifier of the widget that implements the function being invoked. If
      *            null is specified, the function name must specify a fully qualified path to a
-     *            free-standing function.
+     *            freestanding function.
      * @param function The name of the function to be invoked. This may be one of the following
      *            formats:
      *            <table style="padding-left:20px">
@@ -111,7 +111,7 @@ public class ClientInvocation {
      *
      * @param moduleName The name of the module whose exported function is to be invoked. If null is
      *            specified, the function name must specify a fully qualified path to a
-     *            free-standing function.
+     *            freestanding function.
      * @param function The name of the exported function to be invoked. This may be one of the
      *            following formats:
      *            <table style="padding-left:20px">

@@ -50,8 +50,7 @@ public class ThemeRegistry extends AbstractRegistry<String, Theme> implements Be
     
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof Theme) {
-            Theme newTheme = (Theme) bean;
+        if (bean instanceof Theme newTheme) {
             String themeName = newTheme.getName();
             Theme oldTheme = get(themeName);
 

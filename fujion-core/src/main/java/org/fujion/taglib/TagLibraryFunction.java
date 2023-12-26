@@ -21,7 +21,7 @@
 package org.fujion.taglib;
 
 /**
- * Represents a function definition block from a tag library. Currently ignore the method signature
+ * Represents a function definition block from a tag library. Currently, ignores the method signature
  * except for extracting the method name. Instead, we rely on the EL parser to find the method
  * signature that matches the parameter list.
  */
@@ -70,8 +70,7 @@ public class TagLibraryFunction {
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof TagLibraryFunction) {
-            TagLibraryFunction fcn = (TagLibraryFunction) object;
+        if (object instanceof TagLibraryFunction fcn) {
             return fcn.className.equals(className) && fcn.methodSignature.equals(methodSignature);
         }
 

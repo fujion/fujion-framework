@@ -109,7 +109,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
 
         @Override
         public Iterator<BaseComponent> iterator() {
-            return new Iterator<BaseComponent>() {
+            return new Iterator<>() {
 
                 int next = 0;
 
@@ -866,7 +866,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      * @see java.lang.Object#finalize()
      */
     @Override
-    public void finalize() throws Throwable {
+    protected void finalize() throws Throwable {
         super.finalize();
 
         if (id != null) {
@@ -906,7 +906,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
             }
 
             if (recurse) {
-                child.disableChildren(disable, recurse);
+                child.disableChildren(disable, true);
             }
         }
     }
@@ -1443,7 +1443,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Returns the index of this child within its parent.
      *
-     * @return Index of this child within its parent. If the component has not parent, returns -1.
+     * @return Index of this child within its parent. If the component has no parent, returns -1.
      */
     public int getIndex() {
         return getParent() == null ? -1 : getParent().children.indexOf(this);
@@ -1584,7 +1584,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     /**
      * Returns the page to which this component belongs.
      *
-     * @return The owning page (may be null).
+     * @return The owning page (possibly null).
      */
     public Page getPage() {
         return page;
@@ -1882,12 +1882,6 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
     }
 
     /**
-     * Returns a subcomponent identifier.
-     *
-     * @param subId The sub identifier.
-     * @return A subcomponent object.
-     */
-    /**
      * Find the first child whose label matches the specified value. This will only examine children
      * that implement the ILabeled interface.
      *
@@ -1900,6 +1894,12 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
                 && StrUtil.areEqual(label, ((ILabeled) child).getLabel(), caseSensitive));
     }
 
+    /**
+     * Returns a subcomponent identifier.
+     *
+     * @param subId The sub identifier.
+     * @return A subcomponent object.
+     */
     public SubComponent sub(String subId) {
         return new SubComponent(this, subId);
     }
@@ -2730,19 +2730,7 @@ public abstract class BaseComponent implements IElementIdentifier, IAttributeMap
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(64);
-
-        //@formatter:off
-        sb.append(getClass().getName())
-                .append(", ")
-                .append("id: ")
-                .append(id)
-                .append(", ")
-                .append("name: ")
-                .append(name);
-        //@formatter:on
-
-        return sb.toString();
+        return String.format("%s, id: %s, name: %s", getClass().getName(), id, name);
     }
 
 }

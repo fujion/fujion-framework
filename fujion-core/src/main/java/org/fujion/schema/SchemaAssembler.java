@@ -189,7 +189,8 @@ public class SchemaAssembler {
                 boolean found = false;
                 
                 for (String token : tokens.keySet()) {
-                    if (found = tmpl.contains(token)) {
+                    if (tmpl.contains(token)) {
+                        found = true;
                         tokens.get(token).accept(token, tmpl);
                         break;
                     }

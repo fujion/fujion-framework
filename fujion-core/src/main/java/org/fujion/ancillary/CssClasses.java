@@ -163,7 +163,7 @@ public class CssClasses {
         StringBuilder sb = new StringBuilder();
 
         for (String cls : classes) {
-            sb.append(sb.length() == 0 ? "" : " ").append(cls);
+            sb.append(sb.isEmpty() ? "" : " ").append(cls);
         }
 
         changed &= !clearChanged;

@@ -120,11 +120,11 @@ public class PageElement {
             }
         }
         
-        Assert.state(sb.length() == 0, sb::toString);
+        Assert.state(sb.isEmpty(), sb::toString);
     }
     
     private void build(StringBuilder sb, String format, Object... args) {
-        sb.append(sb.length() == 0 ? "" : "\n").append(String.format(format, args));
+        sb.append(sb.isEmpty() ? "" : "\n").append(String.format(format, args));
     }
     
     /**

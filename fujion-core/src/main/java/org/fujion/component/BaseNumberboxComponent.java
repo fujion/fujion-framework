@@ -67,6 +67,7 @@ public abstract class BaseNumberboxComponent<T extends Number> extends BaseInput
     }
     
     @PropertySetter(value = "step", description = "The increment or decrement when the spinner element is clicked.")
+    @SuppressWarnings("unused")
     private void _setStep(String step) {
         setStep(_toValue(step));
     }

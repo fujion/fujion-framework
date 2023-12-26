@@ -44,8 +44,7 @@ public class ELMethodResolver extends ReflectiveMethodResolver {
     @Override
     public MethodExecutor resolve(EvaluationContext context, Object targetObject, String name,
                                   List<TypeDescriptor> argumentTypes) throws AccessException {
-        if (targetObject instanceof TagLibrary) {
-            TagLibrary lib = (TagLibrary) targetObject;
+        if (targetObject instanceof TagLibrary lib) {
             TagLibraryFunction function = lib.getFunction(name);
 
             if (function != null) {

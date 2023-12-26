@@ -28,7 +28,7 @@ import org.fujion.annotation.Option;
 public class PrintOptions extends Options {
     
     /**
-     * Adds custom HTML after the selected content. May be any valid jquery selector or HTML text.
+     * Adds custom HTML after the selected content. Can be any valid jquery selector or HTML text.
      */
     @Option
     public String append;
@@ -42,7 +42,7 @@ public class PrintOptions extends Options {
     public String doctype;
     
     /**
-     * Whether or not the styles from the parent document should be included.
+     * Whether the styles from the parent document should be included.
      * <p>
      * Default: true
      */
@@ -73,7 +73,7 @@ public class PrintOptions extends Options {
     public Boolean manuallyCopyFormValues;
     
     /**
-     * Whether or not link tags with media='print' should be included; Overridden by the
+     * Whether link tags with media='print' should be included; Overridden by the
      * globalStyles option.
      * <p>
      * Default: false
@@ -90,7 +90,7 @@ public class PrintOptions extends Options {
     public String noPrintSelector;
 
     /**
-     * Adds custom HTML before the selected content. May be any valid jquery selector or HTML text.
+     * Adds custom HTML before the selected content. Can be any valid jquery selector or HTML text.
      */
     @Option
     public String prepend;

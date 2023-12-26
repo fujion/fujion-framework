@@ -80,11 +80,10 @@ public class EventHandlerScanner {
                 return true;
             }
             
-            if (!(object instanceof EventListener)) {
+            if (!(object instanceof EventListener el)) {
                 return false;
             }
-            
-            EventListener el = (EventListener) object;
+
             return target == el.target && method.equals(el.method);
         }
 

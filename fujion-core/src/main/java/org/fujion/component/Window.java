@@ -309,7 +309,7 @@ public class Window extends BaseUIComponent implements INamespace {
      * Returns true if the window may be minimized. A window that is minimizable has an icon that,
      * when clicked, causes a window's body to be hidden. If the window's mode is {@link Mode#MODAL
      * modal} or {@link Mode#POPUP popup}, it will also be resized to a smaller dimension and placed
-     * at the lower left corner of the view port. Clicking the icon again restores the window to its
+     * in the lower left corner of the view port. Clicking the icon again restores the window to its
      * original size and position.
      *
      * @return True if the window is minimizable.
@@ -323,7 +323,7 @@ public class Window extends BaseUIComponent implements INamespace {
      * Sets whether the window may be minimized. A window that is minimizable has an icon that, when
      * clicked, causes a window's body to be hidden. If the window's mode is {@link Mode#MODAL
      * modal} or {@link Mode#POPUP popup}, it will also be resized to a smaller dimension and placed
-     * at the lower left corner of the view port. Clicking the icon again restores the window to its
+     * in the lower left corner of the view port. Clicking the icon again restores the window to its
      * original size and position.
      *
      * @param minimizable True if the window is minimizable.
@@ -517,6 +517,7 @@ public class Window extends BaseUIComponent implements INamespace {
      * Handles close events from the client.
      */
     @EventHandler(value = "close", syncToClient = false, mode = "init")
+    @SuppressWarnings("unused")
     private void _close() {
         close();
     }

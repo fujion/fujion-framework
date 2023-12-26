@@ -22,6 +22,7 @@ package org.fujion.ancillary;
 
 import org.fujion.component.BaseComponent;
 
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Supplier;
 
@@ -30,6 +31,7 @@ import java.util.function.Supplier;
  */
 public class ComponentException extends RuntimeException {
     
+    @Serial
     private static final long serialVersionUID = 1L;
     
     private final BaseComponent component;
