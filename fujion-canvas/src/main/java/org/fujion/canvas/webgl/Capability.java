@@ -61,7 +61,7 @@ public enum Capability implements IEnumWithValue {
      */
     SAMPLE_COVERAGE(32928),
     /**
-     * The scissor test that discards fragments that are outside of the scissor rectangle.
+     * The scissor test that discards fragments that are outside the scissor rectangle.
      */
     SCISSOR_TEST(3089),
     /**

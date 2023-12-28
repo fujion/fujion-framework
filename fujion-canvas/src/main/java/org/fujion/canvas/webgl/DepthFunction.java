@@ -32,7 +32,7 @@ public enum DepthFunction implements IEnumWithValue {
      */
     ALWAYS(519),
     /**
-     * Pass if the incoming value equals the the depth buffer value.
+     * Pass if the incoming value equals the depth buffer value.
      */
     EQUAL(514),
     /**

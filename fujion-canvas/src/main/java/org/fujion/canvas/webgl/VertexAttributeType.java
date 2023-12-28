@@ -43,7 +43,7 @@ public enum VertexAttributeType implements IEnumWithValue {
      */
     VERTEX_ATTRIB_ARRAY_ENABLED(34338),
     /**
-     * Whether or not an integer data type is in the vertex attribute array at the given index.
+     * Whether an integer data type is in the vertex attribute array at the given index.
      */
     VERTEX_ATTRIB_ARRAY_INTEGER(35069),
     /**

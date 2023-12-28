@@ -28,7 +28,7 @@ import org.fujion.ancillary.IEnumWithValue;
 public enum ErrorType implements IEnumWithValue {
     /**
      * If the WebGL context is lost, this error is returned on the first call to getError.
-     * Afterwards and until the context has been restored, it returns NO_ERROR.
+     * Afterward and until the context has been restored, it returns NO_ERROR.
      */
     CONTEXT_LOST_WEBGL(37442),
     /**

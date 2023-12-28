@@ -39,7 +39,7 @@ public enum PixelFormat implements IEnumWithValue {
      */
     RGBA(6408);
 
-    public int value;
+    private final int value;
 
     PixelFormat(int value) {
         this.value = value;

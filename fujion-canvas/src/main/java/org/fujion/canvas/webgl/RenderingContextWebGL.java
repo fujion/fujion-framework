@@ -295,16 +295,16 @@ public class RenderingContextWebGL extends RenderingContextBase {
      * Sets which color components to enable or to disable when drawing or rendering to a
      * WebGLFramebuffer.
      *
-     * @param red Whether or not the red color component can be written into the frame buffer.
+     * @param red Whether the red color component can be written into the frame buffer.
      *            <p>
      *            Default: true
-     * @param green Whether or not the green color component can be written into the frame buffer.
+     * @param green Whether the green color component can be written into the frame buffer.
      *            <p>
      *            Default: true
-     * @param blue Whether or not the blue color component can be written into the frame buffer.
+     * @param blue Whether the blue color component can be written into the frame buffer.
      *            <p>
      *            Default: true
-     * @param alpha Whether or not the alpha component can be written into the frame buffer.
+     * @param alpha Whether the alpha component can be written into the frame buffer.
      *            <p>
      *            Default: true
      */
@@ -423,7 +423,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
     }
     
     /**
-     * Specifies whether or not front- and/or back-facing polygons can be culled.
+     * Specifies whether front- and/or back-facing polygons can be culled.
      *
      * @param mode The culling mode.
      */
@@ -960,7 +960,7 @@ public class RenderingContextWebGL extends RenderingContextBase {
     }
     
     /**
-     * Returns whether or not the WebGL context has been lost.
+     * Returns whether the WebGL context has been lost.
      *
      * @param callback Callback to receive result.
      */
@@ -1112,14 +1112,14 @@ public class RenderingContextWebGL extends RenderingContextBase {
     }
 
     /**
-     * Specifies multi-sample coverage parameters for anti-aliasing effects.
+     * Specifies multi-sample coverage parameters for antialiasing effects.
      *
      * @param value Coverage value.
      *            <p>
      *            Constraints: &ge;0 and &le;1
      *            <p>
      *            Default: 1.0
-     * @param invert Whether or not the coverage masks should be inverted.
+     * @param invert Whether the coverage masks should be inverted.
      *            <p>
      *            Default: false
      */
@@ -1413,11 +1413,11 @@ public class RenderingContextWebGL extends RenderingContextBase {
      *            <p>
      *            Constraints: one of BYTE, SHORT, UNSIGNED_BYTE, UNSIGNED_SHORT, FLOAT, HALF_FLOAT
      * @param normalized Whether integer data values should be normalized into a certain range when
-     *            being casted to a float.
+     *            being cast to a float.
      * @param stride The offset in bytes between the beginning of consecutive vertex attributes.
      *            Cannot be larger than 255. If stride is 0, the attribute is assumed to be tightly
      *            packed, that is, the attributes are not interleaved but each attribute is in a
-     *            separate block, and the next vertex' attribute follows immediately after the
+     *            separate block, and the next vertex's attribute follows immediately after the
      *            current vertex.
      * @param offset Offset in bytes of the first component in the vertex attribute array. Must be a
      *            multiple of type.

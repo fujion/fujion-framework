@@ -24,12 +24,15 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.client.IClientTransform;
 
+import java.lang.ref.Cleaner;
 import java.util.Collections;
 
 /**
  * Base class for canvas-generated resources.
  */
 public abstract class CanvasResource implements IClientTransform {
+
+    private static final Cleaner cleaner = Cleaner.create();
 
     private final BaseCanvasComponent<?, ?> canvas;
     
@@ -41,7 +44,8 @@ public abstract class CanvasResource implements IClientTransform {
     
     protected CanvasResource(BaseCanvasComponent<?, ?> canvas, boolean requestResponse, String factory, Object... args) {
         this.canvas = canvas;
-        handle = canvas.nextResourceId();
+        int handle = this.handle = canvas.nextResourceId();
+        cleaner.register(this, () -> canvas.invoke("destroyResource", handle));
         IResponseCallback<?> callback = this::callback;
         initResource(requestResponse ? callback : null, factory, args);
     }
@@ -80,12 +84,6 @@ public abstract class CanvasResource implements IClientTransform {
 
     protected void destroy() {
         canvas.invoke("destroyResource", handle);
-    }
-    
-    @Override
-    protected void finalize() throws Throwable {
-        destroy();
-        super.finalize();
     }
     
     /**

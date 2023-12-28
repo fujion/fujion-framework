@@ -196,7 +196,7 @@ public class BarCode extends BaseUIComponent {
     }
     
     /**
-     * Returns whether or not to render guard bars.
+     * Returns whether to render guard bars.
      *
      * @return True to suppress rendering of guard bars.
      */

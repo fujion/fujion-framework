@@ -77,7 +77,7 @@ public class SearchOptions extends Options {
     public Range start;
 
     /**
-     * Whether or not to include the current line in the search. Default to false.
+     * Whether to include the current line in the search. Default to false.
      */
     @Option
     public Boolean skipCurrent;

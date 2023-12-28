@@ -75,7 +75,7 @@ public enum BlendFactor implements IEnumWithValue {
      */
     SRC_ALPHA(770),
     /**
-     * Multiplies the RGB colors by the smaller of either the source alpha value or the value of 1
+     * Multiplies the RGB colors by the smallest of either the source alpha value or the value of 1
      * minus the destination alpha value. The alpha value is multiplied by 1.
      */
     SRC_ALPHA_SATURATE(776),

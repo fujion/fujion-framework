@@ -43,11 +43,11 @@ public enum ProgramParameterType implements IEnumWithValue {
      */
     ATTACHED_SHADERS(35717),
     /**
-     * Whether or not the program is flagged for deletion.
+     * Whether the program is flagged for deletion.
      */
     DELETE_STATUS(35712),
     /**
-     * Whether or not the last link operation was successful.
+     * Whether the last link operation was successful.
      */
     LINK_STATUS(35714),
     /**
@@ -59,7 +59,7 @@ public enum ProgramParameterType implements IEnumWithValue {
      */
     TRANSFORM_FEEDBACK_VARYINGS(35971),
     /**
-     * Whether or not the last validation operation was successful.
+     * Whether the last validation operation was successful.
      */
     VALIDATE_STATUS(35715);
     

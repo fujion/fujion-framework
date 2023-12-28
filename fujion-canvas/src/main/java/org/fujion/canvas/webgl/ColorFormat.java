@@ -47,7 +47,7 @@ public enum ColorFormat implements IEnumWithValue {
      */
     RGBA(6408);
     
-    public int value;
+    private final int value;
     
     ColorFormat(int value) {
         this.value = value;

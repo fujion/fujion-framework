@@ -44,7 +44,7 @@ public class ContextOptionsWebGL extends Options {
     public Boolean stencil;
     
     /**
-     * Indicates whether or not to perform anti-aliasing.
+     * Indicates whether to perform antialiasing.
      */
     @Option
     public Boolean antialias;

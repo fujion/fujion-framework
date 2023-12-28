@@ -26,13 +26,13 @@ import org.fujion.common.Assert;
 import org.fujion.component.Image;
 
 public class RenderingContext2D extends RenderingContextBase {
-    
+
     private Object fillStyle;
-    
+
     private String font;
-    
+
     private double globalAlpha = 1.0;
-    
+
     private CompositeOperation globalCompositeOperation = CompositeOperation.SOURCE_OVER;
 
     private LineCap lineCap = LineCap.BUTT;
@@ -40,21 +40,21 @@ public class RenderingContext2D extends RenderingContextBase {
     private double lineDashOffset;
 
     private LineJoin lineJoin = LineJoin.MITER;
-    
+
     private double lineWidth = 1.0;
-    
+
     private double miterLimit = 10.0;
-    
+
     private double shadowBlur;
-    
+
     private String shadowColor;
-    
+
     private double shadowOffsetX;
 
     private double shadowOffsetY;
 
     private Object strokeStyle;
-    
+
     private TextAlign textAlign = TextAlign.START;
 
     private TextBaseline textBaseline = TextBaseline.ALPHABETIC;
@@ -62,7 +62,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public RenderingContext2D(BaseCanvasComponent<?, ?> canvas) {
         super(canvas, "2d");
     }
-    
+
     private void _setFillStyle(Object fillStyle) {
         config("fillStyle", this.fillStyle = fillStyle);
     }
@@ -75,13 +75,13 @@ public class RenderingContext2D extends RenderingContextBase {
      * Adds an arc to the path which is centered at (x, y) position with radius r starting at
      * startAngle and ending at endAngle going in the given direction by anticlockwise.
      *
-     * @param x The x coordinate of the arc's center.
-     * @param y The y coordinate of the arc's center.
-     * @param radius The arc's radius.
-     * @param startAngle The angle at which the arc starts, measured clockwise from the positive x
-     *            axis and expressed in radians.
-     * @param endAngle The angle at which the arc ends, measured clockwise from the positive x axis
-     *            and expressed in radians.
+     * @param x          The x coordinate of the arc's center.
+     * @param y          The y coordinate of the arc's center.
+     * @param radius     The arc's radius.
+     * @param startAngle The angle at which the arc starts, measured clockwise from the positive x-axis
+     *                   and expressed in radians.
+     * @param endAngle   The angle at which the arc ends, measured clockwise from the positive x-axis
+     *                   and expressed in radians.
      */
     public void arc(double x, double y, double radius, double startAngle, double endAngle) {
         arc(x, y, radius, startAngle, endAngle, false);
@@ -91,15 +91,15 @@ public class RenderingContext2D extends RenderingContextBase {
      * Adds an arc to the path which is centered at (x, y) position with radius r starting at
      * startAngle and ending at endAngle going in the given direction by anticlockwise.
      *
-     * @param x The x coordinate of the arc's center.
-     * @param y The y coordinate of the arc's center.
-     * @param radius The arc's radius.
-     * @param startAngle The angle at which the arc starts, measured clockwise from the positive x
-     *            axis and expressed in radians.
-     * @param endAngle The angle at which the arc ends, measured clockwise from the positive x axis
-     *            and expressed in radians.
+     * @param x             The x coordinate of the arc's center.
+     * @param y             The y coordinate of the arc's center.
+     * @param radius        The arc's radius.
+     * @param startAngle    The angle at which the arc starts, measured clockwise from the positive
+     *                      x-axis and expressed in radians.
+     * @param endAngle      The angle at which the arc ends, measured clockwise from the positive x-axis
+     *                      and expressed in radians.
      * @param anticlockwise if true, causes the arc to be drawn counter-clockwise between the two
-     *            angles.
+     *                      angles.
      */
     public void arc(double x, double y, double radius, double startAngle, double endAngle, boolean anticlockwise) {
         invoke("arc", x, y, radius, startAngle, endAngle, anticlockwise);
@@ -118,10 +118,10 @@ public class RenderingContext2D extends RenderingContextBase {
      * (latest point in the current path), the starting point is connected to the arc with a
      * straight line segment.
      *
-     * @param x1 x-axis coordinates for the first control point.
-     * @param y1 y-axis coordinates for the first control point.
-     * @param x2 x-axis coordinates for the second control point.
-     * @param y2 y-axis coordinates for the second control point.
+     * @param x1     x-axis coordinates for the first control point.
+     * @param y1     y-axis coordinates for the first control point.
+     * @param x2     x-axis coordinates for the second control point.
+     * @param y2     y-axis coordinates for the second control point.
      * @param radius The arc's radius.
      */
     public void arcTo(double x1, double y1, double x2, double y2, double radius) {
@@ -135,30 +135,30 @@ public class RenderingContext2D extends RenderingContextBase {
     public void beginPath() {
         invoke("beginPath");
     }
-    
+
     /**
      * Adds a cubic Bézier curve to the path. It requires three points. The first two points are
      * control points and the third one is the end point. The starting point is the last point in
      * the current path, which can be changed using moveTo() before creating the Bézier curve.
      *
-     * @param cp1x The x axis of the coordinate for the first control point.
-     * @param cp1y The y axis of the coordinate for the first control point.
-     * @param cp2x The x axis of the coordinate for the second control point.
-     * @param cp2y The y axis of the coordinate for the second control point.
-     * @param x The x axis of the coordinate for the end point.
-     * @param y The y axis of the coordinate for the end point.
+     * @param cp1x The x-axis of the coordinate for the first control point.
+     * @param cp1y The y-axis of the coordinate for the first control point.
+     * @param cp2x The x-axis of the coordinate for the second control point.
+     * @param cp2y The y-axis of the coordinate for the second control point.
+     * @param x    The x-axis of the coordinate for the end point.
+     * @param y    The y-axis of the coordinate for the end point.
      */
     public void bezierCurveTo(double cp1x, double cp1y, double cp2x, double cp2y, double x, double y) {
         invoke("bezierCurveTo", cp1x, cp1y, cp2x, cp2y, x, y);
     }
-    
+
     /**
      * Sets all pixels in the rectangle defined by starting point (x, y) and size (width, height) to
      * transparent black, erasing any previously drawn content.
      *
-     * @param x The x axis of the coordinate for the rectangle starting point.
-     * @param y The y axis of the coordinate for the rectangle starting point.
-     * @param width The rectangle's width.
+     * @param x      The x-axis of the coordinate for the rectangle starting point.
+     * @param y      The y-axis of the coordinate for the rectangle starting point.
+     * @param width  The rectangle's width.
      * @param height The rectangle's height.
      */
     public void clearRect(double x, double y, double width, double height) {
@@ -171,7 +171,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void clip() {
         clip(FillRule.NONZERO);
     }
-    
+
     /**
      * Turns the path currently being built into the current clipping path.
      *
@@ -180,7 +180,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void clip(FillRule fillRule) {
         invoke("clip", fillRule);
     }
-    
+
     /**
      * Causes the point of the pen to move back to the start of the current sub-path. It tries to
      * add a straight line (but does not actually draw it) from the current point to the start. If
@@ -189,13 +189,13 @@ public class RenderingContext2D extends RenderingContextBase {
     public void closePath() {
         invoke("closePath");
     }
-    
+
     /**
-     * Creates a new, blank ImageData object with the specified dimensions. All of the pixels in the
+     * Creates a new, blank ImageData object with the specified dimensions. All the pixels in the
      * new object are transparent black.
      *
      * @param height The image height.
-     * @param width The image width.
+     * @param width  The image width.
      */
     public void createImageData(double height, double width) {
         throw new UnsupportedOperationException("createImageData");
@@ -204,10 +204,10 @@ public class RenderingContext2D extends RenderingContextBase {
     /**
      * Creates a gradient along the line given by the coordinates represented by the parameters.
      *
-     * @param x0 The x axis of the coordinate of the start point.
-     * @param y0 The y axis of the coordinate of the start point.
-     * @param x1 The x axis of the coordinate of the end point.
-     * @param y1 The y axis of the coordinate of the end point.
+     * @param x0 The x-axis of the coordinate of the start point.
+     * @param y0 The y-axis of the coordinate of the start point.
+     * @param x1 The x-axis of the coordinate of the end point.
+     * @param y1 The y-axis of the coordinate of the end point.
      * @return A linear canvas gradient initialized with the specified line.
      */
     public CanvasGradient createLinearGradient(double x0, double y0, double x1, double y1) {
@@ -218,23 +218,23 @@ public class RenderingContext2D extends RenderingContextBase {
      * Creates a pattern using the specified image. It repeats the source in the directions
      * specified by the repetition argument. This method returns a CanvasPattern.
      *
-     * @param image The image to repeat.
+     * @param image      The image to repeat.
      * @param repetition The repetition.
      * @return A canvas pattern.
      */
     public CanvasPattern createPattern(Image image, Repetition repetition) {
         return new CanvasPattern(getCanvas(), image, repetition);
     }
-    
+
     /**
      * Creates a radial gradient given by the coordinates of the two circles represented by the
      * parameters.
      *
-     * @param x0 The x axis of the coordinate of the start circle.
-     * @param y0 The y axis of the coordinate of the start circle.
+     * @param x0 The x-axis of the coordinate of the start circle.
+     * @param y0 The y-axis of the coordinate of the start circle.
      * @param r0 The radius of the start circle.
-     * @param x1 The x axis of the coordinate of the end circle.
-     * @param y1 The y axis of the coordinate of the end circle.
+     * @param x1 The x-axis of the coordinate of the end circle.
+     * @param y1 The y-axis of the coordinate of the end circle.
      * @param r1 The radius of the end circle.
      * @return A radial canvas gradient initialized with the two specified circles.
      */
@@ -248,7 +248,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void fill() {
         fill(FillRule.NONZERO);
     }
-    
+
     /**
      * Fills the current or given path with the current fill style using the specified winding rule.
      *
@@ -262,9 +262,9 @@ public class RenderingContext2D extends RenderingContextBase {
      * Draws a filled rectangle whose starting point is at the coordinates (x, y) with the specified
      * width and height and whose style is determined by the fillStyle attribute.
      *
-     * @param x The x component of the coordinates for the rectangle's starting point.
-     * @param y The y component of the coordinates for the rectangle's starting point.
-     * @param width The rectangle's width.
+     * @param x      The x component of the coordinates for the rectangle's starting point.
+     * @param y      The y component of the coordinates for the rectangle's starting point.
+     * @param width  The rectangle's width.
      * @param height The rectangle's height.
      */
     public void fillRect(double x, double y, double width, double height) {
@@ -277,9 +277,9 @@ public class RenderingContext2D extends RenderingContextBase {
      * as defined by the font, textAlign, textBaseline, and direction properties.
      *
      * @param text The text string to render into the context. The text is rendered using the
-     *            settings specified by font, textAlign, textBaseline, and direction.
-     * @param x The x-coordinate of the point at which to begin drawing the text, in pixels.
-     * @param y The y-coordinate of the point at which to begin drawing the text, in pixels.
+     *             settings specified by font, textAlign, textBaseline, and direction.
+     * @param x    The x-coordinate of the point at which to begin drawing the text, in pixels.
+     * @param y    The y-coordinate of the point at which to begin drawing the text, in pixels.
      */
     public void fillText(String text, double x, double y) {
         invoke("fillText", text, x, y);
@@ -290,26 +290,26 @@ public class RenderingContext2D extends RenderingContextBase {
      * current foreground color. The text is rendered using the font and text layout configuration
      * as defined by the font, textAlign, textBaseline, and direction properties.
      *
-     * @param text The text string to render into the context. The text is rendered using the
-     *            settings specified by font, textAlign, textBaseline, and direction.
-     * @param x The x-coordinate of the point at which to begin drawing the text, in pixels.
-     * @param y The y-coordinate of the point at which to begin drawing the text, in pixels.
+     * @param text     The text string to render into the context. The text is rendered using the
+     *                 settings specified by font, textAlign, textBaseline, and direction.
+     * @param x        The x-coordinate of the point at which to begin drawing the text, in pixels.
+     * @param y        The y-coordinate of the point at which to begin drawing the text, in pixels.
      * @param maxWidth The maximum number of pixels wide the string may be once rendered. If not
-     *            specified, there is no limit to the width of the string. However, if this value is
-     *            provided, the user agent will adjust the kerning, select a more horizontally
-     *            condensed font (if one is available or can be generated without loss of quality),
-     *            or scale down to a smaller font size in order to fit the text in the specified
-     *            width.
+     *                 specified, there is no limit to the width of the string. However, if this value is
+     *                 provided, the user agent will adjust the kerning, select a more horizontally
+     *                 condensed font (if one is available or can be generated without loss of quality),
+     *                 or scale down to a smaller font size in order to fit the text in the specified
+     *                 width.
      */
     public void fillText(String text, double x, double y, Integer maxWidth) {
         invoke("fillText", text, x, y, maxWidth);
     }
-    
+
     /**
      * Returns the color or style to use inside shapes.
      *
      * @return The color or style to use inside shapes. May be a color, a CanvasGradient, or a
-     *         CanvasPattern.
+     * CanvasPattern.
      */
     public Object getFillStyle() {
         return fillStyle;
@@ -344,7 +344,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public CompositeOperation getGlobalCompositeOperation() {
         return globalCompositeOperation;
     }
-    
+
     /**
      * Returns the line cap style.
      *
@@ -362,7 +362,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public double getLineDashOffset() {
         return lineDashOffset;
     }
-    
+
     /**
      * Returns the line join behavior.
      *
@@ -371,7 +371,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public LineJoin getLineJoin() {
         return lineJoin;
     }
-    
+
     /**
      * Returns the thickness of lines in space units.
      *
@@ -407,7 +407,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public String getShadowColor() {
         return shadowColor;
     }
-    
+
     /**
      * Returns the distance that the shadow will be offset in horizontal distance.
      * <p>
@@ -429,7 +429,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public double getShadowOffsetY() {
         return shadowOffsetY;
     }
-    
+
     /**
      * Returns the color, gradient or style to use for the lines around shapes.
      * <p>
@@ -440,7 +440,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public Object getStrokeStyle() {
         return strokeStyle;
     }
-    
+
     /**
      * Returns the current text alignment being used when drawing text.
      *
@@ -449,7 +449,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public TextAlign getTextAlign() {
         return textAlign;
     }
-    
+
     /**
      * Returns the current text baseline being used when drawing text.
      *
@@ -458,33 +458,33 @@ public class RenderingContext2D extends RenderingContextBase {
     public TextBaseline getTextBaseline() {
         return textBaseline;
     }
-    
+
     /**
      * Connects the last point in the sub-path to the x, y coordinates with a straight line (but
      * does not actually draw it).
      *
-     * @param x The x axis of the coordinate for the end of the line.
-     * @param y The y axis of the coordinate for the end of the line.
+     * @param x The x-axis of the coordinate for the end of the line.
+     * @param y The y-axis of the coordinate for the end of the line.
      */
     public void lineTo(double x, double y) {
         invoke("lineTo", x, y);
     }
-    
+
     /**
      * Moves the starting point of a new sub-path to the (x, y) coordinates.
      *
-     * @param x The x axis of the point.
-     * @param y The y axis of the point.
+     * @param x The x-axis of the point.
+     * @param y The y-axis of the point.
      */
     public void moveTo(double x, double y) {
         invoke("moveTo", x, y);
     }
 
     /**
-     * @param cpx The x axis of the coordinate for the control point.
-     * @param cpy The y axis of the coordinate for the control point.
-     * @param x The x axis of the coordinate for the end point.
-     * @param y The y axis of the coordinate for the end point.
+     * @param cpx The x-axis of the coordinate for the control point.
+     * @param cpy The y-axis of the coordinate for the control point.
+     * @param x   The x-axis of the coordinate for the end point.
+     * @param y   The y-axis of the coordinate for the end point.
      */
     public void quadraticCurveTo(double cpx, double cpy, double x, double y) {
         invoke("quadraticCurveTo", cpx, cpy, x, y);
@@ -495,15 +495,15 @@ public class RenderingContext2D extends RenderingContextBase {
      * height. Those four points are connected by straight lines and the sub-path is marked as
      * closed, so that you can fill or stroke this rectangle.
      *
-     * @param x The x coordinate for the left side of the rectangle.
-     * @param y The y coordinate for the left side of the rectangle.
-     * @param width The rectangle's width.
+     * @param x      The x coordinate for the left side of the rectangle.
+     * @param y      The y coordinate for the left side of the rectangle.
+     * @param width  The rectangle's width.
      * @param height The rectangle's height.
      */
     public void rect(double x, double y, double width, double height) {
         invoke("rect", x, y, width, height);
     }
-    
+
     /**
      * Restores the most recently saved canvas state by popping the top entry in the drawing state
      * stack. If there is no saved state, this method does nothing.
@@ -511,7 +511,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void restore() {
         invoke("restore");
     }
-    
+
     /**
      * Adds a rotation to the transformation matrix. The angle argument represents a clockwise
      * rotation angle and is expressed in degrees.
@@ -521,7 +521,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void rotateDegrees(double angle) {
         rotateRadians(angle * Math.PI / 180.0);
     }
-    
+
     /**
      * Adds a rotation to the transformation matrix. The angle argument represents a clockwise
      * rotation angle and is expressed in radians.
@@ -531,14 +531,14 @@ public class RenderingContext2D extends RenderingContextBase {
     public void rotateRadians(double angle) {
         invoke("rotate", angle);
     }
-    
+
     /**
      * Saves the entire state of the canvas by pushing the current state onto a stack.
      */
     public void save() {
         invoke("save");
     }
-    
+
     /**
      * Adds a scaling transformation to the canvas units by x horizontally and by y vertically.
      * <p>
@@ -553,7 +553,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void scale(double x, double y) {
         invoke("scale", x, y);
     }
-    
+
     /**
      * Sets the fill style using a canvas gradient.
      *
@@ -626,10 +626,10 @@ public class RenderingContext2D extends RenderingContextBase {
      * alternating lengths of lines and gaps which describe the pattern.
      *
      * @param segments An array of numbers which specify distances to alternately draw a line and a
-     *            gap (in coordinate space units). If the number of elements in the array is odd,
-     *            the elements of the array get copied and concatenated. For example, [5, 15, 25]
-     *            will become [5, 15, 25, 5, 15, 25]. If the array is empty, the line dash list is
-     *            cleared and line strokes return to being solid.
+     *                 gap (in coordinate space units). If the number of elements in the array is odd,
+     *                 the elements of the array get copied and concatenated. For example, [5, 15, 25]
+     *                 will become [5, 15, 25, 5, 15, 25]. If the array is empty, the line dash list is
+     *                 cleared and line strokes return to being solid.
      */
     public void setLineDash(double[] segments) {
         invoke("setLineDash", segments);
@@ -662,7 +662,7 @@ public class RenderingContext2D extends RenderingContextBase {
         Assert.isTrue(lineWidth > 0, () -> "lineWidth must be greater than zero");
         config("lineWidth", this.lineWidth = lineWidth);
     }
-    
+
     /**
      * Specifies the miter limit ratio in space units.
      *
@@ -672,7 +672,7 @@ public class RenderingContext2D extends RenderingContextBase {
         Assert.isTrue(miterLimit > 0, () -> "miterLimit must be greater than zero");
         config("miterLimit", this.miterLimit = miterLimit);
     }
-    
+
     /**
      * Sets the level of the blurring effect.
      *
@@ -681,7 +681,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void setShadowBlur(double shadowBlur) {
         config("shadowBlur", this.shadowBlur = shadowBlur);
     }
-    
+
     /**
      * Sets the shadow color.
      *
@@ -690,7 +690,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void setShadowColor(String shadowColor) {
         config("shadowColor", this.shadowColor = shadowColor);
     }
-    
+
     /**
      * Sets the distance that the shadow will be offset in horizontal distance.
      *
@@ -699,7 +699,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void setShadowOffsetX(double shadowOffsetX) {
         config("shadowOffsetX", this.shadowOffsetX = shadowOffsetX);
     }
-    
+
     /**
      * Sets the distance that the shadow will be offset in vertical distance.
      *
@@ -708,7 +708,7 @@ public class RenderingContext2D extends RenderingContextBase {
     public void setShadowOffsetY(double shadowOffsetY) {
         config("shadowOffsetY", this.shadowOffsetY = shadowOffsetY);
     }
-    
+
     /**
      * Sets the gradient to use for the lines around shapes.
      *
@@ -753,22 +753,22 @@ public class RenderingContext2D extends RenderingContextBase {
     public void setTextBaseline(TextBaseline textBaseline) {
         config("textBaseline", this.textBaseline = textBaseline);
     }
-    
+
     /**
      * Resets (overrides) the current transformation to the identity matrix and then invokes a
      * transformation described by the arguments of this method.
      *
-     * @param a Horizontal scaling.
-     * @param b Horizontal skewing.
-     * @param c Vertical skewing.
-     * @param d Vertical scaling.
+     * @param a  Horizontal scaling.
+     * @param b  Horizontal skewing.
+     * @param c  Vertical skewing.
+     * @param d  Vertical scaling.
      * @param dx Horizontal moving.
      * @param dy Vertical moving.
      */
     public void setTransform(double a, double b, double c, double d, double dx, double dy) {
         invoke("setTransform", a, b, c, d, dx, dy);
     }
-    
+
     /**
      * Strokes the current or given path with the current stroke style using the non-zero winding
      * rule.
@@ -778,12 +778,12 @@ public class RenderingContext2D extends RenderingContextBase {
     }
 
     /**
-     * Paints a rectangle which has a starting point at (x, y) and has a w width and an h height
+     * Paints a rectangle which has a starting point at (x, y) and has a width w and a height h
      * onto the canvas, using the current stroke style.
      *
-     * @param x The x axis of the coordinate for the rectangle starting point.
-     * @param y The y axis of the coordinate for the rectangle starting point.
-     * @param width The rectangle's width.
+     * @param x      The x-axis of the coordinate for the rectangle starting point.
+     * @param y      The y-axis of the coordinate for the rectangle starting point.
+     * @param width  The rectangle's width.
      * @param height The rectangle's height.
      */
     public void strokeRect(double x, double y, double width, double height) {
@@ -797,9 +797,9 @@ public class RenderingContext2D extends RenderingContextBase {
      * color rather than having just their outlines drawn.
      *
      * @param text The text to draw using the current font, textAlign, textBaseline, and direction
-     *            values.
-     * @param x The x axis of the coordinate for the text starting point.
-     * @param y The y axis of the coordinate for the text starting point.
+     *             values.
+     * @param x    The x-axis of the coordinate for the text starting point.
+     * @param y    The y-axis of the coordinate for the text starting point.
      */
     public void strokeText(String text, double x, double y) {
         invoke("strokeText", text, x, y);
@@ -811,14 +811,14 @@ public class RenderingContext2D extends RenderingContextBase {
      * that width. See {@link #fillText} method to draw the text with the characters filled with
      * color rather than having just their outlines drawn.
      *
-     * @param text The text to draw using the current font, textAlign, textBaseline, and direction
-     *            values.
-     * @param x The x axis of the coordinate for the text starting point.
-     * @param y The y axis of the coordinate for the text starting point.
+     * @param text     The text to draw using the current font, textAlign, textBaseline, and direction
+     *                 values.
+     * @param x        The x-axis of the coordinate for the text starting point.
+     * @param y        The y-axis of the coordinate for the text starting point.
      * @param maxWidth The maximum width to draw. When specified, and the string is computed to be
-     *            wider than this width, the font is adjusted to use a more horizontally condensed
-     *            font (if one is available or if a reasonably readable one can be synthesized by
-     *            scaling the current font horizontally) or a smaller font.
+     *                 wider than this width, the font is adjusted to use a more horizontally condensed
+     *                 font (if one is available or if a reasonably readable one can be synthesized by
+     *                 scaling the current font horizontally) or a smaller font.
      */
     public void strokeText(String text, double x, double y, double maxWidth) {
         invoke("strokeText", text, x, y, maxWidth);
@@ -830,17 +830,17 @@ public class RenderingContext2D extends RenderingContextBase {
      * {@link #setTransform} method which resets the current transform to the identity matrix and
      * then invokes transform().
      *
-     * @param a Horizontal scaling.
-     * @param b Horizontal skewing.
-     * @param c Vertical skewing.
-     * @param d Vertical scaling.
+     * @param a  Horizontal scaling.
+     * @param b  Horizontal skewing.
+     * @param c  Vertical skewing.
+     * @param d  Vertical scaling.
      * @param dx Horizontal moving.
      * @param dy Vertical moving.
      */
     public void transform(double a, double b, double c, double d, double dx, double dy) {
         invoke("transform", a, b, c, d, dx, dy);
     }
-    
+
     /**
      * Adds a translation transformation by moving the canvas and its origin x horizontally and y
      * vertically on the grid.

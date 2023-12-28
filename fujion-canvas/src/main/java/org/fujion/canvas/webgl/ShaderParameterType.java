@@ -27,11 +27,11 @@ import org.fujion.ancillary.IEnumWithValue;
  */
 public enum ShaderParameterType implements IEnumWithValue {
     /**
-     * Whether or not the last shader compilation was successful.
+     * Whether the last shader compilation was successful.
      */
     COMPILE_STATUS(35713),
     /**
-     * Whether or not the shader is flagged for deletion.
+     * Whether the shader is flagged for deletion.
      */
     DELETE_STATUS(35712),
     /**
