@@ -105,7 +105,7 @@
     <bean factory-method="getInstance" depends-on="fujion_WebJarLocator"
           class="org.fujion.theme.ThemeRegistry"/>
 
-    <bean id="themeResolver" factory-method="getInstance"
+    <bean factory-method="getInstance"
           class="org.fujion.theme.ThemeResolver">
         <property name="defaultTheme" value="${org.fujion.theme.default:default}"/>
     </bean>
