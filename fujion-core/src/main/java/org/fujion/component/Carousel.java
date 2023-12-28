@@ -51,6 +51,8 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
 
     private boolean wrap = true;
 
+    private boolean indicators = false;
+
     /**
      * Returns the amount of time to delay between automatically cycling an item. If 0, carousel will not automatically cycle.
      *
@@ -97,7 +99,7 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
      *
      * @return True if the carousel should cycle continously.
      */
-    @PropertyGetter(value = "wrap", bindable = false, description = "If true, the carousel will cycle continously.")
+    @PropertyGetter(value = "wrap", bindable = false, description = "If true, the carousel will cycle continuously.")
     public boolean getWrap() {
         return wrap;
     }
@@ -107,9 +109,29 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
      *
      * @param wrap True if the carousel is to respond to keyboard events.
      */
-    @PropertySetter(value = "wrap", bindable = false, defaultValue = "true", description = "If true, the carousel will cycle continously.")
+    @PropertySetter(value = "wrap", bindable = false, defaultValue = "true", description = "If true, the carousel will cycle continuously.")
     public void setWrap(boolean wrap) {
         propertyChange("wrap", this.wrap, this.wrap = wrap, true);
+    }
+
+    /**
+     * Returns whether the carousel should display selection indicators.
+     *
+     * @return True if the carousel should display selection indicators.
+     */
+    @PropertyGetter(value = "indicators", bindable = false, description = "If true, selection indicators will be displayed.")
+    public boolean getIndicators() {
+        return indicators;
+    }
+
+    /**
+     * Sets whether the carousel should display selection indicators.
+     *
+     * @param indicators True if the carousel should display selection indicators.
+     */
+    @PropertySetter(value = "indicators", bindable = false, defaultValue = "false", description = "If true, selection indicators will be displayed.")
+    public void setIndicators(boolean indicators) {
+        propertyChange("indicators", this.indicators, this.indicators = indicators, true);
     }
 
     /**

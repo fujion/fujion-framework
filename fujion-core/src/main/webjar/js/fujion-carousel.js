@@ -106,7 +106,13 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 	 ******************************************************************************************************************/ 
 	
 	fujion.widget.Carouselitem = fujion.widget.UIWidget.extend({
-		
+
+		/*------------------------------ Containment ------------------------------*/
+
+		anchor$: function() {
+			return this.sub$('inner');
+		},
+
 		/*------------------------------ Events ------------------------------*/
 
 		triggerChanged: function(selected) {
@@ -139,10 +145,19 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 		},
 
 		render$: function() {
-			return $('<div></div>');
+			const dom =
+				'<div>' +
+				'  <div id="${id}-inner"></div>' +
+				'  <div id="${id}-cap" class="h5 carousel-caption"></div>' +
+				'</div>';
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
+
+		s_caption: function(v) {
+			this.sub$('cap').text(v);
+		},
 
 		s_selected: function(v) {
 			this.toggleClass('active', v);

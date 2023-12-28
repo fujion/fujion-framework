@@ -44,6 +44,8 @@ public class Carouselitem extends BaseUIComponent {
 
     private boolean selected;
 
+    private String caption;
+
     /**
      * Returns the selection state of the item.
      *
@@ -62,6 +64,26 @@ public class Carouselitem extends BaseUIComponent {
     @PropertySetter(value = "selected", defaultValue = "false", description = "The selection state of the item.")
     public void setSelected(boolean selected) {
         _setSelected(selected, true);
+    }
+
+    /**
+     * Returns the caption associated with the item.
+     *
+     * @return The item's caption.
+     */
+    @PropertyGetter(value = "caption", description = "The caption associated with the item.")
+    public String getCaption() {
+        return caption;
+    }
+
+    /**
+     * Sets the caption associated with the item.
+     *
+     * @param caption The item's caption.
+     */
+    @PropertySetter(value = "caption", description = "The caption associated with the item.")
+    public void setCaption(String caption) {
+        propertyChange("caption", this.caption, this.caption = caption, true);
     }
 
     /**
