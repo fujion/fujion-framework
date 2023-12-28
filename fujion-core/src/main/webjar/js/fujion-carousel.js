@@ -44,16 +44,20 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 		/*------------------------------ Rendering ------------------------------*/
 
 		afterRender: function() {
-			this.widget$.carousel();
-			this.indicators$ = this.sub$('ind');
 			this._updateIndicators();
+			this.widget$.carousel();
 			this.widget$.on('slid.bs.carousel', event => this.handleSlide(event));
 		},
 
+		beforeRender: function() {
+			this.indicators$ = this.sub$('ind');
+		},
+
 		_updateIndicators: function() {
-			const itemCount = this._children.length;
-			const showIndicators = this.getState('indicators') && itemCount > 0;
+			const indicators = this.indicators$.children();
+			const showIndicators = this.getState('indicators') && indicators.length > 0;
 			this.indicators$.toggleClass('d-none', !showIndicators);
+			indicators.each((index, ele) => ele.setAttribute('data-bs-slide-to', index));
 		},
 
 		render$: function() {
@@ -70,7 +74,7 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 				+		'<span class="visually-hidden">Next</span>'
 				+	'</button>'
 				+ '</div>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -119,7 +123,21 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 		},
 				
 		/*------------------------------ Rendering ------------------------------*/
-		
+
+		beforeRender: function() {
+			const dom = '<button type="button" data-bs-target="#${_parent.id}"></button>'
+			const ind$ = this._ancillaries.indicator$ = this.resolveEL$(dom);
+			ind$.data('attach', () => this._attachIndicator());
+			this._attachIndicator();
+		},
+
+		_attachIndicator: function() {
+			const ind$ = this._ancillaries.indicator$;
+			const indParent$ = this._parent.indicators$;
+			indParent$.append(ind$);
+			this._parent._updateIndicators();
+		},
+
 		render$: function() {
 			return $('<div></div>');
 		},
@@ -128,6 +146,7 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 
 		s_selected: function(v) {
 			this.toggleClass('active', v);
+			this._ancillaries.indicator$.toggleClass('active', v);
 		}
 
 	});
