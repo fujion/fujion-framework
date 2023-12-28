@@ -46,18 +46,14 @@ public class RhinoScript implements IScriptLanguage {
 
         @Override
         public Object run(Map<String, Object> variables) {
-            Context context = Context.enter();
-            Scriptable scope = context.initStandardObjects();
+            try (Context context = Context.enter()) {
+                Scriptable scope = context.initStandardObjects();
 
-            if (variables != null) {
-                variables.forEach((key, value) -> ScriptableObject.putProperty(scope, key, value));
-            }
+                if (variables != null) {
+                    variables.forEach((key, value) -> ScriptableObject.putProperty(scope, key, value));
+                }
 
-            try {
                 return context.evaluateString(scope, source, null, 1, null);
-
-            } finally {
-                Context.exit();
             }
         }
 
