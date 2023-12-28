@@ -60,7 +60,7 @@ public class MainController implements IAutoWired, ApplicationContextAware {
 
     private static final Comparator<Resource> resourceComparator = (r1, r2) -> r1.getFilename().compareToIgnoreCase(r2.getFilename());
 
-    private static final IComponentRenderer<Comboitem, Resource> fujionRenderer = new IComponentRenderer<Comboitem, Resource>() {
+    private static final IComponentRenderer<Comboitem, Resource> fujionRenderer = new IComponentRenderer<>() {
 
         @Override
         public Comboitem render(Resource resource) {
@@ -175,7 +175,7 @@ public class MainController implements IAutoWired, ApplicationContextAware {
         this.root = comp;
         cboFujion.setRenderer(fujionRenderer);
         cboFujion.setModel(model);
-        cboFujion.setVisible(model.size() > 0);
+        cboFujion.setVisible(!model.isEmpty());
         contentBase = contentParent.getFirstChild(Namespace.class);
         editor.setSchemaInfo(schemaInfo);
     }
@@ -222,9 +222,7 @@ public class MainController implements IAutoWired, ApplicationContextAware {
      * @param comp Current component in search.
      */
     private void modeCheck(BaseComponent comp) {
-        if (comp instanceof Window) {
-            Window win = (Window) comp;
-
+        if (comp instanceof Window win) {
             if (win.isVisible() && ArrayUtils.contains(REPLACE_MODES, win.getMode())) {
                 win.setMode(Mode.INLINE);
             }

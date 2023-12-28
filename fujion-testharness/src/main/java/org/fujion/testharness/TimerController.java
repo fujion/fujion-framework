@@ -76,7 +76,7 @@ public class TimerController extends BaseController {
     @EventHandler(value = "timer", target = "timer")
     public void onTimer(TimerEvent event) {
         int count = event.getCount();
-        log("Timer event: " + event.getTarget().getName() + " # " + count + " @ " + new Date().toString());
+        log("Timer event: " + event.getTarget().getName() + " # " + count + " @ " + new Date());
         setTimerButtonState(event.isRunning());
         setTimerProgressbarState(count);
 

@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class ListModel<M> implements IListModel<M> {
 
-    private final List<M> list = new LinkedList<>();
+    private final LinkedList<M> list = new LinkedList<>();
 
     private final List<IListModelListener> listeners = new ArrayList<>();
 

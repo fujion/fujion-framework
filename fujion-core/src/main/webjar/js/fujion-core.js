@@ -445,7 +445,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
 
                 fujion.body$.on('keydown', function (event) {
                     if (event.keyCode === 8) {
-                        let tp = event.srcElement || event.target;
+                        let tp = event.target;
                         tp = tp.tagName.toLowerCase();
 
                         if (tp !== 'input' && tp !== 'textarea')

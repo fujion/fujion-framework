@@ -1,6 +1,6 @@
 define('fujion-react-test', ['react', 'react-dom'],  
 	(React, ReactDOM) => {
-		var i = 0;
+		let i = 0;
 		
 		return React.createClass({
 			getInitialState: function() {

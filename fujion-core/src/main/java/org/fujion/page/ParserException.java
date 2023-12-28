@@ -20,11 +20,14 @@
  */
 package org.fujion.page;
 
+import java.io.Serial;
+
 /**
  * Run time exception related to parsing errors.
  */
 public class ParserException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public ParserException(String message, Object... args) {

@@ -100,7 +100,9 @@ public class MiscController extends BaseController {
     
     @EventHandler(value = "click", target = "btnMaskTest")
     private void btnMaskTestClickHandler() {
-        if (masked = !masked) {
+        masked = !masked;
+
+        if (masked) {
             divMaskTest.addMask("Mask Test", contextMenu);
         } else {
             divMaskTest.removeMask();

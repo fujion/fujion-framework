@@ -61,7 +61,7 @@ public class ABCAxisOptions extends AxisOptions {
     public CheaterTypeEnum cheatertype;
 
     /**
-     * Determines whether or not a line is drawn at along the final value of this axis. If true, the
+     * Determines whether a line is drawn at along the final value of this axis. If true, the
      * end line is drawn on top of the grid lines.
      */
     @Option

@@ -131,8 +131,7 @@ public class LatLngBounds extends Options {
             return false;
         } else if (o == this) {
             return true;
-        } else if (o instanceof LatLngBounds) {
-            LatLngBounds b = (LatLngBounds) o;
+        } else if (o instanceof LatLngBounds b) {
             return Objects.equals(sw, b.sw) && Objects.equals(ne, b.ne);
         } else {
             return false;

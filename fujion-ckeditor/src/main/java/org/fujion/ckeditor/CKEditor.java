@@ -68,7 +68,7 @@ public class CKEditor extends BaseInputComponent<String> {
      * @param bundle The bundle to load.
      * @return A reference to the ClientOptions instance (not used).
      */
-    protected static Object setBundleFromString(String bundle) {
+    public static Object setBundleFromString(String bundle) {
         return setBundle(CKEditorBundle.valueOf(bundle.toUpperCase()));
     }
 

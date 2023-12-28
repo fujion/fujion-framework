@@ -81,8 +81,7 @@ public class IconLibraryRegistry extends AbstractRegistry<String, IIconLibrary> 
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof IIconLibrary) {
-            IIconLibrary lib = (IIconLibrary) bean;
+        if (bean instanceof IIconLibrary lib) {
             register(lib);
             log.info(() -> "Registered icon library: " + lib.getId());
         }

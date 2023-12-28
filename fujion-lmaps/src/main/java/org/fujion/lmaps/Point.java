@@ -75,8 +75,7 @@ public class Point extends Options {
             return false;
         } else if (o == this) {
             return true;
-        } else if (o instanceof Point) {
-            Point pt = (Point) o;
+        } else if (o instanceof Point pt) {
             return pt.x == x && pt.y == y;
         } else {
             return false;

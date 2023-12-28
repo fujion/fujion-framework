@@ -113,7 +113,7 @@ define('fujion-gmaps', [
 				
 				this._map = new this.google.maps.Map(anchor, options);
 				_.forEach(this._eventsToForward, eventName => {
-					var handler = this[eventName + 'Handler'];
+					let handler = this[eventName + 'Handler'];
 					handler = handler ? handler : this.triggerMapEvent;
 					this._map.addListener(eventName, handler.bind(this, eventName));
 				});

@@ -7,8 +7,8 @@ import java.beans.PropertyChangeListener;
  */
 public interface IPropertyChangeObservable {
 
-    public void addPropertyChangeListener(PropertyChangeListener pcl);
+    void addPropertyChangeListener(PropertyChangeListener pcl);
 
-    public void removePropertyChangeListener(PropertyChangeListener pcl);
+    void removePropertyChangeListener(PropertyChangeListener pcl);
 
 }

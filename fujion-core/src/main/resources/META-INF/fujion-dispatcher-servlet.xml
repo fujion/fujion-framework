@@ -110,12 +110,6 @@
         <property name="defaultTheme" value="${org.fujion.theme.default:default}"/>
     </bean>
 
-    <bean class="org.springframework.web.servlet.theme.CookieThemeResolver">
-        <property name="defaultThemeName">
-            <null/>
-        </property>
-    </bean>
-
     <bean class="org.fujion.theme.Theme">
         <constructor-arg value="default"/>
     </bean>

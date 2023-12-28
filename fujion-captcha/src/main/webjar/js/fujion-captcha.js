@@ -91,7 +91,7 @@ define('fujion-captcha', [
 window.recaptcha_defer = {};
 
 window.recaptcha_onload = function() {
-	var defer = window.recaptcha_defer;
+	const defer = window.recaptcha_defer;
 	window.recaptcha_defer = null;
 	_.forOwn(defer, widget => widget.rerender());
 };

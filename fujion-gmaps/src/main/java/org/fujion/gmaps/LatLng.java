@@ -114,8 +114,7 @@ public class LatLng extends Options {
             return false;
         } else if (o == this) {
             return true;
-        } else if (o instanceof LatLng) {
-            LatLng p = (LatLng) o;
+        } else if (o instanceof LatLng p) {
             return p.lat == lat && p.lng == lng;
         } else {
             return false;

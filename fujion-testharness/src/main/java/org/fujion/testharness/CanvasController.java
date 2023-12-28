@@ -287,7 +287,7 @@ public class CanvasController extends BaseController {
         //vertexPositionBuffer.numItems = 4;
     }
     
-    double[][] baseCorners = { { 0.7, 1.2 }, { -2.2, 1.2 }, { 0.7, -1.2 }, { -2.2, -1.2 } };
+    private final double[][] baseCorners = { { 0.7, 1.2 }, { -2.2, 1.2 }, { 0.7, -1.2 }, { -2.2, -1.2 } };
     
     private void drawScene() {
         gl.viewport(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
