@@ -102,55 +102,55 @@ public class WeakMap<K, E> extends WeakCollectionBase<E>implements Map<K, E> {
     public Set<Entry<K, E>> entrySet() {
         compact();
         
-        return new AbstractSet<Entry<K, E>>() {
-            
+        return new AbstractSet<>() {
+
             @Override
             public Iterator<Entry<K, E>> iterator() {
-                return new Iterator<Entry<K, E>>() {
-                    
+                return new Iterator<>() {
+
                     final Iterator<Entry<K, WeakReference<E>>> iterator = referenceMap.entrySet().iterator();
-                    
+
                     @Override
                     public boolean hasNext() {
                         return iterator.hasNext();
                     }
-                    
+
                     @Override
                     public Entry<K, E> next() {
                         final Entry<K, WeakReference<E>> entry = iterator.next();
-                        
-                        return new Entry<K, E>() {
-                            
+
+                        return new Entry<>() {
+
                             @Override
                             public K getKey() {
                                 return entry.getKey();
                             }
-                            
+
                             @Override
                             public E getValue() {
                                 return getReferent(entry.getValue());
                             }
-                            
+
                             @Override
                             public E setValue(E value) {
                                 return getReferent(entry.setValue(createWeakReference(value)));
                             }
-                            
+
                         };
                     }
-                    
+
                     @Override
                     public void remove() {
                         throw new UnsupportedOperationException();
                     }
                 };
             }
-            
+
             @Override
             public int size() {
                 return referenceMap.size();
             }
-            
+
         };
     }
     
@@ -175,18 +175,18 @@ public class WeakMap<K, E> extends WeakCollectionBase<E>implements Map<K, E> {
     public Collection<E> values() {
         compact();
         
-        return new AbstractCollection<E>() {
-            
+        return new AbstractCollection<>() {
+
             @Override
             public Iterator<E> iterator() {
                 return getIterator(referenceMap.values());
             }
-            
+
             @Override
             public int size() {
                 return referenceMap.size();
             }
-            
+
         };
     }
     

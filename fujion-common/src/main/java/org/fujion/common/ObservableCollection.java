@@ -53,18 +53,18 @@ public class ObservableCollection<T> extends ProxiedCollection<T> {
     }
     
     public ObservableCollection(Collection<T> delegate, IObservableCollectionListener<T> listener) {
-        super(delegate, new ProxiedCollection.IProxiedCollectionOperations<T>() {
-            
+        super(delegate, new ProxiedCollection.IProxiedCollectionOperations<>() {
+
             @Override
             public boolean add(T element, Collection<T> delegate) {
                 if (delegate.add(element)) {
                     listener.onAddElement(element);
                     return true;
                 }
-                
+
                 return false;
             }
-            
+
             @SuppressWarnings("unchecked")
             @Override
             public boolean remove(Object element, Collection<T> delegate) {
@@ -72,16 +72,16 @@ public class ObservableCollection<T> extends ProxiedCollection<T> {
                     listener.onRemoveElement((T) element);
                     return true;
                 }
-                
+
                 return false;
             }
-            
+
             @Override
             public void remove(T element, Iterator<T> iterator) {
                 iterator.remove();
                 listener.onRemoveElement(element);
             }
-            
+
         });
     }
     

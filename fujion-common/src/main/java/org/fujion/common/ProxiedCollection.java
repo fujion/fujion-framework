@@ -75,7 +75,7 @@ public class ProxiedCollection<T> implements Collection<T> {
     public Iterator<T> iterator() {
         final Iterator<T> iterator = delegate.iterator();
 
-        return new Iterator<T>() {
+        return new Iterator<>() {
 
             private T current;
 

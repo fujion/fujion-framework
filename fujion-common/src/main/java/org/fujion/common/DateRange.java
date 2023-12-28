@@ -104,15 +104,13 @@ public class DateRange {
      */
     @Override
     public boolean equals(Object value) {
-        if (!(value instanceof DateRange)) {
+        if (!(value instanceof DateRange range)) {
             return false;
         }
 
         if (value == this) {
             return true;
         }
-
-        DateRange range = (DateRange) value;
 
         if (range.startDate == startDate && range.endDate == endDate) {
             return true;

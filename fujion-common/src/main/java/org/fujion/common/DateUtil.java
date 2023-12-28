@@ -739,23 +739,14 @@ public class DateUtil {
                         c.setTime(DateUtil.today());
                     }
 
-                    switch (k) {
-                        case 'y': // years
-                            field = Calendar.YEAR;
-                            break;
-                        case 'm': // months
-                            field = Calendar.MONTH;
-                            break;
-                        case 'h': // hours
-                            field = Calendar.HOUR_OF_DAY;
-                            break;
-                        case 'n': // minutes
-                            field = Calendar.MINUTE;
-                            break;
-                        case 's': // seconds
-                            field = Calendar.SECOND;
-                            break;
-                    }
+                    field = switch (k) {
+                        case 'y' -> Calendar.YEAR;          // years
+                        case 'm' -> Calendar.MONTH;         // months
+                        case 'h' -> Calendar.HOUR_OF_DAY;   // hours
+                        case 'n' -> Calendar.MINUTE;        // minutes
+                        case 's' -> Calendar.SECOND;        // seconds
+                        default -> field;
+                    };
 
                     c.add(field, offset);
                     result = c.getTime();
@@ -954,7 +945,7 @@ public class DateUtil {
      *
      * @param temporal Date/time value to convert.
      * @return Formatted string representation of the specified date/time, or an empty string if input is
-     *         null or of an unsupported type..
+     *         null or of an unsupported type.
      */
     public static String formatDate(Temporal temporal) {
         Format format = null;

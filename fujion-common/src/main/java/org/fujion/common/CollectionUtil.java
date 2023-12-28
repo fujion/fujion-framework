@@ -222,6 +222,7 @@ public class CollectionUtil {
      * @param <T>      The element type.
      * @return The list containing the elements (null if input was null).
      */
+    @SafeVarargs
     public static <T> List<T> toList(T... elements) {
         return elements == null ? null : Arrays.asList(elements);
     }
@@ -268,6 +269,7 @@ public class CollectionUtil {
      * @param <T>      The lists' element type.
      * @return The modified (or newly created) destination list.
      */
+    @SafeVarargs
     public static <T> List<T> replaceElements(
             List<T> dest,
             T... elements) {
@@ -297,6 +299,7 @@ public class CollectionUtil {
      * @param <I> The type of item.
      * @return The matching element, or null if not found.
      */
+    @SafeVarargs
     public static <T, I> T findMatch(Collection<T> source, BiPredicate<T, I> criteria, I... items) {
         if (source != null && !source.isEmpty()) {
             for (I item : items) {

@@ -52,18 +52,18 @@ public abstract class WeakCollectionBase<E> {
         compact();
         final Iterator<WeakReference<E>> iterator = iterable.iterator();
         
-        return new Iterator<E>() {
-            
+        return new Iterator<>() {
+
             @Override
             public boolean hasNext() {
                 return iterator.hasNext();
             }
-            
+
             @Override
             public E next() {
                 return getReferent(iterator.next());
             }
-            
+
             @Override
             public void remove() {
                 throw new UnsupportedOperationException();
@@ -79,20 +79,20 @@ public abstract class WeakCollectionBase<E> {
      * @return Weak reference for the element.
      */
     protected WeakReference<E> createWeakReference(E element) {
-        return new WeakReference<E>(element, referenceQueue) {
-            
+        return new WeakReference<>(element, referenceQueue) {
+
             @Override
             public boolean equals(Object object) {
                 if (this == object) {
                     return true;
                 }
-                
+
                 E val1 = get();
-                
+
                 if (val1 != null && object instanceof WeakReference) {
-                    return get().equals(((WeakReference<?>) object).get());
+                    return val1.equals(((WeakReference<?>) object).get());
                 }
-                
+
                 return false;
             }
         };

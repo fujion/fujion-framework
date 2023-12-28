@@ -90,7 +90,7 @@ public class ColorUtil {
     /**
      * Returns the RGB equivalent of the named color.
      * 
-     * @param name The name of the color (case insensitive).
+     * @param name The name of the color (case-insensitive).
      * @return The RGB string equivalent (e.g., #FFFAFA) or null if not found.
      */
     public static String getRGBFromName(String name) {
@@ -100,7 +100,7 @@ public class ColorUtil {
     /**
      * Returns the name equivalent of the RGB color.
      * 
-     * @param value The RGB value (e.g., #FFFAFA) of the color (case insensitive).
+     * @param value The RGB value (e.g., #FFFAFA) of the color (case-insensitive).
      * @return The name equivalent or null if not found.
      */
     public static String getNameFromRGB(String value) {

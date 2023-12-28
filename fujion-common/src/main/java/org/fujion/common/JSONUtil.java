@@ -60,7 +60,7 @@ public class JSONUtil {
                                                       Collection<NamedType> subtypes) {
             return noTypeInfo(baseType) ?
                     null :
-                    new AsPropertyTypeDeserializer(baseType, _customIdResolver, _typeProperty, _typeIdVisible, baseType);
+                    new AsPropertyTypeDeserializer(baseType, _customIdResolver, _typeProperty, _typeIdVisible, baseType, JsonTypeInfo.As.PROPERTY, true);
         }
 
         @Override
@@ -390,7 +390,7 @@ public class JSONUtil {
      */
     public static <T> List<T> deserializeList(String typeProperty, String data, Class<T> clazz) {
         try {
-            return getMapper(typeProperty).readValue(data, new TypeReference<List<T>>() {
+            return getMapper(typeProperty).readValue(data, new TypeReference<>() {
             });
         } catch (Exception e) {
             throw new RuntimeException(e);

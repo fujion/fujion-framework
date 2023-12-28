@@ -140,7 +140,7 @@ public class StrUtil {
      */
     public static StringBuilder strAppend(StringBuilder sb, String value, String separator) {
         if (value != null && !value.isEmpty()) {
-            sb.append(sb.length() == 0 ? "" : separator).append(value);
+            sb.append(sb.isEmpty() ? "" : separator).append(value);
         }
         
         return sb;

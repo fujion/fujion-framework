@@ -20,21 +20,21 @@
  */
 package org.fujion.common;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
  * Builds a query string (without "?").
  */
 public class QueryStringBuilder {
-    
+
     private final StringBuilder sb = new StringBuilder();
-    
+
     /**
      * Append a list of values. Each value is a separate name/value pair in the query string.
-     * 
-     * @param name Name of the query parameter.
+     *
+     * @param name   Name of the query parameter.
      * @param values List of values for the query parameter.
      * @return Returns <code>this</code> for chaining.
      */
@@ -44,76 +44,72 @@ public class QueryStringBuilder {
                 append(name, value);
             }
         }
-        
+
         return this;
     }
-    
+
     /**
      * Appends one or more values. All are appended as a single name/value pair, with multiple
      * values separated by commas.
-     * 
-     * @param name Name of the query parameter.
+     *
+     * @param name   Name of the query parameter.
      * @param values One or more values for the query parameter.
      * @return Returns <code>this</code> for chaining.
      */
     public QueryStringBuilder append(String name, Object... values) {
         if (values != null && values.length > 0) {
             boolean first = true;
-            
+
             for (Object value : values) {
                 if (value == null) {
                     continue;
                 }
-                
+
                 if (first) {
                     first = false;
-                    
-                    if (sb.length() > 0) {
+
+                    if (!sb.isEmpty()) {
                         sb.append('&');
                     }
-                    
+
                     sb.append(encode(name)).append('=');
                 } else {
                     sb.append(',');
                 }
-                
+
                 sb.append(encode(value));
             }
         }
-        
+
         return this;
     }
-    
+
     /**
      * Encode reserved characters.
-     * 
+     *
      * @param value Value to be encoded.
      * @return Encoded value.
      */
     private String encode(Object value) {
-        try {
-            return URLEncoder.encode(value.toString(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return URLEncoder.encode(value.toString(), StandardCharsets.UTF_8);
     }
-    
+
     /**
      * Returns the length of the query string.
-     * 
+     *
      * @return Length of the query string.
      */
     public int length() {
         return sb.length();
     }
-    
+
     /**
      * Removes all content.
      */
     public void clear() {
         sb.delete(0, sb.length());
     }
-    
+
     @Override
     public String toString() {
         return sb.toString();

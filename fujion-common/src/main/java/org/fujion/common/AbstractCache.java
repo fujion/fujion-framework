@@ -180,7 +180,7 @@ public abstract class AbstractCache<KEY, VALUE> implements Iterable<VALUE> {
      */
     @Override
     public Iterator<VALUE> iterator() {
-        return new Iterator<VALUE>() {
+        return new Iterator<>() {
 
             final Iterator<CachedObject<VALUE>> iterator = map.values().iterator();
 
