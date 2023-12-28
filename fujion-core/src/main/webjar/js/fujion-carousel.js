@@ -3,7 +3,7 @@
 define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'], fujion => {
 	
 	/******************************************************************************************************************
-	 * Carousel widget
+	 * Carousel widget (wrapper for Bootstrap's Carousel widget).
 	 ******************************************************************************************************************/ 
 	
 	fujion.widget.Carousel = fujion.widget.UIWidget.extend({
@@ -12,6 +12,18 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 
 		anchor$: function() {
 			return this.sub$('inner');
+		},
+
+		onAddChild: function(child) {
+			const index = child.getIndex();
+
+			const dom =
+				'<button type="button" data-bs-target="#${id}" data-bs-slide-to="' + index + '">' +
+				'</button>'
+		},
+
+		onRemoveChild: function(child) {
+
 		},
 
 		/*------------------------------ Events ------------------------------*/
@@ -33,27 +45,39 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 
 		afterRender: function() {
 			this.widget$.carousel();
+			this.indicators$ = this.sub$('ind');
+			this._updateIndicators();
 			this.widget$.on('slid.bs.carousel', event => this.handleSlide(event));
+		},
+
+		_updateIndicators: function() {
+			const itemCount = this._children.length;
+			const showIndicators = this.getState('indicators') && itemCount > 0;
+			this.indicators$.toggleClass('d-none', !showIndicators);
 		},
 
 		render$: function() {
 			const dom =
-				'<div data-ride="carousel">'
-				+	'<ol id="${id}-ind" class="carousel-indicators"></ol>'
+				'<div>'
+				+	'<div id="${id}-ind" class="carousel-indicators"></div>'
 				+ 	'<div id="${id}-inner" class="carousel-inner"></div>'
-				+	'<a class="carousel-control-prev" href="#${id}" role="button" data-slide="prev">'
+				+	'<button class="carousel-control-prev" type="button" role="button" data-bs-target="#${id}" data-bs-slide="prev">'
 				+		'<span class="carousel-control-prev-icon" aria-hidden="true"></span>'
-				+		'<span class="sr-only">Previous</span>'
-				+	'</a>'
-				+	'<a class="carousel-control-next" href="#${id}" role="button" data-slide="prev">'
+				+		'<span class="visually-hidden">Previous</span>'
+				+	'</button>'
+				+	'<button class="carousel-control-next" type="button" role="button" data-bs-target="#${id}" data-bs-slide="next">'
 				+		'<span class="carousel-control-next-icon" aria-hidden="true"></span>'
-				+		'<span class="sr-only">Next</span>'
-				+	'</a>'
+				+		'<span class="visually-hidden">Next</span>'
+				+	'</button>'
 				+ '</div>';
 			return $(this.resolveEL(dom));
 		},
-		
+
 		/*------------------------------ State ------------------------------*/
+
+		s_indicators: function(v) {
+			this.rerender();
+		},
 
 		s_interval: function(v) {
 			this.widget$.carousel({interval: v});
