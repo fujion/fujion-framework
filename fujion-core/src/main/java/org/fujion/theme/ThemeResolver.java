@@ -20,6 +20,7 @@
  */
 package org.fujion.theme;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -27,13 +28,17 @@ import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.WebUtils;
+
+import java.util.Arrays;
+import java.util.function.Supplier;
 
 /**
  * Resolves current theme from the HTTP request.
  */
 public class ThemeResolver {
 
-    private static final String THEME_ATTR = ThemeResolver.class.getName();
+    public static final String THEME_ATTR = ThemeResolver.class.getName();
 
     private static final ThemeResolver instance = new ThemeResolver();
 
@@ -50,8 +55,9 @@ public class ThemeResolver {
      * Attempts to retrieve the name of the current theme from the request. The following strategies are tried, in order:
      * <ol>
      * <li>From a request attribute (the cached value)</li>
-     * <li>Query parameter from the request ("theme=xxx")</li>
-     * <li>Query parameter from the referer ("theme=xxx")</li>
+     * <li>From a query parameter ("theme=xxx")</li>
+     * <li>From a query parameter from the referer ("theme=xxx")</li>
+     * <li>From a cookie</li>
      * </ol>
      * If none of these strategies succeed, the default theme is used.  The resulting theme name is cached as a
      * request attribute.
@@ -59,13 +65,30 @@ public class ThemeResolver {
      * @param request The servlet request.
      * @return The theme name (never null).
      */
-    public Theme resolveTheme(HttpServletRequest request) {
-        String themeName = MiscUtil.castTo(request.getAttribute(THEME_ATTR), String.class);
-        themeName = StringUtils.hasText(themeName) ? themeName : request.getParameter("theme");
-        themeName = StringUtils.hasText(themeName) ? themeName : themeNameFromReferrer(request);
-        themeName = StringUtils.hasText(themeName) ? themeName : defaultTheme;
+    public String resolveTheme(HttpServletRequest request) {
+        String themeName = getThemeName(
+                () -> MiscUtil.castTo(request.getAttribute(THEME_ATTR), String.class),
+                () -> request.getParameter("theme"),
+                () -> themeNameFromReferrer(request),
+                () -> themeNameFromCookie(request)
+        );
         request.setAttribute(THEME_ATTR, themeName);
-        return ThemeRegistry.getInstance().get(themeName);
+        return themeName;
+    }
+
+    /**
+     * Tries each strategy until one succeeds in finding a theme name.  If all fail, the default theme name is returned.
+     *
+     * @param strategies The lookup strategies.
+     * @return The theme name.
+     */
+    @SafeVarargs
+    private String getThemeName(Supplier<String>... strategies) {
+        return Arrays.stream(strategies)
+                .map(Supplier::get)
+                .filter(StringUtils::hasText)
+                .findFirst()
+                .orElse(defaultTheme);
     }
 
     /**
@@ -82,6 +105,17 @@ public class ThemeResolver {
                 .map(NameValuePair::getValue)
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Retrieves theme name from a cookie.
+     *
+     * @param request The servlet request.
+     * @return The theme name (possibly null).
+     */
+    private String themeNameFromCookie(HttpServletRequest request) {
+        Cookie cookie = WebUtils.getCookie(request, THEME_ATTR);
+        return cookie == null ? null : cookie.getValue();
     }
 
     /**

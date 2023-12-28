@@ -20,6 +20,7 @@
  */
 package org.fujion.core.test;
 
+import jakarta.servlet.http.Cookie;
 import org.fujion.ancillary.*;
 import org.fujion.annotation.ComponentDefinition;
 import org.fujion.annotation.ComponentScanner;
@@ -31,9 +32,12 @@ import org.fujion.core.test.TestBinder.TestModel;
 import org.fujion.event.KeyCode;
 import org.fujion.page.*;
 import org.fujion.theme.Theme;
+import org.fujion.theme.ThemeResolver;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.http.HttpHeaders;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -48,7 +52,7 @@ import static org.junit.Assert.*;
  * Unit test for core functionality. More units tests are in the fujion-test package to avoid
  * circular dependencies.
  */
-public class Tests {
+public class AllTests {
     
     private static final String ATTR_TEST = "ATTR_TEST";
 
@@ -83,9 +87,9 @@ public class Tests {
         Div cmpt = new Div();
         cmpt.setAttribute(ATTR_OBJECT, new Object());
         cmpt.setAttribute(ATTR_TEST, 1234);
-        assertTrue(1234 == cmpt.getAttribute(ATTR_TEST, 0));
-        assertTrue(4321 == cmpt.getAttribute(ATTR_OBJECT, 4321));
-        assertTrue(5678 == cmpt.getAttribute(ATTR_NULL, 5678));
+        assertEquals(1234, (int) cmpt.getAttribute(ATTR_TEST, 0));
+        assertEquals(4321, (int) cmpt.getAttribute(ATTR_OBJECT, 4321));
+        assertEquals(5678, (int) cmpt.getAttribute(ATTR_NULL, 5678));
         cmpt.setAttribute(ATTR_TEST, true);
         assertTrue(cmpt.getAttribute(ATTR_TEST, Boolean.class));
         cmpt.setAttribute(ATTR_TEST, "TRUE");
@@ -147,7 +151,7 @@ public class Tests {
     @Test
     public void cssClassesTests() {
         CssClasses classes = new CssClasses();
-        assertTrue(!classes.hasChanged());
+        assertFalse(classes.hasChanged());
         classes.parse("flavor:red size:big test");
         assertTrue(classes.hasChanged());
         assertEquals("big red test", classes.toString());
@@ -158,7 +162,7 @@ public class Tests {
         classes.add("-size:");
         assertTrue(classes.hasChanged());
         assertEquals("", classes.toString(true));
-        assertTrue(!classes.hasChanged());
+        assertFalse(classes.hasChanged());
     }
     
     @Test
@@ -166,7 +170,7 @@ public class Tests {
         CssStyles styles = new CssStyles();
         assertTrue(styles.isEmpty());
         styles.put("style1", "value1");
-        assertTrue(!styles.isEmpty());
+        assertFalse(styles.isEmpty());
         assertEquals("style1:value1", styles.toString());
         assertEquals("value1", styles.get("style1"));
         styles.parse("style2 : value2", false);
@@ -184,7 +188,7 @@ public class Tests {
     
     @Test
     public void deferredInvocationTests() throws Exception {
-        Method method = Tests.class.getDeclaredMethod("_testMethod", String.class, String.class);
+        Method method = AllTests.class.getDeclaredMethod("_testMethod", String.class, String.class);
         DeferredInvocation<String> inv1 = new DeferredInvocation<>(this, method);
         assertEquals("test1;test2", inv1.invoke("test1", "test2"));
         DeferredInvocation<String> inv2 = new DeferredInvocation<>(this, method, "test3");
@@ -197,7 +201,9 @@ public class Tests {
         try {
             inv4.addArgs(new Object());
             fail("Expected illegal argument exception.");
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) {
+            // NOP
+        }
     }
 
     protected String _testMethod(String arg1, String arg2) {
@@ -324,6 +330,26 @@ public class Tests {
         assertEquals("/webjars/bootswatch-test-theme/css/bootstrap.css",
             theme.translatePath("/webjars/bootstrap/css/bootstrap.css"));
         assertNull(theme.translatePath("this/should/not/match"));
+    }
+
+    @Test
+    public void testThemeLookup() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        testThemeLookup(request, "default");
+        request.setCookies(new Cookie(ThemeResolver.THEME_ATTR, "test3"));
+        testThemeLookup(request, "test3");
+        request.addHeader(HttpHeaders.REFERER, "https://acme.org?theme=test2");
+        testThemeLookup(request, "test2");
+        request.setParameter("theme", "test1");
+        testThemeLookup(request, "test1");
+        request.setAttribute(ThemeResolver.THEME_ATTR, "test");
+        testThemeLookup(request, "test");
+    }
+
+    private void testThemeLookup(MockHttpServletRequest request, String expected) {
+        String actual = ThemeResolver.getInstance().resolveTheme(request);
+        request.removeAttribute(ThemeResolver.THEME_ATTR);
+        assertEquals(expected, actual);
     }
 
     @Test

@@ -41,7 +41,7 @@ public class ThemeServletFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        Theme theme = ThemeResolver.getInstance().resolveTheme(httpRequest);
+        Theme theme = ThemeRegistry.getInstance().get(ThemeResolver.getInstance().resolveTheme(httpRequest));
 
         if (theme != null) {
             String originalPath = httpRequest.getPathInfo();
