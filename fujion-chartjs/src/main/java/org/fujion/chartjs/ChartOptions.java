@@ -34,7 +34,7 @@ public class ChartOptions extends Options {
 
     /**
      * Set to true to disable animations.
-     *
+     * <p>
      * Default: false
      */
     @Option(value = "animation", convertUsing = "value == false ? false : animation")
@@ -49,7 +49,7 @@ public class ChartOptions extends Options {
     /**
      * Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas).
      * Note that this option is ignored if the height is explicitly defined either as attribute or via the style.
-     *
+     * <p>
      * Default: 2
      */
     @Option
@@ -58,7 +58,7 @@ public class ChartOptions extends Options {
     /**
      * Override the window's default devicePixelRatio.
      * <p>
-     * By default the chart's canvas will use a 1:1 pixel ratio, unless the physical display has a higher pixel ratio
+     * By default, the chart's canvas will use a 1:1 pixel ratio, unless the physical display has a higher pixel ratio
      * (e.g. Retina displays).  For applications where a chart will be converted to a bitmap, or printed to a higher
      * DPI medium it can be desirable to render the chart at a higher resolution than the default.
      * <p>
@@ -122,7 +122,7 @@ public class ChartOptions extends Options {
     
     /**
      * Called when any of the events fire. Called in the context of the chart and passed the event
-     * and an array of active elements (bars, points, etc).
+     * and an array of active elements (bars, points, etc.).
      */
     @Option(convertTo = JavaScript.class)
     public String onHover;
@@ -156,7 +156,7 @@ public class ChartOptions extends Options {
     /**
      * Delay the resize update by give amount of milliseconds.
      * This can ease the resize process by debouncing update of the elements.
-     *
+     * <p>
      * Default: 0
      */
     @Option

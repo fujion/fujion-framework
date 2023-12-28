@@ -33,7 +33,7 @@ public class TitleOptions extends Options {
 
     /**
      * The horizontal alignment of the title.
-     *
+     * <p>
      * Default: CENTER
      */
     @Option
@@ -90,7 +90,7 @@ public class TitleOptions extends Options {
     /**
      * Marks that this box should take the full width/height of the canvas.
      * If false, the box is sized and placed above/beside the chart area.
-     *
+     * <p>
      * Default: true
      */
     @Option
@@ -105,7 +105,7 @@ public class TitleOptions extends Options {
 
     /**
      * Number of pixels to add above and below the title text.
-     *
+     * <p>
      * Default: 10
      */
     @Option

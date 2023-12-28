@@ -149,17 +149,17 @@ public class PlotBar extends PlotOptions {
     public String pointStyle$function;
 
     /**
-     * The ID of the x axis to plot this dataset on.
+     * The ID of the x-axis to plot this dataset on.
      * <p>
-     * Default: the ID of the first found x axis
+     * Default: the ID of the first found x-axis
      */
     @Option
     public String xAxisID;
 
     /**
-     * The ID of the y axis to plot this dataset on.
+     * The ID of the y-axis to plot this dataset on.
      * <p>
-     * Default: the ID of the first found y axis.
+     * Default: the ID of the first found y-axis.
      */
     @Option
     public String yAxisID;

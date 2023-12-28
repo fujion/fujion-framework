@@ -105,7 +105,7 @@ public abstract class BaseAxisOptions extends Options {
 
     /**
      * Type of scale being employed. Custom scales can be created and registered with a string key.
-     * This allows changing the type of an axis for a chart.
+     * This allows changing the type of axis for a chart.
      */
     @Option
     public String type;

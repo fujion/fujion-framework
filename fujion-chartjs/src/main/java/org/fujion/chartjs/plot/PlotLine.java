@@ -59,7 +59,7 @@ public class PlotLine extends PlotOptions {
     public String borderDash$function;
 
     /**
-     * Offset for line dashes. See See <a href=
+     * Offset for line dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
     @Option
@@ -167,7 +167,7 @@ public class PlotLine extends PlotOptions {
     public String hoverBorderDash$function;
 
     /**
-     * Offset for line dashes. See See <a href=
+     * Offset for line dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
     @Option
@@ -208,9 +208,9 @@ public class PlotLine extends PlotOptions {
     public String label;
 
     /**
-     * Bezier curve tension of the line. Set to 0 to draw straightlines. This option is ignored if
+     * Bézier curve tension of the line. Set to 0 to draw straightlines. This option is ignored if
      * monotone cubic interpolation is used.
-     *
+     * <p>
      * Default: 0
      */
     @Option
@@ -410,17 +410,17 @@ public class PlotLine extends PlotOptions {
     public Boolean stepped$boolean;
 
     /**
-     * The ID of the x axis to plot this dataset on.
+     * The ID of the x-axis to plot this dataset on.
      * <p>
-     * Default: the ID of the first found x axis
+     * Default: the ID of the first found x-axis
      */
     @Option
     public String xAxisID;
 
     /**
-     * The ID of the y axis to plot this dataset on.
+     * The ID of the y-axis to plot this dataset on.
      * <p>
-     * Default: the ID of the first found y axis.
+     * Default: the ID of the first found y-axis.
      */
     @Option
     public String yAxisID;

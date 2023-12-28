@@ -86,7 +86,7 @@ public abstract class PlotOptions extends Options {
     /**
      * How to clip relative to chartArea. Positive value allows overflow, negative value clips
      * that many pixels inside chart area.
-     *
+     * <p>
      * TODO: allow clip per side.
      */
     @Option

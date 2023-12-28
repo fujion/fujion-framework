@@ -91,7 +91,7 @@ public class LegendOptions extends Options {
     public String onHover;
 
     /**
-     * A callback that is called when a 'mousemove' event is registered outside of a previously hovered label item.
+     * A callback that is called when a 'mousemove' event is registered outside a previously hovered label item.
      * <p>
      * Arguments: [event, legendItem, legend]
      */
@@ -116,7 +116,7 @@ public class LegendOptions extends Options {
 
     /**
      * Set to true for rendering the legends from right to left.
-     *
+     * <p>
      * Default: false
      */
     @Option

@@ -49,14 +49,14 @@ public class GridLineOptions extends Options {
     public int[] borderDash;
 
     /**
-     * Offset for line dashes. See See <a href=
+     * Offset for line dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
     @Option
     public Integer borderDashOffset;
 
     /**
-     * Offset for line dashes. See See <a href=
+     * Offset for line dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
     @Option(convertTo = JavaScript.class)
@@ -161,7 +161,7 @@ public class GridLineOptions extends Options {
 
     /**
      * Offset for the line dash of the tick mark.
-     *
+     * <p>
      * Default: the grid line borderDashOffset value.
      */
     @Option
@@ -181,7 +181,7 @@ public class GridLineOptions extends Options {
 
     /**
      * Color of the tick line.
-     *
+     * <p>
      * Default: the grid line color.
      */
     @Option
@@ -209,7 +209,7 @@ public class GridLineOptions extends Options {
 
     /**
      * Width of the tick mark in pixels.
-     *
+     * <p>
      * Default: the grid line width.
      */
     @Option
@@ -229,7 +229,7 @@ public class GridLineOptions extends Options {
 
     /**
      * z-index of gridline layer. Values &le; 0 are drawn under datasets, &gt; 0 on top.
-     *
+     * <p>
      * Default: 0
      */
     @Option

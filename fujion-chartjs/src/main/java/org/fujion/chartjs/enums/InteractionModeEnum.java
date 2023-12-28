@@ -25,7 +25,7 @@ public enum InteractionModeEnum {
      */
     NEAREST,
     /**
-     * Finds all of the items that intersect the point.
+     * Finds all the items that intersect the point.
      */
     POINT,
     /**

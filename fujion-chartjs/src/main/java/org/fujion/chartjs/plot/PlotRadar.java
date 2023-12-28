@@ -61,14 +61,14 @@ public class PlotRadar extends PlotOptions {
     public String borderDash$function;
 
     /**
-     * Offset for line dashes. See See <a href=
+     * Offset for line dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
     @Option
     public Integer borderDashOffset;
 
     /**
-     * Offset for line dashes. See See <a href=
+     * Offset for line dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
     @Option(convertTo = JavaScript.class)
@@ -153,14 +153,14 @@ public class PlotRadar extends PlotOptions {
     public String hoverBorderDash$function;
 
     /**
-     * Offset for line dashes. See See <a href=
+     * Offset for line dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
     @Option
     public Integer hoverBorderDashOffset;
 
     /**
-     * Offset for line dashes. See See <a href=
+     * Offset for line dashes. See <a href=
      * "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</a>.
      */
     @Option(convertTo = JavaScript.class)
@@ -406,7 +406,7 @@ public class PlotRadar extends PlotOptions {
     public Integer spanGaps$number;
 
     /**
-     * Bezier curve tension of the line. Set to 0 to draw straightlines. This option is ignored if
+     * Bézier curve tension of the line. Set to 0 to draw straightlines. This option is ignored if
      * monotone cubic interpolation is used.
      */
     @Option
