@@ -22,7 +22,6 @@ package org.fujion.theme;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.servlet.ThemeResolver;
 
 import java.io.IOException;
 
@@ -30,8 +29,6 @@ import java.io.IOException;
  * Performs URL rewrites for theme-based resources.
  */
 public class ThemeServletFilter implements Filter {
-
-    private final ThemeResolver themeResolver = ThemeResolvers.getInstance();
 
     public ThemeServletFilter() {
     }
@@ -42,11 +39,9 @@ public class ThemeServletFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-    ServletException {
+            ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-
-        String themeName = themeResolver.resolveThemeName(httpRequest);
-        Theme theme = ThemeRegistry.getInstance().get(themeName);
+        Theme theme = ThemeResolver.getInstance().resolveTheme(httpRequest);
 
         if (theme != null) {
             String originalPath = httpRequest.getPathInfo();
@@ -60,10 +55,6 @@ public class ThemeServletFilter implements Filter {
         }
 
         chain.doFilter(request, response);
-    }
-
-    @Override
-    public void destroy() {
     }
 
 }
