@@ -23,12 +23,13 @@ package org.fujion.theme;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 
 /**
- * Delegates theme resolution to one or more registered theme resolvers.
+ * Resolves current theme from the HTTP request.
  */
 public class ThemeResolver {
 
@@ -46,37 +47,41 @@ public class ThemeResolver {
     }
 
     /**
-     * Attempts to retrieve the current theme from the request. Tries the following, in order:
+     * Attempts to retrieve the name of the current theme from the request. The following strategies are tried, in order:
      * <ol>
-     * <li>The request object</li>
-     * <li>Query parameter from the request ("?theme=xxx")</li>
-     * <li>Query parameter from the referer ("?theme=xxx")</li>
+     * <li>From a request attribute (the cached value)</li>
+     * <li>Query parameter from the request ("theme=xxx")</li>
+     * <li>Query parameter from the referer ("theme=xxx")</li>
      * </ol>
+     * If none of these strategies succeed, the default theme is used.  The resulting theme name is cached as a
+     * request attribute.
      *
      * @param request The servlet request.
-     * @return The theme name, if any.
+     * @return The theme name (never null).
      */
     public Theme resolveTheme(HttpServletRequest request) {
-        String themeName = (String) request.getAttribute(THEME_ATTR);
+        String themeName = MiscUtil.castTo(request.getAttribute(THEME_ATTR), String.class);
         themeName = StringUtils.hasText(themeName) ? themeName : request.getParameter("theme");
-
-        if (!StringUtils.hasText(themeName)) {
-            String referer = request.getHeader(HttpHeaders.REFERER);
-            int i = referer == null ? -1 : referer.indexOf("?");
-
-            if (i > -1) {
-                for (NameValuePair nvp : URLEncodedUtils.parse(referer.substring(i + 1), StrUtil.UTF8)) {
-                    if ("theme".equals(nvp.getName())) {
-                        themeName = nvp.getValue();
-                        break;
-                    }
-                }
-            }
-        }
-
+        themeName = StringUtils.hasText(themeName) ? themeName : themeNameFromReferrer(request);
         themeName = StringUtils.hasText(themeName) ? themeName : defaultTheme;
         request.setAttribute(THEME_ATTR, themeName);
         return ThemeRegistry.getInstance().get(themeName);
+    }
+
+    /**
+     * Retrieves theme name from referrer.
+     *
+     * @param request The servlet request.
+     * @return The theme name (possibly null).
+     */
+    private String themeNameFromReferrer(HttpServletRequest request) {
+        String referer = request.getHeader(HttpHeaders.REFERER);
+        int i = referer == null ? -1 : referer.indexOf("?");
+        return i == -1 ? null : URLEncodedUtils.parse(referer.substring(i + 1), StrUtil.UTF8).stream()
+                .filter(nvp -> "theme".equals(nvp.getName()))
+                .map(NameValuePair::getValue)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
