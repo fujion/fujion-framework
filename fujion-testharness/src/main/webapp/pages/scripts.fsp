@@ -78,6 +78,7 @@
 			<comboitem label="Lua (embedded)" value="luascript" />
 			<comboitem label="Renjin (embedded)" value="rscript" />
 			<comboitem label="Clojure (embedded)" value="clojurescript" />
+			<comboitem label="Rhino (embedded)" value="rhinoscript" />
 		</combobox>
 		<button name="btnScript" label="Execute" class="flavor:btn-success"/>
 	</toolbar>
