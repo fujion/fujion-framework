@@ -41,7 +41,7 @@ define('fujion-detail', ['fujion-core', 'fujion-widget', 'fujion-detail-css'], f
 				    + 	'<summary id="${id}-lbl"></summary>'
 					+ '</details>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 	
 		/*------------------------------ State ------------------------------*/

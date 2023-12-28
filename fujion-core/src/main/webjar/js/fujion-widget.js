@@ -531,6 +531,17 @@ define('fujion-widget', [
 		},
 
 		/**
+		 * Convenience method for resolving embedded EL references and parsing into a JQuery object.
+		 *
+		 * @param {string} v Value containing EL references.
+		 * @param {string} [pfx] Optional EL prefix (defaults to '$').
+		 * @return {jquery} A JQuery object.
+		 */
+		resolveEL$: function(v, pfx) {
+			return $(this.resolveEL(v, pfx));
+		},
+
+		/**
 		 * Returns the identifier for the specified subcomponent.
 		 *
 		 * @param {string} sub The subcomponent name.
@@ -808,8 +819,8 @@ define('fujion-widget', [
 				span$.remove();
 			} else {
 				if (span$.length === 0) {
-					const dom = this.resolveEL('<span id="${id}-content"></span>');
-					span$ = $(dom).appendTo(this.widget$);
+					span$ = this.resolveEL$('<span id="${id}-content"></span>');
+					span$.appendTo(this.widget$);
 				}
 
 				span$.text(v);
@@ -1343,7 +1354,7 @@ define('fujion-widget', [
 		/*------------------------------ Rendering ------------------------------*/
 
 		render$: function() {
-			return $(this.resolveEL(this._dom));
+			return this.resolveEL$(this._dom);
 		}
 
 	});
@@ -1499,7 +1510,7 @@ define('fujion-widget', [
 		},
 
 		render$: function() {
-			return $(this.resolveEL('<span><input id="${id}-inp" type="${_type}"></span>'));
+			return this.resolveEL$('<span><input id="${id}-inp" type="${_type}"></span>');
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -1589,7 +1600,7 @@ define('fujion-widget', [
 				+ '<span class="fa fa-chevron-down"></span>'
 				+ '</span>'
 				+ '</span>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -1654,7 +1665,7 @@ define('fujion-widget', [
 			this.sub$('img').remove();
 
 			if (v) {
-				const img$ = $(this.resolveEL('<link id="${id}-img" rel="shortcut icon">')).appendTo(fujion.head$);
+				const img$ = this.resolveEL$('<link id="${id}-img" rel="shortcut icon">').appendTo(fujion.head$);
 				img$.attr('href', v);
 			}
 		},
@@ -2178,7 +2189,7 @@ define('fujion-widget', [
 				+ this.getDOMTemplate(':image', 'label')
 				+ '</button>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		}
 
 	});
@@ -2196,7 +2207,7 @@ define('fujion-widget', [
 				+ this.getDOMTemplate(':image', 'label')
 				+ '</a>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -2253,7 +2264,7 @@ define('fujion-widget', [
 				+ this.getDOMTemplate('label')
 				+ '</span>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -2372,7 +2383,7 @@ define('fujion-widget', [
 				+ '</li>'
 				+ '</ul>'
 				+ '</nav>'
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -2413,7 +2424,7 @@ define('fujion-widget', [
 				+ this.getDOMTemplate(':label')
 				+ '</div>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -2466,7 +2477,7 @@ define('fujion-widget', [
 				+ this.getDOMTemplate('labelfor')
 				+ '</div>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -2522,7 +2533,7 @@ define('fujion-widget', [
 				+ this.getDOMTemplate('labelfor')
 				+ '</div>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -2696,7 +2707,7 @@ define('fujion-widget', [
 				+ '</a>'
 				+ '</div>'
 				+ '</span>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -2768,7 +2779,7 @@ define('fujion-widget', [
 
 			this.toggleClass('dropdown', !submenu);
 			this.toggleClass('dropdown-submenu', submenu);
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -2804,7 +2815,7 @@ define('fujion-widget', [
 				+ this.getDOMTemplate(':image', 'label')
 				+ '</li>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		}
 
 	});
@@ -2985,7 +2996,7 @@ define('fujion-widget', [
 		/*------------------------------ Rendering ------------------------------*/
 
 		render$: function() {
-			return $(this.resolveEL('<span><textarea id="${id}-inp"></textarea></span>'));
+			return this.resolveEL$('<span><textarea id="${id}-inp"></textarea></span>');
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -3078,7 +3089,7 @@ define('fujion-widget', [
 				+ '<span id="${id}-btn" class="fa fa-caret-down"></span>'
 				+ '</span>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -3351,7 +3362,7 @@ define('fujion-widget', [
 				+ '<select id="${id}-inner" class="d-none"></select>'
 				+ '</span>';
 
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		renderItem$: function(ul, item) {
@@ -3499,7 +3510,7 @@ define('fujion-widget', [
 				+ '<span id="${id}-inner"></span>'
 				+ '</fieldset>'
 				+ '</div>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -3602,7 +3613,7 @@ define('fujion-widget', [
 		},
 
 		render$: function() {
-			return $(this.resolveEL('<span><div id="${id}-slider"></div></span>'));
+			return this.resolveEL$('<span><div id="${id}-slider"></div></span>');
 		},
 
 		/*------------------------------ State ------------------------------*/
@@ -3664,7 +3675,7 @@ define('fujion-widget', [
 			const dom = '<div>'
 				+ '<div id="${id}-inner"></div>'
 				+ '</div>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		}
 
 	});
@@ -3727,7 +3738,7 @@ define('fujion-widget', [
 				+ '</div>'
 				+ '<div id="${id}-inner"></div>'
 				+ '</div>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		_buttonAdd: function(type, forward) {
@@ -3935,7 +3946,7 @@ define('fujion-widget', [
 				+ '</div>'
 				+ '<div id="${id}-inner" class="card-body"></div>'
 				+ '</div>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		_buttonAdd: function(type, icons, position) {

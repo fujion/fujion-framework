@@ -76,7 +76,7 @@ define('fujion-accordion', ['fujion-core', 'fujion-widget', 'fujion-accordion-cs
 				+    '<div id="${id}-inner" class="accordion-body"></div>'
 				+ '</div>'
 				+'</div>'
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		_updateStyles: function (expanded) {

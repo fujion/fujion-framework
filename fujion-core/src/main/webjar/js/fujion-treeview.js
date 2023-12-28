@@ -24,7 +24,7 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $(this.resolveEL('<div><ul id="${id}-inner"></div>'));
+			return this.resolveEL$('<div><ul id="${id}-inner"></div>');
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -118,7 +118,7 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 				+   '</span>'
 				+   '<ul id="${id}-inner"></ul>'
 				+ '</li>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 		
 		_updateCount(child, inc) {

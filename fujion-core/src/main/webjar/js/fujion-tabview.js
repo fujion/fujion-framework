@@ -29,7 +29,7 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 				+   '<ul id="${id}-tabs" class="fujion_tabview-tabs"></ul>'
 				+   '<div id ="${id}-panes" class="fujion_tabview-panes"></div>'
 				+ '</div>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -84,14 +84,14 @@ define('fujion-tabview', ['fujion-core', 'fujion-widget', 'fujion-tabview-css'],
 
 			if (!this._ancillaries.pane$) {
 				const pane = '<div id="${id}-pane" class="fujion_tab-pane d-none"></div>';
-				const pane$ = $(this.resolveEL(pane));
+				const pane$ = this.resolveEL$(pane);
 				this._ancillaries.pane$ = pane$;
 				pane$.data('attach', () => this._attachPane());
 				pane$.data('fujion_widget', this);
 				this._attachPane();
 			}
 			
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		_attachPane: function() {

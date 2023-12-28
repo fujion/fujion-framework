@@ -82,7 +82,7 @@ define('fujion-paneview', ['fujion-core', 'fujion-widget', 'fujion-paneview-css'
 					+    '<span id="${id}-title" class="${wclazz}-title"></span>'
 					+	 '<div id="${id}-inner" class="${wclazz}-inner"></div>'
 					+ '</div>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 		
 		_updateSplitter: function() {

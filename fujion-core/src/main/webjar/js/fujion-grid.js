@@ -47,7 +47,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], fujio
 		/*------------------------------ Rendering ------------------------------*/
 		
 		render$: function() {
-			return $(this.resolveEL('<thead><tr id="${id}-inner"></tr></thead>'));
+			return this.resolveEL$('<thead><tr id="${id}-inner"></tr></thead>');
 		}
 		
 	});
@@ -76,7 +76,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], fujio
 			const dom = '<th>'
 				+ this.getDOMTemplate(':image', 'label', ':sortOrder') 
 				+ '</th>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 		
 		/*------------------------------ State ------------------------------*/
@@ -221,7 +221,7 @@ define('fujion-grid', ['fujion-core', 'fujion-widget', 'fujion-grid-css'], fujio
 			  + this.getDOMTemplate(':label')
 			  + '</td>';
 			
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 		
 		/*------------------------------ State ------------------------------*/

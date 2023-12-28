@@ -228,7 +228,7 @@ define('fujion-mxgraph', ['fujion-core', 'fujion-widget', 'mxgraph', 'fujion-mxg
 				+ '<div id="${id}-cnt"></div>'
 				+ '<label id="${id}-sbar"></label>'
 				+ '</div>';
-			return $(this.resolveEL(dom));
+			return this.resolveEL$(dom);
 		},
 
 		/*------------------------------ State ------------------------------*/
