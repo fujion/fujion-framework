@@ -96,6 +96,7 @@ define('fujion-widget', [
 
 		Widget.prototype = prototype;
 		Widget.prototype.constructor = Widget;
+		Widget.prototype.fujion_widget = true;
 		Widget.extend = this.extend;
 		return Widget;
 	};

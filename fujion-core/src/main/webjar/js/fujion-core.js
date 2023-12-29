@@ -593,7 +593,7 @@ define('fujion-core', ['jquery', 'jquery-ui', 'lodash'], () => {
             },
 
             isWidget: function (object) {
-                return object && object.constructor && object.constructor.name === 'Widget';
+                return object && object.fujion_widget;
             },
 
             register: function (id, wgt) {
