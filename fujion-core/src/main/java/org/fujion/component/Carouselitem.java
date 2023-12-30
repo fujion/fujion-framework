@@ -63,7 +63,7 @@ public class Carouselitem extends BaseUIComponent {
      */
     @PropertySetter(value = "selected", defaultValue = "false", description = "The selection state of the item.")
     public void setSelected(boolean selected) {
-        _setSelected(selected, true);
+        _setSelected(selected, true, true);
     }
 
     /**
@@ -93,7 +93,7 @@ public class Carouselitem extends BaseUIComponent {
      */
     @EventHandler(value = "change", syncToClient = false, mode = "init")
     private void _onChange(ChangeEvent event) {
-        _setSelected(defaultify(event.getValue(Boolean.class), true), true);
+        _setSelected(defaultify(event.getValue(Boolean.class), true), true, false);
         event = new ChangeEvent(this.getParent(), event.getData(), this);
         EventUtil.send(event);
     }
@@ -103,9 +103,10 @@ public class Carouselitem extends BaseUIComponent {
      *
      * @param selected The new selected status.
      * @param notifyParent If true, notify the parent item view of the status change.
+     * @param syncToClient If true, sync the status with the client.
      */
-    protected void _setSelected(boolean selected, boolean notifyParent) {
-        if (propertyChange("selected", this.selected, this.selected = selected, true)) {
+    protected void _setSelected(boolean selected, boolean notifyParent, boolean syncToClient) {
+        if (propertyChange("selected", this.selected, this.selected = selected, syncToClient)) {
             if (notifyParent && getParent() != null) {
                 getCarousel().setSelectedItem(selected ? this : null);
             }

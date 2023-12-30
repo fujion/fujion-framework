@@ -41,15 +41,32 @@ import org.fujion.model.ModelAndView;
         description = "A component supporting a carousel view.")
 public class Carousel extends BaseUIComponent implements ISupportsModel<Carouselitem> {
 
+    public enum AutoCycleMode {
+        /**
+         * Disables auto-cycling.
+         */
+        OFF,
+        /**
+         * Auto-cycling commences immediately.
+         */
+        IMMEDIATE,
+        /**
+         * Auto-cycling commences after first mouse click.
+         */
+        TRIGGERED
+    }
+
     private final ModelAndView<Carouselitem, Object> modelAndView = new ModelAndView<>(this);
 
     private Carouselitem selectedItem;
 
-    private int interval;
+    private int interval = 5000;
 
     private boolean keyboard = true;
 
     private boolean wrap = true;
+
+    private AutoCycleMode autoCycleMode = AutoCycleMode.OFF;
 
     private boolean indicators = false;
 
@@ -68,7 +85,7 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
      *
      * @param interval The amount of time to delay between automatically cycling an item.
      */
-    @PropertySetter(value = "interval", bindable = false, defaultValue = "0", description = "The amount of time to delay between automatically cycling an item. If 0, carousel will not automatically cycle.")
+    @PropertySetter(value = "interval", bindable = false, defaultValue = "5000", description = "The amount of time to delay between automatically cycling an item. If 0, carousel will not automatically cycle.")
     public void setInterval(int interval) {
         Assert.isTrue(interval >= 0, "Interval value must not be negative.");
         propertyChange("interval", this.interval, this.interval = interval, true);
@@ -95,9 +112,9 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
     }
 
     /**
-     * Returns Whether the carousel should cycle continuously (wrap = true) or have hard stops (wrap = false).
+     * Returns whether the carousel should cycle continuously (wrap = true) or have hard stops (wrap = false).
      *
-     * @return True if the carousel should cycle continously.
+     * @return True if the carousel should cycle continuously.
      */
     @PropertyGetter(value = "wrap", bindable = false, description = "If true, the carousel will cycle continuously.")
     public boolean getWrap() {
@@ -105,13 +122,33 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
     }
 
     /**
-     * Sets whether the carousel will respond to keyboard events.
+     * Sets whether the carousel should cycle continuously (wrap = true) or have hard stops (wrap = false).
      *
-     * @param wrap True if the carousel is to respond to keyboard events.
+     * @param wrap True if the carousel should cycle continuously.
      */
     @PropertySetter(value = "wrap", bindable = false, defaultValue = "true", description = "If true, the carousel will cycle continuously.")
     public void setWrap(boolean wrap) {
         propertyChange("wrap", this.wrap, this.wrap = wrap, true);
+    }
+
+    /**
+     * Returns the auto-cycle mode.
+     *
+     * @return The auto-cycle mode.
+     */
+    @PropertyGetter(value = "autocycle", bindable = false, description = "Controls automatic cycling of the carousel.")
+    public AutoCycleMode getAutoCycleMode() {
+        return autoCycleMode;
+    }
+
+    /**
+     * Sets the auto-cycle mode of the carousel.
+     *
+     * @param autoCycleMode The auto-cycle mode.
+     */
+    @PropertySetter(value = "autocycle", bindable = false, defaultValue = "OFF", description = "Controls automatic cycling of the carousel.")
+    public void setAutoCycleMode(AutoCycleMode autoCycleMode) {
+        propertyChange("autocycle", this.autoCycleMode, this.autoCycleMode = defaultify(autoCycleMode, AutoCycleMode.OFF), true);
     }
 
     /**
@@ -149,16 +186,20 @@ public class Carousel extends BaseUIComponent implements ISupportsModel<Carousel
      * @param selectedItem The item to select (can be null).
      */
     public void setSelectedItem(Carouselitem selectedItem) {
+        if (selectedItem == this.selectedItem) {
+            return;
+        }
+
         validateIsChild(selectedItem);
 
         if (this.selectedItem != null) {
-            this.selectedItem._setSelected(false, false);
+            this.selectedItem._setSelected(false, false, true);
         }
 
         this.selectedItem = selectedItem;
 
         if (selectedItem != null) {
-            selectedItem._setSelected(true, false);
+            selectedItem._setSelected(true, false, true);
         }
     }
 

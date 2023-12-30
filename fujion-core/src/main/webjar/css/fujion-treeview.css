@@ -24,7 +24,7 @@
 .fujion_treeview-nolines * {
     background-image: none!important;
 }
-   
+
 .fujion_treeview-notoggles .fujion_treenode > .fa {
     display: none;    
 }
@@ -61,7 +61,8 @@
     background: lightgray;
 }
 
-.fujion_treenode > .fa {
+.fujion_treenode > .fa
+{
     margin-right: 2px;
 }
 

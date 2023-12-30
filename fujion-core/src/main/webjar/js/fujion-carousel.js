@@ -14,18 +14,6 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 			return this.sub$('inner');
 		},
 
-		onAddChild: function(child) {
-			const index = child.getIndex();
-
-			const dom =
-				'<button type="button" data-bs-target="#${id}" data-bs-slide-to="' + index + '">' +
-				'</button>'
-		},
-
-		onRemoveChild: function(child) {
-
-		},
-
 		/*------------------------------ Events ------------------------------*/
 
 		handleSlide: function(event) {
@@ -37,8 +25,13 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 
 		init: function() {
 			this._super();
-			this.initState({interval: 0, keyboard: true, ride: false, wrap: true});
+			this.initState({interval: 5000, keyboard: true, indicators: false, autocycle: 'OFF', wrap: true});
 			this.toggleClass('carousel slide', true);
+		},
+
+		destroy: function() {
+			this.widget$.carousel('dispose');
+			this._super();
 		},
 		
 		/*------------------------------ Rendering ------------------------------*/
@@ -80,7 +73,7 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 		/*------------------------------ State ------------------------------*/
 
 		s_indicators: function(v) {
-			this.rerender();
+			this._updateIndicators();
 		},
 
 		s_interval: function(v) {
@@ -91,8 +84,9 @@ define('fujion-carousel', ['fujion-core', 'fujion-widget', 'fujion-carousel-css'
 			this.widget$.carousel({keyboard: v});
 		},
 
-		s_ride: function(v) {
-			this.widget$.carousel({ride: v});
+		s_autocycle: function(v) {
+			const ride = v === 'IMMEDIATE' ? 'carousel' : v === 'TRIGGERED';
+			this.widget$.carousel({ride: ride});
 		},
 
 		s_wrap: function(v) {

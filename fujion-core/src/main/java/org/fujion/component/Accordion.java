@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
         widgetClass = "Accordion",
         parentTag = "*",
         childTag = @ChildTag("accordionitem"),
-        description = "A component supporting a accordion view.")
+        description = "A component supporting an accordion view.")
 public class Accordion extends BaseUIComponent implements ISupportsModel<Accordionitem> {
 
     private final ModelAndView<Accordionitem, Object> modelAndView = new ModelAndView<>(this);

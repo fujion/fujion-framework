@@ -136,7 +136,7 @@ define('fujion-treeview', ['fujion-core', 'fujion-widget', 'fujion-treeview-css'
 		_updateToggle: function() {
 			const chnodes = this.getState('_chnodes');
 			const collapsed = chnodes && this.getState('collapsed');
-			const clazz = !chnodes ? 'fujion_treenode-nochildren' : collapsed ? 'fa fa-caret-square-o-right' : 'fa fa-caret-square-o-down';
+			const clazz = !chnodes ? 'fujion_treenode-nochildren' : collapsed ? 'fa fa-regular fa-caret-square-right' : 'fa fa-regular fa-caret-square-down';
 			this.attr('class', clazz, this.sub$('btn'));
 		},
 		
