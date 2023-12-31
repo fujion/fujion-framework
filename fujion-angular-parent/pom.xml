@@ -12,7 +12,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<angular.version>16.2.10</angular.version>
+		<angular.version>16.2.12</angular.version>
 		<angular.dev.version>16.2.7</angular.dev.version>
 		<rxjs.version>7.8.1</rxjs.version>
 		<zonejs.version>0.13.0</zonejs.version>
