@@ -11,7 +11,20 @@ define('fujion-codemirror-xml', [
     'codemirror/addon/hint/xml-hint'], 
 	
 	(fujion, Widget, CodeMirror) => {
-	
+
+	// This is a hack to ensure that hints are returned in alphabetical order.
+
+	const _getHints = CodeMirror.hint.xml;
+	CodeMirror.hint.xml = (cm, options) => {
+		const result = _getHints(cm, options);
+
+		if (Array.isArray(result.list)) {
+			result.list.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+		}
+
+		return result;
+	}
+
 	/**
 	 * CodeMirror XML Extensions
 	 */
